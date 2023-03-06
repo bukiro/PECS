@@ -15,10 +15,11 @@ import { Subscription } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-grid-icon',
@@ -26,7 +27,7 @@ import { Feat } from 'src/libs/shared/definitions/models/Feat';
     styleUrls: ['./grid-icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GridIconComponent implements OnInit, OnDestroy {
+export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     //TO-DO: This component should be much dumber.
     // Create wrappers for the different objects that build a gridIcon, and let them create the title, subTitle, superTitle etc.
@@ -73,8 +74,9 @@ export class GridIconComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _changeDetector: ChangeDetectorRef,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public iconSubTitle(): string {
         let subTitle = this.subTitle;

@@ -87,7 +87,7 @@
                     </span>
                 </div>
 
-                <ng-container *ngFor="let target of targets; trackBy:trackers.trackByIndex">
+                <ng-container *ngFor="let target of targets; trackBy:trackByIndex">
                     <div class="list-item newrow">
                         <span
                             class="hlist"
@@ -126,7 +126,7 @@
 
                         <span
                             style="flex-grow:0"
-                            *ngFor="let cannotMove of [cannotMove(target)]; trackBy:trackers.trackByIndex"
+                            *ngFor="let cannotMove of [cannotMove(target)]; trackBy:trackByIndex"
                             [ngbTooltip]="cannotMove"
                         >
                             <ng-template #CurrentButton>

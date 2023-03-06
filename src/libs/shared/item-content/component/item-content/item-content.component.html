@@ -225,7 +225,7 @@
 
     <div class="newrow left-aligned">
         <hr class="newrow">
-        <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
             <app-description
                 class="newrow"
                 [text]="desc"
@@ -237,7 +237,7 @@
                 class="newrow list-item"
                 *ngIf="languageGains.length"
             >
-                <ng-container *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackers.trackByIndex;">
+                <ng-container *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackByIndex;">
                     <div class="newrow">
                         <strong>{{gainLanguage.title}}</strong>
 
@@ -259,7 +259,7 @@
             class="newrow list-item"
             *ngIf="doesItemHaveShownData()"
         >
-            <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackByIndex;">
                 <div
                     class="newrow"
                     *ngIf="data.show"
@@ -330,7 +330,7 @@
                     {{asAlchemicalPoison.maxDuration}}
                 </span>
 
-                <ng-container *ngFor="let stage of asAlchemicalPoison.stages; let stageIndex = index; trackBy:trackers.trackByIndex;">
+                <ng-container *ngFor="let stage of asAlchemicalPoison.stages; let stageIndex = index; trackBy:trackByIndex;">
                     <span *ngIf="stageIndex > 0">
                         <strong>Stage {{stageIndex}}</strong>
                         {{asAlchemicalPoison.stages[stageIndex]}}
@@ -405,7 +405,7 @@
 
             <div
                 class="newrow left-aligned"
-                *ngFor="let inputRequired of item.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;"
+                *ngFor="let inputRequired of item.inputRequired.split('\n\n'); trackBy:trackByIndex;"
             >
                 <app-description
                     class="newrow"

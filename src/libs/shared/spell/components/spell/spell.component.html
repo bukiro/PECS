@@ -5,14 +5,14 @@
 >
     <div class="newrow left-aligned">
         <app-trait
-            *ngFor="let trait of spell.traits; trackBy:trackers.trackByIndex;"
+            *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
         >
         </app-trait>
 
         <app-trait
-            *ngFor="let trait of spell.activationTraits(); trackBy:trackers.trackByIndex;"
+            *ngFor="let trait of spell.activationTraits(); trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
             [extraDescription]="'(This trait was derived from the action components.)'"
@@ -42,7 +42,7 @@
 
     <div
         class="newrow left-aligned"
-        *ngFor="let feat of characterFeatsShowingHintsOnThis(spell.name); trackBy:trackers.trackByIndex;"
+        *ngFor="let feat of characterFeatsShowingHintsOnThis(spell.name); trackBy:trackByIndex;"
     >
         <header class="spellHeader">{{feat.name}}</header>
 
@@ -51,7 +51,7 @@
             *ngIf="feat.traits.length"
         >
             <app-trait
-                *ngFor="let trait of feat.traits; trackBy:trackers.trackByIndex;"
+                *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
             >
@@ -60,7 +60,7 @@
 
         <div
             class="newrow left-aligned"
-            *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackers.trackByIndex;"
+            *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;"
         >
             <app-description
                 class="newrow"

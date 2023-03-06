@@ -1,0 +1,30 @@
+html {
+    --accent: 70, 90, 140;
+    height: 100%;
+    /* Prohibit navigation by swiping horizontally */
+    overscroll-behavior-x: none;
+    overflow: hidden;
+}
+
+* {
+    font-family: 'Roboto', Arial, sans-serif;
+    box-sizing: border-box;
+    color: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Body */
+
+body {
+    @include text-color-basic;
+
+    font-size: 14px;
+
+    position: relative;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: $color-background-dark;
+    background-clip: border-box;
+}

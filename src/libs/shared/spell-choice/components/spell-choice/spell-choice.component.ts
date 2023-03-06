@@ -16,7 +16,6 @@ import { Trait } from 'src/app/classes/Trait';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { capitalize } from 'src/libs/shared/util/stringUtils';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -25,6 +24,8 @@ import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface SpellSet {
     spell: Spell;
@@ -79,7 +80,7 @@ interface SpellBlendingParameters {
     styleUrls: ['./spell-choice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellChoiceComponent implements OnInit, OnDestroy {
+export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public spellCasting!: SpellCasting;
@@ -129,8 +130,9 @@ export class SpellChoiceComponent implements OnInit, OnDestroy {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isTileMode(): boolean {
         return this.tileMode;

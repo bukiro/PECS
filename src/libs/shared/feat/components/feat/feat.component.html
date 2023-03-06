@@ -2,7 +2,7 @@
 <ng-container *ngIf="feat">
     <div class="newrow left-aligned">
         <app-trait
-            *ngFor="let trait of feat.traits; trackBy:trackers.trackByIndex;"
+            *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
         >
@@ -34,7 +34,7 @@
                 <span
                     [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}"
                     [ngbPopover]="req.ignored ? 'This requirement is ignored.' : ''"
-                    *ngFor="let req of reqs; trackBy:trackers.trackByIndex;"
+                    *ngFor="let req of reqs; trackBy:trackByIndex;"
                 >
                     {{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored
                     ? ")" : ''}}
@@ -42,7 +42,7 @@
             </p>
         </ng-container>
 
-        <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
             <app-description
                 class="newrow"
                 [text]="desc"
@@ -66,7 +66,7 @@
         </p>
     </div>
 
-    <ng-container *ngFor="let name of feat.gainActivities; trackBy:trackers.trackByIndex;">
+    <ng-container *ngFor="let name of feat.gainActivities; trackBy:trackByIndex;">
         <div
             class="newrow left-aligned"
             *ngIf="activityFromName(name) as activity"
@@ -82,7 +82,7 @@
 
             <div class="newrow left-aligned">
                 <app-trait
-                    *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;"
+                    *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
                     [name]="trait"
                     [trait]="traitFromName(trait)"
                 >
@@ -99,8 +99,8 @@
         </div>
     </ng-container>
 
-    <ng-container *ngFor="let spellChoice of feat.gainSpellChoice; trackBy:trackers.trackByIndex;">
-        <ng-container *ngFor="let spellGain of spellChoice.spells; trackBy:trackers.trackByIndex;">
+    <ng-container *ngFor="let spellChoice of feat.gainSpellChoice; trackBy:trackByIndex;">
+        <ng-container *ngFor="let spellGain of spellChoice.spells; trackBy:trackByIndex;">
             <ng-container *ngIf="spellFromName(spellGain.name) as spell">
                 <header class="spellHeader left-aligned">
                     {{spell.name}}
@@ -113,7 +113,7 @@
 
                 <div class="newrow left-aligned">
                     <app-trait
-                        *ngFor="let trait of spell.traits; trackBy:trackers.trackByIndex;"
+                        *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
                         [name]="trait"
                         [trait]="traitFromName(trait)"
                     >
@@ -130,7 +130,7 @@
         </ng-container>
     </ng-container>
 
-    <ng-container *ngFor="let spellName of feat.gainSpellListSpells; trackBy:trackers.trackByIndex;">
+    <ng-container *ngFor="let spellName of feat.gainSpellListSpells; trackBy:trackByIndex;">
         <ng-container *ngIf="spellFromName(spellName) as spell">
             <header class="spellHeader left-aligned">
                 {{spell.name}}
@@ -143,7 +143,7 @@
 
             <div class="newrow left-aligned">
                 <app-trait
-                    *ngFor="let trait of spell.traits; trackBy:trackers.trackByIndex;"
+                    *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
                     [name]="trait"
                     [trait]="traitFromName(trait)"
                 >

@@ -5,11 +5,12 @@ import { CreatureService } from 'src/libs/shared/services/character/character.se
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-spell',
@@ -17,7 +18,7 @@ import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing
     styleUrls: ['./spell.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellComponent implements OnInit, OnDestroy {
+export class SpellComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public spell!: Spell;
@@ -38,8 +39,9 @@ export class SpellComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _hintShowingObjectsService: HintShowingObjectsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public traitFromName(name: string): Trait {
         return this._traitsDataService.traitFromName(name);

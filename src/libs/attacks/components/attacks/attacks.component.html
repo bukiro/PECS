@@ -213,7 +213,7 @@
         </div>
 
 
-        <ng-container *ngFor="let weaponParameters of equippedWeaponsParameters(); let weaponIndex = index; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let weaponParameters of equippedWeaponsParameters(); let weaponIndex = index; trackBy:trackByIndex;">
             <div
                 class="fullsize-only list-item"
                 *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex === 0"
@@ -232,7 +232,7 @@
             <div
                 class="list-item"
                 [ngClass]="{'problem fullsize-only':!weaponParameters.isAllowed, 'invisible':!weaponParameters.isAllowed && !showRestricted}"
-                *ngFor="let attack of attacksOfWeapon(weaponParameters.weapon); trackBy:trackers.trackByIndex;"
+                *ngFor="let attack of attacksOfWeapon(weaponParameters.weapon); trackBy:trackByIndex;"
             >
                 <div class="newrow">
                     <span style="flex-basis:auto">
@@ -330,7 +330,7 @@
                             </span>
 
 
-                            <ng-container *ngFor="let line of damage.damageResult.split('\n'); let index = index; trackBy:trackers.trackByIndex;">
+                            <ng-container *ngFor="let line of damage.damageResult.split('\n'); let index = index; trackBy:trackByIndex;">
                                 <div
                                     class="value"
                                     [ngbPopover]="damage.explain"
@@ -353,7 +353,7 @@
                         class="fullsize-only newrow left-aligned tags"
                         *ngIf="traits.length"
                     >
-                        <ng-container *ngFor="let trait of traits; trackBy:trackers.trackByIndex;">
+                        <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
                             <app-trait
                                 [trait]="traitFromName(trait)"
                                 [item]="weaponParameters.weapon"
@@ -370,7 +370,7 @@
                         class="fullsize-only newrow left-aligned tags"
                         *ngIf="traits.length"
                     >
-                        <ng-container *ngFor="let trait of traits; trackBy:trackers.trackByIndex;">
+                        <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
                             <ng-container *ngIf="traitFromName(trait) as realTrait">
                                 <app-hint
                                     *ngIf="realTrait.hints.length"
@@ -392,8 +392,8 @@
                     *ngIf="hintShowingRunes(weaponParameters.weapon, attack.range) as hintRunes"
                     style="margin-top:initial"
                 >
-                    <ng-container *ngFor="let hintRune of hintRunes; trackBy:trackers.trackByIndex;">
-                        <ng-container *ngFor="let hint of hintRune.hints; trackBy:trackers.trackByIndex;">
+                    <ng-container *ngFor="let hintRune of hintRunes; trackBy:trackByIndex;">
+                        <ng-container *ngFor="let hint of hintRune.hints; trackBy:trackByIndex;">
                             <ng-template #RuneDescTemplate>
                                 <div
                                     class="newrow left-aligned"
@@ -436,7 +436,7 @@
 
                 <div
                     class="fullsize-only lower newrow left-aligned"
-                    *ngFor="let poison of weaponParameters.weapon.poisonsApplied; let index = index; trackBy:trackers.trackByIndex;"
+                    *ngFor="let poison of weaponParameters.weapon.poisonsApplied; let index = index; trackBy:trackByIndex;"
                 >
                     <button
                         type="button"
@@ -450,12 +450,12 @@
 
                 <div
                     class="fullsize-only lower newrow left-aligned"
-                    *ngFor="let talisman of weaponParameters.weapon.talismans; let index = index; trackBy:trackers.trackByIndex;"
+                    *ngFor="let talisman of weaponParameters.weapon.talismans; let index = index; trackBy:trackByIndex;"
                 >
                     <ng-template #TalismanTemplate>
                         <div
                             class="list-item left-aligned lower"
-                            *ngFor="let cord of weaponParameters.weapon.talismanCords; trackBy:trackers.trackByIndex;"
+                            *ngFor="let cord of weaponParameters.weapon.talismanCords; trackBy:trackByIndex;"
                         >
                             <header class="spellHeader">{{cord.name}}</header>
 
@@ -469,7 +469,7 @@
                             </p>
 
 
-                            <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackers.trackByIndex;">
+                            <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
                                 <div
                                     class="newrow"
                                     *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]"
@@ -592,7 +592,7 @@
                         >
                             <div
                                 class="list-item lower newrow left-aligned"
-                                *ngFor="let critEffect of critEffects; trackBy:trackers.trackByIndex"
+                                *ngFor="let critEffect of critEffects; trackBy:trackByIndex"
                             >
                                 <app-description
                                     [text]="critEffect"
@@ -624,7 +624,7 @@
                         >
                             <div
                                 class="list-item lower newrow left-aligned"
-                                *ngFor="let spec of specs; trackBy:trackers.trackByIndex;"
+                                *ngFor="let spec of specs; trackBy:trackByIndex;"
                             >
                                 <app-description
                                     [text]="spec.desc"
@@ -637,7 +637,7 @@
 
 
                 <ng-container
-                    *ngFor="let rune of runesOfWeapon(weaponParameters.weapon, attack.range); trackBy:trackers.trackByIndex;"
+                    *ngFor="let rune of runesOfWeapon(weaponParameters.weapon, attack.range); trackBy:trackByIndex;"
                     style="margin-top:initial"
                 >
                     <div
@@ -734,7 +734,7 @@
         </ng-container>
 
 
-        <ng-container *ngFor="let ammoType of ammoTypes(); let index = index; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let ammoType of ammoTypes(); let index = index; trackBy:trackByIndex;">
             <header
                 class="sectionHeader box-header"
                 *ngIf="index === 0"
@@ -760,7 +760,7 @@
 
                 <div
                     class="list-item"
-                    *ngFor="let ammo of availableAmmo(ammoType); let ammoIndex = index; trackBy:trackers.trackByIndex;"
+                    *ngFor="let ammo of availableAmmo(ammoType); let ammoIndex = index; trackBy:trackByIndex;"
                 >
                     <strong>
                         {{(ammo.item.amount !== undefined && ammo.item.amount !== 1) ? ammo.item.amount+" " : ""}}
@@ -807,7 +807,7 @@
 
 
                 <div [ngClass]="{'icon-list':isInventoryTileMode, 'vlist':!isInventoryTileMode}">
-                    <ng-container *ngFor="let snare of snares; let snareIndex = index; trackBy:trackers.trackByIndex;">
+                    <ng-container *ngFor="let snare of snares; let snareIndex = index; trackBy:trackByIndex;">
                         <ng-template #SnareTitleTemplate>
                             <span>{{snare.item.effectiveName()}}</span>
                         </ng-template>
@@ -904,7 +904,7 @@
         ></app-tags>
 
 
-        <ng-container *ngFor="let skill of skillsOfType('Weapon Proficiency'); trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let skill of skillsOfType('Weapon Proficiency'); trackBy:trackByIndex;">
             <app-skill
                 class="fullsize-only"
                 [creature]="creature"
@@ -914,7 +914,7 @@
         </ng-container>
 
 
-        <ng-container *ngFor="let skill of skillsOfType('Specific Weapon Proficiency'); trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let skill of skillsOfType('Specific Weapon Proficiency'); trackBy:trackByIndex;">
             <app-skill
                 class="fullsize-only"
                 [creature]="creature"

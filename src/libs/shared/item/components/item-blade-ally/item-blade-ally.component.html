@@ -8,7 +8,7 @@
             [(ngModel)]="newPropertyRune"
             (ngModelChange)="onSelectBladeAllyRune()"
         >
-            <ng-container *ngFor="let rune of initialPropertyRunes(); let initialRuneIndex = index; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let rune of initialPropertyRunes(); let initialRuneIndex = index; trackBy:trackByIndex;">
                 <option
                     [ngValue]="rune"
                     *ngIf="initialRuneIndex === 0"
@@ -31,7 +31,7 @@
                     *ngIf="availableWeaponPropertyRunes.length"
                 >
                     <option
-                        *ngFor="let rune of availableWeaponPropertyRunes; trackBy:trackers.trackByIndex;"
+                        *ngFor="let rune of availableWeaponPropertyRunes; trackBy:trackByIndex;"
                         [ngValue]="rune"
                         [disabled]="rune.disabled"
                     >

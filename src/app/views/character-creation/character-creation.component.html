@@ -430,7 +430,7 @@
 
                 <div
                     class="list-item"
-                    *ngFor="let oldLevel of [character.level]; trackBy:trackers.trackByIndex;"
+                    *ngFor="let oldLevel of [character.level]; trackBy:trackByIndex;"
                 >
                     <strong>Level</strong>
 
@@ -441,7 +441,7 @@
                             (ngModelChange)="onLevelChange(oldLevel)"
                         >
                             <option
-                                *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackers.trackByIndex;"
+                                *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
                                 [ngValue]="level"
                             >
                                 {{level}}
@@ -488,7 +488,7 @@
                             <button
                                 type="button"
                                 class="center-aligned"
-                                *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackers.trackByIndex;"
+                                *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
                                 (click)="toggleShownLevel(levelNumber)"
                                 [disabled]="!character.class.name"
                                 [ngClass]="{'fancy-button':shownLevel()===levelNumber}"
@@ -557,7 +557,7 @@
                                     [(ngModel)]="character.partyName"
                                 >
                                     <option
-                                        *ngFor="let partyName of partyNames(); trackBy:trackers.trackByIndex;"
+                                        *ngFor="let partyName of partyNames(); trackBy:trackByIndex;"
                                         [ngValue]="partyName"
                                     >
                                         {{partyName}}
@@ -577,7 +577,7 @@
                                 (ngModelChange)="onAlignmentChange()"
                             >
                                 <option
-                                    *ngFor="let alignment of alignments(); trackBy:trackers.trackByIndex;"
+                                    *ngFor="let alignment of alignments(); trackBy:trackByIndex;"
                                     [ngValue]="alignment"
                                 >
                                     {{alignment}}
@@ -599,7 +599,7 @@
                         >
                             <cite
                                 class="trait"
-                                *ngFor="let ancestry of character.class.ancestry.ancestries; trackBy:trackers.trackByIndex;"
+                                *ngFor="let ancestry of character.class.ancestry.ancestries; trackBy:trackByIndex;"
                             >
                                 {{ancestry}}
                             </cite>
@@ -673,8 +673,8 @@
                         </ng-container>
 
                         <!-- Languages -->
-                        <ng-container *ngFor="let currentLanguages of [availableLanguagesOnLevel(character.level)]; trackBy:trackers.trackByIndex">
-                            <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(character.level)]; trackBy:trackers.trackByIndex">
+                        <ng-container *ngFor="let currentLanguages of [availableLanguagesOnLevel(character.level)]; trackBy:trackByIndex">
+                            <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(character.level)]; trackBy:trackByIndex">
                                 <div
                                     class="list-item"
                                     [ngClass]="{'fullsize-only':!blankLanguages}"
@@ -803,8 +803,8 @@
                         </ng-container>
 
                         <!-- Languages -->
-                        <ng-container *ngFor="let currentLanguages of [availableLanguagesOnLevel(character.level)]; trackBy:trackers.trackByIndex">
-                            <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(character.level)]; trackBy:trackers.trackByIndex">
+                        <ng-container *ngFor="let currentLanguages of [availableLanguagesOnLevel(character.level)]; trackBy:trackByIndex">
+                            <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(character.level)]; trackBy:trackByIndex">
                                 <button
                                     type="button"
                                     aria-label="Show language menu"
@@ -863,7 +863,7 @@
 
                 <!-- Levels -->
                 <ng-container *ngIf="character.class">
-                    <ng-container *ngFor="let level of character.class.levels; trackBy:trackers.trackByIndex;">
+                    <ng-container *ngFor="let level of character.class.levels; trackBy:trackByIndex;">
                         <div
                             *ngIf="level.number > 0"
                             [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(shownLevel())), 'vlist':!isTileMode}"
@@ -1014,10 +1014,10 @@
                                     id="bonuses"
                                     [ngClass]="{'icon-list vertical':isTileMode, 'vlist':!isTileMode}"
                                 >
-                                    <ng-container *ngFor="let fixedAbilityBoosts of [abilityBoostsOnLevel(level.number, '', '', '', '', true)]; trackBy:trackers.trackByIndex;">
-                                        <ng-container *ngFor="let fixedSkillIncreases of [skillIncreasesByLevel(level.number, '', '', '', true)]; trackBy:trackers.trackByIndex;">
-                                            <ng-container *ngFor="let fixedFeats of [characterFeatsTakenOnLevel(level.number, 'feat')]; trackBy:trackers.trackByIndex;">
-                                                <ng-container *ngFor="let fixedFeatures of [characterFeatsTakenOnLevel(level.number, 'feature')]; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let fixedAbilityBoosts of [abilityBoostsOnLevel(level.number, '', '', '', '', true)]; trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let fixedSkillIncreases of [skillIncreasesByLevel(level.number, '', '', '', true)]; trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let fixedFeats of [characterFeatsTakenOnLevel(level.number, 'feat')]; trackBy:trackByIndex;">
+                                                <ng-container *ngFor="let fixedFeatures of [characterFeatsTakenOnLevel(level.number, 'feature')]; trackBy:trackByIndex;">
                                                     <ng-container *ngIf="!!(fixedAbilityBoosts.length + fixedSkillIncreases.length + fixedFeatures.length + fixedFeats.length)">
                                                         <!-- Fixed information list mode -->
                                                         <div
@@ -1068,7 +1068,7 @@
                                 >
                                     <!-- List mode fixed ability boosts -->
                                     <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
-                                        <ng-container *ngFor="let boost of abilityBoostsOnLevel(level.number, '', '', '', '', true); trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let boost of abilityBoostsOnLevel(level.number, '', '', '', '', true); trackBy:trackByIndex;">
                                             <div class="list-item fullsize-only">
                                                 <ng-template #FixedAbilityBoostContent>
                                                     <div class="newrow left-aligned">
@@ -1103,7 +1103,7 @@
 
                                     <!-- Tile mode fixed ability boosts -->
                                     <ng-container *ngIf="isTileMode && shownFixedChangesLevelNumber()===level.number">
-                                        <ng-container *ngFor="let boost of abilityBoostsOnLevel(level.number, '', '', '', '', true); trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let boost of abilityBoostsOnLevel(level.number, '', '', '', '', true); trackBy:trackByIndex;">
                                             <ng-template #FixedAbilityBoostContent>
                                                 <div class="newrow left-aligned">
                                                     <strong>
@@ -1139,8 +1139,8 @@
                                         </ng-container>
                                     </ng-container>
 
-                                    <ng-container *ngFor="let choice of level.abilityChoices; trackBy:trackers.trackByIndex;">
-                                        <ng-container *ngFor="let maxAvailable of [maxAbilityBoostsAvailableInChoice(choice)]; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let choice of level.abilityChoices; trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let maxAvailable of [maxAbilityBoostsAvailableInChoice(choice)]; trackBy:trackByIndex;">
                                             <!-- List mode ability boost buttons -->
                                             <div
                                                 class="list-item"
@@ -1187,7 +1187,7 @@
                                 >
                                     <!-- List mode fixed skill increases -->
                                     <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
-                                        <ng-container *ngFor="let skillIncrease of skillIncreasesByLevel(level.number, '', '', '', true); trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let skillIncrease of skillIncreasesByLevel(level.number, '', '', '', true); trackBy:trackByIndex;">
                                             <div class="list-item fullsize-only">
                                                 <ng-template #FixedSkillIncreaseContent>
                                                     <div class="newrow left-aligned">
@@ -1218,7 +1218,7 @@
 
                                     <!-- Tile mode fixed skill increases -->
                                     <ng-container *ngIf="isTileMode && shownFixedChangesLevelNumber()===level.number">
-                                        <ng-container *ngFor="let skillIncrease of skillIncreasesByLevel(level.number, '', '', '', true); trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let skillIncrease of skillIncreasesByLevel(level.number, '', '', '', true); trackBy:trackByIndex;">
                                             <ng-template #FixedSkillIncreaseContent>
                                                 <div class="newrow left-aligned">
                                                     <strong>{{skillIncrease.name}}</strong>
@@ -1250,7 +1250,7 @@
                                     </ng-container>
 
                                     <!-- Skill Choices handle tile mode internally -->
-                                    <ng-container *ngFor="let choice of skillChoicesOnLevel(level); let index = index; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let choice of skillChoicesOnLevel(level); let index = index; trackBy:trackByIndex;">
                                         <app-skill-choice
                                             (showSkillChoiceMessage)="receiveChoiceMessage($event)"
                                             [choice]="choice"
@@ -1271,8 +1271,8 @@
                                 >
                                     <!-- List mode fixed feats -->
                                     <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
-                                        <ng-container *ngFor="let feat of characterFeatsTakenOnLevel(level.number, 'feat'); trackBy:trackers.trackByIndex;">
-                                            <ng-container *ngFor="let libraryFeat of [characterFeatsAndFeatures(feat.name)[0]]; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let feat of characterFeatsTakenOnLevel(level.number, 'feat'); trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let libraryFeat of [characterFeatsAndFeatures(feat.name)[0]]; trackBy:trackByIndex;">
                                                 <div class="list-item fullsize-only">
                                                     <ng-template #FixedFeatContent>
                                                         <header class="spellHeader">
@@ -1311,8 +1311,8 @@
 
                                     <!-- Tile mode fixed feats -->
                                     <ng-container *ngIf="isTileMode && shownFixedChangesLevelNumber()===level.number">
-                                        <ng-container *ngFor="let feat of characterFeatsTakenOnLevel(level.number, 'feat'); trackBy:trackers.trackByIndex;">
-                                            <ng-container *ngFor="let libraryFeat of [characterFeatsAndFeatures(feat.name)[0]]; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let feat of characterFeatsTakenOnLevel(level.number, 'feat'); trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let libraryFeat of [characterFeatsAndFeatures(feat.name)[0]]; trackBy:trackByIndex;">
                                                 <ng-template #FixedFeatContent>
                                                     <header class="spellHeader">
                                                         {{libraryFeat.displayName || feat.name}}
@@ -1352,7 +1352,7 @@
                                     </ng-container>
 
                                     <!-- Feat Choices handle tile mode internally -->
-                                    <ng-container *ngFor="let choice of featChoicesOnLevel(level, false); let index = index; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let choice of featChoicesOnLevel(level, false); let index = index; trackBy:trackByIndex;">
                                         <app-feat-choice
                                             (showFeatChoiceMessage)="receiveChoiceMessage($event)"
                                             (showFeatMessage)="receiveFeatMessage($event)"
@@ -1378,8 +1378,8 @@
                                 >
                                     <!-- List mode fixed features -->
                                     <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
-                                        <ng-container *ngFor="let feature of characterFeatsTakenOnLevel(level.number, 'feature'); trackBy:trackers.trackByIndex;">
-                                            <ng-container *ngFor="let libraryFeature of [characterFeatsAndFeatures(feature.name)[0]]; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let feature of characterFeatsTakenOnLevel(level.number, 'feature'); trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let libraryFeature of [characterFeatsAndFeatures(feature.name)[0]]; trackBy:trackByIndex;">
                                                 <div class="list-item fullsize-only">
                                                     <ng-template #FixedFeatureContent>
                                                         <header class="spellHeader">
@@ -1418,8 +1418,8 @@
 
                                     <!-- Tile mode fixed features -->
                                     <ng-container *ngIf="isTileMode && shownFixedChangesLevelNumber()===level.number">
-                                        <ng-container *ngFor="let feature of characterFeatsTakenOnLevel(level.number, 'feature'); trackBy:trackers.trackByIndex;">
-                                            <ng-container *ngFor="let libraryFeature of [characterFeatsAndFeatures(feature.name)[0]]; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let feature of characterFeatsTakenOnLevel(level.number, 'feature'); trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let libraryFeature of [characterFeatsAndFeatures(feature.name)[0]]; trackBy:trackByIndex;">
                                                 <ng-template #FixedFeatureContent>
                                                     <header class="spellHeader">
                                                         {{libraryFeature.displayName ||
@@ -1461,8 +1461,8 @@
 
                                     <!-- Languages - show if you have gained languages this level -->
                                     <ng-container *ngIf="level.number > 0 && areLanguagesAvailableOnLevel(level.number)">
-                                        <ng-container *ngFor="let currentLanguages of [availableLanguagesOnLevel(level.number)]; trackBy:trackers.trackByIndex">
-                                            <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(level.number)]; trackBy:trackers.trackByIndex">
+                                        <ng-container *ngFor="let currentLanguages of [availableLanguagesOnLevel(level.number)]; trackBy:trackByIndex">
+                                            <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(level.number)]; trackBy:trackByIndex">
                                                 <div
                                                     class="list-item"
                                                     *ngIf="!isTileMode"
@@ -1501,7 +1501,7 @@
                                     </ng-container>
 
                                     <!-- "Specialchoice" feat choices (feats handle tile mode internally) -->
-                                    <ng-container *ngFor="let choice of featChoicesOnLevel(level, true); let index = index; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let choice of featChoicesOnLevel(level, true); let index = index; trackBy:trackByIndex;">
                                         <app-feat-choice
                                             (showFeatChoiceMessage)="receiveChoiceMessage($event)"
                                             (showFeatMessage)="receiveFeatMessage($event)"
@@ -1521,7 +1521,7 @@
 
                                     <!-- Animal Companion -->
                                     <ng-container *ngIf="hasCompanionBecomeAvailableOnLevel(level.number)">
-                                        <ng-container *ngFor="let companion of [companion]; trackBy:trackers.trackByIndex">
+                                        <ng-container *ngFor="let companion of [companion]; trackBy:trackByIndex">
                                             <div
                                                 class="list-item"
                                                 *ngIf="!isTileMode"
@@ -1560,8 +1560,8 @@
 
                                     <!-- Animal Specializations -->
                                     <ng-container *ngIf="companionSpecializationsAvailable(level.number)">
-                                        <ng-container *ngFor="let available of [companionSpecializationsAvailable(level.number)]; trackBy:trackers.trackByIndex;">
-                                            <ng-container *ngFor="let takenSpecializations of [companionSpecializationsOnLevel(level.number)]; trackBy:trackers.trackByIndex">
+                                        <ng-container *ngFor="let available of [companionSpecializationsAvailable(level.number)]; trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let takenSpecializations of [companionSpecializationsOnLevel(level.number)]; trackBy:trackByIndex">
                                                 <div
                                                     class="list-item"
                                                     *ngIf="!isTileMode"
@@ -1601,7 +1601,7 @@
 
                                     <!-- Familiar -->
                                     <ng-container *ngIf="isFamiliarAvailableOnLevel(level.number)">
-                                        <ng-container *ngFor="let finished of [!!familiar.name && !!familiar.species]; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let finished of [!!familiar.name && !!familiar.species]; trackBy:trackByIndex;">
                                             <div
                                                 class="list-item"
                                                 *ngIf="!isTileMode"
@@ -1637,8 +1637,8 @@
                                     </ng-container>
 
                                     <!-- Different Worlds -->
-                                    <ng-container *ngFor="let differentWorldsData of differentWorldsData(level.number); trackBy:trackers.trackByIndex;">
-                                        <ng-container *ngFor="let finished of [!!differentWorldsData.getValue('name') && !!differentWorldsData.getValue('background')]; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let differentWorldsData of differentWorldsData(level.number); trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let finished of [!!differentWorldsData.getValue('name') && !!differentWorldsData.getValue('background')]; trackBy:trackByIndex;">
                                             <!-- Different Worlds -->
                                             <div
                                                 class="list-item"
@@ -1679,8 +1679,8 @@
 
                                     <!-- Blessed Blood -->
                                     <ng-container *ngIf="isBlessedBloodAvailable(level.number)">
-                                        <ng-container *ngFor="let blessedBloodSpells of [blessedBloodSpellsTaken()]; trackBy:trackers.trackByIndex;">
-                                            <ng-container *ngFor="let finished of [blessedBloodSpells >= 3]; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let blessedBloodSpells of [blessedBloodSpellsTaken()]; trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let finished of [blessedBloodSpells >= 3]; trackBy:trackByIndex;">
                                                 <div
                                                     class="list-item"
                                                     *ngIf="!isTileMode"
@@ -1719,8 +1719,8 @@
 
                                     <!-- Splinter Faith -->
                                     <ng-container *ngIf="isSplinterFaithAvailable(level.number)">
-                                        <ng-container *ngFor="let splinterFaithDomains of [splinterFaithDomains().length || 0]; trackBy:trackers.trackByIndex;">
-                                            <ng-container *ngFor="let finished of [splinterFaithDomains >= 4]; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let splinterFaithDomains of [splinterFaithDomains().length || 0]; trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let finished of [splinterFaithDomains >= 4]; trackBy:trackByIndex;">
                                                 <div
                                                     class="list-item"
                                                     *ngIf="!isTileMode"
@@ -1758,9 +1758,9 @@
                                     </ng-container>
 
                                     <!-- Additional Heritages -->
-                                    <ng-container *ngFor="let heritageGain of additionalHeritagesAvailable(level.number); trackBy:trackers.trackByIndex">
-                                        <ng-container *ngFor="let heritageIndex of [additionalHeritageIndex(heritageGain.source, level.number)]; trackBy:trackers.trackByIndex">
-                                            <ng-container *ngFor="let finished of [!!character.class.additionalHeritages[heritageIndex].name]; trackBy:trackers.trackByIndex">
+                                    <ng-container *ngFor="let heritageGain of additionalHeritagesAvailable(level.number); trackBy:trackByIndex">
+                                        <ng-container *ngFor="let heritageIndex of [additionalHeritageIndex(heritageGain.source, level.number)]; trackBy:trackByIndex">
+                                            <ng-container *ngFor="let finished of [!!character.class.additionalHeritages[heritageIndex].name]; trackBy:trackByIndex">
                                                 <div
                                                     class="list-item"
                                                     *ngIf="!isTileMode"
@@ -1801,8 +1801,8 @@
                                     </ng-container>
 
                                     <!-- Fuse Stance -->
-                                    <ng-container *ngFor="let fuseStanceData of fuseStanceData(level.number); trackBy:trackers.trackByIndex;">
-                                        <ng-container *ngFor="let finished of [fuseStanceData.valueAsStringArray('stances')?.length === 2 && !!fuseStanceData.getValue('name')]; trackBy:trackers.trackByIndex">
+                                    <ng-container *ngFor="let fuseStanceData of fuseStanceData(level.number); trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let finished of [fuseStanceData.valueAsStringArray('stances')?.length === 2 && !!fuseStanceData.getValue('name')]; trackBy:trackByIndex">
                                             <div
                                                 class="list-item"
                                                 *ngIf="!isTileMode"
@@ -1843,8 +1843,8 @@
                                     </ng-container>
 
                                     <!-- Syncretism -->
-                                    <ng-container *ngFor="let syncretismData of syncretismData(level.number); trackBy:trackers.trackByIndex;">
-                                        <ng-container *ngFor="let finished of [!!syncretismData.getValue('deity')]; trackBy:trackers.trackByIndex">
+                                    <ng-container *ngFor="let syncretismData of syncretismData(level.number); trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let finished of [!!syncretismData.getValue('deity')]; trackBy:trackByIndex">
                                             <div
                                                 class="list-item"
                                                 *ngIf="!isTileMode"
@@ -1882,7 +1882,7 @@
                                     </ng-container>
 
                                     <!-- Lore Training -->
-                                    <ng-container *ngFor="let choice of level.loreChoices; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let choice of level.loreChoices; trackBy:trackByIndex;">
                                         <div
                                             class="list-item"
                                             *ngIf="choice.available && !isTileMode"
@@ -1977,7 +1977,7 @@
                             </span>
                         </div>
 
-                        <ng-container *ngFor="let savegame of savegames; let index = index; trackBy:trackers.trackByIndex;">
+                        <ng-container *ngFor="let savegame of savegames; let index = index; trackBy:trackByIndex;">
                             <ng-template
                                 #SavegameDeleteModal
                                 let-modal
@@ -2708,7 +2708,7 @@
 
                     <div
                         class="list-item gridicon-fullsizebox"
-                        *ngFor="let ability of character.baseValues; trackBy:trackers.trackByIndex;"
+                        *ngFor="let ability of character.baseValues; trackBy:trackByIndex;"
                     >
                         <input
                             aria-label="Ability score input"
@@ -2736,9 +2736,9 @@
                     id="choiceArea"
                     class="list-item"
                 >
-                    <ng-container *ngFor="let class of availableClasses(); trackBy:trackers.trackByIndex;">
-                        <ng-container *ngFor="let checked of [class.name === character.class.name]; trackBy:trackers.trackByIndex">
-                            <ng-container *ngFor="let disabled of [class.disabled || (!!character.class.name && (class.name !== character.class.name))]; trackBy:trackers.trackByIndex">
+                    <ng-container *ngFor="let class of availableClasses(); trackBy:trackByIndex;">
+                        <ng-container *ngFor="let checked of [class.name === character.class.name]; trackBy:trackByIndex">
+                            <ng-container *ngFor="let disabled of [class.disabled || (!!character.class.name && (class.name !== character.class.name))]; trackBy:trackByIndex">
                                 <ng-template #ClassChoiceDetailsTemplate>
                                     <header class="spellHeader">{{class.name}}</header>
 
@@ -2770,9 +2770,9 @@
 
                                     <div
                                         class="newrow left-aligned"
-                                        *ngFor="let desc of class.desc; trackBy:trackers.trackByIndex;"
+                                        *ngFor="let desc of class.desc; trackBy:trackByIndex;"
                                     >
-                                        <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
                                             <header
                                                 class="featureHeader"
                                                 *ngIf="textIndex === 0"
@@ -2848,9 +2848,9 @@
                     id="choiceArea"
                     class="list-item"
                 >
-                    <ng-container *ngFor="let ancestry of availableAncestries(); trackBy:trackers.trackByIndex;">
-                        <ng-container *ngFor="let checked of [ancestry.name === character.class.ancestry.name]; trackBy:trackers.trackByIndex">
-                            <ng-container *ngFor="let disabled of [ancestry.disabled || (!!character.class.ancestry.name && (ancestry.name !== character.class.ancestry.name))]; trackBy:trackers.trackByIndex">
+                    <ng-container *ngFor="let ancestry of availableAncestries(); trackBy:trackByIndex;">
+                        <ng-container *ngFor="let checked of [ancestry.name === character.class.ancestry.name]; trackBy:trackByIndex">
+                            <ng-container *ngFor="let disabled of [ancestry.disabled || (!!character.class.ancestry.name && (ancestry.name !== character.class.ancestry.name))]; trackBy:trackByIndex">
                                 <ng-template #AncestryChoiceDetailsTemplate>
                                     <header class="spellHeader">{{ancestry.name}}</header>
 
@@ -2874,7 +2874,7 @@
 
                                     <div class="newrow left-aligned tags">
                                         <app-trait
-                                            *ngFor="let trait of ancestry.traits; trackBy:trackers.trackByIndex;"
+                                            *ngFor="let trait of ancestry.traits; trackBy:trackByIndex;"
                                             [name]="trait"
                                             [trait]="traitFromName(trait)"
                                         >
@@ -2892,9 +2892,9 @@
 
                                     <div
                                         class="newrow left-aligned"
-                                        *ngFor="let desc of ancestry.desc; trackBy:trackers.trackByIndex;"
+                                        *ngFor="let desc of ancestry.desc; trackBy:trackByIndex;"
                                     >
-                                        <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
                                             <header
                                                 class="featureHeader"
                                                 *ngIf="textIndex === 0"
@@ -2953,7 +2953,7 @@
 
                                             <span>{{ancestry.name}}</span>
 
-                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackers.trackByIndex">
+                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackByIndex">
                                                 <app-trait
                                                     *ngIf="ancestry.traits.includes(trait)"
                                                     [name]="trait"
@@ -2983,10 +2983,10 @@
                     id="choiceArea"
                     class="list-item"
                 >
-                    <ng-container *ngFor="let heritage of availableHeritages('', character.class.ancestry.name); trackBy:trackers.trackByIndex;">
-                        <ng-container *ngFor="let selected of [heritage.name === character.class.heritage.name]; trackBy:trackers.trackByIndex">
-                            <ng-container *ngFor="let checked of [!!selected || !!doesCharacterHaveHeritage(heritage.name)]; trackBy:trackers.trackByIndex">
-                                <ng-container *ngFor="let disabled of [!selected && (checked || !!character.class.heritage.name)]; trackBy:trackers.trackByIndex">
+                    <ng-container *ngFor="let heritage of availableHeritages('', character.class.ancestry.name); trackBy:trackByIndex;">
+                        <ng-container *ngFor="let selected of [heritage.name === character.class.heritage.name]; trackBy:trackByIndex">
+                            <ng-container *ngFor="let checked of [!!selected || !!doesCharacterHaveHeritage(heritage.name)]; trackBy:trackByIndex">
+                                <ng-container *ngFor="let disabled of [!selected && (checked || !!character.class.heritage.name)]; trackBy:trackByIndex">
                                     <ng-template #HeritageChoiceDetailsTemplate>
                                         <header class="spellHeader">{{heritage.name}}</header>
 
@@ -3010,7 +3010,7 @@
 
                                         <div class="newrow left-aligned tags">
                                             <app-trait
-                                                *ngFor="let trait of heritage.traits; trackBy:trackers.trackByIndex;"
+                                                *ngFor="let trait of heritage.traits; trackBy:trackByIndex;"
                                                 [name]="trait"
                                                 [trait]="traitFromName(trait)"
                                             >
@@ -3027,7 +3027,7 @@
                                         </div>
 
                                         <div class="newrow left-aligned">
-                                            <ng-container *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
+                                            <ng-container *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
                                                 <app-description
                                                     class="newrow"
                                                     [text]="desc"
@@ -3035,7 +3035,7 @@
                                             </ng-container>
                                         </div>
 
-                                        <ng-container *ngFor="let activityName of heritage.gainActivities; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
                                             <div
                                                 class="newrow left-aligned"
                                                 *ngIf="activityFromName(activityName) as activity"
@@ -3060,10 +3060,10 @@
                                         </ng-container>
 
                                         <!-- Subheritages -->
-                                        <ng-container *ngFor="let subheritage of heritage.subTypes; trackBy:trackers.trackByIndex;">
-                                            <ng-container *ngFor="let subheritageSelected of [subheritage.name === character.class.heritage.name]; trackBy:trackers.trackByIndex;">
-                                                <ng-container *ngFor="let subheritageChecked of [subheritageSelected || doesCharacterHaveHeritage(heritage.name)]; trackBy:trackers.trackByIndex;">
-                                                    <ng-container *ngFor="let subheritageDisabled of [!subheritageSelected && (subheritageChecked || character.class.heritage.name)]; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let subheritageSelected of [subheritage.name === character.class.heritage.name]; trackBy:trackByIndex;">
+                                                <ng-container *ngFor="let subheritageChecked of [subheritageSelected || doesCharacterHaveHeritage(heritage.name)]; trackBy:trackByIndex;">
+                                                    <ng-container *ngFor="let subheritageDisabled of [!subheritageSelected && (subheritageChecked || character.class.heritage.name)]; trackBy:trackByIndex;">
                                                         <div
                                                             class="list-item"
                                                             [ngClass]="{'selected':subheritageSelected}"
@@ -3129,7 +3129,7 @@
                                             <header class="sectionHeader">
                                                 <span>{{heritage.name}}&nbsp;</span>
 
-                                                <ng-container *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackers.trackByIndex">
+                                                <ng-container *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackByIndex">
                                                     <app-trait
                                                         *ngIf="heritage.traits.includes(trait)"
                                                         [name]="trait"
@@ -3165,7 +3165,7 @@
                         {{character.class.ancestry.recommendedLanguages.join(', ')}}
                     </div>
 
-                    <ng-container *ngFor="let language of character.class.languages; trackBy:trackers.trackByIndex;">
+                    <ng-container *ngFor="let language of character.class.languages; trackBy:trackByIndex;">
                         <div
                             class="list-item"
                             *ngIf="!language.level || language.level <= shownContentLevelNumber()"
@@ -3258,9 +3258,9 @@
                     class="list-item"
                 >
                     <!-- End Filter -->
-                    <ng-container *ngFor="let background of availableBackgrounds(); trackBy:trackers.trackByIndex;">
-                        <ng-container *ngFor="let checked of [background.name === character.class.background.name || background.name === character.class.background.superType]; trackBy:trackers.trackByIndex">
-                            <ng-container *ngFor="let disabled of [!!character.class.background.name && (background.name !== character.class.background.name)]; trackBy:trackers.trackByIndex">
+                    <ng-container *ngFor="let background of availableBackgrounds(); trackBy:trackByIndex;">
+                        <ng-container *ngFor="let checked of [background.name === character.class.background.name || background.name === character.class.background.superType]; trackBy:trackByIndex">
+                            <ng-container *ngFor="let disabled of [!!character.class.background.name && (background.name !== character.class.background.name)]; trackBy:trackByIndex">
                                 <ng-template #BackgroundChoiceDetailsTemplate>
                                     <header class="spellHeader">{{background.name}}</header>
 
@@ -3284,7 +3284,7 @@
 
                                     <div class="newrow left-aligned tags">
                                         <app-trait
-                                            *ngFor="let trait of background.traits; trackBy:trackers.trackByIndex;"
+                                            *ngFor="let trait of background.traits; trackBy:trackByIndex;"
                                             [name]="trait"
                                             [trait]="traitFromName(trait)"
                                         >
@@ -3317,7 +3317,7 @@
                                     </div>
 
                                     <div class="newrow left-aligned">
-                                        <ng-container *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackByIndex;">
                                             <app-description
                                                 class="newrow"
                                                 [text]="desc"
@@ -3333,7 +3333,7 @@
 
                                         <div
                                             class="newrow left-aligned"
-                                            *ngFor="let inputRequired of background.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;"
+                                            *ngFor="let inputRequired of background.inputRequired.split('\n\n'); trackBy:trackByIndex;"
                                         >
                                             <app-description
                                                 class="newrow"
@@ -3346,7 +3346,7 @@
                                     <div
                                         class="list-item"
                                         [ngClass]="{'selected':subbackground.name === character.class.background.name}"
-                                        *ngFor="let subbackground of subTypesOfBackground(background.name); trackBy:trackers.trackByIndex;"
+                                        *ngFor="let subbackground of subTypesOfBackground(background.name); trackBy:trackByIndex;"
                                     >
                                         <div class="gridicon-fullsizebox lower">
                                             <input
@@ -3404,7 +3404,7 @@
                                         <header class="sectionHeader">
                                             <span>{{background.name}}&nbsp;</span>
 
-                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon', 'Adventure', 'Regional']; trackBy:trackers.trackByIndex">
+                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon', 'Adventure', 'Regional']; trackBy:trackByIndex">
                                                 <app-trait
                                                     *ngIf="background.traits.includes(trait)"
                                                     [name]="trait"
@@ -3450,9 +3450,9 @@
                     id="choiceArea"
                     class="list-item"
                 >
-                    <ng-container *ngFor="let deity of availableDeities('', false); trackBy:trackers.trackByIndex;">
-                        <ng-container *ngFor="let checked of [deity.name === character.class.deity]; trackBy:trackers.trackByIndex">
-                            <ng-container *ngFor="let disabled of [!!character.class.deity && (deity.name !== character.class.deity)]; trackBy:trackers.trackByIndex">
+                    <ng-container *ngFor="let deity of availableDeities('', false); trackBy:trackByIndex;">
+                        <ng-container *ngFor="let checked of [deity.name === character.class.deity]; trackBy:trackByIndex">
+                            <ng-container *ngFor="let disabled of [!!character.class.deity && (deity.name !== character.class.deity)]; trackBy:trackByIndex">
                                 <ng-template #DeityChoiceDetailsTemplate>
                                     <header class="spellHeader">{{deity.name}}</header>
 
@@ -3489,7 +3489,7 @@
                                         <i>{{deity.sourceBook}}</i>
                                     </div>
 
-                                    <ng-container *ngFor="let desc of deity.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let desc of deity.desc.split('\n\n'); trackBy:trackByIndex;">
                                         <app-description
                                             class="newrow"
                                             [text]="desc"
@@ -3591,7 +3591,7 @@
 
                                         <div
                                             class="list-item lower left-aligned"
-                                            *ngFor="let spell of deity.clericSpells; trackBy:trackers.trackByIndex;"
+                                            *ngFor="let spell of deity.clericSpells; trackBy:trackByIndex;"
                                         >
                                             <strong>Level {{spell.level}}</strong>
                                             {{spell.name}}
@@ -3668,9 +3668,9 @@
                     id="choiceArea"
                     class="list-item"
                 >
-                    <ng-container *ngFor="let ability of availableAbilities(abilityContent.choice, abilityContent.levelNumber); trackBy:trackers.trackByIndex;">
-                        <ng-container *ngFor="let checked of [isAbilityTakenByThisChoice(ability, abilityContent.choice, abilityContent.levelNumber)]; trackBy:trackers.trackByIndex">
-                            <ng-container *ngFor="let disabled of [!!this.cannotBoostAbility(ability, abilityContent.levelNumber, abilityContent.choice).length || (abilityContent.choice.boosts.length === maxAbilityBoostsAvailableInChoice(abilityContent.choice) && !checked)]; trackBy:trackers.trackByIndex">
+                    <ng-container *ngFor="let ability of availableAbilities(abilityContent.choice, abilityContent.levelNumber); trackBy:trackByIndex;">
+                        <ng-container *ngFor="let checked of [isAbilityTakenByThisChoice(ability, abilityContent.choice, abilityContent.levelNumber)]; trackBy:trackByIndex">
+                            <ng-container *ngFor="let disabled of [!!this.cannotBoostAbility(ability, abilityContent.levelNumber, abilityContent.choice).length || (abilityContent.choice.boosts.length === maxAbilityBoostsAvailableInChoice(abilityContent.choice) && !checked)]; trackBy:trackByIndex">
                                 <div
                                     class="list-item gridicon-fullsizebox"
                                     [ngClass]="{'selected':checked, 'problem':isAbilityIllegal(abilityContent.levelNumber, ability)}"
@@ -3686,7 +3686,7 @@
                                     >
                                     <div
                                         class="gridicon-fullsizebox"
-                                        *ngFor="let baseValue of [abilityBaseValue(ability, abilityContent.levelNumber)]; trackBy:trackers.trackByIndex;"
+                                        *ngFor="let baseValue of [abilityBaseValue(ability, abilityContent.levelNumber)]; trackBy:trackByIndex;"
                                     >
                                         <app-grid-icon
                                             [title]="ability.name"
@@ -3702,7 +3702,7 @@
 
                                             <cite
                                                 class="problem"
-                                                *ngFor="let reason of cannotBoostAbility(ability, abilityContent.levelNumber, abilityContent.choice); trackBy:trackers.trackByIndex;"
+                                                *ngFor="let reason of cannotBoostAbility(ability, abilityContent.levelNumber, abilityContent.choice); trackBy:trackByIndex;"
                                             >
                                                 {{reason}}
                                             </cite>
@@ -3780,9 +3780,9 @@
                     id="choiceArea"
                     class="list-item"
                 >
-                    <ng-container *ngFor="let checked of [!!skillIncreasesByLevel(loreContent.levelNumber, 'Lore: '+loreContent.choice.loreName, loreContent.choice.source, loreContent.choice.id).length]; trackBy:trackers.trackByIndex">
-                        <ng-container *ngFor="let illegal of [skills('Lore: '+loreContent.choice.loreName, {}, {noSubstitutions: true}).length && !checked]; trackBy:trackers.trackByIndex">
-                            <ng-container *ngFor="let disabled of [!loreContent.choice.loreName || !!illegal]; trackBy:trackers.trackByIndex">
+                    <ng-container *ngFor="let checked of [!!skillIncreasesByLevel(loreContent.levelNumber, 'Lore: '+loreContent.choice.loreName, loreContent.choice.source, loreContent.choice.id).length]; trackBy:trackByIndex">
+                        <ng-container *ngFor="let illegal of [skills('Lore: '+loreContent.choice.loreName, {}, {noSubstitutions: true}).length && !checked]; trackBy:trackByIndex">
+                            <ng-container *ngFor="let disabled of [!loreContent.choice.loreName || !!illegal]; trackBy:trackByIndex">
                                 <div
                                     class="newrow left-aligned list-item"
                                     *ngIf="loreContent.choice.loreDesc"
@@ -3839,7 +3839,7 @@
 
             <!-- Animal Companion Content -->
             <ng-container *ngIf="activeSpecialChoiceShown('animalcompanion') as companionContent">
-                <ng-container *ngFor="let companion of [companion]; trackBy:trackers.trackByIndex">
+                <ng-container *ngFor="let companion of [companion]; trackBy:trackByIndex">
                     <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
                             Animal Companion{{(companion.class.ancestry.name) ? ": "+ companion.class.ancestry.name
@@ -3889,9 +3889,9 @@
                             <header class="sectionHeader">Type</header>
                         </div>
 
-                        <ng-container *ngFor="let type of availableCompanionTypes(); trackBy:trackers.trackByIndex;">
-                            <ng-container *ngFor="let checked of [type.name === companion.class.ancestry.name]; trackBy:trackers.trackByIndex">
-                                <ng-container *ngFor="let disabled of [!!companion.class.ancestry.name && (type.name !== companion.class.ancestry.name)]; trackBy:trackers.trackByIndex">
+                        <ng-container *ngFor="let type of availableCompanionTypes(); trackBy:trackByIndex;">
+                            <ng-container *ngFor="let checked of [type.name === companion.class.ancestry.name]; trackBy:trackByIndex">
+                                <ng-container *ngFor="let disabled of [!!companion.class.ancestry.name && (type.name !== companion.class.ancestry.name)]; trackBy:trackByIndex">
                                     <ng-template #AnimalCompanionDetailsTemplate>
                                         <header class="spellHeader">{{type.name}}</header>
 
@@ -3915,7 +3915,7 @@
                                         <div class="newrow left-aligned">
                                             <div class="newrow left-aligned tags">
                                                 <app-trait
-                                                    *ngFor="let trait of type.traits; trackBy:trackers.trackByIndex;"
+                                                    *ngFor="let trait of type.traits; trackBy:trackByIndex;"
                                                     [name]="trait"
                                                     [trait]="traitFromName(trait)"
                                                 >
@@ -3931,7 +3931,7 @@
                                                 <i>{{type.sourceBook}}</i>
                                             </div>
 
-                                            <ng-container *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
+                                            <ng-container *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackByIndex;">
                                                 <app-description
                                                     class="newrow"
                                                     [text]="desc"
@@ -3943,7 +3943,7 @@
                                                 {{size(type.size)}}
                                             </p>
 
-                                            <p *ngFor="let attack of grantedCompanionAttacks(type); trackBy:trackers.trackByIndex;">
+                                            <p *ngFor="let attack of grantedCompanionAttacks(type); trackBy:trackByIndex;">
                                                 <strong>Melee</strong>
                                                 {{attack.displayName}},
                                                 <strong>Damage</strong>
@@ -3951,7 +3951,7 @@
                                             </p>
 
                                             <p>
-                                                <span *ngFor="let ability of animalCompanionAbilities(type); let index = index; trackBy:trackers.trackByIndex;">
+                                                <span *ngFor="let ability of animalCompanionAbilities(type); let index = index; trackBy:trackByIndex;">
                                                     {{index ? ", " : ""}}
                                                     <strong>{{ability.name}}</strong>
                                                     {{ability.modifier}}
@@ -3976,7 +3976,7 @@
                                             <p>
                                                 <strong>Speed</strong>
 
-                                                <span *ngFor="let speed of type.speeds; let index = index; trackBy:trackers.trackByIndex;">
+                                                <span *ngFor="let speed of type.speeds; let index = index; trackBy:trackByIndex;">
                                                     {{index > 0 ? ", " : ""}}{{speed.name.split(' ')[0] + " " +
                                                     speed.value + " feet"}}
                                                 </span>
@@ -4053,9 +4053,9 @@
 
             <!-- Companion Specialization Content -->
             <ng-container *ngIf="activeSpecialChoiceShown('companionspecialization') as companionSpecializationContent">
-                <ng-container *ngFor="let companion of [companion]; trackBy:trackers.trackByIndex">
-                    <ng-container *ngFor="let available of [companionSpecializationsAvailable(companionSpecializationContent.levelNumber)]; trackBy:trackers.trackByIndex;">
-                        <ng-container *ngFor="let takenSpecializations of [companionSpecializationsOnLevel(companionSpecializationContent.levelNumber)]; trackBy:trackers.trackByIndex">
+                <ng-container *ngFor="let companion of [companion]; trackBy:trackByIndex">
+                    <ng-container *ngFor="let available of [companionSpecializationsAvailable(companionSpecializationContent.levelNumber)]; trackBy:trackByIndex;">
+                        <ng-container *ngFor="let takenSpecializations of [companionSpecializationsOnLevel(companionSpecializationContent.levelNumber)]; trackBy:trackByIndex">
                             <div class="newrow list-item padding-8 center-aligned">
                                 <header class="box-header sectionHeader">
                                     {{companionSpecializationChoiceTitle(available, takenSpecializations)}}
@@ -4077,10 +4077,10 @@
                                 id="choiceArea"
                                 class="list-item"
                             >
-                                <ng-container *ngFor="let spec of availableCompanionSpecializations(companionSpecializationContent.levelNumber); trackBy:trackers.trackByIndex;">
-                                    <ng-container *ngFor="let taken of [takenSpecializations.includes(spec.name)]; trackBy:trackers.trackByIndex">
-                                        <ng-container *ngFor="let checked of [!!taken || !!hasCompanionTakenThisSpecialization(spec.name)]; trackBy:trackers.trackByIndex">
-                                            <ng-container *ngFor="let disabled of [(!!hasCompanionTakenThisSpecialization(spec.name) || (takenSpecializations.length === available)) && !taken]; trackBy:trackers.trackByIndex">
+                                <ng-container *ngFor="let spec of availableCompanionSpecializations(companionSpecializationContent.levelNumber); trackBy:trackByIndex;">
+                                    <ng-container *ngFor="let taken of [takenSpecializations.includes(spec.name)]; trackBy:trackByIndex">
+                                        <ng-container *ngFor="let checked of [!!taken || !!hasCompanionTakenThisSpecialization(spec.name)]; trackBy:trackByIndex">
+                                            <ng-container *ngFor="let disabled of [(!!hasCompanionTakenThisSpecialization(spec.name) || (takenSpecializations.length === available)) && !taken]; trackBy:trackByIndex">
                                                 <ng-template #CompanionSpecializationDetailsTemplate>
                                                     <header class="spellHeader">{{spec.name}}</header>
 
@@ -4162,7 +4162,7 @@
 
             <!-- Familiar Content -->
             <ng-container *ngIf="activeSpecialChoiceShown('familiar') as familiarContent">
-                <ng-container *ngFor="let familiar of [familiar]; trackBy:trackers.trackByIndex">
+                <ng-container *ngFor="let familiar of [familiar]; trackBy:trackByIndex">
                     <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">Familiar</header>
                     </div>
@@ -4223,7 +4223,7 @@
 
             <!-- Different Worlds content -->
             <ng-container *ngIf="activeSpecialChoiceShown('differentworlds') as differentWorldsContent">
-                <ng-container *ngFor="let differentWorldsData of differentWorldsData(differentWorldsContent.levelNumber); trackBy:trackers.trackByIndex;">
+                <ng-container *ngFor="let differentWorldsData of differentWorldsData(differentWorldsContent.levelNumber); trackBy:trackByIndex;">
                     <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
                             Different Worlds{{!!differentWorldsData.getValue('background') ? ": "+
@@ -4284,10 +4284,10 @@
                         </div>
 
                         <!-- End Filter -->
-                        <ng-container *ngFor="let background of filteredBackgrounds(); trackBy:trackers.trackByIndex;">
-                            <ng-container *ngFor="let selected of [background.name === differentWorldsData.getValue('background')]; trackBy:trackers.trackByIndex">
-                                <ng-container *ngFor="let checked of [selected || background.name === character.class.background.name || background.name === character.class.background.superType]; trackBy:trackers.trackByIndex">
-                                    <ng-container *ngFor="let disabled of [!selected && (checked || !!differentWorldsData.getValue('background'))]; trackBy:trackers.trackByIndex">
+                        <ng-container *ngFor="let background of filteredBackgrounds(); trackBy:trackByIndex;">
+                            <ng-container *ngFor="let selected of [background.name === differentWorldsData.getValue('background')]; trackBy:trackByIndex">
+                                <ng-container *ngFor="let checked of [selected || background.name === character.class.background.name || background.name === character.class.background.superType]; trackBy:trackByIndex">
+                                    <ng-container *ngFor="let disabled of [!selected && (checked || !!differentWorldsData.getValue('background'))]; trackBy:trackByIndex">
                                         <ng-template #DifferentWorldsBackgroundChoiceDetailsTemplate>
                                             <header class="spellHeader">{{background.name}}</header>
 
@@ -4311,7 +4311,7 @@
 
                                             <div class="newrow left-aligned tags">
                                                 <app-trait
-                                                    *ngFor="let trait of background.traits; trackBy:trackers.trackByIndex;"
+                                                    *ngFor="let trait of background.traits; trackBy:trackByIndex;"
                                                     [name]="trait"
                                                     [trait]="traitFromName(trait)"
                                                 >
@@ -4344,7 +4344,7 @@
                                             </div>
 
                                             <div class="newrow left-aligned">
-                                                <ng-container *ngFor="let desc of background.desc.split('\n\n'); let index = index; trackBy:trackers.trackByIndex;">
+                                                <ng-container *ngFor="let desc of background.desc.split('\n\n'); let index = index; trackBy:trackByIndex;">
                                                     <ng-container *ngIf="index === 0">
                                                         <app-description
                                                             class="newrow"
@@ -4396,7 +4396,7 @@
                                                 <header class="sectionHeader">
                                                     <span>{{background.name}}&nbsp;</span>
 
-                                                    <ng-container *ngFor="let trait of ['Rare', 'Uncommon', 'Adventure', 'Regional']; trackBy:trackers.trackByIndex">
+                                                    <ng-container *ngFor="let trait of ['Rare', 'Uncommon', 'Adventure', 'Regional']; trackBy:trackByIndex">
                                                         <app-trait
                                                             *ngIf="background.traits.includes(trait)"
                                                             [name]="trait"
@@ -4417,7 +4417,7 @@
 
             <!-- Blessed Blood Content -->
             <ng-container *ngIf="activeSpecialChoiceShown('blessedblood') as blessedBloodContent">
-                <ng-container *ngFor="let blessedBloodSpells of [blessedBloodSpellsTaken()]; trackBy:trackers.trackByIndex;">
+                <ng-container *ngFor="let blessedBloodSpells of [blessedBloodSpellsTaken()]; trackBy:trackByIndex;">
                     <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
                             Blessed Blood Deity Spells: {{blessedBloodSpells}}/3
@@ -4436,9 +4436,9 @@
                         id="choiceArea"
                         class="list-item"
                     >
-                        <ng-container *ngFor="let spell of blessedBloodDeitySpells(); trackBy:trackers.trackByIndex;">
-                            <ng-container *ngFor="let checked of [!!isSpellTakenInBlessedBlood(spell)]; trackBy:trackers.trackByIndex">
-                                <ng-container *ngFor="let disabled of [blessedBloodSpells >= 3 && !checked]; trackBy:trackers.trackByIndex">
+                        <ng-container *ngFor="let spell of blessedBloodDeitySpells(); trackBy:trackByIndex;">
+                            <ng-container *ngFor="let checked of [!!isSpellTakenInBlessedBlood(spell)]; trackBy:trackByIndex">
+                                <ng-container *ngFor="let disabled of [blessedBloodSpells >= 3 && !checked]; trackBy:trackByIndex">
                                     <ng-template #BlessedBloodChoiceDetailsTemplate>
                                         <header class="spellHeader newrow">
                                             <span style="flex-grow:10">
@@ -4513,7 +4513,7 @@
 
             <!-- Splinter Faith Content -->
             <ng-container *ngIf="activeSpecialChoiceShown('splinterfaith') as splinterFaithContent">
-                <ng-container *ngFor="let splinterFaithDomains of [splinterFaithDomains()]; trackBy:trackers.trackByIndex;">
+                <ng-container *ngFor="let splinterFaithDomains of [splinterFaithDomains()]; trackBy:trackByIndex;">
                     <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
                             Splinter Faith Domains: {{splinterFaithDomains.length}}/4
@@ -4536,8 +4536,8 @@
                         id="choiceArea"
                         class="list-item"
                     >
-                        <ng-container *ngFor="let availableDomains of [splinterFaithAvailableDomains()]; trackBy:trackers.trackByIndex;">
-                            <ng-container *ngFor="let domain of availableDomains; trackBy:trackers.trackByIndex;">
+                        <ng-container *ngFor="let availableDomains of [splinterFaithAvailableDomains()]; trackBy:trackByIndex;">
+                            <ng-container *ngFor="let domain of availableDomains; trackBy:trackByIndex;">
                                 <div
                                     class="list-item newrow"
                                     *ngIf="domain.title"
@@ -4545,8 +4545,8 @@
                                     <header class="sectionHeader">{{domain.title}}</header>
                                 </div>
 
-                                <ng-container *ngFor="let checked of [splinterFaithDomains.includes(domain.domain.name)]; trackBy:trackers.trackByIndex">
-                                    <ng-container *ngFor="let disabled of [!checked && (splinterFaithDomains.length >= 4 || (domain.type === 3 && !!isSplinterFaithThirdDomainTaken(availableDomains, splinterFaithDomains)))]; trackBy:trackers.trackByIndex">
+                                <ng-container *ngFor="let checked of [splinterFaithDomains.includes(domain.domain.name)]; trackBy:trackByIndex">
+                                    <ng-container *ngFor="let disabled of [!checked && (splinterFaithDomains.length >= 4 || (domain.type === 3 && !!isSplinterFaithThirdDomainTaken(availableDomains, splinterFaithDomains)))]; trackBy:trackByIndex">
                                         <div
                                             class="list-item gridicon-fullsizebox"
                                             [ngClass]="{'selected':checked}"
@@ -4595,8 +4595,8 @@
 
             <!-- Fuse Stance content -->
             <ng-container *ngIf="activeSpecialChoiceShown('fusestance') as fuseStanceContent">
-                <ng-container *ngFor="let fuseStanceData of fuseStanceData(fuseStanceContent.levelNumber); trackBy:trackers.trackByIndex">
-                    <ng-container *ngFor="let finished of [fuseStanceData.valueAsStringArray('stances')?.length === 2]; trackBy:trackers.trackByIndex">
+                <ng-container *ngFor="let fuseStanceData of fuseStanceData(fuseStanceContent.levelNumber); trackBy:trackByIndex">
+                    <ng-container *ngFor="let finished of [fuseStanceData.valueAsStringArray('stances')?.length === 2]; trackBy:trackByIndex">
                         <div class="newrow list-item padding-8 center-aligned">
                             <header class="box-header sectionHeader">
                                 {{fuseStanceChoiceTitle(finished, fuseStanceData)}}
@@ -4640,7 +4640,7 @@
                                 <header class="sectionHeader">Fused Stances</header>
                             </div>
 
-                            <ng-container *ngFor="let stance of fuseStanceAvailableStances(fuseStanceContent.levelNumber, fuseStanceData); trackBy:trackers.trackByIndex;">
+                            <ng-container *ngFor="let stance of fuseStanceAvailableStances(fuseStanceContent.levelNumber, fuseStanceData); trackBy:trackByIndex;">
                                 <ng-template #FuseStanceChoiceDetailsPopover>
                                     <header class="spellHeader">
                                         {{stance.activity.name}}
@@ -4715,8 +4715,8 @@
 
             <!-- Additional Heritages content -->
             <ng-container *ngIf="activeSpecialChoiceShown('additionalheritages') as additionalHeritagesContent">
-                <ng-container *ngFor="let heritageGain of additionalHeritagesAvailable(additionalHeritagesContent.levelNumber); trackBy:trackers.trackByIndex">
-                    <ng-container *ngFor="let heritageIndex of [additionalHeritageIndex(heritageGain.source, additionalHeritagesContent.levelNumber)]; trackBy:trackers.trackByIndex">
+                <ng-container *ngFor="let heritageGain of additionalHeritagesAvailable(additionalHeritagesContent.levelNumber); trackBy:trackByIndex">
+                    <ng-container *ngFor="let heritageIndex of [additionalHeritageIndex(heritageGain.source, additionalHeritagesContent.levelNumber)]; trackBy:trackByIndex">
                         <ng-container *ngIf="heritageGain.source === additionalHeritagesContent.choice.source">
                             <div class="newrow list-item padding-8 center-aligned">
                                 <header class="box-header sectionHeader">
@@ -4730,10 +4730,10 @@
                                 id="choiceArea"
                                 class="list-item"
                             >
-                                <ng-container *ngFor="let heritage of availableHeritages('', heritageGain.ancestry, heritageIndex); trackBy:trackers.trackByIndex;">
-                                    <ng-container *ngFor="let selected of [heritage.name === character.class.additionalHeritages[heritageIndex].name]; trackBy:trackers.trackByIndex;">
-                                        <ng-container *ngFor="let checked of [selected || !!doesCharacterHaveHeritage(heritage.name)]; trackBy:trackers.trackByIndex;">
-                                            <ng-container *ngFor="let disabled of [!selected && (checked || !!character.class.additionalHeritages[heritageIndex].name)]; trackBy:trackers.trackByIndex;">
+                                <ng-container *ngFor="let heritage of availableHeritages('', heritageGain.ancestry, heritageIndex); trackBy:trackByIndex;">
+                                    <ng-container *ngFor="let selected of [heritage.name === character.class.additionalHeritages[heritageIndex].name]; trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let checked of [selected || !!doesCharacterHaveHeritage(heritage.name)]; trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let disabled of [!selected && (checked || !!character.class.additionalHeritages[heritageIndex].name)]; trackBy:trackByIndex;">
                                                 <ng-template #HeritageChoiceDetailsTemplate>
                                                     <header class="spellHeader">{{heritage.name}}</header>
 
@@ -4757,7 +4757,7 @@
 
                                                     <div class="newrow left-aligned tags">
                                                         <app-trait
-                                                            *ngFor="let trait of heritage.traits; trackBy:trackers.trackByIndex;"
+                                                            *ngFor="let trait of heritage.traits; trackBy:trackByIndex;"
                                                             [name]="trait"
                                                             [trait]="traitFromName(trait)"
                                                         >
@@ -4774,7 +4774,7 @@
                                                     </div>
 
                                                     <div class="newrow left-aligned">
-                                                        <ng-container *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
+                                                        <ng-container *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
                                                             <app-description
                                                                 class="newrow"
                                                                 [text]="desc"
@@ -4783,7 +4783,7 @@
                                                         </ng-container>
                                                     </div>
 
-                                                    <ng-container *ngFor="let activityName of heritage.gainActivities; trackBy:trackers.trackByIndex;">
+                                                    <ng-container *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
                                                         <div
                                                             class="newrow left-aligned"
                                                             *ngIf="activityFromName(activityName) as activity"
@@ -4809,10 +4809,10 @@
                                                     </ng-container>
 
                                                     <!-- Subheritages -->
-                                                    <ng-container *ngFor="let subheritage of heritage.subTypes; trackBy:trackers.trackByIndex;">
-                                                        <ng-container *ngFor="let subheritageSelected of [subheritage.name === character.class.additionalHeritages[heritageIndex].name]; trackBy:trackers.trackByIndex;">
-                                                            <ng-container *ngFor="let subheritageChecked of [subheritageSelected || doesCharacterHaveHeritage(heritage.name)]; trackBy:trackers.trackByIndex;">
-                                                                <ng-container *ngFor="let subheritageDisabled of [!subheritageSelected && (subheritageChecked || character.class.additionalHeritages[heritageIndex].name)]; trackBy:trackers.trackByIndex;">
+                                                    <ng-container *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
+                                                        <ng-container *ngFor="let subheritageSelected of [subheritage.name === character.class.additionalHeritages[heritageIndex].name]; trackBy:trackByIndex;">
+                                                            <ng-container *ngFor="let subheritageChecked of [subheritageSelected || doesCharacterHaveHeritage(heritage.name)]; trackBy:trackByIndex;">
+                                                                <ng-container *ngFor="let subheritageDisabled of [!subheritageSelected && (subheritageChecked || character.class.additionalHeritages[heritageIndex].name)]; trackBy:trackByIndex;">
                                                                     <div
                                                                         class="list-item"
                                                                         [ngClass]="{'selected':subheritageSelected}"
@@ -4878,7 +4878,7 @@
                                                         <header class="sectionHeader">
                                                             <span>{{heritage.name}}&nbsp;</span>
 
-                                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackers.trackByIndex">
+                                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackByIndex">
                                                                 <app-trait
                                                                     *ngIf="heritage.traits.includes(trait)"
                                                                     [name]="trait"
@@ -4901,8 +4901,8 @@
 
             <!-- Syncretism choice content -->
             <ng-container *ngIf="activeSpecialChoiceShown('syncretism') as syncretismContent">
-                <ng-container *ngFor="let syncretismData of syncretismData(syncretismContent.levelNumber); trackBy:trackers.trackByIndex">
-                    <ng-container *ngFor="let finishedDeity of [syncretismData.valueAsString('deity')]; trackBy:trackers.trackByIndex">
+                <ng-container *ngFor="let syncretismData of syncretismData(syncretismContent.levelNumber); trackBy:trackByIndex">
+                    <ng-container *ngFor="let finishedDeity of [syncretismData.valueAsString('deity')]; trackBy:trackByIndex">
                         <div class="newrow list-item padding-8 center-aligned">
                             <header class="box-header sectionHeader">
                                 Second Deity{{finishedDeity ? ": " + finishedDeity : ""}}
@@ -4927,9 +4927,9 @@
                             id="choiceArea"
                             class="list-item"
                         >
-                            <ng-container *ngFor="let deity of availableDeities('', true, syncretismContent.levelNumber); trackBy:trackers.trackByIndex;">
-                                <ng-container *ngFor="let checked of [[finishedDeity, character.class.deity].includes(deity.name)]; trackBy:trackers.trackByIndex">
-                                    <ng-container *ngFor="let disabled of [deity.name === character.class.deity || (!!finishedDeity && (deity.name !== finishedDeity))]; trackBy:trackers.trackByIndex">
+                            <ng-container *ngFor="let deity of availableDeities('', true, syncretismContent.levelNumber); trackBy:trackByIndex;">
+                                <ng-container *ngFor="let checked of [[finishedDeity, character.class.deity].includes(deity.name)]; trackBy:trackByIndex">
+                                    <ng-container *ngFor="let disabled of [deity.name === character.class.deity || (!!finishedDeity && (deity.name !== finishedDeity))]; trackBy:trackByIndex">
                                         <ng-template #DeityChoiceDetailsTemplate>
                                             <header class="spellHeader">{{deity.name}}</header>
 
@@ -4981,7 +4981,7 @@
                                                 <i>{{deity.sourceBook}}</i>
                                             </div>
 
-                                            <ng-container *ngFor="let desc of deity.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
+                                            <ng-container *ngFor="let desc of deity.desc.split('\n\n'); trackBy:trackByIndex;">
                                                 <app-description
                                                     class="newrow"
                                                     [text]="desc"
@@ -5083,7 +5083,7 @@
 
                                                 <div
                                                     class="list-item lower left-aligned"
-                                                    *ngFor="let spell of deity.clericSpells; trackBy:trackers.trackByIndex;"
+                                                    *ngFor="let spell of deity.clericSpells; trackBy:trackByIndex;"
                                                 >
                                                     <strong>Level {{spell.level}}</strong>
                                                     {{spell.name}}

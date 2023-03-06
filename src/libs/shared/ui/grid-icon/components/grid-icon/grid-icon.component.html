@@ -98,7 +98,7 @@
 </ng-container>
 
 <ng-container *ngIf="(condition?.maxDuration || 0) > 0 || (effect?.duration || 0 > 0)">
-    <ng-container *ngFor="let overlay of durationOverlays(); trackBy:trackers.trackByIndex;">
+    <ng-container *ngFor="let overlay of durationOverlays(); trackBy:trackByIndex;">
         <div
             class="gridicon-time-overlay"
             [style.--offset]="overlay.offset"

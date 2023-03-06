@@ -7,7 +7,7 @@
         [(ngModel)]="newTalismanCord"
         (change)="onSelectTalismanCord()"
     >
-        <ng-container *ngFor="let cord of initialTalismanCords(); let initialCordIndex = index; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let cord of initialTalismanCords(); let initialCordIndex = index; trackBy:trackByIndex;">
             <option
                 [ngValue]="cord"
                 *ngIf="initialCordIndex === 0"
@@ -25,14 +25,14 @@
             </optgroup>
         </ng-container>
 
-        <ng-container *ngFor="let inv of inventories(); trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let inv of inventories(); trackBy:trackByIndex;">
             <ng-container *ngIf="availableTalismanCords(inv) as availableTalismanCords">
                 <optgroup
                     label="{{inventoryName(inv)}}"
                     *ngIf="availableTalismanCords.length"
                 >
                     <option
-                        *ngFor="let cordSet of availableTalismanCords; trackBy:trackers.trackByIndex;"
+                        *ngFor="let cordSet of availableTalismanCords; trackBy:trackByIndex;"
                         [ngValue]="cordSet"
                     >
                         {{cordSet.talismanCord.amount > 1 ? cordSet.talismanCord.amount : ""}}

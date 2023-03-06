@@ -5,7 +5,7 @@
         *ngIf="traits.length"
     >
         <app-trait
-            *ngFor="let trait of traits; trackBy:trackers.trackByIndex;"
+            *ngFor="let trait of traits; trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
         >
@@ -20,7 +20,7 @@
     <ng-container *ngIf="itemParameters.asHavingItemActivities?.activities as activities">
         <div
             class="list-item left-aligned"
-            *ngFor="let activity of activities; trackBy:trackers.trackByIndex;"
+            *ngFor="let activity of activities; trackBy:trackByIndex;"
         >
             <header
                 class="spellHeader"
@@ -37,14 +37,14 @@
 
             <div class="newrow left-aligned">
                 <app-trait
-                    *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;"
+                    *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
                     [name]="trait"
                     [trait]="traitFromName(trait)"
                 >
                 </app-trait>
 
                 <app-trait
-                    *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;"
+                    *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
                     [name]="trait"
                     [trait]="traitFromName(trait)"
                     [extraDescription]="'(This trait was derived from the action components.)'"
@@ -65,7 +65,7 @@
 
     <!-- Common activities -->
     <ng-container *ngIf="itemParameters.asGrantingActivities?.gainActivities as gainedActivities">
-        <ng-container *ngFor="let gain of gainedActivities; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let gain of gainedActivities; trackBy:trackByIndex;">
             <div
                 class="list-item left-aligned"
                 *ngIf="gain.originalActivity as activity"
@@ -82,14 +82,14 @@
 
                 <div class="newrow left-aligned">
                     <app-trait
-                        *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;"
+                        *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
                         [name]="trait"
                         [trait]="traitFromName(trait)"
                     >
                     </app-trait>
 
                     <app-trait
-                        *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;"
+                        *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
                         [name]="trait"
                         [trait]="traitFromName(trait)"
                         [extraDescription]="'(This trait was derived from the action components.)'"

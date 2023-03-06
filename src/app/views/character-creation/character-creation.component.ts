@@ -35,8 +35,7 @@ import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BehaviorSubject, map, noop, Observable, Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
-import { DisplayService } from 'src/libs/shared/services/display/display.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -88,6 +87,8 @@ import { SavegamesService } from 'src/libs/shared/services/saving-loading/savega
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -97,7 +98,7 @@ type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id:
     styleUrls: ['./character-creation.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterCreationComponent implements OnInit, OnDestroy {
+export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     public newClass: Class = new Class();
     public adventureBackgrounds = true;
@@ -175,8 +176,9 @@ export class CharacterCreationComponent implements OnInit, OnDestroy {
         private readonly _animalCompanionService: AnimalCompanionService,
         private readonly _familiarService: FamiliarService,
         public modal: NgbActiveModal,
-        public trackers: Trackers,
     ) {
+        super();
+
         this.activeAbilityChoiceContent$ = this._activeChoiceContent$
             .pipe(
                 map(content =>
@@ -216,10 +218,6 @@ export class CharacterCreationComponent implements OnInit, OnDestroy {
 
     public get isMinimized(): boolean {
         return CreatureService.character.settings.characterMinimized;
-    }
-
-    public get isMobile(): boolean {
-        return DisplayService.isMobile;
     }
 
     public get isGMMode(): boolean {
@@ -1980,7 +1978,7 @@ export class CharacterCreationComponent implements OnInit, OnDestroy {
         // Scroll up to the top of the choice area. This is only needed in desktop mode,
         // where you can switch between choices without closing the first,
         // and it would cause the top bar to scroll away in mobile mode.
-        if (!DisplayService.isMobile) {
+        if (!this.isMobile) {
             document.getElementById('character-choiceArea-top')?.scrollIntoView({ behavior: 'smooth' });
         }
     }

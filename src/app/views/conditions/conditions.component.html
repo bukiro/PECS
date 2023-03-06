@@ -231,7 +231,7 @@
                                 </span>
                             </div>
 
-                            <ng-container *ngFor="let typeSet of conditionTypes; trackBy:trackers.trackByIndex;">
+                            <ng-container *ngFor="let typeSet of conditionTypes; trackBy:trackByIndex;">
                                 <ng-container *ngIf="visibleConditionsOfType(typeSet) as visibleConditions">
                                     <button
                                         type="button"
@@ -265,7 +265,7 @@
                                             </header>
                                         </div>
 
-                                        <ng-container *ngFor="let condition of visibleConditions; let conditionIndex = index; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let condition of visibleConditions; let conditionIndex = index; trackBy:trackByIndex;">
                                             <ng-container *ngIf="isConditionShown(visibleConditions, conditionIndex, range)">
                                                 <ng-template #ConditionTitleTemplate>
                                                     <span *ngIf="!isTileMode">
@@ -300,7 +300,7 @@
                                                             Value:
                                                             <select aria-label="Select condition value" [(ngModel)]="value">
                                                                 <option
-                                                                    *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
+                                                                    *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
                                                                     [ngValue]="valueNumber"
                                                                 >
                                                                     {{valueNumber}}
@@ -319,7 +319,7 @@
                                                             Spell level:
                                                             <select aria-label="Select spell level" [(ngModel)]="heightened">
                                                                 <option
-                                                                    *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
+                                                                    *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
                                                                     [ngValue]="levelNumber"
                                                                     [disabled]="levelNumber < condition.minLevel"
                                                                 >
@@ -359,7 +359,7 @@
                                                             Effect selection:
                                                             <select aria-label="Select condition effect" [(ngModel)]="condition.choice">
                                                                 <option
-                                                                    *ngFor="let choice of conditionChoices(condition); trackBy:trackers.trackByIndex;"
+                                                                    *ngFor="let choice of conditionChoices(condition); trackBy:trackByIndex;"
                                                                     [ngValue]="choice"
                                                                 >
                                                                     {{choice}}
@@ -449,7 +449,7 @@
                                                         <i>{{condition.sourceBook}}</i>
                                                     </div>
 
-                                                    <ng-container *ngFor="let desc of heightenedConditionDescription(condition).split('\n\n'); trackBy:trackers.trackByIndex;">
+                                                    <ng-container *ngFor="let desc of heightenedConditionDescription(condition).split('\n\n'); trackBy:trackByIndex;">
                                                         <app-description
                                                             class="newrow"
                                                             [text]="desc"
@@ -465,7 +465,7 @@
 
                                                             <div
                                                                 class="newrow left-aligned"
-                                                                *ngFor="let inputRequired of condition.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;"
+                                                                *ngFor="let inputRequired of condition.inputRequired.split('\n\n'); trackBy:trackByIndex;"
                                                             >
                                                                 <app-description
                                                                     class="newrow"
@@ -538,7 +538,7 @@
                         <ng-container *ngIf="shownPurpose()==='customeffects'">
                             <header class="sectionHeader">Custom Effects</header>
 
-                            <ng-container *ngFor="let creature of allAvailableCreatures(); trackBy:trackers.trackByIndex;">
+                            <ng-container *ngFor="let creature of allAvailableCreatures(); trackBy:trackByIndex;">
                                 <button
                                     type="button"
                                     class="list-item"
@@ -559,7 +559,7 @@
                                         Add effect
                                     </button>
 
-                                    <ng-container *ngFor="let effect of creature.effects; let index = index; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let effect of creature.effects; let index = index; trackBy:trackByIndex;">
                                         <div class="list-item">
                                             <ng-template #FormulaTemplate>
                                                 <strong>Formula</strong>
@@ -603,7 +603,7 @@
                                                         [(ngModel)]="effect.type"
                                                         (ngModelChange)="refreshEffects(creature)"
                                                     >
-                                                        <option *ngFor="let type of bonusTypes(); trackBy:trackers.trackByIndex;">{{type}}</option>
+                                                        <option *ngFor="let type of bonusTypes(); trackBy:trackByIndex;">{{type}}</option>
                                                     </select>
                                                 </span>
 
@@ -673,7 +673,7 @@
                             >
                                 <div
                                     class="newrow list-item"
-                                    *ngFor="let property of customEffectProperties(); let index = index; trackBy:trackers.trackByIndex;"
+                                    *ngFor="let property of customEffectProperties(); let index = index; trackBy:trackByIndex;"
                                 >
                                     <div class="newrow left-aligned">
                                         <strong
@@ -749,7 +749,7 @@
                                             (ngModelChange)="validateAdvancedEffect(property, index)"
                                         >
                                             <option
-                                                *ngFor="let example of effectPropertyExamples(property); trackBy:trackers.trackByIndex;"
+                                                *ngFor="let example of effectPropertyExamples(property); trackBy:trackByIndex;"
                                                 [ngValue]="example"
                                             >
                                                 {{example}}
@@ -759,7 +759,7 @@
                                 </div>
 
                                 <div
-                                    *ngFor="let creature of allAvailableCreatures(); trackBy:trackers.trackByIndex"
+                                    *ngFor="let creature of allAvailableCreatures(); trackBy:trackByIndex"
                                     [ngbTooltip]="isEffectInvalid()"
                                 >
                                     <button

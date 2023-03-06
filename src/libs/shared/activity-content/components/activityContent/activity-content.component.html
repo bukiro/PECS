@@ -16,7 +16,7 @@
 
     <div
         class="newrow left-aligned"
-        *ngFor="let inputRequired of activity.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;"
+        *ngFor="let inputRequired of activity.inputRequired.split('\n\n'); trackBy:trackByIndex;"
     >
         <app-description
             class="newrow"
@@ -90,7 +90,7 @@
 
 <div
     class="newrow left-aligned"
-    *ngFor="let desc of heightenedDescription().split('\n\n'); trackBy:trackers.trackByIndex;"
+    *ngFor="let desc of heightenedDescription().split('\n\n'); trackBy:trackByIndex;"
 >
     <app-description
         class="newrow"
@@ -156,9 +156,9 @@
 
 <div
     class="list-item left-aligned"
-    *ngFor="let shownActivityName of activity.showActivities; trackBy:trackers.trackByIndex;"
+    *ngFor="let shownActivityName of activity.showActivities; trackBy:trackByIndex;"
 >
-    <ng-container *ngFor="let shownActivity of activities(shownActivityName); trackBy:trackers.trackByIndex;">
+    <ng-container *ngFor="let shownActivity of activities(shownActivityName); trackBy:trackByIndex;">
         <header class="spellHeader">
             {{shownActivity.name}}
             <app-action-icons
@@ -171,14 +171,14 @@
 
         <div class="newrow left-aligned">
             <app-trait
-                *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;"
+                *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
             >
             </app-trait>
 
             <app-trait
-                *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;"
+                *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
                 [extraDescription]="'(This trait was derived from the action components.)'"
@@ -196,7 +196,7 @@
 
 <div
     class="list-item newrow left-aligned"
-    *ngFor="let cast of spellCasts(); let spellCastIndex = index; trackBy:trackers.trackByIndex;"
+    *ngFor="let cast of spellCasts(); let spellCastIndex = index; trackBy:trackByIndex;"
 >
     <ng-container *ngIf="spellFromName(cast.name) as spell">
         <header class="spellHeader">
@@ -210,7 +210,7 @@
         </header>
 
         <ng-container *ngIf="gain && allowActivate">
-            <ng-container *ngFor="let conditionSet of spellConditions(cast, spellCastIndex); let conditionSetIndex = index; trackBy:trackers.trackByIndex">
+            <ng-container *ngFor="let conditionSet of spellConditions(cast, spellCastIndex); let conditionSetIndex = index; trackBy:trackByIndex">
                 <div
                     class="newrow list-item left-aligned"
                     *ngIf="!cast.hideChoices.includes(conditionSet.condition.name) && conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices"
@@ -223,7 +223,7 @@
                             (ngModelChange)="onEffectChoiceChange()"
                         >
                             <option
-                                *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackers.trackByIndex;"
+                                *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
                                 [ngValue]="choice"
                             >
                                 {{choice}}
@@ -236,14 +236,14 @@
 
         <div class="newrow left-aligned">
             <app-trait
-                *ngFor="let trait of spell.traits; trackBy:trackers.trackByIndex;"
+                *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
             >
             </app-trait>
 
             <app-trait
-                *ngFor="let trait of spell.activationTraits(); trackBy:trackers.trackByIndex;"
+                *ngFor="let trait of spell.activationTraits(); trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
                 [extraDescription]="'(This trait was derived from the action components.)'"
@@ -262,7 +262,7 @@
 
 <div
     class="list-item left-aligned"
-    *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackers.trackByIndex;"
+    *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackByIndex;"
 >
     <ng-container *ngIf="spellFromName(shownSpellSet.name) as shownSpell">
         <header class="spellHeader">
@@ -277,14 +277,14 @@
 
         <div class="newrow left-aligned">
             <app-trait
-                *ngFor="let trait of shownSpell.traits; trackBy:trackers.trackByIndex;"
+                *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
             >
             </app-trait>
 
             <app-trait
-                *ngFor="let trait of shownSpell.activationTraits(); trackBy:trackers.trackByIndex;"
+                *ngFor="let trait of shownSpell.activationTraits(); trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
                 [extraDescription]="'(This trait was derived from the action components.)'"

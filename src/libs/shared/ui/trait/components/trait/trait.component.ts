@@ -3,9 +3,10 @@ import { CreatureService } from 'src/libs/shared/services/character/character.se
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Trait } from 'src/app/classes/Trait';
 import { Item, TraitActivation } from 'src/app/classes/Item';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-trait',
@@ -13,7 +14,7 @@ import { Creature } from 'src/app/classes/Creature';
     styleUrls: ['./trait.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TraitComponent {
+export class TraitComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -28,8 +29,9 @@ export class TraitComponent {
 
     constructor(
         private readonly _refreshService: RefreshService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);

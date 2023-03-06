@@ -76,7 +76,7 @@
 
                     <select aria-label="Select spells source" [(ngModel)]="spellSource">
                         <option
-                            *ngFor="let source of ['spell library','your spellbook']; trackBy:trackers.trackByIndex;"
+                            *ngFor="let source of ['spell library','your spellbook']; trackBy:trackByIndex;"
                             [ngValue]="source"
                         >
                             {{source}}
@@ -90,7 +90,7 @@
                     <span>
                         <select aria-label="Select spell level" [(ngModel)]="showLevel">
                             <option
-                                *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
+                                *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
                                 [ngValue]="levelOption"
                             >
                                 {{levelOption === 0 ? "Default" : levelOption}}
@@ -110,7 +110,7 @@
 
                     <button
                         type="button"
-                        *ngFor="let tradition of spellTraditions; trackBy:trackers.trackByIndex"
+                        *ngFor="let tradition of spellTraditions; trackBy:trackByIndex"
                         (click)="toggleTraditionFilter(tradition)"
                         [ngClass]="{'fancy-button':(shownTraditionFilter()===tradition)}"
                     >
@@ -126,7 +126,7 @@
                         >
                             <app-description
                                 class="newrow"
-                                *ngFor="let desc of availableForLearningDescription.split('\n\n'); trackBy:trackers.trackByIndex;"
+                                *ngFor="let desc of availableForLearningDescription.split('\n\n'); trackBy:trackByIndex;"
                                 [text]="desc"
                             ></app-description>
                         </div>
@@ -137,12 +137,12 @@
                         >
                             <app-description
                                 class="newrow"
-                                *ngFor="let desc of spellMasteryAvailableDescription.split('\n\n'); trackBy:trackers.trackByIndex;"
+                                *ngFor="let desc of spellMasteryAvailableDescription.split('\n\n'); trackBy:trackByIndex;"
                                 [text]="desc"
                             ></app-description>
                         </div>
 
-                        <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackers.trackByIndex;">
+                        <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
                             <ng-container *ngIf="visibleSpellsOfLevel(level) as visibleSpells">
                                 <button
                                     type="button"
@@ -188,7 +188,7 @@
                                         </header>
                                     </div>
 
-                                    <ng-container *ngFor="let spell of visibleSpells; let spellIndex = index; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let spell of visibleSpells; let spellIndex = index; trackBy:trackByIndex;">
                                         <ng-container *ngIf="isSpellShown(visibleSpells, spellIndex, range)">
                                             <ng-template #SpellTemplate>
                                                 <header
@@ -207,7 +207,7 @@
                                                 <button
                                                     type="button"
                                                     class="newRow center-aligned"
-                                                    *ngFor="let learningOption of availableSpellLearningOptions(spell, level, componentParameters.wizardCasting, componentParameters.bardCasting, componentParameters.sorcererCasting); trackBy:trackers.trackByIndex"
+                                                    *ngFor="let learningOption of availableSpellLearningOptions(spell, level, componentParameters.wizardCasting, componentParameters.bardCasting, componentParameters.sorcererCasting); trackBy:trackByIndex"
                                                     (click)="learnSpell(spell, learningOption.key)"
                                                     [disabled]="learningOption.disabled"
                                                 >
@@ -253,7 +253,7 @@
                                                     <span>
                                                         <select aria-label="Select spell level" [(ngModel)]="showLevel">
                                                             <option
-                                                                *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
+                                                                *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
                                                                 [disabled]="levelOption && spell.levelreq > levelOption"
                                                                 [ngValue]="levelOption"
                                                             >
@@ -316,7 +316,7 @@
                                                         <span>
                                                             <ng-container *ngTemplateOutlet="SpellTitleTemplate"></ng-container>
 
-                                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackers.trackByIndex">
+                                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackByIndex">
                                                                 <app-trait
                                                                     *ngIf="spell.traits.includes(trait)"
                                                                     [name]="trait"

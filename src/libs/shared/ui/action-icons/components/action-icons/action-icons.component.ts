@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Trackers } from 'src/libs/shared/util/trackers';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-action-icons',
@@ -7,7 +8,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
     styleUrls: ['./action-icons.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActionIconsComponent extends Trackers {
+export class ActionIconsComponent extends TrackByMixin(BaseClass) {
 
     public phrases: Array<string> = [];
 

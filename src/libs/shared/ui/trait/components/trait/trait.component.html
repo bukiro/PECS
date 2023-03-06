@@ -15,7 +15,7 @@
 
         <app-description
             [text]="split"
-            *ngFor="let split of trait.desc.split('\n\n'); trackBy:trackers.trackByIndex;"
+            *ngFor="let split of trait.desc.split('\n\n'); trackBy:trackByIndex;"
         >
         </app-description>
 
@@ -29,7 +29,7 @@
         <ng-container *ngIf="trait.objectEffects && trait.objectEffects.length && item">
             <app-description
                 [text]="split"
-                *ngFor="let split of trait.effectDesc.split('\n\n'); trackBy:trackers.trackByIndex;"
+                *ngFor="let split of trait.effectDesc.split('\n\n'); trackBy:trackByIndex;"
             >
             </app-description>
         </ng-container>
@@ -43,7 +43,7 @@
     </span>
 
     <ng-container *ngIf="trait.objectEffects && trait.objectEffects.length && item">
-        <ng-container *ngFor="let activation of objectTraitActivations(); trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let activation of objectTraitActivations(); trackBy:trackByIndex;">
             <input
                 aria-label="Activate the default level of this trait's effects"
                 type="checkbox"

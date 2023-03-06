@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { Trackers } from 'src/libs/shared/util/trackers';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 const defaultSizeMultiplier = 2;
 
@@ -10,7 +11,7 @@ const defaultSizeMultiplier = 2;
     styleUrls: ['./skill-proficiency.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkillProficiencyComponent extends Trackers {
+export class SkillProficiencyComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public skillLevel?: number;

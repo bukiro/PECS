@@ -78,7 +78,7 @@
             *ngIf="relatedActivityGains.length"
             [ngClass]="{'icon-list':isTileMode, 'vlist':!isTileMode}"
         >
-            <ng-container *ngFor="let activityParameters of relatedActivityParameters(); let activityIndex = index; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let activityParameters of relatedActivityParameters(); let activityIndex = index; trackBy:trackByIndex;">
                 <ng-template #ActivityTitleTemplate>
                     <span *ngIf="!isTileMode">
                         <i
@@ -126,7 +126,7 @@
                 <ng-container *ngIf="!isTileMode">
                     <div
                         class="list-item"
-                        *ngFor="let activityID of [skill.name+activityIndex]; trackBy:trackers.trackByIndex;"
+                        *ngFor="let activityID of [skill.name+activityIndex]; trackBy:trackByIndex;"
                     >
                         <button
                             type="button"

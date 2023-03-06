@@ -1,0 +1,119 @@
+// Pulsing text (transparent, pulsing color)
+
+@-webkit-keyframes pulsing-text {
+    0% {
+        color: inherit;
+    }
+
+    25% {
+        color: transparent;
+    }
+}
+
+@-moz-keyframes pulsing-text {
+    0% {
+        color: inherit;
+    }
+
+    25% {
+        color: transparent;
+    }
+}
+
+@keyframes pulsing-text {
+    0% {
+        color: inherit;
+    }
+
+    25% {
+        color: transparent;
+    }
+}
+
+// Pulsing text (color, pulsing accent)
+
+@-webkit-keyframes pulsing-accent-text {
+    0% {
+        color: $color-accent;
+    }
+
+    25% {
+        color: inherit;
+    }
+}
+
+@-moz-keyframes pulsing-accent-text {
+    0% {
+        color: $color-accent;
+    }
+
+    25% {
+        color: inherit;
+    }
+}
+
+@keyframes pulsing-accent-text {
+    0% {
+        color: $color-accent;
+    }
+
+    25% {
+        color: inherit;
+    }
+}
+
+// Attention-grabber (Outline shadow flashes from current color to accent)
+
+@-webkit-keyframes attention {
+    0% {
+        box-shadow: 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent;
+        box-shadow: 0.1em 0 .35rem $color-accent, 0 0.1em .35rem $color-accent, -0.1em 0 .35rem $color-accent, 0 -0.1em .35rem $color-accent, -0.1em -0.1em .35rem $color-accent, -0.1em 0.1em .35rem $color-accent, 0.1em -0.1em .35rem $color-accent, 0.1em 0.1em .35rem $color-accent;
+    }
+
+    50% {
+        box-shadow: 0 0 .35rem currentColor, 0 0 .35rem currentColor, 0 0 .35rem currentColor, 0 0 .35rem currentColor, 0 0 .35rem currentColor;
+        box-shadow: 0.1em 0 .35rem currentColor, 0 0.1em .35rem currentColor, -0.1em 0 .35rem currentColor, 0 -0.1em .35rem currentColor, -0.1em -0.1em .35rem currentColor, -0.1em 0.1em .35rem currentColor, 0.1em -0.1em .35rem $color-accent, 0.1em 0.1em .35rem $color-accent;
+        ;
+    }
+
+    100% {
+        box-shadow: 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent;
+        box-shadow: 0.1em 0 .35rem $color-accent, 0 0.1em .35rem $color-accent, -0.1em 0 .35rem $color-accent, 0 -0.1em .35rem $color-accent, -0.1em -0.1em .35rem $color-accent, -0.1em 0.1em .35rem $color-accent, 0.1em -0.1em .35rem $color-accent, 0.1em 0.1em .35rem $color-accent;
+    }
+}
+
+@-moz-keyframes attention {
+    0% {
+        box-shadow: 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent;
+        box-shadow: 0.1em 0 .35rem $color-accent, 0 0.1em .35rem $color-accent, -0.1em 0 .35rem $color-accent, 0 -0.1em .35rem $color-accent, -0.1em -0.1em .35rem $color-accent, -0.1em 0.1em .35rem $color-accent, 0.1em -0.1em .35rem $color-accent, 0.1em 0.1em .35rem $color-accent;
+    }
+
+    50% {
+        box-shadow: 0 0 .35rem currentColor, 0 0 .35rem currentColor, 0 0 .35rem currentColor, 0 0 .35rem currentColor, 0 0 .35rem currentColor;
+        box-shadow: 0.1em 0 .35rem currentColor, 0 0.1em .35rem currentColor, -0.1em 0 .35rem currentColor, 0 -0.1em .35rem currentColor, -0.1em -0.1em .35rem currentColor, -0.1em 0.1em .35rem currentColor, 0.1em -0.1em .35rem $color-accent, 0.1em 0.1em .35rem $color-accent;
+        ;
+    }
+
+    100% {
+        box-shadow: 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent;
+        box-shadow: 0.1em 0 .35rem $color-accent, 0 0.1em .35rem $color-accent, -0.1em 0 .35rem $color-accent, 0 -0.1em .35rem $color-accent, -0.1em -0.1em .35rem $color-accent, -0.1em 0.1em .35rem $color-accent, 0.1em -0.1em .35rem $color-accent, 0.1em 0.1em .35rem $color-accent;
+    }
+}
+
+@keyframes attention {
+    0% {
+        box-shadow: 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent;
+        box-shadow: 0.1em 0 .35rem $color-accent, 0 0.1em .35rem $color-accent, -0.1em 0 .35rem $color-accent, 0 -0.1em .35rem $color-accent, -0.1em -0.1em .35rem $color-accent, -0.1em 0.1em .35rem $color-accent, 0.1em -0.1em .35rem $color-accent, 0.1em 0.1em .35rem $color-accent;
+    }
+
+    50% {
+        box-shadow: 0 0 .35rem currentColor, 0 0 .35rem currentColor, 0 0 .35rem currentColor, 0 0 .35rem currentColor, 0 0 .35rem currentColor;
+        box-shadow: 0.1em 0 .35rem currentColor, 0 0.1em .35rem currentColor, -0.1em 0 .35rem currentColor, 0 -0.1em .35rem currentColor, -0.1em -0.1em .35rem currentColor, -0.1em 0.1em .35rem currentColor, 0.1em -0.1em .35rem $color-accent, 0.1em 0.1em .35rem $color-accent;
+        ;
+    }
+
+    100% {
+        box-shadow: 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent, 0 0 .35rem $color-accent;
+        box-shadow: 0.1em 0 .35rem $color-accent, 0 0.1em .35rem $color-accent, -0.1em 0 .35rem $color-accent, 0 -0.1em .35rem $color-accent, -0.1em -0.1em .35rem $color-accent, -0.1em 0.1em .35rem $color-accent, 0.1em -0.1em .35rem $color-accent, 0.1em 0.1em .35rem $color-accent;
+    }
+}

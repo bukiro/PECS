@@ -7,7 +7,6 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
@@ -25,6 +24,8 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 const itemsPerPage = 40;
 const showAllLists = -2;
@@ -41,7 +42,7 @@ interface ComponentParameters {
     styleUrls: ['./spell-library.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellLibraryComponent implements OnInit, OnDestroy {
+export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     public id = 0;
     public hover = 0;
@@ -66,8 +67,9 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _menuService: MenuService,
         private readonly _characterFeatsService: CharacterFeatsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get spellLibraryMenuState(): MenuState {
         return this._menuService.spellLibraryMenuState;

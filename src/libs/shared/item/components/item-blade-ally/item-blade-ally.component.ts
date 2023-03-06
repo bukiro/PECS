@@ -8,13 +8,14 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { Weapon } from 'src/app/classes/Weapon';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface RuneSet {
     rune: WeaponRune;
@@ -27,7 +28,7 @@ interface RuneSet {
     styleUrls: ['./item-blade-ally.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemBladeAllyComponent implements OnInit {
+export class ItemBladeAllyComponent extends TrackByMixin(BaseClass) implements OnInit {
 
     @Input()
     public item!: Weapon | WornItem;
@@ -40,8 +41,9 @@ export class ItemBladeAllyComponent implements OnInit {
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _basicEquipemntService: BasicEquipmentService,
         private readonly _recastService: RecastService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     private get _character(): Character {
         return CreatureService.character;

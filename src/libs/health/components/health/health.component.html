@@ -112,7 +112,7 @@
                                 (change)="onSelectTemporaryHPSet(selectedTempHP)"
                             >
                                 <option
-                                    *ngFor="let tempHPSet of temporaryHP; trackBy:trackers.trackByIndex;"
+                                    *ngFor="let tempHPSet of temporaryHP; trackBy:trackByIndex;"
                                     [ngValue]="tempHPSet"
                                 >
                                     {{tempHPSet.amount + (tempHPSet.source ? " (" + tempHPSet.source + ")" : "")}}
@@ -432,7 +432,7 @@
 
                 <div
                     class="newrow list-item"
-                    *ngFor="let resistance of resistances(); trackBy:trackers.trackByIndex;"
+                    *ngFor="let resistance of resistances(); trackBy:trackByIndex;"
                 >
                     <span>
                         <ng-template #ResistanceSourceTemplate>
@@ -455,7 +455,7 @@
 
                 <div
                     class="newrow list-item"
-                    *ngFor="let immunity of immunities(); trackBy:trackers.trackByIndex;"
+                    *ngFor="let immunity of immunities(); trackBy:trackByIndex;"
                 >
                     <span
                         [ngbPopover]="'Source: ' + immunity.source"

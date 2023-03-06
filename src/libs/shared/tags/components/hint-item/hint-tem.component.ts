@@ -5,7 +5,6 @@ import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trait } from 'src/app/classes/Trait';
 import { Activity } from 'src/app/classes/Activity';
@@ -14,6 +13,8 @@ import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles
 import { Rune } from 'src/app/classes/Rune';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ItemParameters {
     item: Item;
@@ -27,7 +28,7 @@ interface ItemParameters {
     styleUrls: ['./hint-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HintItemComponent implements OnInit, OnDestroy {
+export class HintItemComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -44,8 +45,9 @@ export class HintItemComponent implements OnInit, OnDestroy {
         private readonly _itemRolesService: ItemRolesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _itemTraitsService: ItemTraitsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);

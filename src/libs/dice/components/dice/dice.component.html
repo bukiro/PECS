@@ -207,7 +207,7 @@
                 <span class="hlist center-aligned">
                     <strong>Send roll to Foundry VTT:</strong>
 
-                    <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackers.trackByIndex">
+                    <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackByIndex">
                         <button
                             *ngIf="creatureFromType(creatureType) as creature"
                             aria-label="Send to Foundry VTT"
@@ -238,7 +238,7 @@
                 <div
                     class="list-item newrow"
                     [ngClass]="{'notapplied': !result.included}"
-                    *ngFor="let result of diceResults; trackBy:trackers.trackByIndex"
+                    *ngFor="let result of diceResults; trackBy:trackByIndex"
                 >
                     <span>{{result.desc}}</span>
 
@@ -253,7 +253,7 @@
                     </strong>
 
                     <span>
-                        <span *ngFor="let roll of result.rolls; let index = index; trackBy:trackers.trackByIndex">
+                        <span *ngFor="let roll of result.rolls; let index = index; trackBy:trackByIndex">
                             {{index !== 0 ? "+" : ""}}
                             <span
                                 class="value"
@@ -286,7 +286,7 @@
                 </button>
             </div>
             <header class="sectionHeader">Health Operations</header>
-            <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackers.trackByIndex">
+            <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackByIndex">
                 <div
                     class="newrow center-aligned"
                     *ngIf="creatureFromType(creatureType) as creature"

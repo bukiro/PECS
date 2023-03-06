@@ -8,7 +8,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Subscription } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Activity } from 'src/app/classes/Activity';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
@@ -16,6 +15,8 @@ import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -31,7 +32,7 @@ interface ActivityParameters {
     styleUrls: ['./condition.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConditionComponent implements OnInit, OnDestroy {
+export class ConditionComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public conditionGain?: ConditionGain;
@@ -58,8 +59,9 @@ export class ConditionComponent implements OnInit, OnDestroy {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _durationsService: DurationsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);

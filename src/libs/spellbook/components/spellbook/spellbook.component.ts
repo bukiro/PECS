@@ -16,7 +16,6 @@ import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { Trait } from 'src/app/classes/Trait';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -41,6 +40,8 @@ import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-e
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -98,7 +99,7 @@ interface SpellParameters {
     styleUrls: ['./spellbook.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellbookComponent implements OnInit, OnDestroy {
+export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     public creatureTypesEnum = CreatureTypes;
 
@@ -129,8 +130,9 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _spellCastingPrerequisitesService: SpellCastingPrerequisitesService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isMinimized(): boolean {
         return CreatureService.character.settings.spellbookMinimized;

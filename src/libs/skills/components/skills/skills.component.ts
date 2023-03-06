@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
@@ -21,6 +20,8 @@ import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface SpeedParameters {
     name: string;
@@ -37,7 +38,7 @@ interface SpeedParameters {
     styleUrls: ['./skills.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkillsComponent implements OnInit, OnDestroy {
+export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -58,8 +59,9 @@ export class SkillsComponent implements OnInit, OnDestroy {
         private readonly _speedValuesService: SpeedValuesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _creatureSensesService: CreatureSensesService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isMinimized(): boolean {
         switch (this.creature) {

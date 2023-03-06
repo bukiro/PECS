@@ -7,8 +7,9 @@ import { CreatureService } from 'src/libs/shared/services/character/character.se
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService, CalculatedAbility } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-abilities',
@@ -16,7 +17,7 @@ import { StatusService } from 'src/libs/shared/services/status/status.service';
     styleUrls: ['./abilities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AbilitiesComponent implements OnInit, OnDestroy {
+export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
@@ -29,8 +30,9 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _ablityValuesService: AbilityValuesService,
         private readonly _refreshService: RefreshService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isMinimized(): boolean {
         return this.creature === CreatureTypes.AnimalCompanion

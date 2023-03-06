@@ -18,7 +18,6 @@ import { Skill } from 'src/app/classes/Skill';
 import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ArmorClassService, CalculatedAC, CoverTypes } from '../../../shared/services/armor-class/armor-class.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
@@ -28,6 +27,8 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -42,7 +43,7 @@ interface ComponentParameters {
     styleUrls: ['./defense.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DefenseComponent implements OnInit, OnDestroy {
+export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -63,8 +64,9 @@ export class DefenseComponent implements OnInit, OnDestroy {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemActivationService: ItemActivationService,
         private readonly _skillsDataService: SkillsDataService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get stillLoading(): boolean {
         return StatusService.isLoadingCharacter;

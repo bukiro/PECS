@@ -8,7 +8,6 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
 import { WornItem } from 'src/app/classes/WornItem';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -17,6 +16,8 @@ import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-p
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface TalismanOption {
     talisman: Talisman;
@@ -30,7 +31,7 @@ interface TalismanOption {
     styleUrls: ['./item-talismans.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemTalismansComponent implements OnInit {
+export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements OnInit {
 
     @Input()
     public item!: Equipment;
@@ -45,8 +46,9 @@ export class ItemTalismansComponent implements OnInit {
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _inventoryService: InventoryService,
         private readonly _recastService: RecastService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     private get _character(): Character {
         return CreatureService.character;

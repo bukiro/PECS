@@ -7,7 +7,7 @@
 
     <div
         class="newrow left-aligned"
-        *ngFor="let inputRequired of spell.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;"
+        *ngFor="let inputRequired of spell.inputRequired.split('\n\n'); trackBy:trackByIndex;"
     >
         <app-description
             class="newrow"
@@ -127,7 +127,7 @@
 
 <div
     class="newrow left-aligned"
-    *ngFor="let desc of heightenedText(spell.desc).split('\n\n'); trackBy:trackers.trackByIndex;"
+    *ngFor="let desc of heightenedText(spell.desc).split('\n\n'); trackBy:trackByIndex;"
 >
     <app-description
         class="newrow"
@@ -191,7 +191,7 @@
 <ng-container *ngIf="spell.desc2">
     <div
         class="newrow left-aligned"
-        *ngFor="let desc of heightenedText(spell.desc2).split('\n\n'); trackBy:trackers.trackByIndex;"
+        *ngFor="let desc of heightenedText(spell.desc2).split('\n\n'); trackBy:trackByIndex;"
     >
         <app-description
             class="newrow"
@@ -203,7 +203,7 @@
 
 <div
     class="newrow left-aligned"
-    *ngFor="let heightened of spell.heightened; trackBy:trackers.trackByIndex;"
+    *ngFor="let heightened of spell.heightened; trackBy:trackByIndex;"
 >
     <span>
         <strong>Heightened {{heightened.level}}</strong>
@@ -213,7 +213,7 @@
 
 <div
     class="list-item left-aligned"
-    *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackers.trackByIndex;"
+    *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;"
 >
     <div *ngIf="spellFromName(shownSpellSet.name) as shownSpell">
         <header class="spellHeader left-aligned">
@@ -228,14 +228,14 @@
 
         <div class="newrow left-aligned">
             <app-trait
-                *ngFor="let trait of shownSpell.traits; trackBy:trackers.trackByIndex;"
+                *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
             >
             </app-trait>
 
             <app-trait
-                *ngFor="let trait of shownSpell.activationTraits(); trackBy:trackers.trackByIndex;"
+                *ngFor="let trait of shownSpell.activationTraits(); trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
                 [extraDescription]="'(This trait was derived from the action components.)'"

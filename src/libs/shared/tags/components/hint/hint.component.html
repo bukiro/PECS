@@ -1,8 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngFor="let hint of hints(); trackBy:trackers.trackByIndex;">
+<ng-container *ngFor="let hint of hints(); trackBy:trackByIndex;">
     <ng-container *ngIf="hintSource(hint) as source">
         <ng-template #SimpleHintContent>
-            <ng-container *ngFor="let text of hintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let text of hintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
                 <app-description
                     class="newrow"
                     [text]="text"
@@ -11,7 +11,7 @@
         </ng-template>
 
         <ng-template #HintContent>
-            <ng-container *ngFor="let text of hintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let text of hintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
                 <app-description
                     class="newrow"
                     [text]="text"
@@ -69,14 +69,14 @@
                 <ng-container *ngIf="objectAsActivity(source) as activity">
                     <div class="newrow left-aligned">
                         <app-trait
-                            *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;"
+                            *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
                             [name]="trait"
                             [trait]="traitFromName(trait)"
                         >
                         </app-trait>
 
                         <app-trait
-                            *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;"
+                            *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
                             [name]="trait"
                             [trait]="traitFromName(trait)"
                             [extraDescription]="'(This trait was derived from the action components.)'"

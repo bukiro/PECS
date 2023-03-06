@@ -1,0 +1,26 @@
+@mixin pulsing-text-animation($duration) {
+    -webkit-animation: pulsing-text $duration infinite;
+    animation: pulsing-text $duration infinite;
+}
+
+.pulsing-text-animation {
+    @include pulsing-text-animation(2s);
+}
+
+@mixin pulsing-accent-text-animation($duration) {
+    -webkit-animation: pulsing-accent-text $duration infinite;
+    animation: pulsing-accent-text $duration infinite;
+}
+
+.pulsing-accent-text-animation {
+    @include pulsing-accent-text-animation(2s);
+}
+
+@mixin attention-animation($duration) {
+    -webkit-animation: attention $duration ease-in-out infinite;
+    animation: attention $duration ease-in-out infinite;
+}
+
+.attention-animation {
+    @include attention-animation(1s);
+}

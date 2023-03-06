@@ -33,7 +33,7 @@
         <ng-container *ngIf="!isMinimized">
             <div
                 class="list-item"
-                *ngFor="let ability of abilities(); trackBy:trackers.trackByIndex;"
+                *ngFor="let ability of abilities(); trackBy:trackByIndex;"
             >
                 <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
                     <ng-template #EffectsPopoverContent>
@@ -104,12 +104,12 @@
         <ng-container *ngIf="isMinimized">
             <div
                 class="list-item newrow"
-                *ngFor="let subset of [1,2]; trackBy:trackers.trackByIndex;"
+                *ngFor="let subset of [1,2]; trackBy:trackByIndex;"
             >
                 <span
                     class="hlist"
                     [ngClass]="{'left-aligned':index === 0, 'center-aligned':index === 1, 'right-aligned':index === 2}"
-                    *ngFor="let ability of abilities(subset); let index = index; trackBy:trackers.trackByIndex;"
+                    *ngFor="let ability of abilities(subset); let index = index; trackBy:trackByIndex;"
                 >
                     <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
                         <strong>{{ability.modifierName}}</strong>

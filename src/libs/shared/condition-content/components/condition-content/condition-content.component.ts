@@ -3,8 +3,9 @@ import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-condition-content',
@@ -12,7 +13,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
     styleUrls: ['./condition-content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConditionContentComponent implements OnInit, OnDestroy {
+export class ConditionContentComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public conditionGain?: ConditionGain;
@@ -33,8 +34,9 @@ export class ConditionContentComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public toggleShownItem(name: string): void {
         this.showItem = this.showItem === name ? '' : name;

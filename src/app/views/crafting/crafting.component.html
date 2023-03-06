@@ -125,7 +125,7 @@
                                     [ngClass]="{'invisible':!snareSpecialistParameters.snares.length}"
                                     *ngIf="[listID, 'all'].includes(shownList())"
                                 >
-                                    <ng-container *ngFor="let snareParameters of snareParameters(snareSpecialistParameters.snares); trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let snareParameters of snareParameters(snareSpecialistParameters.snares); trackBy:trackByIndex;">
                                         <ng-template #SnareTemplate>
                                             <header
                                                 class="spellHeader newrow"
@@ -249,7 +249,7 @@
                             </strong>
                         </div>
 
-                        <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackers.trackByIndex;">
+                        <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
                             <ng-container *ngIf="''+(index*1000+1000) as listID">
                                 <ng-container *ngIf="visibleItems(items, itemSet.key) as visibleItems">
                                     <button
@@ -284,7 +284,7 @@
                                             </header>
                                         </div>
 
-                                        <ng-container *ngFor="let itemParameters of visibleItemParameters(visibleItems); let itemIndex = index; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngFor="let itemParameters of visibleItemParameters(visibleItems); let itemIndex = index; trackBy:trackByIndex;">
                                             <ng-container *ngIf="isItemShown(visibleItems, itemIndex, range)">
                                                 <ng-template #ItemTitleTemplate>
                                                     <span>

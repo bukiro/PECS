@@ -6,7 +6,6 @@ import { MessagesService } from 'src/libs/shared/services/messages/messages.serv
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Savegame } from 'src/app/classes/Savegame';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -28,6 +27,8 @@ import { MessagePropertiesService } from 'src/libs/shared/services/message-prope
 import { CharacterSavingService } from 'src/libs/shared/services/saving-loading/character-saving/character-saving.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-top-bar',
@@ -35,7 +36,7 @@ import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
     styleUrls: ['./top-bar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopBarComponent implements OnInit, OnDestroy {
+export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @ViewChild('NewMessagesModal', { static: false })
     private readonly _newMessagesModal?: HTMLElement;
@@ -68,8 +69,9 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _recastService: RecastService,
         private readonly _messagePropertiesService: MessagePropertiesService,
         public modal: NgbActiveModal,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get hasDBConnectionURL(): boolean {
         return this._configService.hasDBConnectionURL;

@@ -5,7 +5,6 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature, SkillNotes } from 'src/app/classes/Creature';
@@ -13,6 +12,8 @@ import { Activity } from 'src/app/classes/Activity';
 import { CalculatedSkill, SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -27,7 +28,7 @@ interface ActivityParameters {
     styleUrls: ['./skill.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkillComponent implements OnInit, OnDestroy {
+export class SkillComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -55,8 +56,9 @@ export class SkillComponent implements OnInit, OnDestroy {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get character(): Character {
         return CreatureService.character;

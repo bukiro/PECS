@@ -3,7 +3,8 @@ import welcome from 'src/assets/json/about/welcome.json';
 import hints from 'src/assets/json/about/hints.json';
 import changelog from 'src/assets/json/about/changelog.json';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 
 interface ChangeLog {
     version: string;
@@ -16,7 +17,7 @@ interface ChangeLog {
     styleUrls: ['./about.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent extends TrackByMixin(BaseClass) implements OnInit {
 
     public version = '';
 
@@ -26,8 +27,9 @@ export class AboutComponent implements OnInit {
 
     constructor(
         private readonly _configService: ConfigService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public versionShown(): ChangeLog | undefined {
         return this.changelog.find(versionChange => versionChange.version === this.version);

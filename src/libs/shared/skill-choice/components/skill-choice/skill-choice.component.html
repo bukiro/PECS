@@ -64,7 +64,7 @@
             [ngClass]="{'sublist skillincrease':showTitle, 'fancy-list':showTitle && skillChoiceParameters.cleared}"
             *ngIf="showContent && shownChoice()===skillChoiceParameters.listId"
         >
-            <ng-container *ngFor="let skillParameters of availableSkillsParameters(choice, levelNumber, skillChoiceParameters.allowedIncreases); trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let skillParameters of availableSkillsParameters(choice, levelNumber, skillChoiceParameters.allowedIncreases); trackBy:trackByIndex;">
                 <div
                     class="list-item gridicon-fullsizebox"
                     triggers="click"
@@ -95,7 +95,7 @@
 
                             <cite
                                 class="problem"
-                                *ngFor="let reason of cannotIncreaseSkill(skillParameters.skill, levelNumber, choice); trackBy:trackers.trackByIndex;"
+                                *ngFor="let reason of cannotIncreaseSkill(skillParameters.skill, levelNumber, choice); trackBy:trackByIndex;"
                             >
                                 {{reason}}
                             </cite>

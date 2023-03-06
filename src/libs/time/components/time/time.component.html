@@ -68,7 +68,7 @@
             class="list-item"
             [ngClass]="{'fullsize-only':showTime && showTurn}"
         >
-            <ng-container *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;">
                 <div
                     [ngbTooltip]="waitingStatus.desc"
                     *ngIf="{desc: waitingDescription(duration)} as waitingStatus"

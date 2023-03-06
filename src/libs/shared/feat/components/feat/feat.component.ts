@@ -3,7 +3,6 @@ import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { Activity } from 'src/app/classes/Activity';
@@ -12,6 +11,8 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { FeatRequirementsService } from 'src/libs/character-creation/services/feat-requirement/featRequirements.service';
 import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequirements';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-feat',
@@ -19,7 +20,7 @@ import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequire
     styleUrls: ['./feat.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FeatComponent {
+export class FeatComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public feat!: Feat;
@@ -36,8 +37,9 @@ export class FeatComponent {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _featRequirementsService: FeatRequirementsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public featRequirements(choice: FeatChoice | undefined, feat: Feat): Array<FeatRequirements.FeatRequirementResult> {
         const ignoreRequirementsList: Array<string> =

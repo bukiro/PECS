@@ -4,7 +4,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Weapon } from 'src/app/classes/Weapon';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { Material } from 'src/app/classes/Material';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
@@ -12,6 +11,8 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
 import { map, Observable } from 'rxjs';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 const materialLevelRequiredForFirstPotency = 2;
 const materialLevelRequiredForSecondPotency = 10;
@@ -46,7 +47,7 @@ interface WeaponMaterialSet {
     styleUrls: ['./item-material-option.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemMaterialWeaponComponent implements OnInit, OnChanges {
+export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) implements OnInit, OnChanges {
 
     @Input()
     public item!: Weapon;
@@ -64,8 +65,9 @@ export class ItemMaterialWeaponComponent implements OnInit, OnChanges {
         private readonly _refreshService: RefreshService,
         private readonly _itemMaterialsDataService: ItemMaterialsDataService,
         private readonly _skillValuesService: SkillValuesService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get materialOptionApplies(): boolean {
         return (

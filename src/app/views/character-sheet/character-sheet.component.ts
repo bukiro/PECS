@@ -1,15 +1,16 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { DisplayService } from 'src/libs/shared/services/display/display.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
+import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 
 const slideInOutTrigger = trigger('slideInOut', [
     state('in', style({
@@ -53,10 +54,9 @@ const slideInOutVertical = trigger('slideInOutVert', [
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterSheetComponent implements OnInit, OnDestroy {
+export class CharacterSheetComponent extends IsMobileMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     public showMode = '';
-    public mobile = false;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -66,8 +66,9 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get stillLoading(): boolean {
         return StatusService.isLoadingCharacter;
@@ -173,18 +174,6 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         return this._menuService.diceMenuState;
     }
 
-    @HostListener('window:resize', ['$event'])
-    public onResize(): void {
-        this._setMobile();
-        DisplayService.setPageHeight();
-    }
-
-    @HostListener('window:orientationchange', ['$event'])
-    public onRotate(): void {
-        this._setMobile();
-        DisplayService.setPageHeight();
-    }
-
     public toggleShownMode(type: string): void {
         this.showMode = this.showMode === type ? '' : type;
     }
@@ -212,7 +201,6 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this._setMobile();
         this._subscribeToChanges();
     }
 
@@ -240,13 +228,6 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
             }
         }, Defaults.waitForServiceDelay);
 
-    }
-
-    private _setMobile(): void {
-        if (DisplayService.isMobile !== this.mobile) {
-            this.toggleShownMode('');
-            this.mobile = !this.mobile;
-        }
     }
 
 }

@@ -26,7 +26,6 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Consumable } from 'src/app/classes/Consumable';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
@@ -40,6 +39,8 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { Activity } from 'src/app/classes/Activity';
 import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-new-item-property',
@@ -47,7 +48,7 @@ import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-acc
     styleUrls: ['./new-item-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewItemPropertyComponent<T extends Item | object> {
+export class NewItemPropertyComponent<T extends Item | object> extends TrackByMixin(BaseClass) {
 
     @Input()
     public propertyKey!: keyof T;
@@ -74,8 +75,9 @@ export class NewItemPropertyComponent<T extends Item | object> {
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _featsDataService: FeatsDataService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     private get _character(): Character {
         return CreatureService.character;

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { Trackers } from 'src/libs/shared/util/trackers';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-description',
@@ -8,7 +9,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
     styleUrls: ['./description.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DescriptionComponent {
+export class DescriptionComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public text = '';
@@ -16,9 +17,5 @@ export class DescriptionComponent {
     public casting?: SpellCasting;
     @Input()
     public oneLiner = false;
-
-    constructor(
-        public trackers: Trackers,
-    ) { }
 
 }

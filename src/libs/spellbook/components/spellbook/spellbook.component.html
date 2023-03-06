@@ -92,7 +92,7 @@
             </div>
         </ng-template>
 
-        <ng-container *ngFor="let skill of spellDCs(); let index = index; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let skill of spellDCs(); let index = index; trackBy:trackByIndex;">
             <header
                 class="sectionHeader fullsize-only"
                 *ngIf="index === 0"
@@ -134,7 +134,7 @@
         ></app-tags>
 
         <ng-container *ngIf="componentParameters() as componentParameters">
-            <ng-container *ngFor="let spellCastingParameters of spellCastingParameters(); trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let spellCastingParameters of spellCastingParameters(); trackBy:trackByIndex;">
                 <header class="sectionHeader">
                     {{(spellCastingParameters.casting.className + (spellCastingParameters.casting.castingType !=
                     "Innate"
@@ -233,7 +233,7 @@
                     </div>
                 </header>
 
-                <ng-container *ngFor="let spellCastingLevelParameters of spellCastingLevelParameters(spellCastingParameters, componentParameters); trackBy:trackers.trackByIndex;">
+                <ng-container *ngFor="let spellCastingLevelParameters of spellCastingLevelParameters(spellCastingParameters, componentParameters); trackBy:trackByIndex;">
                     <div
                         class="list-item newrow"
                         style="background-color:transparent"
@@ -350,7 +350,7 @@
 
                         <div
                             class="list-item"
-                            *ngFor="let choice of spellCastingLevelParameters.temporaryChoiceList; let choicesIndex = index; trackBy:trackers.trackByIndex;"
+                            *ngFor="let choice of spellCastingLevelParameters.temporaryChoiceList; let choicesIndex = index; trackBy:trackByIndex;"
                         >
                             <app-spell-choice
                                 class="newrow"
@@ -374,7 +374,7 @@
                         [ngClass]="{'icon-list':isTileMode, 'list-item':!isTileMode}"
                         *ngIf="spellCastingLevelParameters.spellTakenList.length"
                     >
-                        <ng-container *ngFor="let spellParameters of spellParameters(spellCastingLevelParameters, spellCastingParameters); let spellIndex = index; trackBy:trackers.trackByIndex;">
+                        <ng-container *ngFor="let spellParameters of spellParameters(spellCastingLevelParameters, spellCastingParameters); let spellIndex = index; trackBy:trackByIndex;">
                             <ng-template #SpellTitleTemplate>
                                 <span *ngIf="!isTileMode">
                                     <i
@@ -624,7 +624,7 @@
                                     </button>
                                 </div>
 
-                                <ng-container *ngFor="let conditionSet of spellConditions(spellParameters.spell, spellParameters.effectiveSpellLevel, spellParameters.gain); let conditionSetIndex = index; trackBy:trackers.trackByIndex">
+                                <ng-container *ngFor="let conditionSet of spellConditions(spellParameters.spell, spellParameters.effectiveSpellLevel, spellParameters.gain); let conditionSetIndex = index; trackBy:trackByIndex">
                                     <div
                                         class="newrow list-item left-aligned"
                                         *ngIf="conditionSet.condition && conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices"
@@ -636,7 +636,7 @@
                                                 [(ngModel)]="spellParameters.gain.effectChoices[conditionSetIndex].choice"
                                             >
                                                 <option
-                                                    *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackers.trackByIndex;"
+                                                    *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
                                                     [ngValue]="choice"
                                                 >
                                                     {{choice}}

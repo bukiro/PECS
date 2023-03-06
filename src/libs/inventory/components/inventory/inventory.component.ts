@@ -25,7 +25,6 @@ import { noop, Subscription } from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Creature } from 'src/app/classes/Creature';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -60,6 +59,8 @@ import { MessageSendingService } from 'src/libs/shared/services/message-sending/
 import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -90,7 +91,7 @@ interface CalculatedMaxInvested {
     styleUrls: ['./inventory.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InventoryComponent implements OnInit, OnDestroy {
+export class InventoryComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -133,8 +134,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _currencyService: CurrencyService,
         private readonly _itemActivationService: ItemActivationService,
         private readonly _messageSendingService: MessageSendingService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isMinimized(): boolean {
         switch (this.creature) {

@@ -7,7 +7,6 @@ import { Condition } from 'src/app/classes/Condition';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { EffectCollection } from 'src/app/classes/EffectCollection';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -16,6 +15,8 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ComponentParameters {
     effects: Array<Effect>;
@@ -34,7 +35,7 @@ interface ConditionParameters {
     styleUrls: ['./effects.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EffectsComponent implements OnInit, OnDestroy {
+export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -57,8 +58,9 @@ export class EffectsComponent implements OnInit, OnDestroy {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _refreshService: RefreshService,
         private readonly _durationsService: DurationsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isMinimized(): boolean {
         switch (this.creature) {

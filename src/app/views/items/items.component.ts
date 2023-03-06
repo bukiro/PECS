@@ -22,7 +22,6 @@ import { Subscription } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
@@ -52,6 +51,8 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -84,7 +85,7 @@ interface AvailableForLearningParameters {
     styleUrls: ['./items.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemsComponent implements OnInit, OnDestroy {
+export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     public wordFilter = '';
     public sorting: SortingOption = 'sortLevel';
@@ -122,8 +123,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private readonly _currencyService: CurrencyService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _recastService: RecastService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get stillLoading(): boolean {
         return this._itemsDataService.stillLoading || StatusService.isLoadingCharacter;

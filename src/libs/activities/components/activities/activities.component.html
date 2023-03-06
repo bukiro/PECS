@@ -94,7 +94,7 @@
             <app-skill
                 [skill]=skill
                 [isDC]=true
-                *ngFor="let skill of classDCs(); trackBy:trackers.trackByIndex;"
+                *ngFor="let skill of classDCs(); trackBy:trackByIndex;"
             >
             </app-skill>
         </div>
@@ -107,7 +107,7 @@
                     *ngIf="allActivityParameters.length"
                     [ngClass]="{'icon-list':isTileMode, 'vlist':!isTileMode}"
                 >
-                    <ng-container *ngFor="let activityParameters of allActivityParameters; trackBy:trackers.trackByIndex;">
+                    <ng-container *ngFor="let activityParameters of allActivityParameters; trackBy:trackByIndex;">
                         <ng-template #ActivityTitleTemplate>
                             <span *ngIf="!isTileMode">
                                 <i
@@ -199,7 +199,7 @@
             <header class="subsectionHeader box-header">Temporary Feats</header>
 
             <app-feat-choice
-                *ngFor="let choice of temporaryFeatChoices(); trackBy:trackers.trackByIndex;"
+                *ngFor="let choice of temporaryFeatChoices(); trackBy:trackByIndex;"
                 (showFeatChoiceMessage)="receiveShownFeatChoiceMessage($event.name)"
                 (showFeatMessage)="receiveShownFeatMessage($event)"
                 [choice]="choice"

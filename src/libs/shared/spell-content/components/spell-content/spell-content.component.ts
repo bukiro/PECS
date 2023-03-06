@@ -2,10 +2,11 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-spell-content',
@@ -13,7 +14,7 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
     styleUrls: ['./spell-content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellContentComponent {
+export class SpellContentComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public spell!: Spell;
@@ -27,8 +28,9 @@ export class SpellContentComponent {
     constructor(
         private readonly _traitsDataService: TraitsDataService,
         private readonly _spellsDataService: SpellsDataService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public traitFromName(name: string): Trait {
         return this._traitsDataService.traitFromName(name);

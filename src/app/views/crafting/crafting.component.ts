@@ -8,7 +8,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Subscription } from 'rxjs';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
@@ -28,6 +28,7 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 
 const itemsPerPage = 40;
 
@@ -43,7 +44,7 @@ interface ItemParameters extends ItemRoles {
     styleUrls: ['./crafting.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CraftingComponent implements OnInit, OnDestroy {
+export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     public wordFilter = '';
     public sorting: SortingOption = 'sortLevel';
@@ -69,8 +70,9 @@ export class CraftingComponent implements OnInit, OnDestroy {
         private readonly _menuService: MenuService,
         private readonly _inventoryService: InventoryService,
         private readonly _characterFeatsService: CharacterFeatsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get stillLoading(): boolean {
         return this._itemsDataService.stillLoading || StatusService.isLoadingCharacter;

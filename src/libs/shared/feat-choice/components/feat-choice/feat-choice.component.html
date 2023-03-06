@@ -187,7 +187,7 @@
                                         <cite
                                             [ngbPopover]="reason.explain"
                                             class="problem"
-                                            *ngFor="let reason of featParameters.cannotTake; trackBy:trackers.trackByIndex;"
+                                            *ngFor="let reason of featParameters.cannotTake; trackBy:trackByIndex;"
                                         >
                                             {{reason.reason}}
                                         </cite>
@@ -285,7 +285,7 @@
                                                             <cite
                                                                 class="problem"
                                                                 [ngbPopover]="reason.explain"
-                                                                *ngFor="let reason of subFeatParameters.cannotTake; trackBy:trackers.trackByIndex;"
+                                                                *ngFor="let reason of subFeatParameters.cannotTake; trackBy:trackByIndex;"
                                                             >
                                                                 {{reason.reason}}
                                                             </cite>
@@ -364,7 +364,7 @@
 
                                         <cite *ngIf="featParameters.feat.levelreq">Level {{featParameters.feat.levelreq}}</cite>
 
-                                        <ng-container *ngFor="let trait of ['Rare', 'Uncommon', 'Dedication']; trackBy:trackers.trackByIndex">
+                                        <ng-container *ngFor="let trait of ['Rare', 'Uncommon', 'Dedication']; trackBy:trackByIndex">
                                             <app-trait
                                                 *ngIf="featParameters.feat.traits.includes(trait)"
                                                 [name]="trait"

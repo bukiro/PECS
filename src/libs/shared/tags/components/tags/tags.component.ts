@@ -10,7 +10,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Subscription } from 'rxjs';
 import { Specialization } from 'src/app/classes/Specialization';
 import { Activity } from 'src/app/classes/Activity';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
 import { Trait } from 'src/app/classes/Trait';
@@ -19,6 +18,8 @@ import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface TagCollection {
     count: number;
@@ -39,7 +40,7 @@ interface TagCollection {
     styleUrls: ['./tags.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TagsComponent implements OnInit, OnDestroy {
+export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -72,8 +73,9 @@ export class TagsComponent implements OnInit, OnDestroy {
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _durationsService: DurationsService,
         private readonly _hintShowingObjectsService: HintShowingObjectsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);

@@ -11,7 +11,7 @@
 
     <div
         class="newrow list-item"
-        *ngFor="let effect of customEffectsOnThis(); let index = index; trackBy:trackers.trackByIndex;"
+        *ngFor="let effect of customEffectsOnThis(); let index = index; trackBy:trackByIndex;"
     >
         <ng-template #FormulaTemplate>
             <strong>Formula</strong>
@@ -37,7 +37,7 @@
                 [(ngModel)]="effect.type"
                 (ngModelChange)="updateEffects()"
             >
-                <option *ngFor="let type of bonusTypes(); trackBy:trackers.trackByIndex;">{{type}}</option>
+                <option *ngFor="let type of bonusTypes(); trackBy:trackByIndex;">{{type}}</option>
             </select>
         </span>
 

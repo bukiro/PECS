@@ -1,0 +1,26 @@
+.levelBox {
+    display: grid;
+    justify-content: stretch;
+    grid-gap: .3rem;
+    grid-template-columns: auto auto auto auto auto;
+}
+
+.levelBox.levelBoxTop {
+    grid-template-columns: auto auto;
+}
+
+.character-choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+#choiceArea {
+    height: auto;
+    margin-bottom: 0;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+    gap: .6rem;
+}

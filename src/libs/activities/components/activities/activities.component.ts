@@ -11,7 +11,6 @@ import { Activity } from 'src/app/classes/Activity';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
@@ -19,6 +18,8 @@ import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ActivitySet {
     name: string;
@@ -41,7 +42,7 @@ interface ActivityParameter {
     styleUrls: ['./activities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActivitiesComponent implements OnInit, OnDestroy {
+export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature = CreatureTypes.Character;
@@ -61,8 +62,9 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _skillsDataService: SkillsDataService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isMinimized(): boolean {
         return this.creature === CreatureTypes.AnimalCompanion

@@ -5,7 +5,6 @@ import { Skill } from 'src/app/classes/Skill';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { Character } from 'src/app/classes/Character';
 import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
@@ -15,6 +14,8 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { CharacterSkillIncreaseService } from 'src/libs/character-creation/services/character-skill-increase/character-skill-increase.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface SkillChoiceParameters {
     listId: string;
@@ -37,7 +38,7 @@ interface SkillParameters {
     styleUrls: ['./skill-choice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkillChoiceComponent implements OnInit, OnDestroy {
+export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public choice!: SkillChoice;
@@ -68,8 +69,9 @@ export class SkillChoiceComponent implements OnInit, OnDestroy {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _skillsDataService: SkillsDataService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isTileMode(): boolean {
         return this.tileMode;

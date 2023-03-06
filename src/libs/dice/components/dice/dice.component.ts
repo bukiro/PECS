@@ -8,11 +8,12 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Subscription } from 'rxjs';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 const defaultDiceNum = 5;
 
@@ -22,7 +23,7 @@ const defaultDiceNum = 5;
     styleUrls: ['./dice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DiceComponent implements OnInit, OnDestroy {
+export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     public diceNum = defaultDiceNum;
     public bonus = 0;
@@ -38,8 +39,9 @@ export class DiceComponent implements OnInit, OnDestroy {
         private readonly _healthService: HealthService,
         private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get diceMenuState(): MenuState {
         return this._menuService.diceMenuState;

@@ -31,7 +31,8 @@ import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { Trackers } from 'src/libs/shared/util/trackers';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -54,7 +55,7 @@ interface ActivitySpellSet {
     styleUrls: ['./activity.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActivityComponent implements OnInit, OnDestroy {
+export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -87,8 +88,9 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _hintShowingObjectsService: HintShowingObjectsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isManualMode(): boolean {
         return SettingsService.isManualMode;

@@ -28,7 +28,6 @@ import { Skill } from 'src/app/classes/Skill';
 import { Trait } from 'src/app/classes/Trait';
 import { WornItem } from 'src/app/classes/WornItem';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 import { AttackResult, AttacksService, DamageResult } from '../../services/attacks/attacks.service';
 import { DamageService } from 'src/libs/attacks/services/damage/damage.service';
@@ -46,6 +45,8 @@ import { ItemActivationService } from 'src/libs/shared/services/item-activation/
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { Oil } from 'src/app/classes/Oil';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -59,7 +60,7 @@ interface WeaponParameters {
     styleUrls: ['./attacks.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttacksComponent implements OnInit, OnDestroy {
+export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
@@ -87,8 +88,9 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _itemActivationService: ItemActivationService,
         private readonly _skillsDataService: SkillsDataService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isMinimized(): boolean {
         return this.creature === CreatureTypes.AnimalCompanion

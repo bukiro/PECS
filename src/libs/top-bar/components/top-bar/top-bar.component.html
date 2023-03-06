@@ -320,7 +320,7 @@
             class="fullsize-scroll-box vlist"
             style="max-height: 50vh;"
         >
-            <ng-container *ngFor="let message of cachedNewMessages; trackBy:trackers.trackByIndex">
+            <ng-container *ngFor="let message of cachedNewMessages; trackBy:trackByIndex">
                 <ng-container *ngIf="creatureFromMessage(message) as creature">
                     <ng-container *ngIf="messageSenderName(message) as sender">
                         <ng-container *ngIf="creature && (message.gainCondition.length || message.offeredItem.length)">

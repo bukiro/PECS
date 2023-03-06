@@ -11,7 +11,7 @@
             [(ngModel)]="newMaterial[0]"
             (ngModelChange)="onSelectMaterial()"
         >
-            <ng-container *ngFor="let material of initialMaterials(); let initialRuneIndex = index; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let material of initialMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
                 <option
                     [ngValue]="material"
                     *ngIf="initialRuneIndex === 0"
@@ -34,7 +34,7 @@
                     *ngIf="availableMaterials.length"
                 >
                     <option
-                        *ngFor="let material of availableMaterials; trackBy:trackers.trackByIndex;"
+                        *ngFor="let material of availableMaterials; trackBy:trackByIndex;"
                         [ngValue]="material"
                         [disabled]="material.disabled"
                         title="{{materialTitle(material.material)}}"
@@ -47,7 +47,7 @@
     </div>
 
     <ng-container *ngIf="craftingStation">
-        <ng-container *ngFor="let material of item.material; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let material of item.material; trackBy:trackByIndex;">
             <div
                 class="newrow"
                 *ngIf="material.craftRequirement"

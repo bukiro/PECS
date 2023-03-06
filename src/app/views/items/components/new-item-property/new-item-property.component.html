@@ -27,7 +27,7 @@
 
             <div
                 class="list-item"
-                *ngFor="let object of property; let i = index; trackBy:trackers.trackByIndex;"
+                *ngFor="let object of property; let i = index; trackBy:trackByIndex;"
             >
                 <span>{{i+1}}</span>
 
@@ -41,7 +41,7 @@
                 </span>
 
                 <ng-container *ngIf="isPropertyAnObject(object); else LiteralArrayTemplate">
-                    <ng-container *ngFor="let subProperty of subProperties(object); trackBy:trackers.trackByIndex;">
+                    <ng-container *ngFor="let subProperty of subProperties(object); trackBy:trackByIndex;">
                         <app-new-item-property
                             [propertyData]=subProperty
                             [propertyKey]=subProperty.key
@@ -131,7 +131,7 @@
                 (ngModelChange)="validate()"
             >
                 <option
-                    *ngFor="let example of examples(); trackBy:trackers.trackByIndex;"
+                    *ngFor="let example of examples(); trackBy:trackByIndex;"
                     [ngValue]="example"
                 >
                     {{example}}
@@ -151,7 +151,7 @@
                 (ngModelChange)="setItemType()"
             >
                 <option
-                    *ngFor="let itemset of itemSets(); trackBy:trackers.trackByIndex;"
+                    *ngFor="let itemset of itemSets(); trackBy:trackByIndex;"
                     [ngValue]="itemset.key"
                 >
                     {{itemset.name}}

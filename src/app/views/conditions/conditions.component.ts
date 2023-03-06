@@ -18,7 +18,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Subscription } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -39,6 +39,7 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 
 const itemsPerPage = 40;
 
@@ -53,7 +54,7 @@ interface ConditionType {
     styleUrls: ['./conditions.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConditionsComponent implements OnInit, OnDestroy {
+export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     public endOn: TimePeriods.NoTurn | TimePeriods.HalfTurn = TimePeriods.HalfTurn;
     public value = 1;
@@ -114,8 +115,9 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _featsDataService: FeatsDataService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isTileMode(): boolean {
         return this.character.settings.conditionsTileMode;

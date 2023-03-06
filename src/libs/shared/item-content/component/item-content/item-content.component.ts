@@ -4,7 +4,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Subscription } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
@@ -12,6 +11,8 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AlchemicalElixir } from 'src/app/classes/AlchemicalElixir';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ComparedValue {
     effective: number;
@@ -33,7 +34,7 @@ interface ComparedStringValue {
     styleUrls: ['./item-content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemContentComponent implements OnInit, OnDestroy {
+export class ItemContentComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public item!: Item;
@@ -46,8 +47,9 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _itemPriceService: ItemPriceService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public itemRoles(): ItemRoles {
         return this._itemRolesService.getItemRoles(this.item);

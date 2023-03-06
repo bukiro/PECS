@@ -263,7 +263,7 @@
                     You don't have any snares prepared for quick deployment.
                 </div>
 
-                <ng-container *ngFor="let preparedItem of itemsPreparedForQuickCrafting('snarespecialist'); trackBy:trackers.trackByIndex;">
+                <ng-container *ngFor="let preparedItem of itemsPreparedForQuickCrafting('snarespecialist'); trackBy:trackByIndex;">
                     <div
                         class="list-item"
                         *ngIf="'snarespecialist'+preparedItem.item.id as inventoryID"
@@ -391,7 +391,7 @@
             class="vlist"
             cdkDropListGroup
         >
-            <ng-container *ngFor="let inventory of currentCreature.inventories; let inventoryIndex = index; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let inventory of currentCreature.inventories; let inventoryIndex = index; trackBy:trackByIndex;">
                 <div
                     class="list-item"
                     [ngClass]="{'fullsize-only':inventoryIndex > 1}"
@@ -414,7 +414,7 @@
                     >
                     </div>
 
-                    <ng-container *ngFor="let itemSet of inventory.names; trackBy:trackers.trackByIndex;">
+                    <ng-container *ngFor="let itemSet of inventory.names; trackBy:trackByIndex;">
                         <ng-container *ngIf="sortItemSet(inventory, itemSet.key) as itemList">
                             <header
                                 class="subsectionHeader newrow"
@@ -431,7 +431,7 @@
                                 *ngIf="itemList.length"
                                 [ngStyle]="{'min-height': isTileMode ? null : '2em'}"
                             >
-                                <ng-container *ngFor="let itemParameters of itemParameters(itemList); trackBy:trackers.trackByObjectId;">
+                                <ng-container *ngFor="let itemParameters of itemParameters(itemList); trackBy:trackByObjectId;">
 
                                     <ng-template #ItemIconsTemplate>
                                         <span
@@ -608,7 +608,7 @@
                                         </div>
 
                                         <ng-container *ngIf="itemParameters.item.amount !== undefined && itemParameters.asImmediateStoredSpellItem">
-                                            <ng-container *ngFor="let itemSpell of itemStoredSpell(itemParameters.item); trackBy:trackers.trackByIndex;">
+                                            <ng-container *ngFor="let itemSpell of itemStoredSpell(itemParameters.item); trackBy:trackByIndex;">
                                                 <app-spell-target
                                                     class="newrow vlist"
                                                     [creature]="creature"
@@ -1537,7 +1537,7 @@
 
                     <div
                         class="fullsize-only list-item"
-                        *ngFor="let item of inventory.otheritems; let index = index; trackBy:trackers.trackByIndex;"
+                        *ngFor="let item of inventory.otheritems; let index = index; trackBy:trackByIndex;"
                     >
                         <strong>Name</strong>
 

@@ -5,7 +5,6 @@ import { Oil } from 'src/app/classes/Oil';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Weapon } from 'src/app/classes/Weapon';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
@@ -13,6 +12,8 @@ import { ItemsDataService } from 'src/libs/shared/services/data/items-data.servi
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface OilSet {
     oil: Oil;
@@ -25,7 +26,7 @@ interface OilSet {
     styleUrls: ['./item-oils.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemOilsComponent {
+export class ItemOilsComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public item!: Item;
@@ -42,8 +43,9 @@ export class ItemOilsComponent {
         private readonly _inventoryService: InventoryService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _recastService: RecastService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     private get _character(): Character {
         return CreatureService.character;

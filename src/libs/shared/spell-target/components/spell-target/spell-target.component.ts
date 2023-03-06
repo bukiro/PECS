@@ -27,13 +27,14 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;
@@ -53,7 +54,7 @@ interface ComponentParameters {
     styleUrls: ['./spell-target.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellTargetComponent implements OnInit, OnDestroy {
+export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature!: CreatureTypes;
@@ -112,8 +113,9 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         private readonly _durationsService: DurationsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get action(): Activity | Spell {
         return this.activity || this.spell;

@@ -18,7 +18,8 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 @Component({
@@ -27,7 +28,7 @@ import { DurationsService } from 'src/libs/time/services/durations/durations.ser
     styleUrls: ['./activity-content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActivityContentComponent implements OnInit, OnDestroy {
+export class ActivityContentComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -54,8 +55,9 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _durationsService: DurationsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isManualMode(): boolean {
         return SettingsService.isManualMode;

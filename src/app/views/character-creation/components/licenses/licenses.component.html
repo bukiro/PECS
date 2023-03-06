@@ -4,7 +4,7 @@
 
 <header class="featureHeader">OPEN GAME LICENSE Version 1.0a</header>
 
-<ng-container *ngFor="let paragraph of ogl; let index = index; trackBy: trackers.trackByIndex;">
+<ng-container *ngFor="let paragraph of ogl; let index = index; trackBy:trackByIndex;">
     <div class="list-item newrow">
         <p>
             <strong *ngIf="paragraph.title">{{paragraph.title}}&nbsp;</strong>
@@ -13,7 +13,7 @@
         </p>
 
         <ng-container *ngIf="index === ogl.length - 1">
-            <ng-container *ngFor="let block of ogl15; trackBy: trackers.trackByIndex;">
+            <ng-container *ngFor="let block of ogl15; trackBy:trackByIndex;">
                 <div class="newrow left-aligned">
                     <header
                         class="spellHeader"
@@ -24,7 +24,7 @@
 
                     <div
                         class="newrow left-aligned"
-                        *ngFor="let line of block.lines; trackBy: trackers.trackByIndex;"
+                        *ngFor="let line of block.lines; trackBy:trackByIndex;"
                     >
                         <span>
                             <strong>{{line.title}}</strong>

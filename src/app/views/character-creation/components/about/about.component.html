@@ -35,7 +35,7 @@
             [(ngModel)]="version"
         >
             <option
-                *ngFor="let versionChange of changelog; trackBy:trackers.trackByIndex;"
+                *ngFor="let versionChange of changelog; trackBy:trackByIndex;"
                 [ngValue]="versionChange.version"
             >
                 {{versionChange.version}}
@@ -45,7 +45,7 @@
 
     <div
         class="newrow list-item left-aligned"
-        *ngFor="let change of versionShown()?.changes; trackBy:trackers.trackByIndex;"
+        *ngFor="let change of versionShown()?.changes; trackBy:trackByIndex;"
     >
         <header
             class="subsectionHeader"
@@ -55,14 +55,14 @@
         </header>
 
         <app-description
-            *ngFor="let split of change.desc.split('\n\n'); trackBy:trackers.trackByIndex"
+            *ngFor="let split of change.desc.split('\n\n'); trackBy:trackByIndex"
             [text]="split"
         >
         </app-description>
 
         <div
             class="newrow list-item center-aligned"
-            *ngFor="let image of change.images; trackBy:trackers.trackByIndex"
+            *ngFor="let image of change.images; trackBy:trackByIndex"
         >
             <img
                 style="max-width:100%; flex-grow: 0;"
@@ -79,7 +79,7 @@
     </div>
 </div>
 
-<ng-container *ngFor="let paragraph of welcome; trackBy: trackers.trackByIndex;">
+<ng-container *ngFor="let paragraph of welcome; trackBy: trackByIndex;">
     <div class="list-item newrow">
         <div class="newrow left-aligned">
             <header
@@ -90,7 +90,7 @@
             </header>
 
             <app-description
-                *ngFor="let split of paragraph.desc.split('\n\n'); trackBy:trackers.trackByIndex"
+                *ngFor="let split of paragraph.desc.split('\n\n'); trackBy:trackByIndex"
                 [text]="split"
             >
             </app-description>
@@ -101,7 +101,7 @@
 <div class="list-item newrow">
     <header class="spellHeader">Hints and Tips</header>
 
-    <ng-container *ngFor="let hint of hints; trackBy:trackers.trackByIndex;">
+    <ng-container *ngFor="let hint of hints; trackBy:trackByIndex;">
         <div class="newrow list-item left-aligned">
             <header
                 class="subsectionHeader"
@@ -111,14 +111,14 @@
             </header>
 
             <app-description
-                *ngFor="let split of hint.desc.split('\n\n'); trackBy:trackers.trackByIndex"
+                *ngFor="let split of hint.desc.split('\n\n'); trackBy:trackByIndex"
                 [text]="split"
             >
             </app-description>
 
             <div
                 class="newrow list-item center-aligned"
-                *ngFor="let image of hint.images; trackBy:trackers.trackByIndex"
+                *ngFor="let image of hint.images; trackBy:trackByIndex"
             >
                 <img
                     style="max-width:100%; flex-grow: 0;"

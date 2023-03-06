@@ -4,7 +4,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Shield } from 'src/app/classes/Shield';
 import { Material } from 'src/app/classes/Material';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { Character } from 'src/app/classes/Character';
@@ -12,6 +11,8 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
 import { Observable, of } from 'rxjs';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ShieldMaterialSet {
     material: ShieldMaterial;
@@ -24,7 +25,7 @@ interface ShieldMaterialSet {
     styleUrls: ['./item-material-option.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemMaterialShieldComponent implements OnInit, OnChanges {
+export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) implements OnInit, OnChanges {
 
     @Input()
     public item!: Shield;
@@ -42,8 +43,9 @@ export class ItemMaterialShieldComponent implements OnInit, OnChanges {
         private readonly _refreshService: RefreshService,
         private readonly _itemMaterialsDataService: ItemMaterialsDataService,
         private readonly _skillValuesService: SkillValuesService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get materialOptionApplies(): boolean {
         return (

@@ -12,7 +12,6 @@ import { Character } from 'src/app/classes/Character';
 import { DisplayService } from 'src/libs/shared/services/display/display.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
@@ -20,6 +19,9 @@ import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spell
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -48,7 +50,7 @@ interface SpellParameters {
     styleUrls: ['./spell-selection.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellSelectionComponent implements OnInit, OnDestroy {
+export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     public allowBorrow = false;
     public creatureTypesEnum = CreatureTypes;
@@ -71,11 +73,8 @@ export class SpellSelectionComponent implements OnInit, OnDestroy {
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _menuService: MenuService,
-        public trackers: Trackers,
-    ) { }
-
-    public get isMobile(): boolean {
-        return DisplayService.isMobile;
+    ) {
+        super();
     }
 
     public get isMinimized(): boolean {

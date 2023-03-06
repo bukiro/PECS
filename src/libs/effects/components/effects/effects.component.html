@@ -200,7 +200,7 @@
                         <header class="sectionHeader box-header">Conditions</header>
                     </div>
 
-                    <ng-container *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, true, true); trackBy:trackers.trackByObjectId;">
+                    <ng-container *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, true, true); trackBy:trackByObjectId;">
                         <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}"></ng-container>
                     </ng-container>
                 </div>
@@ -213,7 +213,7 @@
                         <header class="sectionHeader box-header">Effects</header>
                     </div>
 
-                    <ng-container *ngFor="let effect of appliedEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
+                    <ng-container *ngFor="let effect of appliedEffects(componentParameters.effects); trackBy:trackByObjectId;">
                         <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                     </ng-container>
                 </div>
@@ -237,7 +237,7 @@
             <div class="vlist">
                 <header class="subsectionHeader">Active Conditions</header>
 
-                <ng-container *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, true); trackBy:trackers.trackByObjectId;">
+                <ng-container *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, true); trackBy:trackByObjectId;">
                     <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}"></ng-container>
                 </ng-container>
             </div>
@@ -245,7 +245,7 @@
             <div class="vlist">
                 <header class="subsectionHeader">Active Effects</header>
 
-                <ng-container *ngFor="let effect of appliedEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
+                <ng-container *ngFor="let effect of appliedEffects(componentParameters.effects); trackBy:trackByObjectId;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
             </div>
@@ -253,7 +253,7 @@
             <div class="vlist">
                 <header class="subsectionHeader">Inactive Conditions</header>
 
-                <ng-container *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, false); trackBy:trackers.trackByObjectId;">
+                <ng-container *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, false); trackBy:trackByObjectId;">
                     <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}"></ng-container>
                 </ng-container>
             </div>
@@ -261,7 +261,7 @@
             <div class="vlist">
                 <header class="subsectionHeader">Inactive Effects</header>
 
-                <ng-container *ngFor="let effect of notAppliedEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
+                <ng-container *ngFor="let effect of notAppliedEffects(componentParameters.effects); trackBy:trackByObjectId;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
             </div>
@@ -269,7 +269,7 @@
             <div class="vlist">
                 <header class="subsectionHeader">Hidden Effects</header>
 
-                <ng-container *ngFor="let effect of hiddenEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
+                <ng-container *ngFor="let effect of hiddenEffects(componentParameters.effects); trackBy:trackByObjectId;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
             </div>

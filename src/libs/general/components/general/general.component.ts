@@ -15,7 +15,6 @@ import { Creature } from 'src/app/classes/Creature';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { Trait } from 'src/app/classes/Trait';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
@@ -25,6 +24,8 @@ import { CharacterDeitiesService } from 'src/libs/shared/services/character-deit
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-general',
@@ -32,7 +33,7 @@ import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
     styleUrls: ['./general.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeneralComponent implements OnInit, OnDestroy {
+export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -57,8 +58,9 @@ export class GeneralComponent implements OnInit, OnDestroy {
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isMinimized(): boolean {
         switch (this.creature) {

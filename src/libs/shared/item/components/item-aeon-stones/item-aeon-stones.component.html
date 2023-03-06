@@ -1,7 +1,7 @@
 <!-- Changing Aeon Stones -->
 <div
     class="newrow"
-    *ngFor="let index of availableSlots(); trackBy:trackers.trackByIndex;"
+    *ngFor="let index of availableSlots(); trackBy:trackByIndex;"
 >
     <strong *ngIf="index === 0">Aeon Stones</strong>
 
@@ -13,7 +13,7 @@
         (change)="onSelectAeonStone(index)"
         [disabled]="!item.aeonStones[index-1] && index > 0"
     >
-        <ng-container *ngFor="let stone of initialAeonStones(index); let initialStoneIndex = index; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let stone of initialAeonStones(index); let initialStoneIndex = index; trackBy:trackByIndex;">
             <option
                 [ngValue]="stone"
                 *ngIf="initialStoneIndex === 0"
@@ -29,14 +29,14 @@
             </optgroup>
         </ng-container>
 
-        <ng-container *ngFor="let inv of inventories(); trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let inv of inventories(); trackBy:trackByIndex;">
             <ng-container *ngIf="availableAeonStones(inv) as availableAeonStones">
                 <optgroup
                     label="{{itemStore ? 'Available stones' : inventoryName(inv)}}"
                     *ngIf="availableAeonStones.length"
                 >
                     <option
-                        *ngFor="let stone of availableAeonStones; trackBy:trackers.trackByIndex;"
+                        *ngFor="let stone of availableAeonStones; trackBy:trackByIndex;"
                         [ngValue]="stone"
                         title="{{hint(stone.aeonStone)}}"
                     >

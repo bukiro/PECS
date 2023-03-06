@@ -6,7 +6,6 @@ import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { Character } from 'src/app/classes/Character';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
@@ -16,6 +15,8 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 import { noop } from 'rxjs';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-item-target',
@@ -23,7 +24,7 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
     styleUrls: ['./item-target.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemTargetComponent implements OnInit {
+export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnInit {
 
     @Input()
     public creature!: CreatureTypes;
@@ -46,8 +47,9 @@ export class ItemTargetComponent implements OnInit {
         private readonly _itemTransferService: ItemTransferService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isItemContainer(): boolean {
         return !!(this.item as Equipment).gainInventory?.length;

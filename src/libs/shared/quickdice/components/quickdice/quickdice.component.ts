@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -36,8 +36,8 @@ export class QuickdiceComponent implements OnChanges {
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
 
-    @Input()
-    public ghost?: string | boolean = undefined;
+    @HostBinding('class.ghost')
+    private _ghost = false;
 
     public description = '';
 
@@ -48,8 +48,9 @@ export class QuickdiceComponent implements OnChanges {
         private readonly _abilityValuesService: AbilityValuesService,
     ) { }
 
-    public get isGhost(): boolean {
-        return this.ghost !== undefined;
+    @Input()
+    public set ghost(ghost: string | boolean | undefined) {
+        this._ghost = ghost !== undefined;
     }
 
     public roll(forceLocal = false): void {

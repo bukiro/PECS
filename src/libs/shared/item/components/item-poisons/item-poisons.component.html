@@ -15,7 +15,7 @@
                 (ngModelChange)="onSelectPoison()"
             >
                 <option
-                    *ngFor="let poisonSet of availablePoisons; trackBy:trackers.trackByIndex;"
+                    *ngFor="let poisonSet of availablePoisons; trackBy:trackByIndex;"
                     [ngValue]="poisonSet"
                 >
                     {{poisonSet.poison.amount !== 1 ? poisonSet.poison.amount : ''}}
@@ -32,7 +32,7 @@
 
             <div
                 class="newrow"
-                *ngFor="let poison of item.poisonsApplied; let index = index; trackBy:trackers.trackByIndex;"
+                *ngFor="let poison of item.poisonsApplied; let index = index; trackBy:trackByIndex;"
             >
                 <span>{{poison.effectiveName()}}</span>
 

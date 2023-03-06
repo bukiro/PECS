@@ -4,9 +4,10 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface EffectValueParameters {
     displayType?: 'Formula' | 'Toggle' | 'Value';
@@ -20,7 +21,7 @@ interface EffectValueParameters {
     styleUrls: ['./object-effects.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ObjectEffectsComponent {
+export class ObjectEffectsComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public objectName = '';
@@ -30,8 +31,9 @@ export class ObjectEffectsComponent {
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _evaluationService: EvaluationService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);

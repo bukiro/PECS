@@ -56,7 +56,7 @@
         <header class="sectionHeader box-header">Perception</header>
 
         <ng-container *ngIf="ownedActivities() as activityGains">
-            <ng-container *ngFor="let skill of skillsOfType('Perception'); trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let skill of skillsOfType('Perception'); trackBy:trackByIndex;">
                 <app-skill
                     [creature]="creature"
                     [skill]=skill
@@ -73,7 +73,7 @@
                 <div
                     class="list-item lower"
                     [ngbPopover]="senseDesc(sense)"
-                    *ngFor="let sense of senses(); trackBy:trackers.trackByIndex;"
+                    *ngFor="let sense of senses(); trackBy:trackByIndex;"
                 >
                     {{sense}}
                 </div>
@@ -102,7 +102,7 @@
                     [showConditions]="true"
                 ></app-tags>
 
-                <ng-container *ngFor="let skill of skillsOfType('Familiar Proficiency'); trackBy:trackers.trackByIndex;">
+                <ng-container *ngFor="let skill of skillsOfType('Familiar Proficiency'); trackBy:trackByIndex;">
                     <app-skill
                         [creature]="creature"
                         [minimized]="isMinimized"
@@ -165,7 +165,7 @@
 
             <div
                 class="list-item"
-                *ngFor="let speedParameters of speedParameters(); trackBy:trackers.trackByIndex;"
+                *ngFor="let speedParameters of speedParameters(); trackBy:trackByIndex;"
             >
                 <div class="newrow">
                     <span>
@@ -215,7 +215,7 @@
             <header class="sectionHeader box-header">Skills</header>
 
             <!-- Skill Increases -->
-            <ng-container *ngFor="let choice of skillChoices(); trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let choice of skillChoices(); trackBy:trackByIndex;">
                 <app-skill-choice
                     (showSkillChoiceMessage)="receiveShowChoiceMessage($event)"
                     [showTitle]="true"
@@ -248,7 +248,7 @@
                 [showEffects]="true"
             ></app-tags>
 
-            <ng-container *ngFor="let skill of skillsOfType('Skill'); trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let skill of skillsOfType('Skill'); trackBy:trackByIndex;">
                 <app-skill
                     [creature]="creature"
                     [skill]=skill

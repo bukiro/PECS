@@ -58,7 +58,7 @@
                                 (change)="changeConditionChoice(conditionGain, condition, $event)"
                             >
                                 <option
-                                    *ngFor="let choice of choices; trackBy:trackers.trackByIndex;"
+                                    *ngFor="let choice of choices; trackBy:trackByIndex;"
                                     [value]="choice"
                                 >
                                     {{choice}}
@@ -102,7 +102,7 @@
                                     (change)="setConditionValue(conditionGain, $event)"
                                 >
                                     <option
-                                        *ngFor="let valueOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
+                                        *ngFor="let valueOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
                                         [value]="valueOption"
                                         [disabled]="valueOption === 0 && conditionGain.lockedByParent && conditionGain.parentID"
                                     >
@@ -546,7 +546,7 @@
             class="newrow"
             *ngIf="condition.selectOtherConditions.length"
         >
-            <ng-container *ngFor="let conditionSelection of prepareSelectingOtherConditions(conditionGain, condition); let selectIndex = index; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let conditionSelection of prepareSelectingOtherConditions(conditionGain, condition); let selectIndex = index; trackBy:trackByIndex;">
                 <div class="newrow">
                     <strong>
                         {{conditionSelection.title || "Condition " + (selectIndex + 1)}}
@@ -558,7 +558,7 @@
                         (ngModelChange)="changeOtherConditionSelection()"
                     >
                         <option
-                            *ngFor="let otherCondition of selectOtherConditionOptions(conditionSelection, conditionGain, selectIndex); trackBy:trackers.trackByIndex;"
+                            *ngFor="let otherCondition of selectOtherConditionOptions(conditionSelection, conditionGain, selectIndex); trackBy:trackByIndex;"
                             [ngValue]="otherCondition"
                         >
                             {{otherCondition}}
@@ -584,7 +584,7 @@
         class="fullwidth icon-list"
         *ngIf="conditionActivitiesParameters.length"
     >
-        <ng-container *ngFor="let activityParameters of conditionActivitiesParameters; let activityIndex = index; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let activityParameters of conditionActivitiesParameters; let activityIndex = index; trackBy:trackByIndex;">
             <ng-template #ActivityTitleTemplate>
                 <span>{{activityParameters.activity.name}}</span>
 

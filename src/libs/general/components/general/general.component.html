@@ -85,7 +85,7 @@
                     *ngIf="character.class.ancestry.traits.length"
                 >
                     <app-trait
-                        *ngFor="let trait of characterTraits(); trackBy:trackers.trackByIndex;"
+                        *ngFor="let trait of characterTraits(); trackBy:trackByIndex;"
                         [name]="trait"
                         [trait]="traitFromName(trait)"
                     >
@@ -119,7 +119,7 @@
             >
                 <div
                     class="newrow"
-                    *ngFor="let specialization of classChoices(); trackBy:trackers.trackByIndex;"
+                    *ngFor="let specialization of classChoices(); trackBy:trackByIndex;"
                 >
                     <strong [ngStyle]="{'margin-left': specialization.subChoice ? '1em' : ''}">{{specialization.name}}</strong>
 
@@ -184,7 +184,7 @@
 
                 <div class="newrow">
                     <ul>
-                        <li *ngFor="let domain of domains(); trackBy:trackers.trackByIndex;">
+                        <li *ngFor="let domain of domains(); trackBy:trackByIndex;">
                             <ng-template #DomainDescTemplate>
                                 <div
                                     class="newrow left-aligned"
@@ -234,7 +234,7 @@
 
                 <div class="newrow">
                     <ul>
-                        <li *ngFor="let tenet of tenets(); trackBy:trackers.trackByIndex;">{{tenet}}</li>
+                        <li *ngFor="let tenet of tenets(); trackBy:trackByIndex;">{{tenet}}</li>
                     </ul>
                 </div>
             </div>
@@ -247,7 +247,7 @@
 
                 <div class="newrow">
                     <ul>
-                        <li *ngFor="let edict of edicts(); trackBy:trackers.trackByIndex;">{{edict}}</li>
+                        <li *ngFor="let edict of edicts(); trackBy:trackByIndex;">{{edict}}</li>
                     </ul>
                 </div>
             </div>
@@ -260,7 +260,7 @@
 
                 <div class="newrow">
                     <ul>
-                        <li *ngFor="let anathema of anathema(); trackBy:trackers.trackByIndex;">{{anathema}}</li>
+                        <li *ngFor="let anathema of anathema(); trackBy:trackByIndex;">{{anathema}}</li>
                     </ul>
                 </div>
             </div>
@@ -277,7 +277,7 @@
 
             <div
                 class="fullsize-only list-item"
-                *ngFor="let differentWorldsData of differentWorldsData(); trackBy:trackers.trackByIndex;"
+                *ngFor="let differentWorldsData of differentWorldsData(); trackBy:trackByIndex;"
             >
                 <strong>Alternative Identity (Different Worlds)</strong>
 
@@ -294,7 +294,7 @@
                 *ngIf="companion.class.ancestry.name"
             >
                 <app-trait
-                    *ngFor="let trait of companion.class.ancestry.traits; trackBy:trackers.trackByIndex;"
+                    *ngFor="let trait of companion.class.ancestry.traits; trackBy:trackByIndex;"
                     [name]="trait"
                     [trait]="traitFromName(trait)"
                 >
@@ -369,7 +369,7 @@
         <ng-container *ngIf="creature==='Familiar'">
             <div class="newrow left-aligned tags">
                 <app-trait
-                    *ngFor="let trait of familiar.traits; trackBy:trackers.trackByIndex;"
+                    *ngFor="let trait of familiar.traits; trackBy:trackByIndex;"
                     [name]="trait"
                     [trait]="traitFromName(trait)"
                 >
@@ -422,13 +422,13 @@
 
                 <div
                     class="list-item"
-                    *ngFor="let ability of familiar.abilities.feats; trackBy:trackers.trackByIndex;"
+                    *ngFor="let ability of familiar.abilities.feats; trackBy:trackByIndex;"
                 >
                     <strong>{{ability.name}}</strong>
 
                     <div class="newrow left-aligned tags">
                         <app-trait
-                            *ngFor="let trait of familiarAbilityFromName(ability.name).traits; trackBy:trackers.trackByIndex;"
+                            *ngFor="let trait of familiarAbilityFromName(ability.name).traits; trackBy:trackByIndex;"
                             [name]="trait"
                             [trait]="traitFromName(trait)"
                         >

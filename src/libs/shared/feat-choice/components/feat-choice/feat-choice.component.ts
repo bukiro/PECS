@@ -21,7 +21,6 @@ import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.ser
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -31,6 +30,8 @@ import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/cr
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
 import { FeatRequirementsService } from 'src/libs/character-creation/services/feat-requirement/featRequirements.service';
 import { FeatTakingService } from 'src/libs/character-creation/services/feat-taking/feat-taking.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface FeatParameters {
     available: boolean;
@@ -47,7 +48,7 @@ interface FeatParameters {
     styleUrls: ['./feat-choice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FeatChoiceComponent implements OnInit, OnChanges, OnDestroy {
+export class FeatChoiceComponent extends TrackByMixin(BaseClass) implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     public choice!: FeatChoice;
@@ -102,8 +103,9 @@ export class FeatChoiceComponent implements OnInit, OnChanges, OnDestroy {
         private readonly _featTakingService: FeatTakingService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _creatureFeatsService: CreatureFeatsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isTileMode(): boolean {
         return this.tileMode;

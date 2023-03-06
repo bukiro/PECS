@@ -16,7 +16,7 @@
                     (ngModelChange)="onSelectPotencyRune(previousValues.potency, runeItemType)"
                 >
                     <option
-                        *ngFor="let potencySet of availablePotencyRunes(runeItemType); trackBy:trackers.trackByIndex;"
+                        *ngFor="let potencySet of availablePotencyRunes(runeItemType); trackBy:trackByIndex;"
                         [ngValue]="potencySet.potency"
                         [disabled]="potencySet.disabled"
                         title="{{runeTitle(potencySet.rune)}}"
@@ -41,7 +41,7 @@
                     (ngModelChange)="onSelectSecondaryRune(previousValues.secondary, runeItemType)"
                 >
                     <option
-                        *ngFor="let secondarySet of availableSecondaryRunes(runeItemType); trackBy:trackers.trackByIndex;"
+                        *ngFor="let secondarySet of availableSecondaryRunes(runeItemType); trackBy:trackByIndex;"
                         [ngValue]="secondarySet.secondary"
                         [disabled]="secondarySet.disabled"
                         title="{{runeTitle(secondarySet.rune)}}"
@@ -56,7 +56,7 @@
         <ng-container *ngIf="item.potencyRune > 0">
             <div
                 class="newrow"
-                *ngFor="let index of propertyRunesSlots(); trackBy:trackers.trackByIndex;"
+                *ngFor="let index of propertyRunesSlots(); trackBy:trackByIndex;"
             >
                 <strong *ngIf="index === 0">Property runes</strong>
 
@@ -68,7 +68,7 @@
                     (ngModelChange)="onSelectPropertyRune(index, runeItemType)"
                     [disabled]="!item.propertyRunes[index-1] && index > 0"
                 >
-                    <ng-container *ngFor="let rune of initialPropertyRunes(index); let initialRuneIndex = index; trackBy:trackers.trackByIndex;">
+                    <ng-container *ngFor="let rune of initialPropertyRunes(index); let initialRuneIndex = index; trackBy:trackByIndex;">
                         <option
                             [ngValue]="rune"
                             *ngIf="initialRuneIndex === 0"
@@ -85,14 +85,14 @@
                         </optgroup>
                     </ng-container>
 
-                    <ng-container *ngFor="let inv of inventoriesOrCleanItems(); trackBy:trackers.trackByIndex;">
+                    <ng-container *ngFor="let inv of inventoriesOrCleanItems(); trackBy:trackByIndex;">
                         <ng-container *ngIf="availablePropertyRunes(index, inv, runeItemType) as availablePropertyRunes">
                             <optgroup
                                 label="{{itemStore ? 'Available runes' : inventoryName(inv)}}"
                                 *ngIf="availablePropertyRunes.length"
                             >
                                 <option
-                                    *ngFor="let runeSet of availablePropertyRunes; trackBy:trackers.trackByIndex;"
+                                    *ngFor="let runeSet of availablePropertyRunes; trackBy:trackByIndex;"
                                     [ngValue]="runeSet"
                                     [disabled]="runeSet.disabled"
                                     title="{{runeTitle(runeSet.rune)}}"

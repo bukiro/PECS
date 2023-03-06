@@ -3,11 +3,12 @@ import { CreatureService } from 'src/libs/shared/services/character/character.se
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-time',
@@ -15,7 +16,7 @@ import { StatusService } from 'src/libs/shared/services/status/status.service';
     styleUrls: ['./time.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimeComponent implements OnInit, OnDestroy {
+export class TimeComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public showTurn = true;
@@ -31,8 +32,9 @@ export class TimeComponent implements OnInit, OnDestroy {
         private readonly _timeService: TimeService,
         private readonly _durationsService: DurationsService,
         private readonly _timeBlockingService: TimeBlockingService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isMinimized(): boolean {
         return CreatureService.character.settings.timeMinimized;

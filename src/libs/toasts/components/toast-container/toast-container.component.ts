@@ -2,16 +2,17 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { Subscription } from 'rxjs';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { ToastService } from '../../services/toast/toast.service';
 import { Toast } from '../../definitions/interfaces/toast';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-toast-container',
     templateUrl: './toast-container.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToastContainerComponent implements OnInit, OnDestroy {
+export class ToastContainerComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -20,8 +21,9 @@ export class ToastContainerComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
         private readonly _toastService: ToastService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get toasts(): Array<Toast> {
         return this._toastService.toasts;

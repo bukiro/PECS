@@ -4,8 +4,8 @@
         class="fullsize-only newrow left-aligned"
         *ngIf="allTags.count > 0"
     >
-        <ng-container *ngFor="let traitSet of allTags.traits; trackBy:trackers.trackByIndex;">
-            <ng-container *ngFor="let trait of traitSet.traits; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let traitSet of allTags.traits; trackBy:trackByIndex;">
+            <ng-container *ngFor="let trait of traitSet.traits; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
                     [color]="'trait'"
@@ -18,8 +18,8 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let featSet of allTags.feats; trackBy:trackers.trackByIndex;">
-            <ng-container *ngFor="let feat of featSet.feats; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let featSet of allTags.feats; trackBy:trackByIndex;">
+            <ng-container *ngFor="let feat of featSet.feats; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
                     [color]="'feat'"
@@ -31,8 +31,8 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let elementSet of allTags.companionElements; trackBy:trackers.trackByIndex;">
-            <ng-container *ngFor="let element of elementSet.elements; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let elementSet of allTags.companionElements; trackBy:trackByIndex;">
+            <ng-container *ngFor="let element of elementSet.elements; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
                     [color]="'feat'"
@@ -44,8 +44,8 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let elementSet of allTags.familiarElements; trackBy:trackers.trackByIndex;">
-            <ng-container *ngFor="let element of elementSet.elements; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let elementSet of allTags.familiarElements; trackBy:trackByIndex;">
+            <ng-container *ngFor="let element of elementSet.elements; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
                     [color]="'feat'"
@@ -57,8 +57,8 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let itemSet of allTags.items; trackBy:trackers.trackByIndex;">
-            <ng-container *ngFor="let item of itemSet.items; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let itemSet of allTags.items; trackBy:trackByIndex;">
+            <ng-container *ngFor="let item of itemSet.items; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
                     [color]="'item'"
@@ -70,8 +70,8 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let specializationSet of allTags.specializations; trackBy:trackers.trackByIndex;">
-            <ng-container *ngFor="let spec of specializationSet.specializations; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let specializationSet of allTags.specializations; trackBy:trackByIndex;">
+            <ng-container *ngFor="let spec of specializationSet.specializations; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
                     [color]="'item'"
@@ -83,8 +83,8 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let activitySet of allTags.activities; trackBy:trackers.trackByIndex;">
-            <ng-container *ngFor="let activity of activitySet.activities; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let activitySet of allTags.activities; trackBy:trackByIndex;">
+            <ng-container *ngFor="let activity of activitySet.activities; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
                     [color]="'activity'"
@@ -95,8 +95,8 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let conditionSets of allTags.conditions; trackBy:trackers.trackByIndex;">
-            <ng-container *ngFor="let conditionSet of conditionSets.conditionSets; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let conditionSets of allTags.conditions; trackBy:trackByIndex;">
+            <ng-container *ngFor="let conditionSet of conditionSets.conditionSets; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
                     [color]="'condition'"
@@ -108,7 +108,7 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let effect of allTags.effects; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let effect of allTags.effects; trackBy:trackByIndex;">
             <ng-template #effectPopover>
                 <div class="newrow">
                     <span>

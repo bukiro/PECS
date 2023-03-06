@@ -4,7 +4,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Armor } from 'src/app/classes/Armor';
 import { Material } from 'src/app/classes/Material';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
@@ -12,6 +11,8 @@ import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
 import { map, Observable } from 'rxjs';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 const materialLevelRequiredForFirstPotency = 5;
 const materialLevelRequiredForSecondPotency = 11;
@@ -46,7 +47,7 @@ interface ArmorMaterialSet {
     styleUrls: ['./item-material-option.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemMaterialArmorComponent implements OnInit, OnChanges {
+export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implements OnInit, OnChanges {
 
     @Input()
     public item!: Armor;
@@ -64,8 +65,9 @@ export class ItemMaterialArmorComponent implements OnInit, OnChanges {
         private readonly _refreshService: RefreshService,
         private readonly _itemMaterialsDataService: ItemMaterialsDataService,
         private readonly _skillValuesService: SkillValuesService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get materialOptionApplies(): boolean {
         return (

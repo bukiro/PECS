@@ -19,7 +19,6 @@ import { Subscription } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { Character } from 'src/app/classes/Character';
 import { Trait } from 'src/app/classes/Trait';
@@ -36,6 +35,8 @@ import { ConditionPropertiesService } from 'src/libs/shared/services/condition-p
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-item',
@@ -43,7 +44,7 @@ import { ItemActivationService } from 'src/libs/shared/services/item-activation/
     styleUrls: ['./item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemComponent implements OnInit, OnDestroy {
+export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -74,8 +75,9 @@ export class ItemComponent implements OnInit, OnDestroy {
         private readonly _itemRolesService: ItemRolesService,
         private readonly _itemTraitsService: ItemTraitsService,
         private readonly _itemActivationService: ItemActivationService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);

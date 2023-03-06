@@ -9,7 +9,6 @@ import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
 import { Health } from 'src/app/classes/Health';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { CalculatedHealth, HealthService } from 'src/libs/shared/services/health/health.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
@@ -17,6 +16,8 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 @Component({
     selector: 'app-health',
@@ -24,7 +25,7 @@ import { InputValidationService } from 'src/libs/shared/services/input-validatio
     styleUrls: ['./health.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HealthComponent implements OnInit, OnDestroy {
+export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -50,8 +51,9 @@ export class HealthComponent implements OnInit, OnDestroy {
         private readonly _healthService: HealthService,
         private readonly _timeBlockingService: TimeBlockingService,
         private readonly _characterFeatsService: CharacterFeatsService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get isMinimized(): boolean {
         switch (this.creature) {

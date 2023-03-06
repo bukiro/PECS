@@ -115,7 +115,7 @@
 
     <div class="newrow left-aligned">
         <app-trait
-            *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;"
+            *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
         >
@@ -123,7 +123,7 @@
 
 
         <app-trait
-            *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;"
+            *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
             [extraDescription]="'(This trait was derived from the action components.)'"
@@ -146,7 +146,7 @@
 
     <div
         class="newrow list-item"
-        *ngFor="let data of gain?.data; trackBy:trackers.trackByIndex"
+        *ngFor="let data of gain?.data; trackBy:trackByIndex"
     >
         <strong>{{data.name}}</strong>
 
@@ -160,7 +160,7 @@
     </div>
 
 
-    <ng-container *ngFor="let conditionSet of activityConditions(); let conditionSetIndex = index; trackBy:trackers.trackByIndex">
+    <ng-container *ngFor="let conditionSet of activityConditions(); let conditionSetIndex = index; trackBy:trackByIndex">
         <div
             class="newrow list-item left-aligned"
             *ngIf="gain && shownConditionChoice(conditionSet, {tooManySlottedAeonStones: activityParameters.tooManySlottedAeonStones, resonantAllowed: activityParameters.resonantAllowed})"
@@ -173,7 +173,7 @@
                     (ngModelChange)="onEffectChoiceChange()"
                 >
                     <option
-                        *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackers.trackByIndex;"
+                        *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
                         [ngValue]="choice"
                     >
                         {{choice}}
@@ -202,14 +202,14 @@
         <ng-container *ngIf="allowActivate">
             <div
                 class="list-item newrow left-aligned"
-                *ngFor="let feat of characterFeatsShowingHintsOnThis(activity.name); trackBy:trackers.trackByIndex;"
+                *ngFor="let feat of characterFeatsShowingHintsOnThis(activity.name); trackBy:trackByIndex;"
             >
                 <header class="spellHeader">{{feat.name}}</header>
 
 
                 <div class="newrow left-aligned">
                     <app-trait
-                        *ngFor="let trait of feat.traits; trackBy:trackers.trackByIndex;"
+                        *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
                         [name]="trait"
                         [trait]="traitFromName(trait)"
                     >
@@ -219,7 +219,7 @@
 
                 <div
                     class="newrow left-aligned"
-                    *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackers.trackByIndex;"
+                    *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;"
                 >
                     <app-description
                         class="newrow"
@@ -231,14 +231,14 @@
 
             <div
                 class="newrow left-aligned"
-                *ngFor="let conditionSet of conditionsShowingHintsOnThis(activity.name); trackBy:trackers.trackByIndex;"
+                *ngFor="let conditionSet of conditionsShowingHintsOnThis(activity.name); trackBy:trackByIndex;"
             >
                 <header class="spellHeader">{{conditionSet.condition.name}}</header>
 
 
                 <div
                     class="newrow left-aligned"
-                    *ngFor="let desc of conditionSet.condition.heightenedText(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackers.trackByIndex;"
+                    *ngFor="let desc of conditionSet.condition.heightenedText(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;"
                 >
                     <app-description
                         class="newrow"
@@ -250,7 +250,7 @@
 
             <div
                 class="list-item newrow left-aligned"
-                *ngFor="let activityGain of activitiesShowingHintsOnThis(activity.name); trackBy:trackers.trackByIndex;"
+                *ngFor="let activityGain of activitiesShowingHintsOnThis(activity.name); trackBy:trackByIndex;"
             >
                 <header class="spellHeader">
                     {{activityGain.originalActivity.name}}
@@ -277,7 +277,7 @@
             <ng-container *ngIf="gain?.name === 'Fused Stance'">
                 <div
                     class="list-item newrow left-aligned"
-                    *ngFor="let fusedStanceGain of fusedStances(); trackBy:trackers.trackByIndex;"
+                    *ngFor="let fusedStanceGain of fusedStances(); trackBy:trackByIndex;"
                 >
                     <header class="spellHeader">
                         {{fusedStanceGain.originalActivity.name}}

@@ -3,7 +3,7 @@
     #Split
     let-toSplit="toSplit"
 >
-    <ng-container *ngFor="let split of toSplit.split('|'); trackBy:trackers.trackByIndex;">
+    <ng-container *ngFor="let split of toSplit.split('|'); trackBy:trackByIndex;">
         <app-quickdice
             *ngIf="split.includes('dice=')"
             [diceString]="split.replace('dice=','')"
@@ -30,7 +30,7 @@
     </p>
 
     <ul *ngIf="text.split('\n').length > 1">
-        <li *ngFor="let line of text.split('\n'); trackBy:trackers.trackByIndex;">
+        <li *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
             <ng-container *ngTemplateOutlet="Split;context:{toSplit:line}"></ng-container>
         </li>
     </ul>

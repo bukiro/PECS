@@ -92,7 +92,7 @@
                         [(ngModel)]="emblazonEnergyChoice"
                         [disabled]="componentParameters.emblazonEnergyDisabledReason || !!item.emblazonArmament.length"
                     >
-                        <option *ngFor="let option of emblazonEnergyChoices; trackBy:trackers.trackByIndex">{{option}}</option>
+                        <option *ngFor="let option of emblazonEnergyChoices; trackBy:trackByIndex">{{option}}</option>
                     </select>
 
                     <i

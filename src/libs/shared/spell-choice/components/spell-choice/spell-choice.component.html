@@ -474,7 +474,7 @@
 
             <!-- End Occult Evolution -->
             <!-- Crossblooded Evolution -->
-            <ng-container *ngFor="let crossbloodedEvolutionAllowed of [amountOfCrossbloodedEvolutionSlotsAllowed()]; trackBy:trackers.trackByIndex">
+            <ng-container *ngFor="let crossbloodedEvolutionAllowed of [amountOfCrossbloodedEvolutionSlotsAllowed()]; trackBy:trackByIndex">
                 <ng-container *ngIf="crossbloodedEvolutionAllowed">
                     <div class="list-item">
                         <strong>
@@ -548,7 +548,7 @@
                 </span>
             </div>
 
-            <ng-container *ngFor="let spellParameters of spellParameters(componentParameters); trackBy:trackers.trackByObjectId;">
+            <ng-container *ngFor="let spellParameters of spellParameters(componentParameters); trackBy:trackByObjectId;">
                 <ng-template #SpellChoiceDetailTemplate>
                     <div class="newrow">
                         <header class="spellHeader">
@@ -649,7 +649,7 @@
                             <cite
                                 [ngbPopover]="reason.explain"
                                 class="problem"
-                                *ngFor="let reason of spellParameters.cannotTake; trackBy:trackers.trackByIndex;"
+                                *ngFor="let reason of spellParameters.cannotTake; trackBy:trackByIndex;"
                             >
                                 {{reason.reason}}
                             </cite>
@@ -755,7 +755,7 @@
                             <ng-container *ngIf="spellParameters.amountTaken && componentParameters.signatureSpellsAllowed">
                                 <div
                                     class="list-item newrow lower"
-                                    *ngFor="let signatureSpellParameters of signatureSpellParameters(componentParameters.signatureSpellsAllowed, spellParameters.spell); trackBy:trackers.trackByIndex;"
+                                    *ngFor="let signatureSpellParameters of signatureSpellParameters(componentParameters.signatureSpellsAllowed, spellParameters.spell); trackBy:trackByIndex;"
                                 >
                                     <span [ngbTooltip]="signatureSpellParameters.cannotBeSignatureSpell">
                                         <label>
@@ -786,7 +786,7 @@
                                 Level {{spellParameters.spell.levelreq}}
                             </cite>
 
-                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackers.trackByIndex">
+                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackByIndex">
                                 <app-trait
                                     *ngIf="spellParameters.spell.traits.includes(trait)"
                                     [name]="trait"

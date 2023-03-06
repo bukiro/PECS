@@ -16,12 +16,13 @@ import { Material } from 'src/app/classes/Material';
 import { Oil } from 'src/app/classes/Oil';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Condition } from 'src/app/classes/Condition';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trait } from 'src/app/classes/Trait';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 type HintObject =
     Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string; hints: Array<Hint> };
@@ -32,7 +33,7 @@ type HintObject =
     styleUrls: ['./hint.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HintComponent {
+export class HintComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -54,8 +55,9 @@ export class HintComponent {
         private readonly _traitsDataService: TraitsDataService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _featsDataService: FeatsDataService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get character(): Character {
         return CreatureService.character;

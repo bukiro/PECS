@@ -6,12 +6,13 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Hint } from 'src/app/classes/Hint';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 const emblazonArmament = 'emblazonArmament';
 const emblazonEnergy = 'emblazonEnergy';
@@ -33,7 +34,7 @@ interface ComponentParameters {
     styleUrls: ['./item-emblazon-armament.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemEmblazonArmamentComponent implements OnInit {
+export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) implements OnInit {
 
     @Input()
     public item!: Weapon | Shield;
@@ -53,8 +54,9 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     private get _character(): Character {
         return CreatureService.character;

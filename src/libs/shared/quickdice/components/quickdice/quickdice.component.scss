@@ -11,13 +11,15 @@
         width: 100%;
 
         padding: $spacing-xs;
+    }
+}
 
-        &.ghost {
-            background-color: transparent;
-            border: none;
-            padding: 0;
-            color: inherit;
-        }
+:host(.ghost) {
+    button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        color: inherit;
     }
 }
 

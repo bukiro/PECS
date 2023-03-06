@@ -10,7 +10,6 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
 import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -25,6 +24,8 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface RuneItemType {
     armor: boolean;
@@ -72,7 +73,7 @@ interface WeaponPropertyRuneSet {
     styleUrls: ['./item-runes.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemRunesComponent implements OnInit {
+export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnInit {
 
     @Input()
     public item!: Equipment;
@@ -97,8 +98,9 @@ export class ItemRunesComponent implements OnInit {
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _basicEquipmentService: BasicEquipmentService,
         private readonly _recastService: RecastService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     public get itemRoles(): ItemRoles {
         if (!this._itemRoles) {

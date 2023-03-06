@@ -1,0 +1,52 @@
+@media (max-width: $screen-width-narrow) {
+    body {
+        font-size: 3vw;
+    }
+}
+
+@media (max-width: $screen-width-medium) {
+
+    .app-container {
+        max-width: 100%;
+    }
+
+    body {
+        font-size: 2vw;
+    }
+
+    .mobile-hide {
+        display: none !important;
+    }
+}
+
+@media (max-width: $screen-width-wide) {
+
+    .app-container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: $screen-width-wide) {
+
+    .app-container {
+        max-width: 1360px;
+    }
+
+    .desktop-hide {
+        display: none !important;
+    }
+}
+
+@media (max-width: $screen-width-wider) {
+
+    .app-container {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: $screen-width-wider) {
+
+    .app-container {
+        max-width: 1360px;
+    }
+}

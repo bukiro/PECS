@@ -8,7 +8,7 @@
     <div
         class="charactersheet-app charactersheet-row mobile-hide"
         id="desktop-tabs"
-        *ngIf="!mobile"
+        *ngIf="(isMobile$ | async) === false"
     >
         <button
             type="button"
@@ -59,7 +59,7 @@
         </button>
     </div>
 
-    <ng-container *ngIf="!stillLoading && shownMode() !== 'ConditionsEffects' && !mobile">
+    <ng-container *ngIf="!stillLoading && shownMode() !== 'ConditionsEffects' && ((isMobile$ | async) === false)">
         <app-time
             class="charactersheet-app charactersheet-row mobile-hide"
             [showTurn]="(['','Encounter'].includes(shownMode()))"
@@ -160,7 +160,7 @@
                 >
                 </app-defense>
 
-                <ng-container *ngFor="let index of [0,1]; trackBy:trackers.trackByIndex;">
+                <ng-container *ngFor="let index of [0,1]; trackBy:trackByIndex;">
                     <app-attacks
                         id="attacks-desktop"
                         class="charactersheet-app"
@@ -215,7 +215,7 @@
     <div
         class="charactersheet-app charactersheet-row desktop-hide"
         id="mobile-tabs"
-        *ngIf="mobile"
+        *ngIf="isMobile$ | async"
     >
         <button
             aria-label="General"
@@ -304,7 +304,7 @@
         </button>
     </div>
 
-    <ng-container *ngIf="!stillLoading && shownMode() !== 'ConditionsEffects' && mobile">
+    <ng-container *ngIf="!stillLoading && shownMode() !== 'ConditionsEffects' && (isMobile$ | async)">
         <div class="charactersheet-column-container desktop-hide">
             <div class="charactersheet-column">
                 <app-general

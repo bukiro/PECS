@@ -46,7 +46,7 @@
 >
     <div
         class="itembox-close-button"
-        *ngIf="!(isMobile && shownContent()); else ListCloseButton"
+        *ngIf="!((isMobile$ | async) && shownContent()); else ListCloseButton"
     >
         <button
             type="button"
@@ -97,7 +97,7 @@
                             </span>
                         </div>
 
-                        <ng-container *ngFor="let spellCastingParameters of spellCastingParameters(); let index = index; trackBy:trackers.trackByIndex;">
+                        <ng-container *ngFor="let spellCastingParameters of spellCastingParameters(); let index = index; trackBy:trackByIndex;">
                             <header class="sectionHeader">
                                 {{(spellCastingParameters.casting.className + " " +
                                 spellCastingParameters.casting.tradition + ((spellCastingParameters.casting.castingType
@@ -145,7 +145,7 @@
                                 </span>
                             </div>
 
-                            <ng-container *ngFor="let spellCastingLevelParameters of spellCastingLevelParameters(spellCastingParameters); trackBy:trackers.trackByIndex;">
+                            <ng-container *ngFor="let spellCastingLevelParameters of spellCastingLevelParameters(spellCastingParameters); trackBy:trackByIndex;">
                                 <header
                                     class="subsectionHeader"
                                     *ngIf="spellCastingLevelParameters.level === -1 && spellCastingParameters.casting.castingType === 'Focus'"
@@ -179,7 +179,7 @@
                                     style="min-height: auto"
                                 >
                                     <!-- Fixed Spells gained -->
-                                    <ng-container *ngFor="let spellParameters of fixedSpellParameters(spellCastingLevelParameters); trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let spellParameters of fixedSpellParameters(spellCastingLevelParameters); trackBy:trackByIndex;">
                                         <ng-template #FixedSpellContent>
                                             <header
                                                 class="spellHeader left-aligned"
@@ -255,7 +255,7 @@
                                     </ng-container>
 
                                     <!-- Spell choices -->
-                                    <ng-container *ngFor="let choice of spellCastingLevelParameters.availableSpellChoices; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="let choice of spellCastingLevelParameters.availableSpellChoices; trackBy:trackByIndex;">
                                         <app-spell-choice
                                             (shownChoiceMessage)="receiveShowChoiceMessage($event)"
                                             (shownSpellMessage)="receiveShowSpellMessage($event)"

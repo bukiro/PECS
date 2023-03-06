@@ -3,7 +3,6 @@ import { CreatureService } from 'src/libs/shared/services/character/character.se
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
@@ -11,6 +10,8 @@ import { DurationsService } from 'src/libs/time/services/durations/durations.ser
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
 
 interface AeonStoneSet {
     aeonStone: WornItem;
@@ -23,7 +24,7 @@ interface AeonStoneSet {
     styleUrls: ['./item-aeon-stones.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemAeonStonesComponent implements OnInit {
+export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements OnInit {
 
     @Input()
     public item!: WornItem;
@@ -39,8 +40,9 @@ export class ItemAeonStonesComponent implements OnInit {
         private readonly _durationsService: DurationsService,
         private readonly _inventoryService: InventoryService,
         private readonly _recastService: RecastService,
-        public trackers: Trackers,
-    ) { }
+    ) {
+        super();
+    }
 
     private get _character(): Character {
         return CreatureService.character;
