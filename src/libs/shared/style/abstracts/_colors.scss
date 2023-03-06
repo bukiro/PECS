@@ -1,7 +1,7 @@
 @mixin text-color-basic {
     color: $color-text-dark;
 
-    .darkmode & {
+    :host-context(.darkmode) & {
         color: $color-text-light;
     }
 
@@ -9,10 +9,116 @@
     &.darkmode {
         color: $color-text-light;
     }
+
+    // For globally styled elements.
+    .darkmode & {
+        color: $color-text-light;
+    }
+}
+
+@mixin border-color-basic {
+    border-color: $color-text-dark;
+
+    :host-context(.darkmode) & {
+        border-color: $color-text-light;
+    }
+
+    .darkmode & {
+        border-color: $color-text-light;
+    }
+}
+
+@mixin background-color-basic {
+    background-color: $color-background-light;
+
+    :host-context(.darkmode) & {
+        background-color: $color-background-dark;
+    }
+
+    .darkmode & {
+        background-color: $color-background-dark;
+    }
+}
+
+// Used to override other mixins in this file.
+@mixin text-color-accent {
+    color: $color-accent;
+
+    :host-context(.darkmode) & {
+        color: $color-accent;
+    }
+
+    .darkmode & {
+        color: $color-accent;
+    }
+}
+
+@mixin border-color-accent {
+    border-color: $color-accent;
+
+    :host-context(.darkmode) & {
+        border-color: $color-accent;
+    }
+
+    .darkmode & {
+        border-color: $color-accent;
+    }
+}
+
+@mixin background-color-accent {
+    background-color: $color-accent;
+
+    :host-context(.darkmode) & {
+        background-color: $color-accent;
+    }
+
+    .darkmode & {
+        background-color: $color-accent;
+    }
+}
+
+@mixin text-color-inverted {
+    color: $color-text-light;
+
+    :host-context(.darkmode) & {
+        color: $color-text-dark;
+    }
+
+    .darkmode & {
+        color: $color-text-dark;
+    }
+}
+
+@mixin border-color-inverted {
+    border-color: $color-text-light;
+
+    :host-context(.darkmode) & {
+        border-color: $color-text-dark;
+    }
+
+    .darkmode & {
+        border-color: $color-text-dark;
+    }
+}
+
+@mixin background-color-inverted {
+    background-color: $color-background-dark;
+
+    :host-context(.darkmode) & {
+        background-color: $color-background-light;
+    }
+
+    .darkmode & {
+        background-color: $color-background-light;
+    }
 }
 
 @mixin text-color-penalty {
     color: $color-penalty-dark;
+
+    :host-context(.darkmode) & {
+        color: $color-penalty-light;
+    }
 
     .darkmode & {
         color: $color-penalty-light;
@@ -22,6 +128,10 @@
 @mixin text-color-bonus {
     color: $color-bonus-dark;
 
+    :host-context(.darkmode) & {
+        color: $color-bonus-light;
+    }
+
     .darkmode & {
         color: $color-bonus-light;
     }
@@ -29,6 +139,10 @@
 
 @mixin text-color-absolute {
     color: $color-absolute-dark;
+
+    :host-context(.darkmode) & {
+        color: $color-absolute-light;
+    }
 
     .darkmode & {
         color: $color-absolute-light;
@@ -38,6 +152,10 @@
 @mixin background-color-penalty {
     background-color: $color-penalty-light;
 
+    :host-context(.darkmode) & {
+        background-color: $color-penalty-dark;
+    }
+
     .darkmode & {
         background-color: $color-penalty-dark;
     }
@@ -46,6 +164,10 @@
 @mixin background-color-bonus {
     background-color: $color-bonus-light;
 
+    :host-context(.darkmode) & {
+        background-color: $color-bonus-dark;
+    }
+
     .darkmode & {
         background-color: $color-bonus-dark;
     }
@@ -53,6 +175,10 @@
 
 @mixin background-color-absolute {
     background-color: $color-absolute-light;
+
+    :host-context(.darkmode) & {
+        background-color: $color-absolute-dark;
+    }
 
     .darkmode & {
         background-color: $color-absolute-dark;
@@ -64,11 +190,11 @@
 }
 
 .text-color-bonus {
-    @include text-color-penalty;
+    @include text-color-bonus;
 }
 
 .text-color-absolute {
-    @include text-color-penalty;
+    @include text-color-absolute;
 }
 
 .background-color-penalty {

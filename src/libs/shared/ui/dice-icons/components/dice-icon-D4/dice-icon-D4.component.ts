@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'app-diceIcons-D4',
+    selector: 'app-dice-icon-D4',
     templateUrl: './D4.svg',
+    styleUrls: ['../dice-icon/dice-icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DiceIconsD4Component { }
+export class DiceIconD4Component { }

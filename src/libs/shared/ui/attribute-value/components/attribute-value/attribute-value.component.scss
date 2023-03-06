@@ -1,0 +1,74 @@
+@import 'utilities';
+
+:host {
+    @include flex-row-spread;
+    @include flex-center-cross-axis;
+}
+
+.title {
+    @include flex-column-left;
+
+    flex-grow: 1;
+
+    &__title {
+        @include text-large;
+        line-height: 1em;
+    }
+
+    &__subline {
+        @include text-small;
+        line-height: $font-size-tiny;
+    }
+}
+
+.value {
+    @include flex-column-center;
+    @include flex-center-main-axis;
+
+    position: relative;
+
+    flex-shrink: 0;
+
+    width: auto;
+    height: 3rem;
+
+    margin: $spacing-xs;
+
+    &__value {
+        @include flex-column-center;
+        @include flex-center-main-axis;
+        @include text-larger;
+
+        min-width: 3rem;
+        width: auto;
+        min-height: 3rem;
+
+        border: $spacing-xxs solid $color-accent;
+        border-radius: 50%;
+    }
+
+    &__icon {
+        position: absolute;
+        cursor: pointer;
+
+        &--notes {
+            top: -.5rem;
+            left: -.5rem;
+        }
+
+        &--bonuses {
+            top: -.5rem;
+            right: -.5rem;
+        }
+
+        &--effects {
+            bottom: -.5rem;
+            left: -.5rem;
+        }
+
+        &--dice {
+            bottom: -.5rem;
+            right: -.5rem;
+        }
+    }
+}

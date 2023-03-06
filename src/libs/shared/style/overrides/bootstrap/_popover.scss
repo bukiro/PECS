@@ -1,6 +1,6 @@
-@import '../../utilities';
-
 .pecs-popover {
+    @include background-color-basic;
+
     max-height: 50vh;
     max-width: 40rem;
     width: auto;
@@ -13,13 +13,12 @@
     padding: 10px;
 
     white-space: pre-line;
-
-    background-color: $color-background-light;
 }
 
 .popover-body {
     @include text-medium;
     @include text-color-basic;
+    @include background-color-basic;
 
     width: 100%;
 
@@ -33,12 +32,6 @@
     overflow-y: auto;
 
     padding: 0;
-}
-
-.darkmode {
-    .pecs-popover {
-        background-color: $color-background-dark;
-    }
 }
 
 // Arrow-color for all directions

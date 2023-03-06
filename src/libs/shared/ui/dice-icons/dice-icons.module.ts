@@ -1,31 +1,31 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DiceIconsD10Component } from './components/diceIcons-D10/diceIcons-D10.component';
-import { DiceIconsD12Component } from './components/diceIcons-D12/diceIcons-D12.component';
-import { DiceIconsD20Component } from './components/diceIcons-D20/diceIcons-D20.component';
-import { DiceIconsD4Component } from './components/diceIcons-D4/diceIcons-D4.component';
-import { DiceIconsD6Component } from './components/diceIcons-D6/diceIcons-D6.component';
-import { DiceIconsD8Component } from './components/diceIcons-D8/diceIcons-D8.component';
+import { DiceIconD10Component } from './components/dice-icon-D10/dice-icon-D10.component';
+import { DiceIconD12Component } from './components/dice-icon-D12/dice-icon-D12.component';
+import { DiceIconD20Component } from './components/dice-icon-D20/dice-icon-D20.component';
+import { DiceIconD4Component } from './components/dice-icon-D4/dice-icon-D4.component';
+import { DiceIconD6Component } from './components/dice-icon-D6/dice-icon-D6.component';
+import { DiceIconD8Component } from './components/dice-icon-D8/dice-icon-D8.component';
 
 @NgModule({
     imports: [
         CommonModule,
     ],
     declarations: [
-        DiceIconsD4Component,
-        DiceIconsD6Component,
-        DiceIconsD8Component,
-        DiceIconsD10Component,
-        DiceIconsD12Component,
-        DiceIconsD20Component,
+        DiceIconD4Component,
+        DiceIconD6Component,
+        DiceIconD8Component,
+        DiceIconD10Component,
+        DiceIconD12Component,
+        DiceIconD20Component,
     ],
     exports: [
-        DiceIconsD4Component,
-        DiceIconsD6Component,
-        DiceIconsD8Component,
-        DiceIconsD10Component,
-        DiceIconsD12Component,
-        DiceIconsD20Component,
+        DiceIconD4Component,
+        DiceIconD6Component,
+        DiceIconD8Component,
+        DiceIconD10Component,
+        DiceIconD12Component,
+        DiceIconD20Component,
     ],
 })
 export class DiceIconsModule { }

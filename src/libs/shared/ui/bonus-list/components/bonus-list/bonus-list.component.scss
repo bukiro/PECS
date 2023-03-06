@@ -1,10 +1,12 @@
+@import 'utilities';
+
 :host {
     @include flex-column-left;
-    @include cross-axis-center;
 }
 
 .bonus-description {
     @include flex-row-left;
+    @include flex-center-cross-axis;
 
     gap: $spacing-m;
 
@@ -13,6 +15,11 @@
     }
 
     &__subline {
-        @include text-tiny;
+        @include text-small;
+        line-height: 1em;
+    }
+
+    &__value {
+        padding: 0 $spacing-xs;
     }
 }

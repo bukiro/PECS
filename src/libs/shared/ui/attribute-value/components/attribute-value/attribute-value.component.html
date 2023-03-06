@@ -1,9 +1,9 @@
 <div class="title">
-    <span class="title___title">{{ title }}</span>
+    <span class="title__title">{{ title }}</span>
 
     <span
         *ngIf="subline"
-        class="subline__subline"
+        class="title__subline"
     >
         {{ subline }}
     </span>
@@ -13,6 +13,19 @@
     class="value"
     *ngIf="value !== undefined"
 >
+    <div
+        class="value__value"
+        [ngClass]="{
+            'background-color-penalty': hasPenalties && !hasAbsolutes,
+            'background-color-bonus': hasBonuses && !hasAbsolutes && !hasPenalties,
+            'background-color-absolute': hasAbsolutes
+        }"
+        [ngbPopover]="BonusesTemplate"
+        [disablePopover]="!bonuses?.length"
+    >
+        {{ value }}
+    </div>
+
     <!-- Dice roll icon -->
     <div
         *ngIf="quickdiceTemplate"
@@ -28,26 +41,16 @@
         ></app-bonus-list>
     </ng-template>
 
-    <div
-        class="value__value"
-        [ngClass]="{
-            'background-color-penalty': hasPenalties && !hasAbsolutes,
-            'background-color-bonus': hasBonuses && !hasAbsolutes && !hasPenalties,
-            'background-color-absolute': hasAbsolutes
-        }"
-        [ngbPopover]="BonusesTemplate"
-        [disablePopover]="!bonuses?.length"
-    >
-        {{ value }}
-    </div>
-
     <!-- Notes icon -->
     <div
         *ngIf="showNotesIcon"
         class="value__icon value__icon--notes"
     >
         <span (click)="showNotes = !showNotes">
-            <i class='bi-pencil-square'></i>
+            <i
+                [ngbTooltip]="'Edit notes'"
+                class='bi-pencil-square'
+            ></i>
         </span>
     </div>
 

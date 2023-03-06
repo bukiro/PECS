@@ -1,7 +1,16 @@
-<span
+<div class="diamonds-container">
+    <div
+        *ngFor="let level of levels; trackBy:trackByIndex;"
+        [className]="'diamonds-container__diamond diamonds-container__diamond--' + level.key"
+        [ngClass]="{'diamonds-container__diamond--checked':skillLevel === level.value}"
+    ></div>
+</div>
+
+<div
     [ngbTooltip]="level.title"
     *ngFor="let level of levels; trackBy:trackByIndex;"
-    [ngClass]="{'checked':skillLevel === level.value}"
+    [className]="'option option--' + level.key"
+    [ngClass]="{'option--checked':skillLevel === level.value}"
 >
     {{level.key}}
-</span>
+</div>

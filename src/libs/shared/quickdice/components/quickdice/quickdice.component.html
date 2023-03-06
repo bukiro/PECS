@@ -1,6 +1,9 @@
 <button
-    [ngbTooltip]="'Roll ' + description()"
+    [ngClass]="{'ghost': isGhost}"
+    type="button"
+    aria-label="Roll dice"
+    [ngbTooltip]="'Roll ' + description"
     (click)="roll()"
 >
-    <app-diceIcons-D20></app-diceIcons-D20>
+    <app-dice-icon-D20 class="dice"></app-dice-icon-D20>
 </button>

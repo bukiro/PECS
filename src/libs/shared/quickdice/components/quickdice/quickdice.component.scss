@@ -1,0 +1,32 @@
+@import 'utilities';
+
+:host {
+    display: inline-block;
+
+    height: 1.5em;
+    width: 1.5em;
+
+    button {
+        height: 100%;
+        width: 100%;
+
+        padding: $spacing-xs;
+
+        &.ghost {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            color: inherit;
+        }
+    }
+}
+
+:host-context(span) {
+    margin-left: .3em;
+    margin-right: .3em;
+}
+
+:host-context(app-attribute-value) {
+    height: 1rem;
+    width: 1rem;
+}

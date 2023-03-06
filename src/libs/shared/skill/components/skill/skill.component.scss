@@ -1,0 +1,17 @@
+@import 'utilities';
+
+.skill {
+    @include flex-row-left;
+    @include flex-center-cross-axis;
+
+    width: 100%;
+    gap: $spacing-m;
+
+    &__level {
+        flex-shrink: 0;
+    }
+
+    &__value {
+        flex-basis: 100%;
+    }
+}

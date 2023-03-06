@@ -1,3 +1,7 @@
+@mixin text-larger {
+    font-size: $font-size-larger;
+}
+
 @mixin text-large {
     font-size: $font-size-large;
 }
@@ -12,6 +16,10 @@
 
 @mixin text-tiny {
     font-size: $font-size-tiny;
+}
+
+.text-larger {
+    font-size: $font-size-larger;
 }
 
 .text-large {

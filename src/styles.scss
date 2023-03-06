@@ -519,29 +519,6 @@ button.specialchoice:not(.fancy-button),
     z-index: 5
 }
 
-/* Quick Dice Roll Button */
-
-app-quickdice {
-    margin-left: .3em;
-    margin-right: .3em;
-}
-
-app-quickdice>button {
-    height: 1.5em;
-    width: 1.5em;
-    padding: 0;
-}
-
-app-quickdice>button>* {
-    margin: auto;
-    display: inline-grid;
-}
-
-app-quickdice>button>*>svg {
-    height: 1em;
-    width: 1em;
-}
-
 /* Button Flash */
 
 button.no-animation:before,
@@ -1400,33 +1377,6 @@ app-item-aeonStones {
     gap: .3rem;
 }
 
-/* app-proficiency-form: the T E M L box for skills */
-
-app-proficiency-form,
-.newrow app-proficiency-form {
-    flex-grow: 0;
-    margin-left: .3rem;
-    margin-right: .3rem;
-}
-
-.proficiency {
-    font-weight: bold;
-    font-style: normal;
-    margin-left: .3rem;
-    margin-right: .3rem;
-}
-
-.proficiency.checked {
-    font-weight: bolder;
-    color: #465A8C;
-    color: rgb(var(--accent));
-    text-shadow: 0 0 2px #616161, 0 0 2px #616161;
-}
-
-.darkmode .proficiency.checked {
-    text-shadow: 0 0 2px #CCC, 0 0 2px #CCC;
-}
-
 /* Password input box */
 
 #passwordInput {
@@ -2159,49 +2109,6 @@ span.problem {
 
 .darkmode span.problem {
     background-color: inherit;
-}
-
-/* Calculated values */
-
-.value {
-    display: inline-block;
-    font-weight: bold;
-    border-radius: .3rem;
-    padding: 0 1em;
-}
-
-.newrow:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child)>.value {
-    margin-right: 0;
-}
-
-.value.absolute {
-    background-color: lightblue;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode .value.absolute {
-    background-color: blue;
-}
-
-.value.bonus {
-    background-color: lightgreen;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode .value.bonus {
-    background-color: darkgreen;
-}
-
-.value.penalty {
-    background-color: lightpink;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode .value.penalty {
-    background-color: #500000;
 }
 
 /* Variable values in descriptions */

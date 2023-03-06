@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -13,22 +13,33 @@ import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-v
     styleUrls: ['./quickdice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickdiceComponent {
+export class QuickdiceComponent implements OnChanges {
 
     @Input()
     public diceNum = 0;
+
     @Input()
     public diceSize = 0;
+
     @Input()
     public bonus = 0;
+
     @Input()
     public type = '';
+
     @Input()
     public diceString = '';
+
     @Input()
     public casting?: SpellCasting;
+
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
+
+    @Input()
+    public ghost?: string | boolean = undefined;
+
+    public description = '';
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -36,6 +47,10 @@ export class QuickdiceComponent {
         private readonly _integrationsService: FoundryVTTIntegrationService,
         private readonly _abilityValuesService: AbilityValuesService,
     ) { }
+
+    public get isGhost(): boolean {
+        return this.ghost !== undefined;
+    }
 
     public roll(forceLocal = false): void {
         if (!forceLocal && this._canRollInFoundryVTT()) {
@@ -135,7 +150,11 @@ export class QuickdiceComponent {
         this._refreshService.processPreparedChanges();
     }
 
-    public description(): string {
+    public ngOnChanges(): void {
+        this.description = this._description();
+    }
+
+    private _description(): string {
         if (this.diceString) {
             let diceString = this.diceString.split('\n').join(' ');
 

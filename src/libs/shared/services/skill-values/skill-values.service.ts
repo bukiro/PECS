@@ -14,21 +14,26 @@ import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { SkillsDataService } from '../data/skills-data.service';
 import { StatusService } from '../status/status.service';
+import { BonusDescription } from '../../ui/bonus-list';
+import { SignNumber } from '../../util/numberUtils';
+import { addFromEffect, signedForBonusDescription } from '../../util/bonusDescriptionUtils';
+
+const DCBasis = 10;
 
 export interface CalculatedSkill {
     level: number;
     ability: string;
-    baseValue: { result: number; explain: string; skillLevel: number; ability: string };
+    baseValue: { result: number; bonuses: Array<BonusDescription>; skillLevel: number; ability: string };
     absolutes: Array<Effect>;
     relatives: Array<Effect>;
     bonuses: boolean;
     penalties: boolean;
-    value: { result: number; explain: string };
+    value: { result: number; bonuses: Array<BonusDescription> };
 }
 
 export interface SkillBaseValue {
     result: number;
-    explain: string;
+    bonuses: Array<BonusDescription>;
     skillLevel: number;
     ability: string;
 }
@@ -282,7 +287,7 @@ export class SkillValuesService {
         const skill = this._normalizeSkillOrName(skillOrName, creature);
 
         let result = 0;
-        let explain = '';
+        let bonuses: Array<BonusDescription> = [];
         let ability = '';
 
         if (!StatusService.isLoadingCharacter) {
@@ -297,10 +302,10 @@ export class SkillValuesService {
                     const charBaseValue = this.baseValue(skill, character, charLevel);
 
                     result = charBaseValue.result;
-                    explain = charBaseValue.explain;
+                    bonuses = charBaseValue.bonuses;
                 } else if (['Perception', 'Acrobatics', 'Stealth'].includes(skill.name)) {
                     result = character.level;
-                    explain = `Character Level: ${ character.level }`;
+                    bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
                     ability = 'Charisma';
                     ability = this._modifierAbility(skill, creature);
 
@@ -308,11 +313,14 @@ export class SkillValuesService {
 
                     if (abilityMod) {
                         result += abilityMod.result;
-                        explain += `\nCharacter Spellcasting Ability: ${ abilityMod.result }`;
+                        bonuses.push({
+                            title: 'Character Spellcasting Ability',
+                            value: signedForBonusDescription(bonuses, abilityMod.result),
+                        });
                     }
                 } else {
                     result = character.level;
-                    explain = `Character Level: ${ character.level }`;
+                    bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
                 }
             } else {
                 // Add character level if the character is trained or better with the Skill.
@@ -323,8 +331,8 @@ export class SkillValuesService {
 
                 if (skillLevel) {
                     charLevelBonus = charLevel;
-                    explain += `\nProficiency Rank: ${ skillLevel }`;
-                    explain += `\nCharacter Level: ${ charLevelBonus }`;
+                    bonuses.push({ title: 'Proficiency Rank', value: `${ skillLevel }` });
+                    bonuses.push({ title: 'Character Level', value: SignNumber(charLevelBonus) });
                 }
 
                 //Add the Ability modifier identified by the skill's ability property
@@ -337,16 +345,15 @@ export class SkillValuesService {
                 }
 
                 if (abilityMod) {
-                    explain += `\n${ ability } Modifier: ${ abilityMod }`;
+                    bonuses.push({ title: `${ ability } Modifier `, value: signedForBonusDescription(bonuses, abilityMod) });
                 }
 
-                explain = explain.trim();
                 //Add up all modifiers, the skill proficiency and all active effects and return the sum
                 result = charLevelBonus + skillLevel + abilityMod;
             }
         }
 
-        return { result, explain, skillLevel, ability };
+        return { result, bonuses, skillLevel, ability };
     }
 
     private _absolutes(skill: Skill, creature: Creature, isDC = false, level = 0, ability = ''): Array<Effect> {
@@ -455,13 +462,16 @@ export class SkillValuesService {
         charLevel: number = CreatureService.character.level,
         isDC = false,
         baseValue: SkillBaseValue = this.baseValue(skill, creature, charLevel),
-    ): { result: number; explain: string } {
+    ): { result: number; bonuses: Array<BonusDescription> } {
         let result = 0;
-        let explain = '';
+        let bonuses: Array<BonusDescription> = [];
 
         if (!StatusService.isLoadingCharacter) {
-            result = baseValue.result;
-            explain = baseValue.explain;
+            result = (isDC ? DCBasis : 0) + baseValue.result;
+
+            bonuses = isDC
+                ? [{ title: 'DC base value', value: '10' }, ...baseValue.bonuses]
+                : baseValue.bonuses;
 
             const skillLevel = baseValue.skillLevel;
             const ability = baseValue.ability;
@@ -471,7 +481,7 @@ export class SkillValuesService {
             //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
             this._absolutes(skill, creature, isDC, skillLevel, ability).forEach(effect => {
                 result = parseInt(effect.setValue, 10);
-                explain = `${ effect.source }: ${ effect.setValue }`;
+                bonuses = addFromEffect([], effect);
 
                 if (effect.source.includes('Assurance')) {
                     shouldSkipRelativeEffects = true;
@@ -489,7 +499,7 @@ export class SkillValuesService {
                     this._absolutes(skill, character, isDC, baseValue.skillLevel, baseValue.ability)
                         .forEach(effect => {
                             baseValue.result = parseInt(effect.setValue, 10);
-                            baseValue.explain = `${ effect.source }: ${ effect.setValue }`;
+                            baseValue.bonuses = addFromEffect([], effect);
                         });
                     relatives
                         .push(
@@ -503,14 +513,13 @@ export class SkillValuesService {
             if (!shouldSkipRelativeEffects) {
                 relatives.push(...this._relatives(skill, creature, isDC, baseValue.skillLevel, baseValue.ability));
                 relatives.forEach(effect => {
-
                     result += parseInt(effect.value, 10);
-                    explain += `\n${ effect.source }: ${ effect.value }`;
+                    addFromEffect(bonuses, effect);
                 });
             }
         }
 
-        return { result, explain: explain.trim() };
+        return { result, bonuses };
     }
 
     private _normalizeSkillOrName(skillOrName: Skill | string, creature: Creature): Skill {
