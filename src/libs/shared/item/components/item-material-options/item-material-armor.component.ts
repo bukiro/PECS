@@ -12,7 +12,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
 import { map, Observable } from 'rxjs';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 const materialLevelRequiredForFirstPotency = 5;
 const materialLevelRequiredForSecondPotency = 11;
@@ -152,7 +152,6 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
         )).forEach(materialSet => {
             materialSet.disabled = true;
         });
-
 
         // Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material
         // and don't share the name with another disabled material that comes before it.

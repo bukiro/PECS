@@ -25,421 +25,412 @@
 >
     <header class="sectionHeader box-header">General Information</header>
 
-    <div
-        class="loading"
-        *ngIf="stillLoading"
-    >
-        Loading
-    </div>
+    <ng-container *ngIf="creature==='Character'">
+        <div class="list-item">
+            <span>
+                <strong>Level</strong>
+                {{character.level}}
+            </span>
 
-    <ng-container *ngIf="!stillLoading">
-        <ng-container *ngIf="creature==='Character'">
-            <div class="list-item">
-                <span>
-                    <strong>Level</strong>
-                    {{character.level}}
-                </span>
+            <span class="hlist">
+                <strong>Hero Points</strong>
+                {{character.heroPoints}}
+                <button
+                    type="button"
+                    aria-label="Increase hero points"
+                    (click)="incHeroPoints(-1)"
+                    [disabled]="character.heroPoints <= 0"
+                >
+                    -
+                </button>
 
-                <span class="hlist">
-                    <strong>Hero Points</strong>
-                    {{character.heroPoints}}
-                    <button
-                        type="button"
-                        aria-label="Increase hero points"
-                        (click)="incHeroPoints(-1)"
-                        [disabled]="character.heroPoints <= 0"
-                    >
-                        -
-                    </button>
+                <button
+                    type="button"
+                    aria-label="Decrease hero points"
+                    (click)="incHeroPoints(1)"
+                    [disabled]="character.heroPoints >= 3"
+                >
+                    +
+                </button>
+            </span>
+        </div>
 
-                    <button
-                        type="button"
-                        aria-label="Decrease hero points"
-                        (click)="incHeroPoints(1)"
-                        [disabled]="character.heroPoints >= 3"
-                    >
-                        +
-                    </button>
-                </span>
-            </div>
+        <div class="fullsize-only list-item">
+            <strong>Character Name</strong>
 
-            <div class="fullsize-only list-item">
-                <strong>Character Name</strong>
+            <span>{{character.name}}</span>
+        </div>
 
-                <span>{{character.name}}</span>
-            </div>
+        <div
+            class="fullsize-only list-item"
+            *ngIf="character.class.ancestry.name"
+        >
+            <strong>Ancestry</strong>
 
-            <div
-                class="fullsize-only list-item"
-                *ngIf="character.class.ancestry.name"
-            >
-                <strong>Ancestry</strong>
-
-                <span>
-                    {{character.class.ancestry.name}}{{(character.class.heritage.name) ? " - " +
+            <span>
+                {{character.class.ancestry.name}}{{(character.class.heritage.name) ? " - " +
                     character.class.heritage.name : ""}}
-                </span>
+            </span>
 
-                <div
-                    class="newrow left-aligned"
-                    *ngIf="character.class.ancestry.traits.length"
+            <div
+                class="newrow left-aligned"
+                *ngIf="character.class.ancestry.traits.length"
+            >
+                <app-trait
+                    *ngFor="let trait of characterTraits(); trackBy:trackByIndex;"
+                    [name]="trait"
+                    [trait]="traitFromName(trait)"
                 >
-                    <app-trait
-                        *ngFor="let trait of characterTraits(); trackBy:trackByIndex;"
-                        [name]="trait"
-                        [trait]="traitFromName(trait)"
-                    >
-                    </app-trait>
-                </div>
-
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="'Ancestry'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [showEffects]=true
-                ></app-tags>
-            </div>
-
-            <div
-                class="fullsize-only list-item"
-                *ngIf="character.class.background && character.class.background.name"
-            >
-                <strong>Background</strong>
-
-                <span>{{character.class.background.name}}</span>
-            </div>
-
-            <div
-                class="fullsize-only list-item"
-                *ngIf="character.class.name"
-            >
-                <div
-                    class="newrow"
-                    *ngFor="let specialization of classChoices(); trackBy:trackByIndex;"
-                >
-                    <strong [ngStyle]="{'margin-left': specialization.subChoice ? '1em' : ''}">{{specialization.name}}</strong>
-
-                    <span>{{specialization.choice}}</span>
-                </div>
-            </div>
-
-            <div
-                class="fullsize-only list-item"
-                *ngIf="character.class.ancestry.name"
-            >
-                <strong>Size</strong>
-
-                <span>{{creatureSize()}}</span>
-
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="'Size'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [showEffects]=true
-                ></app-tags>
-            </div>
-
-            <div
-                class="fullsize-only list-item"
-                *ngIf="character.alignment && character.alignment.length"
-            >
-                <strong>Alignment</strong>
-
-                <span>{{character.alignment}}</span>
-
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="'Alignment'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [showEffects]=true
-                ></app-tags>
-            </div>
-
-            <div
-                class="fullsize-only list-item"
-                *ngIf="character.class.deity"
-            >
-                <strong>Deity</strong>
-
-                <span>{{character.class.deity}}</span>
-            </div>
-
-            <div
-                class="fullsize-only list-item"
-                *ngIf="domains().length"
-            >
-                <strong>Deity's Domains</strong>
-
-                <div class="newrow">
-                    <ul>
-                        <li *ngFor="let domain of domains(); trackBy:trackByIndex;">
-                            <ng-template #DomainDescTemplate>
-                                <div
-                                    class="newrow left-aligned"
-                                    *ngIf="domain.sourceBook"
-                                >
-                                    <strong>Source</strong>
-
-                                    <i>{{domain.sourceBook}}</i>
-                                </div>
-
-                                <div class="newrow left-aligned">{{domain.desc}}</div>
-                            </ng-template>
-
-                            <span [ngbPopover]="DomainDescTemplate">
-                                {{domain.name}}
-                                <i class="bi-question-circle"></i>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div
-                class="list-item"
-                *ngIf="character.class.ancestry.languages && character.class.ancestry.languages.length"
-            >
-                <strong>Languages</strong>
-
-                <span>{{languages()}}</span>
-
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="'Languages'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                ></app-tags>
-            </div>
-
-            <div
-                class="fullsize-only list-item"
-                *ngIf="tenets().length"
-            >
-                <strong>Tenets</strong>
-
-                <div class="newrow">
-                    <ul>
-                        <li *ngFor="let tenet of tenets(); trackBy:trackByIndex;">{{tenet}}</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div
-                class="fullsize-only list-item"
-                *ngIf="edicts().length"
-            >
-                <strong>Edicts</strong>
-
-                <div class="newrow">
-                    <ul>
-                        <li *ngFor="let edict of edicts(); trackBy:trackByIndex;">{{edict}}</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div
-                class="fullsize-only list-item"
-                *ngIf="anathema().length"
-            >
-                <strong>Anathema</strong>
-
-                <div class="newrow">
-                    <ul>
-                        <li *ngFor="let anathema of anathema(); trackBy:trackByIndex;">{{anathema}}</li>
-                    </ul>
-                </div>
+                </app-trait>
             </div>
 
             <app-tags
                 [creature]="creature"
-                [objectName]="'Tenets'"
+                [objectName]="'Ancestry'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            ></app-tags>
+        </div>
+
+        <div
+            class="fullsize-only list-item"
+            *ngIf="character.class.background && character.class.background.name"
+        >
+            <strong>Background</strong>
+
+            <span>{{character.class.background.name}}</span>
+        </div>
+
+        <div
+            class="fullsize-only list-item"
+            *ngIf="character.class.name"
+        >
+            <div
+                class="newrow"
+                *ngFor="let specialization of classChoices(); trackBy:trackByIndex;"
+            >
+                <strong [ngStyle]="{'margin-left': specialization.subChoice ? '1em' : ''}">{{specialization.name}}</strong>
+
+                <span>{{specialization.choice}}</span>
+            </div>
+        </div>
+
+        <div
+            class="fullsize-only list-item"
+            *ngIf="character.class.ancestry.name"
+        >
+            <strong>Size</strong>
+
+            <span>{{creatureSize()}}</span>
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Size'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            ></app-tags>
+        </div>
+
+        <div
+            class="fullsize-only list-item"
+            *ngIf="character.alignment && character.alignment.length"
+        >
+            <strong>Alignment</strong>
+
+            <span>{{character.alignment}}</span>
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Alignment'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            ></app-tags>
+        </div>
+
+        <div
+            class="fullsize-only list-item"
+            *ngIf="character.class.deity"
+        >
+            <strong>Deity</strong>
+
+            <span>{{character.class.deity}}</span>
+        </div>
+
+        <div
+            class="fullsize-only list-item"
+            *ngIf="domains().length"
+        >
+            <strong>Deity's Domains</strong>
+
+            <div class="newrow">
+                <ul>
+                    <li *ngFor="let domain of domains(); trackBy:trackByIndex;">
+                        <ng-template #DomainDescTemplate>
+                            <div
+                                class="newrow left-aligned"
+                                *ngIf="domain.sourceBook"
+                            >
+                                <strong>Source</strong>
+
+                                <i>{{domain.sourceBook}}</i>
+                            </div>
+
+                            <div class="newrow left-aligned">{{domain.desc}}</div>
+                        </ng-template>
+
+                        <span [ngbPopover]="DomainDescTemplate">
+                            {{domain.name}}
+                            <i class="bi-question-circle"></i>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div
+            class="list-item"
+            *ngIf="character.class.ancestry.languages && character.class.ancestry.languages.length"
+        >
+            <strong>Languages</strong>
+
+            <span>{{languages()}}</span>
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Languages'"
                 [showTraits]=true
                 [showFeats]=true
                 [showItems]=true
                 [showActivities]=true
                 [showConditions]=true
             ></app-tags>
+        </div>
 
-            <div
-                class="fullsize-only list-item"
-                *ngFor="let differentWorldsData of differentWorldsData(); trackBy:trackByIndex;"
-            >
-                <strong>Alternative Identity (Different Worlds)</strong>
+        <div
+            class="fullsize-only list-item"
+            *ngIf="tenets().length"
+        >
+            <strong>Tenets</strong>
 
-                <span>
-                    {{differentWorldsData.getValue('name')}} {{!!differentWorldsData.getValue('background') ?
+            <div class="newrow">
+                <ul>
+                    <li *ngFor="let tenet of tenets(); trackBy:trackByIndex;">{{tenet}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div
+            class="fullsize-only list-item"
+            *ngIf="edicts().length"
+        >
+            <strong>Edicts</strong>
+
+            <div class="newrow">
+                <ul>
+                    <li *ngFor="let edict of edicts(); trackBy:trackByIndex;">{{edict}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div
+            class="fullsize-only list-item"
+            *ngIf="anathema().length"
+        >
+            <strong>Anathema</strong>
+
+            <div class="newrow">
+                <ul>
+                    <li *ngFor="let anathema of anathema(); trackBy:trackByIndex;">{{anathema}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <app-tags
+            [creature]="creature"
+            [objectName]="'Tenets'"
+            [showTraits]=true
+            [showFeats]=true
+            [showItems]=true
+            [showActivities]=true
+            [showConditions]=true
+        ></app-tags>
+
+        <div
+            class="fullsize-only list-item"
+            *ngFor="let differentWorldsData of differentWorldsData(); trackBy:trackByIndex;"
+        >
+            <strong>Alternative Identity (Different Worlds)</strong>
+
+            <span>
+                {{differentWorldsData.getValue('name')}} {{!!differentWorldsData.getValue('background') ?
                     "("+differentWorldsData.getValue('background')+")" : ""}}
-                </span>
-            </div>
-        </ng-container>
+            </span>
+        </div>
+    </ng-container>
 
-        <ng-container *ngIf="creature==='Companion'">
-            <div
-                class="newrow left-aligned tags"
-                *ngIf="companion.class.ancestry.name"
+    <ng-container *ngIf="creature==='Companion'">
+        <div
+            class="newrow left-aligned tags"
+            *ngIf="companion.class.ancestry.name"
+        >
+            <app-trait
+                *ngFor="let trait of companion.class.ancestry.traits; trackBy:trackByIndex;"
+                [name]="trait"
+                [trait]="traitFromName(trait)"
             >
-                <app-trait
-                    *ngFor="let trait of companion.class.ancestry.traits; trackBy:trackByIndex;"
-                    [name]="trait"
-                    [trait]="traitFromName(trait)"
-                >
-                </app-trait>
-            </div>
+            </app-trait>
+        </div>
+
+        <app-tags
+            [creature]="creatureTypesEnum.Character"
+            [objectName]="'Animal Companion'"
+            [showTraits]=true
+            [showFeats]=true
+            [showItems]=true
+            [showActivities]=true
+            [showConditions]=true
+            [showEffects]=true
+        >
+        </app-tags>
+
+        <div class="fullsize-only list-item">
+            <strong>Companion Name</strong>
+
+            <span>{{companion.name}}</span>
+        </div>
+
+        <div class="fullsize-only list-item">
+            <strong>Animal</strong>
+
+            <span>{{companionSpecies()}}</span>
+        </div>
+
+        <div
+            class="fullsize-only list-item"
+            *ngIf="companion.class.specializations.length"
+        >
+            <strong>Specializations</strong>
+
+            <span>{{companionSpecializations()}}</span>
+        </div>
+
+        <div
+            class="fullsize-only list-item"
+            *ngIf="companion.class.ancestry.name"
+        >
+            <strong>Size</strong>
+
+            <span>{{creatureSize()}}</span>
 
             <app-tags
-                [creature]="creatureTypesEnum.Character"
-                [objectName]="'Animal Companion'"
+                [creature]="creature"
+                [objectName]="'Size'"
                 [showTraits]=true
                 [showFeats]=true
                 [showItems]=true
                 [showActivities]=true
                 [showConditions]=true
                 [showEffects]=true
+            ></app-tags>
+        </div>
+
+        <div
+            class="list-item"
+            *ngIf="companion.class.ancestry.name"
+        >
+            <strong>Support Benefit</strong>
+
+            <p>
+                {{companion.class.ancestry.supportBenefit}}
+            </p>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="creature==='Familiar'">
+        <div class="newrow left-aligned tags">
+            <app-trait
+                *ngFor="let trait of familiar.traits; trackBy:trackByIndex;"
+                [name]="trait"
+                [trait]="traitFromName(trait)"
             >
-            </app-tags>
+            </app-trait>
+        </div>
 
-            <div class="fullsize-only list-item">
-                <strong>Companion Name</strong>
+        <app-tags
+            [creature]="creatureTypesEnum.Character"
+            [objectName]="'Familiar'"
+            [showTraits]=true
+            [showFeats]=true
+            [showItems]=true
+            [showActivities]=true
+            [showConditions]=true
+            [showEffects]=true
+        >
+        </app-tags>
 
-                <span>{{companion.name}}</span>
-            </div>
+        <div class="fullsize-only list-item">
+            <strong>Familiar Name</strong>
 
-            <div class="fullsize-only list-item">
-                <strong>Animal</strong>
+            <span>{{familiar.name}}</span>
+        </div>
 
-                <span>{{companionSpecies()}}</span>
-            </div>
+        <div class="fullsize-only list-item">
+            <strong>Creature</strong>
 
-            <div
-                class="fullsize-only list-item"
-                *ngIf="companion.class.specializations.length"
-            >
-                <strong>Specializations</strong>
+            <span>{{familiar.species}}</span>
+        </div>
 
-                <span>{{companionSpecializations()}}</span>
-            </div>
+        <div class="fullsize-only list-item">
+            <strong>Size</strong>
 
-            <div
-                class="fullsize-only list-item"
-                *ngIf="companion.class.ancestry.name"
-            >
-                <strong>Size</strong>
+            <span>{{creatureSize()}}</span>
 
-                <span>{{creatureSize()}}</span>
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Size'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            ></app-tags>
+        </div>
 
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="'Size'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [showEffects]=true
-                ></app-tags>
-            </div>
+        <div class="vlist">
+            <header class="subsectionHeader">Familiar Abilities</header>
 
             <div
                 class="list-item"
-                *ngIf="companion.class.ancestry.name"
+                *ngFor="let ability of familiar.abilities.feats; trackBy:trackByIndex;"
             >
-                <strong>Support Benefit</strong>
+                <strong>{{ability.name}}</strong>
 
-                <p>
-                    {{companion.class.ancestry.supportBenefit}}
-                </p>
-            </div>
-        </ng-container>
+                <div class="newrow left-aligned tags">
+                    <app-trait
+                        *ngFor="let trait of familiarAbilityFromName(ability.name).traits; trackBy:trackByIndex;"
+                        [name]="trait"
+                        [trait]="traitFromName(trait)"
+                    >
+                    </app-trait>
+                </div>
 
-        <ng-container *ngIf="creature==='Familiar'">
-            <div class="newrow left-aligned tags">
-                <app-trait
-                    *ngFor="let trait of familiar.traits; trackBy:trackByIndex;"
-                    [name]="trait"
-                    [trait]="traitFromName(trait)"
-                >
-                </app-trait>
-            </div>
-
-            <app-tags
-                [creature]="creatureTypesEnum.Character"
-                [objectName]="'Familiar'"
-                [showTraits]=true
-                [showFeats]=true
-                [showItems]=true
-                [showActivities]=true
-                [showConditions]=true
-                [showEffects]=true
-            >
-            </app-tags>
-
-            <div class="fullsize-only list-item">
-                <strong>Familiar Name</strong>
-
-                <span>{{familiar.name}}</span>
-            </div>
-
-            <div class="fullsize-only list-item">
-                <strong>Creature</strong>
-
-                <span>{{familiar.species}}</span>
-            </div>
-
-            <div class="fullsize-only list-item">
-                <strong>Size</strong>
-
-                <span>{{creatureSize()}}</span>
-
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="'Size'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [showEffects]=true
-                ></app-tags>
-            </div>
-
-            <div class="vlist">
-                <header class="subsectionHeader">Familiar Abilities</header>
-
-                <div
-                    class="list-item"
-                    *ngFor="let ability of familiar.abilities.feats; trackBy:trackByIndex;"
-                >
-                    <strong>{{ability.name}}</strong>
-
-                    <div class="newrow left-aligned tags">
-                        <app-trait
-                            *ngFor="let trait of familiarAbilityFromName(ability.name).traits; trackBy:trackByIndex;"
-                            [name]="trait"
-                            [trait]="traitFromName(trait)"
-                        >
-                        </app-trait>
-                    </div>
-
-                    <div class="newrow left-aligned">
-                        {{familiarAbilityFromName(ability.name).desc}}
-                    </div>
+                <div class="newrow left-aligned">
+                    {{familiarAbilityFromName(ability.name).desc}}
                 </div>
             </div>
-        </ng-container>
+        </div>
     </ng-container>
 </div>

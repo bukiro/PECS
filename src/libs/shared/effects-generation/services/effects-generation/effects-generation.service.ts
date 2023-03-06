@@ -62,7 +62,7 @@ export class EffectsGenerationService {
         this._refreshService.componentChanged$
             .subscribe(target => {
                 //Only react to effects refreshing commands when a character is not currently being loaded.
-                if (StatusService.isLoadingCharacter) {
+                if (StatusService.isLoadingCharacter$.value) {
                     return;
                 }
 
@@ -86,7 +86,7 @@ export class EffectsGenerationService {
         this._refreshService.detailChanged$
             .subscribe(target => {
                 //Only react to effects refreshing commands when a character is not currently being loaded.
-                if (StatusService.isLoadingCharacter) {
+                if (StatusService.isLoadingCharacter$.value) {
                     return;
                 }
 
@@ -883,7 +883,7 @@ export class EffectsGenerationService {
             this._refreshService.prepareChangesByEffects(effects, this._creatureEffectsService.effects(context.creature.type).all, context);
             this._creatureEffectsService.replaceCreatureEffects(context.creature.type, effects);
 
-            if (!StatusService.isLoadingCharacter) {
+            if (!StatusService.isLoadingCharacter$.value) {
                 return this._generateEffects(context.creature.type, { secondRun: true });
             } else {
                 return false;

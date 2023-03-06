@@ -19,9 +19,8 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface SpeedParameters {
     name: string;
@@ -79,7 +78,7 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
     }
 
     public get stillLoading(): boolean {
-        return this._skillsDataService.stillLoading || StatusService.isLoadingCharacter;
+        return this._skillsDataService.stillLoading;
     }
 
     private get _character(): Character {

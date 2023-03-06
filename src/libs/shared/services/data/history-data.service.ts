@@ -98,7 +98,6 @@ export class HistoryDataService {
             Heritage,
         );
 
-
         this._initialized = true;
     }
 

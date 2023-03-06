@@ -13,7 +13,7 @@ import { CalculatedSkill, SkillValuesService } from 'src/libs/shared/services/sk
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -93,7 +93,6 @@ export class SkillComponent extends TrackByMixin(BaseClass) implements OnInit, O
 
     public skillNotes(skill: Skill): SkillNotes {
         const foundCustomSkill = this._currentCreature.customSkills.find(customSkill => customSkill.name === skill.name);
-
 
         if (foundCustomSkill) {
             return foundCustomSkill;

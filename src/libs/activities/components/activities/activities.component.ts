@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/character/character.service';
-import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
@@ -17,9 +16,8 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface ActivitySet {
     name: string;
@@ -56,7 +54,6 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
-        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
@@ -74,10 +71,6 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
 
     public get isTileMode(): boolean {
         return this._character.settings.activitiesTileMode;
-    }
-
-    public get stillLoading(): boolean {
-        return this._activitiesDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     public get currentCreature(): Creature {

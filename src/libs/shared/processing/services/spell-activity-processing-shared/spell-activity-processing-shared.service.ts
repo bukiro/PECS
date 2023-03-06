@@ -258,7 +258,6 @@ export class SpellActivityProcessingSharedService {
         source: Activity | Spell,
     ): void {
 
-
         //Apply to any targets that are your own creatures.
         conditionTargets.filter(target => !(target instanceof SpellTarget)).forEach(target => {
             this._creatureConditionsService.addCondition(target as Creature, newConditionGain, {}, { noReload: true });

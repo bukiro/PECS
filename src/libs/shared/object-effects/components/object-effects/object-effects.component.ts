@@ -7,7 +7,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface EffectValueParameters {
     displayType?: 'Formula' | 'Toggle' | 'Value';

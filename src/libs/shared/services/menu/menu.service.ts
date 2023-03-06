@@ -41,7 +41,6 @@ export class MenuService {
         private readonly _refreshService: RefreshService,
     ) { }
 
-
     public get characterMenuState(): MenuState {
         return this._menuState.character;
     }

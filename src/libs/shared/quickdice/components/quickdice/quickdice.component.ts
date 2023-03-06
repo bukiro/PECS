@@ -50,7 +50,7 @@ export class QuickdiceComponent implements OnChanges {
 
     @Input()
     public set ghost(ghost: string | boolean | undefined) {
-        this._ghost = ghost !== undefined;
+        this._ghost = ghost !== undefined && ghost !== false;
     }
 
     public roll(forceLocal = false): void {

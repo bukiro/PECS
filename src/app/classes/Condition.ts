@@ -27,7 +27,6 @@ export interface ConditionOverride {
     conditionChoiceFilter?: Array<string>;
 }
 
-
 export interface OtherConditionSelection {
     title?: string;
     nameFilter?: Array<string>;

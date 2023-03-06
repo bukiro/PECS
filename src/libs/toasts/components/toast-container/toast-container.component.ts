@@ -5,7 +5,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ToastService } from '../../services/toast/toast.service';
 import { Toast } from '../../definitions/interfaces/toast';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
     selector: 'app-toast-container',

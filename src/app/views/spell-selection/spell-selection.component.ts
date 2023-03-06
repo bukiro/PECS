@@ -18,10 +18,9 @@ import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -87,10 +86,6 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClas
 
     public get character(): Character {
         return CreatureService.character;
-    }
-
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
     }
 
     public get spellsMenuState(): string {

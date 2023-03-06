@@ -36,7 +36,7 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
     selector: 'app-item',

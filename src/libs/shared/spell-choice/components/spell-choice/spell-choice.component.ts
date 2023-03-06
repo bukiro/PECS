@@ -25,7 +25,7 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface SpellSet {
     spell: Spell;
@@ -72,7 +72,6 @@ interface SpellBlendingParameters {
     slotsTradedInFromThisForTwoLevelsHigher: number;
     areNoSlotsTradedInFromThis: boolean;
 }
-
 
 @Component({
     selector: 'app-spell-choice',
@@ -318,7 +317,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                 !slotsTradedInFromThisForOneLevelHigher &&
                 !slotsTradedInFromThisForTwoLevelsHigher;
 
-
             return {
                 isUnlockedForCantrips: this._isSpellBlendingUnlockedForThisLevel(0),
                 isUnlockedForOneLevelHigher: this._isSpellBlendingUnlockedForThisLevel(this.choice.level + oneLevelHigher),
@@ -492,7 +490,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                         !!choice.spells[0]?.combinationSpellName &&
                         componentParameters.availableSpellSlots <= choice.spells.length
                     );
-
 
                 return {
                     spell,

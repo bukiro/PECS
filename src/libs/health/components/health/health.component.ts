@@ -13,11 +13,10 @@ import { CalculatedHealth, HealthService } from 'src/libs/shared/services/health
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
     selector: 'app-health',
@@ -64,10 +63,6 @@ export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, 
             default:
                 return CreatureService.character.settings.healthMinimized;
         }
-    }
-
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
     }
 
     public get character(): Character {

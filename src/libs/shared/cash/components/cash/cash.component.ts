@@ -47,6 +47,5 @@ export class CashComponent {
         this._refreshService.processPreparedChanges();
     }
 
-
 }
 

@@ -24,5 +24,4 @@ export class AppStateService {
         this._characterLoadedOrCreated = true;
     }
 
-
 }

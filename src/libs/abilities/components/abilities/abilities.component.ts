@@ -7,9 +7,8 @@ import { CreatureService } from 'src/libs/shared/services/character/character.se
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService, CalculatedAbility } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
     selector: 'app-abilities',
@@ -38,10 +37,6 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
         return this.creature === CreatureTypes.AnimalCompanion
             ? CreatureService.character.settings.companionMinimized
             : CreatureService.character.settings.abilitiesMinimized;
-    }
-
-    public get stillLoading(): boolean {
-        return this._abilitiesDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     private get _currentCreature(): Creature {

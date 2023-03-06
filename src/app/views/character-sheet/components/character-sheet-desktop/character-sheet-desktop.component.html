@@ -1,0 +1,158 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<div class="charactersheet-card filter-buttons">
+    <button
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': !shownMode}"
+        (click)="toggleShownMode('All')"
+    >
+        Show All
+    </button>
+
+    <button
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Encounter'}"
+        (click)="toggleShownMode('Encounter')"
+    >
+        Encounter
+    </button>
+
+    <button
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Exploration'}"
+        (click)="toggleShownMode('Exploration')"
+    >
+        Exploration
+    </button>
+
+    <button
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Downtime'}"
+        (click)="toggleShownMode('Downtime')"
+    >
+        Downtime
+    </button>
+
+    <button
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Inventory'}"
+        (click)="toggleShownMode('Inventory')"
+    >
+        Inventory
+    </button>
+
+    <button
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'ConditionsEffects'}"
+        (click)="toggleShownMode('ConditionsEffects')"
+    >
+        Conditions & Effects
+    </button>
+</div>
+
+<ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
+    <app-time
+        class="charactersheet-card"
+        [showTurn]="(['All','Encounter'].includes(shownMode))"
+        [showTime]="(shownMode !== 'Encounter')"
+        [ngClass]="{'minimized': settings.timeMinimized}"
+    ></app-time>
+
+    <app-effects class="charactersheet-card"></app-effects>
+
+    <div class="charactersheet-columns">
+        <div
+            class="charactersheet-columns__column"
+            *ngFor="let column of [0, 1]; trackBy: trackByIndex;"
+        >
+
+            <app-general
+                class="charactersheet-card"
+                [ngClass]="{'minimized': settings.generalMinimized}"
+                *ngIf="showInColumn[column][shownMode]?.includes('general_upper')"
+            ></app-general>
+
+            <app-defense
+                class="charactersheet-card"
+                [ngClass]="{'minimized': settings.defenseMinimized}"
+                *ngIf="showInColumn[column][shownMode]?.includes('defense')"
+            ></app-defense>
+
+            <ng-container *ngFor="let order of [0, 1]; trackBy:trackByIndex;">
+                <app-attacks
+                    class="charactersheet-card"
+                    [ngClass]="{'minimized': settings.attacksMinimized}"
+                    *ngIf="showInColumn[column][shownMode]?.includes('attacks') && attacksAndSpellsOrder['attacks'] === order"
+                >
+                </app-attacks>
+
+                <app-spellbook
+                    class="charactersheet-card"
+                    [ngClass]="{'minimized': settings.spellbookMinimized}"
+                    *ngIf="showInColumn[column][shownMode]?.includes('spellbook_upper') && attacksAndSpellsOrder['spells'] === order"
+                >
+                </app-spellbook>
+            </ng-container>
+
+            <app-health
+                class="charactersheet-card"
+                [showMinimizeButton]="(shownMode !== 'Downtime')"
+                [ngClass]="{'minimized':(settings.healthMinimized || (shownMode === 'Downtime'))}"
+                *ngIf="showInColumn[column][shownMode]?.includes('health')"
+            ></app-health>
+
+            <app-general
+                class="charactersheet-card"
+                [ngClass]="{'minimized': settings.generalMinimized}"
+                *ngIf="showInColumn[column][shownMode]?.includes('general_lower')"
+            ></app-general>
+
+            <app-abilities
+                class="charactersheet-card"
+                [ngClass]="{'minimized': settings.abilitiesMinimized}"
+                *ngIf="showInColumn[column][shownMode]?.includes('abilities')"
+            ></app-abilities>
+
+            <app-skills
+                class="charactersheet-card"
+                [ngClass]="{'minimized': settings.skillsMinimized}"
+                *ngIf="showInColumn[column][shownMode]?.includes('skills')"
+            ></app-skills>
+
+            <app-activities
+                class="charactersheet-card"
+                [ngClass]="{'minimized': settings.activitiesMinimized}"
+                *ngIf="showInColumn[column][shownMode]?.includes('activities')"
+            ></app-activities>
+
+            <app-spellbook
+                class="charactersheet-card"
+                [ngClass]="{'minimized': settings.spellbookMinimized}"
+                *ngIf="showInColumn[column][shownMode]?.includes('spellbook_lower')"
+            ></app-spellbook>
+
+            <app-inventory
+                class="charactersheet-card"
+                [ngClass]="{'minimized': settings.inventoryMinimized}"
+                *ngIf="showInColumn[column][shownMode]?.includes('inventory')"
+            ></app-inventory>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #ConditionsAndEffectsTemplate>
+    <app-time
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.timeMinimized}"
+    ></app-time>
+
+    <app-effects
+        class="charactersheet-card"
+        [fullDisplay]="true"
+    ></app-effects>
+</ng-template>

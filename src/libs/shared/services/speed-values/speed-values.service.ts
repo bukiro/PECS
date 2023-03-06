@@ -93,7 +93,7 @@ export class SpeedValuesService {
 
     private _baseValue(speed: Speed, creature: Creature): { result: number; explain: string } {
         //Gets the basic speed and adds all effects
-        if (StatusService.isLoadingCharacter) { return { result: 0, explain: '' }; }
+        if (StatusService.isLoadingCharacter$.value) { return { result: 0, explain: '' }; }
 
         //Get the base speed from the ancestry.
         const baseValue = creature.baseSpeed(speed.name);

@@ -16,7 +16,7 @@ import { ConditionPropertiesService } from 'src/libs/shared/services/condition-p
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface ComponentParameters {
     effects: Array<Effect>;

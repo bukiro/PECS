@@ -40,7 +40,7 @@ import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.servi
 import { Activity } from 'src/app/classes/Activity';
 import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
     selector: 'app-new-item-property',

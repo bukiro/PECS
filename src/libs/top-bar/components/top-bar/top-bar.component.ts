@@ -5,7 +5,7 @@ import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Savegame } from 'src/app/classes/Savegame';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -28,7 +28,7 @@ import { CharacterSavingService } from 'src/libs/shared/services/saving-loading/
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
     selector: 'app-top-bar',
@@ -49,6 +49,9 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
     public password = '';
     public passwordFailed = false;
     public MenuNamesEnum = MenuNames;
+
+    public isLoadingCharacter$: Observable<boolean>;
+    public loadingStatus$: Observable<string>;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -71,6 +74,9 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
         public modal: NgbActiveModal,
     ) {
         super();
+
+        this.isLoadingCharacter$ = StatusService.isLoadingCharacter$;
+        this.loadingStatus$ = StatusService.loadingStatus$;
     }
 
     public get hasDBConnectionURL(): boolean {
@@ -91,10 +97,6 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
 
     public get loggedOutMessage(): string {
         return this._configService.loggedOutMessage;
-    }
-
-    public get loadingButtonTitle(): string {
-        return StatusService.loadingStatus;
     }
 
     public get areSavegamesInitializing(): boolean {
@@ -120,11 +122,6 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
     public get familiar(): Familiar {
         return CreatureService.familiar;
     }
-
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
-    }
-
     public get itemsMenuState(): MenuState {
         return this._menuService.itemsMenuState;
     }

@@ -52,7 +52,7 @@ export class DocumentStyleService {
             }
         };
 
-        if (!StatusService.isLoadingCharacter) {
+        if (!StatusService.isLoadingCharacter$.value) {
             const original = CreatureService.character.settings.accent;
 
             if (original.length === rgbLength || original.length === rrggbbLength) {

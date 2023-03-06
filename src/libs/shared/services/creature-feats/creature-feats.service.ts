@@ -20,7 +20,7 @@ export class CreatureFeatsService {
         filter: { charLevel?: number; minLevel?: number } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
     ): number {
-        if (StatusService.isLoadingCharacter) { return 0; }
+        if (StatusService.isLoadingCharacter$.value) { return 0; }
 
         filter = {
             charLevel: CreatureService.character.level,

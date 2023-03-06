@@ -185,7 +185,6 @@ export class ActivitiesProcessingService {
                 shouldClosePopupsAfterActivation =
                     gainingConditionsResult.shouldClosePopupsAfterActivation || shouldClosePopupsAfterActivation;
 
-
             }
 
             //Cast Spells

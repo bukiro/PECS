@@ -23,9 +23,8 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 const itemsPerPage = 40;
 const showAllLists = -2;
@@ -77,10 +76,6 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
 
     public get isTileMode(): boolean {
         return this._character.settings.spellLibraryTileMode;
-    }
-
-    public get stillLoading(): boolean {
-        return this._spellsDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     private get _character(): Character {
@@ -539,7 +534,6 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
                 disabled: !this._canSpellBeLearned(sorcererCasting, level, spell, key),
             });
         }
-
 
         const learnAsSpellKey = SpellLearningMethods.LearnASpell;
 

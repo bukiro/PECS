@@ -8,7 +8,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Subscription } from 'rxjs';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
@@ -25,7 +25,6 @@ import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
@@ -72,10 +71,6 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
         private readonly _characterFeatsService: CharacterFeatsService,
     ) {
         super();
-    }
-
-    public get stillLoading(): boolean {
-        return this._itemsDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     public get isInventoryMinimized(): boolean {

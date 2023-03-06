@@ -56,11 +56,10 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -147,10 +146,6 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
             default:
                 return CreatureService.character.settings.inventoryMinimized;
         }
-    }
-
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
     }
 
     public get isTileMode(): boolean {

@@ -21,6 +21,8 @@ import { AnimalCompanionModule } from '../animal-companion/animal-companion.modu
 import { CharacterCreationModule } from '../character-creation/character-creation.module';
 import { AttacksModule } from 'src/libs/attacks/attacks.module';
 import { SpellbookModule } from 'src/libs/spellbook/spellbook.module';
+import { CharacterSheetDesktopComponent } from './components/character-sheet-desktop/character-sheet-desktop.component';
+import { CharacterSheetMobileComponent } from './components/character-sheet-mobile/character-sheet-mobile.component';
 
 @NgModule({
     imports: [
@@ -49,6 +51,8 @@ import { SpellbookModule } from 'src/libs/spellbook/spellbook.module';
     ],
     declarations: [
         CharacterSheetComponent,
+        CharacterSheetDesktopComponent,
+        CharacterSheetMobileComponent,
     ],
     exports: [
         CharacterSheetComponent,

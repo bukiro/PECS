@@ -6,9 +6,8 @@ import { Subscription } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
     selector: 'app-time',
@@ -38,10 +37,6 @@ export class TimeComponent extends TrackByMixin(BaseClass) implements OnInit, On
 
     public get isMinimized(): boolean {
         return CreatureService.character.settings.timeMinimized;
-    }
-
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
     }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {

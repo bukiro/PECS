@@ -18,7 +18,6 @@ import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { ClassSavingLoadingService } from '../class-saving-loading/class-saving-loading.service';
 import { HistorySavingLoadingService } from '../history-saving-loading/history-saving-loading.service';
 
-
 interface SaveCharacterResponse {
     result: { n: number; ok: number };
     lastErrorObject?: { updatedExisting?: number };

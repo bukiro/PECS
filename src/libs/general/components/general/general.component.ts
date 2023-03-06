@@ -19,13 +19,11 @@ import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 import { ClassesDataService } from 'src/libs/shared/services/data/classes-data.service';
-import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
     selector: 'app-general',
@@ -55,7 +53,6 @@ export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit,
         private readonly _classesDataService: ClassesDataService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
         private readonly _deityDomainsService: DeityDomainsService,
-        private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) {
@@ -71,10 +68,6 @@ export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit,
             default:
                 return CreatureService.character.settings.generalMinimized;
         }
-    }
-
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
     }
 
     public get character(): Character {

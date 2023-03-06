@@ -31,7 +31,7 @@ import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
 import { FeatRequirementsService } from 'src/libs/character-creation/services/feat-requirement/featRequirements.service';
 import { FeatTakingService } from 'src/libs/character-creation/services/feat-taking/feat-taking.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface FeatParameters {
     available: boolean;
@@ -501,7 +501,6 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) implements OnIn
     public shouldHideChoice(choice: FeatChoice, allowed: number): boolean {
         //First remove any illegal feats.
         this._removeIllegalFeats(choice);
-
 
         // If autoSelectIfPossible is true, feats are selected and deselected at this point.
         // The choice will only be displayed if there are more options available than allowed.

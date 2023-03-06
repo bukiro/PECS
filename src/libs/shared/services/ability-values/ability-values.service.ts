@@ -63,7 +63,7 @@ export class AbilityValuesService {
         if (creature.isFamiliar()) {
             return { result: 0, explain: '' };
         } else {
-            if (StatusService.isLoadingCharacter) {
+            if (StatusService.isLoadingCharacter$.value) {
                 return { result: Defaults.abilityBaseValue, explain: 'Base value: 10' };
             }
 

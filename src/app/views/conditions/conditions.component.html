@@ -33,14 +33,7 @@
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
 
-    <div
-        class="loading"
-        *ngIf="stillLoading"
-    >
-        Loading
-    </div>
-
-    <ng-container *ngIf="!stillLoading && conditionsMenuState==='in'">
+    <ng-container *ngIf="conditionsMenuState==='in'">
         <ng-container *ngIf="componentParameters() as componentParameters">
             <div class="charactersheet-column-container">
                 <div class="charactersheet-column">

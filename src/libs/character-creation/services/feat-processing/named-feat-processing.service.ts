@@ -148,7 +148,6 @@ export class NamedFeatProcessingService {
                         character.class.addSpellChoice(familiarLevel.number, newSpellChoice);
                     }
 
-
                 }
             } else {
                 const oldSpellChoice = spellCasting?.spellChoices.find(spellChoice => spellChoice.source === `Feat: ${ feat.name }`);

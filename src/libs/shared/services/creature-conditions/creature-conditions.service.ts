@@ -44,7 +44,6 @@ export class CreatureConditionsService {
         const activeConditions = creature.conditions;
         const creatureIndex: number = CreatureTypeIDFromType(creature.type);
 
-
         // Readonly skips any modifications and just returns the currently applied conditions.
         // The same happens if the conditions haven't changed since the last run.
         if (
@@ -89,7 +88,6 @@ export class CreatureConditionsService {
             let hasConditionBeenAdded = false;
 
             if (workingGain.addValue || workingGain.increaseRadius) {
-
 
                 const existingConditions = creature.conditions.filter(creatureGain => creatureGain.name === workingGain.name);
 
@@ -154,7 +152,6 @@ export class CreatureConditionsService {
                     this._refreshService.prepareDetailToChange(creature.type, 'time');
                     this._refreshService.prepareDetailToChange(creature.type, 'health');
                 }
-
 
                 if (!options.noReload) {
                     this._refreshService.processPreparedChanges();

@@ -35,7 +35,7 @@ import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BehaviorSubject, map, noop, Observable, Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -87,8 +87,8 @@ import { SavegamesService } from 'src/libs/shared/services/saving-loading/savega
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -110,12 +110,12 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public versionString: string = package_json.version;
     public creatureTypesEnum = CreatureTypes;
 
-
     public activeAbilityChoiceContent$: Observable<{ name: string; levelNumber: number; choice: AbilityChoice } | undefined>;
     public activeSkillChoiceContent$: Observable<{ name: string; levelNumber: number; choice: SkillChoice } | undefined>;
     public activeFeatChoiceContent$: Observable<{ name: string; levelNumber: number; choice: FeatChoice } | undefined>;
     public activeLoreChoiceContent$: Observable<{ name: string; levelNumber: number; choice: LoreChoice } | undefined>;
 
+    public isLoadingCharacter$: Observable<boolean>;
 
     private _showLevel = 0;
     private _showItem = '';
@@ -179,6 +179,8 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     ) {
         super();
 
+        this.isLoadingCharacter$ = StatusService.isLoadingCharacter$;
+
         this.activeAbilityChoiceContent$ = this._activeChoiceContent$
             .pipe(
                 map(content =>
@@ -226,10 +228,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public get isTileMode(): boolean {
         return this.character.settings.characterTileMode;
-    }
-
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
     }
 
     public get areSavegamesInitializing(): boolean {

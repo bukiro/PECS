@@ -18,7 +18,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Subscription } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -37,7 +37,6 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 
@@ -121,10 +120,6 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
 
     public get isTileMode(): boolean {
         return this.character.settings.conditionsTileMode;
-    }
-
-    public get stillLoading(): boolean {
-        return this._conditionsDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     public get character(): Character {

@@ -14,7 +14,7 @@ import { Rune } from 'src/app/classes/Rune';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface ItemParameters {
     item: Item;

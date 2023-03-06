@@ -13,13 +13,11 @@
         *ngIf="isMinimized"
     ></i>
 
-
     <i
         class='bi-arrows-expand'
         *ngIf="!isMinimized"
     ></i>
 </button>
-
 
 <div
     id="{{creature}}-attacks-height"
@@ -33,7 +31,6 @@
             ></app-object-effects>
         </div>
 
-
         <div class="fullsize-only newrow">
             <app-object-effects
                 [creature]="creature"
@@ -41,7 +38,6 @@
             ></app-object-effects>
         </div>
     </ng-template>
-
 
     <header class="sectionHeader box-header">
         <span
@@ -58,694 +54,672 @@
         Attacks
     </header>
 
+    <app-tags
+        [creature]="creature"
+        [objectName]="'Attacks'"
+        [showTraits]=true
+        [showFeats]=true
+        [showItems]=true
+        [showActivities]=true
+        [showConditions]=true
+        [showEffects]=true
+    ></app-tags>
 
-    <div
-        class="loading"
-        *ngIf="stillLoading"
-    >
-        Loading
+    <div class="list-item newrow">
+        <strong>Multiple Attack Penalty</strong>
+
+        <ng-container *ngIf="multipleAttackPenalty() as map;">
+            <span class="hlist left-aligned">
+                <button
+                    type="button"
+                    aria-label="Toggle second attack penalty"
+                    class="center-aligned bigger"
+                    [ngClass]="{'fancy-button': map === '2'}"
+                    [ngbTooltip]="map === '2' ? 'End Multiple Attack Penalty' : 'Second Attack'"
+                    (click)="setMultipleAttackPenalty(map === '2' ? '1' : '2')"
+                >
+                    <i class="ra ra-level-two"></i>
+                </button>
+
+                <button
+                    type="button"
+                    aria-label="Toggle third attack penalty"
+                    class="center-aligned bigger"
+                    [ngClass]="{'fancy-button': map === '3'}"
+                    [ngbTooltip]="map === '3' ? 'End Multiple Attack Penalty' : 'Third Attack'"
+                    (click)="setMultipleAttackPenalty(map === '3' ? '1' : '3')"
+                >
+                    <i class="ra ra-level-three"></i>
+                </button>
+            </span>
+
+            <ng-container *ngIf="isFlurryAllowed()">
+                <strong>Flurry MAP</strong>
+
+                <span class="hlist right-aligned">
+                    <button
+                        type="button"
+                        aria-label="Toggle second attack penalty with flurry"
+                        class="center-aligned bigger"
+                        [ngClass]="{'fancy-button': map === '2f'}"
+                        [ngbTooltip]="map === '2f' ? 'End Multiple Attack Penalty' : 'Second Attack (Flurry)'"
+                        (click)="setMultipleAttackPenalty(map === '2f' ? '1' : '2f')"
+                    >
+                        <i class="ra ra-crossed-swords"></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Toggle third attack penalty with flurry"
+                        class="center-aligned bigger"
+                        [ngClass]="{'fancy-button': map === '3f'}"
+                        [ngbTooltip]="map === '3f' ? 'End Multiple Attack Penalty' : 'Third Attack (Flurry)'"
+                        (click)="setMultipleAttackPenalty(map === '3f' ? '1' : '3f')"
+                    >
+                        <i class="ra ra-daggers"></i>
+                    </button>
+                </span>
+            </ng-container>
+        </ng-container>
     </div>
 
+    <div class="list-item newrow">
+        <strong>Range Penalty</strong>
 
-    <ng-container *ngIf="!stillLoading">
+        <ng-container *ngIf="rangePenalty() as rap;">
+            <span class="hlist left-aligned">
+                <button
+                    type="button"
+                    aria-label="Toggle second range increment"
+                    class="center-aligned bigger"
+                    [ngClass]="{'fancy-button': rap === '2'}"
+                    [ngbTooltip]="rap === '2' ? 'End Range Penalty' : 'Second Range Increment'"
+                    (click)="setRangePenalty(rap === '2' ? '1' : '2')"
+                >
+                    <i class="ra ra-dice-two"></i>
+                </button>
+
+                <button
+                    type="button"
+                    aria-label="Toggle third range increment"
+                    class="center-aligned bigger"
+                    [ngClass]="{'fancy-button': rap === '3'}"
+                    [ngbTooltip]="rap === '3' ? 'End Range Penalty' : 'Third Range Increment'"
+                    (click)="setRangePenalty(rap === '3' ? '1' : '3')"
+                >
+                    <i class="ra ra-dice-three"></i>
+                </button>
+
+                <button
+                    type="button"
+                    aria-label="Toggle fourth range increment"
+                    class="center-aligned bigger"
+                    [ngClass]="{'fancy-button': rap === '4'}"
+                    [ngbTooltip]="rap === '4' ? 'End Range Penalty' : 'Fourth Range Increment'"
+                    (click)="setRangePenalty(rap === '4' ? '1' : '4')"
+                >
+                    <i class="ra ra-dice-four"></i>
+                </button>
+
+                <button
+                    type="button"
+                    aria-label="Toggle fifth range increment"
+                    class="center-aligned bigger"
+                    [ngClass]="{'fancy-button': rap === '5'}"
+                    [ngbTooltip]="rap === '5' ? 'End Range Penalty' : 'Fifth Range Increment'"
+                    (click)="setRangePenalty(rap === '5' ? '1' : '5')"
+                >
+                    <i class="ra ra-dice-five"></i>
+                </button>
+
+                <button
+                    type="button"
+                    aria-label="Toggle sixth range increment"
+                    class="center-aligned bigger"
+                    [ngClass]="{'fancy-button': rap === '6'}"
+                    [ngbTooltip]="rap === '6' ? 'End Range Penalty' : 'Sixth Range Increment'"
+                    (click)="setRangePenalty(rap === '6' ? '1' : '6')"
+                >
+                    <i class="ra ra-dice-six"></i>
+                </button>
+            </span>
+        </ng-container>
+    </div>
+
+    <ng-container *ngFor="let weaponParameters of equippedWeaponsParameters(); let weaponIndex = index; trackBy:trackByIndex;">
+        <div
+            class="fullsize-only list-item"
+            *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex === 0"
+        >
+            <strong class="gap-text">
+                <input
+                    id="showRestricted"
+                    type="checkbox"
+                    [(ngModel)]="showRestricted"
+                >
+                <label for="showRestricted">Show restricted attacks</label>
+            </strong>
+        </div>
+
+        <div
+            class="list-item"
+            [ngClass]="{'problem fullsize-only':!weaponParameters.isAllowed, 'invisible':!weaponParameters.isAllowed && !showRestricted}"
+            *ngFor="let attack of attacksOfWeapon(weaponParameters.weapon); trackBy:trackByIndex;"
+        >
+            <div class="newrow">
+                <span style="flex-basis:auto">
+                    <strong *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weaponParameters.weapon.type)">
+                        <span
+                            [ngbTooltip]="'Melee'"
+                            *ngIf="attack.range === 'melee'"
+                        >
+                            <i class='ra ra-sword'></i>
+                        </span>
+
+                        <span
+                            [ngbTooltip]="'Ranged ' + weaponParameters.weapon.ranged + ' feet'"
+                            *ngIf="attack.range === 'ranged'"
+                        >
+                            <i class='ra ra-target-arrows'></i>
+                        </span>
+                        {{weaponParameters.weapon.effectiveName()}}
+                    </strong>
+
+                    <strong *ngIf="applyingHandwrapsOfMightyBlows(weaponParameters.weapon) as handwraps">({{handwraps.effectiveName()}})</strong>
+
+                    <button
+                        type="button"
+                        style="flex-basis:auto"
+                        [disabled]="!weaponParameters.asBomb.amount"
+                        (click)="onConsumableUse(weaponParameters.asBomb)"
+                        *ngIf="weaponParameters.asBomb"
+                    >
+                        <span
+                            [ngbTooltip]="'Melee'"
+                            *ngIf="attack.range === 'melee'"
+                        >
+                            <i class='ra ra-sword'></i>
+                            &nbsp;
+                        </span>
+
+                        <span
+                            [ngbTooltip]="'Ranged ' + weaponParameters.asBomb.ranged + ' feet'"
+                            *ngIf="attack.range === 'ranged'"
+                        >
+                            <i class='ra ra-target-arrows'></i>
+                            &nbsp;
+                        </span>
+
+                        <span>
+                            {{(weaponParameters.asBomb.amount !== undefined && weaponParameters.asBomb.amount !== 1)
+                                ? weaponParameters.asBomb.amount+" " : ""}}{{weaponParameters.asBomb.effectiveName()}}
+                            <app-action-icons
+                                *ngIf="weaponParameters.asBomb.actions"
+                                [actionString]="weaponParameters.asBomb.actions"
+                            >
+                            </app-action-icons>
+                            {{weaponParameters.asBomb.activationType || ""}}
+                        </span>
+                    </button>
+                </span>
+
+                <span style="flex-basis:auto">
+                    Attack
+                    <span>
+                        <app-quickdice
+                            [creature]="creature"
+                            [diceNum]="1"
+                            [diceSize]="20"
+                            [bonus]="attack.attackResult"
+                            [type]="'(Attack)'"
+                        >
+                        </app-quickdice>
+
+                        <div
+                            class="value"
+                            [ngbPopover]="attack.explain"
+                            [ngClass]="{'penalty':attack.penalties.length, 'bonus':attack.bonuses.length, 'absolute':attack.absolutes.length}"
+                        >
+                            {{attack.attackResult}}
+                        </div>
+                    </span>
+
+                    <ng-container *ngIf="damageOfWeapon(weaponParameters.weapon, attack.range) as damage">
+                        <span *ngIf="!damage.damageResult.includes('0d0')">
+                            &nbsp;Damage&nbsp;
+                            <app-quickdice
+                                [creature]="creature"
+                                [diceString]="damage.damageResult"
+                            ></app-quickdice>
+                        </span>
+
+                        <ng-container *ngFor="let line of damage.damageResult.split('\n'); let index = index; trackBy:trackByIndex;">
+                            <div
+                                class="value"
+                                [ngbPopover]="damage.explain"
+                                [ngClass]="{'penalty':!index && damage.penalties.length, 'bonus':!index && damage.bonuses.length, 'absolute':!index && damage.absolutes.length}"
+                                *ngIf="!line.includes('0d0')"
+                            >
+                                {{line}}
+                            </div>
+
+                            <br>
+                        </ng-container>
+                    </ng-container>
+                </span>
+            </div>
+
+            <ng-container *ngIf="weaponParameters.weapon.$traits as traits">
+                <div
+                    class="fullsize-only newrow left-aligned tags"
+                    *ngIf="traits.length"
+                >
+                    <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
+                        <app-trait
+                            [trait]="traitFromName(trait)"
+                            [item]="weaponParameters.weapon"
+                            [name]="trait"
+                            [creature]="creature"
+                        ></app-trait>
+                    </ng-container>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="weaponParameters.weapon.$traits as traits">
+                <div
+                    class="fullsize-only newrow left-aligned tags"
+                    *ngIf="traits.length"
+                >
+                    <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
+                        <ng-container *ngIf="traitFromName(trait) as realTrait">
+                            <app-hint
+                                *ngIf="realTrait.hints.length"
+                                [creature]="creature"
+                                [object]="realTrait"
+                                [description]="trait"
+                                [sourceBook]="realTrait.sourceBook"
+                                [noFilter]="true"
+                            >
+                            </app-hint>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </ng-container>
+
+            <div
+                class="fullsize-only newrow left-aligned"
+                *ngIf="hintShowingRunes(weaponParameters.weapon, attack.range) as hintRunes"
+                style="margin-top:initial"
+            >
+                <ng-container *ngFor="let hintRune of hintRunes; trackBy:trackByIndex;">
+                    <ng-container *ngFor="let hint of hintRune.hints; trackBy:trackByIndex;">
+                        <ng-template #RuneDescTemplate>
+                            <div
+                                class="newrow left-aligned"
+                                *ngIf="hintRune.sourceBook"
+                            >
+                                <strong>Source</strong>
+
+                                <i>{{hintRune.sourceBook}}</i>
+                            </div>
+
+                            <div class="newrow left-aligned">{{heightenedHintText(hint)}}</div>
+                        </ng-template>
+
+                        <cite
+                            class="item"
+                            [ngbPopover]="RuneDescTemplate"
+                        >
+                            {{hintRune.name}} Rune
+                        </cite>
+                    </ng-container>
+                </ng-container>
+            </div>
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="weaponParameters.weapon.name"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [specialNames]="specialShowOnNames(weaponParameters.weapon, attack.range)"
+                [specialEffects]=attack.effects
+            ></app-tags>
+
+            <div
+                class="fullsize-only lower newrow left-aligned"
+                *ngFor="let poison of weaponParameters.weapon.poisonsApplied; let index = index; trackBy:trackByIndex;"
+            >
+                <button
+                    type="button"
+                    [ngbTooltip]="poisonTitle(poison)"
+                    (click)="onPoisonUse(weaponParameters.weapon, poison)"
+                >
+                    <span>Spend/Remove {{poison.name}}</span>
+                </button>
+            </div>
+
+            <div
+                class="fullsize-only lower newrow left-aligned"
+                *ngFor="let talisman of weaponParameters.weapon.talismans; let index = index; trackBy:trackByIndex;"
+            >
+                <ng-template #TalismanTemplate>
+                    <div
+                        class="list-item left-aligned lower"
+                        *ngFor="let cord of weaponParameters.weapon.talismanCords; trackBy:trackByIndex;"
+                    >
+                        <header class="spellHeader">{{cord.name}}</header>
+
+                        <p>
+                            When you activate a talisman threaded through a cord with the same magic school trait
+                                that's also the cord's level or lower, attempt a
+                            <app-quickdice [diceString]="'1d20'"></app-quickdice>
+                            DC 16 flat check. On a success, that talisman is not consumed and can
+                                be used again.
+                        </p>
+
+                        <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
+                            <div
+                                class="newrow"
+                                *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]"
+                            >
+                                <strong>{{cord.data[talismanCordIndex].name}}</strong>
+                                {{cord.data[talismanCordIndex].value}}
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <header class="spellHeader">{{talisman.name}}</header>
+
+                    <button
+                        type="button"
+                        class="newrow left-aligned"
+                        (click)="onTalismanUse(weaponParameters.weapon, talisman, index)"
+                    >
+                        <span>
+                            Activate
+                            <app-action-icons
+                                *ngIf="talisman.actions"
+                                [actionString]="talisman.actions"
+                            >
+                            </app-action-icons>
+                            {{(talisman.activationType) ? talisman.activationType : ""}}
+                        </span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="newrow left-aligned"
+                        (click)="onTalismanUse(weaponParameters.weapon, talisman, index, true)"
+                        *ngIf="hasMatchingTalismanCord(weaponParameters.weapon, talisman)"
+                    >
+                        <span>
+                            Activate and preserve with talisman cord
+                            <app-action-icons
+                                *ngIf="talisman.actions"
+                                [actionString]="talisman.actions"
+                            >
+                            </app-action-icons>
+                            {{(talisman.activationType) ? talisman.activationType : ""}}
+                        </span>
+                    </button>
+
+                    <app-item
+                        [creature]="creature"
+                        [item]=talisman
+                        [allowActivate]=true
+                        [isSubItem]=true
+                    >
+                    </app-item>
+                </ng-template>
+
+                <button
+                    type="button"
+                    [ngbPopover]="TalismanTemplate"
+                    triggers="click"
+                >
+                    <span>
+                        {{talisman.name}}
+                            {{hasMatchingTalismanCord(weaponParameters.weapon, talisman)
+                            ? "(matching talisman cord attached)"
+                            : ""}}
+                    </span>
+                </button>
+            </div>
+
+            <div
+                class="fullsize-only list-item newrow"
+                *ngIf="weaponParameters.asBomb && weaponParameters.asBomb?.hitEffect"
+            >
+                <button
+                    type="button"
+                    class="newrow sublist-toggle fancy-button"
+                    (click)="toggleShownItem(weaponParameters.weapon.id+attack.range+'hiteffects')"
+                >
+                    Hit effects
+                </button>
+
+                <div
+                    class="list-item sublist fancy-list"
+                    *ngIf="shownItem()===weaponParameters.weapon.id+attack.range+'hiteffects'"
+                >
+                    <div class="list-item lower newrow left-aligned">
+                        <app-description
+                            [text]="weaponParameters.asBomb.hitEffect"
+                            [oneLiner]="true"
+                        >
+                        </app-description>
+                    </div>
+                </div>
+            </div>
+
+            <ng-container *ngIf="criticalHints(weaponParameters.weapon) as critEffects">
+                <div
+                    class="fullsize-only list-item newrow"
+                    *ngIf="critEffects.length"
+                >
+                    <button
+                        type="button"
+                        class="newrow sublist-toggle fancy-button"
+                        (click)="toggleShownItem(weaponParameters.weapon.id+attack.range+'criticalHints')"
+                    >
+                        Critical hit effects
+                    </button>
+
+                    <div
+                        class="list-item sublist fancy-list"
+                        *ngIf="shownItem()===weaponParameters.weapon.id+attack.range+'criticalHints'"
+                    >
+                        <div
+                            class="list-item lower newrow left-aligned"
+                            *ngFor="let critEffect of critEffects; trackBy:trackByIndex"
+                        >
+                            <app-description
+                                [text]="critEffect"
+                                [oneLiner]="true"
+                            ></app-description>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="criticalSpecialization(weaponParameters.weapon, attack.range) as specs">
+                <div
+                    class="fullsize-only list-item newrow"
+                    *ngIf="specs.length"
+                >
+                    <button
+                        type="button"
+                        class="newrow sublist-toggle fancy-button"
+                        (click)="toggleShownItem(weaponParameters.weapon.id+attack.range+'criteffects')"
+                    >
+                        Critical specialization effects
+                    </button>
+
+                    <div
+                        class="list-item sublist fancy-list"
+                        *ngIf="shownItem()===weaponParameters.weapon.id+attack.range+'criteffects'"
+                    >
+                        <div
+                            class="list-item lower newrow left-aligned"
+                            *ngFor="let spec of specs; trackBy:trackByIndex;"
+                        >
+                            <app-description
+                                [text]="spec.desc"
+                                [oneLiner]="true"
+                            ></app-description>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container
+                *ngFor="let rune of runesOfWeapon(weaponParameters.weapon, attack.range); trackBy:trackByIndex;"
+                style="margin-top:initial"
+            >
+                <div
+                    class="fullsize-only list-item newrow"
+                    *ngIf="rune.criticalHint"
+                >
+                    <button
+                        type="button"
+                        class="newrow sublist-toggle fancy-button"
+                        (click)="toggleShownItem(weaponParameters.weapon.id+attack.range+'criticalHint')"
+                    >
+                        {{rune.name}} critical hit effects
+                    </button>
+
+                    <div
+                        class="list-item sublist fancy-list left-aligned"
+                        *ngIf="shownItem()===weaponParameters.weapon.id+attack.range+'criticalHint'"
+                    >
+                        <div class="list-item lower newrow left-aligned">
+                            <app-description
+                                [text]="rune.criticalHint"
+                                [oneLiner]="true"
+                            ></app-description>
+
+                            <app-description
+                                *ngIf="rune.name==='Grievous' && matchingGrievousRuneData(weaponParameters.weapon, rune) as grievousData"
+                                [text]="grievousData"
+                                [oneLiner]="true"
+                            >
+                            </app-description>
+
+                            <div
+                                class="newrow gap-text left-aligned"
+                                *ngIf="rune.critsuccess"
+                            >
+                                <strong>Critical Success</strong>
+
+                                <app-description
+                                    [text]="rune.critsuccess"
+                                    [oneLiner]="true"
+                                ></app-description>
+                            </div>
+
+                            <div
+                                class="newrow gap-text left-aligned"
+                                *ngIf="rune.success"
+                            >
+                                <strong>Success</strong>
+
+                                <app-description
+                                    [text]="rune.success"
+                                    [oneLiner]="true"
+                                ></app-description>
+                            </div>
+
+                            <div
+                                class="newrow gap-text left-aligned"
+                                *ngIf="rune.failure"
+                            >
+                                <strong>Failure</strong>
+
+                                <app-description
+                                    [text]="rune.failure"
+                                    [oneLiner]="true"
+                                ></app-description>
+                            </div>
+
+                            <div
+                                class="newrow gap-text left-aligned"
+                                *ngIf="rune.critfailure"
+                            >
+                                <strong>Critical Failure</strong>
+
+                                <app-description
+                                    [text]="rune.critfailure"
+                                    [oneLiner]="true"
+                                ></app-description>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+
+    <ng-container *ngFor="let ammoType of ammoTypes(); let index = index; trackBy:trackByIndex;">
+        <header
+            class="sectionHeader box-header"
+            *ngIf="index === 0"
+        >
+            Ammunition
+        </header>
+
         <app-tags
             [creature]="creature"
-            [objectName]="'Attacks'"
+            [objectName]="'Ammunition'"
             [showTraits]=true
             [showFeats]=true
             [showItems]=true
             [showActivities]=true
             [showConditions]=true
-            [showEffects]=true
         ></app-tags>
 
-
-        <div class="list-item newrow">
-            <strong>Multiple Attack Penalty</strong>
-
-
-            <ng-container *ngIf="multipleAttackPenalty() as map;">
-                <span class="hlist left-aligned">
-                    <button
-                        type="button"
-                        aria-label="Toggle second attack penalty"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': map === '2'}"
-                        [ngbTooltip]="map === '2' ? 'End Multiple Attack Penalty' : 'Second Attack'"
-                        (click)="setMultipleAttackPenalty(map === '2' ? '1' : '2')"
-                    >
-                        <i class="ra ra-level-two"></i>
-                    </button>
-
-
-                    <button
-                        type="button"
-                        aria-label="Toggle third attack penalty"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': map === '3'}"
-                        [ngbTooltip]="map === '3' ? 'End Multiple Attack Penalty' : 'Third Attack'"
-                        (click)="setMultipleAttackPenalty(map === '3' ? '1' : '3')"
-                    >
-                        <i class="ra ra-level-three"></i>
-                    </button>
-                </span>
-
-
-                <ng-container *ngIf="isFlurryAllowed()">
-                    <strong>Flurry MAP</strong>
-
-
-                    <span class="hlist right-aligned">
-                        <button
-                            type="button"
-                            aria-label="Toggle second attack penalty with flurry"
-                            class="center-aligned bigger"
-                            [ngClass]="{'fancy-button': map === '2f'}"
-                            [ngbTooltip]="map === '2f' ? 'End Multiple Attack Penalty' : 'Second Attack (Flurry)'"
-                            (click)="setMultipleAttackPenalty(map === '2f' ? '1' : '2f')"
-                        >
-                            <i class="ra ra-crossed-swords"></i>
-                        </button>
-
-
-                        <button
-                            type="button"
-                            aria-label="Toggle third attack penalty with flurry"
-                            class="center-aligned bigger"
-                            [ngClass]="{'fancy-button': map === '3f'}"
-                            [ngbTooltip]="map === '3f' ? 'End Multiple Attack Penalty' : 'Third Attack (Flurry)'"
-                            (click)="setMultipleAttackPenalty(map === '3f' ? '1' : '3f')"
-                        >
-                            <i class="ra ra-daggers"></i>
-                        </button>
-                    </span>
-                </ng-container>
-            </ng-container>
-        </div>
-
-
-        <div class="list-item newrow">
-            <strong>Range Penalty</strong>
-
-
-            <ng-container *ngIf="rangePenalty() as rap;">
-                <span class="hlist left-aligned">
-                    <button
-                        type="button"
-                        aria-label="Toggle second range increment"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': rap === '2'}"
-                        [ngbTooltip]="rap === '2' ? 'End Range Penalty' : 'Second Range Increment'"
-                        (click)="setRangePenalty(rap === '2' ? '1' : '2')"
-                    >
-                        <i class="ra ra-dice-two"></i>
-                    </button>
-
-
-                    <button
-                        type="button"
-                        aria-label="Toggle third range increment"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': rap === '3'}"
-                        [ngbTooltip]="rap === '3' ? 'End Range Penalty' : 'Third Range Increment'"
-                        (click)="setRangePenalty(rap === '3' ? '1' : '3')"
-                    >
-                        <i class="ra ra-dice-three"></i>
-                    </button>
-
-
-                    <button
-                        type="button"
-                        aria-label="Toggle fourth range increment"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': rap === '4'}"
-                        [ngbTooltip]="rap === '4' ? 'End Range Penalty' : 'Fourth Range Increment'"
-                        (click)="setRangePenalty(rap === '4' ? '1' : '4')"
-                    >
-                        <i class="ra ra-dice-four"></i>
-                    </button>
-
-
-                    <button
-                        type="button"
-                        aria-label="Toggle fifth range increment"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': rap === '5'}"
-                        [ngbTooltip]="rap === '5' ? 'End Range Penalty' : 'Fifth Range Increment'"
-                        (click)="setRangePenalty(rap === '5' ? '1' : '5')"
-                    >
-                        <i class="ra ra-dice-five"></i>
-                    </button>
-
-
-                    <button
-                        type="button"
-                        aria-label="Toggle sixth range increment"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': rap === '6'}"
-                        [ngbTooltip]="rap === '6' ? 'End Range Penalty' : 'Sixth Range Increment'"
-                        (click)="setRangePenalty(rap === '6' ? '1' : '6')"
-                    >
-                        <i class="ra ra-dice-six"></i>
-                    </button>
-                </span>
-            </ng-container>
-        </div>
-
-
-        <ng-container *ngFor="let weaponParameters of equippedWeaponsParameters(); let weaponIndex = index; trackBy:trackByIndex;">
-            <div
-                class="fullsize-only list-item"
-                *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex === 0"
-            >
-                <strong class="gap-text">
-                    <input
-                        id="showRestricted"
-                        type="checkbox"
-                        [(ngModel)]="showRestricted"
-                    >
-                    <label for="showRestricted">Show restricted attacks</label>
-                </strong>
-            </div>
-
+        <div class="vlist">
+            <header class="subsectionHeader fullsize-only">{{ammoType}}</header>
 
             <div
                 class="list-item"
-                [ngClass]="{'problem fullsize-only':!weaponParameters.isAllowed, 'invisible':!weaponParameters.isAllowed && !showRestricted}"
-                *ngFor="let attack of attacksOfWeapon(weaponParameters.weapon); trackBy:trackByIndex;"
+                *ngFor="let ammo of availableAmmo(ammoType); let ammoIndex = index; trackBy:trackByIndex;"
             >
-                <div class="newrow">
-                    <span style="flex-basis:auto">
-                        <strong *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weaponParameters.weapon.type)">
-                            <span
-                                [ngbTooltip]="'Melee'"
-                                *ngIf="attack.range === 'melee'"
-                            >
-                                <i class='ra ra-sword'></i>
-                            </span>
+                <strong>
+                    {{(ammo.item.amount !== undefined && ammo.item.amount !== 1) ? ammo.item.amount+" " : ""}}
+                        {{ammo.item.effectiveName()}}
+                </strong>
 
-
-                            <span
-                                [ngbTooltip]="'Ranged ' + weaponParameters.weapon.ranged + ' feet'"
-                                *ngIf="attack.range === 'ranged'"
-                            >
-                                <i class='ra ra-target-arrows'></i>
-                            </span>
-                            {{weaponParameters.weapon.effectiveName()}}
-                        </strong>
-
-
-                        <strong *ngIf="applyingHandwrapsOfMightyBlows(weaponParameters.weapon) as handwraps">({{handwraps.effectiveName()}})</strong>
-
-
-                        <button
-                            type="button"
-                            style="flex-basis:auto"
-                            [disabled]="!weaponParameters.asBomb.amount"
-                            (click)="onConsumableUse(weaponParameters.asBomb)"
-                            *ngIf="weaponParameters.asBomb"
-                        >
-                            <span
-                                [ngbTooltip]="'Melee'"
-                                *ngIf="attack.range === 'melee'"
-                            >
-                                <i class='ra ra-sword'></i>
-                                &nbsp;
-                            </span>
-
-
-                            <span
-                                [ngbTooltip]="'Ranged ' + weaponParameters.asBomb.ranged + ' feet'"
-                                *ngIf="attack.range === 'ranged'"
-                            >
-                                <i class='ra ra-target-arrows'></i>
-                                &nbsp;
-                            </span>
-
-
-                            <span>
-                                {{(weaponParameters.asBomb.amount !== undefined && weaponParameters.asBomb.amount !== 1)
-                                ? weaponParameters.asBomb.amount+" " : ""}}{{weaponParameters.asBomb.effectiveName()}}
-                                <app-action-icons
-                                    *ngIf="weaponParameters.asBomb.actions"
-                                    [actionString]="weaponParameters.asBomb.actions"
-                                >
-                                </app-action-icons>
-                                {{weaponParameters.asBomb.activationType || ""}}
-                            </span>
-                        </button>
-                    </span>
-
-
-                    <span style="flex-basis:auto">
-                        Attack
-                        <span>
-                            <app-quickdice
-                                [creature]="creature"
-                                [diceNum]="1"
-                                [diceSize]="20"
-                                [bonus]="attack.attackResult"
-                                [type]="'(Attack)'"
-                            >
-                            </app-quickdice>
-
-
-                            <div
-                                class="value"
-                                [ngbPopover]="attack.explain"
-                                [ngClass]="{'penalty':attack.penalties.length, 'bonus':attack.bonuses.length, 'absolute':attack.absolutes.length}"
-                            >
-                                {{attack.attackResult}}
-                            </div>
-                        </span>
-
-
-                        <ng-container *ngIf="damageOfWeapon(weaponParameters.weapon, attack.range) as damage">
-                            <span *ngIf="!damage.damageResult.includes('0d0')">
-                                &nbsp;Damage&nbsp;
-                                <app-quickdice
-                                    [creature]="creature"
-                                    [diceString]="damage.damageResult"
-                                ></app-quickdice>
-                            </span>
-
-
-                            <ng-container *ngFor="let line of damage.damageResult.split('\n'); let index = index; trackBy:trackByIndex;">
-                                <div
-                                    class="value"
-                                    [ngbPopover]="damage.explain"
-                                    [ngClass]="{'penalty':!index && damage.penalties.length, 'bonus':!index && damage.bonuses.length, 'absolute':!index && damage.absolutes.length}"
-                                    *ngIf="!line.includes('0d0')"
-                                >
-                                    {{line}}
-                                </div>
-
-
-                                <br>
-                            </ng-container>
-                        </ng-container>
-                    </span>
-                </div>
-
-
-                <ng-container *ngIf="weaponParameters.weapon.$traits as traits">
-                    <div
-                        class="fullsize-only newrow left-aligned tags"
-                        *ngIf="traits.length"
-                    >
-                        <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
-                            <app-trait
-                                [trait]="traitFromName(trait)"
-                                [item]="weaponParameters.weapon"
-                                [name]="trait"
-                                [creature]="creature"
-                            ></app-trait>
-                        </ng-container>
-                    </div>
-                </ng-container>
-
-
-                <ng-container *ngIf="weaponParameters.weapon.$traits as traits">
-                    <div
-                        class="fullsize-only newrow left-aligned tags"
-                        *ngIf="traits.length"
-                    >
-                        <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
-                            <ng-container *ngIf="traitFromName(trait) as realTrait">
-                                <app-hint
-                                    *ngIf="realTrait.hints.length"
-                                    [creature]="creature"
-                                    [object]="realTrait"
-                                    [description]="trait"
-                                    [sourceBook]="realTrait.sourceBook"
-                                    [noFilter]="true"
-                                >
-                                </app-hint>
-                            </ng-container>
-                        </ng-container>
-                    </div>
-                </ng-container>
-
-
-                <div
-                    class="fullsize-only newrow left-aligned"
-                    *ngIf="hintShowingRunes(weaponParameters.weapon, attack.range) as hintRunes"
-                    style="margin-top:initial"
-                >
-                    <ng-container *ngFor="let hintRune of hintRunes; trackBy:trackByIndex;">
-                        <ng-container *ngFor="let hint of hintRune.hints; trackBy:trackByIndex;">
-                            <ng-template #RuneDescTemplate>
-                                <div
-                                    class="newrow left-aligned"
-                                    *ngIf="hintRune.sourceBook"
-                                >
-                                    <strong>Source</strong>
-
-
-                                    <i>{{hintRune.sourceBook}}</i>
-                                </div>
-
-
-                                <div class="newrow left-aligned">{{heightenedHintText(hint)}}</div>
-                            </ng-template>
-
-
-                            <cite
-                                class="item"
-                                [ngbPopover]="RuneDescTemplate"
-                            >
-                                {{hintRune.name}} Rune
-                            </cite>
-                        </ng-container>
-                    </ng-container>
-                </div>
-
-
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="weaponParameters.weapon.name"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [specialNames]="specialShowOnNames(weaponParameters.weapon, attack.range)"
-                    [specialEffects]=attack.effects
-                ></app-tags>
-
-
-                <div
-                    class="fullsize-only lower newrow left-aligned"
-                    *ngFor="let poison of weaponParameters.weapon.poisonsApplied; let index = index; trackBy:trackByIndex;"
-                >
+                <div [ngbTooltip]="ammo.item.storedSpells.length ? 'Cast spell on any target. To choose a specific target (if applicable), use the item in the inventory instead.' : ''">
                     <button
                         type="button"
-                        [ngbTooltip]="poisonTitle(poison)"
-                        (click)="onPoisonUse(weaponParameters.weapon, poison)"
-                    >
-                        <span>Spend/Remove {{poison.name}}</span>
-                    </button>
-                </div>
-
-
-                <div
-                    class="fullsize-only lower newrow left-aligned"
-                    *ngFor="let talisman of weaponParameters.weapon.talismans; let index = index; trackBy:trackByIndex;"
-                >
-                    <ng-template #TalismanTemplate>
-                        <div
-                            class="list-item left-aligned lower"
-                            *ngFor="let cord of weaponParameters.weapon.talismanCords; trackBy:trackByIndex;"
-                        >
-                            <header class="spellHeader">{{cord.name}}</header>
-
-
-                            <p>
-                                When you activate a talisman threaded through a cord with the same magic school trait
-                                that's also the cord's level or lower, attempt a
-                                <app-quickdice [diceString]="'1d20'"></app-quickdice>
-                                DC 16 flat check. On a success, that talisman is not consumed and can
-                                be used again.
-                            </p>
-
-
-                            <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
-                                <div
-                                    class="newrow"
-                                    *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]"
-                                >
-                                    <strong>{{cord.data[talismanCordIndex].name}}</strong>
-                                    {{cord.data[talismanCordIndex].value}}
-                                </div>
-                            </ng-container>
-                        </div>
-
-
-                        <header class="spellHeader">{{talisman.name}}</header>
-
-
-                        <button
-                            type="button"
-                            class="newrow left-aligned"
-                            (click)="onTalismanUse(weaponParameters.weapon, talisman, index)"
-                        >
-                            <span>
-                                Activate
-                                <app-action-icons
-                                    *ngIf="talisman.actions"
-                                    [actionString]="talisman.actions"
-                                >
-                                </app-action-icons>
-                                {{(talisman.activationType) ? talisman.activationType : ""}}
-                            </span>
-                        </button>
-
-
-                        <button
-                            type="button"
-                            class="newrow left-aligned"
-                            (click)="onTalismanUse(weaponParameters.weapon, talisman, index, true)"
-                            *ngIf="hasMatchingTalismanCord(weaponParameters.weapon, talisman)"
-                        >
-                            <span>
-                                Activate and preserve with talisman cord
-                                <app-action-icons
-                                    *ngIf="talisman.actions"
-                                    [actionString]="talisman.actions"
-                                >
-                                </app-action-icons>
-                                {{(talisman.activationType) ? talisman.activationType : ""}}
-                            </span>
-                        </button>
-
-
-                        <app-item
-                            [creature]="creature"
-                            [item]=talisman
-                            [allowActivate]=true
-                            [isSubItem]=true
-                        >
-                        </app-item>
-                    </ng-template>
-
-
-                    <button
-                        type="button"
-                        [ngbPopover]="TalismanTemplate"
-                        triggers="click"
+                        [disabled]="!ammo.item.amount"
+                        (click)="onConsumableUse(ammo.item, ammo.inventory)"
                     >
                         <span>
-                            {{talisman.name}}
-                            {{hasMatchingTalismanCord(weaponParameters.weapon, talisman)
-                            ? "(matching talisman cord attached)"
-                            : ""}}
+                            Use
+                            <app-action-icons
+                                *ngIf="ammo.item.actions"
+                                [actionString]="ammo.item.actions"
+                            >
+                            </app-action-icons>
+                            {{(ammo.item.activationType) ? ammo.item.activationType : ""}}
                         </span>
                     </button>
                 </div>
-
-
-                <div
-                    class="fullsize-only list-item newrow"
-                    *ngIf="weaponParameters.asBomb && weaponParameters.asBomb?.hitEffect"
-                >
-                    <button
-                        type="button"
-                        class="newrow sublist-toggle fancy-button"
-                        (click)="toggleShownItem(weaponParameters.weapon.id+attack.range+'hiteffects')"
-                    >
-                        Hit effects
-                    </button>
-
-
-                    <div
-                        class="list-item sublist fancy-list"
-                        *ngIf="shownItem()===weaponParameters.weapon.id+attack.range+'hiteffects'"
-                    >
-                        <div class="list-item lower newrow left-aligned">
-                            <app-description
-                                [text]="weaponParameters.asBomb.hitEffect"
-                                [oneLiner]="true"
-                            >
-                            </app-description>
-                        </div>
-                    </div>
-                </div>
-
-
-                <ng-container *ngIf="criticalHints(weaponParameters.weapon) as critEffects">
-                    <div
-                        class="fullsize-only list-item newrow"
-                        *ngIf="critEffects.length"
-                    >
-                        <button
-                            type="button"
-                            class="newrow sublist-toggle fancy-button"
-                            (click)="toggleShownItem(weaponParameters.weapon.id+attack.range+'criticalHints')"
-                        >
-                            Critical hit effects
-                        </button>
-
-
-                        <div
-                            class="list-item sublist fancy-list"
-                            *ngIf="shownItem()===weaponParameters.weapon.id+attack.range+'criticalHints'"
-                        >
-                            <div
-                                class="list-item lower newrow left-aligned"
-                                *ngFor="let critEffect of critEffects; trackBy:trackByIndex"
-                            >
-                                <app-description
-                                    [text]="critEffect"
-                                    [oneLiner]="true"
-                                ></app-description>
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>
-
-
-                <ng-container *ngIf="criticalSpecialization(weaponParameters.weapon, attack.range) as specs">
-                    <div
-                        class="fullsize-only list-item newrow"
-                        *ngIf="specs.length"
-                    >
-                        <button
-                            type="button"
-                            class="newrow sublist-toggle fancy-button"
-                            (click)="toggleShownItem(weaponParameters.weapon.id+attack.range+'criteffects')"
-                        >
-                            Critical specialization effects
-                        </button>
-
-
-                        <div
-                            class="list-item sublist fancy-list"
-                            *ngIf="shownItem()===weaponParameters.weapon.id+attack.range+'criteffects'"
-                        >
-                            <div
-                                class="list-item lower newrow left-aligned"
-                                *ngFor="let spec of specs; trackBy:trackByIndex;"
-                            >
-                                <app-description
-                                    [text]="spec.desc"
-                                    [oneLiner]="true"
-                                ></app-description>
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>
-
-
-                <ng-container
-                    *ngFor="let rune of runesOfWeapon(weaponParameters.weapon, attack.range); trackBy:trackByIndex;"
-                    style="margin-top:initial"
-                >
-                    <div
-                        class="fullsize-only list-item newrow"
-                        *ngIf="rune.criticalHint"
-                    >
-                        <button
-                            type="button"
-                            class="newrow sublist-toggle fancy-button"
-                            (click)="toggleShownItem(weaponParameters.weapon.id+attack.range+'criticalHint')"
-                        >
-                            {{rune.name}} critical hit effects
-                        </button>
-
-
-                        <div
-                            class="list-item sublist fancy-list left-aligned"
-                            *ngIf="shownItem()===weaponParameters.weapon.id+attack.range+'criticalHint'"
-                        >
-                            <div class="list-item lower newrow left-aligned">
-                                <app-description
-                                    [text]="rune.criticalHint"
-                                    [oneLiner]="true"
-                                ></app-description>
-
-
-                                <app-description
-                                    *ngIf="rune.name==='Grievous' && matchingGrievousRuneData(weaponParameters.weapon, rune) as grievousData"
-                                    [text]="grievousData"
-                                    [oneLiner]="true"
-                                >
-                                </app-description>
-
-
-                                <div
-                                    class="newrow gap-text left-aligned"
-                                    *ngIf="rune.critsuccess"
-                                >
-                                    <strong>Critical Success</strong>
-
-
-                                    <app-description
-                                        [text]="rune.critsuccess"
-                                        [oneLiner]="true"
-                                    ></app-description>
-                                </div>
-
-
-                                <div
-                                    class="newrow gap-text left-aligned"
-                                    *ngIf="rune.success"
-                                >
-                                    <strong>Success</strong>
-
-
-                                    <app-description
-                                        [text]="rune.success"
-                                        [oneLiner]="true"
-                                    ></app-description>
-                                </div>
-
-
-                                <div
-                                    class="newrow gap-text left-aligned"
-                                    *ngIf="rune.failure"
-                                >
-                                    <strong>Failure</strong>
-
-
-                                    <app-description
-                                        [text]="rune.failure"
-                                        [oneLiner]="true"
-                                    ></app-description>
-                                </div>
-
-
-                                <div
-                                    class="newrow gap-text left-aligned"
-                                    *ngIf="rune.critfailure"
-                                >
-                                    <strong>Critical Failure</strong>
-
-
-                                    <app-description
-                                        [text]="rune.critfailure"
-                                        [oneLiner]="true"
-                                    ></app-description>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>
             </div>
-        </ng-container>
+        </div>
+    </ng-container>
 
-
-        <ng-container *ngFor="let ammoType of ammoTypes(); let index = index; trackBy:trackByIndex;">
-            <header
-                class="sectionHeader box-header"
-                *ngIf="index === 0"
-            >
-                Ammunition
-            </header>
-
+    <ng-container *ngIf="availableSnares() as snares">
+        <ng-container *ngIf="snares.length">
+            <header class="sectionHeader box-header">Deployed Snares</header>
 
             <app-tags
                 [creature]="creature"
-                [objectName]="'Ammunition'"
+                [objectName]="'Snares'"
                 [showTraits]=true
                 [showFeats]=true
                 [showItems]=true
@@ -753,183 +727,117 @@
                 [showConditions]=true
             ></app-tags>
 
+            <div [ngClass]="{'icon-list':isInventoryTileMode, 'vlist':!isInventoryTileMode}">
+                <ng-container *ngFor="let snare of snares; let snareIndex = index; trackBy:trackByIndex;">
+                    <ng-template #SnareTitleTemplate>
+                        <span>{{snare.item.effectiveName()}}</span>
+                    </ng-template>
 
-            <div class="vlist">
-                <header class="subsectionHeader fullsize-only">{{ammoType}}</header>
+                    <ng-template #SnareTemplate>
+                        <header
+                            class="spellHeader newrow"
+                            *ngIf="isInventoryTileMode"
+                        >
+                            <ng-container *ngTemplateOutlet="SnareTitleTemplate"></ng-container>
+                        </header>
 
-
-                <div
-                    class="list-item"
-                    *ngFor="let ammo of availableAmmo(ammoType); let ammoIndex = index; trackBy:trackByIndex;"
-                >
-                    <strong>
-                        {{(ammo.item.amount !== undefined && ammo.item.amount !== 1) ? ammo.item.amount+" " : ""}}
-                        {{ammo.item.effectiveName()}}
-                    </strong>
-
-
-                    <div [ngbTooltip]="ammo.item.storedSpells.length ? 'Cast spell on any target. To choose a specific target (if applicable), use the item in the inventory instead.' : ''">
                         <button
                             type="button"
-                            [disabled]="!ammo.item.amount"
-                            (click)="onConsumableUse(ammo.item, ammo.inventory)"
+                            class="newrow center-aligned"
+                            [disabled]="!snare.item.amount"
+                            (click)="onConsumableUse(snare.item, snare.inventory)"
                         >
-                            <span>
-                                Use
-                                <app-action-icons
-                                    *ngIf="ammo.item.actions"
-                                    [actionString]="ammo.item.actions"
-                                >
-                                </app-action-icons>
-                                {{(ammo.item.activationType) ? ammo.item.activationType : ""}}
-                            </span>
+                            <span>Trigger/Remove</span>
                         </button>
-                    </div>
-                </div>
-            </div>
-        </ng-container>
 
+                        <app-item
+                            [item]=snare.item
+                            [itemStore]=true
+                        ></app-item>
+                    </ng-template>
 
-        <ng-container *ngIf="availableSnares() as snares">
-            <ng-container *ngIf="snares.length">
-                <header class="sectionHeader box-header">Deployed Snares</header>
-
-
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="'Snares'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                ></app-tags>
-
-
-                <div [ngClass]="{'icon-list':isInventoryTileMode, 'vlist':!isInventoryTileMode}">
-                    <ng-container *ngFor="let snare of snares; let snareIndex = index; trackBy:trackByIndex;">
-                        <ng-template #SnareTitleTemplate>
-                            <span>{{snare.item.effectiveName()}}</span>
-                        </ng-template>
-
-
-                        <ng-template #SnareTemplate>
-                            <header
-                                class="spellHeader newrow"
-                                *ngIf="isInventoryTileMode"
-                            >
-                                <ng-container *ngTemplateOutlet="SnareTitleTemplate"></ng-container>
-                            </header>
-
-
-                            <button
-                                type="button"
-                                class="newrow center-aligned"
-                                [disabled]="!snare.item.amount"
-                                (click)="onConsumableUse(snare.item, snare.inventory)"
-                            >
-                                <span>Trigger/Remove</span>
-                            </button>
-
-
-                            <app-item
-                                [item]=snare.item
-                                [itemStore]=true
-                            ></app-item>
-                        </ng-template>
-
-
-                        <ng-container *ngIf="!isInventoryTileMode">
-                            <div class="list-item">
-                                <button
-                                    type="button"
-                                    aria-label="Show item"
-                                    class="newrow sublist-toggle"
-                                    (click)="toggleShownItem(snare.item.id+snareIndex)"
-                                >
-                                    <ng-container *ngTemplateOutlet="SnareTitleTemplate"></ng-container>
-                                </button>
-
-
-                                <div
-                                    class="list-item sublist lower"
-                                    *ngIf="shownItem()===snare.item.id+snareIndex"
-                                >
-                                    <ng-container *ngTemplateOutlet="SnareTemplate"></ng-container>
-                                </div>
-                            </div>
-                        </ng-container>
-
-
-                        <ng-container *ngIf="isInventoryTileMode">
+                    <ng-container *ngIf="!isInventoryTileMode">
+                        <div class="list-item">
                             <button
                                 type="button"
                                 aria-label="Show item"
-                                [ngbPopover]="SnareTemplate"
-                                triggers="click"
-                                (click)="toggleShownItem()"
+                                class="newrow sublist-toggle"
+                                (click)="toggleShownItem(snare.item.id+snareIndex)"
                             >
-                                <app-grid-icon
-                                    [updateId]="snare.item.id"
-                                    [ngbTooltip]="SnareTitleTemplate"
-                                    [title]="snare.item.displayName || snare.item.name"
-                                    [detail]="'noparse|' + (snare.item.traits.includes('Rare') ? 'R' : (snare.item.traits.includes('Uncommon') ? 'U' : (snare.item.traits.includes('Unique') ? 'Q' : ''))) + (snare.item.level ? snare.item.level.toString() : '')"
-                                    [item]="snare.item"
-                                >
-                                </app-grid-icon>
+                                <ng-container *ngTemplateOutlet="SnareTitleTemplate"></ng-container>
                             </button>
-                        </ng-container>
+
+                            <div
+                                class="list-item sublist lower"
+                                *ngIf="shownItem()===snare.item.id+snareIndex"
+                            >
+                                <ng-container *ngTemplateOutlet="SnareTemplate"></ng-container>
+                            </div>
+                        </div>
                     </ng-container>
-                </div>
-            </ng-container>
+
+                    <ng-container *ngIf="isInventoryTileMode">
+                        <button
+                            type="button"
+                            aria-label="Show item"
+                            [ngbPopover]="SnareTemplate"
+                            triggers="click"
+                            (click)="toggleShownItem()"
+                        >
+                            <app-grid-icon
+                                [updateId]="snare.item.id"
+                                [ngbTooltip]="SnareTitleTemplate"
+                                [title]="snare.item.displayName || snare.item.name"
+                                [detail]="'noparse|' + (snare.item.traits.includes('Rare') ? 'R' : (snare.item.traits.includes('Uncommon') ? 'U' : (snare.item.traits.includes('Unique') ? 'Q' : ''))) + (snare.item.level ? snare.item.level.toString() : '')"
+                                [item]="snare.item"
+                            >
+                            </app-grid-icon>
+                        </button>
+                    </ng-container>
+                </ng-container>
+            </div>
         </ng-container>
-
-
-        <header
-            class="sectionHeader fullsize-only box-header"
-            *ngIf="!stillLoading"
-        >
-            Weapon Proficiencies
-        </header>
-
-
-        <app-tags
-            [creature]="creature"
-            [objectName]="'Weapon Proficiencies'"
-            [showTraits]=true
-            [showFeats]=true
-            [showItems]=true
-            [showActivities]=true
-            [showConditions]=true
-        ></app-tags>
-
-
-        <ng-container *ngFor="let skill of skillsOfType('Weapon Proficiency'); trackBy:trackByIndex;">
-            <app-skill
-                class="fullsize-only"
-                [creature]="creature"
-                [skill]=skill
-                [showValue]=false
-            ></app-skill>
-        </ng-container>
-
-
-        <ng-container *ngFor="let skill of skillsOfType('Specific Weapon Proficiency'); trackBy:trackByIndex;">
-            <app-skill
-                class="fullsize-only"
-                [creature]="creature"
-                [skill]=skill
-                [showValue]=false
-            ></app-skill>
-        </ng-container>
-
-
-        <div
-            class="list-item newrow"
-            *ngIf="favoredWeapons() as favoredWeapons"
-        >
-            <strong>Favored Weapon</strong>
-            {{favoredWeapons.join(" or ")}}
-        </div>
     </ng-container>
+
+    <header
+        class="sectionHeader fullsize-only box-header"
+    >
+        Weapon Proficiencies
+    </header>
+
+    <app-tags
+        [creature]="creature"
+        [objectName]="'Weapon Proficiencies'"
+        [showTraits]=true
+        [showFeats]=true
+        [showItems]=true
+        [showActivities]=true
+        [showConditions]=true
+    ></app-tags>
+
+    <ng-container *ngFor="let skill of skillsOfType('Weapon Proficiency'); trackBy:trackByIndex;">
+        <app-skill
+            class="fullsize-only"
+            [creature]="creature"
+            [skill]=skill
+            [showValue]=false
+        ></app-skill>
+    </ng-container>
+
+    <ng-container *ngFor="let skill of skillsOfType('Specific Weapon Proficiency'); trackBy:trackByIndex;">
+        <app-skill
+            class="fullsize-only"
+            [creature]="creature"
+            [skill]=skill
+            [showValue]=false
+        ></app-skill>
+    </ng-container>
+
+    <div
+        class="list-item newrow"
+        *ngIf="favoredWeapons() as favoredWeapons"
+    >
+        <strong>Favored Weapon</strong>
+        {{favoredWeapons.join(" or ")}}
+    </div>
 </div>

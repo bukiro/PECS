@@ -125,7 +125,7 @@ export class SkillValuesService {
         charLevel: number = CreatureService.character.level,
         excludeTemporary = false,
     ): number {
-        if (StatusService.isLoadingCharacter) { return 0; }
+        if (StatusService.isLoadingCharacter$.value) { return 0; }
 
         const skill = this._normalizeSkillOrName(skillOrName, creature);
 
@@ -290,7 +290,7 @@ export class SkillValuesService {
         let bonuses: Array<BonusDescription> = [];
         let ability = '';
 
-        if (!StatusService.isLoadingCharacter) {
+        if (!StatusService.isLoadingCharacter$.value) {
             if (creature.isFamiliar()) {
                 //Familiars have special rules:
                 //- Saves are equal to the character's before applying circumstance or status effects.
@@ -466,7 +466,7 @@ export class SkillValuesService {
         let result = 0;
         let bonuses: Array<BonusDescription> = [];
 
-        if (!StatusService.isLoadingCharacter) {
+        if (!StatusService.isLoadingCharacter$.value) {
             result = (isDC ? DCBasis : 0) + baseValue.result;
 
             bonuses = isDC

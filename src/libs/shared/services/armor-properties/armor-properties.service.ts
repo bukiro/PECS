@@ -49,7 +49,7 @@ export class ArmorPropertiesService {
         charLevel: number = CreatureService.character.level,
         options: { itemStore?: boolean } = {},
     ): number {
-        if (StatusService.isLoadingCharacter || creature.isFamiliar()) { return 0; }
+        if (StatusService.isLoadingCharacter$.value || creature.isFamiliar()) { return 0; }
 
         this._cacheArmoredSkirt(armor, creature, options);
 

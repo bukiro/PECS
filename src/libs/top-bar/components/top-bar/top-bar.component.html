@@ -13,12 +13,12 @@
     <button
         type="button"
         class="fancy-button loading"
-        *ngIf="stillLoading"
+        *ngIf="isLoadingCharacter$ | async"
     >
-        {{loadingButtonTitle}}
+        {{loadingStatus$ | async}}
     </button>
 
-    <ng-container *ngIf="!stillLoading">
+    <ng-container *ngIf="(isLoadingCharacter$ | async) === false">
         <button
             type="button"
             [ngClass]="{'fancy-button':characterMenuState==='out'}"

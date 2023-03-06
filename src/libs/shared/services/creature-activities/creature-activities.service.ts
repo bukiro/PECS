@@ -21,10 +21,8 @@ export class CreatureActivitiesService {
         private readonly _traitsDataService: TraitsDataService,
     ) { }
 
-
     public creatureOwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): Array<ActivityGain> {
         const activities: Array<ActivityGain | ItemActivity> = [];
-
 
         if (creature.isCharacter()) {
             activities.push(...creature.class.activities.filter(gain => gain.level <= levelNumber));

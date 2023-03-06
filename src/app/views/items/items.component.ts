@@ -48,11 +48,10 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -125,10 +124,6 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
         private readonly _recastService: RecastService,
     ) {
         super();
-    }
-
-    public get stillLoading(): boolean {
-        return this._itemsDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     public get isInventoryMinimized(): boolean {

@@ -4,7 +4,6 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
-
 @Injectable({
     providedIn: 'root',
 })

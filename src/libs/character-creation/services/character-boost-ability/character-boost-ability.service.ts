@@ -37,5 +37,4 @@ export class CharacterBoostAbilityService {
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualskills', 'all');
     }
 
-
 }

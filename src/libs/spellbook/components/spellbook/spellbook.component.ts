@@ -39,8 +39,7 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 
 interface ComponentParameters {
@@ -144,10 +143,6 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
 
     public get isManualMode(): boolean {
         return SettingsService.isManualMode;
-    }
-
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
     }
 
     private get _character(): Character {

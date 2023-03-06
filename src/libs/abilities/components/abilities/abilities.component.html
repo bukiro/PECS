@@ -25,95 +25,51 @@
 >
     <header class="sectionHeader box-header">Abilities</header>
 
-    <ng-template #LoadingTemplate>
-        <div class="loading">Loading</div>
-    </ng-template>
-
-    <ng-container *ngIf="!stillLoading; else LoadingTemplate">
-        <ng-container *ngIf="!isMinimized">
-            <div
-                class="list-item"
-                *ngFor="let ability of abilities(); trackBy:trackByIndex;"
-            >
-                <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
-                    <ng-template #EffectsPopoverContent>
-                        <div class="fullsize-only newrow">
-                            <app-object-effects
-                                [creature]="creature"
-                                [objectName]="ability.name"
-                            ></app-object-effects>
-                        </div>
-                    </ng-template>
-
-                    <div class="newrow">
-                        <span class="hlist">
-                            <span
-                                class="fullsize-only"
-                                [ngbPopover]="EffectsPopoverContent"
-                                #EffectsPopover="ngbPopover"
-                                triggers="click"
-                            >
-                                <i
-                                    [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''"
-                                    class='bi-lightning-charge'
-                                ></i>
-                            </span>
-
-                            <strong>{{ability.name}}</strong>
-                        </span>
-
-                        <span>
-                            <div
-                                class="value"
-                                [ngbPopover]="calculatedAbility.value.explain"
-                                [ngClass]="{'penalty':calculatedAbility.penalties, 'bonus':calculatedAbility.bonuses, 'absolute':calculatedAbility.absolutes}"
-                            >
-                                {{calculatedAbility.value.result}}
-                            </div>
-                        </span>
-
-                        <strong>Modifier</strong>
-
-                        <span>
-                            <div
-                                class="value"
-                                [ngbPopover]="calculatedAbility.mod.explain"
-                                [ngClass]="{'penalty':calculatedAbility.modpenalties, 'bonus':calculatedAbility.modbonuses, 'absolute':calculatedAbility.modabsolutes}"
-                            >
-                                {{calculatedAbility.mod.result}}
-                            </div>
-                        </span>
+    <ng-container *ngIf="!isMinimized">
+        <div
+            class="list-item"
+            *ngFor="let ability of abilities(); trackBy:trackByIndex;"
+        >
+            <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
+                <ng-template #EffectsPopoverContent>
+                    <div class="fullsize-only newrow">
+                        <app-object-effects
+                            [creature]="creature"
+                            [objectName]="ability.name"
+                        ></app-object-effects>
                     </div>
+                </ng-template>
 
-                    <app-tags
-                        class="newrow tags"
-                        [creature]="creature"
-                        [objectName]=ability.name
-                        [showTraits]=true
-                        [showFeats]=true
-                        [showItems]=true
-                        [showActivities]=true
-                        [showConditions]=true
-                        [showEffects]=true
-                    >
-                    </app-tags>
-                </ng-container>
-            </div>
-        </ng-container>
+                <div class="newrow">
+                    <span class="hlist">
+                        <span
+                            class="fullsize-only"
+                            [ngbPopover]="EffectsPopoverContent"
+                            #EffectsPopover="ngbPopover"
+                            triggers="click"
+                        >
+                            <i
+                                [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''"
+                                class='bi-lightning-charge'
+                            ></i>
+                        </span>
 
-        <ng-container *ngIf="isMinimized">
-            <div
-                class="list-item newrow"
-                *ngFor="let subset of [1,2]; trackBy:trackByIndex;"
-            >
-                <span
-                    class="hlist"
-                    [ngClass]="{'left-aligned':index === 0, 'center-aligned':index === 1, 'right-aligned':index === 2}"
-                    *ngFor="let ability of abilities(subset); let index = index; trackBy:trackByIndex;"
-                >
-                    <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
-                        <strong>{{ability.modifierName}}</strong>
+                        <strong>{{ability.name}}</strong>
+                    </span>
 
+                    <span>
+                        <div
+                            class="value"
+                            [ngbPopover]="calculatedAbility.value.explain"
+                            [ngClass]="{'penalty':calculatedAbility.penalties, 'bonus':calculatedAbility.bonuses, 'absolute':calculatedAbility.absolutes}"
+                        >
+                            {{calculatedAbility.value.result}}
+                        </div>
+                    </span>
+
+                    <strong>Modifier</strong>
+
+                    <span>
                         <div
                             class="value"
                             [ngbPopover]="calculatedAbility.mod.explain"
@@ -121,9 +77,47 @@
                         >
                             {{calculatedAbility.mod.result}}
                         </div>
-                    </ng-container>
-                </span>
-            </div>
-        </ng-container>
+                    </span>
+                </div>
+
+                <app-tags
+                    class="newrow tags"
+                    [creature]="creature"
+                    [objectName]=ability.name
+                    [showTraits]=true
+                    [showFeats]=true
+                    [showItems]=true
+                    [showActivities]=true
+                    [showConditions]=true
+                    [showEffects]=true
+                >
+                </app-tags>
+            </ng-container>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="isMinimized">
+        <div
+            class="list-item newrow"
+            *ngFor="let subset of [1,2]; trackBy:trackByIndex;"
+        >
+            <span
+                class="hlist"
+                [ngClass]="{'left-aligned':index === 0, 'center-aligned':index === 1, 'right-aligned':index === 2}"
+                *ngFor="let ability of abilities(subset); let index = index; trackBy:trackByIndex;"
+            >
+                <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
+                    <strong>{{ability.modifierName}}</strong>
+
+                    <div
+                        class="value"
+                        [ngbPopover]="calculatedAbility.mod.explain"
+                        [ngClass]="{'penalty':calculatedAbility.modpenalties, 'bonus':calculatedAbility.modbonuses, 'absolute':calculatedAbility.modabsolutes}"
+                    >
+                        {{calculatedAbility.mod.result}}
+                    </div>
+                </ng-container>
+            </span>
+        </div>
     </ng-container>
 </div>

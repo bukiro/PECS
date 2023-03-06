@@ -1,16 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { BehaviorSubject, filter, Observable, take, takeUntil } from 'rxjs';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { Settings } from 'src/app/classes/Settings';
 
 const slideInOutTrigger = trigger('slideInOut', [
     state('in', style({
@@ -54,88 +55,29 @@ const slideInOutVertical = trigger('slideInOutVert', [
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterSheetComponent extends IsMobileMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
+export class CharacterSheetComponent extends DestroyableMixin(IsMobileMixin(TrackByMixin(BaseClass))) implements OnInit, OnDestroy {
 
-    public showMode = '';
+    public shownModeDesktop$ = new BehaviorSubject<string>('');
+    public shownModeMobile$ = new BehaviorSubject<string>('');
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
+    public isAnimalCompanionAvailable$ = new BehaviorSubject<boolean>(false);
+    public isFamiliarAvailable$ = new BehaviorSubject<boolean>(false);
+    public attacksAndSpellsOrder$ = new BehaviorSubject<Record<string, number>>({});
+
+    public isLoadingCharacter$: Observable<boolean>;
 
     constructor(
         private readonly _refreshService: RefreshService,
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
         super();
+
+        this.isLoadingCharacter$ = StatusService.isLoadingCharacter$;
     }
 
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
-    }
-
-    public get characterMinimized(): boolean {
-        return CreatureService.character.settings.characterMinimized;
-    }
-
-    public get companionMinimized(): boolean {
-        return CreatureService.character.settings.companionMinimized;
-    }
-
-    public get familiarMinimized(): boolean {
-        return CreatureService.character.settings.familiarMinimized;
-    }
-
-    public get spellsMinimized(): boolean {
-        return CreatureService.character.settings.spellsMinimized;
-    }
-
-    public get spellLibraryMinimized(): boolean {
-        return CreatureService.character.settings.spelllibraryMinimized;
-    }
-
-    public get generalMinimized(): boolean {
-        return CreatureService.character.settings.generalMinimized;
-    }
-
-    public get effectsMinimized(): boolean {
-        return CreatureService.character.settings.effectsMinimized;
-    }
-
-    public get abilitiesMinimized(): boolean {
-        return CreatureService.character.settings.abilitiesMinimized;
-    }
-
-    public get healthMinimized(): boolean {
-        return CreatureService.character.settings.healthMinimized;
-    }
-
-    public get defenseMinimized(): boolean {
-        return CreatureService.character.settings.defenseMinimized;
-    }
-
-    public get attacksMinimized(): boolean {
-        return CreatureService.character.settings.attacksMinimized;
-    }
-
-    public get skillsMinimized(): boolean {
-        return CreatureService.character.settings.skillsMinimized;
-    }
-
-    public get inventoryMinimized(): boolean {
-        return CreatureService.character.settings.inventoryMinimized;
-    }
-
-    public get activitiesMinimized(): boolean {
-        return CreatureService.character.settings.activitiesMinimized;
-    }
-
-    public get spellbookMinimized(): boolean {
-        return CreatureService.character.settings.spellbookMinimized;
-    }
-
-    public get timeMinimized(): boolean {
-        return CreatureService.character.settings.timeMinimized;
+    public get settings(): Settings {
+        return CreatureService.character.settings;
     }
 
     public get itemsMenuState(): MenuState {
@@ -174,60 +116,63 @@ export class CharacterSheetComponent extends IsMobileMixin(TrackByMixin(BaseClas
         return this._menuService.diceMenuState;
     }
 
-    public toggleShownMode(type: string): void {
-        this.showMode = this.showMode === type ? '' : type;
-    }
-
-    public shownMode(): string {
-        return this.showMode;
-    }
-
-    public companionAvailable(): boolean {
-        return this._creatureAvailabilityService.isCompanionAvailable();
-    }
-
-    public familiarAvailable(): boolean {
-        return this._creatureAvailabilityService.isFamiliarAvailable();
-    }
-
-    public attacksAndSpellsOrder(fightingStyle: 'attacks' | 'spells'): number {
-        //Returns whether the fightingStyle (attacks or spells) should be first or second for this class (0 or 1).
-        //This checks whether you have a primary spellcasting for your class from level 1, and if so, spells should be first.
-        if (CreatureService.character.class.defaultSpellcasting()?.charLevelAvailable === 1) {
-            return fightingStyle === 'attacks' ? 1 : 0;
-        } else {
-            return fightingStyle === 'spells' ? 1 : 0;
-        }
-    }
-
     public ngOnInit(): void {
         this._subscribeToChanges();
     }
 
     public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
+        this.destroyed$.next(undefined);
+    }
+
+    private _attacksAndSpellsOrder(): Record<string, number> {
+        //Returns whether the fightingStyle (attacks or spells) should be first or second for this class (0 or 1).
+        //This checks whether you have a primary spellcasting for your class from level 1, and if so, spells should be first.
+        if (CreatureService.character.class.defaultSpellcasting()?.charLevelAvailable === 1) {
+            return {
+                spells: 0,
+                attacks: 1,
+            };
+        } else {
+            return {
+                attacks: 0,
+                spells: 1,
+            };
+        }
+    }
+
+    private _updateValues(): void {
+        this.isAnimalCompanionAvailable$.next(this._creatureAvailabilityService.isCompanionAvailable());
+        this.isFamiliarAvailable$.next(this._creatureAvailabilityService.isFamiliarAvailable());
+        this.attacksAndSpellsOrder$.next(this._attacksAndSpellsOrder());
     }
 
     private _subscribeToChanges(): void {
-        const waitForServicesInterval = setInterval(() => {
-            if (!this.stillLoading) {
-                clearInterval(waitForServicesInterval);
-                this._changeSubscription = this._refreshService.componentChanged$
+        StatusService.isLoadingCharacter$
+            .pipe(
+                filter(loading => !loading),
+                take(1),
+            )
+            .subscribe(() => {
+                this._refreshService.componentChanged$
+                    .pipe(
+                        takeUntil(this.destroyed$),
+                    )
                     .subscribe(target => {
                         if (['character-sheet', 'all', 'character'].includes(target.toLowerCase())) {
-                            this._changeDetector.detectChanges();
+                            this._updateValues();
                         }
                     });
-                this._viewChangeSubscription = this._refreshService.detailChanged$
+
+                this._refreshService.detailChanged$
+                    .pipe(
+                        takeUntil(this.destroyed$),
+                    )
                     .subscribe(view => {
                         if (view.creature.toLowerCase() === 'character' && ['character-sheet', 'all'].includes(view.target.toLowerCase())) {
-                            this._changeDetector.detectChanges();
+                            this._updateValues();
                         }
                     });
-            }
-        }, Defaults.waitForServiceDelay);
-
+            });
     }
 
 }

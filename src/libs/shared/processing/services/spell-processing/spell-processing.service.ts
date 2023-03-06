@@ -95,7 +95,6 @@ export class SpellProcessingService {
             context.gain.selectedTarget = '';
         }
 
-
         //Apply conditions unless in manual mode or if the spell was only expended.
         if (!options.expendOnly && !SettingsService.isManualMode) {
 

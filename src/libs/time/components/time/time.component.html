@@ -20,81 +20,72 @@
 
 <div id="time">
     <div
-        class="loading"
-        *ngIf="stillLoading"
+        *ngIf="showTurn && {desc: waitingDescription(5)} as waitingStatus"
+        class="list-item center-aligned"
     >
-        Loading
+        <div [ngbTooltip]="waitingStatus.desc">
+            <button
+                type="button"
+                (click)="startTurn()"
+                [disabled]="yourTurn === 5 || waitingStatus.desc.length"
+            >
+                Start Turn
+            </button>
+        </div>
+
+        <div class="turn-indicator">
+            <strong *ngIf="yourTurn === 0">Not your Turn</strong>
+
+            <strong
+                class="yourTurn"
+                *ngIf="yourTurn === 5"
+            >
+                Your Turn
+            </strong>
+        </div>
+
+        <div [ngbTooltip]="waitingStatus.desc">
+            <button
+                type="button"
+                (click)="endTurn()"
+                [disabled]="yourTurn === 0 || waitingStatus.desc.length"
+            >
+                End Turn
+            </button>
+        </div>
     </div>
 
-    <ng-container *ngIf="!stillLoading">
-        <div
-            *ngIf="showTurn && {desc: waitingDescription(5)} as waitingStatus"
-            class="list-item center-aligned"
-        >
-            <div [ngbTooltip]="waitingStatus.desc">
+    <div
+        *ngIf="showTime"
+        class="list-item"
+        [ngClass]="{'fullsize-only':showTime && showTurn}"
+    >
+        <ng-container *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;">
+            <div
+                [ngbTooltip]="waitingStatus.desc"
+                *ngIf="{desc: waitingDescription(duration)} as waitingStatus"
+            >
                 <button
                     type="button"
-                    (click)="startTurn()"
-                    [disabled]="yourTurn === 5 || waitingStatus.desc.length"
+                    class="fancybutton"
+                    (click)="tick(duration)"
+                    [disabled]="waitingStatus.desc.length"
                 >
-                    Start Turn
-                </button>
-            </div>
+                    <span class="hlist">
+                        <i class="bi bi-clock-history desktop-hide"></i>
 
-            <div class="turn-indicator">
-                <strong *ngIf="yourTurn === 0">Not your Turn</strong>
+                        <span class="mobile-hide">Pass</span>
 
-                <strong
-                    class="yourTurn"
-                    *ngIf="yourTurn === 5"
-                >
-                    Your Turn
-                </strong>
-            </div>
-
-            <div [ngbTooltip]="waitingStatus.desc">
-                <button
-                    type="button"
-                    (click)="endTurn()"
-                    [disabled]="yourTurn === 0 || waitingStatus.desc.length"
-                >
-                    End Turn
-                </button>
-            </div>
-        </div>
-
-        <div
-            *ngIf="showTime"
-            class="list-item"
-            [ngClass]="{'fullsize-only':showTime && showTurn}"
-        >
-            <ng-container *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;">
-                <div
-                    [ngbTooltip]="waitingStatus.desc"
-                    *ngIf="{desc: waitingDescription(duration)} as waitingStatus"
-                >
-                    <button
-                        type="button"
-                        class="fancybutton"
-                        (click)="tick(duration)"
-                        [disabled]="waitingStatus.desc.length"
-                    >
-                        <span class="hlist">
-                            <i class="bi bi-clock-history desktop-hide"></i>
-
-                            <span class="mobile-hide">Pass</span>
-
-                            <span class="mobile-hide">
-                                {{durationDescription(duration, false)}}
-                            </span>
-
-                            <span class="desktop-hide">
-                                {{durationDescription(duration, false, true)}}
-                            </span>
+                        <span class="mobile-hide">
+                            {{durationDescription(duration, false)}}
                         </span>
-                    </button>
-                </div>
-            </ng-container>
-        </div>
-    </ng-container>
+
+                        <span class="desktop-hide">
+                            {{durationDescription(duration, false, true)}}
+                        </span>
+                    </span>
+                </button>
+            </div>
+        </ng-container>
+    </div>
 </div>

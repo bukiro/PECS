@@ -5,7 +5,6 @@ import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FeatsDataService } from '../data/feats-data.service';
 import { FeatTaken } from '../../definitions/models/FeatTaken';
 
-
 @Injectable({
     providedIn: 'root',
 })

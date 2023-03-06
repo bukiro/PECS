@@ -16,7 +16,6 @@
         </strong>
     </div>
 
-
     <ng-template
         #buttonText
         let-target="target"
@@ -35,12 +34,10 @@
                 ""}}
             </span>
 
-
             <i
                 class='bi-peace'
                 *ngIf="!canActivate"
             ></i>
-
 
             <i
                 class='ra ra-droplet-splash'
@@ -48,7 +45,6 @@
             ></i>
         </span>
     </ng-template>
-
 
     <ng-container *ngIf="!isManualMode">
         <!-- Button to activate on yourself. -->
@@ -83,7 +79,6 @@
             </button>
         </div>
 
-
         <!-- Button to activate on the Character. -->
         <div
             class="newrow"
@@ -101,7 +96,6 @@
                 <ng-container *ngTemplateOutlet="buttonText;context:{target:' on ' + (character.name || 'your master'), canActivate:parameters.canActivate}"></ng-container>
             </button>
         </div>
-
 
         <!-- Button to activate on the Companion. -->
         <div
@@ -121,7 +115,6 @@
             </button>
         </div>
 
-
         <!-- Button to activate on the Familiar. -->
         <div
             class="newrow"
@@ -140,7 +133,6 @@
             </button>
         </div>
 
-
         <!-- Button to activate on selected allies. -->
         <ng-container *ngIf="canTargetAlly(parameters.targetNumber)">
             <ng-container *ngIf="spellTargets() as targets">
@@ -157,7 +149,6 @@
                             targets
                         </header>
 
-
                         <button
                             type="button"
                             type="button"
@@ -170,13 +161,11 @@
                         </button>
                     </div>
 
-
                     <div class="modal-body vlist">
                         <p *ngIf="parameters.targetNumber === 1">
                             Select a target for this
                             {{spell ? "spell" : "activity"}}.
                         </p>
-
 
                         <p *ngIf="parameters.targetNumber > 1">
                             Select up to {{parameters.targetNumber}} targets for
@@ -184,14 +173,12 @@
                             {{spell ? "spell" : "activity"}}.
                         </p>
 
-
                         <p *ngIf="parameters.targetNumber === -1">
                             Select any number of targets for this {{spell ?
                             "spell"
                             :
                             "activity"}}.
                         </p>
-
 
                         <div
                             class="gridicon-fullsizebox"
@@ -211,7 +198,6 @@
                                 <strong>Select all</strong>
                             </label>
                         </div>
-
 
                         <div
                             class="fullsize-scroll-box vlist"
@@ -246,13 +232,11 @@
                                             style="line-height: 1.5;"
                                         ></i>
 
-
                                         <i
                                             class="ra ra-wolf-howl"
                                             *ngIf="target.type==='Companion'"
                                             style="line-height: 1.5; margin-left: 1em;"
                                         ></i>
-
 
                                         <i
                                             class="ra ra-raven"
@@ -260,14 +244,12 @@
                                             style="line-height: 1.5; margin-left: 1em;"
                                         ></i>
 
-
                                         <strong>{{target.name}}</strong>
                                     </label>
                                 </div>
                             </ng-container>
                         </div>
                     </div>
-
 
                     <div class="modal-footer">
                         <button
@@ -278,7 +260,6 @@
                         >
                             Cancel
                         </button>
-
 
                         <button
                             type="button"
@@ -292,7 +273,6 @@
                         </button>
                     </div>
                 </ng-template>
-
 
                 <div
                     class="newrow"
@@ -311,7 +291,6 @@
                 </div>
             </ng-container>
         </ng-container>
-
 
         <!-- Button to activate without target. -->
         <div
@@ -344,7 +323,6 @@
             </button>
         </div>
     </ng-container>
-
 
     <!-- Manual mode: Just cast/activate without target. -->
     <ng-container *ngIf="isManualMode">

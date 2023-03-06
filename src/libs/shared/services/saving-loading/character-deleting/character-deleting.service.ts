@@ -6,7 +6,6 @@ import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { SavegamesService } from '../savegames/savegames.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
-
 @Injectable({
     providedIn: 'root',
 })

@@ -26,7 +26,6 @@
                 </app-spell-target>
             </ng-container>
 
-
             <!-- Activity targets if no spell is cast. -->
             <ng-container *ngIf="!activityParameters.activitySpell">
                 <app-spell-target
@@ -44,7 +43,6 @@
                 </app-spell-target>
             </ng-container>
         </ng-container>
-
 
         <!-- Activity with no effect, not even toggled. This button literally does nothing. -->
         <ng-container *ngIf="!activity.canActivate()">
@@ -64,7 +62,6 @@
         </ng-container>
     </div>
 
-
     <!-- Unslotted Aeon Stone warning -->
     <button
         type="button"
@@ -77,7 +74,6 @@
         </strong>
     </button>
 
-
     <!-- Too many slotted Aeon Stones warning -->
     <div
         class="newrow list-item problem"
@@ -85,7 +81,6 @@
     >
         You have aeon stones slotted in too many wayfinders. All effects of these aeon stones are disabled.
     </div>
-
 
     <ng-container *ngIf="isManualMode && allowActivate">
         <!-- End cooldown and restore charges button in manual mode -->
@@ -99,7 +94,6 @@
             </button>
         </ng-container>
 
-
         <!-- Restore charges button in manual mode -->
         <ng-container *ngIf="gain?.chargesUsed">
             <button
@@ -112,7 +106,6 @@
         </ng-container>
     </ng-container>
 
-
     <div class="newrow left-aligned">
         <app-trait
             *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
@@ -121,7 +114,6 @@
         >
         </app-trait>
 
-
         <app-trait
             *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
             [name]="trait"
@@ -129,7 +121,6 @@
             [extraDescription]="'(This trait was derived from the action components.)'"
         >
         </app-trait>
-
 
         <app-tags
             [creature]="creature"
@@ -143,13 +134,11 @@
         ></app-tags>
     </div>
 
-
     <div
         class="newrow list-item"
         *ngFor="let data of gain?.data; trackBy:trackByIndex"
     >
         <strong>{{data.name}}</strong>
-
 
         <input
             aria-label="Activity data value input"
@@ -158,7 +147,6 @@
             [(ngModel)]="data.value"
         >
     </div>
-
 
     <ng-container *ngFor="let conditionSet of activityConditions(); let conditionSetIndex = index; trackBy:trackByIndex">
         <div
@@ -183,7 +171,6 @@
         </div>
     </ng-container>
 
-
     <!-- Additional information coming from other abilities. -->
     <div class="vlist lower">
         <app-activity-content
@@ -197,7 +184,6 @@
         >
         </app-activity-content>
 
-
         <!-- Only show related feats and conditions if this activity is not currently being shown on another object - that is, if it's allowed to be activated. -->
         <ng-container *ngIf="allowActivate">
             <div
@@ -205,7 +191,6 @@
                 *ngFor="let feat of characterFeatsShowingHintsOnThis(activity.name); trackBy:trackByIndex;"
             >
                 <header class="spellHeader">{{feat.name}}</header>
-
 
                 <div class="newrow left-aligned">
                     <app-trait
@@ -215,7 +200,6 @@
                     >
                     </app-trait>
                 </div>
-
 
                 <div
                     class="newrow left-aligned"
@@ -228,13 +212,11 @@
                 </div>
             </div>
 
-
             <div
                 class="newrow left-aligned"
                 *ngFor="let conditionSet of conditionsShowingHintsOnThis(activity.name); trackBy:trackByIndex;"
             >
                 <header class="spellHeader">{{conditionSet.condition.name}}</header>
-
 
                 <div
                     class="newrow left-aligned"
@@ -246,7 +228,6 @@
                     ></app-description>
                 </div>
             </div>
-
 
             <div
                 class="list-item newrow left-aligned"
@@ -263,7 +244,6 @@
                     ""}}
                 </header>
 
-
                 <app-activity
                     [creature]="creature"
                     [activity]="activityGain.originalActivity"
@@ -272,7 +252,6 @@
                 >
                 </app-activity>
             </div>
-
 
             <ng-container *ngIf="gain?.name === 'Fused Stance'">
                 <div
@@ -289,7 +268,6 @@
                         {{(fusedStanceGain.originalActivity.activationType) ?
                         fusedStanceGain.originalActivity.activationType : ""}}
                     </header>
-
 
                     <app-activity
                         [creature]="creature"

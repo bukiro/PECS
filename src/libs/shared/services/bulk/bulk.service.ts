@@ -84,7 +84,7 @@ export class BulkService {
         const inventories = creature.inventories;
         const result: { value: number; explain: string } = { value: 0, explain: '' };
 
-        if (StatusService.isLoadingCharacter) { return result; }
+        if (StatusService.isLoadingCharacter$.value) { return result; }
 
         inventories.forEach(inventory => {
             const decimal = 10;
@@ -118,7 +118,7 @@ export class BulkService {
             explain: `Base limit: ${ defaultEncumberedLimitBase }`,
         };
 
-        if (StatusService.isLoadingCharacter) { return result; }
+        if (StatusService.isLoadingCharacter$.value) { return result; }
 
         const str = this._abilityValuesService.mod('Strength', creature).result;
 
@@ -148,7 +148,7 @@ export class BulkService {
         const result: { value: number; explain: string } =
             { value: defaultBulkLimitBase, explain: `Base limit: ${ defaultBulkLimitBase }` };
 
-        if (StatusService.isLoadingCharacter) { return result; }
+        if (StatusService.isLoadingCharacter$.value) { return result; }
 
         if (absolutes.length) {
             absolutes.forEach(effect => {

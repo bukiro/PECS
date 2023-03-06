@@ -105,7 +105,6 @@ export class ObjectEffectsGenerationService {
                     }
                 }
 
-
                 //Hide all relative effects that come from feats, so we don't see green effects permanently after taking a feat.
                 const shouldHideEffect = (
                     shouldShowEffect === undefined &&

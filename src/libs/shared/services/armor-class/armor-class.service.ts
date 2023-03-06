@@ -203,7 +203,7 @@ export class ArmorClassService {
         absolutes?: Array<Effect>,
         relatives?: Array<Effect>,
     ): { result: number; explain: string } {
-        if (StatusService.isLoadingCharacter) { return { result: 0, explain: '' }; }
+        if (StatusService.isLoadingCharacter$.value) { return { result: 0, explain: '' }; }
 
         //Get the bonus from the worn armor. This includes the basic 10
         let basicBonus = 10;

@@ -24,11 +24,10 @@ import { ArmorPropertiesService } from 'src/libs/shared/services/armor-propertie
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -66,10 +65,6 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
         private readonly _skillsDataService: SkillsDataService,
     ) {
         super();
-    }
-
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
     }
 
     public get isMinimized(): boolean {

@@ -3,7 +3,7 @@ import welcome from 'src/assets/json/about/welcome.json';
 import hints from 'src/assets/json/about/hints.json';
 import changelog from 'src/assets/json/about/changelog.json';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 
 interface ChangeLog {

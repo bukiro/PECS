@@ -15,7 +15,7 @@ import { ItemsDataService } from 'src/libs/shared/services/data/items-data.servi
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface RuneSet {
     rune: WeaponRune;

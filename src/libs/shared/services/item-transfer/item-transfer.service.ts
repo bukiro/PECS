@@ -383,7 +383,6 @@ export class ItemTransferService {
                         .filter(invItem => invItem.gainInventory.length)
                         .some(invItem => findContainerInItem(invItem)));
 
-
         if (item instanceof Equipment && item.gainInventory?.length) {
             hasFoundContainerInItem = findContainerInItem(item);
         }

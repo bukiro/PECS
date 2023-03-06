@@ -12,7 +12,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
 import { Observable, of } from 'rxjs';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface ShieldMaterialSet {
     material: ShieldMaterial;

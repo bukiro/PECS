@@ -6,11 +6,9 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
 import { DisplayService } from 'src/libs/shared/services/display/display.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 
 @Component({
     selector: 'app-animal-companion',
@@ -30,7 +28,6 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
-        private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) { }
@@ -41,10 +38,6 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
     public get character(): Character {
         return CreatureService.character;
-    }
-
-    public get stillLoading(): boolean {
-        return (StatusService.isLoadingCharacter || this._animalCompanionsDataService.stillLoading);
     }
 
     public get companionMenuState(): MenuState {

@@ -94,7 +94,7 @@ export class WeaponPropertiesService {
         charLevel: number = CreatureService.character.level,
         options: { preparedProficiency?: string } = {},
     ): number {
-        if (StatusService.isLoadingCharacter || creature.isFamiliar()) { return 0; }
+        if (StatusService.isLoadingCharacter$.value || creature.isFamiliar()) { return 0; }
 
         let skillLevel = 0;
         const prof = options.preparedProficiency || this.effectiveProficiency(weapon, { creature, charLevel });
@@ -229,7 +229,6 @@ export class WeaponPropertiesService {
 
         return bestSkillLevel;
     }
-
 
     public updateModifiers(weapon: Weapon, creature: Creature): void {
         //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.

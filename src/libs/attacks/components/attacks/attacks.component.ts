@@ -43,10 +43,9 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { Oil } from 'src/app/classes/Oil';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/trackers-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -100,10 +99,6 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     public get isManualMode(): boolean {
         return SettingsService.isManualMode;
-    }
-
-    public get stillLoading(): boolean {
-        return StatusService.isLoadingCharacter;
     }
 
     public get isInventoryTileMode(): boolean {

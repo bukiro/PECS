@@ -45,219 +45,210 @@
     id="{{creature}}-skills-height"
     class="attributeBox"
 >
-    <div
-        class="loading"
-        *ngIf="stillLoading"
-    >
-        Loading
-    </div>
+    <header class="sectionHeader box-header">Perception</header>
 
-    <ng-container *ngIf="!stillLoading">
-        <header class="sectionHeader box-header">Perception</header>
-
-        <ng-container *ngIf="ownedActivities() as activityGains">
-            <ng-container *ngFor="let skill of skillsOfType('Perception'); trackBy:trackByIndex;">
-                <app-skill
-                    [creature]="creature"
-                    [skill]=skill
-                    [minimized]="isMinimized"
-                    [relatedActivityGains]="skillMatchingActivities(activityGains, skill.name)"
-                    [showAction]="shownAction()"
-                    (showActionMessage)="receiveShowActionMessage($event)"
-                ></app-skill>
-            </ng-container>
-
-            <div class="vlist">
-                <header class="subsectionHeader">Senses</header>
-
-                <div
-                    class="list-item lower"
-                    [ngbPopover]="senseDesc(sense)"
-                    *ngFor="let sense of senses(); trackBy:trackByIndex;"
-                >
-                    {{sense}}
-                </div>
-            </div>
-
-            <app-tags
+    <ng-container *ngIf="ownedActivities() as activityGains">
+        <ng-container *ngFor="let skill of skillsOfType('Perception'); trackBy:trackByIndex;">
+            <app-skill
                 [creature]="creature"
-                [objectName]="'Senses'"
-                [showTraits]="true"
-                [showFeats]="true"
-                [showItems]="true"
-                [showActivities]="true"
-                [showConditions]="true"
-            ></app-tags>
+                [skill]=skill
+                [minimized]="isMinimized"
+                [relatedActivityGains]="skillMatchingActivities(activityGains, skill.name)"
+                [showAction]="shownAction()"
+                (showActionMessage)="receiveShowActionMessage($event)"
+            ></app-skill>
+        </ng-container>
 
-            <ng-container *ngIf="creature==='Familiar'">
-                <header class="sectionHeader box-header">Attack Rolls</header>
-
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="'Attacks'"
-                    [showTraits]="true"
-                    [showFeats]="true"
-                    [showItems]="true"
-                    [showActivities]="true"
-                    [showConditions]="true"
-                ></app-tags>
-
-                <ng-container *ngFor="let skill of skillsOfType('Familiar Proficiency'); trackBy:trackByIndex;">
-                    <app-skill
-                        [creature]="creature"
-                        [minimized]="isMinimized"
-                        [skill]=skill
-                    ></app-skill>
-                </ng-container>
-            </ng-container>
-
-            <ng-template #SpeedEffectsPopoverContent>
-                <div class="fullsize-only newrow">
-                    <app-object-effects
-                        [creature]="creature"
-                        [objectName]="'Land Speed'"
-                    ></app-object-effects>
-                </div>
-
-                <div class="fullsize-only newrow">
-                    <app-object-effects
-                        [creature]="creature"
-                        [objectName]="'Burrow Speed'"
-                    ></app-object-effects>
-                </div>
-
-                <div class="fullsize-only newrow">
-                    <app-object-effects
-                        [creature]="creature"
-                        [objectName]="'Climb Speed'"
-                    ></app-object-effects>
-                </div>
-
-                <div class="fullsize-only newrow">
-                    <app-object-effects
-                        [creature]="creature"
-                        [objectName]="'Fly Speed'"
-                    ></app-object-effects>
-                </div>
-
-                <div class="fullsize-only newrow">
-                    <app-object-effects
-                        [creature]="creature"
-                        [objectName]="'Swim Speed'"
-                    ></app-object-effects>
-                </div>
-            </ng-template>
-
-            <header class="sectionHeader box-header">
-                <span
-                    class="fullsize-only"
-                    [ngbPopover]="SpeedEffectsPopoverContent"
-                    #SpeedEffectsPopover="ngbPopover"
-                    triggers="click"
-                >
-                    <i
-                        [ngbTooltip]="!SpeedEffectsPopover.isOpen() ? 'Edit effects' : ''"
-                        class='bi-lightning-charge'
-                    ></i>
-                </span>
-                Movement
-            </header>
+        <div class="vlist">
+            <header class="subsectionHeader">Senses</header>
 
             <div
-                class="list-item"
-                *ngFor="let speedParameters of speedParameters(); trackBy:trackByIndex;"
+                class="list-item lower"
+                [ngbPopover]="senseDesc(sense)"
+                *ngFor="let sense of senses(); trackBy:trackByIndex;"
             >
-                <div class="newrow">
-                    <span>
-                        <strong>
-                            {{(speedParameters.name==="Speed") ? "All Speeds" :
-                            speedParameters.name}}
-                        </strong>
-                    </span>
+                {{sense}}
+            </div>
+        </div>
 
-                    <span>
-                        <div
-                            class="value"
-                            [ngbPopover]="speedParameters.value.explain"
-                            [ngClass]="{'penalty':speedParameters.showPenalties,
+        <app-tags
+            [creature]="creature"
+            [objectName]="'Senses'"
+            [showTraits]="true"
+            [showFeats]="true"
+            [showItems]="true"
+            [showActivities]="true"
+            [showConditions]="true"
+        ></app-tags>
+
+        <ng-container *ngIf="creature==='Familiar'">
+            <header class="sectionHeader box-header">Attack Rolls</header>
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Attacks'"
+                [showTraits]="true"
+                [showFeats]="true"
+                [showItems]="true"
+                [showActivities]="true"
+                [showConditions]="true"
+            ></app-tags>
+
+            <ng-container *ngFor="let skill of skillsOfType('Familiar Proficiency'); trackBy:trackByIndex;">
+                <app-skill
+                    [creature]="creature"
+                    [minimized]="isMinimized"
+                    [skill]=skill
+                ></app-skill>
+            </ng-container>
+        </ng-container>
+
+        <ng-template #SpeedEffectsPopoverContent>
+            <div class="fullsize-only newrow">
+                <app-object-effects
+                    [creature]="creature"
+                    [objectName]="'Land Speed'"
+                ></app-object-effects>
+            </div>
+
+            <div class="fullsize-only newrow">
+                <app-object-effects
+                    [creature]="creature"
+                    [objectName]="'Burrow Speed'"
+                ></app-object-effects>
+            </div>
+
+            <div class="fullsize-only newrow">
+                <app-object-effects
+                    [creature]="creature"
+                    [objectName]="'Climb Speed'"
+                ></app-object-effects>
+            </div>
+
+            <div class="fullsize-only newrow">
+                <app-object-effects
+                    [creature]="creature"
+                    [objectName]="'Fly Speed'"
+                ></app-object-effects>
+            </div>
+
+            <div class="fullsize-only newrow">
+                <app-object-effects
+                    [creature]="creature"
+                    [objectName]="'Swim Speed'"
+                ></app-object-effects>
+            </div>
+        </ng-template>
+
+        <header class="sectionHeader box-header">
+            <span
+                class="fullsize-only"
+                [ngbPopover]="SpeedEffectsPopoverContent"
+                #SpeedEffectsPopover="ngbPopover"
+                triggers="click"
+            >
+                <i
+                    [ngbTooltip]="!SpeedEffectsPopover.isOpen() ? 'Edit effects' : ''"
+                    class='bi-lightning-charge'
+                ></i>
+            </span>
+            Movement
+        </header>
+
+        <div
+            class="list-item"
+            *ngFor="let speedParameters of speedParameters(); trackBy:trackByIndex;"
+        >
+            <div class="newrow">
+                <span>
+                    <strong>
+                        {{(speedParameters.name==="Speed") ? "All Speeds" :
+                            speedParameters.name}}
+                    </strong>
+                </span>
+
+                <span>
+                    <div
+                        class="value"
+                        [ngbPopover]="speedParameters.value.explain"
+                        [ngClass]="{'penalty':speedParameters.showPenalties,
                         'bonus':speedParameters.showBonuses,
                         'absolute':speedParameters.absolutes.length}"
-                        >
-                            {{speedParameters.value.result}}
-                        </div>
-                    </span>
-                </div>
-
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="speedParameters.name"
-                    [showTraits]="true"
-                    [showFeats]="true"
-                    [showItems]="true"
-                    [showActivities]="true"
-                    [showConditions]="true"
-                    [specialEffects]="speedParameters.absolutes.concat(speedParameters.relatives)"
-                >
-                </app-tags>
+                    >
+                        {{speedParameters.value.result}}
+                    </div>
+                </span>
             </div>
 
             <app-tags
                 [creature]="creature"
-                [objectName]="'Movement'"
+                [objectName]="speedParameters.name"
                 [showTraits]="true"
                 [showFeats]="true"
                 [showItems]="true"
                 [showActivities]="true"
                 [showConditions]="true"
-                [showEffects]="true"
-            ></app-tags>
+                [specialEffects]="speedParameters.absolutes.concat(speedParameters.relatives)"
+            >
+            </app-tags>
+        </div>
 
-            <header class="sectionHeader box-header">Skills</header>
+        <app-tags
+            [creature]="creature"
+            [objectName]="'Movement'"
+            [showTraits]="true"
+            [showFeats]="true"
+            [showItems]="true"
+            [showActivities]="true"
+            [showConditions]="true"
+            [showEffects]="true"
+        ></app-tags>
 
-            <!-- Skill Increases -->
-            <ng-container *ngFor="let choice of skillChoices(); trackBy:trackByIndex;">
-                <app-skill-choice
-                    (showSkillChoiceMessage)="receiveShowChoiceMessage($event)"
-                    [showTitle]="true"
-                    [showContent]="true"
-                    [choice]="choice"
-                    [showChoice]="shownList()"
-                >
-                </app-skill-choice>
-            </ng-container>
+        <header class="sectionHeader box-header">Skills</header>
 
-            <app-tags
+        <!-- Skill Increases -->
+        <ng-container *ngFor="let choice of skillChoices(); trackBy:trackByIndex;">
+            <app-skill-choice
+                (showSkillChoiceMessage)="receiveShowChoiceMessage($event)"
+                [showTitle]="true"
+                [showContent]="true"
+                [choice]="choice"
+                [showChoice]="shownList()"
+            >
+            </app-skill-choice>
+        </ng-container>
+
+        <app-tags
+            [creature]="creature"
+            [objectName]="'Skills'"
+            [showTraits]="true"
+            [showFeats]="true"
+            [showItems]="true"
+            [showActivities]="true"
+            [showConditions]="true"
+            [showEffects]="true"
+        ></app-tags>
+
+        <app-tags
+            [creature]="creature"
+            [objectName]="'Skill Checks'"
+            [showTraits]="true"
+            [showFeats]="true"
+            [showItems]="true"
+            [showActivities]="true"
+            [showConditions]="true"
+            [showEffects]="true"
+        ></app-tags>
+
+        <ng-container *ngFor="let skill of skillsOfType('Skill'); trackBy:trackByIndex;">
+            <app-skill
                 [creature]="creature"
-                [objectName]="'Skills'"
-                [showTraits]="true"
-                [showFeats]="true"
-                [showItems]="true"
-                [showActivities]="true"
-                [showConditions]="true"
-                [showEffects]="true"
-            ></app-tags>
-
-            <app-tags
-                [creature]="creature"
-                [objectName]="'Skill Checks'"
-                [showTraits]="true"
-                [showFeats]="true"
-                [showItems]="true"
-                [showActivities]="true"
-                [showConditions]="true"
-                [showEffects]="true"
-            ></app-tags>
-
-            <ng-container *ngFor="let skill of skillsOfType('Skill'); trackBy:trackByIndex;">
-                <app-skill
-                    [creature]="creature"
-                    [skill]=skill
-                    [minimized]="isMinimized"
-                    [relatedActivityGains]="skillMatchingActivities(activityGains, skill.name)"
-                    [showAction]="shownAction()"
-                    (showActionMessage)="receiveShowActionMessage($event)"
-                ></app-skill>
-            </ng-container>
+                [skill]=skill
+                [minimized]="isMinimized"
+                [relatedActivityGains]="skillMatchingActivities(activityGains, skill.name)"
+                [showAction]="shownAction()"
+                (showActionMessage)="receiveShowActionMessage($event)"
+            ></app-skill>
         </ng-container>
     </ng-container>
 </div>

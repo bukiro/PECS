@@ -1,0 +1,170 @@
+<div class="charactersheet-card filter-buttons">
+    <button
+        aria-label="General"
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'All'}"
+        (click)="toggleShownMode('All')"
+    >
+        <i class="bi-info-circle-fill"></i>
+    </button>
+
+    <button
+        aria-label="Health"
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Health'}"
+        (click)="toggleShownMode('Health')"
+    >
+        <i class="ra ra-health"></i>
+    </button>
+
+    <button
+        aria-label="Defense"
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Defense'}"
+        (click)="toggleShownMode('Defense')"
+    >
+        <i class="ra ra-shield"></i>
+    </button>
+
+    <button
+        aria-label="Attacks"
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Attacks'}"
+        (click)="toggleShownMode('Attacks')"
+    >
+        <i class="ra ra-sword"></i>
+    </button>
+
+    <button
+        aria-label="Spells"
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Spells'}"
+        (click)="toggleShownMode('Spells')"
+    >
+        <i class="ra ra-doubled"></i>
+    </button>
+
+    <button
+        aria-label="Skills"
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Skills'}"
+        (click)="toggleShownMode('Skills')"
+    >
+        <i class="ra ra-muscle-up"></i>
+    </button>
+
+    <button
+        aria-label="Actions and activities"
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Activities'}"
+        (click)="toggleShownMode('Activities')"
+    >
+        <app-action-icons [actionString]="'1A'"></app-action-icons>
+    </button>
+
+    <button
+        aria-label="Inventory"
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Inventory'}"
+        (click)="toggleShownMode('Inventory')"
+    >
+        <i class="bi-box"></i>
+    </button>
+
+    <button
+        aria-label="Conditions and effects"
+        type="button"
+        class="filter-buttons__button"
+        [ngClass]="{'filter-buttons__button--selected': shownMode === 'ConditionsEffects'}"
+        (click)="toggleShownMode('ConditionsEffects')"
+    >
+        <i class="ra ra-lightning-bolt"></i>
+
+        <i class="bi-clock"></i>
+    </button>
+</div>
+
+<ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
+    <app-general
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.generalMinimized}"
+        *ngIf="shownMode === 'All'"
+    >
+    </app-general>
+
+    <app-abilities
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.abilitiesMinimized}"
+        *ngIf="shownMode === 'All'"
+    >
+    </app-abilities>
+
+    <app-health
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.healthMinimized}"
+        *ngIf="shownMode === 'Health'"
+    >
+    </app-health>
+
+    <app-defense
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.defenseMinimized}"
+        *ngIf="shownMode === 'Defense'"
+    >
+    </app-defense>
+
+    <app-attacks
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.attacksMinimized}"
+        *ngIf="shownMode === 'Attacks'"
+    >
+    </app-attacks>
+
+    <app-spellbook
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.spellbookMinimized}"
+        *ngIf="shownMode === 'Spells'"
+    >
+    </app-spellbook>
+
+    <app-skills
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.skillsMinimized}"
+        *ngIf="shownMode === 'Skills'"
+    >
+    </app-skills>
+
+    <app-activities
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.activitiesMinimized}"
+        *ngIf="shownMode === 'Actions'"
+    >
+    </app-activities>
+
+    <app-inventory
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.inventoryMinimized}"
+        *ngIf="shownMode === 'Inventory'"
+    >
+    </app-inventory>
+</ng-container>
+
+<ng-template #ConditionsAndEffectsTemplate>
+    <app-time
+        class="charactersheet-card"
+        [ngClass]="{'minimized': settings.timeMinimized}"
+    ></app-time>
+
+    <app-effects
+        class="charactersheet-card"
+        [fullDisplay]="true"
+    ></app-effects>
+</ng-template>

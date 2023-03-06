@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({
@@ -6,24 +7,16 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 })
 export class StatusService {
 
+    public static isLoadingCharacter$ = new BehaviorSubject<boolean>(true);
 
-    private static _loadingStatus = 'Loading';
-    private static _loadingCharacter = true;
+    public static loadingStatus$ = new BehaviorSubject<string>('Loading');
 
     constructor(
         private readonly _refreshService: RefreshService,
     ) { }
 
-    public static get loadingStatus(): string {
-        return this._loadingStatus;
-    }
-
-    public static get isLoadingCharacter(): boolean {
-        return !!this._loadingCharacter;
-    }
-
     public setLoadingStatus(status: string, refreshTopBar = true): void {
-        StatusService._loadingStatus = status || 'Loading';
+        StatusService.loadingStatus$.next(status || 'Loading');
 
         if (refreshTopBar) {
             this._refreshService.setComponentChanged('top-bar');
@@ -31,11 +24,11 @@ export class StatusService {
     }
 
     public setLoadingCharacter(loading: boolean): void {
-        StatusService._loadingCharacter = loading;
+        StatusService.isLoadingCharacter$.next(loading);
     }
 
     public clearLoadingStatus(): void {
-        StatusService._loadingStatus = '';
+        StatusService.loadingStatus$.next('');
     }
 
 }

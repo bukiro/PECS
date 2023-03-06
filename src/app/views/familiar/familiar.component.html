@@ -31,15 +31,8 @@
     </button>
 
     <div
-        class="loading"
-        *ngIf="stillLoading"
-    >
-        Loading
-    </div>
-
-    <div
         class="familiar-box"
-        *ngIf="!stillLoading && character.class && isFamiliarAvailable && familiarMenuState==='in'"
+        *ngIf="character.class && isFamiliarAvailable && familiarMenuState==='in'"
     >
         <!-- Desktop-only view -->
         <ng-container *ngIf="!isMobile">
@@ -160,73 +153,71 @@
                 </button>
             </div>
 
-            <ng-container *ngIf="!stillLoading">
-                <div class="charactersheet-column-container desktop-hide">
-                    <div class="charactersheet-column">
-                        <app-general
-                            id="Character-general"
-                            class="charactersheet-app"
-                            [creature]="creatureTypesEnum.Familiar"
-                            [ngClass]="{'minimized':(isMinimized)}"
-                            *ngIf="!shownMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(shownMode())"
-                        >
-                        </app-general>
+            <div class="charactersheet-column-container desktop-hide">
+                <div class="charactersheet-column">
+                    <app-general
+                        id="Character-general"
+                        class="charactersheet-app"
+                        [creature]="creatureTypesEnum.Familiar"
+                        [ngClass]="{'minimized':(isMinimized)}"
+                        *ngIf="!shownMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(shownMode())"
+                    >
+                    </app-general>
 
-                        <app-familiar-abilities
-                            id="familiarabilities"
-                            class="charactersheet-app"
-                            *ngIf="!shownMode()"
-                        >
-                        </app-familiar-abilities>
+                    <app-familiar-abilities
+                        id="familiarabilities"
+                        class="charactersheet-app"
+                        *ngIf="!shownMode()"
+                    >
+                    </app-familiar-abilities>
 
-                        <app-health
-                            id="Character-health"
-                            class="charactersheet-app"
-                            [creature]="creatureTypesEnum.Familiar"
-                            [showMinimizeButton]="(shownMode() !== 'Downtime')"
-                            [ngClass]="{'minimized':(isMinimized || (shownMode() === 'Downtime'))}"
-                            *ngIf="shownMode()==='Health'"
-                        >
-                        </app-health>
+                    <app-health
+                        id="Character-health"
+                        class="charactersheet-app"
+                        [creature]="creatureTypesEnum.Familiar"
+                        [showMinimizeButton]="(shownMode() !== 'Downtime')"
+                        [ngClass]="{'minimized':(isMinimized || (shownMode() === 'Downtime'))}"
+                        *ngIf="shownMode()==='Health'"
+                    >
+                    </app-health>
 
-                        <app-defense
-                            id="Character-defense"
-                            class="charactersheet-app"
-                            [creature]="creatureTypesEnum.Familiar"
-                            [ngClass]="{'minimized':(isMinimized)}"
-                            *ngIf="shownMode()==='Defense'"
-                        >
-                        </app-defense>
+                    <app-defense
+                        id="Character-defense"
+                        class="charactersheet-app"
+                        [creature]="creatureTypesEnum.Familiar"
+                        [ngClass]="{'minimized':(isMinimized)}"
+                        *ngIf="shownMode()==='Defense'"
+                    >
+                    </app-defense>
 
-                        <app-skills
-                            id="Character-skills"
-                            class="charactersheet-app"
-                            [creature]="creatureTypesEnum.Familiar"
-                            [ngClass]="{'minimized':(isMinimized)}"
-                            *ngIf="shownMode()==='Skills'"
-                        >
-                        </app-skills>
+                    <app-skills
+                        id="Character-skills"
+                        class="charactersheet-app"
+                        [creature]="creatureTypesEnum.Familiar"
+                        [ngClass]="{'minimized':(isMinimized)}"
+                        *ngIf="shownMode()==='Skills'"
+                    >
+                    </app-skills>
 
-                        <app-activities
-                            id="Character-activities"
-                            class="charactersheet-app"
-                            [creature]="creatureTypesEnum.Familiar"
-                            [ngClass]="{'minimized':(isMinimized)}"
-                            *ngIf="shownMode()==='Actions'"
-                        >
-                        </app-activities>
+                    <app-activities
+                        id="Character-activities"
+                        class="charactersheet-app"
+                        [creature]="creatureTypesEnum.Familiar"
+                        [ngClass]="{'minimized':(isMinimized)}"
+                        *ngIf="shownMode()==='Actions'"
+                    >
+                    </app-activities>
 
-                        <app-effects
-                            id="Character-effects"
-                            class="charactersheet-app"
-                            [creature]="creatureTypesEnum.Familiar"
-                            [fullDisplay]="true"
-                            *ngIf="shownMode()==='ConditionsEffects'"
-                        >
-                        </app-effects>
-                    </div>
+                    <app-effects
+                        id="Character-effects"
+                        class="charactersheet-app"
+                        [creature]="creatureTypesEnum.Familiar"
+                        [fullDisplay]="true"
+                        *ngIf="shownMode()==='ConditionsEffects'"
+                    >
+                    </app-effects>
                 </div>
-            </ng-container>
+            </div>
         </ng-container>
     </div>
 </div>

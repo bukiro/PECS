@@ -358,7 +358,6 @@ export class InventoryItemProcessingService {
             this._creatureConditionsService.removeGainedItemConditions(creature, item);
         }
 
-
         item.propertyRunes.filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
             this._characterLoreService.removeRuneLore(rune);
         });
