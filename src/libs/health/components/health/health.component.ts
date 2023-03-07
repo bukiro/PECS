@@ -27,7 +27,11 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
+    public forceMinimized?: boolean;
+
+    @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
+
     @Input()
     public showMinimizeButton = true;
 
@@ -55,6 +59,10 @@ export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, 
     }
 
     public get isMinimized(): boolean {
+        if (this.forceMinimized) {
+            return true;
+        }
+
         switch (this.creature) {
             case CreatureTypes.AnimalCompanion:
                 return CreatureService.character.settings.companionMinimized;

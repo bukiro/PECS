@@ -1,0 +1,13 @@
+@import 'utilities';
+
+:host {
+    @include character-sheet-card;
+}
+
+.turn-control {
+    @include flex-row-center;
+}
+
+.time-control {
+    @include flex-row-center;
+}

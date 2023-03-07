@@ -59,7 +59,7 @@
 
     <button
         type="button"
-        class="fullsize-only center-aligned list-item"
+        class="minimized-hide center-aligned list-item"
         *ngIf="doesCharacterHaveSpells()"
         (click)="toggleSpellsMenu()"
     >
@@ -67,7 +67,7 @@
     </button>
 
     <ng-template #SpellAttacksEffectsPopoverContent>
-        <div class="fullsize-only newrow">
+        <div class="minimized-hide newrow">
             <app-object-effects
                 [creature]="creatureTypesEnum.Character"
                 [objectName]="'Spell Attack Rolls'"
@@ -75,7 +75,7 @@
             </app-object-effects>
         </div>
 
-        <div class="fullsize-only newrow">
+        <div class="minimized-hide newrow">
             <app-object-effects
                 [creature]="creatureTypesEnum.Character"
                 [objectName]="'Spell DCs'"
@@ -86,11 +86,11 @@
 
     <ng-container *ngFor="let skill of spellDCs(); let index = index; trackBy:trackByIndex;">
         <header
-            class="sectionHeader fullsize-only"
+            class="sectionHeader minimized-hide"
             *ngIf="index === 0"
         >
             <span
-                class="fullsize-only"
+                class="minimized-hide"
                 [ngbPopover]="SpellAttacksEffectsPopoverContent"
                 #SpellAttacksEffectsPopover="ngbPopover"
                 triggers="click"

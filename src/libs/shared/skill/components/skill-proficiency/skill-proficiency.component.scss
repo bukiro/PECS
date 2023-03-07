@@ -21,7 +21,7 @@
     transform: rotate(45deg);
 
     &__diamond {
-        @include background-color-basic;
+        @include background-color-default;
         position: absolute;
 
         height: 1rem;

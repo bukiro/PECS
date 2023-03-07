@@ -55,14 +55,14 @@
             </span>
         </div>
 
-        <div class="fullsize-only list-item">
+        <div class="minimized-hide list-item">
             <strong>Character Name</strong>
 
             <span>{{character.name}}</span>
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="character.class.ancestry.name"
         >
             <strong>Ancestry</strong>
@@ -97,7 +97,7 @@
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="character.class.background && character.class.background.name"
         >
             <strong>Background</strong>
@@ -106,7 +106,7 @@
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="character.class.name"
         >
             <div
@@ -120,7 +120,7 @@
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="character.class.ancestry.name"
         >
             <strong>Size</strong>
@@ -140,7 +140,7 @@
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="character.alignment && character.alignment.length"
         >
             <strong>Alignment</strong>
@@ -160,7 +160,7 @@
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="character.class.deity"
         >
             <strong>Deity</strong>
@@ -169,7 +169,7 @@
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="domains().length"
         >
             <strong>Deity's Domains</strong>
@@ -219,7 +219,7 @@
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="tenets().length"
         >
             <strong>Tenets</strong>
@@ -232,7 +232,7 @@
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="edicts().length"
         >
             <strong>Edicts</strong>
@@ -245,7 +245,7 @@
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="anathema().length"
         >
             <strong>Anathema</strong>
@@ -268,7 +268,7 @@
         ></app-tags>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngFor="let differentWorldsData of differentWorldsData(); trackBy:trackByIndex;"
         >
             <strong>Alternative Identity (Different Worlds)</strong>
@@ -305,20 +305,20 @@
         >
         </app-tags>
 
-        <div class="fullsize-only list-item">
+        <div class="minimized-hide list-item">
             <strong>Companion Name</strong>
 
             <span>{{companion.name}}</span>
         </div>
 
-        <div class="fullsize-only list-item">
+        <div class="minimized-hide list-item">
             <strong>Animal</strong>
 
             <span>{{companionSpecies()}}</span>
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="companion.class.specializations.length"
         >
             <strong>Specializations</strong>
@@ -327,7 +327,7 @@
         </div>
 
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="companion.class.ancestry.name"
         >
             <strong>Size</strong>
@@ -380,19 +380,19 @@
         >
         </app-tags>
 
-        <div class="fullsize-only list-item">
+        <div class="minimized-hide list-item">
             <strong>Familiar Name</strong>
 
             <span>{{familiar.name}}</span>
         </div>
 
-        <div class="fullsize-only list-item">
+        <div class="minimized-hide list-item">
             <strong>Creature</strong>
 
             <span>{{familiar.species}}</span>
         </div>
 
-        <div class="fullsize-only list-item">
+        <div class="minimized-hide list-item">
             <strong>Size</strong>
 
             <span>{{creatureSize()}}</span>

@@ -1,0 +1,38 @@
+@mixin side-menu {
+    @include border-default;
+    @include text-color-default;
+    @include background-color-default;
+    @include flex-column-center;
+
+    position: fixed;
+}
+
+@mixin side-menu-left {
+    @include side-menu;
+
+    height: 100%;
+    width: 100vw;
+}
+
+@mixin side-menu-top {
+    @include side-menu;
+
+    top: 0;
+    left: 15%;
+    right: 15%;
+    bottom: auto;
+
+    z-index: 20;
+
+    overflow-x: hidden;
+    max-height: 90%;
+
+    border-top: none;
+
+    @media (max-width: $screen-width-narrow) {
+        left: 0;
+        right: 0;
+
+        max-height: 100%;
+    }
+}

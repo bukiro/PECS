@@ -6,7 +6,7 @@
         'list-item': showTitle && !isTileMode,
         'vlist':!showTitle,
         'problem':(choice.spells.length > componentParameters.availableSpellSlots || componentParameters.cannotTakeSome),
-        'fullsize-only':(componentParameters.availableSpellSlots === choice.spells.length)
+        'minimized-hide':(componentParameters.availableSpellSlots === choice.spells.length)
     }"
 >
     <ng-template #ButtonTitleTemplate>

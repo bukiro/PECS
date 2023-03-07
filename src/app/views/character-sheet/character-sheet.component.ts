@@ -57,8 +57,8 @@ const slideInOutVertical = trigger('slideInOutVert', [
 })
 export class CharacterSheetComponent extends DestroyableMixin(IsMobileMixin(TrackByMixin(BaseClass))) implements OnInit, OnDestroy {
 
-    public shownModeDesktop$ = new BehaviorSubject<string>('');
-    public shownModeMobile$ = new BehaviorSubject<string>('');
+    public shownModeDesktop$ = new BehaviorSubject<string>('All');
+    public shownModeMobile$ = new BehaviorSubject<string>('All');
 
     public isAnimalCompanionAvailable$ = new BehaviorSubject<boolean>(false);
     public isFamiliarAvailable$ = new BehaviorSubject<boolean>(false);

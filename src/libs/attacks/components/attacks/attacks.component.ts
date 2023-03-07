@@ -62,6 +62,9 @@ interface WeaponParameters {
 export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
+    public forceMinimized?: boolean;
+
+    @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
     public onlyAttacks: Array<AttackRestriction> = [];
     public forbiddenAttacks: Array<AttackRestriction> = [];
@@ -92,9 +95,12 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
     }
 
     public get isMinimized(): boolean {
-        return this.creature === CreatureTypes.AnimalCompanion
-            ? CreatureService.character.settings.companionMinimized
-            : CreatureService.character.settings.attacksMinimized;
+        return this.forceMinimized
+            || (
+                this.creature === CreatureTypes.AnimalCompanion
+                    ? CreatureService.character.settings.companionMinimized
+                    : CreatureService.character.settings.attacksMinimized
+            );
     }
 
     public get isManualMode(): boolean {

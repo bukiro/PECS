@@ -1,7 +1,13 @@
-@mixin text-color-basic {
+@mixin text-color-default {
     color: $color-text-dark;
 
+    // Darkmode color for locally styled elements.
     :host-context(.darkmode) & {
+        color: $color-text-light;
+    }
+
+    // Darkmode color for globally styled elements.
+    .darkmode & {
         color: $color-text-light;
     }
 
@@ -9,14 +15,9 @@
     &.darkmode {
         color: $color-text-light;
     }
-
-    // For globally styled elements.
-    .darkmode & {
-        color: $color-text-light;
-    }
 }
 
-@mixin border-color-basic {
+@mixin border-color-default {
     border-color: $color-text-dark;
 
     :host-context(.darkmode) & {
@@ -28,7 +29,7 @@
     }
 }
 
-@mixin background-color-basic {
+@mixin background-color-default {
     background-color: $color-background-light;
 
     :host-context(.darkmode) & {

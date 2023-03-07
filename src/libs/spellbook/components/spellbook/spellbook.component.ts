@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
@@ -100,6 +100,9 @@ interface SpellParameters {
 })
 export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
+    @Input()
+    public forceMinimized?: boolean;
+
     public creatureTypesEnum = CreatureTypes;
 
     private _showSpell = '';
@@ -134,7 +137,7 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
     }
 
     public get isMinimized(): boolean {
-        return CreatureService.character.settings.spellbookMinimized;
+        return this.forceMinimized || CreatureService.character.settings.spellbookMinimized;
     }
 
     public get isTileMode(): boolean {

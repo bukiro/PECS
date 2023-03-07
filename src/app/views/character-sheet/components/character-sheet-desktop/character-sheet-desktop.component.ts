@@ -4,7 +4,7 @@ import { CharacterSheetBaseComponent } from '../character-sheet-base/character-s
 @Component({
     selector: 'app-character-sheet-desktop',
     templateUrl: './character-sheet-desktop.component.html',
-    styleUrls: ['./character-sheet-desktop.component.scss'],
+    styleUrls: ['./character-sheet-desktop.component.scss', '../character-sheet-base/character-sheet-base.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterSheetDesktopComponent extends CharacterSheetBaseComponent {

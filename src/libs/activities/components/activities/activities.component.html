@@ -59,7 +59,7 @@
     ></app-tags>
 
     <ng-template #EffectsPopoverContent>
-        <div class="fullsize-only newrow">
+        <div class="minimized-hide newrow">
             <app-object-effects
                 [creature]="creature"
                 [objectName]="'Class DCs'"
@@ -68,9 +68,9 @@
     </ng-template>
 
     <div class="vlist">
-        <header class="subsectionHeader fullsize-only">
+        <header class="subsectionHeader minimized-hide">
             <span
-                class="fullsize-only"
+                class="minimized-hide"
                 [ngbPopover]="EffectsPopoverContent"
                 #EffectsPopover="ngbPopover"
                 triggers="click"

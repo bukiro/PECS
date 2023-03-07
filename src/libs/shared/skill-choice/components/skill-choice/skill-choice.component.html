@@ -3,7 +3,7 @@
     <div
         *ngIf="skillChoiceParameters.allowedIncreases"
         class="featchoice-container"
-        [ngClass]="{'list-item': showTitle && !isTileMode, 'vlist': !showTitle, 'problem':(choice.increases.length > skillChoiceParameters.allowedIncreases || areAnyIncreasesIllegal), 'fullsize-only':skillChoiceParameters.cleared}"
+        [ngClass]="{'list-item': showTitle && !isTileMode, 'vlist': !showTitle, 'problem':(choice.increases.length > skillChoiceParameters.allowedIncreases || areAnyIncreasesIllegal), 'minimized-hide':skillChoiceParameters.cleared}"
     >
         <!-- Choice button shows in title mode -->
         <!-- List mode button -->

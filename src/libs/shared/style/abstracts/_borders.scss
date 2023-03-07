@@ -1,0 +1,17 @@
+@mixin border-default {
+    border: $spacing-xs solid $color-accent;
+
+    border-radius: $spacing-xxs;
+}
+
+.border-default {
+    @include border-default;
+}
+
+@mixin border-circle {
+    border-radius: 50%;
+}
+
+.border-circle {
+    @include border-circle;
+}

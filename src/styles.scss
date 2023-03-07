@@ -752,7 +752,7 @@
 //     background-color: #202020;
 // }
 
-// .charactersheet-column-container {
+// .character-sheet-column-container {
 //     display: grid;
 //     grid-template-columns: 1fr 1fr;
 //     overflow-y: hidden;
@@ -760,7 +760,7 @@
 //     gap: .6rem;
 // }
 
-// .charactersheet-column {
+// .character-sheet-column {
 //     flex-basis: 0;
 //     flex-grow: 1;
 //     overflow-y: auto;
@@ -772,14 +772,14 @@
 
 // /* Character sheet apps */
 
-// .charactersheet-app {
+// .character-sheet-app {
 //     background-color: #EFEFEF;
 //     border-radius: .15rem;
 //     margin: .6rem;
 //     position: relative;
 // }
 
-// .darkmode .charactersheet-app {
+// .darkmode .character-sheet-app {
 //     background-color: #303030;
 // }
 
@@ -802,21 +802,7 @@
 //     width: 100%;
 // }
 
-// app-dice {
-//     position: absolute;
-//     top: 0;
-//     left: 15%;
-//     right: 15%;
-//     bottom: auto;
-//     z-index: 20;
-//     overflow-x: hidden;
-//     border: 4px solid rgb(var(--accent));
-//     border-top: none;
-//     border-radius: .15rem;
-//     max-height: 90%;
-// }
-
-// app-familiar-abilities.charactersheet-app {
+// app-familiar-abilities.character-sheet-app {
 //     overflow: visible;
 // }
 

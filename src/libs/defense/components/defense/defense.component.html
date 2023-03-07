@@ -25,7 +25,7 @@
 >
     <ng-container *ngIf="componentParameters() as componentParameters">
         <ng-template #EffectsPopoverContent>
-            <div class="fullsize-only newrow">
+            <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'AC'"
@@ -35,7 +35,7 @@
 
         <header class="sectionHeader box-header">
             <span
-                class="fullsize-only"
+                class="minimized-hide"
                 [ngbPopover]="EffectsPopoverContent"
                 #EffectsPopover="ngbPopover"
                 triggers="click"
@@ -146,16 +146,16 @@
         </div>
 
         <ng-container *ngIf="creature !== 'Familiar'">
-            <header class="subsectionHeader fullsize-only">Armor</header>
+            <header class="subsectionHeader minimized-hide">Armor</header>
 
             <div
-                class="fullsize-only list-item"
+                class="minimized-hide list-item"
                 *ngFor="let armor of equippedArmor(); let armorIndex = index; trackBy:trackByIndex;"
             >
                 <div>{{armor.effectiveName()}}</div>
 
                 <div
-                    class="fullsize-only newrow left-aligned"
+                    class="minimized-hide newrow left-aligned"
                     *ngIf="armor.traits.length"
                 >
                     <app-trait
@@ -186,7 +186,7 @@
 
                 <ng-container *ngIf="hintShowingRunes(armor) as hintShowingRunes">
                     <div
-                        class="fullsize-only newrow left-aligned"
+                        class="minimized-hide newrow left-aligned"
                         *ngIf="hintShowingRunes.length"
                         style="margin-top:initial"
                     >
@@ -217,7 +217,7 @@
                 </ng-container>
 
                 <div
-                    class="fullsize-only lower newrow left-aligned"
+                    class="minimized-hide lower newrow left-aligned"
                     *ngFor="let talisman of armor.talismans; let index = index; trackBy:trackByIndex;"
                 >
                     <ng-template #TalismanTemplate>
@@ -312,7 +312,7 @@
                 </div>
 
                 <div
-                    class="fullsize-only lower newrow left-aligned"
+                    class="minimized-hide lower newrow left-aligned"
                     *ngFor="let spec of armorSpecialization(armor); trackBy:trackByIndex;"
                 >
                     <strong>Armor specialization effect&nbsp;</strong>
@@ -321,7 +321,7 @@
             </div>
 
             <ng-container *ngFor="let shield of equippedShield(); trackBy:trackByIndex;">
-                <header class="subsectionHeader fullsize-only">Shield</header>
+                <header class="subsectionHeader minimized-hide">Shield</header>
 
                 <div class="vlist list-item">
                     <div class="newrow left-aligned">
@@ -332,7 +332,7 @@
                     </div>
 
                     <div
-                        class="fullsize-only newrow left-aligned"
+                        class="minimized-hide newrow left-aligned"
                         *ngIf="shield.traits.length"
                     >
                         <app-trait
@@ -466,7 +466,7 @@
                     </div>
 
                     <div
-                        class="fullsize-only lower newrow left-aligned"
+                        class="minimized-hide lower newrow left-aligned"
                         *ngFor="let talisman of shield.talismans; let index = index; trackBy:trackByIndex;"
                     >
                         <ng-template #TalismanTemplate>
@@ -555,7 +555,7 @@
             </ng-container>
 
             <header
-                class="sectionHeader fullsize-only box-header"
+                class="sectionHeader minimized-hide box-header"
             >
                 Saving Throws
             </header>
@@ -579,11 +579,11 @@
                 ></app-skill>
             </ng-container>
 
-            <header class="sectionHeader fullsize-only box-header">Armor Proficiencies</header>
+            <header class="sectionHeader minimized-hide box-header">Armor Proficiencies</header>
 
             <ng-container *ngFor="let skill of skillsOfType('Armor Proficiency'); trackBy:trackByIndex;">
                 <app-skill
-                    class="fullsize-only"
+                    class="minimized-hide"
                     [creature]="creature"
                     [skill]=skill
                     [showValue]=false
@@ -593,7 +593,7 @@
         </ng-container>
 
         <ng-container *ngIf="creature === 'Familiar'">
-            <header class="sectionHeader fullsize-only box-header">Saving Throws</header>
+            <header class="sectionHeader minimized-hide box-header">Saving Throws</header>
 
             <ng-container *ngFor="let skill of skillsOfType('Save'); trackBy:trackByIndex;">
                 <app-skill

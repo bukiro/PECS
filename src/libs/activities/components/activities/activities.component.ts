@@ -43,6 +43,9 @@ interface ActivityParameter {
 export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
+    public forceMinimized?: boolean;
+
+    @Input()
     public creature = CreatureTypes.Character;
 
     private _showActivity = '';
@@ -64,9 +67,12 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
     }
 
     public get isMinimized(): boolean {
-        return this.creature === CreatureTypes.AnimalCompanion
-            ? CreatureService.character.settings.companionMinimized
-            : CreatureService.character.settings.abilitiesMinimized;
+        return this.forceMinimized
+            || (
+                this.creature === CreatureTypes.AnimalCompanion
+                    ? CreatureService.character.settings.companionMinimized
+                    : CreatureService.character.settings.abilitiesMinimized
+            );
     }
 
     public get isTileMode(): boolean {

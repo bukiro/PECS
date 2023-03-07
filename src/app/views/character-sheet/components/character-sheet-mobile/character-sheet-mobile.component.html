@@ -1,4 +1,4 @@
-<div class="charactersheet-card filter-buttons">
+<div class="character-sheet-card filter-buttons">
     <button
         aria-label="General"
         type="button"
@@ -92,79 +92,32 @@
     </button>
 </div>
 
-<ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
-    <app-general
-        class="charactersheet-card"
-        [ngClass]="{'minimized': settings.generalMinimized}"
-        *ngIf="shownMode === 'All'"
-    >
-    </app-general>
+<div class="character-sheet-columns">
+    <div class="character-sheet-columns__column">
+        <ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
+            <app-general *ngIf="shownMode === 'All'"></app-general>
 
-    <app-abilities
-        class="charactersheet-card"
-        [ngClass]="{'minimized': settings.abilitiesMinimized}"
-        *ngIf="shownMode === 'All'"
-    >
-    </app-abilities>
+            <app-abilities *ngIf="shownMode === 'All'"></app-abilities>
 
-    <app-health
-        class="charactersheet-card"
-        [ngClass]="{'minimized': settings.healthMinimized}"
-        *ngIf="shownMode === 'Health'"
-    >
-    </app-health>
+            <app-health *ngIf="shownMode === 'Health'"></app-health>
 
-    <app-defense
-        class="charactersheet-card"
-        [ngClass]="{'minimized': settings.defenseMinimized}"
-        *ngIf="shownMode === 'Defense'"
-    >
-    </app-defense>
+            <app-defense *ngIf="shownMode === 'Defense'"></app-defense>
 
-    <app-attacks
-        class="charactersheet-card"
-        [ngClass]="{'minimized': settings.attacksMinimized}"
-        *ngIf="shownMode === 'Attacks'"
-    >
-    </app-attacks>
+            <app-attacks *ngIf="shownMode === 'Attacks'"></app-attacks>
 
-    <app-spellbook
-        class="charactersheet-card"
-        [ngClass]="{'minimized': settings.spellbookMinimized}"
-        *ngIf="shownMode === 'Spells'"
-    >
-    </app-spellbook>
+            <app-spellbook *ngIf="shownMode === 'Spells'"></app-spellbook>
 
-    <app-skills
-        class="charactersheet-card"
-        [ngClass]="{'minimized': settings.skillsMinimized}"
-        *ngIf="shownMode === 'Skills'"
-    >
-    </app-skills>
+            <app-skills *ngIf="shownMode === 'Skills'"></app-skills>
 
-    <app-activities
-        class="charactersheet-card"
-        [ngClass]="{'minimized': settings.activitiesMinimized}"
-        *ngIf="shownMode === 'Actions'"
-    >
-    </app-activities>
+            <app-activities *ngIf="shownMode === 'Actions'"></app-activities>
 
-    <app-inventory
-        class="charactersheet-card"
-        [ngClass]="{'minimized': settings.inventoryMinimized}"
-        *ngIf="shownMode === 'Inventory'"
-    >
-    </app-inventory>
-</ng-container>
+            <app-inventory *ngIf="shownMode === 'Inventory'"></app-inventory>
+        </ng-container>
 
-<ng-template #ConditionsAndEffectsTemplate>
-    <app-time
-        class="charactersheet-card"
-        [ngClass]="{'minimized': settings.timeMinimized}"
-    ></app-time>
+        <ng-template #ConditionsAndEffectsTemplate>
+            <app-time class="character-sheet-card"></app-time>
 
-    <app-effects
-        class="charactersheet-card"
-        [fullDisplay]="true"
-    ></app-effects>
-</ng-template>
+            <app-effects [fullDisplay]="true"></app-effects>
+        </ng-template>
+    </div>
+</div>

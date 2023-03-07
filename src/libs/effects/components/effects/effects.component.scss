@@ -1,0 +1,5 @@
+@import 'utilities';
+
+:host {
+    @include character-sheet-card;
+}

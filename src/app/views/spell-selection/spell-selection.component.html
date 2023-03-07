@@ -71,8 +71,8 @@
 
     <ng-container *ngIf="character.class && spellsMenuState==='in'">
         <ng-container *ngIf="componentParameters() as componentParameters">
-            <div class="charactersheet-column-container">
-                <div class="charactersheet-column">
+            <div class="character-sheet-column-container">
+                <div class="character-sheet-column">
                     <div class="fullsize-scroll-box vlist">
                         <div
                             class="list-item"
@@ -204,7 +204,7 @@
 
                                         <ng-container *ngIf="!isTileMode">
                                             <div
-                                                class="list-item fullsize-only"
+                                                class="list-item minimized-hide"
                                                 *ngIf="'showFixedSpell'+spellParameters.choice.id+spellParameters.gain.name as spellID"
                                             >
                                                 <button
@@ -227,11 +227,11 @@
                                         </ng-container>
 
                                         <ng-container *ngIf="isTileMode">
-                                            <div class="fullsize-only">
+                                            <div class="minimized-hide">
                                                 <button
                                                     type="button"
                                                     aria-label="Show fixed spell"
-                                                    class="fullsize-only inactive-button"
+                                                    class="minimized-hide inactive-button"
                                                     [ngbPopover]="FixedSpellContent"
                                                     triggers="click"
                                                 >
@@ -273,7 +273,7 @@
                 </div>
 
                 <div
-                    class="charactersheet-column"
+                    class="character-sheet-column"
                     [ngClass]="{'mobile-hide': shownContent() === null}"
                 >
                     <div

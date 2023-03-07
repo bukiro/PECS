@@ -19,6 +19,9 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
+    public forceMinimized?: boolean;
+
+    @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
 
     private _changeSubscription?: Subscription;
@@ -34,9 +37,12 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
     }
 
     public get isMinimized(): boolean {
-        return this.creature === CreatureTypes.AnimalCompanion
-            ? CreatureService.character.settings.companionMinimized
-            : CreatureService.character.settings.abilitiesMinimized;
+        return this.forceMinimized
+            || (
+                this.creature === CreatureTypes.AnimalCompanion
+                    ? CreatureService.character.settings.companionMinimized
+                    : CreatureService.character.settings.abilitiesMinimized
+            );
     }
 
     private get _currentCreature(): Creature {

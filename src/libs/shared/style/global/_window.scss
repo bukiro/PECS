@@ -17,7 +17,7 @@ html {
 /* Body */
 
 body {
-    @include text-color-basic;
+    @include text-color-default;
 
     font-size: 14px;
 

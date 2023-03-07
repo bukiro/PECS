@@ -24,14 +24,14 @@
     class="attributeBox"
 >
     <ng-template #EffectsPopoverContent>
-        <div class="fullsize-only newrow">
+        <div class="minimized-hide newrow">
             <app-object-effects
                 [creature]="creature"
                 [objectName]="'Attack Rolls'"
             ></app-object-effects>
         </div>
 
-        <div class="fullsize-only newrow">
+        <div class="minimized-hide newrow">
             <app-object-effects
                 [creature]="creature"
                 [objectName]="'Damage Rolls'"
@@ -41,7 +41,7 @@
 
     <header class="sectionHeader box-header">
         <span
-            class="fullsize-only"
+            class="minimized-hide"
             [ngbPopover]="EffectsPopoverContent"
             #EffectsPopover="ngbPopover"
             triggers="click"
@@ -188,7 +188,7 @@
 
     <ng-container *ngFor="let weaponParameters of equippedWeaponsParameters(); let weaponIndex = index; trackBy:trackByIndex;">
         <div
-            class="fullsize-only list-item"
+            class="minimized-hide list-item"
             *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex === 0"
         >
             <strong class="gap-text">
@@ -203,7 +203,7 @@
 
         <div
             class="list-item"
-            [ngClass]="{'problem fullsize-only':!weaponParameters.isAllowed, 'invisible':!weaponParameters.isAllowed && !showRestricted}"
+            [ngClass]="{'problem minimized-hide':!weaponParameters.isAllowed, 'invisible':!weaponParameters.isAllowed && !showRestricted}"
             *ngFor="let attack of attacksOfWeapon(weaponParameters.weapon); trackBy:trackByIndex;"
         >
             <div class="newrow">
@@ -311,7 +311,7 @@
 
             <ng-container *ngIf="weaponParameters.weapon.$traits as traits">
                 <div
-                    class="fullsize-only newrow left-aligned tags"
+                    class="minimized-hide newrow left-aligned tags"
                     *ngIf="traits.length"
                 >
                     <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
@@ -327,7 +327,7 @@
 
             <ng-container *ngIf="weaponParameters.weapon.$traits as traits">
                 <div
-                    class="fullsize-only newrow left-aligned tags"
+                    class="minimized-hide newrow left-aligned tags"
                     *ngIf="traits.length"
                 >
                     <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
@@ -347,7 +347,7 @@
             </ng-container>
 
             <div
-                class="fullsize-only newrow left-aligned"
+                class="minimized-hide newrow left-aligned"
                 *ngIf="hintShowingRunes(weaponParameters.weapon, attack.range) as hintRunes"
                 style="margin-top:initial"
             >
@@ -389,7 +389,7 @@
             ></app-tags>
 
             <div
-                class="fullsize-only lower newrow left-aligned"
+                class="minimized-hide lower newrow left-aligned"
                 *ngFor="let poison of weaponParameters.weapon.poisonsApplied; let index = index; trackBy:trackByIndex;"
             >
                 <button
@@ -402,7 +402,7 @@
             </div>
 
             <div
-                class="fullsize-only lower newrow left-aligned"
+                class="minimized-hide lower newrow left-aligned"
                 *ngFor="let talisman of weaponParameters.weapon.talismans; let index = index; trackBy:trackByIndex;"
             >
                 <ng-template #TalismanTemplate>
@@ -490,7 +490,7 @@
             </div>
 
             <div
-                class="fullsize-only list-item newrow"
+                class="minimized-hide list-item newrow"
                 *ngIf="weaponParameters.asBomb && weaponParameters.asBomb?.hitEffect"
             >
                 <button
@@ -517,7 +517,7 @@
 
             <ng-container *ngIf="criticalHints(weaponParameters.weapon) as critEffects">
                 <div
-                    class="fullsize-only list-item newrow"
+                    class="minimized-hide list-item newrow"
                     *ngIf="critEffects.length"
                 >
                     <button
@@ -547,7 +547,7 @@
 
             <ng-container *ngIf="criticalSpecialization(weaponParameters.weapon, attack.range) as specs">
                 <div
-                    class="fullsize-only list-item newrow"
+                    class="minimized-hide list-item newrow"
                     *ngIf="specs.length"
                 >
                     <button
@@ -580,7 +580,7 @@
                 style="margin-top:initial"
             >
                 <div
-                    class="fullsize-only list-item newrow"
+                    class="minimized-hide list-item newrow"
                     *ngIf="rune.criticalHint"
                 >
                     <button
@@ -681,7 +681,7 @@
         ></app-tags>
 
         <div class="vlist">
-            <header class="subsectionHeader fullsize-only">{{ammoType}}</header>
+            <header class="subsectionHeader minimized-hide">{{ammoType}}</header>
 
             <div
                 class="list-item"
@@ -800,7 +800,7 @@
     </ng-container>
 
     <header
-        class="sectionHeader fullsize-only box-header"
+        class="sectionHeader minimized-hide box-header"
     >
         Weapon Proficiencies
     </header>
@@ -817,7 +817,7 @@
 
     <ng-container *ngFor="let skill of skillsOfType('Weapon Proficiency'); trackBy:trackByIndex;">
         <app-skill
-            class="fullsize-only"
+            class="minimized-hide"
             [creature]="creature"
             [skill]=skill
             [showValue]=false
@@ -826,7 +826,7 @@
 
     <ng-container *ngFor="let skill of skillsOfType('Specific Weapon Proficiency'); trackBy:trackByIndex;">
         <app-skill
-            class="fullsize-only"
+            class="minimized-hide"
             [creature]="creature"
             [skill]=skill
             [showValue]=false

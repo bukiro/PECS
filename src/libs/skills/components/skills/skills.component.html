@@ -104,35 +104,35 @@
         </ng-container>
 
         <ng-template #SpeedEffectsPopoverContent>
-            <div class="fullsize-only newrow">
+            <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Land Speed'"
                 ></app-object-effects>
             </div>
 
-            <div class="fullsize-only newrow">
+            <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Burrow Speed'"
                 ></app-object-effects>
             </div>
 
-            <div class="fullsize-only newrow">
+            <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Climb Speed'"
                 ></app-object-effects>
             </div>
 
-            <div class="fullsize-only newrow">
+            <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Fly Speed'"
                 ></app-object-effects>
             </div>
 
-            <div class="fullsize-only newrow">
+            <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Swim Speed'"
@@ -142,7 +142,7 @@
 
         <header class="sectionHeader box-header">
             <span
-                class="fullsize-only"
+                class="minimized-hide"
                 [ngbPopover]="SpeedEffectsPopoverContent"
                 #SpeedEffectsPopover="ngbPopover"
                 triggers="click"

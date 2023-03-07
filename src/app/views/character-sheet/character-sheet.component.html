@@ -1,5 +1,6 @@
-<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngIf="(isLoadingCharacter$ | async) === false">
+    <!-- Desktop or mobile character sheet -->
+
     <app-character-sheet-desktop
         *ngIf="(isMobile$ | async) === false"
         [shownMode]="(shownModeDesktop$ | async) ?? 'All'"
@@ -7,54 +8,36 @@
     ></app-character-sheet-desktop>
 
     <app-character-sheet-mobile
-        *ngIf="(isMobile$ | async) === true"
+        *ngIf="(isMobile$ | async)"
         [shownMode]="(shownModeMobile$ | async) ?? 'All'"
     ></app-character-sheet-mobile>
 
     <!-- Slide-in menus -->
 
-    <app-items
-        [@slideInOut]="itemsMenuState"
-    >
-    </app-items>
+    <app-items [@slideInOut]="itemsMenuState"></app-items>
 
-    <app-crafting
-        [@slideInOut]="craftingMenuState"
-    >
-    </app-crafting>
+    <app-crafting [@slideInOut]="craftingMenuState"></app-crafting>
 
-    <app-spell-selection
-        [@slideInOut]="spellsMenuState"
-    >
-    </app-spell-selection>
+    <app-spell-selection [@slideInOut]="spellsMenuState"></app-spell-selection>
 
-    <app-spell-library
-        [@slideInOut]="spellLibraryMenuState"
-    ></app-spell-library>
+    <app-spell-library [@slideInOut]="spellLibraryMenuState"></app-spell-library>
 
-    <app-conditions
-        [@slideInOut]="conditionsMenuState"
-    ></app-conditions>
+    <app-conditions [@slideInOut]="conditionsMenuState"></app-conditions>
 
-    <app-character-creation
-        [@slideInOut]="characterMenuState"
-    >
-    </app-character-creation>
+    <app-character-creation [@slideInOut]="characterMenuState"></app-character-creation>
 
     <app-animal-companion
-        [@slideInOut]="companionMenuState"
         *ngIf="isAnimalCompanionAvailable$ | async"
+        [@slideInOut]="companionMenuState"
     >
     </app-animal-companion>
 
     <app-familiar
-        [@slideInOut]="familiarMenuState"
         *ngIf="isFamiliarAvailable$ | async"
+        [@slideInOut]="familiarMenuState"
     ></app-familiar>
 
     <app-dice [@slideInOutVert]="diceMenuState"></app-dice>
 </ng-container>
 
-<ng-template #LoadingTemplate>
-    Loading...
-</ng-template>
+<ng-template #LoadingTemplate>Loading...</ng-template>

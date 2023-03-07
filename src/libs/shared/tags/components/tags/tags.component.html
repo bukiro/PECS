@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngIf="collectAllTags() as allTags">
     <div
-        class="fullsize-only newrow left-aligned"
+        class="minimized-hide newrow left-aligned"
         *ngIf="allTags.count > 0"
     >
         <ng-container *ngFor="let traitSet of allTags.traits; trackBy:trackByIndex;">

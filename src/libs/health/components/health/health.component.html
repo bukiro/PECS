@@ -80,7 +80,7 @@
             [showEffects]=true
         ></app-tags>
 
-        <div class="fullsize-only list-item">
+        <div class="minimized-hide list-item">
             <div class="newrow">
                 <strong>Max HP</strong>
 
@@ -150,7 +150,7 @@
 
         <div
             class="list-item"
-            [ngClass]="{'fullsize-only':(calculatedHealth.dying <= 0)}"
+            [ngClass]="{'minimized-hide':(calculatedHealth.dying <= 0)}"
         >
             <div class="newrow">
                 <strong>Dying</strong>
@@ -246,7 +246,7 @@
 
         <div
             class="newrow list-item"
-            [ngClass]="{'fullsize-only':(calculatedHealth.wounded <= 0)}"
+            [ngClass]="{'minimized-hide':(calculatedHealth.wounded <= 0)}"
         >
             <strong>Wounded</strong>
 
@@ -352,7 +352,7 @@
         <div
             class="list-item newrow"
             *ngIf="isNumbToDeathAvailable()"
-            [ngClass]="{'fullsize-only':(calculatedHealth.dying <= 0)}"
+            [ngClass]="{'minimized-hide':(calculatedHealth.dying <= 0)}"
         >
             <span>
                 <strong>Numb to Death</strong>
@@ -370,7 +370,7 @@
             </span>
         </div>
 
-        <div class="fullsize-only list-item newrow">
+        <div class="minimized-hide list-item newrow">
             <ng-template #TempHPSliderTemplate>
                 <div
                     class="slider-container"

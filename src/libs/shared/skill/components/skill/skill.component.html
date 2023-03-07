@@ -2,7 +2,7 @@
 <ng-container *ngIf="calculatedSkill() as calculatedSkill">
     <div
         class="list-item"
-        [ngClass]="{'fullsize-only':(calculatedSkill.value.result === 0)}"
+        [ngClass]="{'minimized-hide':(calculatedSkill.value.result === 0)}"
         *ngIf="minimized ? (calculatedSkill.value.result !== 0) : !(calculatedSkill.value.result === 0 && creature === 'Companion')"
     >
 
@@ -58,7 +58,7 @@
             [ngbCollapse]="!skillNotes.showNotes"
             *ngIf="skillNotes(skill) as skillNotes"
         >
-            <div class="fullsize-only newrow">
+            <div class="minimized-hide newrow">
                 <span>
                     <strong>Notes</strong>
 

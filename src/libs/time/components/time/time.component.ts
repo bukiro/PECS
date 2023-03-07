@@ -18,7 +18,11 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 export class TimeComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
+    public forceMinimized?: boolean;
+
+    @Input()
     public showTurn = true;
+
     @Input()
     public showTime = true;
 
@@ -36,7 +40,7 @@ export class TimeComponent extends TrackByMixin(BaseClass) implements OnInit, On
     }
 
     public get isMinimized(): boolean {
-        return CreatureService.character.settings.timeMinimized;
+        return this.forceMinimized || CreatureService.character.settings.timeMinimized;
     }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {

@@ -49,7 +49,7 @@
 
     <button
         type="button"
-        class="fullsize-only list-item center-aligned"
+        class="minimized-hide list-item center-aligned"
         *ngIf="!itemStore"
         (click)="setItemsMenuTarget(creature); toggleItemsMenu()"
     >
@@ -124,7 +124,7 @@
         </div>
 
         <ng-template #EncumbranceLimitEffectsPopoverContent>
-            <div class="fullsize-only newrow">
+            <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Encumbered Limit'"
@@ -132,11 +132,11 @@
             </div>
         </ng-template>
 
-        <div class="fullsize-only list-item">
+        <div class="minimized-hide list-item">
             <div class="newrow">
                 <span class="hlist">
                     <span
-                        class="fullsize-only"
+                        class="minimized-hide"
                         [ngbPopover]="EncumbranceLimitEffectsPopoverContent"
                         #EncumbranceLimitEffectsPopover="ngbPopover"
                         triggers="click"
@@ -174,7 +174,7 @@
         </div>
 
         <ng-template #MaxBulkEffectsPopoverContent>
-            <div class="fullsize-only newrow">
+            <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Max Bulk'"
@@ -182,11 +182,11 @@
             </div>
         </ng-template>
 
-        <div class="fullsize-only list-item">
+        <div class="minimized-hide list-item">
             <div class="newrow">
                 <span class="hlist">
                     <span
-                        class="fullsize-only"
+                        class="minimized-hide"
                         [ngbPopover]="MaxBulkEffectsPopoverContent"
                         #MaxBulkEffectsPopover="ngbPopover"
                         triggers="click"
@@ -225,7 +225,7 @@
     </ng-container>
 
     <ng-container *ngIf="quickCraftingParameters() as quickCraftingParameters">
-        <header class="sectionHeader fullsize-only box-header">Quick Crafting</header>
+        <header class="sectionHeader minimized-hide box-header">Quick Crafting</header>
 
         <app-tags
             [creature]="creature"
@@ -308,7 +308,7 @@
         </ng-container>
     </ng-container>
 
-    <header class="sectionHeader fullsize-only box-header">Items</header>
+    <header class="sectionHeader minimized-hide box-header">Items</header>
 
     <app-tags
         [creature]="creature"
@@ -322,7 +322,7 @@
     ></app-tags>
 
     <ng-template #MaxInvestedEffectsPopoverContent>
-        <div class="fullsize-only newrow">
+        <div class="minimized-hide newrow">
             <app-object-effects
                 [creature]="creature"
                 [objectName]="'Max Invested'"
@@ -331,7 +331,7 @@
     </ng-template>
 
     <div
-        class="fullsize-only list-item"
+        class="minimized-hide list-item"
         *ngIf="investedParameters() as investedParameters"
     >
         <strong>Invested</strong>
@@ -345,7 +345,7 @@
 
         <span class="hlist">
             <span
-                class="fullsize-only"
+                class="minimized-hide"
                 [ngbPopover]="MaxInvestedEffectsPopoverContent"
                 #MaxInvestedEffectsPopover="ngbPopover"
                 triggers="click"
@@ -386,10 +386,10 @@
         <ng-container *ngFor="let inventory of currentCreature.inventories; let inventoryIndex = index; trackBy:trackByIndex;">
             <div
                 class="list-item"
-                [ngClass]="{'fullsize-only':inventoryIndex > 1}"
+                [ngClass]="{'minimized-hide':inventoryIndex > 1}"
             >
                 <header
-                    class="sectionHeader fullsize-only newrow"
+                    class="sectionHeader minimized-hide newrow"
                     *ngIf="inventory.bulkLimit"
                 >
                     {{inventoryName(inventory)}}
@@ -1517,18 +1517,18 @@
                 </ng-container>
 
                 <!-- Miscellaneous Items -->
-                <header class="subsectionHeader fullsize-only">Miscellaneous Items</header>
+                <header class="subsectionHeader minimized-hide">Miscellaneous Items</header>
 
                 <button
                     type="button"
-                    class="fullsize-only newrow center-aligned"
+                    class="minimized-hide newrow center-aligned"
                     (click)="addNewOtherItem(inventory)"
                 >
                     Add
                 </button>
 
                 <div
-                    class="fullsize-only list-item"
+                    class="minimized-hide list-item"
                     *ngFor="let item of inventory.otheritems; let index = index; trackBy:trackByIndex;"
                 >
                     <strong>Name</strong>

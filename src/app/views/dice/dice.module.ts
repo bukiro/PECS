@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DiceIconsModule } from '../shared/ui/dice-icons/dice-icons.module';
+import { DiceIconsModule } from '../../../libs/shared/ui/dice-icons/dice-icons.module';
 import { NgbCollapseModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { DiceComponent } from './components/dice/dice.component';
+import { DiceComponent } from './dice.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({

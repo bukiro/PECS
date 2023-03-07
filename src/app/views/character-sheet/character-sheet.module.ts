@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CharacterSheetComponent } from './character-sheet.component';
-import { DiceModule } from 'src/libs/dice/dice.module';
+import { DiceModule } from 'src/app/views/dice/dice.module';
 import { EffectsModule } from 'src/libs/effects/effects.module';
 import { TimeModule } from 'src/libs/time/time.module';
 import { HealthModule } from 'src/libs/health/health.module';
@@ -23,6 +23,7 @@ import { AttacksModule } from 'src/libs/attacks/attacks.module';
 import { SpellbookModule } from 'src/libs/spellbook/spellbook.module';
 import { CharacterSheetDesktopComponent } from './components/character-sheet-desktop/character-sheet-desktop.component';
 import { CharacterSheetMobileComponent } from './components/character-sheet-mobile/character-sheet-mobile.component';
+import { ActivitiesModule } from 'src/libs/activities/activities.module';
 
 @NgModule({
     imports: [
@@ -48,6 +49,7 @@ import { CharacterSheetMobileComponent } from './components/character-sheet-mobi
         CharacterCreationModule,
         AttacksModule,
         SpellbookModule,
+        ActivitiesModule,
     ],
     declarations: [
         CharacterSheetComponent,

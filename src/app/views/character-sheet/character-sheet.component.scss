@@ -1,0 +1,10 @@
+@import 'utilities';
+
+:host {
+    @include flex-column-center;
+
+    position: relative;
+
+    height: 100%;
+    width: 100%;
+}

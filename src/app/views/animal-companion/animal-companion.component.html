@@ -39,60 +39,60 @@
             <app-effects
                 [creature]="creatureTypesEnum.AnimalCompanion"
                 id="Companion-effects"
-                class="charactersheet-app charactersheet-row mobile-hide"
+                class="character-sheet-app character-sheet-row mobile-hide"
             >
             </app-effects>
 
-            <div class="charactersheet-column-container mobile-hide">
-                <div class="charactersheet-column">
+            <div class="character-sheet-column-container mobile-hide">
+                <div class="character-sheet-column">
                     <app-general
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         id="Companion-general"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                     ></app-general>
 
                     <app-health
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         id="Companion-health"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                     ></app-health>
 
                     <app-skills
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         id="Companion-skills"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                     ></app-skills>
 
                     <app-activities
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         id="Companion-activities"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                     ></app-activities>
                 </div>
 
-                <div class="charactersheet-column">
+                <div class="character-sheet-column">
                     <app-abilities
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         id="Companion-abilities"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                     ></app-abilities>
 
                     <app-defense
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         id="Companion-defense"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                     ></app-defense>
 
                     <app-attacks
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         id="Companion-attacks"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                     ></app-attacks>
 
                     <app-inventory
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         id="Companion-inventory"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                     ></app-inventory>
                 </div>
             </div>
@@ -101,7 +101,7 @@
         <!-- Mobile-only buttons and views -->
         <ng-container *ngIf="isMobile">
             <div
-                class="charactersheet-app charactersheet-row desktop-hide"
+                class="character-sheet-app character-sheet-row desktop-hide"
                 id="mobile-tabs"
             >
                 <button
@@ -180,11 +180,11 @@
                 </button>
             </div>
 
-            <div class="charactersheet-column-container desktop-hide">
-                <div class="charactersheet-column">
+            <div class="character-sheet-column-container desktop-hide">
+                <div class="character-sheet-column">
                     <app-general
                         if="general"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="!showMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(showMode())"
@@ -193,7 +193,7 @@
 
                     <app-abilities
                         if="abilities"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="!showMode()"
@@ -202,7 +202,7 @@
 
                     <app-health
                         if="health"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         [showMinimizeButton]="(showMode() !== 'Downtime')"
                         [ngClass]="{'minimized':(isMinimized || (showMode() === 'Downtime'))}"
@@ -212,7 +212,7 @@
 
                     <app-defense
                         if="defense"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="showMode()==='Defense'"
@@ -221,7 +221,7 @@
 
                     <app-attacks
                         if="attacks"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="showMode()==='Attacks'"
@@ -230,7 +230,7 @@
 
                     <app-skills
                         if="skills"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="showMode()==='Skills'"
@@ -239,7 +239,7 @@
 
                     <app-activities
                         if="activities"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="showMode()==='Actions'"
@@ -248,7 +248,7 @@
 
                     <app-inventory
                         if="inventory"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="showMode()==='Inventory'"
@@ -257,7 +257,7 @@
 
                     <app-effects
                         if="effects"
-                        class="charactersheet-app"
+                        class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
                         [fullDisplay]="true"
                         *ngIf="showMode()==='ConditionsEffects'"

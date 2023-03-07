@@ -1,3 +1,10 @@
+@import 'utilities';
+
+:host {
+    @include side-menu-left;
+}
+
+//To-Do: The below has been copied and needs to be refactored.
 .levelBox {
     display: grid;
     justify-content: stretch;

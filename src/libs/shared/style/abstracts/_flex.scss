@@ -10,6 +10,12 @@
     justify-content: space-between;
 }
 
+@mixin flex-row-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 @mixin flex-column-left {
     display: flex;
     flex-direction: column;
@@ -29,3 +35,12 @@
 @mixin flex-center-cross-axis {
     align-items: center;
 }
+
+@mixin flex-stretch-main-axis {
+    justify-content: stretch;
+}
+
+@mixin flex-stretch-cross-axis {
+    align-items: stretch;
+}
+

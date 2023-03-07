@@ -1,5 +1,5 @@
 .pecs-popover {
-    @include background-color-basic;
+    @include background-color-default;
 
     max-height: 50vh;
     max-width: 40rem;
@@ -17,8 +17,8 @@
 
 .popover-body {
     @include text-medium;
-    @include text-color-basic;
-    @include background-color-basic;
+    @include text-color-default;
+    @include background-color-default;
 
     width: 100%;
 

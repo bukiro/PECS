@@ -1,0 +1,7 @@
+@import 'utilities';
+
+:host {
+    @include character-sheet-card;
+
+    @include flex-row-center;
+}

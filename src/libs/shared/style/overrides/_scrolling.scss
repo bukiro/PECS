@@ -1,0 +1,19 @@
+/* Scrollbars */
+
+::-webkit-scrollbar {
+    width: .9rem;
+}
+
+::-webkit-scrollbar-thumb {
+    @include background-color-default;
+
+    -webkit-box-shadow: inset 0 0 $spacing-xs #A0A0A0;
+    -moz-box-shadow: inset 0 0 $spacing-xs #A0A0A0;
+    box-shadow: inset 0 0 $spacing-xs #A0A0A0;
+    border-radius: $spacing-xxs;
+}
+
+::-webkit-scrollbar-track {
+    @include background-color-default;
+    border-radius: $spacing-xxs;
+}

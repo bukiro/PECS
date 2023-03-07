@@ -72,8 +72,8 @@
         </div>
     </ng-template>
 
-    <div class="charactersheet-column-container">
-        <div class="charactersheet-column">
+    <div class="character-sheet-column-container">
+        <div class="character-sheet-column">
             <div
                 class="loading"
                 *ngIf="isLoadingCharacter$ | async"
@@ -588,7 +588,7 @@
 
                     <!-- Available Ancestry Feats -->
                     <div
-                        class="list-item fullsize-only"
+                        class="list-item minimized-hide"
                         *ngIf="character.class.ancestry.name"
                     >
                         <strong>Available Ancestry Feats</strong>
@@ -624,7 +624,7 @@
                         <!-- Class -->
                         <div
                             class="list-item"
-                            [ngClass]="{'fullsize-only':character.class.name}"
+                            [ngClass]="{'minimized-hide':character.class.name}"
                         >
                             <button
                                 type="button"
@@ -640,7 +640,7 @@
                         <ng-container *ngIf="character.class.name">
                             <div
                                 class="list-item list-header"
-                                [ngClass]="{'fullsize-only':character.class.ancestry.name}"
+                                [ngClass]="{'minimized-hide':character.class.ancestry.name}"
                             >
                                 <button
                                     type="button"
@@ -658,7 +658,7 @@
                         <ng-container *ngIf="character.class.ancestry.name">
                             <div
                                 class="list-item"
-                                [ngClass]="{'fullsize-only':character.class.heritage.name}"
+                                [ngClass]="{'minimized-hide':character.class.heritage.name}"
                             >
                                 <button
                                     type="button"
@@ -677,7 +677,7 @@
                             <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(character.level)]; trackBy: trackByIndex">
                                 <div
                                     class="list-item"
-                                    [ngClass]="{'fullsize-only':!blankLanguages}"
+                                    [ngClass]="{'minimized-hide':!blankLanguages}"
                                     *ngIf="areLanguagesAvailableOnLevel()"
                                 >
                                     <button
@@ -696,7 +696,7 @@
                         <ng-container *ngIf="character.class.name">
                             <div
                                 class="list-item"
-                                [ngClass]="{'fullsize-only':(character.class.background.name)}"
+                                [ngClass]="{'minimized-hide':(character.class.background.name)}"
                             >
                                 <button
                                     type="button"
@@ -714,7 +714,7 @@
                         <ng-container *ngIf="character.class.name">
                             <div
                                 class="list-item"
-                                [ngClass]="{'fullsize-only':character.class.deity}"
+                                [ngClass]="{'minimized-hide':character.class.deity}"
                             >
                                 <button
                                     type="button"
@@ -754,7 +754,7 @@
                         <button
                             type="button"
                             aria-label="Show class selection"
-                            [ngClass]="{'fancy-button choicecleared fullsize-only':character.class.name, 'activechoice':shownList()==='class'}"
+                            [ngClass]="{'fancy-button choicecleared minimized-hide':character.class.name, 'activechoice':shownList()==='class'}"
                             (click)="toggleShownList('class')"
                         >
                             <app-grid-icon
@@ -771,7 +771,7 @@
                             <button
                                 type="button"
                                 aria-label="Show ancestry selection"
-                                [ngClass]="{'fancy-button choicecleared fullsize-only':character.class.ancestry.name, 'activechoice':shownList()==='ancestry'}"
+                                [ngClass]="{'fancy-button choicecleared minimized-hide':character.class.ancestry.name, 'activechoice':shownList()==='ancestry'}"
                                 (click)="toggleShownList('ancestry')"
                             >
                                 <app-grid-icon
@@ -789,7 +789,7 @@
                             <button
                                 type="button"
                                 aria-label="Show heritage selection"
-                                [ngClass]="{'fancy-button choicecleared fullsize-only':character.class.heritage.name, 'activechoice':shownList()==='heritage'}"
+                                [ngClass]="{'fancy-button choicecleared minimized-hide':character.class.heritage.name, 'activechoice':shownList()==='heritage'}"
                                 (click)="toggleShownList('heritage')"
                             >
                                 <app-grid-icon
@@ -808,7 +808,7 @@
                                 <button
                                     type="button"
                                     aria-label="Show language menu"
-                                    [ngClass]="{'fancy-button choicecleared fullsize-only':!blankLanguages, 'activechoice':shownList()==='languages' && shownContentLevelNumber()===character.level}"
+                                    [ngClass]="{'fancy-button choicecleared minimized-hide':!blankLanguages, 'activechoice':shownList()==='languages' && shownContentLevelNumber()===character.level}"
                                     (click)="toggleShownList('languages', character.level)"
                                     *ngIf="areLanguagesAvailableOnLevel()"
                                 >
@@ -828,7 +828,7 @@
                             <button
                                 type="button"
                                 aria-label="Show background selection"
-                                [ngClass]="{'fancy-button choicecleared fullsize-only':((character.class.background.name)), 'activechoice':shownList()==='background'}"
+                                [ngClass]="{'fancy-button choicecleared minimized-hide':((character.class.background.name)), 'activechoice':shownList()==='background'}"
                                 (click)="toggleShownList('background')"
                             >
                                 <app-grid-icon
@@ -846,7 +846,7 @@
                             <button
                                 type="button"
                                 aria-label="Show deity selection"
-                                [ngClass]="{'fancy-button choicecleared fullsize-only':character.class.deity, 'activechoice':shownList()==='deity'}"
+                                [ngClass]="{'fancy-button choicecleared minimized-hide':character.class.deity, 'activechoice':shownList()==='deity'}"
                                 (click)="toggleShownList('deity')"
                             >
                                 <app-grid-icon
@@ -996,7 +996,7 @@
                                 *ngIf="level.number > 0"
                             >
                                 <span
-                                    class="fullsize-only"
+                                    class="minimized-hide"
                                     [ngbPopover]="AddBonusesTemplate"
                                     #AddBonusesPopover="ngbPopover"
                                     triggers="click"
@@ -1021,7 +1021,7 @@
                                                     <ng-container *ngIf="!!(fixedAbilityBoosts.length + fixedSkillIncreases.length + fixedFeatures.length + fixedFeats.length)">
                                                         <!-- Fixed information list mode -->
                                                         <div
-                                                            class="fullsize-only list-item"
+                                                            class="minimized-hide list-item"
                                                             *ngIf="!isTileMode"
                                                         >
                                                             <button
@@ -1037,7 +1037,7 @@
 
                                                         <!-- Fixed information tile mode -->
                                                         <div
-                                                            class="fullsize-only"
+                                                            class="minimized-hide"
                                                             *ngIf="isTileMode"
                                                         >
                                                             <button
@@ -1069,7 +1069,7 @@
                                     <!-- List mode fixed ability boosts -->
                                     <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let boost of abilityBoostsOnLevel(level.number, '', '', '', '', true); trackBy: trackByIndex;">
-                                            <div class="list-item fullsize-only">
+                                            <div class="list-item minimized-hide">
                                                 <ng-template #FixedAbilityBoostContent>
                                                     <div class="newrow left-aligned">
                                                         <strong>
@@ -1122,7 +1122,7 @@
                                             <button
                                                 type="button"
                                                 aria-label="Show fixed ability boost"
-                                                class="fullsize-only inactive-button"
+                                                class="minimized-hide inactive-button"
                                                 #FixedAbilityPopover="ngbPopover"
                                                 [ngbPopover]="FixedAbilityBoostContent"
                                                 triggers="click"
@@ -1145,7 +1145,7 @@
                                             <div
                                                 class="list-item"
                                                 *ngIf="maxAvailable && !isTileMode"
-                                                [ngClass]="{'problem':(choice.boosts.length > maxAvailable || areSomeAbilitiesIllegal(choice, level.number)), 'fullsize-only':choice.boosts.length === maxAvailable}"
+                                                [ngClass]="{'problem':(choice.boosts.length > maxAvailable || areSomeAbilitiesIllegal(choice, level.number)), 'minimized-hide':choice.boosts.length === maxAvailable}"
                                             >
                                                 <button
                                                     type="button"
@@ -1164,7 +1164,7 @@
                                                 class="abilityboost"
                                                 *ngIf="maxAvailable && isTileMode"
                                                 (click)="toggleShownList(choice.id, level.number, choice)"
-                                                [ngClass]="{'problem':(choice.boosts.length > maxAvailable || areSomeAbilitiesIllegal(choice, level.number)), 'fancy-button fullsize-only choicecleared':choice.boosts.length === maxAvailable, 'activechoice':shownList()===choice.id}"
+                                                [ngClass]="{'problem':(choice.boosts.length > maxAvailable || areSomeAbilitiesIllegal(choice, level.number)), 'fancy-button minimized-hide choicecleared':choice.boosts.length === maxAvailable, 'activechoice':shownList()===choice.id}"
                                             >
                                                 <app-grid-icon
                                                     class="abilityboost"
@@ -1188,7 +1188,7 @@
                                     <!-- List mode fixed skill increases -->
                                     <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let skillIncrease of skillIncreasesByLevel(level.number, '', '', '', true); trackBy: trackByIndex;">
-                                            <div class="list-item fullsize-only">
+                                            <div class="list-item minimized-hide">
                                                 <ng-template #FixedSkillIncreaseContent>
                                                     <div class="newrow left-aligned">
                                                         <strong>{{skillIncrease.name}}</strong>
@@ -1233,7 +1233,7 @@
                                             <button
                                                 type="button"
                                                 aria-label="Show fixed skill increase"
-                                                class="fullsize-only inactive-button"
+                                                class="minimized-hide inactive-button"
                                                 #FixedSkillPopover="ngbPopover"
                                                 [ngbPopover]="FixedSkillIncreaseContent"
                                                 triggers="click"
@@ -1273,7 +1273,7 @@
                                     <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let feat of characterFeatsTakenOnLevel(level.number, 'feat'); trackBy: trackByIndex;">
                                             <ng-container *ngFor="let libraryFeat of [characterFeatsAndFeatures(feat.name)[0]]; trackBy: trackByIndex;">
-                                                <div class="list-item fullsize-only">
+                                                <div class="list-item minimized-hide">
                                                     <ng-template #FixedFeatContent>
                                                         <header class="spellHeader">
                                                             {{libraryFeat.displayName ||
@@ -1333,7 +1333,7 @@
                                                 <button
                                                     type="button"
                                                     aria-label="Show gained feat"
-                                                    class="fullsize-only inactive-button"
+                                                    class="minimized-hide inactive-button"
                                                     #FixedFeatPopover="ngbPopover"
                                                     [ngbPopover]="FixedFeatContent"
                                                     triggers="click"
@@ -1380,7 +1380,7 @@
                                     <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let feature of characterFeatsTakenOnLevel(level.number, 'feature'); trackBy: trackByIndex;">
                                             <ng-container *ngFor="let libraryFeature of [characterFeatsAndFeatures(feature.name)[0]]; trackBy: trackByIndex;">
-                                                <div class="list-item fullsize-only">
+                                                <div class="list-item minimized-hide">
                                                     <ng-template #FixedFeatureContent>
                                                         <header class="spellHeader">
                                                             {{libraryFeature.displayName ||
@@ -1441,7 +1441,7 @@
                                                 <button
                                                     type="button"
                                                     aria-label="Show gained feature"
-                                                    class="fullsize-only inactive-button"
+                                                    class="minimized-hide inactive-button"
                                                     #FixedFeaturePopover="ngbPopover"
                                                     [ngbPopover]="FixedFeatureContent"
                                                     triggers="click"
@@ -1466,7 +1466,7 @@
                                                 <div
                                                     class="list-item"
                                                     *ngIf="!isTileMode"
-                                                    [ngClass]="{'fullsize-only':!blankLanguages}"
+                                                    [ngClass]="{'minimized-hide':!blankLanguages}"
                                                 >
                                                     <button
                                                         type="button"
@@ -1484,7 +1484,7 @@
                                                     aria-label="Show special choice menu"
                                                     class="specialchoice"
                                                     *ngIf="isTileMode"
-                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':!blankLanguages, 'activechoice':shownList()==='languages' && shownContentLevelNumber()===level.number}"
+                                                    [ngClass]="{'fancy-button choicecleared minimized-hide':!blankLanguages, 'activechoice':shownList()==='languages' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('languages', level.number)"
                                                 >
                                                     <app-grid-icon
@@ -1525,7 +1525,7 @@
                                             <div
                                                 class="list-item"
                                                 *ngIf="!isTileMode"
-                                                [ngClass]="{'fullsize-only':(companion.name && companion.species && companion.class.ancestry.name)}"
+                                                [ngClass]="{'minimized-hide':(companion.name && companion.species && companion.class.ancestry.name)}"
                                             >
                                                 <button
                                                     type="button"
@@ -1543,7 +1543,7 @@
                                                 aria-label="Show animal companion menu"
                                                 class="specialchoice"
                                                 *ngIf="isTileMode"
-                                                [ngClass]="{'fancy-button choicecleared fullsize-only':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':shownList()==='animalcompanion' && shownContentLevelNumber()===level.number}"
+                                                [ngClass]="{'fancy-button choicecleared minimized-hide':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':shownList()==='animalcompanion' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('animalcompanion', level.number)"
                                             >
                                                 <app-grid-icon
@@ -1565,7 +1565,7 @@
                                                 <div
                                                     class="list-item"
                                                     *ngIf="!isTileMode"
-                                                    [ngClass]="{'fullsize-only':takenSpecializations.length === available}"
+                                                    [ngClass]="{'minimized-hide':takenSpecializations.length === available}"
                                                 >
                                                     <button
                                                         type="button"
@@ -1583,7 +1583,7 @@
                                                     aria-label="Show animal companion specialization menu"
                                                     class="specialchoice"
                                                     *ngIf="isTileMode"
-                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':(takenSpecializations.length === available), 'activechoice':shownList()==='companionspecialization' && shownContentLevelNumber()===level.number}"
+                                                    [ngClass]="{'fancy-button choicecleared minimized-hide':(takenSpecializations.length === available), 'activechoice':shownList()==='companionspecialization' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('companionspecialization', level.number)"
                                                 >
                                                     <app-grid-icon
@@ -1605,7 +1605,7 @@
                                             <div
                                                 class="list-item"
                                                 *ngIf="!isTileMode"
-                                                [ngClass]="{'fullsize-only':finished}"
+                                                [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
                                                     type="button"
@@ -1622,7 +1622,7 @@
                                                 aria-label="Show familiar menu"
                                                 class="specialchoice"
                                                 *ngIf="isTileMode"
-                                                [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':shownList()==='familiar' && shownContentLevelNumber()===level.number}"
+                                                [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='familiar' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('familiar', level.number)"
                                             >
                                                 <app-grid-icon
@@ -1643,7 +1643,7 @@
                                             <div
                                                 class="list-item"
                                                 *ngIf="!isTileMode"
-                                                [ngClass]="{'fullsize-only':finished}"
+                                                [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
                                                     type="button"
@@ -1662,7 +1662,7 @@
                                                 aria-label="Show different worlds menu"
                                                 class="specialchoice"
                                                 *ngIf="isTileMode"
-                                                [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':shownList()==='differentworlds' && shownContentLevelNumber()===level.number}"
+                                                [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='differentworlds' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('differentworlds', level.number)"
                                             >
                                                 <app-grid-icon
@@ -1684,7 +1684,7 @@
                                                 <div
                                                     class="list-item"
                                                     *ngIf="!isTileMode"
-                                                    [ngClass]="{'fullsize-only':finished}"
+                                                    [ngClass]="{'minimized-hide':finished}"
                                                 >
                                                     <button
                                                         type="button"
@@ -1701,7 +1701,7 @@
                                                     aria-label="Show blessed blood menu"
                                                     class="specialchoice"
                                                     *ngIf="isTileMode"
-                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':shownList()==='blessedblood' && shownContentLevelNumber()===level.number}"
+                                                    [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='blessedblood' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('blessedblood', level.number)"
                                                 >
                                                     <app-grid-icon
@@ -1724,7 +1724,7 @@
                                                 <div
                                                     class="list-item"
                                                     *ngIf="!isTileMode"
-                                                    [ngClass]="{'fullsize-only':finished}"
+                                                    [ngClass]="{'minimized-hide':finished}"
                                                 >
                                                     <button
                                                         type="button"
@@ -1741,7 +1741,7 @@
                                                     aria-label="Show slinter faith menu"
                                                     class="specialchoice"
                                                     *ngIf="isTileMode"
-                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':shownList()==='splinterfaith' && shownContentLevelNumber()===level.number}"
+                                                    [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='splinterfaith' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('splinterfaith', level.number)"
                                                 >
                                                     <app-grid-icon
@@ -1764,7 +1764,7 @@
                                                 <div
                                                     class="list-item"
                                                     *ngIf="!isTileMode"
-                                                    [ngClass]="{'fullsize-only':finished}"
+                                                    [ngClass]="{'minimized-hide':finished}"
                                                 >
                                                     <button
                                                         type="button"
@@ -1784,7 +1784,7 @@
                                                     aria-label="Show additional heritages menu"
                                                     class="specialchoice"
                                                     *ngIf="isTileMode"
-                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':shownList()==='additionalheritage' && shownContentLevelNumber()===level.number && this.shownContent()?.id===heritageGain.source}"
+                                                    [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='additionalheritage' && shownContentLevelNumber()===level.number && this.shownContent()?.id===heritageGain.source}"
                                                     (click)="toggleShownList('additionalheritages', level.number, {id: 'additionalheritage'+level.number+heritageGain.source, source: heritageGain.source})"
                                                 >
                                                     <app-grid-icon
@@ -1806,7 +1806,7 @@
                                             <div
                                                 class="list-item"
                                                 *ngIf="!isTileMode"
-                                                [ngClass]="{'fullsize-only':finished}"
+                                                [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
                                                     type="button"
@@ -1827,7 +1827,7 @@
                                                 aria-label="Show fuse stance menu"
                                                 class="specialchoice"
                                                 *ngIf="isTileMode"
-                                                [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':shownList()==='fusestance' && shownContentLevelNumber()===level.number}"
+                                                [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='fusestance' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('fusestance', level.number)"
                                             >
                                                 <app-grid-icon
@@ -1848,7 +1848,7 @@
                                             <div
                                                 class="list-item"
                                                 *ngIf="!isTileMode"
-                                                [ngClass]="{'fullsize-only':finished}"
+                                                [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
                                                     type="button"
@@ -1866,7 +1866,7 @@
                                                 aria-label="Show syncretism menu"
                                                 class="specialchoice"
                                                 *ngIf="isTileMode"
-                                                [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':shownList()==='syncretism' && shownContentLevelNumber()===level.number}"
+                                                [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='syncretism' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('syncretism', level.number)"
                                             >
                                                 <app-grid-icon
@@ -1886,7 +1886,7 @@
                                         <div
                                             class="list-item"
                                             *ngIf="choice.available && !isTileMode"
-                                            [ngClass]="{'problem':(choice.increases.length > choice.available), 'fullsize-only':choice.increases.length === choice.available}"
+                                            [ngClass]="{'problem':(choice.increases.length > choice.available), 'minimized-hide':choice.increases.length === choice.available}"
                                         >
                                             <button
                                                 type="button"
@@ -1905,7 +1905,7 @@
                                             aria-label="Show lore training menu"
                                             class="specialchoice"
                                             *ngIf="choice.available && isTileMode"
-                                            [ngClass]="{'fancy-button choicecleared fullsize-only':choice.increases.length === choice.available, 'activechoice':shownList()===choice.id}"
+                                            [ngClass]="{'fancy-button choicecleared minimized-hide':choice.increases.length === choice.available, 'activechoice':shownList()===choice.id}"
                                             (click)="toggleShownList(choice.id, level.number, choice)"
                                         >
                                             <app-grid-icon
@@ -1927,7 +1927,7 @@
         </div>
 
         <div
-            class="charactersheet-column"
+            class="character-sheet-column"
             [ngClass]="{'mobile-hide':shownList()===''}"
         >
             <div

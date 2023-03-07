@@ -35,8 +35,8 @@
 
     <ng-container *ngIf="conditionsMenuState==='in'">
         <ng-container *ngIf="componentParameters() as componentParameters">
-            <div class="charactersheet-column-container">
-                <div class="charactersheet-column">
+            <div class="character-sheet-column-container">
+                <div class="character-sheet-column">
                     <header class="sectionHeader">Duration: {{durationDescription()}}</header>
 
                     <div class="vlist">
@@ -769,7 +769,7 @@
                     </div>
                 </div>
 
-                <div class="charactersheet-column mobile-hide">
+                <div class="character-sheet-column mobile-hide">
                     <div
                         class="list-item newrow"
                         *ngIf="componentParameters.isCompanionAvailable || componentParameters.isFamiliarAvailable"

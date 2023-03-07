@@ -5,7 +5,7 @@
             <div
                 *ngIf="allowedFeatsAmount > 0 && !shouldHideChoice(choice, allowedFeatsAmount)"
                 class="featchoice-container"
-                [ngClass]="{'list-item': showTitle && !isTileMode, 'vlist': !showTitle, 'problem':(areAnyFeatsIllegal || choice.feats.length > allowedFeatsAmount), 'fullsize-only':(allowedFeatsAmount === choice.feats.length)}"
+                [ngClass]="{'list-item': showTitle && !isTileMode, 'vlist': !showTitle, 'problem':(areAnyFeatsIllegal || choice.feats.length > allowedFeatsAmount), 'minimized-hide':(allowedFeatsAmount === choice.feats.length)}"
             >
                 <!-- Choice button shows in title mode -->
                 <!-- List mode button -->

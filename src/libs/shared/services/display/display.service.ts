@@ -7,19 +7,25 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 })
 export class DisplayService {
 
-    public static isMobile$: Observable<boolean>;
+    private static _isMobileDistinct$?: Observable<boolean>;
 
     private static readonly _isMobile$ = new BehaviorSubject<boolean>(false);
-
-    constructor() {
-        DisplayService.isMobile$ = DisplayService._isMobile$.pipe(
-            distinctUntilChanged(),
-        );
-    }
 
     public static get isMobile(): boolean {
         return DisplayService._isMobile$.value;
     }
+
+    public static get isMobile$(): Observable<boolean> {
+        if (!DisplayService._isMobileDistinct$) {
+            DisplayService._isMobileDistinct$ =
+                DisplayService._isMobile$.pipe(
+                    distinctUntilChanged(),
+                );
+        }
+
+        return DisplayService._isMobileDistinct$;
+    }
+
 
     public static setMobile(): void {
         DisplayService._isMobile$.next(window.innerWidth < Defaults.mobileBreakpointPx);

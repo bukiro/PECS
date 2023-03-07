@@ -32,7 +32,7 @@
         >
             <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
                 <ng-template #EffectsPopoverContent>
-                    <div class="fullsize-only newrow">
+                    <div class="minimized-hide newrow">
                         <app-object-effects
                             [creature]="creature"
                             [objectName]="ability.name"
@@ -43,7 +43,7 @@
                 <div class="newrow">
                     <span class="hlist">
                         <span
-                            class="fullsize-only"
+                            class="minimized-hide"
                             [ngbPopover]="EffectsPopoverContent"
                             #EffectsPopover="ngbPopover"
                             triggers="click"
