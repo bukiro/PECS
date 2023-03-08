@@ -2,7 +2,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';

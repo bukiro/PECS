@@ -10,7 +10,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { Trait } from 'src/app/classes/Trait';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';

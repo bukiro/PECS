@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
@@ -26,6 +26,7 @@ export class TimeComponent extends TrackByMixin(BaseClass) implements OnInit, On
     @Input()
     public showTime = true;
 
+    private _isMinimized = false;
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
 
@@ -37,18 +38,31 @@ export class TimeComponent extends TrackByMixin(BaseClass) implements OnInit, On
         private readonly _timeBlockingService: TimeBlockingService,
     ) {
         super();
+
+        CreatureService.settings$
+            .pipe(
+                map(settings => settings.timeMinimized),
+            )
+            .subscribe(minimized => {
+                this._isMinimized = minimized;
+            });
     }
 
+    @HostBinding('class.minimized')
     public get isMinimized(): boolean {
-        return this.forceMinimized || CreatureService.character.settings.timeMinimized;
+        return this.forceMinimized || this._isMinimized;
+    }
+
+    public set isMinimized(value: boolean) {
+        CreatureService.settings.timeMinimized = value;
+    }
+
+    public get shouldShowMinimizeButton(): boolean {
+        return this.showTurn && this.showTime && !this.forceMinimized;
     }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
         return this._timeService.yourTurn;
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.timeMinimized = !CreatureService.character.settings.timeMinimized;
     }
 
     public durationDescription(duration: number, includeTurnState = true, short = false): string {

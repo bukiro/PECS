@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
@@ -184,9 +184,9 @@ export class QuickdiceComponent implements OnChanges {
     }
 
     private _canRollInFoundryVTT(): boolean {
-        return CreatureService.character.settings.foundryVTTSendRolls &&
-            !!CreatureService.character.settings.foundryVTTUrl &&
-            CreatureService.character.settings.foundryVTTRollDirectly;
+        return CreatureService.settings.foundryVTTSendRolls &&
+            !!CreatureService.settings.foundryVTTUrl &&
+            CreatureService.settings.foundryVTTRollDirectly;
     }
 
     private _cleanDiceString(diceString: string): string {

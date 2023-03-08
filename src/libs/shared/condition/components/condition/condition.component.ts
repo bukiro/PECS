@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Condition, OtherConditionSelection } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';

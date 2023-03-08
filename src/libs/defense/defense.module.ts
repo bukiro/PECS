@@ -10,6 +10,7 @@ import { ItemModule } from '../shared/item/item.module';
 import { TraitModule } from '../shared/ui/trait/trait.module';
 import { QuickdiceModule } from '../shared/quickdice/quickdice.module';
 import { SkillModule } from '../shared/skill/skill.module';
+import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-button.module';
 
 @NgModule({
     imports: [
@@ -26,6 +27,7 @@ import { SkillModule } from '../shared/skill/skill.module';
         TraitModule,
         QuickdiceModule,
         SkillModule,
+        MinimizeButtonModule,
     ],
     declarations: [
         DefenseComponent,

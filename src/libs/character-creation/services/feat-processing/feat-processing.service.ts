@@ -14,7 +14,7 @@ import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-
 import { ClassesDataService } from 'src/libs/shared/services/data/classes-data.service';
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';

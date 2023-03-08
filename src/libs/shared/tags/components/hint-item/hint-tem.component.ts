@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Class } from 'src/app/classes/Class';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
@@ -117,6 +117,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public isLoadingCharacter$: Observable<boolean>;
 
+    private _isMinimized = false;
     private _showLevel = 0;
     private _showItem = '';
     private _showList = '';
@@ -216,10 +217,23 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                         : undefined,
                 ),
             );
+
+        CreatureService.settings$
+            .pipe(
+                map(settings => settings.characterMinimized),
+            )
+            .subscribe(minimized => {
+                this._isMinimized = minimized;
+            });
     }
 
+    @HostBinding('class.minimized')
     public get isMinimized(): boolean {
-        return CreatureService.character.settings.characterMinimized;
+        return this._isMinimized;
+    }
+
+    public set isMinimized(minimized: boolean) {
+        CreatureService.settings.characterMinimized = minimized;
     }
 
     public get isGMMode(): boolean {
@@ -264,10 +278,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public get characterMenuState(): MenuState {
         return this._menuService.characterMenuState;
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.characterMinimized = !CreatureService.character.settings.characterMinimized;
     }
 
     public toggleCharacterMenu(): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Deity } from 'src/app/classes/Deity';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from '../refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';

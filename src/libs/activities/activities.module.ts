@@ -10,10 +10,13 @@ import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
 import { StickyPopoverModule } from '../shared/sticky-popover/sticky-popover.module';
 import { ActivityModule } from '../shared/activity/activity.module';
 import { FeatChoiceModule } from '../shared/feat-choice/feat-choice.module';
+import { FormsModule } from '@angular/forms';
+import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-button.module';
 
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
 
         NgbTooltipModule,
         NgbPopoverModule,
@@ -26,6 +29,7 @@ import { FeatChoiceModule } from '../shared/feat-choice/feat-choice.module';
         StickyPopoverModule,
         ActivityModule,
         FeatChoiceModule,
+        MinimizeButtonModule,
     ],
     declarations: [
         ActivitiesComponent,

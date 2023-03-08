@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
@@ -29,7 +29,7 @@ export class FoundryVTTIntegrationService {
         diceString = '',
         diceResults: Array<DiceResult> = [],
     ): void {
-        let foundryVTTUrl = CreatureService.character.settings.foundryVTTUrl;
+        let foundryVTTUrl = CreatureService.settings.foundryVTTUrl;
 
         //Remove trailing slashes.
         foundryVTTUrl = foundryVTTUrl.replace(/\/+$/, '');
@@ -42,7 +42,7 @@ export class FoundryVTTIntegrationService {
                     roll = '0';
                 }
 
-                const foundryVTTTimeout = CreatureService.character.settings.foundryVTTTimeout;
+                const foundryVTTTimeout = CreatureService.settings.foundryVTTTimeout;
                 //Open the foundry URL in a small window, then close it after the configured timeout.
                 const roller = CreatureService.creatureFromType(creature);
                 let alias = '';

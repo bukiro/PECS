@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Ability } from 'src/app/classes/Ability';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Defaults } from '../../definitions/defaults';
 import { AbilityModFromAbilityValue } from '../../util/abilityUtils';

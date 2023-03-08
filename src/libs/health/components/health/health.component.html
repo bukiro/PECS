@@ -1,23 +1,10 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<button
-    aria-label="Minimize"
-    type="button"
-    class="minimizebutton lower"
-    [ngbTooltip]="isMinimized ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':isMinimized}"
-    (click)="minimize()"
-    *ngIf="creature==='Character' && showMinimizeButton"
->
-    <i
-        class='bi-arrows-collapse'
-        *ngIf="isMinimized"
-    ></i>
-
-    <i
-        class='bi-arrows-expand'
-        *ngIf="!isMinimized"
-    ></i>
-</button>
+<div class="corner-button-tray">
+    <app-minimize-button
+        *ngIf="shouldShowMinimizeButton"
+        [(ngModel)]="isMinimized"
+    ></app-minimize-button>
+</div>
 
 <div
     id="{{creature}}-health-height"

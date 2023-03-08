@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input, HostBinding } from '@angular/core';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
@@ -14,7 +14,7 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { Condition } from 'src/app/classes/Condition';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
 import { Trait } from 'src/app/classes/Trait';
@@ -105,6 +105,7 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
 
     public creatureTypesEnum = CreatureTypes;
 
+    private _isMinimized = false;
     private _showSpell = '';
     private _showList = '';
 
@@ -134,10 +135,23 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
         private readonly _spellCastingPrerequisitesService: SpellCastingPrerequisitesService,
     ) {
         super();
+
+        CreatureService.settings$
+            .pipe(
+                map(settings => settings.spellbookMinimized),
+            )
+            .subscribe(minimized => {
+                this._isMinimized = minimized;
+            });
     }
 
+    @HostBinding('class.minimized')
     public get isMinimized(): boolean {
-        return this.forceMinimized || CreatureService.character.settings.spellbookMinimized;
+        return this.forceMinimized || this._isMinimized;
+    }
+
+    public set isMinimized(minimized: boolean) {
+        CreatureService.settings.spellbookMinimized = minimized;
     }
 
     public get isTileMode(): boolean {
@@ -150,10 +164,6 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
 
     private get _character(): Character {
         return CreatureService.character;
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.spellbookMinimized = !CreatureService.character.settings.spellbookMinimized;
     }
 
     public toggleShownSpell(id = ''): void {

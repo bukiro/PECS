@@ -12,6 +12,7 @@ import { ItemTargetModule } from '../shared/item-target/item-target.module';
 import { FormsModule } from '@angular/forms';
 import { StickyPopoverModule } from '../shared/sticky-popover/sticky-popover.module';
 import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
+import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-button.module';
 
 @NgModule({
     imports: [
@@ -31,6 +32,7 @@ import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
         ItemTargetModule,
         StickyPopoverModule,
         GridIconModule,
+        MinimizeButtonModule,
     ],
     declarations: [
         InventoryComponent,

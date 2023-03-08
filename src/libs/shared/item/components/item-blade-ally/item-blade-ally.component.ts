@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Rune } from 'src/app/classes/Rune';

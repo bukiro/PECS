@@ -8,7 +8,7 @@ import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
 import { Item } from 'src/app/classes/Item';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { SavegamesService } from '../savegames/savegames.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';

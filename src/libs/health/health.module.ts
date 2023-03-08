@@ -4,6 +4,7 @@ import { HealthComponent } from './components/health/health.component';
 import { TagsModule } from '../shared/tags/tags.module';
 import { NgbPopoverModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-button.module';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { FormsModule } from '@angular/forms';
         NgbProgressbarModule,
 
         TagsModule,
+        MinimizeButtonModule,
     ],
     declarations: [
         HealthComponent,

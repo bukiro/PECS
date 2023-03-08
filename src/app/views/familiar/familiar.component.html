@@ -1,22 +1,9 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<button
-    type="button"
-    aria-label="Switch between list layout and tile layout"
-    class="minimizebutton lower"
-    [ngbTooltip]="isMinimized ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':isMinimized}"
-    (click)="minimize()"
->
-    <i
-        class='bi-arrows-collapse'
-        *ngIf="isMinimized"
-    ></i>
-
-    <i
-        class='bi-arrows-expand'
-        *ngIf="!isMinimized"
-    ></i>
-</button>
+<div class="corner-button-tray">
+    <app-minimize-button
+        [(ngModel)]="isMinimized"
+    ></app-minimize-button>
+</div>
 
 <div
     id="familiar-height"

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Creature } from 'src/app/classes/Creature';
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
@@ -60,7 +60,7 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
     }
 
     public canSendRollsToFoundryVTT(): boolean {
-        return CreatureService.character.settings.foundryVTTSendRolls && !!CreatureService.character.settings.foundryVTTUrl;
+        return CreatureService.settings.foundryVTTSendRolls && !!CreatureService.settings.foundryVTTUrl;
     }
 
     public roll(amount: number, size: number): void {

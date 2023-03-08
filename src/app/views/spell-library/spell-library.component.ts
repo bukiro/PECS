@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
@@ -162,7 +162,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
     }
 
     public isSpellbookMinimized(): boolean {
-        return CreatureService.character.settings.spellbookMinimized;
+        return CreatureService.settings.spellbookMinimized;
     }
 
     public componentParameters(): ComponentParameters {

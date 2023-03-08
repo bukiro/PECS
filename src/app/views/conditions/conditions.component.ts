@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Condition } from 'src/app/classes/Condition';
 import { TimeService } from 'src/libs/time/services/time/time.service';

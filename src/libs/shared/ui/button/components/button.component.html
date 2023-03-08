@@ -5,6 +5,8 @@
     [attr.aria-label]="label"
     (click)="clicked.emit()"
     [disabled]="isDisabled"
+    [ngbTooltip]="label"
+    [disableTooltip]="!shouldShowLabel"
 >
     <ng-content></ng-content>
 </button>

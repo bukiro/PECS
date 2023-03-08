@@ -6,7 +6,7 @@ import { Effect } from 'src/app/classes/Effect';
 import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
 import { Skill } from 'src/app/classes/Skill';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from 'src/libs/shared/definitions/skillLevels';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';

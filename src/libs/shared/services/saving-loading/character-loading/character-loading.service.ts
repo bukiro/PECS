@@ -13,7 +13,7 @@ import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AppInitService } from 'src/libs/shared/services/app-init/app-init.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DocumentStyleService } from 'src/libs/shared/services/document-style/document-style.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';

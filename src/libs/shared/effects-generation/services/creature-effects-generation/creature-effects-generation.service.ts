@@ -7,7 +7,7 @@ import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.servi
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 
 interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;

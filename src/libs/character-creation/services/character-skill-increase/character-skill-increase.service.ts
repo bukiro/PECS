@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';

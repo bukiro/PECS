@@ -10,7 +10,7 @@ import {
     OnDestroy,
     OnChanges,
 } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';

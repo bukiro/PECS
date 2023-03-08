@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';

@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input, HostBinding } from '@angular/core';
 import { Weapon } from 'src/app/classes/Weapon';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -19,7 +19,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Specialization } from 'src/app/classes/Specialization';
@@ -66,11 +66,15 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
+
     public onlyAttacks: Array<AttackRestriction> = [];
     public forbiddenAttacks: Array<AttackRestriction> = [];
     public showRestricted = false;
+
+    private _isMinimized = false;
     private _showItem = '';
     private _showList = '';
+
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
 
@@ -92,15 +96,34 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
         private readonly _skillsDataService: SkillsDataService,
     ) {
         super();
+
+        CreatureService.settings$
+            .pipe(
+                map(settings => {
+                    switch (this.creature) {
+                        case CreatureTypes.AnimalCompanion:
+                            return settings.companionMinimized;
+                        default:
+                            return settings.attacksMinimized;
+                    }
+                }),
+            )
+            .subscribe(minimized => {
+                this._isMinimized = minimized;
+            });
     }
 
+    @HostBinding('class.minimized')
     public get isMinimized(): boolean {
-        return this.forceMinimized
-            || (
-                this.creature === CreatureTypes.AnimalCompanion
-                    ? CreatureService.character.settings.companionMinimized
-                    : CreatureService.character.settings.attacksMinimized
-            );
+        return this.forceMinimized || this._isMinimized;
+    }
+
+    public set isMinimized(minimized: boolean) {
+        CreatureService.settings.attacksMinimized = minimized;
+    }
+
+    public get shouldShowMinimizeButton(): boolean {
+        return !this.forceMinimized && this.creature === CreatureTypes.Character;
     }
 
     public get isManualMode(): boolean {
@@ -117,10 +140,6 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     private get _currentCreature(): Character | AnimalCompanion {
         return CreatureService.creatureFromType(this.creature) as Character | AnimalCompanion;
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.attacksMinimized = !CreatureService.character.settings.attacksMinimized;
     }
 
     public toggleShownList(name: string): void {
@@ -468,7 +487,7 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
         return '1';
     }
 
-    public setMultipleAttackPenalty(map: '1' | '2' | '3' | '2f' | '3f'): void {
+    public setMultipleAttackPenalty(mapValue: '1' | '2' | '3' | '2f' | '3f'): void {
         const creature = this._currentCreature;
         const conditions: Array<ConditionGain> =
             this._creatureConditionsService
@@ -484,7 +503,7 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
         let mapName = '';
         let mapChoice = '';
 
-        switch (map) {
+        switch (mapValue) {
             case '2':
                 if (!map2) {
                     mapName = 'Multiple Attack Penalty';
@@ -516,19 +535,19 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
             default: break;
         }
 
-        if (map2 && map !== '2') {
+        if (map2 && mapValue !== '2') {
             this._creatureConditionsService.removeCondition(creature, map2, false);
         }
 
-        if (map3 && map !== '3') {
+        if (map3 && mapValue !== '3') {
             this._creatureConditionsService.removeCondition(creature, map3, false);
         }
 
-        if (map2f && map !== '2f') {
+        if (map2f && mapValue !== '2f') {
             this._creatureConditionsService.removeCondition(creature, map2f, false);
         }
 
-        if (map3f && map !== '3f') {
+        if (map3f && mapValue !== '3f') {
             this._creatureConditionsService.removeCondition(creature, map3f, false);
         }
 

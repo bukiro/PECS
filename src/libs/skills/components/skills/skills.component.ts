@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy, HostBinding } from '@angular/core';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { Character } from 'src/app/classes/Character';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
@@ -8,7 +8,7 @@ import { Speed } from 'src/app/classes/Speed';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -45,6 +45,7 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
 
+    private _isMinimized = false;
     private _showList = '';
     private _showAction = '';
 
@@ -63,21 +64,36 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
         private readonly _creatureSensesService: CreatureSensesService,
     ) {
         super();
+
+        CreatureService.settings$
+            .pipe(
+                map(settings => {
+                    switch (this.creature) {
+                        case CreatureTypes.AnimalCompanion:
+                            return settings.companionMinimized;
+                        case CreatureTypes.Familiar:
+                            return settings.familiarMinimized;
+                        default:
+                            return settings.skillsMinimized;
+                    }
+                }),
+            )
+            .subscribe(minimized => {
+                this._isMinimized = minimized;
+            });
     }
 
+    @HostBinding('class.minimized')
     public get isMinimized(): boolean {
-        if (this.forceMinimized) {
-            return true;
-        }
+        return this.forceMinimized || this._isMinimized;
+    }
 
-        switch (this.creature) {
-            case CreatureTypes.AnimalCompanion:
-                return CreatureService.character.settings.companionMinimized;
-            case CreatureTypes.Familiar:
-                return CreatureService.character.settings.familiarMinimized;
-            default:
-                return CreatureService.character.settings.skillsMinimized;
-        }
+    public set isMinimized(minimized: boolean) {
+        CreatureService.settings.skillsMinimized = minimized;
+    }
+
+    public get shouldShowMinimizeButton(): boolean {
+        return !this.forceMinimized && this.creature === CreatureTypes.Character;
     }
 
     public get isTileMode(): boolean {
@@ -94,10 +110,6 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.skillsMinimized = !CreatureService.character.settings.skillsMinimized;
     }
 
     public toggleShownList(name: string): void {

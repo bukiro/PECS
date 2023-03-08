@@ -13,7 +13,7 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { FamiliarsDataService } from '../data/familiars-data.service';

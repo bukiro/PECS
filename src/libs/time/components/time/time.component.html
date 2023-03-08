@@ -1,22 +1,9 @@
-<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<button
-    aria-label="Minimize"
-    class="minimizebutton lower"
-    *ngIf="showTime && showTurn"
-    [ngbTooltip]="isMinimized ? 'Click to show all buttons.' : 'Click to hide time buttons.'"
-    [ngClass]="{'fancy-button':isMinimized}"
-    (click)="minimize()"
->
-    <i
-        class='bi-arrows-collapse'
-        *ngIf="isMinimized"
-    ></i>
-
-    <i
-        class='bi-arrows-expand'
-        *ngIf="!isMinimized"
-    ></i>
-</button>
+<div class="corner-button-tray">
+    <app-minimize-button
+        *ngIf="shouldShowMinimizeButton"
+        [(ngModel)]="isMinimized"
+    ></app-minimize-button>
+</div>
 
 <div
     *ngIf="showTurn && {desc: waitingDescription(5)} as waitingStatus"
@@ -57,7 +44,7 @@
 <div
     *ngIf="showTime"
     class="time-control"
-    [ngClass]="{'minimized-hide':showTime && showTurn}"
+    [ngClass]="{'minimized-hide':showTurn}"
 >
     <ng-container *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;">
         <div

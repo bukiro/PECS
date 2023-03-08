@@ -5,6 +5,8 @@
     @include background-color-default;
     @include flex-stretch-cross-axis;
 
+    position: relative;
+
     width: 100%;
 
     padding: $spacing-s;

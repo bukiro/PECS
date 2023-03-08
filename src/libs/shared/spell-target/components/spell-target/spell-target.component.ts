@@ -12,7 +12,7 @@ import {
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { ItemActivity } from 'src/app/classes/ItemActivity';

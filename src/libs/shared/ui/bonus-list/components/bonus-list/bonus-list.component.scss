@@ -5,7 +5,7 @@
 }
 
 .bonus-description {
-    @include flex-row-left;
+    @include flex-row-start;
     @include flex-center-cross-axis;
 
     gap: $spacing-m;

@@ -8,7 +8,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { CreatureService } from '../character/character.service';
+import { CreatureService } from '../creature/creature.service';
 import { ConfigService } from '../config/config.service';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';

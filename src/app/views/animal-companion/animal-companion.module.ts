@@ -12,10 +12,13 @@ import { ActionIconsModule } from 'src/libs/shared/ui/action-icons/action-icons.
 import { SkillsModule } from 'src/libs/skills/skills.module';
 import { AbilitiesModule } from 'src/libs/abilities/abilities.module';
 import { AttacksModule } from 'src/libs/attacks/attacks.module';
+import { FormsModule } from '@angular/forms';
+import { MinimizeButtonModule } from 'src/libs/shared/ui/minimize-button/minimize-button.module';
 
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
 
         NgbTooltipModule,
 
@@ -29,6 +32,7 @@ import { AttacksModule } from 'src/libs/attacks/attacks.module';
         ActivitiesModule,
         AbilitiesModule,
         AttacksModule,
+        MinimizeButtonModule,
     ],
     declarations: [
         AnimalCompanionComponent,

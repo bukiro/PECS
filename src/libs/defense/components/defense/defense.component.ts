@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { Armor } from 'src/app/classes/Armor';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Talisman } from 'src/app/classes/Talisman';
@@ -11,7 +11,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Trait } from 'src/app/classes/Trait';
 import { Skill } from 'src/app/classes/Skill';
@@ -52,6 +52,8 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     public shieldDamage = 0;
 
+    private _isMinimized = false;
+
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
 
@@ -68,21 +70,36 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
         private readonly _skillsDataService: SkillsDataService,
     ) {
         super();
+
+        CreatureService.settings$
+            .pipe(
+                map(settings => {
+                    switch (this.creature) {
+                        case CreatureTypes.AnimalCompanion:
+                            return settings.companionMinimized;
+                        case CreatureTypes.Familiar:
+                            return settings.familiarMinimized;
+                        default:
+                            return settings.defenseMinimized;
+                    }
+                }),
+            )
+            .subscribe(minimized => {
+                this._isMinimized = minimized;
+            });
     }
 
+    @HostBinding('class.minimized')
     public get isMinimized(): boolean {
-        if (this.forceMinimized) {
-            return true;
-        }
+        return this.forceMinimized || this._isMinimized;
+    }
 
-        switch (this.creature) {
-            case CreatureTypes.AnimalCompanion:
-                return CreatureService.character.settings.companionMinimized;
-            case CreatureTypes.Familiar:
-                return CreatureService.character.settings.familiarMinimized;
-            default:
-                return CreatureService.character.settings.defenseMinimized;
-        }
+    public set isMinimized(minimized: boolean) {
+        CreatureService.settings.defenseMinimized = minimized;
+    }
+
+    public get shouldShowMinimizeButton(): boolean {
+        return !this.forceMinimized && this.creature === CreatureTypes.Character;
     }
 
     private get _character(): Character {
@@ -91,10 +108,6 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.defenseMinimized = !CreatureService.character.settings.defenseMinimized;
     }
 
     public armorSpecialization(armor: Armor | WornItem): Array<Specialization> {

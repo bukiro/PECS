@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ArmorClassService, CoverTypes } from 'src/libs/shared/services/armor-class/armor-class.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { EvaluationService } from '../evaluation/evaluation.service';

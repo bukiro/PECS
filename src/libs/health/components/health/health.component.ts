@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
@@ -42,6 +42,8 @@ export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, 
     public setTempHP = 0;
     public selectedTempHP?: { amount: number; source: string; sourceId: string };
 
+    private _isMinimized = false;
+
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
 
@@ -56,21 +58,36 @@ export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, 
         private readonly _characterFeatsService: CharacterFeatsService,
     ) {
         super();
+
+        CreatureService.settings$
+            .pipe(
+                map(settings => {
+                    switch (this.creature) {
+                        case CreatureTypes.AnimalCompanion:
+                            return settings.companionMinimized;
+                        case CreatureTypes.Familiar:
+                            return settings.familiarMinimized;
+                        default:
+                            return settings.healthMinimized;
+                    }
+                }),
+            )
+            .subscribe(minimized => {
+                this._isMinimized = minimized;
+            });
     }
 
+    @HostBinding('class.minimized')
     public get isMinimized(): boolean {
-        if (this.forceMinimized) {
-            return true;
-        }
+        return this.forceMinimized || this._isMinimized;
+    }
 
-        switch (this.creature) {
-            case CreatureTypes.AnimalCompanion:
-                return CreatureService.character.settings.companionMinimized;
-            case CreatureTypes.Familiar:
-                return CreatureService.character.settings.familiarMinimized;
-            default:
-                return CreatureService.character.settings.healthMinimized;
-        }
+    public set isMinimized(minimized: boolean) {
+        CreatureService.settings.healthMinimized = minimized;
+    }
+
+    public get shouldShowMinimizeButton(): boolean {
+        return !this.forceMinimized && this.creature === CreatureTypes.Character;
     }
 
     public get character(): Character {
@@ -83,10 +100,6 @@ export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, 
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.healthMinimized = !CreatureService.character.settings.healthMinimized;
     }
 
     public absolute(number: number): number {

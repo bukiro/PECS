@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { AnimalCompanionLevelsService } from '../animal-companion-level/animal-companion-level.service';
 import { BasicEquipmentService } from '../basic-equipment/basic-equipment.service';
 

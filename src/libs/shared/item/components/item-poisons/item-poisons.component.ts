@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Character } from 'src/app/classes/Character';

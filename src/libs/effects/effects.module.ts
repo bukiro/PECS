@@ -6,10 +6,12 @@ import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TagsModule } from '../shared/tags/tags.module';
 import { ConditionModule } from '../shared/condition/condition.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
 
         NgbTooltipModule,
         NgbPopoverModule,

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, TemplateRef } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, TemplateRef, HostBinding } from '@angular/core';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
 import { Consumable } from 'src/app/classes/Consumable';
@@ -21,7 +21,7 @@ import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { noop, Subscription } from 'rxjs';
+import { map, noop, Subscription } from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -104,6 +104,7 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
     public shieldDamage = 0;
     public creatureTypesEnum = CreatureTypes;
 
+    private _isMinimized = false;
     private _showItem = '';
     private _showList = '';
 
@@ -139,21 +140,36 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
         private readonly _messageSendingService: MessageSendingService,
     ) {
         super();
+
+        CreatureService.settings$
+            .pipe(
+                map(settings => {
+                    switch (this.creature) {
+                        case CreatureTypes.AnimalCompanion:
+                            return settings.companionMinimized;
+                        case CreatureTypes.Familiar:
+                            return settings.familiarMinimized;
+                        default:
+                            return settings.inventoryMinimized;
+                    }
+                }),
+            )
+            .subscribe(minimized => {
+                this._isMinimized = minimized;
+            });
     }
 
+    @HostBinding('class.minimized')
     public get isMinimized(): boolean {
-        if (this.forceMinimized) {
-            return true;
-        }
+        return this.forceMinimized || this._isMinimized;
+    }
 
-        switch (this.creature) {
-            case CreatureTypes.AnimalCompanion:
-                return CreatureService.character.settings.companionMinimized;
-            case CreatureTypes.Familiar:
-                return CreatureService.character.settings.familiarMinimized;
-            default:
-                return CreatureService.character.settings.inventoryMinimized;
-        }
+    public set isMinimized(minimized: boolean) {
+        CreatureService.settings.inventoryMinimized = minimized;
+    }
+
+    public get shouldShowMinimizeButton(): boolean {
+        return !this.forceMinimized && this.creature === CreatureTypes.Character;
     }
 
     public get isTileMode(): boolean {
@@ -170,10 +186,6 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
 
     public get currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.inventoryMinimized = !CreatureService.character.settings.inventoryMinimized;
     }
 
     public setItemsMenuTarget(target: CreatureTypes): void {

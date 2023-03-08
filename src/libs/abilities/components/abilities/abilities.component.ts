@@ -1,9 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
+import { map, Subscription } from 'rxjs';
 import { Ability } from 'src/app/classes/Ability';
 import { Creature } from 'src/app/classes/Creature';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService, CalculatedAbility } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -24,6 +24,8 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
 
+    private _isMinimized = false;
+
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
 
@@ -34,23 +36,38 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
         private readonly _refreshService: RefreshService,
     ) {
         super();
+
+        CreatureService.settings$
+            .pipe(
+                map(settings => {
+                    switch (this.creature) {
+                        case CreatureTypes.AnimalCompanion:
+                            return settings.companionMinimized;
+                        default:
+                            return settings.inventoryMinimized;
+                    }
+                }),
+            )
+            .subscribe(minimized => {
+                this._isMinimized = minimized;
+            });
     }
 
+    @HostBinding('class.minimized')
     public get isMinimized(): boolean {
-        return this.forceMinimized
-            || (
-                this.creature === CreatureTypes.AnimalCompanion
-                    ? CreatureService.character.settings.companionMinimized
-                    : CreatureService.character.settings.abilitiesMinimized
-            );
+        return this.forceMinimized || this._isMinimized;
+    }
+
+    public set isMinimized(minimized: boolean) {
+        CreatureService.settings.inventoryMinimized = minimized;
+    }
+
+    public get shouldShowMinimizeButton(): boolean {
+        return !this.forceMinimized && this.creature === CreatureTypes.Character;
     }
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.abilitiesMinimized = !CreatureService.character.settings.abilitiesMinimized;
     }
 
     public abilities(subset = 0): Array<Ability> {

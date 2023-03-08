@@ -50,16 +50,13 @@
     @include background-color-inverted;
 }
 
-:host(.rounded) {
+:host(.circle) {
     @include border-circle;
 }
 
-:host(.disabled) {
+:host(.disabled),
+:host(.processing) {
     opacity: 50%;
 
     border-color: $color-text-medium;
-}
-
-:host(.processing) {
-    opacity: 50%;
 }

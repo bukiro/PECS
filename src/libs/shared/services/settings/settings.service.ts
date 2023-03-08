@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Settings } from 'src/app/classes/Settings';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 
 @Injectable({
     providedIn: 'root',
@@ -8,7 +8,7 @@ import { CreatureService } from 'src/libs/shared/services/character/character.se
 export class SettingsService {
 
     public static get settings(): Settings {
-        return CreatureService.character.settings;
+        return CreatureService.settings;
     }
 
     public static get isDarkmode(): boolean {

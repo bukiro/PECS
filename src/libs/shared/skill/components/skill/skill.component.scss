@@ -1,7 +1,7 @@
 @import 'utilities';
 
 .skill {
-    @include flex-row-left;
+    @include flex-row-start;
     @include flex-center-cross-axis;
 
     width: 100%;

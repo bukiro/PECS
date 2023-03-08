@@ -1,0 +1,15 @@
+@mixin corner-button-tray {
+    @include flex-row-start;
+
+    position: absolute;
+    top: -$spacing-xs;
+
+    flex-direction: row-reverse;
+    gap: $spacing-xs;
+}
+
+@mixin corner-button-tray-right {
+    @include corner-button-tray;
+
+    right: -$spacing-xs;
+}

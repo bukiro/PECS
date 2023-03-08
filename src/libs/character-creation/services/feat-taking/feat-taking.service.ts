@@ -4,7 +4,7 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({

@@ -8,7 +8,7 @@ import { DataLoadingService } from './data-loading.service';
 })
 export class SkillsDataService {
     private _skills: Array<Skill> = [];
-    private _tempSkills: Array<Skill> = [];
+    private readonly _tempSkills: Array<Skill> = [];
     private _initialized = false;
 
     constructor(

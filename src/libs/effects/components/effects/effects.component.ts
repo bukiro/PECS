@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Effect } from 'src/app/classes/Effect';
 import { Condition } from 'src/app/classes/Condition';
@@ -38,10 +38,8 @@ interface ConditionParameters {
 export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public forceMinimized?: boolean;
-
-    @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
+
     @Input()
     public fullDisplay = false;
 
@@ -65,31 +63,12 @@ export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit,
         super();
     }
 
-    public get isMinimized(): boolean {
-        if (this.forceMinimized) {
-            return true;
-        }
-
-        switch (this.creature) {
-            case CreatureTypes.AnimalCompanion:
-                return CreatureService.character.settings.companionMinimized;
-            case CreatureTypes.Familiar:
-                return CreatureService.character.settings.familiarMinimized;
-            default:
-                return CreatureService.character.settings.effectsMinimized;
-        }
-    }
-
     public get isManualMode(): boolean {
         return SettingsService.isManualMode;
     }
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.effectsMinimized = !CreatureService.character.settings.effectsMinimized;
     }
 
     public toggleShownItem(name: string): void {

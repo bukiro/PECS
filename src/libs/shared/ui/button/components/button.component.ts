@@ -27,38 +27,49 @@ export class ButtonComponent {
     public isGhost?: boolean;
 
     @HostBinding('class.no-outline')
-    public isNotOutlined?: boolean | string;
+    public isNotOutlined?: boolean;
 
-    @HostBinding('class.rounded')
-    public isRounded?: boolean | string;
+    @HostBinding('class.circle')
+    public isCircle?: boolean;
+
+    public shouldShowLabel?: boolean;
 
     @Input()
     public set disabled(disabled: boolean | string | undefined) {
-        this.isDisabled = disabled !== undefined && disabled !== false;
+        this.isDisabled = this._forceBoolean(disabled);
     }
 
     @Input()
     public set processing(processing: boolean | string | undefined) {
-        this.isProcessing = processing !== undefined && processing !== false;
+        this.isProcessing = this._forceBoolean(processing);
     }
 
     @Input()
     public set toggled(toggled: boolean | string | undefined) {
-        this.isToggled = toggled !== undefined && toggled !== false;
+        this.isToggled = this._forceBoolean(toggled);
     }
 
     @Input()
     public set ghost(ghost: boolean | string | undefined) {
-        this.isGhost = ghost !== undefined && ghost !== false;
+        this.isGhost = this._forceBoolean(ghost);
     }
 
     @Input()
     public set noOutline(noOutline: boolean | string | undefined) {
-        this.isNotOutlined = noOutline !== undefined && noOutline !== false;
+        this.isNotOutlined = this._forceBoolean(noOutline);
     }
 
     @Input()
-    public set rounded(rounded: boolean | string | undefined) {
-        this.isRounded = rounded !== undefined && rounded !== false;
+    public set circle(circle: boolean | string | undefined) {
+        this.isCircle = this._forceBoolean(circle);
+    }
+
+    @Input()
+    public set showLabel(showLabel: boolean | string | undefined) {
+        this.shouldShowLabel = this._forceBoolean(showLabel);
+    }
+
+    private _forceBoolean(value: boolean | string | undefined): boolean {
+        return value !== undefined && value !== false;
     }
 }

@@ -3,7 +3,7 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { AdditionalHeritage } from 'src/app/classes/AdditionalHeritage';
 import { Heritage } from 'src/app/classes/Heritage';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';

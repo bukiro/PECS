@@ -11,3 +11,7 @@
 .time-control {
     @include flex-row-center;
 }
+
+.corner-button-tray {
+    @include corner-button-tray-right;
+}

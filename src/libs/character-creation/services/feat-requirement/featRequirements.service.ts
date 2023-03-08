@@ -6,7 +6,7 @@ import { Deity } from 'src/app/classes/Deity';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { Skill } from 'src/app/classes/Skill';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';

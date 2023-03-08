@@ -1,24 +1,9 @@
 <!-- eslint-disable @angular-eslint/template/conditional-complexity -->
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<div class="window-button-container">
-    <button
-        type="button"
-        aria-label="Minimize"
-        class="minimizebutton lower"
-        [ngbTooltip]="isMinimized ? 'Click to show all choices and information.' : 'Click to hide finished choices and show compact information.'"
-        [ngClass]="{'fancy-button':isMinimized}"
-        (click)="minimize()"
-    >
-        <i
-            class='bi-arrows-collapse'
-            *ngIf="isMinimized"
-        ></i>
-
-        <i
-            class='bi-arrows-expand'
-            *ngIf="!isMinimized"
-        ></i>
-    </button>
+<div class="corner-button-tray">
+    <app-minimize-button
+        [(ngModel)]="isMinimized"
+    ></app-minimize-button>
 
     <button
         type="button"

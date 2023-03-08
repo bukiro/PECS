@@ -3,7 +3,7 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Armor } from 'src/app/classes/Armor';
 import { Character as CharacterModel } from 'src/app/classes/Character';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';

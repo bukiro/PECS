@@ -1,11 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
@@ -54,6 +54,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClas
     public allowBorrow = false;
     public creatureTypesEnum = CreatureTypes;
 
+    private _isMinimized = false;
     private _showSpell = '';
     private _showChoice = '';
     private _showContent?: SpellChoice;
@@ -74,14 +75,27 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClas
         private readonly _menuService: MenuService,
     ) {
         super();
+
+        CreatureService.settings$
+            .pipe(
+                map(settings => settings.spellsMinimized),
+            )
+            .subscribe(minimized => {
+                this._isMinimized = minimized;
+            });
     }
 
+    @HostBinding('class.minimized')
     public get isMinimized(): boolean {
-        return CreatureService.character.settings.spellsMinimized;
+        return this._isMinimized;
+    }
+
+    public set isMinimized(minimized: boolean) {
+        CreatureService.settings.spellsMinimized = minimized;
     }
 
     public get isTileMode(): boolean {
-        return CreatureService.character.settings.spellsTileMode;
+        return CreatureService.settings.spellsTileMode;
     }
 
     public get character(): Character {
@@ -90,10 +104,6 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClas
 
     public get spellsMenuState(): string {
         return this._menuService.spellsMenuState;
-    }
-
-    public minimize(): void {
-        CreatureService.character.settings.spellsMinimized = !CreatureService.character.settings.spellsMinimized;
     }
 
     public toggleTileMode(): void {

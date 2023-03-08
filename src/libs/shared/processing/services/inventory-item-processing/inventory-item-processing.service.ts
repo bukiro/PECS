@@ -15,7 +15,7 @@ import { ArmorClassService } from 'src/libs/shared/services/armor-class/armor-cl
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';

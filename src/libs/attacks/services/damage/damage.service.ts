@@ -10,7 +10,7 @@ import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { Weapon } from 'src/app/classes/Weapon';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';

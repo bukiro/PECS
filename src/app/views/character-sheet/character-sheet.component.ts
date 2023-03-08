@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BehaviorSubject, filter, Observable, take, takeUntil } from 'rxjs';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
@@ -77,7 +77,7 @@ export class CharacterSheetComponent extends DestroyableMixin(IsMobileMixin(Trac
     }
 
     public get settings(): Settings {
-        return CreatureService.character.settings;
+        return CreatureService.settings;
     }
 
     public get itemsMenuState(): MenuState {

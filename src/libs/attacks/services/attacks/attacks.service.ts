@@ -3,7 +3,7 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
 import { Effect } from 'src/app/classes/Effect';
 import { Weapon } from 'src/app/classes/Weapon';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';

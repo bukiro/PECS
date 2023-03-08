@@ -1,0 +1,18 @@
+<app-button
+    class="button"
+    [label]="isMinimized ? 'Click to show all information.' : 'Click to show compact information.'"
+    showLabel
+    [toggled]="isMinimized"
+    (click)="isMinimized = !isMinimized"
+    rounded
+>
+    <i
+        class='bi-arrows-collapse'
+        *ngIf="isMinimized"
+    ></i>
+
+    <i
+        class='bi-arrows-expand'
+        *ngIf="!isMinimized"
+    ></i>
+</app-button>

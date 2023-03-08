@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
@@ -96,12 +96,12 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
     //TO-DO: Make new Item creation a separate component (a wizard would be nice)
     public newItem: Equipment | Consumable | null = null;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     private _showList = '';
     private _showItem = '';
     private _purpose: PurposeOption = 'items';
+
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -124,10 +124,6 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
         private readonly _recastService: RecastService,
     ) {
         super();
-    }
-
-    public get isInventoryMinimized(): boolean {
-        return CreatureService.character.settings.inventoryMinimized;
     }
 
     public get isTileMode(): boolean {

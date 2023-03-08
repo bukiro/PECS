@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Item } from 'src/app/classes/Item';
 import { Character } from 'src/app/classes/Character';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
@@ -71,10 +71,6 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
         private readonly _characterFeatsService: CharacterFeatsService,
     ) {
         super();
-    }
-
-    public get isInventoryMinimized(): boolean {
-        return CreatureService.character.settings.inventoryMinimized;
     }
 
     public get isTileMode(): boolean {

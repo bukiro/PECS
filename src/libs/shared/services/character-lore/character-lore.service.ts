@@ -3,7 +3,7 @@ import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Rune } from 'src/app/classes/Rune';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { CharacterSkillIncreaseService } from 'src/libs/character-creation/services/character-skill-increase/character-skill-increase.service';
-import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { SkillLevels } from '../../definitions/skillLevels';

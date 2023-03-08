@@ -16,6 +16,7 @@ import { TraitModule } from 'src/libs/shared/ui/trait/trait.module';
 import { SpellChoiceModule } from 'src/libs/shared/spell-choice/spell-choice.module';
 import { ActivityModule } from 'src/libs/shared/activity/activity.module';
 import { SpellModule } from 'src/libs/shared/spell/spell.module';
+import { MinimizeButtonModule } from 'src/libs/shared/ui/minimize-button/minimize-button.module';
 
 @NgModule({
     imports: [
@@ -37,6 +38,7 @@ import { SpellModule } from 'src/libs/shared/spell/spell.module';
         SpellChoiceModule,
         ActivityModule,
         SpellModule,
+        MinimizeButtonModule,
     ],
     declarations: [
         CharacterCreationComponent,
