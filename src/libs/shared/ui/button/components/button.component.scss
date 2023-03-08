@@ -1,0 +1,67 @@
+@import 'utilities';
+
+:host {
+    @include text-color-default;
+    @include background-color-default;
+    @include border-default;
+
+    border-width: $spacing-xxs;
+
+    display: inline-block;
+
+    min-height: 1em;
+    min-width: 1em;
+
+    line-height: inherit;
+
+    button {
+        height: 100%;
+        width: 100%;
+
+        color: inherit;
+        border: none;
+        background-color: transparent;
+
+        padding: $spacing-xs;
+
+        line-height: inherit;
+    }
+}
+
+:host(.ghost) {
+    background-color: transparent;
+}
+
+:host(.ghost.no-outline) {
+    background-color: transparent;
+    border: none;
+
+    button {
+        padding: 0;
+    }
+}
+
+:host(.no-outline) {
+    border-color: transparent;
+}
+
+:host(.toggled) {
+    @include text-color-inverted;
+    @include background-color-inverted;
+
+    background-color: transparent;
+}
+
+:host(.rounded) {
+    @include border-circle;
+}
+
+:host(.disabled) {
+    opacity: 50%;
+
+    border-color: $color-text-medium;
+}
+
+:host(.processing) {
+    opacity: 50%;
+}

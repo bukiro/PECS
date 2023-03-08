@@ -1,0 +1,10 @@
+<button
+    type="button"
+    [name]="name"
+    aria-label="button"
+    [attr.aria-label]="name"
+    (click)="clicked.emit()"
+    [disabled]="isDisabled"
+>
+    <ng-content></ng-content>
+</button>
