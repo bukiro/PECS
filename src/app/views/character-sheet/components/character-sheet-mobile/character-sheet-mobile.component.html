@@ -1,95 +1,95 @@
 <div class="character-sheet-card filter-buttons">
-    <button
-        aria-label="General"
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'All'}"
+        label="Show general information"
+        ngbTooltip="Show general information"
+        [toggled]="shownMode === 'All'"
         (click)="toggleShownMode('All')"
     >
         <i class="bi-info-circle-fill"></i>
-    </button>
+    </app-button>
 
-    <button
-        aria-label="Health"
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Health'}"
+        label="Show health information"
+        ngbTooltip="Show health information"
+        [toggled]="shownMode === 'Health'"
         (click)="toggleShownMode('Health')"
     >
         <i class="ra ra-health"></i>
-    </button>
+    </app-button>
 
-    <button
-        aria-label="Defense"
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Defense'}"
+        label="Show defense information"
+        ngbTooltip="Show defense information"
+        [toggled]="shownMode === 'Defense'"
         (click)="toggleShownMode('Defense')"
     >
         <i class="ra ra-shield"></i>
-    </button>
+    </app-button>
 
-    <button
-        aria-label="Attacks"
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Attacks'}"
+        label="Show attacks"
+        ngbTooltip="Show attacks"
+        [toggled]="shownMode === 'Attacks'"
         (click)="toggleShownMode('Attacks')"
     >
         <i class="ra ra-sword"></i>
-    </button>
+    </app-button>
 
-    <button
-        aria-label="Spells"
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Spells'}"
+        label="Show spells"
+        ngbTooltip="Show spells"
+        [toggled]="shownMode === 'Spells'"
         (click)="toggleShownMode('Spells')"
     >
         <i class="ra ra-doubled"></i>
-    </button>
+    </app-button>
 
-    <button
-        aria-label="Skills"
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Skills'}"
+        label="Show skills and speeds"
+        ngbTooltip="Show skills and speeds"
+        [toggled]="shownMode === 'Skills'"
         (click)="toggleShownMode('Skills')"
     >
         <i class="ra ra-muscle-up"></i>
-    </button>
+    </app-button>
 
-    <button
-        aria-label="Actions and activities"
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Activities'}"
+        label="Show actions and activities"
+        ngbTooltip="Show actions and activities"
+        [toggled]="shownMode === 'Activities'"
         (click)="toggleShownMode('Activities')"
     >
         <app-action-icons [actionString]="'1A'"></app-action-icons>
-    </button>
+    </app-button>
 
-    <button
-        aria-label="Inventory"
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Inventory'}"
+        label="Show inventory"
+        ngbTooltip="Show inventory"
+        [toggled]="shownMode === 'Inventory'"
         (click)="toggleShownMode('Inventory')"
     >
         <i class="bi-box"></i>
-    </button>
+    </app-button>
 
-    <button
-        aria-label="Conditions and effects"
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'ConditionsEffects'}"
+        label="Show conditions and effects"
+        ngbTooltip="Show conditions and effects"
+        [toggled]="shownMode === 'ConditionsEffects'"
         (click)="toggleShownMode('ConditionsEffects')"
     >
         <i class="ra ra-lightning-bolt"></i>
 
         <i class="bi-clock"></i>
-    </button>
+    </app-button>
 </div>
 
 <div class="character-sheet-columns">

@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, O
 export class ButtonComponent {
 
     @Input()
-    public name?: string;
+    public label?: string;
 
     @Output()
     public readonly clicked = new EventEmitter<undefined>();

@@ -1,0 +1,19 @@
+@import 'utilities';
+
+.filter-buttons {
+    &__button {
+        flex: 1 1 0;
+
+        border: none;
+        border-left: solid 1px $color-accent;
+        border-right: solid 1px $color-accent;
+
+        &:first-child {
+            border-left: none;
+        }
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+}

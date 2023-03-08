@@ -1,58 +1,52 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="character-sheet-card filter-buttons">
-    <button
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': !shownMode}"
-        (click)="toggleShownMode('All')"
+        [toggled]="shownMode === 'All'"
+        (clicked)="toggleShownMode('All')"
     >
         Show All
-    </button>
+    </app-button>
 
-    <button
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Encounter'}"
+        [toggled]="shownMode === 'Encounter'"
         (click)="toggleShownMode('Encounter')"
     >
         Encounter
-    </button>
+    </app-button>
 
-    <button
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Exploration'}"
+        [toggled]="shownMode === 'Exploration'"
         (click)="toggleShownMode('Exploration')"
     >
         Exploration
-    </button>
+    </app-button>
 
-    <button
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Downtime'}"
+        [toggled]="shownMode === 'Downtime'"
         (click)="toggleShownMode('Downtime')"
     >
         Downtime
-    </button>
+    </app-button>
 
-    <button
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'Inventory'}"
+        [toggled]="shownMode === 'Inventory'"
         (click)="toggleShownMode('Inventory')"
     >
         Inventory
-    </button>
+    </app-button>
 
-    <button
-        type="button"
+    <app-button
         class="filter-buttons__button"
-        [ngClass]="{'filter-buttons__button--selected': shownMode === 'ConditionsEffects'}"
+        [toggled]="shownMode === 'ConditionsEffects'"
         (click)="toggleShownMode('ConditionsEffects')"
     >
         Conditions & Effects
-    </button>
+    </app-button>
 </div>
 
 <ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">

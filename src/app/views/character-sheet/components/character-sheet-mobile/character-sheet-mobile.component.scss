@@ -1,0 +1,11 @@
+@import 'utilities';
+
+.filter-buttons {
+    gap: $spacing-s;
+
+    flex-wrap: wrap;
+
+    &__button {
+        flex: 0 0 3.5em;
+    }
+}

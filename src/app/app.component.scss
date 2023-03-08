@@ -16,6 +16,8 @@
 .app-container {
     @include flex-column-center;
 
+    align-items: stretch;
+
     gap: $spacing-s;
 
     flex-grow: 1;

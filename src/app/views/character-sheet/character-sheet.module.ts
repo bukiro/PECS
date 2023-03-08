@@ -24,10 +24,14 @@ import { SpellbookModule } from 'src/libs/spellbook/spellbook.module';
 import { CharacterSheetDesktopComponent } from './components/character-sheet-desktop/character-sheet-desktop.component';
 import { CharacterSheetMobileComponent } from './components/character-sheet-mobile/character-sheet-mobile.component';
 import { ActivitiesModule } from 'src/libs/activities/activities.module';
+import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
         CommonModule,
+
+        NgbTooltipModule,
 
         DiceModule,
         EffectsModule,
@@ -50,6 +54,7 @@ import { ActivitiesModule } from 'src/libs/activities/activities.module';
         AttacksModule,
         SpellbookModule,
         ActivitiesModule,
+        ButtonModule,
     ],
     declarations: [
         CharacterSheetComponent,

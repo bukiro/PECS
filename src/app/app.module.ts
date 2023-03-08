@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from 'src/app/app.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppInitService } from 'src/libs/shared/services/app-init/app-init.service';
 import { TopBarModule } from 'src/libs/top-bar/top-bar.module';
 import { ToastsModule } from 'src/libs/toasts/toasts.module';
@@ -24,8 +23,6 @@ import { ToastsModule } from 'src/libs/toasts/toasts.module';
         ReactiveFormsModule,
         AppRoutingModule,
         HttpClientModule,
-
-        DragDropModule,
 
         TopBarModule,
         ToastsModule,
