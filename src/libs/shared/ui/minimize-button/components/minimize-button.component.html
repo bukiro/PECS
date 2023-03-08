@@ -2,9 +2,9 @@
     class="button"
     [label]="isMinimized ? 'Click to show all information.' : 'Click to show compact information.'"
     showLabel
+    compact
     [toggled]="isMinimized"
     (click)="isMinimized = !isMinimized"
-    rounded
 >
     <i
         class='bi-arrows-collapse'

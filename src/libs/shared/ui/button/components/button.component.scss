@@ -32,17 +32,14 @@
     background-color: transparent;
 }
 
-:host(.ghost.no-outline) {
-    background-color: transparent;
-    border: none;
+:host(.no-outline) {
+    border-color: transparent;
+}
 
+:host(.compact) {
     button {
         padding: 0;
     }
-}
-
-:host(.no-outline) {
-    border-color: transparent;
 }
 
 :host(.toggled) {

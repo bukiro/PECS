@@ -29,6 +29,9 @@ export class ButtonComponent {
     @HostBinding('class.no-outline')
     public isNotOutlined?: boolean;
 
+    @HostBinding('class.compact')
+    public isCompact?: boolean;
+
     @HostBinding('class.circle')
     public isCircle?: boolean;
 
@@ -57,6 +60,11 @@ export class ButtonComponent {
     @Input()
     public set noOutline(noOutline: boolean | string | undefined) {
         this.isNotOutlined = this._forceBoolean(noOutline);
+    }
+
+    @Input()
+    public set compact(compact: boolean | string | undefined) {
+        this.isCompact = this._forceBoolean(compact);
     }
 
     @Input()
