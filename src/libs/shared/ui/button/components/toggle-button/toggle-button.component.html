@@ -1,0 +1,12 @@
+<button
+    type="button"
+    [name]="label"
+    aria-label="button"
+    [attr.aria-label]="label"
+    (click)="value = !value"
+    [disabled]="isDisabled"
+    [ngbTooltip]="label"
+    [disableTooltip]="!shouldShowLabel"
+>
+    <ng-content></ng-content>
+</button>

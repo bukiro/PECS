@@ -8,7 +8,7 @@ import { GridIconModule } from 'src/libs/shared/ui/grid-icon/grid-icon.module';
 import { SpellSelectionComponent } from './spell-selection.component';
 import { TagsModule } from 'src/libs/shared/tags/tags.module';
 import { SpellChoiceModule } from 'src/libs/shared/spell-choice/spell-choice.module';
-import { MinimizeButtonModule } from 'src/libs/shared/ui/minimize-button/minimize-button.module';
+import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -23,7 +23,7 @@ import { MinimizeButtonModule } from 'src/libs/shared/ui/minimize-button/minimiz
         GridIconModule,
         TagsModule,
         SpellChoiceModule,
-        MinimizeButtonModule,
+        ButtonModule,
     ],
     declarations: [
         SpellSelectionComponent,

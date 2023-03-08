@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from './components/button.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { ButtonComponent } from './components/button/button.component';
+import { ToggleButtonComponent } from './components/toggle-button/toggle-button.component';
+import { MinimizeButtonComponent } from './components/minimize-button/minimize-button.component';
 
 @NgModule({
     imports: [
@@ -11,9 +13,13 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     ],
     declarations: [
         ButtonComponent,
+        ToggleButtonComponent,
+        MinimizeButtonComponent,
     ],
     exports: [
         ButtonComponent,
+        ToggleButtonComponent,
+        MinimizeButtonComponent,
     ],
 })
 export class ButtonModule { }

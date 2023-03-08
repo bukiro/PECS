@@ -11,7 +11,7 @@ import { StickyPopoverModule } from '../shared/sticky-popover/sticky-popover.mod
 import { ActivityModule } from '../shared/activity/activity.module';
 import { FeatChoiceModule } from '../shared/feat-choice/feat-choice.module';
 import { FormsModule } from '@angular/forms';
-import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-button.module';
+import { ButtonModule } from '../shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -29,7 +29,7 @@ import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-butt
         StickyPopoverModule,
         ActivityModule,
         FeatChoiceModule,
-        MinimizeButtonModule,
+        ButtonModule,
     ],
     declarations: [
         ActivitiesComponent,

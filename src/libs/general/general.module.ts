@@ -5,7 +5,7 @@ import { TraitModule } from '../shared/ui/trait/trait.module';
 import { TagsModule } from '../shared/tags/tags.module';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-button.module';
+import { ButtonModule } from '../shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -17,7 +17,7 @@ import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-butt
 
         TraitModule,
         TagsModule,
-        MinimizeButtonModule,
+        ButtonModule,
     ],
     declarations: [
         GeneralComponent,

@@ -12,7 +12,7 @@ import { SkillModule } from '../shared/skill/skill.module';
 import { AttacksComponent } from './components/attacks/attacks.component';
 import { DescriptionModule } from '../shared/ui/description/description.module';
 import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
-import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-button.module';
+import { ButtonModule } from '../shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -31,7 +31,7 @@ import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-butt
         SkillModule,
         DescriptionModule,
         GridIconModule,
-        MinimizeButtonModule,
+        ButtonModule,
     ],
     declarations: [
         AttacksComponent,

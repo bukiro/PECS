@@ -15,7 +15,7 @@ import { FeatChoiceModule } from 'src/libs/shared/feat-choice/feat-choice.module
 import { AbilitiesModule } from 'src/libs/abilities/abilities.module';
 import { AttacksModule } from 'src/libs/attacks/attacks.module';
 import { FormsModule } from '@angular/forms';
-import { MinimizeButtonModule } from 'src/libs/shared/ui/minimize-button/minimize-button.module';
+import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -35,7 +35,7 @@ import { MinimizeButtonModule } from 'src/libs/shared/ui/minimize-button/minimiz
         FeatChoiceModule,
         AbilitiesModule,
         AttacksModule,
-        MinimizeButtonModule,
+        ButtonModule,
     ],
     declarations: [
         FamiliarComponent,

@@ -8,7 +8,7 @@ import { ItemModule } from 'src/libs/shared/item/item.module';
 import { GridIconModule } from 'src/libs/shared/ui/grid-icon/grid-icon.module';
 import { InventoryModule } from 'src/libs/inventory/inventory.module';
 import { CraftingComponent } from './crafting.component';
-import { MinimizeButtonModule } from 'src/libs/shared/ui/minimize-button/minimize-button.module';
+import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -23,7 +23,7 @@ import { MinimizeButtonModule } from 'src/libs/shared/ui/minimize-button/minimiz
         ItemModule,
         GridIconModule,
         InventoryModule,
-        MinimizeButtonModule,
+        ButtonModule,
     ],
     declarations: [
         CraftingComponent,

@@ -1,38 +1,40 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
-    selector: 'app-minimize-button',
-    templateUrl: './minimize-button.component.html',
-    styleUrls: ['./minimize-button.component.scss'],
+    selector: 'app-toggle-button',
+    templateUrl: './toggle-button.component.html',
+    styleUrls: ['./toggle-button.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: MinimizeButtonComponent,
+            useExisting: ToggleButtonComponent,
             multi: true,
         },
     ],
 })
-export class MinimizeButtonComponent implements ControlValueAccessor {
+export class ToggleButtonComponent extends ButtonComponent implements ControlValueAccessor {
 
     private _onChange?: (value: boolean) => void;
 
     private _onTouched?: () => void;
 
-    private _isMinimized = false;
+    private _value = false;
 
-    public get isMinimized(): boolean {
-        return this._isMinimized;
+    public get value(): boolean {
+        return this._value;
     }
 
-    public set isMinimized(value: boolean) {
-        this._isMinimized = value;
+    public set value(value: boolean) {
+        this.toggled = value;
+        this._value = value;
         this._onChange?.(value);
     }
 
     public writeValue(value: boolean): void {
-        this.isMinimized = value;
+        this.value = value;
     }
 
     public registerOnChange(fn: (value: boolean) => void): void {

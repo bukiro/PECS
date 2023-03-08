@@ -12,7 +12,7 @@ import { SpellModule } from '../shared/spell/spell.module';
 import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
 import { StickyPopoverModule } from '../shared/sticky-popover/sticky-popover.module';
 import { FormsModule } from '@angular/forms';
-import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-button.module';
+import { ButtonModule } from '../shared/ui/button/button.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -30,7 +30,7 @@ import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-butt
         SpellModule,
         GridIconModule,
         StickyPopoverModule,
-        MinimizeButtonModule,
+        ButtonModule,
     ],
     declarations: [
         SpellbookComponent,

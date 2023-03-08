@@ -1,0 +1,18 @@
+<button
+    type="button"
+    aria-label="button"
+    [attr.aria-label]="value ? 'Click to show all information.' : 'Click to show compact information.'"
+    (click)="value = !value"
+    [disabled]="isDisabled"
+    [ngbTooltip]="value ? 'Click to show all information.' : 'Click to show compact information.'"
+>
+    <i
+        class='bi-arrows-collapse'
+        *ngIf="value"
+    ></i>
+
+    <i
+        class='bi-arrows-expand'
+        *ngIf="!value"
+    ></i>
+</button>

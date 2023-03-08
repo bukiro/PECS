@@ -13,7 +13,7 @@ import { SkillsModule } from 'src/libs/skills/skills.module';
 import { AbilitiesModule } from 'src/libs/abilities/abilities.module';
 import { AttacksModule } from 'src/libs/attacks/attacks.module';
 import { FormsModule } from '@angular/forms';
-import { MinimizeButtonModule } from 'src/libs/shared/ui/minimize-button/minimize-button.module';
+import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -32,7 +32,7 @@ import { MinimizeButtonModule } from 'src/libs/shared/ui/minimize-button/minimiz
         ActivitiesModule,
         AbilitiesModule,
         AttacksModule,
-        MinimizeButtonModule,
+        ButtonModule,
     ],
     declarations: [
         AnimalCompanionComponent,

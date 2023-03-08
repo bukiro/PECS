@@ -5,7 +5,7 @@ import { TagsModule } from '../shared/tags/tags.module';
 import { ObjectEffectsModule } from '../shared/object-effects/object-effects.module';
 import { AbilitiesComponent } from './components/abilities/abilities.component';
 import { FormsModule } from '@angular/forms';
-import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-button.module';
+import { ButtonModule } from '../shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -17,7 +17,7 @@ import { MinimizeButtonModule } from '../shared/ui/minimize-button/minimize-butt
 
         TagsModule,
         ObjectEffectsModule,
-        MinimizeButtonModule,
+        ButtonModule,
     ],
     declarations: [
         AbilitiesComponent,
