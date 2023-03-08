@@ -39,6 +39,10 @@
     .darkmode & {
         background-color: $color-background-dark;
     }
+
+    &.darkmode {
+        background-color: $color-background-dark;
+    }
 }
 
 // Used to override other mixins in this file.

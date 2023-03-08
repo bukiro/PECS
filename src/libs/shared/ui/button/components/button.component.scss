@@ -48,8 +48,6 @@
 :host(.toggled) {
     @include text-color-inverted;
     @include background-color-inverted;
-
-    background-color: transparent;
 }
 
 :host(.rounded) {

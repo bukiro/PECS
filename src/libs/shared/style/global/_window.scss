@@ -18,6 +18,7 @@ html {
 
 body {
     @include text-color-default;
+    @include background-color-default;
 
     font-size: 14px;
 
@@ -25,6 +26,5 @@ body {
     margin: 0;
     height: 100%;
     overflow: hidden;
-    background-color: $color-background-dark;
     background-clip: border-box;
 }
