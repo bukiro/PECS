@@ -1,0 +1,15 @@
+<div class="diamonds-container">
+    <div
+        *ngFor="let letter of letters; trackBy:trackByIndex;"
+        [className]="'diamonds-container__diamond diamonds-container__diamond--' + letter.letter"
+        [ngClass]="{'diamonds-container__diamond--checked': letter.checked }"
+    ></div>
+</div>
+
+<div
+    *ngFor="let letter of letters; trackBy:trackByIndex;"
+    [className]="'option option--' + letter.letter"
+    [ngClass]="{'option--checked': letter.checked }"
+>
+    {{letter.letter}}
+</div>

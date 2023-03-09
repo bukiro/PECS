@@ -4,14 +4,16 @@
     @include flex-column-center;
     @include flex-center-main-axis;
 
-    height: 3.5rem;
-    width: 3.5rem;
+    height: 4rem;
+    width: 4rem;
 
     position: relative;
 
     font-weight: bold;
 
     font-size: $font-size-small;
+
+    flex: 0 0 4rem;
 }
 
 .diamonds-container {
@@ -22,21 +24,20 @@
 
     &__diamond {
         @include background-color-default;
-        @include border-color-inverted;
-        position: absolute;
-
+        @include border-color-accent;
         border-width: $spacing-xxs;
+
         border-style: solid;
+        position: absolute;
 
         height: 45%;
         width: 45%;
 
         &--checked {
             @include background-color-inverted;
-            @include border-color-accent;
         }
 
-        &--T {
+        &--P {
             top: 0;
             left: 0;
         }
@@ -46,12 +47,12 @@
             left: 0;
         }
 
-        &--M {
+        &--C {
             top: 0;
             right: 0;
         }
 
-        &--L {
+        &--S {
             bottom: 0;
             right: 0;
         }
@@ -61,6 +62,7 @@
 .option {
     @include flex-column-center;
     @include flex-center-main-axis;
+
     position: absolute;
 
     width: 45%;
@@ -74,23 +76,23 @@
         @include text-color-inverted;
     }
 
-    &--T {
-        top: 2%;
+    &--P {
+        top: 0;
         left: 28%;
     }
 
     &--E {
-        left: -2%;
+        left: 0;
         top: 28%;
     }
 
-    &--M {
-        right: -2%;
+    &--C {
+        right: 0;
         top: 28%;
     }
 
-    &--L {
-        bottom: -2%;
+    &--S {
+        bottom: 0;
         left: 28%;
     }
 }
