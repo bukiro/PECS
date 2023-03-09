@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, TemplateRef, HostBinding } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, TemplateRef } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
@@ -21,7 +21,7 @@ import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, noop, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, noop, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -58,9 +58,8 @@ import { ItemActivationService } from 'src/libs/shared/services/item-activation/
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -91,7 +90,7 @@ interface CalculatedMaxInvested {
     styleUrls: ['./inventory.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InventoryComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
+export class InventoryComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -99,18 +98,10 @@ export class InventoryComponent extends DestroyableMixin(TrackByMixin(BaseClass)
     @Input()
     public itemStore = false;
 
-    @HostBinding('class.minimized')
-    private _combinedMinimized = false;
-
     public shieldDamage = 0;
     public creatureTypesEnum = CreatureTypes;
 
     public isTileMode$: Observable<boolean>;
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
-
-    private _isMinimized = false;
-    private _forceMinimized = false;
     private _showItem = '';
     private _showList = '';
 
@@ -149,7 +140,7 @@ export class InventoryComponent extends DestroyableMixin(TrackByMixin(BaseClass)
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -163,9 +154,7 @@ export class InventoryComponent extends DestroyableMixin(TrackByMixin(BaseClass)
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this._combinedMinimized = this._isMinimized || this._forceMinimized;
-                this.isMinimized$.next(this._combinedMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
 
         this.isTileMode$ = SettingsService.settings$
@@ -178,9 +167,7 @@ export class InventoryComponent extends DestroyableMixin(TrackByMixin(BaseClass)
 
     @Input()
     public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._forceMinimized = forceMinimized ?? false;
-        this._combinedMinimized = this._isMinimized || this._forceMinimized;
-        this.isMinimized$.next(this._combinedMinimized);
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -978,7 +965,7 @@ export class InventoryComponent extends DestroyableMixin(TrackByMixin(BaseClass)
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     private _allAvailableCreatures(): Array<Creature> {

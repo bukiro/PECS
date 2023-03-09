@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
-import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { Ability } from 'src/app/classes/Ability';
 import { Creature } from 'src/app/classes/Creature';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
@@ -7,10 +7,9 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService, CalculatedAbility } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 @Component({
     selector: 'app-abilities',
@@ -18,18 +17,10 @@ import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin'
     styleUrls: ['./abilities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AbilitiesComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
+export class AbilitiesComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
-
-    @HostBinding('class.minimized')
-    private _combinedMinimized = false;
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
-
-    private _isMinimized = false;
-    private _forceMinimized = false;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -44,7 +35,7 @@ export class AbilitiesComponent extends DestroyableMixin(TrackByMixin(BaseClass)
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -56,17 +47,13 @@ export class AbilitiesComponent extends DestroyableMixin(TrackByMixin(BaseClass)
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this._combinedMinimized = this._isMinimized || this._forceMinimized;
-                this.isMinimized$.next(this._combinedMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
     }
 
     @Input()
     public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._forceMinimized = forceMinimized ?? false;
-        this._combinedMinimized = this._isMinimized || this._forceMinimized;
-        this.isMinimized$.next(this._combinedMinimized);
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -106,7 +93,7 @@ export class AbilitiesComponent extends DestroyableMixin(TrackByMixin(BaseClass)
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     public ngOnInit(): void {

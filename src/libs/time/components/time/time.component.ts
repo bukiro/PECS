@@ -1,14 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 @Component({
     selector: 'app-time',
@@ -16,21 +15,13 @@ import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin'
     styleUrls: ['./time.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimeComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
+export class TimeComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     @Input()
     public showTurn = true;
 
     @Input()
     public showTime = true;
-
-    @HostBinding('class.minimized')
-    private _combinedMinimized = false;
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
-
-    private _isMinimized = false;
-    private _forceMinimized = false;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -46,22 +37,13 @@ export class TimeComponent extends DestroyableMixin(TrackByMixin(BaseClass)) imp
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => settings.timeMinimized),
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this._combinedMinimized = this._isMinimized || this._forceMinimized;
-                this.isMinimized$.next(this._combinedMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
-    }
-
-    @Input()
-    public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._forceMinimized = forceMinimized ?? false;
-        this._combinedMinimized = this._isMinimized || this._forceMinimized;
-        this.isMinimized$.next(this._combinedMinimized);
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -70,6 +52,11 @@ export class TimeComponent extends DestroyableMixin(TrackByMixin(BaseClass)) imp
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
         return this._timeService.yourTurn;
+    }
+
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public toggleMinimized(minimized: boolean): void {
@@ -102,7 +89,7 @@ export class TimeComponent extends DestroyableMixin(TrackByMixin(BaseClass)) imp
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     public ngOnInit(): void {

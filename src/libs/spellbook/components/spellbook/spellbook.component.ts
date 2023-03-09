@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
@@ -14,7 +14,7 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { Condition } from 'src/app/classes/Condition';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
 import { Trait } from 'src/app/classes/Trait';
@@ -40,8 +40,7 @@ import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-e
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -99,19 +98,11 @@ interface SpellParameters {
     styleUrls: ['./spellbook.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellbookComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
-
-    @HostBinding('class.minimized')
-    private _combinedMinimized = false;
+export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     public creatureTypesEnum = CreatureTypes;
 
     public isTileMode$: Observable<boolean>;
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
-
-    private _isMinimized = false;
-    private _forceMinimized = false;
 
     private _showSpell = '';
     private _showList = '';
@@ -145,14 +136,12 @@ export class SpellbookComponent extends DestroyableMixin(TrackByMixin(BaseClass)
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => settings.spellbookMinimized),
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this._combinedMinimized = this._isMinimized || this._forceMinimized;
-                this.isMinimized$.next(this._combinedMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
 
         this.isTileMode$ = SettingsService.settings$
@@ -165,9 +154,7 @@ export class SpellbookComponent extends DestroyableMixin(TrackByMixin(BaseClass)
 
     @Input()
     public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._forceMinimized = forceMinimized ?? false;
-        this._combinedMinimized = this._isMinimized || this._forceMinimized;
-        this.isMinimized$.next(this._combinedMinimized);
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get isManualMode(): boolean {
@@ -669,7 +656,7 @@ export class SpellbookComponent extends DestroyableMixin(TrackByMixin(BaseClass)
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     public ngOnInit(): void {

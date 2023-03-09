@@ -162,7 +162,6 @@
                         id="Character-health"
                         class="character-sheet-app"
                         [creature]="creatureTypesEnum.Familiar"
-                        [showMinimizeButton]="(shownMode() !== 'Downtime')"
                         [forceMinimized]="shownMode() === 'Downtime'"
                         *ngIf="shownMode()==='Health'"
                     >

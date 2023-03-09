@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { Character } from 'src/app/classes/Character';
@@ -8,7 +8,7 @@ import { Speed } from 'src/app/classes/Speed';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -19,10 +19,9 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 interface SpeedParameters {
     name: string;
@@ -39,20 +38,12 @@ interface SpeedParameters {
     styleUrls: ['./skills.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkillsComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
+export class SkillsComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
 
-    @HostBinding('class.minimized')
-    private _combinedMinimized = false;
-
     public isTileMode$: Observable<boolean>;
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
-
-    private _isMinimized = false;
-    private _forceMinimized = false;
 
     private _showList = '';
     private _showAction = '';
@@ -75,7 +66,7 @@ export class SkillsComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -89,9 +80,7 @@ export class SkillsComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this._combinedMinimized = this._isMinimized || this._forceMinimized;
-                this.isMinimized$.next(this._combinedMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
 
         this.isTileMode$ = SettingsService.settings$
@@ -104,9 +93,7 @@ export class SkillsComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
 
     @Input()
     public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._forceMinimized = forceMinimized ?? false;
-        this._combinedMinimized = this._isMinimized || this._forceMinimized;
-        this.isMinimized$.next(this._combinedMinimized);
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -291,7 +278,7 @@ export class SkillsComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     public ngOnInit(): void {

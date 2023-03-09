@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { Armor } from 'src/app/classes/Armor';
@@ -11,7 +11,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Trait } from 'src/app/classes/Trait';
 import { Skill } from 'src/app/classes/Skill';
@@ -26,10 +26,9 @@ import { ItemActivationService } from 'src/libs/shared/services/item-activation/
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -44,20 +43,12 @@ interface ComponentParameters {
     styleUrls: ['./defense.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DefenseComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
+export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
 
-    @HostBinding('class.minimized')
-    private _combinedMinimized = false;
-
     public shieldDamage = 0;
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
-
-    private _isMinimized = false;
-    private _forceMinimized = false;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -78,7 +69,7 @@ export class DefenseComponent extends DestroyableMixin(TrackByMixin(BaseClass)) 
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -92,17 +83,13 @@ export class DefenseComponent extends DestroyableMixin(TrackByMixin(BaseClass)) 
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this._combinedMinimized = this._isMinimized || this._forceMinimized;
-                this.isMinimized$.next(this._combinedMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
     }
 
     @Input()
     public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._forceMinimized = forceMinimized ?? false;
-        this._combinedMinimized = this._isMinimized || this._forceMinimized;
-        this.isMinimized$.next(this._combinedMinimized);
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -347,7 +334,7 @@ export class DefenseComponent extends DestroyableMixin(TrackByMixin(BaseClass)) 
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     private _setDefenseChanged(): void {

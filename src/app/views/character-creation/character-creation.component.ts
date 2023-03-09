@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Class } from 'src/app/classes/Class';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
@@ -88,8 +88,7 @@ import { InputValidationService } from 'src/libs/shared/services/input-validatio
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -99,10 +98,7 @@ type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id:
     styleUrls: ['./character-creation.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterCreationComponent extends DestroyableMixin(IsMobileMixin(TrackByMixin(BaseClass))) implements OnInit, OnDestroy {
-
-    @HostBinding('class.minimized')
-    private _isMinimized = false;
+export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseCardComponent)) implements OnInit, OnDestroy {
 
     public newClass: Class = new Class();
     public adventureBackgrounds = true;
@@ -122,7 +118,6 @@ export class CharacterCreationComponent extends DestroyableMixin(IsMobileMixin(T
     public isLoadingCharacter$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
 
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
     private _showLevel = 0;
     private _showItem = '';
     private _showList = '';
@@ -225,13 +220,12 @@ export class CharacterCreationComponent extends DestroyableMixin(IsMobileMixin(T
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => settings.characterMinimized),
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this.isMinimized$.next(this._isMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
 
         this.isTileMode$ = SettingsService.settings$
@@ -240,6 +234,11 @@ export class CharacterCreationComponent extends DestroyableMixin(IsMobileMixin(T
                 distinctUntilChanged(),
                 shareReplay(1),
             );
+    }
+
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get isGMMode(): boolean {
@@ -1983,7 +1982,7 @@ export class CharacterCreationComponent extends DestroyableMixin(IsMobileMixin(T
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     private _resetChoiceArea(): void {

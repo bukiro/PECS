@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
-import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
+import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
@@ -12,8 +12,7 @@ import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 @Component({
     selector: 'app-familiar',
@@ -21,15 +20,10 @@ import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin'
     styleUrls: ['./familiar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FamiliarComponent extends DestroyableMixin(BaseClass) implements OnInit, OnDestroy {
-
-    @HostBinding('class.minimized')
-    private _isMinimized = false;
+export class FamiliarComponent extends BaseCardComponent implements OnInit, OnDestroy {
 
     public isMobile = false;
     public creatureTypesEnum = CreatureTypes;
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
 
     private _showMode = '';
     private _changeSubscription?: Subscription;
@@ -46,14 +40,18 @@ export class FamiliarComponent extends DestroyableMixin(BaseClass) implements On
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => settings.familiarMinimized),
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this.isMinimized$.next(this._isMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
+    }
+
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get familiarMenuState(): MenuState {
@@ -121,7 +119,7 @@ export class FamiliarComponent extends DestroyableMixin(BaseClass) implements On
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     private _setMobile(): void {

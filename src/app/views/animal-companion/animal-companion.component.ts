@@ -1,17 +1,16 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
-import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
+import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { DisplayService } from 'src/libs/shared/services/display/display.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 
 @Component({
     selector: 'app-animal-companion',
@@ -19,16 +18,10 @@ import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin'
     styleUrls: ['./animal-companion.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimalCompanionComponent extends DestroyableMixin(BaseClass) implements OnInit, OnDestroy {
-
-    @HostBinding('class.minimized')
-    private _isMinimized = false;
+export class AnimalCompanionComponent extends IsMobileMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     public hover = '';
-    public isMobile = false;
     public creatureTypesEnum = CreatureTypes;
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
 
     private _showMode = '';
     private _changeSubscription?: Subscription;
@@ -44,14 +37,18 @@ export class AnimalCompanionComponent extends DestroyableMixin(BaseClass) implem
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => settings.companionMinimized),
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this.isMinimized$.next(this._isMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
+    }
+
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get character(): Character {
@@ -83,7 +80,6 @@ export class AnimalCompanionComponent extends DestroyableMixin(BaseClass) implem
     }
 
     public ngOnInit(): void {
-        this._setMobile();
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['companion', 'all'].includes(target.toLowerCase())) {
@@ -101,11 +97,7 @@ export class AnimalCompanionComponent extends DestroyableMixin(BaseClass) implem
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
-    }
-
-    private _setMobile(): void {
-        this.isMobile = DisplayService.isMobile;
+        this._destroy();
     }
 
 }

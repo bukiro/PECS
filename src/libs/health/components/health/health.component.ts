@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
@@ -15,9 +15,8 @@ import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-b
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 @Component({
     selector: 'app-health',
@@ -25,16 +24,10 @@ import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin'
     styleUrls: ['./health.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HealthComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
+export class HealthComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
-
-    @Input()
-    public showMinimizeButton = true;
-
-    @HostBinding('class.minimized')
-    private _combinedMinimized = false;
 
     public damageSliderMax = 1;
 
@@ -42,11 +35,6 @@ export class HealthComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
     public nonlethal?: boolean;
     public setTempHP = 0;
     public selectedTempHP?: { amount: number; source: string; sourceId: string };
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
-
-    private _isMinimized = false;
-    private _forceMinimized = false;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -65,7 +53,7 @@ export class HealthComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -79,17 +67,13 @@ export class HealthComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this._combinedMinimized = this._isMinimized || this._forceMinimized;
-                this.isMinimized$.next(this._combinedMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
     }
 
     @Input()
     public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._forceMinimized = forceMinimized ?? false;
-        this._combinedMinimized = this._isMinimized || this._forceMinimized;
-        this.isMinimized$.next(this._combinedMinimized);
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -351,7 +335,7 @@ export class HealthComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     private _die(reason: string): void {

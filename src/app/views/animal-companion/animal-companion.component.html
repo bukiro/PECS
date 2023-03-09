@@ -23,7 +23,7 @@
         *ngIf="character.class && isCompanionAvailable && companionMenuState === 'in'"
     >
         <!-- Desktop-only view -->
-        <ng-container *ngIf="!isMobile">
+        <ng-container *ngIf="(isMobile$ | async) === false">
             <app-effects
                 [creature]="creatureTypesEnum.AnimalCompanion"
                 id="Companion-effects"
@@ -87,7 +87,7 @@
         </ng-container>
 
         <!-- Mobile-only buttons and views -->
-        <ng-container *ngIf="isMobile">
+        <ng-container *ngIf="(isMobile$ | async)">
             <div
                 class="character-sheet-app character-sheet-row desktop-hide"
                 id="mobile-tabs"

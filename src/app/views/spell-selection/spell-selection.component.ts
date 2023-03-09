@@ -1,11 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
@@ -20,9 +20,8 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -51,17 +50,12 @@ interface SpellParameters {
     styleUrls: ['./spell-selection.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellSelectionComponent extends DestroyableMixin(IsMobileMixin(TrackByMixin(BaseClass))) implements OnInit, OnDestroy {
-
-    @HostBinding('class.minimized')
-    private _isMinimized = false;
+export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCardComponent)) implements OnInit, OnDestroy {
 
     public allowBorrow = false;
     public creatureTypesEnum = CreatureTypes;
 
     public isTileMode$: Observable<boolean>;
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
 
     private _showSpell = '';
     private _showChoice = '';
@@ -86,13 +80,12 @@ export class SpellSelectionComponent extends DestroyableMixin(IsMobileMixin(Trac
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => settings.spellsMinimized),
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this.isMinimized$.next(this._isMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
 
         this.isTileMode$ = SettingsService.settings$
@@ -101,6 +94,11 @@ export class SpellSelectionComponent extends DestroyableMixin(IsMobileMixin(Trac
                 distinctUntilChanged(),
                 shareReplay(1),
             );
+    }
+
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get character(): Character {
@@ -276,7 +274,7 @@ export class SpellSelectionComponent extends DestroyableMixin(IsMobileMixin(Trac
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     //TO-DO: This method and others are also used in the spellbook. Can they be centralized, e.g. in the SpellCasting class?

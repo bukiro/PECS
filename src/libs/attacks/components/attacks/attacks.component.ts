@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
 import { Weapon } from 'src/app/classes/Weapon';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
@@ -19,7 +19,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Specialization } from 'src/app/classes/Specialization';
@@ -44,9 +44,8 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { Oil } from 'src/app/classes/Oil';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -60,24 +59,16 @@ interface WeaponParameters {
     styleUrls: ['./attacks.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttacksComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
+export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
-
-    @HostBinding('class.minimized')
-    private _combinedMinimized = false;
 
     public onlyAttacks: Array<AttackRestriction> = [];
     public forbiddenAttacks: Array<AttackRestriction> = [];
     public showRestricted = false;
 
     public isInventoryTileMode$: Observable<boolean>;
-
-    public isMinimized$ = new BehaviorSubject<boolean>(false);
-
-    private _isMinimized = false;
-    private _forceMinimized = false;
 
     private _showItem = '';
     private _showList = '';
@@ -106,7 +97,7 @@ export class AttacksComponent extends DestroyableMixin(TrackByMixin(BaseClass)) 
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -118,9 +109,7 @@ export class AttacksComponent extends DestroyableMixin(TrackByMixin(BaseClass)) 
                 distinctUntilChanged(),
             )
             .subscribe(minimized => {
-                this._isMinimized = minimized;
-                this._combinedMinimized = this._isMinimized || this._forceMinimized;
-                this.isMinimized$.next(this._combinedMinimized);
+                this._updateMinimized({ bySetting: minimized });
             });
 
         this.isInventoryTileMode$ = SettingsService.settings$
@@ -133,9 +122,7 @@ export class AttacksComponent extends DestroyableMixin(TrackByMixin(BaseClass)) 
 
     @Input()
     public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._forceMinimized = forceMinimized ?? false;
-        this._combinedMinimized = this._isMinimized || this._forceMinimized;
-        this.isMinimized$.next(this._combinedMinimized);
+        this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -723,7 +710,7 @@ export class AttacksComponent extends DestroyableMixin(TrackByMixin(BaseClass)) 
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this.destroy();
+        this._destroy();
     }
 
     private _setAttackRestrictions(): void {
