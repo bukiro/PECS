@@ -20,7 +20,7 @@
     <div
         class="itembox-close-button"
         [ngbTooltip]="isBlankCharacter() ? 'Create your character first!' : ''"
-        *ngIf="!(isMobile && shownList()); else ListCloseButton"
+        *ngIf="!((isMobile$ | async) && shownList()); else ListCloseButton"
     >
         <button
             type="button"

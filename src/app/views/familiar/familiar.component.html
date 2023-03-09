@@ -23,7 +23,7 @@
         *ngIf="character.class && isFamiliarAvailable && familiarMenuState==='in'"
     >
         <!-- Desktop-only view -->
-        <ng-container *ngIf="!isMobile">
+        <ng-template #DesktopViewTemplate>
             <app-effects
                 [creature]="creatureTypesEnum.Familiar"
                 id="Familiar-effects"
@@ -74,10 +74,10 @@
                     ></app-inventory>
                 </div>
             </div>
-        </ng-container>
+        </ng-template>
 
         <!-- Mobile-only buttons and views -->
-        <ng-container *ngIf="isMobile">
+        <ng-container *ngIf="isMobile$ | async; else DesktopViewTemplate">
             <div
                 class="character-sheet-app character-sheet-row desktop-hide"
                 id="mobile-tabs"

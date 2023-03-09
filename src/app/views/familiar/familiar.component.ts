@@ -3,7 +3,6 @@ import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { DisplayService } from 'src/libs/shared/services/display/display.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -13,6 +12,7 @@ import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 
 @Component({
     selector: 'app-familiar',
@@ -20,9 +20,8 @@ import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/bas
     styleUrls: ['./familiar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FamiliarComponent extends BaseCardComponent implements OnInit, OnDestroy {
+export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
-    public isMobile = false;
     public creatureTypesEnum = CreatureTypes;
 
     private _showMode = '';
@@ -101,7 +100,6 @@ export class FamiliarComponent extends BaseCardComponent implements OnInit, OnDe
     }
 
     public ngOnInit(): void {
-        this._setMobile();
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['familiar', 'all'].includes(target.toLowerCase())) {
@@ -120,10 +118,6 @@ export class FamiliarComponent extends BaseCardComponent implements OnInit, OnDe
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
         this._destroy();
-    }
-
-    private _setMobile(): void {
-        this.isMobile = DisplayService.isMobile;
     }
 
 }
