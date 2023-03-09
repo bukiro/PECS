@@ -10,7 +10,7 @@ import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
+import { spellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { Weapon } from './Weapon';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
@@ -109,7 +109,7 @@ export class Character extends Creature {
     }
 
     public maxSpellLevel(levelNumber: number = this.level): number {
-        return SpellLevelFromCharLevel(levelNumber);
+        return spellLevelFromCharLevel(levelNumber);
     }
 
     public abilityBoosts(

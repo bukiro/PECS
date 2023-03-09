@@ -5,12 +5,12 @@ import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { map, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
 import { Activity } from 'src/app/classes/Activity';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
@@ -18,6 +18,7 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 interface ActivitySet {
     name: string;
@@ -43,18 +44,25 @@ interface ActivityParameter {
 export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public forceMinimized?: boolean;
-
-    @Input()
     public creature = CreatureTypes.Character;
 
+    @HostBinding('class.minimized')
+    private _combinedMinimized = false;
+
+    public isTileMode$: Observable<boolean>;
+
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _isMinimized = false;
+    private _forceMinimized = false;
+
     private _showActivity = '';
     private _showItem = '';
     private _showFeatChoice = '';
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -67,8 +75,9 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
     ) {
         super();
 
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -79,27 +88,31 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
                             return settings.activitiesMinimized;
                     }
                 }),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this._combinedMinimized = this._isMinimized || this._forceMinimized;
+                this.isMinimized$.next(this._combinedMinimized);
             });
+
+        this.isTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.activitiesTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this.forceMinimized || this._isMinimized;
-    }
-
-    public set isMinimized(minimized: boolean) {
-        CreatureService.settings.activitiesMinimized = minimized;
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._forceMinimized = forceMinimized ?? false;
+        this._combinedMinimized = this._isMinimized || this._forceMinimized;
+        this.isMinimized$.next(this._combinedMinimized);
     }
 
     public get shouldShowMinimizeButton(): boolean {
         return !this.forceMinimized && this.creature === CreatureTypes.Character;
-    }
-
-    public get isTileMode(): boolean {
-        return this._character.settings.activitiesTileMode;
     }
 
     public get currentCreature(): Creature {
@@ -108,6 +121,14 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
 
     private get _character(): Character {
         return CreatureService.character;
+    }
+
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.activitiesMinimized = minimized;
+    }
+
+    public toggleTileMode(isTileMode: boolean): void {
+        SettingsService.settings.activitiesTileMode = !isTileMode;
     }
 
     public toggleShownActivity(id: string): void {
@@ -132,12 +153,6 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
 
     public shownFeatChoice(): string {
         return this._showFeatChoice;
-    }
-
-    public toggleTileMode(): void {
-        this._character.settings.activitiesTileMode = !this._character.settings.activitiesTileMode;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
-        this._refreshService.processPreparedChanges();
     }
 
     public activityParameters(): Array<ActivityParameter> {
@@ -200,6 +215,8 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
     }
 
     private _toggleShownItem(name: string): void {
@@ -247,7 +264,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
             }
         });
 
-        return activities.sort((a, b) => SortAlphaNum(a.name, b.name));
+        return activities.sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
 }

@@ -15,17 +15,18 @@ import { Character } from 'src/app/classes/Character';
 import { Trait } from 'src/app/classes/Trait';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { capitalize } from 'src/libs/shared/util/stringUtils';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
+import { spellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 interface SpellSet {
     spell: Spell;
@@ -105,7 +106,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
     @Input()
     public showContent = true;
     @Input()
-    public tileMode = false;
+    public isTileMode = false;
     //Are we choosing character spells from the spellbook/repertoire? If not, some functions will be disabled.
     @Input()
     public spellbook = false;
@@ -131,10 +132,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         private readonly _characterFeatsService: CharacterFeatsService,
     ) {
         super();
-    }
-
-    public get isTileMode(): boolean {
-        return this.tileMode;
     }
 
     private get _character(): Character {
@@ -186,8 +183,8 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                 availableSpellSlots,
                 buttonTitle: this._buttonTitle(availableSpellSlots),
                 signatureSpellsAllowed,
-                gridIconTitle: this.isTileMode ? this._gridIconTitle(availableSpellSlots) : '',
-                gridIconSubTitle: this.isTileMode ? this._gridIconSubTitle(availableSpellSlots, signatureSpellsAllowed) : '',
+                gridIconTitle: this._gridIconTitle(availableSpellSlots),
+                gridIconSubTitle: this._gridIconSubTitle(availableSpellSlots, signatureSpellsAllowed),
                 cannotTakeSome: this._cannotTakeSome(),
             };
         }
@@ -529,7 +526,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         //Close the menu if all slots are filled, unless it's a spell combination choice.
         if (
             isTaken &&
-            this._character.settings.autoCloseChoices &&
+            SettingsService.settings.autoCloseChoices &&
             !choice.spellCombination &&
             (choice.spells.length === availableSpellSlots - 1)
         ) {
@@ -580,7 +577,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
 
     public onSpellCombinationTaken(spellName: string, taken: boolean): void {
         if (taken) {
-            if (this._character.settings.autoCloseChoices) {
+            if (SettingsService.settings.autoCloseChoices) {
                 this.toggleShownChoice('');
             }
 
@@ -1018,7 +1015,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                     !this._cannotTakeSpell(spell.spell).length || this._numberOfUnlockedSpellInstancesInChoice(spell.spell.name),
                 );
 
-                return availableSpells.sort((a, b) => SortAlphaNum(a.spell.name, b.spell.name));
+                return availableSpells.sort((a, b) => sortAlphaNum(a.spell.name, b.spell.name));
             }
 
             // Don't show spells of a different level unless heightened spells are allowed.
@@ -1041,15 +1038,15 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             // If the available spells are exhausted, only show the selected ones unless showOtherOptions is true.
             if (choice.spells.length < availableSpellSlots) {
                 return spells
-                    .sort((a, b) => SortAlphaNum(a.spell.name, b.spell.name));
+                    .sort((a, b) => sortAlphaNum(a.spell.name, b.spell.name));
             } else {
-                const shouldShowOtherOptions = this._character.settings.showOtherOptions;
+                const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
                 const availableSpells = spells.filter(spell =>
                     this._numberOfUnlockedSpellInstancesInChoice(spell.spell.name) || shouldShowOtherOptions,
                 );
 
                 return availableSpells
-                    .sort((a, b) => SortAlphaNum(a.spell.name, b.spell.name));
+                    .sort((a, b) => sortAlphaNum(a.spell.name, b.spell.name));
             }
         } else {
             return [];
@@ -1142,7 +1139,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         spellLevel: number,
     ): boolean {
         const levelToMeet = spellLevel === -1
-            ? SpellLevelFromCharLevel(this._character.level)
+            ? spellLevelFromCharLevel(this._character.level)
             : spellLevel;
 
         const isLevelreqMet = spell.meetsLevelReq(levelToMeet).met;

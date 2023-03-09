@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { CopperAmounts, CurrencyIndices } from '../../definitions/currency';
-import { CopperAmountFromCashObject } from '../../util/currencyUtils';
+import { copperAmountFromCashObject } from '../../util/currencyUtils';
 import { CutOffDecimals } from '../../util/numberUtils';
 import { RefreshService } from '../refresh/refresh.service';
 
@@ -124,7 +124,7 @@ export class CurrencyService {
 
     public hasFunds(sum: number): boolean {
         const character = CreatureService.character;
-        const funds = CopperAmountFromCashObject(character.cash);
+        const funds = copperAmountFromCashObject(character.cash);
 
         return sum <= funds;
     }

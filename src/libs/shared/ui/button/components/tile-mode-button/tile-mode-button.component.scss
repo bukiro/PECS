@@ -1,0 +1,33 @@
+@import 'utilities';
+
+:host {
+    height: 2rem;
+    width: 2rem;
+
+    .icon {
+        width: 100%;
+        height: 100%;
+        padding: $spacing-xs;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+        gap: $spacing-xxs;
+
+        &__element {
+            display: block;
+            background-color: currentColor;
+            border-radius: $spacing-xxs;
+        }
+    }
+
+    button {
+        padding: 0;
+    }
+}
+
+:host(.toggled) {
+    .icon {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+}

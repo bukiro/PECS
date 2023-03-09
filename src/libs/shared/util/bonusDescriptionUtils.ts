@@ -1,11 +1,6 @@
 import { Effect } from 'src/app/classes/Effect';
 import { BonusDescription } from '../ui/bonus-list';
-import { SignNumber } from './numberUtils';
-
-export const signedForBonusDescription = (bonuses: Array<BonusDescription>, value: number): string =>
-    bonuses.length
-        ? SignNumber(value)
-        : `${ value }`;
+import { signNumber } from './numberUtils';
 
 export const addFromEffect = (bonuses: Array<BonusDescription>, effect: Effect): Array<BonusDescription> => {
     const setValue = effect.setValue ? parseInt(effect.setValue, 10) : undefined;
@@ -25,7 +20,7 @@ export const addFromEffect = (bonuses: Array<BonusDescription>, effect: Effect):
         value: setValue !== undefined
             ? `${ setValue }`
             : value !== undefined
-                ? signedForBonusDescription(bonuses, value)
+                ? signNumber(value)
                 : '',
     });
 

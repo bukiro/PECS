@@ -3,6 +3,7 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { SettingsService } from '../settings/settings.service';
 
 /**
  * Attempt to match the relevant properties of a Foundry VTT Roll object.
@@ -29,7 +30,7 @@ export class FoundryVTTIntegrationService {
         diceString = '',
         diceResults: Array<DiceResult> = [],
     ): void {
-        let foundryVTTUrl = CreatureService.settings.foundryVTTUrl;
+        let foundryVTTUrl = SettingsService.settings.foundryVTTUrl;
 
         //Remove trailing slashes.
         foundryVTTUrl = foundryVTTUrl.replace(/\/+$/, '');
@@ -42,7 +43,7 @@ export class FoundryVTTIntegrationService {
                     roll = '0';
                 }
 
-                const foundryVTTTimeout = CreatureService.settings.foundryVTTTimeout;
+                const foundryVTTTimeout = SettingsService.settings.foundryVTTTimeout;
                 //Open the foundry URL in a small window, then close it after the configured timeout.
                 const roller = CreatureService.creatureFromType(creature);
                 let alias = '';

@@ -22,7 +22,7 @@
                 <!-- Tile mode button -->
                 <button
                     type="button"
-                    aria-label="Switch between list layout and tile layout"
+                    aria-label="Show feat choice"
                     (click)="toggleShownList(listId)"
                     *ngIf="showTitle && !showContent && isTileMode"
                     [ngClass]="{'fancy-button choicecleared':(allowedFeatsAmount === choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice, 'activechoice':shownChoice()===listId}"

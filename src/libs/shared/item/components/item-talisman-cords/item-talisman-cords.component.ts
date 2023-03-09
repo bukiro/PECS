@@ -9,7 +9,7 @@ import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
@@ -75,7 +75,7 @@ export class ItemTalismanCordsComponent extends TrackByMixin(BaseClass) implemen
 
         return inv.wornitems.filter(wornItem => wornItem.isTalismanCord)
             .map(talismanCord => ({ talismanCord, inv }))
-            .sort((a, b) => SortAlphaNum(
+            .sort((a, b) => sortAlphaNum(
                 a.talismanCord.level.toString().padStart(twoDigits, '0') + a.talismanCord.name,
                 b.talismanCord.level.toString().padStart(twoDigits, '0') + b.talismanCord.name,
             ));

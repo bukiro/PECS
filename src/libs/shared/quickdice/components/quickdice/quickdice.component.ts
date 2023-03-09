@@ -6,6 +6,7 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 @Component({
     selector: 'app-quickdice',
@@ -184,9 +185,9 @@ export class QuickdiceComponent implements OnChanges {
     }
 
     private _canRollInFoundryVTT(): boolean {
-        return CreatureService.settings.foundryVTTSendRolls &&
-            !!CreatureService.settings.foundryVTTUrl &&
-            CreatureService.settings.foundryVTTRollDirectly;
+        return SettingsService.settings.foundryVTTSendRolls &&
+            !!SettingsService.settings.foundryVTTUrl &&
+            SettingsService.settings.foundryVTTRollDirectly;
     }
 
     private _cleanDiceString(diceString: string): string {

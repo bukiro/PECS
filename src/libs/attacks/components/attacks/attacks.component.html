@@ -2,7 +2,8 @@
 <div class="corner-button-tray">
     <app-minimize-button
         *ngIf="shouldShowMinimizeButton"
-        [(ngModel)]="isMinimized"
+        [ngModel]="(isMinimized$ | async) ?? false"
+        (ngModelChange)="toggleMinimized($event)"
     ></app-minimize-button>
 </div>
 
@@ -714,7 +715,10 @@
                 [showConditions]=true
             ></app-tags>
 
-            <div [ngClass]="{'icon-list':isInventoryTileMode, 'vlist':!isInventoryTileMode}">
+            <div
+                [ngClass]="{'icon-list':inventoryTileMode.enabled, 'vlist':!inventoryTileMode.enabled}"
+                *ngIf="{ enabled: isInventoryTileMode$ | async } as inventoryTileMode"
+            >
                 <ng-container *ngFor="let snare of snares; let snareIndex = index; trackBy:trackByIndex;">
                     <ng-template #SnareTitleTemplate>
                         <span>{{snare.item.effectiveName()}}</span>
@@ -723,7 +727,7 @@
                     <ng-template #SnareTemplate>
                         <header
                             class="spellHeader newrow"
-                            *ngIf="isInventoryTileMode"
+                            *ngIf="inventoryTileMode.enabled"
                         >
                             <ng-container *ngTemplateOutlet="SnareTitleTemplate"></ng-container>
                         </header>
@@ -743,7 +747,7 @@
                         ></app-item>
                     </ng-template>
 
-                    <ng-container *ngIf="!isInventoryTileMode">
+                    <ng-container *ngIf="!inventoryTileMode.enabled">
                         <div class="list-item">
                             <button
                                 type="button"
@@ -763,7 +767,7 @@
                         </div>
                     </ng-container>
 
-                    <ng-container *ngIf="isInventoryTileMode">
+                    <ng-container *ngIf="inventoryTileMode.enabled">
                         <button
                             type="button"
                             aria-label="Show item"
@@ -786,11 +790,7 @@
         </ng-container>
     </ng-container>
 
-    <header
-        class="sectionHeader minimized-hide box-header"
-    >
-        Weapon Proficiencies
-    </header>
+    <header class="sectionHeader minimized-hide box-header">Weapon Proficiencies</header>
 
     <app-tags
         [creature]="creature"

@@ -1,24 +1,9 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="window-button-container">
-    <button
-        aria-label="Switch between list layout and tile layout"
-        type="button"
-        class="tilemodebutton"
-        [ngClass]="{'fancy-button':isTileMode}"
-        (click)="toggleTileMode()"
-        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'"
-    >
-        <!-- Content is css only -->
-        <div>
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-        </div>
-    </button>
+    <app-tile-mode-button
+        [ngModel]="(isTileMode$ | async) ?? false"
+        (ngModelChange)="toggleTileMode($event)"
+    ></app-tile-mode-button>
 </div>
 
 <div
@@ -315,9 +300,9 @@
                                                 </button>
 
                                                 <div
-                                                    [ngClass]="{'icon-list':isTileMode, 'list-item':!isTileMode}"
+                                                    [ngClass]="{'icon-list':tileMode.enabled, 'list-item':!tileMode.enabled}"
                                                     [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
-                                                    *ngIf="['All', listID].includes(shownList()) || (selectedPurpose()==='scrollsavant' && shownCreature()===creatureTypesEnum.Character)"
+                                                    *ngIf="(['All', listID].includes(shownList()) || (selectedPurpose()==='scrollsavant' && shownCreature()===creatureTypesEnum.Character)) && { enabled: isTileMode$ | async } as tileMode"
                                                 >
                                                     <div
                                                         class="newrow list-item"
@@ -343,13 +328,13 @@
                                                                 <span>
                                                                     <i
                                                                         class="value bi-x penalty"
-                                                                        *ngIf="!isTileMode && itemParameters.canUse === false"
+                                                                        *ngIf="!tileMode.enabled && itemParameters.canUse === false"
                                                                         [ngbTooltip]="'You are not trained with this item.'"
                                                                     ></i>
 
                                                                     <i
                                                                         class="value bi-check2 bonus"
-                                                                        *ngIf="!isTileMode && itemParameters.canUse === true"
+                                                                        *ngIf="!tileMode.enabled && itemParameters.canUse === true"
                                                                         [ngbTooltip]="'You are trained with this item.'"
                                                                     ></i>
                                                                     {{itemParameters.item.effectiveName()}}
@@ -388,7 +373,7 @@
                                                             <ng-template #ItemTemplate>
                                                                 <header
                                                                     class="spellHeader newrow"
-                                                                    *ngIf="isTileMode"
+                                                                    *ngIf="tileMode.enabled"
                                                                 >
                                                                     <ng-container *ngTemplateOutlet="ItemTitleTemplate"></ng-container>
                                                                 </header>
@@ -533,7 +518,7 @@
                                                             </ng-template>
 
                                                             <ng-container *ngFor="let inventoryID of [listID+itemParameters.item.id]; trackBy:trackByIndex;">
-                                                                <ng-container *ngIf="!isTileMode">
+                                                                <ng-container *ngIf="!tileMode.enabled">
                                                                     <div class="list-item">
                                                                         <button
                                                                             type="button"
@@ -555,7 +540,7 @@
                                                                     </div>
                                                                 </ng-container>
 
-                                                                <ng-container *ngIf="isTileMode">
+                                                                <ng-container *ngIf="tileMode.enabled">
                                                                     <button
                                                                         type="button"
                                                                         aria-label="show Item"

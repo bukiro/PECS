@@ -5,9 +5,9 @@ import { Armor } from 'src/app/classes/Armor';
 import { Material } from 'src/app/classes/Material';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { Character } from 'src/app/classes/Character';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
 import { map, Observable } from 'rxjs';
@@ -176,7 +176,7 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
         const twoDigits = 2;
 
         return materials
-            .sort((a, b) => SortAlphaNum(
+            .sort((a, b) => sortAlphaNum(
                 a.material.level.toString().padStart(twoDigits, '0') + a.material.name,
                 b.material.level.toString().padStart(twoDigits, '0') + b.material.name,
             ));
@@ -239,7 +239,7 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
     }
 
     private _priceText(price: number): string {
-        return PriceTextFromCopper(price);
+        return priceTextFromCopper(price);
     }
 
     private _setMaterialNames(): void {

@@ -7,7 +7,7 @@ import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
-import { SortAlphaNum } from '../../util/sortUtils';
+import { sortAlphaNum } from '../../util/sortUtils';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { TraitsDataService } from '../data/traits-data.service';
 
@@ -163,7 +163,7 @@ export class CreatureActivitiesService {
         }
 
         return activities
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public collectActivityEffectHints(creature: Creature): Array<HintEffectsObject> {

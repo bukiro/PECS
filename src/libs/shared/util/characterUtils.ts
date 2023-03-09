@@ -1,4 +1,4 @@
-export const SpellLevelFromCharLevel = (charLevel: number): number => {
+export const spellLevelFromCharLevel = (charLevel: number): number => {
     const half = .5;
 
     return Math.ceil(charLevel * half);

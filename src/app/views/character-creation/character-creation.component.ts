@@ -33,21 +33,21 @@ import { Domain } from 'src/app/classes/Domain';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, map, noop, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, noop, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Alignments } from 'src/libs/shared/definitions/alignments';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { Trait } from 'src/app/classes/Trait';
 import { AbilityBoost } from 'src/app/classes/AbilityBoost';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { Skill } from 'src/app/classes/Skill';
-import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
-import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
+import { creatureSizeName } from 'src/libs/shared/util/creatureUtils';
+import { abilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { Weapon } from 'src/app/classes/Weapon';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -100,6 +100,9 @@ type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id:
 })
 export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
+    @HostBinding('class.minimized')
+    private _isMinimized = false;
+
     public newClass: Class = new Class();
     public adventureBackgrounds = true;
     public regionalBackgrounds = true;
@@ -116,8 +119,9 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public activeLoreChoiceContent$: Observable<{ name: string; levelNumber: number; choice: LoreChoice } | undefined>;
 
     public isLoadingCharacter$: Observable<boolean>;
+    public isTileMode$: Observable<boolean>;
 
-    private _isMinimized = false;
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
     private _showLevel = 0;
     private _showItem = '';
     private _showList = '';
@@ -128,6 +132,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     private readonly _activeChoiceContent$
         = new BehaviorSubject<{ name: string; levelNumber: number; choice?: ShowContent } | undefined>(undefined);
@@ -218,30 +223,27 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 ),
             );
 
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => settings.characterMinimized),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this.isMinimized$.next(this._isMinimized);
             });
-    }
 
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this._isMinimized;
-    }
-
-    public set isMinimized(minimized: boolean) {
-        CreatureService.settings.characterMinimized = minimized;
+        this.isTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.characterTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
     public get isGMMode(): boolean {
         return SettingsService.isGMMode;
-    }
-
-    public get isTileMode(): boolean {
-        return this.character.settings.characterTileMode;
     }
 
     public get areSavegamesInitializing(): boolean {
@@ -278,6 +280,14 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public get characterMenuState(): MenuState {
         return this._menuService.characterMenuState;
+    }
+
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.characterMinimized = minimized;
+    }
+
+    public toggleTileMode(isTileMode: boolean): void {
+        SettingsService.settings.characterTileMode = isTileMode;
     }
 
     public toggleCharacterMenu(): void {
@@ -407,13 +417,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public toggleTileMode(): void {
-        this.character.settings.characterTileMode = !this.character.settings.characterTileMode;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skillchoices');
-        this._refreshService.processPreparedChanges();
-    }
-
     public onNewCharacter(): void {
         // The app starts with a character loaded, but not displayed.
         // The first time you click New Character, the loaded character is just displayed.
@@ -446,7 +449,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                         return -1;
                     }
 
-                    return SortAlphaNum(a.partyName + a.name, b.partyName + b.name);
+                    return sortAlphaNum(a.partyName + a.name, b.partyName + b.name);
                 });
         }
     }
@@ -889,7 +892,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             }
         }
 
-        const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
 
         if (abilities.length) {
             return abilities.filter(ability => (
@@ -1001,7 +1004,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
         if (
             hasBeenTaken &&
-            this.character.settings.autoCloseChoices &&
+            SettingsService.settings.autoCloseChoices &&
             choice.boosts.length === choice.available - (
                 this.character.baseValues.length
                     ? choice.baseValuesLost
@@ -1038,7 +1041,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public size(size: number): string {
-        return CreatureSizeName(size);
+        return creatureSizeName(size);
     }
 
     public skillBonusFromIntOnLevel(choice: SkillChoice, levelNumber: number): number {
@@ -1074,7 +1077,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices && (choice.increases.length === choice.available - 1)) {
+            if (SettingsService.settings.autoCloseChoices && (choice.increases.length === choice.available - 1)) {
                 this.toggleShownList();
             }
 
@@ -1115,7 +1118,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         if (deity) {
             return deity.clericSpells
                 .map(spell => this._spellFromName(spell.name))
-                .filter(spell => spell && (this.character.settings.showOtherOptions ? true : this.isSpellTakenInBlessedBlood(spell)));
+                .filter(spell => spell && (SettingsService.settings.showOtherOptions ? true : this.isSpellTakenInBlessedBlood(spell)));
         }
     }
 
@@ -1131,7 +1134,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this.character.class.addSpellListSpell(spell.name, 'Feat: Blessed Blood', levelNumber);
         } else {
@@ -1280,7 +1283,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterHeritageChangeService.changeHeritage(heritage, index);
         } else {
@@ -1299,7 +1302,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
 
             data.setValue('background', background.name);
             background.loreChoices.forEach(choice => {
@@ -1376,7 +1379,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         // Since Fuse Stance can't use two stances that only allow one type of attack each,
         // we check if one of the previously selected stances does that,
         // and if so, make a note for each available stance with a restriction that it isn't available.
-        const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
         const unique: Array<string> = [];
         const availableStances: Array<{ activity: Activity; restricted: boolean; reason: string }> = [];
         const conditionsWithAttackRestrictions = this._conditionsDataService.conditions()
@@ -1445,7 +1448,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const stances = Array.from(data.valueAsStringArray('stances') || []);
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices && stances.length === 1 && data.getValue('name')) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices && stances.length === 1 && data.getValue('name')) { this.toggleShownList(); }
 
             stances.push(stance);
             data.setValue('stances', stances);
@@ -1467,7 +1470,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
 
             data.setValue('deity', deity.name);
         } else {
@@ -1494,7 +1497,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public availableClasses(): Array<Class> {
-        const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
 
         return this._classesDataService.classes()
             .filter($class =>
@@ -1502,14 +1505,14 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 !this.character.class?.name ||
                 $class.name === this.character.class.name,
             )
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public onClassChange($class: Class, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterClassChangeService.changeClass($class);
         } else {
@@ -1518,7 +1521,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public availableAncestries(): Array<Ancestry> {
-        const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
 
         return this._historyDataService.ancestries()
             .filter(ancestry =>
@@ -1526,14 +1529,14 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 !this.character.class.ancestry?.name ||
                 ancestry.name === this.character.class.ancestry.name,
             )
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public onAncestryChange(ancestry: Ancestry, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterAncestryChangeService.changeAncestry(ancestry);
         } else {
@@ -1547,7 +1550,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public availableDeities(name = '', filterForSyncretism = false, charLevel: number = this.character.level): Array<Deity> {
         const character = this.character;
         const currentDeities = this._characterDeitiesService.currentCharacterDeities('', charLevel);
-        const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
         const wordFilter = this.deityWordFilter.toLowerCase();
 
         //Certain classes need to choose a deity allowing their alignment.
@@ -1586,14 +1589,14 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 )
             ),
         )
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public onDeityChange(deity: Deity, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterDeitiesService.changeDeity(deity);
         } else {
@@ -1610,7 +1613,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             heritage = this.character.class.additionalHeritages[index];
         }
 
-        const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
 
         return this._historyDataService.heritages(name, ancestryName)
             .filter(availableHeritage =>
@@ -1619,7 +1622,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 availableHeritage.name === heritage.name ||
                 availableHeritage.subTypes?.some(subType => subType.name === heritage.name),
             )
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public doesCharacterHaveHeritage(name: string): boolean {
@@ -1631,7 +1634,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterHeritageChangeService.changeHeritage(heritage);
         } else {
@@ -1652,7 +1655,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public availableBackgrounds(): Array<Background> {
-        const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
         const takenBackgroundNames: Array<string> =
             this.character.class.background
                 ? [
@@ -1666,7 +1669,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 shouldShowOtherOptions ||
                 takenBackgroundNames.includes(background.name),
             )
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public subTypesOfBackground(superType: string): Array<Background> {
@@ -1678,7 +1681,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterBackgroundChangeService.changeBackground(background);
         } else {
@@ -1719,11 +1722,11 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public availableCompanionTypes(): Array<AnimalCompanionAncestry> {
         const existingCompanionName = this.companion.class.ancestry.name;
-        const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
 
         return this._animalCompanionsDataService.companionTypes()
             .filter(type => shouldShowOtherOptions || !existingCompanionName || type.name === existingCompanionName)
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public onChangeCompanionType(type: AnimalCompanionAncestry, checkedEvent: Event): void {
@@ -1731,7 +1734,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const companion = this.companion;
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices && companion.name && companion.species) { this.toggleShownList(); }
+            if (SettingsService.settings.autoCloseChoices && companion.name && companion.species) { this.toggleShownList(); }
 
             this._animalCompanionAncestryService.changeAncestry(companion, type);
         } else {
@@ -1748,7 +1751,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
         if (isChecked) {
             if (
-                this.character.settings.autoCloseChoices &&
+                SettingsService.settings.autoCloseChoices &&
                 this.companion.class.specializations
                     .filter(takenSpec => takenSpec.level === levelNumber).length === available - 1
             ) {
@@ -1777,7 +1780,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public availableCompanionSpecializations(levelNumber: number): Array<AnimalCompanionSpecialization> {
         const existingCompanionSpecs = this.companion.class.specializations;
         const available = this.companionSpecializationsAvailable(levelNumber);
-        const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
 
         // Get all specializations that were either taken on this level (so they can be deselected)
         // or that were not yet taken if the choice is not exhausted.
@@ -1788,7 +1791,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 (existingCompanionSpecs.filter(spec => spec.level === levelNumber).length < available) &&
                 !existingCompanionSpecs.some(spec => spec.name === type.name),
             )
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public companionSpecializationsOnLevel(levelNumber: number): Array<string> {
@@ -1980,6 +1983,8 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
     }
 
     private _resetChoiceArea(): void {
@@ -2008,7 +2013,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const intelligence: number =
             this._abilityValuesService.baseValue('Intelligence', this.character, levelNumber).result;
 
-        return AbilityModFromAbilityValue(intelligence);
+        return abilityModFromAbilityValue(intelligence);
     }
 
     private _featChoicesShownOnCurrentLevel(level: ClassLevel): Array<FeatChoice> {

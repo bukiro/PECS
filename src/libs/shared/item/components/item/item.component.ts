@@ -26,7 +26,7 @@ import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles
 import { Activity } from 'src/app/classes/Activity';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
-import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { Rune } from 'src/app/classes/Rune';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
@@ -237,7 +237,7 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
                 newSpellGain.available = 1;
                 newSpellGain.className = className;
                 newSpellGain.castingType = SpellCastingTypes.Prepared;
-                newSpellGain.tradition = SpellTraditionFromString(tradition);
+                newSpellGain.tradition = spellTraditionFromString(tradition);
                 newSpellGain.level = wizardrySlot.level;
                 newSpellGain.ringOfWizardry = (wizardrySlotIndex + 1);
                 newSpellGain.source = item.name;

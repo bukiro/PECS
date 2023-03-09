@@ -14,6 +14,7 @@ import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 const defaultDiceNum = 5;
 
@@ -60,7 +61,7 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
     }
 
     public canSendRollsToFoundryVTT(): boolean {
-        return CreatureService.settings.foundryVTTSendRolls && !!CreatureService.settings.foundryVTTUrl;
+        return SettingsService.settings.foundryVTTSendRolls && !!SettingsService.settings.foundryVTTUrl;
     }
 
     public roll(amount: number, size: number): void {

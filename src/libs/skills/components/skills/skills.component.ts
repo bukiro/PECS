@@ -8,10 +8,10 @@ import { Speed } from 'src/app/classes/Speed';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { map, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
@@ -21,6 +21,7 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 interface SpeedParameters {
     name: string;
@@ -40,17 +41,24 @@ interface SpeedParameters {
 export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public forceMinimized?: boolean;
-
-    @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
 
+    @HostBinding('class.minimized')
+    private _combinedMinimized = false;
+
+    public isTileMode$: Observable<boolean>;
+
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _isMinimized = false;
+    private _forceMinimized = false;
+
     private _showList = '';
     private _showAction = '';
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -65,8 +73,9 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
     ) {
         super();
 
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -77,27 +86,31 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
                             return settings.skillsMinimized;
                     }
                 }),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this._combinedMinimized = this._isMinimized || this._forceMinimized;
+                this.isMinimized$.next(this._combinedMinimized);
             });
+
+        this.isTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.skillsTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this.forceMinimized || this._isMinimized;
-    }
-
-    public set isMinimized(minimized: boolean) {
-        CreatureService.settings.skillsMinimized = minimized;
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._forceMinimized = forceMinimized ?? false;
+        this._combinedMinimized = this._isMinimized || this._forceMinimized;
+        this.isMinimized$.next(this._combinedMinimized);
     }
 
     public get shouldShowMinimizeButton(): boolean {
         return !this.forceMinimized && this.creature === CreatureTypes.Character;
-    }
-
-    public get isTileMode(): boolean {
-        return this._character.settings.skillsTileMode;
     }
 
     public get stillLoading(): boolean {
@@ -110,6 +123,14 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
+    }
+
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.skillsMinimized = minimized;
+    }
+
+    public toggleTileMode(tileMode: boolean): void {
+        SettingsService.settings.skillsTileMode = tileMode;
     }
 
     public toggleShownList(name: string): void {
@@ -136,12 +157,6 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
         this.toggleShownList(message.name);
     }
 
-    public toggleTileMode(): void {
-        this._character.settings.skillsTileMode = !this._character.settings.skillsTileMode;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
-        this._refreshService.processPreparedChanges();
-    }
-
     public skillsOfType(type: string): Array<Skill> {
         const creature = this._currentCreature;
 
@@ -151,14 +166,14 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
                     this._skillValuesService.level(skill, creature, creature.level) :
                     true,
             )
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public ownedActivities(): Array<ActivityGain | ItemActivity> {
         const activities: Array<ActivityGain | ItemActivity> = [];
         const unique: Array<string> = [];
 
-        if (this._character.settings.showSkillActivities) {
+        if (SettingsService.settings.showSkillActivities) {
             this._creatureActivitiesService.creatureOwnedActivities(this._currentCreature).forEach(activity => {
                 if (!unique.includes(activity.name)) {
                     unique.push(activity.name);
@@ -273,6 +288,13 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
         }
     }
 
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
+    }
+
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
@@ -286,11 +308,6 @@ export class SkillsComponent extends TrackByMixin(BaseClass) implements OnInit, 
                     this._changeDetector.detectChanges();
                 }
             });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
 }

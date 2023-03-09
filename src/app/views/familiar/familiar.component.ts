@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy, HostBinding } from '@angular/core';
-import { map, Subscription } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
+import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
@@ -11,6 +11,7 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 @Component({
     selector: 'app-familiar',
@@ -20,13 +21,18 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 })
 export class FamiliarComponent implements OnInit, OnDestroy {
 
+    @HostBinding('class.minimized')
+    private _isMinimized = false;
+
     public isMobile = false;
     public creatureTypesEnum = CreatureTypes;
 
-    private _isMinimized = false;
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _showMode = '';
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -35,22 +41,16 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => settings.familiarMinimized),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this.isMinimized$.next(this._isMinimized);
             });
-    }
-
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this._isMinimized;
-    }
-
-    public set isMinimized(value: boolean) {
-        CreatureService.settings.familiarMinimized = value;
     }
 
     public get familiarMenuState(): MenuState {
@@ -69,19 +69,8 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         return CreatureService.familiar;
     }
 
-    @HostListener('window:resize', ['$event'])
-    public onResize(): void {
-        this._setMobile();
-    }
-
-    @HostListener('window:orientationchange', ['$event'])
-    public onRotate(): void {
-        this._setMobile();
-    }
-
-    public minimize(): void {
-        CreatureService.settings.familiarMinimized = !CreatureService.settings.familiarMinimized;
-        this._refreshService.setComponentChanged('Familiar');
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.familiarMinimized = minimized;
     }
 
     public toggleFamiliarMenu(): void {
@@ -129,6 +118,8 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
     }
 
     private _setMobile(): void {

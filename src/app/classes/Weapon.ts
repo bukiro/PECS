@@ -6,7 +6,7 @@ import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
-import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
+import { strikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject } from 'rxjs';
 
@@ -84,7 +84,7 @@ export class Weapon extends Equipment {
 
     public runesChanged$ = new BehaviorSubject<true>(true);
 
-    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = StrikingTitleFromLevel;
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = strikingTitleFromLevel;
 
     public get secondaryRune(): BasicRuneLevels {
         return this.strikingRune;

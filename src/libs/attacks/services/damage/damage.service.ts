@@ -17,7 +17,7 @@ import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSiz
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
+import { skillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
 import { attackRuneSource } from '../../util/attackRuneSource';
 import { DamageResult } from '../attacks/attacks.service';
@@ -527,7 +527,7 @@ export class DamageService {
             effectPhrasesDamage.push(`${ abilityName }-based Checks and DCs`);
 
             //Proficiency-based damage
-            const profLevelName = SkillLevelName(profLevel) || '';
+            const profLevelName = skillLevelName(profLevel) || '';
 
             if (profLevelName) {
                 effectPhrasesDamage.push(

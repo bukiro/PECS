@@ -4,6 +4,11 @@
     @include side-menu-left;
 }
 
+.corner-button-tray {
+    @include corner-button-tray-right;
+}
+
+
 //To-Do: The below has been copied and needs to be refactored.
 .levelBox {
     display: grid;

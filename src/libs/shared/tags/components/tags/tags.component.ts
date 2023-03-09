@@ -15,7 +15,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Trait } from 'src/app/classes/Trait';
 import { HintShowingItem } from 'src/libs/shared/definitions/types/hintShowingItem';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
@@ -182,7 +182,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
     private _traitsShowingHintsOnThis(name: string): Array<Trait> {
         if (this.showTraits && name) {
             return this._traitsDataService.traitsShowingHintsOnThis(this.currentCreature, name)
-                .sort((a, b) => SortAlphaNum(a.name, b.name));
+                .sort((a, b) => sortAlphaNum(a.name, b.name));
         } else {
             return [];
         }
@@ -191,7 +191,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
     private _featsShowingHintsOnThis(name: string, show: boolean): Array<Feat> {
         if (show && name && this.creature === CreatureTypes.Character) {
             return this._hintShowingObjectsService.characterFeatsShowingHintsOnThis(name)
-                .sort((a, b) => SortAlphaNum(a.name, b.name));
+                .sort((a, b) => sortAlphaNum(a.name, b.name));
         } else {
             return [];
         }
@@ -203,7 +203,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
     ): Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat> {
         if (show && name && this.creature === CreatureTypes.AnimalCompanion) {
             return this._hintShowingObjectsService.companionElementsShowingHintsOnThis(name)
-                .sort((a, b) => SortAlphaNum(a.name, b.name));
+                .sort((a, b) => sortAlphaNum(a.name, b.name));
         } else {
             return [];
         }
@@ -212,7 +212,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
     private _familiarElementsShowingHintsOnThis(name: string, show: boolean): Array<Feat> {
         if (show && name && this.creature === CreatureTypes.Familiar) {
             return this._hintShowingObjectsService.familiarElementsShowingHintsOnThis(name)
-                .sort((a, b) => SortAlphaNum(a.name, b.name));
+                .sort((a, b) => sortAlphaNum(a.name, b.name));
         } else {
             return [];
         }
@@ -222,7 +222,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
         if (this.showEffects && name) {
             return this._creatureEffectsService.absoluteEffectsOnThis(this.currentCreature, name)
                 .concat(this._creatureEffectsService.relativeEffectsOnThis(this.currentCreature, name))
-                .sort((a, b) => SortAlphaNum(a.source, b.source));
+                .sort((a, b) => sortAlphaNum(a.source, b.source));
         } else {
             return [];
         }
@@ -231,7 +231,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
     private _conditionsShowingHintsOnThis(name: string): Array<ConditionSet> {
         if (this.showConditions && name) {
             return this._hintShowingObjectsService.creatureConditionsShowingHintsOnThis(this.currentCreature, name)
-                .sort((a, b) => SortAlphaNum(a.condition.name, b.condition.name));
+                .sort((a, b) => sortAlphaNum(a.condition.name, b.condition.name));
         } else {
             return [];
         }
@@ -240,7 +240,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
     private _activitiesShowingHintsOnThis(name: string): Array<Activity> {
         if (this.showActivities && name) {
             return this._hintShowingObjectsService.creatureActivitiesShowingHintsOnThis(this.currentCreature, name)
-                .sort((a, b) => SortAlphaNum(a.name, b.name));
+                .sort((a, b) => sortAlphaNum(a.name, b.name));
         } else {
             return [];
         }
@@ -249,7 +249,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
     private _itemsShowingHintsOnThis(name: string): Array<HintShowingItem> {
         if (this.showItems && name) {
             return this._hintShowingObjectsService.creatureItemsShowingHintsOnThis(this.currentCreature, name)
-                .sort((a, b) => SortAlphaNum(a.name, b.name));
+                .sort((a, b) => sortAlphaNum(a.name, b.name));
         } else {
             return [];
         }
@@ -258,7 +258,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
     private _specializationsShowingHintsOnThis(name: string): Array<Specialization> {
         if (this.showItems && name) {
             return this._hintShowingObjectsService.creatureArmorSpecializationsShowingHintsOnThis(this.currentCreature, name)
-                .sort((a, b) => SortAlphaNum(a.name, b.name));
+                .sort((a, b) => sortAlphaNum(a.name, b.name));
         } else {
             return [];
         }

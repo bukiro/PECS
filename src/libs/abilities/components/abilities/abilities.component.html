@@ -2,7 +2,8 @@
 <div class="corner-button-tray">
     <app-minimize-button
         *ngIf="shouldShowMinimizeButton"
-        [(ngModel)]="isMinimized"
+        [ngModel]="(isMinimized$ | async) ?? false"
+        (ngModelChange)="toggleMinimized($event)"
     ></app-minimize-button>
 </div>
 
@@ -12,7 +13,7 @@
 >
     <header class="sectionHeader box-header">Abilities</header>
 
-    <ng-container *ngIf="!isMinimized">
+    <ng-template #FullSizeTemplate>
         <div
             class="list-item"
             *ngFor="let ability of abilities(); trackBy:trackByIndex;"
@@ -81,9 +82,9 @@
                 </app-tags>
             </ng-container>
         </div>
-    </ng-container>
+    </ng-template>
 
-    <ng-container *ngIf="isMinimized">
+    <ng-container *ngIf="isMinimized$ | async; else FullSizeTemplate">
         <div
             class="list-item newrow"
             *ngFor="let subset of [1,2]; trackBy:trackByIndex;"

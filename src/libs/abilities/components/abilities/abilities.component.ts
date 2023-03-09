@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
-import { map, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
 import { Ability } from 'src/app/classes/Ability';
 import { Creature } from 'src/app/classes/Creature';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
@@ -9,6 +9,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService, CalculatedAbility } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 @Component({
     selector: 'app-abilities',
@@ -19,15 +20,19 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public forceMinimized?: boolean;
-
-    @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
 
+    @HostBinding('class.minimized')
+    private _combinedMinimized = false;
+
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _isMinimized = false;
+    private _forceMinimized = false;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -37,29 +42,31 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
     ) {
         super();
 
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
                             return settings.companionMinimized;
                         default:
-                            return settings.inventoryMinimized;
+                            return settings.abilitiesMinimized;
                     }
                 }),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this._combinedMinimized = this._isMinimized || this._forceMinimized;
+                this.isMinimized$.next(this._combinedMinimized);
             });
     }
 
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this.forceMinimized || this._isMinimized;
-    }
-
-    public set isMinimized(minimized: boolean) {
-        CreatureService.settings.inventoryMinimized = minimized;
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._forceMinimized = forceMinimized ?? false;
+        this._combinedMinimized = this._isMinimized || this._forceMinimized;
+        this.isMinimized$.next(this._combinedMinimized);
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -68,6 +75,10 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
+    }
+
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.abilitiesMinimized = minimized;
     }
 
     public abilities(subset = 0): Array<Ability> {
@@ -92,6 +103,13 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
         return this._ablityValuesService.calculate(ability, this._currentCreature);
     }
 
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
+    }
+
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
@@ -108,11 +126,6 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
                     this._changeDetector.detectChanges();
                 }
             });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
 }

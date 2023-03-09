@@ -8,14 +8,14 @@ import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.service';
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { map, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { Trait } from 'src/app/classes/Trait';
-import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
+import { creatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 import { ClassesDataService } from 'src/libs/shared/services/data/classes-data.service';
@@ -24,6 +24,7 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 @Component({
     selector: 'app-general',
@@ -34,20 +35,24 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public forceMinimized?: boolean;
-
-    @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
 
     @Input()
     public showMinimizeButton = true;
 
+    @HostBinding('class.minimized')
+    private _combinedMinimized = false;
+
     public creatureTypesEnum = CreatureTypes;
 
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _isMinimized = false;
+    private _forceMinimized = false;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -64,8 +69,9 @@ export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit,
     ) {
         super();
 
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -76,19 +82,20 @@ export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit,
                             return settings.generalMinimized;
                     }
                 }),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this._combinedMinimized = this._isMinimized || this._forceMinimized;
+                this.isMinimized$.next(this._combinedMinimized);
             });
     }
 
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this.forceMinimized || this._isMinimized;
-    }
-
-    public set isMinimized(minimized: boolean) {
-        CreatureService.settings.generalMinimized = minimized;
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._forceMinimized = forceMinimized ?? false;
+        this._combinedMinimized = this._isMinimized || this._forceMinimized;
+        this.isMinimized$.next(this._combinedMinimized);
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -109,6 +116,10 @@ export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
+    }
+
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.generalMinimized = minimized;
     }
 
     public familiarAbilityFromName(name: string): Feat {
@@ -145,7 +156,7 @@ export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit,
     }
 
     public creatureSize(): string {
-        return CreatureSizeName(this._creaturePropertiesService.effectiveSize(this._currentCreature));
+        return creatureSizeName(this._creaturePropertiesService.effectiveSize(this._currentCreature));
     }
 
     public domains(): Array<Domain> {
@@ -330,6 +341,8 @@ export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit,
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
     }
 
     private _archetypeFeats(): Array<Feat> {

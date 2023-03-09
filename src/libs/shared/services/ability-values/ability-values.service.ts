@@ -5,7 +5,7 @@ import { Effect } from 'src/app/classes/Effect';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Defaults } from '../../definitions/defaults';
-import { AbilityModFromAbilityValue } from '../../util/abilityUtils';
+import { abilityModFromAbilityValue } from '../../util/abilityUtils';
 import { AbilitiesDataService } from '../data/abilities-data.service';
 import { StatusService } from '../status/status.service';
 
@@ -148,7 +148,7 @@ export class AbilityValuesService {
             const valueResult = this.value(ability, creature, charLevel);
             const abilityValue: number = valueResult.result;
 
-            let modifier = AbilityModFromAbilityValue(abilityValue);
+            let modifier = abilityModFromAbilityValue(abilityValue);
             let explain = `${ ability.name } Modifier: ${ modifier }`;
 
             //Add active bonuses and penalties to the ability modifier

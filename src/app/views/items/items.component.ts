@@ -18,7 +18,7 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay, Subscription } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
@@ -26,8 +26,8 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { CopperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { copperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
@@ -52,6 +52,7 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -96,6 +97,8 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
     //TO-DO: Make new Item creation a separate component (a wizard would be nice)
     public newItem: Equipment | Consumable | null = null;
 
+    public isTileMode$: Observable<boolean>;
+
     private _showList = '';
     private _showItem = '';
     private _purpose: PurposeOption = 'items';
@@ -124,10 +127,13 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
         private readonly _recastService: RecastService,
     ) {
         super();
-    }
 
-    public get isTileMode(): boolean {
-        return this._character.settings.craftingTileMode;
+        this.isTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.itemsTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
     public get itemsMenuState(): MenuState {
@@ -136,6 +142,10 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
 
     private get _character(): Character {
         return CreatureService.character;
+    }
+
+    public toggleTileMode(isTileMode: boolean): void {
+        SettingsService.settings.craftingTileMode = !isTileMode;
     }
 
     //TO-DO: create list and pagination component for these lists
@@ -186,12 +196,6 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
 
     public shownCreature(): CreatureTypes {
         return this.creature;
-    }
-
-    public toggleTileMode(): void {
-        this._character.settings.craftingTileMode = !this._character.settings.craftingTileMode;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'crafting');
-        this._refreshService.processPreparedChanges();
     }
 
     public toggleShownSorting(type: SortingOption): void {
@@ -298,7 +302,7 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
     }
 
     public characterHasFunds(sum: number): boolean {
-        const funds = CopperAmountFromCashObject(this._character.cash);
+        const funds = copperAmountFromCashObject(this._character.cash);
 
         return (sum <= funds);
     }
@@ -315,7 +319,7 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
         return type
             ? this._itemsDataService.cleanItems().itemsOfType<T>(type)
                 .filter(item => !item.hide)
-                .sort((a, b) => SortAlphaNum(a.name + a.id, b.name + b.id))
+                .sort((a, b) => sortAlphaNum(a.name + a.id, b.name + b.id))
             : [];
     }
 
@@ -328,7 +332,7 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
 
         return items
             .filter(item => !item.hide)
-            .sort((a: Equipment | Consumable, b: Equipment | Consumable) => SortAlphaNum(a.name + a.id, b.name + b.id));
+            .sort((a: Equipment | Consumable, b: Equipment | Consumable) => sortAlphaNum(a.name + a.id, b.name + b.id));
     }
 
     public visibleItems<T extends Item>(items: ItemCollection[keyof ItemCollection], creatureType = ''): Array<T> {
@@ -370,7 +374,7 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
                         : true
                 ),
             )
-            .sort((a, b) => SortAlphaNum(
+            .sort((a, b) => sortAlphaNum(
                 a[this.sorting].padStart(twoDigits, '0') + a.name,
                 b[this.sorting].padStart(twoDigits, '0') + b.name,
             ));
@@ -470,7 +474,7 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
             ? Object.keys(this.newItem)
                 .map(key => ItemPropertyFromKey(key))
                 .filter((property): property is ItemProperty<Item> => property !== undefined)
-                .sort((a, b) => SortAlphaNum(a.group + a.priority, b.group + b.priority))
+                .sort((a, b) => sortAlphaNum(a.group + a.priority, b.group + b.priority))
             : [];
     }
 
@@ -669,7 +673,7 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
 
     public scrollSavantScrolls(casting: SpellCasting): Array<Scroll> {
         return casting.scrollSavant
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public scrollSavantSpellDCLevel(): number {

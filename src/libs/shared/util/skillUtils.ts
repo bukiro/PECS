@@ -1,4 +1,4 @@
-export function SkillLevelName(skillLevel: number, options: { shortForm?: boolean } = {}): string {
+export function skillLevelName(skillLevel: number, options: { shortForm?: boolean } = {}): string {
     if (options.shortForm) {
         return ['U', 'U', 'T', 'T', 'E', 'E', 'M', 'M', 'L'][skillLevel];
     } else {

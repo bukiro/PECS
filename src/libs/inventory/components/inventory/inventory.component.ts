@@ -21,16 +21,16 @@ import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { map, noop, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, noop, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Creature } from 'src/app/classes/Creature';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ItemGainOnOptions } from 'src/libs/shared/definitions/itemGainOptions';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { CopperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
+import { copperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellGain } from 'src/app/classes/SpellGain';
@@ -93,23 +93,29 @@ interface CalculatedMaxInvested {
 export class InventoryComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public forceMinimized?: boolean;
-
-    @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
 
     @Input()
     public itemStore = false;
 
+    @HostBinding('class.minimized')
+    private _combinedMinimized = false;
+
     public shieldDamage = 0;
     public creatureTypesEnum = CreatureTypes;
 
+    public isTileMode$: Observable<boolean>;
+
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _isMinimized = false;
+    private _forceMinimized = false;
     private _showItem = '';
     private _showList = '';
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -141,8 +147,9 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
     ) {
         super();
 
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -153,27 +160,31 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
                             return settings.inventoryMinimized;
                     }
                 }),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this._combinedMinimized = this._isMinimized || this._forceMinimized;
+                this.isMinimized$.next(this._combinedMinimized);
             });
+
+        this.isTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.inventoryTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this.forceMinimized || this._isMinimized;
-    }
-
-    public set isMinimized(minimized: boolean) {
-        CreatureService.settings.inventoryMinimized = minimized;
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._forceMinimized = forceMinimized ?? false;
+        this._combinedMinimized = this._isMinimized || this._forceMinimized;
+        this.isMinimized$.next(this._combinedMinimized);
     }
 
     public get shouldShowMinimizeButton(): boolean {
         return !this.forceMinimized && this.creature === CreatureTypes.Character;
-    }
-
-    public get isTileMode(): boolean {
-        return this.character.settings.inventoryTileMode;
     }
 
     public get isManualMode(): boolean {
@@ -186,6 +197,14 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
 
     public get currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
+    }
+
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.inventoryMinimized = minimized;
+    }
+
+    public toggleTileMode(tileMode: boolean): void {
+        SettingsService.settings.inventoryTileMode = tileMode;
     }
 
     public setItemsMenuTarget(target: CreatureTypes): void {
@@ -210,16 +229,6 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
 
     public shownItem(): string {
         return this._showItem;
-    }
-
-    public toggleTileMode(): void {
-        this.character.settings.inventoryTileMode = !this.character.settings.inventoryTileMode;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'inventory');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'inventory');
-        //Inventory Tile Mode affects snares on the attacks component.
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-        this._refreshService.processPreparedChanges();
     }
 
     public isCompanionAvailable(): boolean {
@@ -255,7 +264,7 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
     public sortItemSet<T extends Item>(inventory: ItemCollection, key: keyof ItemCollection): Array<T> {
         //Sorting just by name can lead to jumping in the list.
         return inventory.itemsOfType<T>(key)
-            .sort((a, b) => SortAlphaNum(a.name + a.id, b.name + b.id));
+            .sort((a, b) => sortAlphaNum(a.name + a.id, b.name + b.id));
     }
 
     public itemParameters(itemList: Array<Item>): Array<ItemParameters> {
@@ -704,7 +713,7 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
     }
 
     public characterHasFunds(sum: number): boolean {
-        const funds = CopperAmountFromCashObject(this.character.cash);
+        const funds = copperAmountFromCashObject(this.character.cash);
 
         return (sum <= funds);
     }
@@ -747,7 +756,7 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
                 return this.learnedFormulas()
                     .filter(learned => learned.snareSpecialistPrepared)
                     .map(learned => ({ learned, item: this._itemsDataService.cleanItemFromID(learned.id) as Snare }))
-                    .sort((a, b) => SortAlphaNum(a.item.name, b.item.name));
+                    .sort((a, b) => sortAlphaNum(a.item.name, b.item.name));
             default: return [];
         }
     }
@@ -969,6 +978,8 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
     }
 
     private _allAvailableCreatures(): Array<Creature> {

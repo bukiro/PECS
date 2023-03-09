@@ -10,6 +10,7 @@ import { DescriptionModule } from 'src/libs/shared/ui/description/description.mo
 import { ItemModule } from 'src/libs/shared/item/item.module';
 import { GridIconModule } from 'src/libs/shared/ui/grid-icon/grid-icon.module';
 import { InventoryModule } from 'src/libs/inventory/inventory.module';
+import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { InventoryModule } from 'src/libs/inventory/inventory.module';
         ItemModule,
         GridIconModule,
         InventoryModule,
+        ButtonModule,
     ],
     declarations: [
         ItemsComponent,

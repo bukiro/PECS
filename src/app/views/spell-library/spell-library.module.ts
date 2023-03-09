@@ -8,6 +8,7 @@ import { ActionIconsModule } from 'src/libs/shared/ui/action-icons/action-icons.
 import { SpellModule } from 'src/libs/shared/spell/spell.module';
 import { TraitModule } from 'src/libs/shared/ui/trait/trait.module';
 import { GridIconModule } from 'src/libs/shared/ui/grid-icon/grid-icon.module';
+import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import { GridIconModule } from 'src/libs/shared/ui/grid-icon/grid-icon.module';
         SpellModule,
         TraitModule,
         GridIconModule,
+        ButtonModule,
     ],
     declarations: [
         SpellLibraryComponent,

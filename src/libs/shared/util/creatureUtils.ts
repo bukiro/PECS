@@ -2,7 +2,7 @@ import { CreatureSizes } from '../definitions/creatureSizes';
 import { CreatureTypeIds } from '../definitions/creatureTypeIds';
 import { CreatureTypes } from '../definitions/creatureTypes';
 
-export const CreatureSizeName = (size: number): string => {
+export const creatureSizeName = (size: number): string => {
     switch (size) {
         case CreatureSizes.Tiny:
             return 'Tiny';
@@ -21,7 +21,7 @@ export const CreatureSizeName = (size: number): string => {
     }
 };
 
-export const CreatureTypeIDFromType = (creatureType: CreatureTypes): CreatureTypeIds => {
+export const creatureTypeIDFromType = (creatureType: CreatureTypes): CreatureTypeIds => {
     switch (creatureType) {
         case CreatureTypes.Character:
             return CreatureTypeIds.Character;

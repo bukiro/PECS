@@ -23,7 +23,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Subscription } from 'rxjs';
 import { Trait } from 'src/app/classes/Trait';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
@@ -32,6 +32,7 @@ import { FeatRequirementsService } from 'src/libs/character-creation/services/fe
 import { FeatTakingService } from 'src/libs/character-creation/services/feat-taking/feat-taking.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 interface FeatParameters {
     available: boolean;
@@ -73,7 +74,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) implements OnIn
     @Input()
     public showContent = true;
     @Input()
-    public tileMode = false;
+    public isTileMode = false;
 
     @Output()
     public readonly showFeatChoiceMessage = new EventEmitter<{ name: string; levelNumber: number; choice?: FeatChoice }>();
@@ -105,10 +106,6 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) implements OnIn
         private readonly _creatureFeatsService: CreatureFeatsService,
     ) {
         super();
-    }
-
-    public get isTileMode(): boolean {
-        return this.tileMode;
     }
 
     private get _character(): CharacterModel {
@@ -371,7 +368,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) implements OnIn
             let shouldShowOtherOptions = true;
 
             if (choice.feats.length >= allowed) {
-                shouldShowOtherOptions = this._character.settings.showOtherOptions;
+                shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
             }
 
             return feats
@@ -470,7 +467,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) implements OnIn
             let shouldShowOtherOptions = true;
 
             if (choice.feats.length >= allowed) {
-                shouldShowOtherOptions = this._character.settings.showOtherOptions;
+                shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
             }
 
             return subFeats
@@ -481,7 +478,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) implements OnIn
                     return { available: canBeTaken, feat, cannotTake: cannotTakeSubFeat };
                 })
                 .filter(featSet => shouldShowOtherOptions || choice.filter.length || this.isFeatTakenByThisChoice(featSet.feat, choice))
-                .sort((a, b) => SortAlphaNum(a.feat.subType, b.feat.subType))
+                .sort((a, b) => sortAlphaNum(a.feat.subType, b.feat.subType))
                 .sort((a, b) => {
                     if (a.available && !b.available) {
                         return -1;
@@ -507,7 +504,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) implements OnIn
         if (choice.autoSelectIfPossible) {
             const isAutoSelectChoiceComplete = this._takeFeatsAutomatically(choice, allowed);
 
-            return isAutoSelectChoiceComplete && !this._character.settings.hiddenFeats;
+            return isAutoSelectChoiceComplete && !SettingsService.settings.hiddenFeats;
         } else {
             return false;
         }
@@ -551,7 +548,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) implements OnIn
 
         if (
             isTaken &&
-            this._character.settings.autoCloseChoices &&
+            SettingsService.settings.autoCloseChoices &&
             (choice.feats.length === this.allowedAmount(choice) - 1)
         ) { this.toggleShownList(''); }
 

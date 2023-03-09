@@ -4,7 +4,7 @@ import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { Trait } from 'src/app/classes/Trait';
-import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
+import { spellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { Activity } from 'src/app/classes/Activity';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
@@ -30,7 +30,7 @@ export class FeatComponent extends TrackByMixin(BaseClass) {
     public levelNumber!: number;
     @Input()
     public featLevel?: number;
-    public spellLevelFromCharLevel = SpellLevelFromCharLevel;
+    public spellLevelFromCharLevel = spellLevelFromCharLevel;
 
     constructor(
         private readonly _spellsDataService: SpellsDataService,

@@ -214,7 +214,7 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
             return;
         }
 
-        if (this.character.settings.checkMessagesAutomatically) {
+        if (SettingsService.settings.checkMessagesAutomatically) {
             // If the app checks for messages automatically, you don't need to check again manually.
             // Just open the Dialog if messages exist, or let us know if not.
             if (this._messagesService.newMessages().length) {

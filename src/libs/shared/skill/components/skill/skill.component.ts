@@ -32,18 +32,28 @@ export class SkillComponent extends TrackByMixin(BaseClass) implements OnInit, O
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
+
     @Input()
     public skill!: Skill;
+
     @Input()
     public showValue = true;
+
     @Input()
     public isDC = false;
+
     @Input()
     public relatedActivityGains: Array<ActivityGain | ItemActivity> = [];
+
     @Input()
     public showAction = '';
+
     @Input()
-    public minimized = false;
+    public isMinimized = false;
+
+    @Input()
+    public isTileMode = false;
+
     @Output()
     public readonly showActionMessage = new EventEmitter<string>();
 
@@ -62,10 +72,6 @@ export class SkillComponent extends TrackByMixin(BaseClass) implements OnInit, O
 
     public get character(): Character {
         return CreatureService.character;
-    }
-
-    public get isTileMode(): boolean {
-        return this.character.settings.skillsTileMode;
     }
 
     private get _currentCreature(): Creature {

@@ -3,7 +3,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ObjectEffectsGenerationService } from '../../effects-generation/services/object-effects-generation/object-effects-generation';
-import { AbilityModFromAbilityValue } from '../../util/abilityUtils';
+import { abilityModFromAbilityValue } from '../../util/abilityUtils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
@@ -49,7 +49,7 @@ export class CharacterLanguagesService {
 
             //Free languages from your base intelligence
             const baseIntelligence: number = this._abilityValuesService.baseValue('Intelligence', character, 0)?.result;
-            const baseInt: number = AbilityModFromAbilityValue(baseIntelligence);
+            const baseInt: number = abilityModFromAbilityValue(baseIntelligence);
 
             if (baseInt > 0) {
                 languageSources.push({ name: 'Intelligence', level: 0, amount: baseInt });
@@ -84,7 +84,7 @@ export class CharacterLanguagesService {
                 //Compare INT on this level with INT on the previous level. Don't do this on Level 0, obviously.
                 const levelIntelligence: number = this._abilityValuesService.baseValue('Intelligence', character, level.number)?.result;
 
-                int.push(AbilityModFromAbilityValue(levelIntelligence));
+                int.push(abilityModFromAbilityValue(levelIntelligence));
 
                 const levelIntDiff = int[level.number] - int[level.number - 1];
 

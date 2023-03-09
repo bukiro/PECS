@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
 import { EffectCollection } from 'src/app/classes/EffectCollection';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
@@ -118,20 +118,20 @@ export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit,
     public appliedEffects(effects: Array<Effect>): Array<Effect> {
         return effects
             .filter(effect => effect.creature === this._currentCreature.id && effect.apply && effect.show)
-            .sort((a, b) => SortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
+            .sort((a, b) => sortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
     public notAppliedEffects(effects: Array<Effect>): Array<Effect> {
         return effects
             .filter(effect => effect.creature === this._currentCreature.id && !effect.apply)
-            .sort((a, b) => SortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
+            .sort((a, b) => sortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
     //TO-DO: Add an explanation why these are hidden.
     public hiddenEffects(effects: Array<Effect>): Array<Effect> {
         return effects
             .filter(effect => effect.creature === this._currentCreature.id && effect.apply && !effect.show)
-            .sort((a, b) => SortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
+            .sort((a, b) => sortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
     public appliedConditions(

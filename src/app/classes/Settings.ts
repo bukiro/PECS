@@ -1,5 +1,5 @@
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 export class Settings {
     private _abilitiesMinimized = false;
@@ -57,7 +57,7 @@ export class Settings {
     }
     public set abilitiesMinimized(abilitiesMinimized: boolean) {
         this._abilitiesMinimized = abilitiesMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get accent(): string {
@@ -65,7 +65,7 @@ export class Settings {
     }
     public set accent(accent: string) {
         this._accent = accent;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get activitiesMinimized(): boolean {
@@ -73,7 +73,7 @@ export class Settings {
     }
     public set activitiesMinimized(activitiesMinimized: boolean) {
         this._activitiesMinimized = activitiesMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get activitiesTileMode(): boolean {
@@ -81,7 +81,7 @@ export class Settings {
     }
     public set activitiesTileMode(activitiesTileMode: boolean) {
         this._activitiesTileMode = activitiesTileMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get applyMessagesAutomatically(): boolean {
@@ -89,7 +89,7 @@ export class Settings {
     }
     public set applyMessagesAutomatically(applyMessagesAutomatically: boolean) {
         this._applyMessagesAutomatically = applyMessagesAutomatically;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get archetypeFeats(): boolean {
@@ -97,7 +97,7 @@ export class Settings {
     }
     public set archetypeFeats(archetypeFeats: boolean) {
         this._archetypeFeats = archetypeFeats;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get attacksMinimized(): boolean {
@@ -105,7 +105,7 @@ export class Settings {
     }
     public set attacksMinimized(attacksMinimized: boolean) {
         this._attacksMinimized = attacksMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get autoCloseChoices(): boolean {
@@ -113,7 +113,7 @@ export class Settings {
     }
     public set autoCloseChoices(autoCloseChoices: boolean) {
         this._autoCloseChoices = autoCloseChoices;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get characterMinimized(): boolean {
@@ -121,7 +121,7 @@ export class Settings {
     }
     public set characterMinimized(characterMinimized: boolean) {
         this._characterMinimized = characterMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get characterTileMode(): boolean {
@@ -129,7 +129,7 @@ export class Settings {
     }
     public set characterTileMode(characterTileMode: boolean) {
         this._characterTileMode = characterTileMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get craftingTileMode(): boolean {
@@ -137,7 +137,7 @@ export class Settings {
     }
     public set craftingTileMode(craftingTileMode: boolean) {
         this._craftingTileMode = craftingTileMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get checkMessagesAutomatically(): boolean {
@@ -145,7 +145,7 @@ export class Settings {
     }
     public set checkMessagesAutomatically(checkMessagesAutomatically: boolean) {
         this._checkMessagesAutomatically = checkMessagesAutomatically;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get companionMinimized(): boolean {
@@ -153,7 +153,7 @@ export class Settings {
     }
     public set companionMinimized(companionMinimized: boolean) {
         this._companionMinimized = companionMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get conditionsTileMode(): boolean {
@@ -161,7 +161,7 @@ export class Settings {
     }
     public set conditionsTileMode(conditionsTileMode: boolean) {
         this._conditionsTileMode = conditionsTileMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get darkmode(): boolean {
@@ -169,7 +169,7 @@ export class Settings {
     }
     public set darkmode(darkmode: boolean) {
         this._darkmode = darkmode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get defenseMinimized(): boolean {
@@ -177,7 +177,7 @@ export class Settings {
     }
     public set defenseMinimized(defenseMinimized: boolean) {
         this._defenseMinimized = defenseMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get effectsMinimized(): boolean {
@@ -185,7 +185,7 @@ export class Settings {
     }
     public set effectsMinimized(effectsMinimized: boolean) {
         this._effectsMinimized = effectsMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get familiarMinimized(): boolean {
@@ -193,7 +193,7 @@ export class Settings {
     }
     public set familiarMinimized(familiarMinimized: boolean) {
         this._familiarMinimized = familiarMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get foundryVTTSendRolls(): boolean {
@@ -201,7 +201,7 @@ export class Settings {
     }
     public set foundryVTTSendRolls(foundryVTTSendRolls: boolean) {
         this._foundryVTTSendRolls = foundryVTTSendRolls;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get foundryVTTUrl(): string {
@@ -209,7 +209,7 @@ export class Settings {
     }
     public set foundryVTTUrl(foundryVTTUrl: string) {
         this._foundryVTTUrl = foundryVTTUrl;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get foundryVTTRollDirectly(): boolean {
@@ -217,7 +217,7 @@ export class Settings {
     }
     public set foundryVTTRollDirectly(foundryVTTRollDirectly: boolean) {
         this._foundryVTTRollDirectly = foundryVTTRollDirectly;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get foundryVTTTimeout(): number {
@@ -225,7 +225,7 @@ export class Settings {
     }
     public set foundryVTTTimeout(foundryVTTTimeout: number) {
         this._foundryVTTTimeout = foundryVTTTimeout;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get generalMinimized(): boolean {
@@ -233,7 +233,7 @@ export class Settings {
     }
     public set generalMinimized(generalMinimized: boolean) {
         this._generalMinimized = generalMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get healthMinimized(): boolean {
@@ -241,7 +241,7 @@ export class Settings {
     }
     public set healthMinimized(healthMinimized: boolean) {
         this._healthMinimized = healthMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get hiddenFeats(): boolean {
@@ -249,7 +249,7 @@ export class Settings {
     }
     public set hiddenFeats(hiddenFeats: boolean) {
         this._hiddenFeats = hiddenFeats;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get higherLevelFeats(): boolean {
@@ -257,7 +257,7 @@ export class Settings {
     }
     public set higherLevelFeats(higherLevelFeats: boolean) {
         this._higherLevelFeats = higherLevelFeats;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get hintsShowMoreInformation(): boolean {
@@ -265,7 +265,7 @@ export class Settings {
     }
     public set hintsShowMoreInformation(hintsShowMoreInformation: boolean) {
         this._hintsShowMoreInformation = hintsShowMoreInformation;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get itemsTileMode(): boolean {
@@ -273,7 +273,7 @@ export class Settings {
     }
     public set itemsTileMode(itemsTileMode: boolean) {
         this._itemsTileMode = itemsTileMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get inventoryMinimized(): boolean {
@@ -281,7 +281,7 @@ export class Settings {
     }
     public set inventoryMinimized(inventoryMinimized: boolean) {
         this._inventoryMinimized = inventoryMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get inventoryTileMode(): boolean {
@@ -289,7 +289,7 @@ export class Settings {
     }
     public set inventoryTileMode(inventoryTileMode: boolean) {
         this._inventoryTileMode = inventoryTileMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get lowerLevelFeats(): boolean {
@@ -297,7 +297,7 @@ export class Settings {
     }
     public set lowerLevelFeats(lowerLevelFeats: boolean) {
         this._lowerLevelFeats = lowerLevelFeats;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get manualMode(): boolean {
@@ -305,7 +305,7 @@ export class Settings {
     }
     public set manualMode(manualMode: boolean) {
         this._manualMode = manualMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get noFriendlyCasterConditions(): boolean {
@@ -313,7 +313,7 @@ export class Settings {
     }
     public set noFriendlyCasterConditions(noFriendlyCasterConditions: boolean) {
         this._noFriendlyCasterConditions = noFriendlyCasterConditions;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get noHostileCasterConditions(): boolean {
@@ -321,7 +321,7 @@ export class Settings {
     }
     public set noHostileCasterConditions(noHostileCasterConditions: boolean) {
         this._noHostileCasterConditions = noHostileCasterConditions;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get sendTurnEndMessage(): boolean {
@@ -329,7 +329,7 @@ export class Settings {
     }
     public set sendTurnEndMessage(sendTurnEndMessage: boolean) {
         this._sendTurnEndMessage = sendTurnEndMessage;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get sendTurnStartMessage(): boolean {
@@ -337,7 +337,7 @@ export class Settings {
     }
     public set sendTurnStartMessage(sendTurnStartMessage: boolean) {
         this._sendTurnStartMessage = sendTurnStartMessage;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get showHeightenedSpells(): boolean {
@@ -345,7 +345,7 @@ export class Settings {
     }
     public set showHeightenedSpells(showHeightenedSpells: boolean) {
         this._showHeightenedSpells = showHeightenedSpells;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get showOtherOptions(): boolean {
@@ -353,7 +353,7 @@ export class Settings {
     }
     public set showOtherOptions(showOtherOptions: boolean) {
         this._showOtherOptions = showOtherOptions;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get showSkillActivities(): boolean {
@@ -361,7 +361,7 @@ export class Settings {
     }
     public set showSkillActivities(showSkillActivities: boolean) {
         this._showSkillActivities = showSkillActivities;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get skillsMinimized(): boolean {
@@ -369,7 +369,7 @@ export class Settings {
     }
     public set skillsMinimized(skillsMinimized: boolean) {
         this._skillsMinimized = skillsMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get skillsTileMode(): boolean {
@@ -377,7 +377,7 @@ export class Settings {
     }
     public set skillsTileMode(skillsTileMode: boolean) {
         this._skillsTileMode = skillsTileMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get spellLibraryTileMode(): boolean {
@@ -385,7 +385,7 @@ export class Settings {
     }
     public set spellLibraryTileMode(spellLibraryTileMode: boolean) {
         this._spellLibraryTileMode = spellLibraryTileMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get spellbookMinimized(): boolean {
@@ -393,7 +393,7 @@ export class Settings {
     }
     public set spellbookMinimized(spellbookMinimized: boolean) {
         this._spellbookMinimized = spellbookMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get spellbookTileMode(): boolean {
@@ -401,7 +401,7 @@ export class Settings {
     }
     public set spellbookTileMode(spellbookTileMode: boolean) {
         this._spellbookTileMode = spellbookTileMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get spelllibraryMinimized(): boolean {
@@ -409,7 +409,7 @@ export class Settings {
     }
     public set spelllibraryMinimized(spelllibraryMinimized: boolean) {
         this._spelllibraryMinimized = spelllibraryMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get spellsMinimized(): boolean {
@@ -417,7 +417,7 @@ export class Settings {
     }
     public set spellsMinimized(spellsMinimized: boolean) {
         this._spellsMinimized = spellsMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get spellsTileMode(): boolean {
@@ -425,7 +425,7 @@ export class Settings {
     }
     public set spellsTileMode(spellsTileMode: boolean) {
         this._spellsTileMode = spellsTileMode;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get timeMinimized(): boolean {
@@ -433,7 +433,7 @@ export class Settings {
     }
     public set timeMinimized(timeMinimized: boolean) {
         this._timeMinimized = timeMinimized;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 
     public get unavailableFeats(): boolean {
@@ -441,6 +441,6 @@ export class Settings {
     }
     public set unavailableFeats(unavailableFeats: boolean) {
         this._unavailableFeats = unavailableFeats;
-        CreatureService.updateSettings();
+        SettingsService.updateSettings();
     }
 }

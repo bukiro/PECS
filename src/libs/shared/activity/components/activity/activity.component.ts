@@ -30,7 +30,7 @@ import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.ser
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
@@ -175,7 +175,7 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
     public characterFeatsShowingHintsOnThis(activityName: string): Array<Feat> {
         if (activityName) {
             return this._hintShowingObjectsService.characterFeatsShowingHintsOnThis(activityName)
-                .sort((a, b) => SortAlphaNum(a.name, b.name));
+                .sort((a, b) => sortAlphaNum(a.name, b.name));
         } else {
             return [];
         }
@@ -184,7 +184,7 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
     public conditionsShowingHintsOnThis(activityName: string): Array<{ gain: ConditionGain; condition: Condition }> {
         if (activityName) {
             return this._hintShowingObjectsService.creatureConditionsShowingHintsOnThis(this._currentCreature(), activityName)
-                .sort((a, b) => SortAlphaNum(a.condition.name, b.condition.name));
+                .sort((a, b) => sortAlphaNum(a.condition.name, b.condition.name));
         } else {
             return [];
         }
@@ -204,7 +204,7 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
                                 ),
                         ),
                 )
-                .sort((a, b) => SortAlphaNum(a.name, b.name));
+                .sort((a, b) => sortAlphaNum(a.name, b.name));
         } else {
             return [];
         }

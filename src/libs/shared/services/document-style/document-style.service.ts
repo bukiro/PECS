@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { SettingsService } from '../settings/settings.service';
 import { StatusService } from '../status/status.service';
@@ -53,7 +52,7 @@ export class DocumentStyleService {
         };
 
         if (!StatusService.isLoadingCharacter$.value) {
-            const original = CreatureService.settings.accent;
+            const original = SettingsService.settings.accent;
 
             if (original.length === rgbLength || original.length === rrggbbLength) {
                 try {

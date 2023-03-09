@@ -3,7 +3,7 @@ import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
-import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
@@ -57,7 +57,7 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) implements OnI
 
     public priceText(): string {
         if (this.item.tradeable) {
-            return PriceTextFromCopper(this._itemPriceService.effectiveItemPrice(this.item));
+            return priceTextFromCopper(this._itemPriceService.effectiveItemPrice(this.item));
         }
 
         return '';

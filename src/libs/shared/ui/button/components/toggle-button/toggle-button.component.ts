@@ -34,7 +34,8 @@ export class ToggleButtonComponent extends ButtonComponent implements ControlVal
     }
 
     public writeValue(value: boolean): void {
-        this.value = value;
+        this.toggled = value;
+        this._value = value;
     }
 
     public registerOnChange(fn: (value: boolean) => void): void {

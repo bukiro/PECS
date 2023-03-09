@@ -15,8 +15,8 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 import { SkillsDataService } from '../data/skills-data.service';
 import { StatusService } from '../status/status.service';
 import { BonusDescription } from '../../ui/bonus-list';
-import { SignNumber } from '../../util/numberUtils';
-import { addFromEffect, signedForBonusDescription } from '../../util/bonusDescriptionUtils';
+import { signNumber } from '../../util/numberUtils';
+import { addFromEffect } from '../../util/bonusDescriptionUtils';
 
 const DCBasis = 10;
 
@@ -315,7 +315,7 @@ export class SkillValuesService {
                         result += abilityMod.result;
                         bonuses.push({
                             title: 'Character Spellcasting Ability',
-                            value: signedForBonusDescription(bonuses, abilityMod.result),
+                            value: signNumber(abilityMod.result),
                         });
                     }
                 } else {
@@ -332,7 +332,7 @@ export class SkillValuesService {
                 if (skillLevel) {
                     charLevelBonus = charLevel;
                     bonuses.push({ title: 'Proficiency Rank', value: `${ skillLevel }` });
-                    bonuses.push({ title: 'Character Level', value: SignNumber(charLevelBonus) });
+                    bonuses.push({ title: 'Character Level', value: signNumber(charLevelBonus) });
                 }
 
                 //Add the Ability modifier identified by the skill's ability property
@@ -345,7 +345,7 @@ export class SkillValuesService {
                 }
 
                 if (abilityMod) {
-                    bonuses.push({ title: `${ ability } Modifier `, value: signedForBonusDescription(bonuses, abilityMod) });
+                    bonuses.push({ title: `${ ability } Modifier `, value: signNumber(abilityMod) });
                 }
 
                 //Add up all modifiers, the skill proficiency and all active effects and return the sum

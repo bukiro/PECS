@@ -4,11 +4,11 @@ import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Skill } from 'src/app/classes/Skill';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
+import { skillLevelName } from 'src/libs/shared/util/skillUtils';
 import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { Character } from 'src/app/classes/Character';
-import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { abilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
@@ -16,6 +16,7 @@ import { CharacterSkillIncreaseService } from 'src/libs/character-creation/servi
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 interface SkillChoiceParameters {
     listId: string;
@@ -53,7 +54,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
     @Input()
     public showContent = true;
     @Input()
-    public tileMode = false;
+    public isTileMode = false;
     @Output()
     public readonly showSkillChoiceMessage = new EventEmitter<{ name: string; levelNumber: number; choice?: SkillChoice }>();
 
@@ -71,10 +72,6 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         private readonly _skillsDataService: SkillsDataService,
     ) {
         super();
-    }
-
-    public get isTileMode(): boolean {
-        return this.tileMode;
     }
 
     public get character(): Character {
@@ -108,7 +105,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
     }
 
     public skillLevelName(skillLevel: number, shortForm = false): string {
-        return SkillLevelName(skillLevel, { shortForm });
+        return skillLevelName(skillLevel, { shortForm });
     }
 
     public skillChoiceParameters(): SkillChoiceParameters {
@@ -258,7 +255,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
 
         if (
             hasBeenIncreased &&
-            this.character.settings.autoCloseChoices &&
+            SettingsService.settings.autoCloseChoices &&
             (choice.increases.length === maxAvailable - 1)
         ) { this.toggleShownList(); }
 
@@ -340,7 +337,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
         const intelligence: number =
             this._abilityValuesService.baseValue('Intelligence', this.character, levelNumber).result;
-        const INT: number = AbilityModFromAbilityValue(intelligence);
+        const INT: number = abilityModFromAbilityValue(intelligence);
 
         return INT;
     }
@@ -408,7 +405,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         }
 
         if (skills.length) {
-            const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+            const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
 
             return skills
                 .filter(skill => (
@@ -422,7 +419,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                         (choice.showOnSheet ? !this.cannotIncreaseSkill(skill, levelNumber, choice).length : true)
                     )
                 ))
-                .sort((a, b) => SortAlphaNum(a.name, b.name));
+                .sort((a, b) => sortAlphaNum(a.name, b.name));
         }
     }
 

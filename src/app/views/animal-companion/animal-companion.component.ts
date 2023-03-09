@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy, HostBinding } from '@angular/core';
-import { map, Subscription } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
+import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -9,6 +9,7 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 import { DisplayService } from 'src/libs/shared/services/display/display.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 @Component({
     selector: 'app-animal-companion',
@@ -18,14 +19,19 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 })
 export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
+    @HostBinding('class.minimized')
+    private _isMinimized = false;
+
     public hover = '';
     public isMobile = false;
     public creatureTypesEnum = CreatureTypes;
 
-    private _isMinimized = false;
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _showMode = '';
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -33,22 +39,16 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
         private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => settings.companionMinimized),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this.isMinimized$.next(this._isMinimized);
             });
-    }
-
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this._isMinimized;
-    }
-
-    public set isMinimized(value: boolean) {
-        CreatureService.settings.companionMinimized = value;
     }
 
     public get character(): Character {
@@ -63,21 +63,8 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
         return this._creatureAvailabilityService.isCompanionAvailable();
     }
 
-    @HostListener('window:resize', ['$event'])
-    public onResize(): void {
-        this._setMobile();
-    }
-
-    @HostListener('window:orientationchange', ['$event'])
-    public onRotate(): void {
-        this._setMobile();
-    }
-
-    public minimize(): void {
-        CreatureService.settings.companionMinimized = !CreatureService.settings.companionMinimized;
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'companion');
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'abilities');
-        this._refreshService.processPreparedChanges();
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.companionMinimized = minimized;
     }
 
     public toggleCompanionMenu(): void {
@@ -111,6 +98,8 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
     }
 
     private _setMobile(): void {

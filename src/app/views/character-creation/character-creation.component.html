@@ -2,33 +2,20 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="corner-button-tray">
     <app-minimize-button
-        [(ngModel)]="isMinimized"
+        [ngModel]="(isMinimized$ | async) ?? false"
+        (ngModelChange)="toggleMinimized($event)"
     ></app-minimize-button>
 
-    <button
-        type="button"
-        aria-label="Switch between list layout and tile layout"
-        class="tilemodebutton"
-        [ngClass]="{'fancy-button':isTileMode}"
-        (click)="toggleTileMode()"
-        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'"
-    >
-        <!-- Content is css only -->
-        <div>
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-        </div>
-    </button>
+    <app-tile-mode-button
+        [ngModel]="(isTileMode$ | async) ?? false"
+        (ngModelChange)="toggleTileMode($event)"
+    ></app-tile-mode-button>
 </div>
 
 <div
     id="character-height"
     class="itembox vlist"
+    *ngIf="{ enabled: isTileMode$ | async } as tileMode"
 >
     <div
         class="itembox-close-button"
@@ -67,7 +54,7 @@
             </div>
 
             <!-- Management list mode -->
-            <ng-container *ngIf="!isTileMode">
+            <ng-container *ngIf="!tileMode.enabled">
                 <div class="list-item">
                     <button
                         type="button"
@@ -213,7 +200,7 @@
             <!-- Management tile mode -->
             <div
                 class="newrow list-item"
-                *ngIf="isTileMode"
+                *ngIf="tileMode.enabled"
             >
                 <div class="icon-list">
                     <button
@@ -592,7 +579,7 @@
                     </div>
 
                     <!-- History list mode -->
-                    <ng-container *ngIf="!isTileMode">
+                    <ng-container *ngIf="!tileMode.enabled">
                         <!-- BaseValues -->
                         <div class="list-item">
                             <button
@@ -716,7 +703,7 @@
                     <!-- History tile mode -->
                     <div
                         class="list-item icon-list"
-                        *ngIf="isTileMode"
+                        *ngIf="tileMode.enabled"
                     >
                         <!-- BaseValues -->
                         <button
@@ -851,7 +838,7 @@
                     <ng-container *ngFor="let level of character.class.levels; trackBy: trackByIndex;">
                         <div
                             *ngIf="level.number > 0"
-                            [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(shownLevel())), 'vlist':!isTileMode}"
+                            [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(shownLevel())), 'vlist':!tileMode.enabled}"
                         >
                             <!-- Bonuses templates mode -->
                             <ng-template #AddBonusesTemplate>
@@ -994,10 +981,10 @@
                                 Level {{level.number}}
                             </header>
 
-                            <div [ngClass]="{'character-choice-grid':isTileMode, 'vlist':!isTileMode}">
+                            <div [ngClass]="{'character-choice-grid':tileMode.enabled, 'vlist':!tileMode.enabled}">
                                 <div
                                     id="bonuses"
-                                    [ngClass]="{'icon-list vertical':isTileMode, 'vlist':!isTileMode}"
+                                    [ngClass]="{'icon-list vertical':tileMode.enabled, 'vlist':!tileMode.enabled}"
                                 >
                                     <ng-container *ngFor="let fixedAbilityBoosts of [abilityBoostsOnLevel(level.number, '', '', '', '', true)]; trackBy: trackByIndex;">
                                         <ng-container *ngFor="let fixedSkillIncreases of [skillIncreasesByLevel(level.number, '', '', '', true)]; trackBy: trackByIndex;">
@@ -1007,7 +994,7 @@
                                                         <!-- Fixed information list mode -->
                                                         <div
                                                             class="minimized-hide list-item"
-                                                            *ngIf="!isTileMode"
+                                                            *ngIf="!tileMode.enabled"
                                                         >
                                                             <button
                                                                 type="button"
@@ -1023,7 +1010,7 @@
                                                         <!-- Fixed information tile mode -->
                                                         <div
                                                             class="minimized-hide"
-                                                            *ngIf="isTileMode"
+                                                            *ngIf="tileMode.enabled"
                                                         >
                                                             <button
                                                                 type="button"
@@ -1049,10 +1036,10 @@
                                 <!-- Ability boosts -->
                                 <div
                                     id="abilityboosts"
-                                    [ngClass]="{'icon-list vertical':isTileMode, 'vlist':!isTileMode}"
+                                    [ngClass]="{'icon-list vertical':tileMode.enabled, 'vlist':!tileMode.enabled}"
                                 >
                                     <!-- List mode fixed ability boosts -->
-                                    <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
+                                    <ng-container *ngIf="!tileMode.enabled && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let boost of abilityBoostsOnLevel(level.number, '', '', '', '', true); trackBy: trackByIndex;">
                                             <div class="list-item minimized-hide">
                                                 <ng-template #FixedAbilityBoostContent>
@@ -1087,7 +1074,7 @@
                                     </ng-container>
 
                                     <!-- Tile mode fixed ability boosts -->
-                                    <ng-container *ngIf="isTileMode && shownFixedChangesLevelNumber()===level.number">
+                                    <ng-container *ngIf="tileMode.enabled && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let boost of abilityBoostsOnLevel(level.number, '', '', '', '', true); trackBy: trackByIndex;">
                                             <ng-template #FixedAbilityBoostContent>
                                                 <div class="newrow left-aligned">
@@ -1129,7 +1116,7 @@
                                             <!-- List mode ability boost buttons -->
                                             <div
                                                 class="list-item"
-                                                *ngIf="maxAvailable && !isTileMode"
+                                                *ngIf="maxAvailable && !tileMode.enabled"
                                                 [ngClass]="{'problem':(choice.boosts.length > maxAvailable || areSomeAbilitiesIllegal(choice, level.number)), 'minimized-hide':choice.boosts.length === maxAvailable}"
                                             >
                                                 <button
@@ -1147,7 +1134,7 @@
                                                 type="button"
                                                 aria-label="Show ability boost menu"
                                                 class="abilityboost"
-                                                *ngIf="maxAvailable && isTileMode"
+                                                *ngIf="maxAvailable && tileMode.enabled"
                                                 (click)="toggleShownList(choice.id, level.number, choice)"
                                                 [ngClass]="{'problem':(choice.boosts.length > maxAvailable || areSomeAbilitiesIllegal(choice, level.number)), 'fancy-button minimized-hide choicecleared':choice.boosts.length === maxAvailable, 'activechoice':shownList()===choice.id}"
                                             >
@@ -1168,10 +1155,10 @@
                                 <!-- Skill Increases -->
                                 <div
                                     id="skillincreases"
-                                    [ngClass]="{'icon-list vertical':isTileMode, 'vlist':!isTileMode}"
+                                    [ngClass]="{'icon-list vertical':tileMode.enabled, 'vlist':!tileMode.enabled}"
                                 >
                                     <!-- List mode fixed skill increases -->
-                                    <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
+                                    <ng-container *ngIf="!tileMode.enabled && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let skillIncrease of skillIncreasesByLevel(level.number, '', '', '', true); trackBy: trackByIndex;">
                                             <div class="list-item minimized-hide">
                                                 <ng-template #FixedSkillIncreaseContent>
@@ -1202,7 +1189,7 @@
                                     </ng-container>
 
                                     <!-- Tile mode fixed skill increases -->
-                                    <ng-container *ngIf="isTileMode && shownFixedChangesLevelNumber()===level.number">
+                                    <ng-container *ngIf="tileMode.enabled && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let skillIncrease of skillIncreasesByLevel(level.number, '', '', '', true); trackBy: trackByIndex;">
                                             <ng-template #FixedSkillIncreaseContent>
                                                 <div class="newrow left-aligned">
@@ -1243,7 +1230,7 @@
                                             [levelNumber]="level.number"
                                             [showContent]="false"
                                             [excludeTemporary]="true"
-                                            [tileMode]="isTileMode"
+                                            [isTileMode]="tileMode.enabled ?? false"
                                         >
                                         </app-skill-choice>
                                     </ng-container>
@@ -1252,10 +1239,10 @@
                                 <!-- Feat choices -->
                                 <div
                                     id="featchoices"
-                                    [ngClass]="{'icon-list vertical':isTileMode, 'vlist':!isTileMode}"
+                                    [ngClass]="{'icon-list vertical':tileMode.enabled, 'vlist':!tileMode.enabled}"
                                 >
                                     <!-- List mode fixed feats -->
-                                    <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
+                                    <ng-container *ngIf="!tileMode.enabled && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let feat of characterFeatsTakenOnLevel(level.number, 'feat'); trackBy: trackByIndex;">
                                             <ng-container *ngFor="let libraryFeat of [characterFeatsAndFeatures(feat.name)[0]]; trackBy: trackByIndex;">
                                                 <div class="list-item minimized-hide">
@@ -1295,7 +1282,7 @@
                                     </ng-container>
 
                                     <!-- Tile mode fixed feats -->
-                                    <ng-container *ngIf="isTileMode && shownFixedChangesLevelNumber()===level.number">
+                                    <ng-container *ngIf="tileMode.enabled && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let feat of characterFeatsTakenOnLevel(level.number, 'feat'); trackBy: trackByIndex;">
                                             <ng-container *ngFor="let libraryFeat of [characterFeatsAndFeatures(feat.name)[0]]; trackBy: trackByIndex;">
                                                 <ng-template #FixedFeatContent>
@@ -1350,7 +1337,7 @@
                                             [lowerLevelFeats]="character.settings.lowerLevelFeats"
                                             [higherLevelFeats]="character.settings.higherLevelFeats"
                                             [archetypeFeats]="character.settings.archetypeFeats"
-                                            [tileMode]="isTileMode"
+                                            [isTileMode]="tileMode.enabled ?? false"
                                         >
                                         </app-feat-choice>
                                     </ng-container>
@@ -1359,10 +1346,10 @@
                                 <!-- Special choices -->
                                 <div
                                     id="specialchoices"
-                                    [ngClass]="{'icon-list vertical':isTileMode, 'vlist':!isTileMode}"
+                                    [ngClass]="{'icon-list vertical':tileMode.enabled, 'vlist':!tileMode.enabled}"
                                 >
                                     <!-- List mode fixed features -->
-                                    <ng-container *ngIf="!isTileMode && shownFixedChangesLevelNumber()===level.number">
+                                    <ng-container *ngIf="!tileMode.enabled && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let feature of characterFeatsTakenOnLevel(level.number, 'feature'); trackBy: trackByIndex;">
                                             <ng-container *ngFor="let libraryFeature of [characterFeatsAndFeatures(feature.name)[0]]; trackBy: trackByIndex;">
                                                 <div class="list-item minimized-hide">
@@ -1402,7 +1389,7 @@
                                     </ng-container>
 
                                     <!-- Tile mode fixed features -->
-                                    <ng-container *ngIf="isTileMode && shownFixedChangesLevelNumber()===level.number">
+                                    <ng-container *ngIf="tileMode.enabled && shownFixedChangesLevelNumber()===level.number">
                                         <ng-container *ngFor="let feature of characterFeatsTakenOnLevel(level.number, 'feature'); trackBy: trackByIndex;">
                                             <ng-container *ngFor="let libraryFeature of [characterFeatsAndFeatures(feature.name)[0]]; trackBy: trackByIndex;">
                                                 <ng-template #FixedFeatureContent>
@@ -1450,7 +1437,7 @@
                                             <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(level.number)]; trackBy: trackByIndex">
                                                 <div
                                                     class="list-item"
-                                                    *ngIf="!isTileMode"
+                                                    *ngIf="!tileMode.enabled"
                                                     [ngClass]="{'minimized-hide':!blankLanguages}"
                                                 >
                                                     <button
@@ -1468,7 +1455,7 @@
                                                     type="button"
                                                     aria-label="Show special choice menu"
                                                     class="specialchoice"
-                                                    *ngIf="isTileMode"
+                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':!blankLanguages, 'activechoice':shownList()==='languages' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('languages', level.number)"
                                                 >
@@ -1499,7 +1486,7 @@
                                             [lowerLevelFeats]="character.settings.lowerLevelFeats"
                                             [higherLevelFeats]="character.settings.higherLevelFeats"
                                             [archetypeFeats]="character.settings.archetypeFeats"
-                                            [tileMode]="isTileMode"
+                                            [isTileMode]="tileMode.enabled ?? false"
                                         >
                                         </app-feat-choice>
                                     </ng-container>
@@ -1509,7 +1496,7 @@
                                         <ng-container *ngFor="let companion of [companion]; trackBy: trackByIndex">
                                             <div
                                                 class="list-item"
-                                                *ngIf="!isTileMode"
+                                                *ngIf="!tileMode.enabled"
                                                 [ngClass]="{'minimized-hide':(companion.name && companion.species && companion.class.ancestry.name)}"
                                             >
                                                 <button
@@ -1527,7 +1514,7 @@
                                                 type="button"
                                                 aria-label="Show animal companion menu"
                                                 class="specialchoice"
-                                                *ngIf="isTileMode"
+                                                *ngIf="tileMode.enabled"
                                                 [ngClass]="{'fancy-button choicecleared minimized-hide':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':shownList()==='animalcompanion' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('animalcompanion', level.number)"
                                             >
@@ -1549,7 +1536,7 @@
                                             <ng-container *ngFor="let takenSpecializations of [companionSpecializationsOnLevel(level.number)]; trackBy: trackByIndex">
                                                 <div
                                                     class="list-item"
-                                                    *ngIf="!isTileMode"
+                                                    *ngIf="!tileMode.enabled"
                                                     [ngClass]="{'minimized-hide':takenSpecializations.length === available}"
                                                 >
                                                     <button
@@ -1567,7 +1554,7 @@
                                                     type="button"
                                                     aria-label="Show animal companion specialization menu"
                                                     class="specialchoice"
-                                                    *ngIf="isTileMode"
+                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':(takenSpecializations.length === available), 'activechoice':shownList()==='companionspecialization' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('companionspecialization', level.number)"
                                                 >
@@ -1589,7 +1576,7 @@
                                         <ng-container *ngFor="let finished of [!!familiar.name && !!familiar.species]; trackBy: trackByIndex;">
                                             <div
                                                 class="list-item"
-                                                *ngIf="!isTileMode"
+                                                *ngIf="!tileMode.enabled"
                                                 [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
@@ -1606,7 +1593,7 @@
                                                 type="button"
                                                 aria-label="Show familiar menu"
                                                 class="specialchoice"
-                                                *ngIf="isTileMode"
+                                                *ngIf="tileMode.enabled"
                                                 [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='familiar' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('familiar', level.number)"
                                             >
@@ -1627,7 +1614,7 @@
                                             <!-- Different Worlds -->
                                             <div
                                                 class="list-item"
-                                                *ngIf="!isTileMode"
+                                                *ngIf="!tileMode.enabled"
                                                 [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
@@ -1646,7 +1633,7 @@
                                                 type="button"
                                                 aria-label="Show different worlds menu"
                                                 class="specialchoice"
-                                                *ngIf="isTileMode"
+                                                *ngIf="tileMode.enabled"
                                                 [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='differentworlds' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('differentworlds', level.number)"
                                             >
@@ -1668,7 +1655,7 @@
                                             <ng-container *ngFor="let finished of [blessedBloodSpells >= 3]; trackBy: trackByIndex;">
                                                 <div
                                                     class="list-item"
-                                                    *ngIf="!isTileMode"
+                                                    *ngIf="!tileMode.enabled"
                                                     [ngClass]="{'minimized-hide':finished}"
                                                 >
                                                     <button
@@ -1685,7 +1672,7 @@
                                                     type="button"
                                                     aria-label="Show blessed blood menu"
                                                     class="specialchoice"
-                                                    *ngIf="isTileMode"
+                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='blessedblood' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('blessedblood', level.number)"
                                                 >
@@ -1708,7 +1695,7 @@
                                             <ng-container *ngFor="let finished of [splinterFaithDomains >= 4]; trackBy: trackByIndex;">
                                                 <div
                                                     class="list-item"
-                                                    *ngIf="!isTileMode"
+                                                    *ngIf="!tileMode.enabled"
                                                     [ngClass]="{'minimized-hide':finished}"
                                                 >
                                                     <button
@@ -1725,7 +1712,7 @@
                                                     type="button"
                                                     aria-label="Show slinter faith menu"
                                                     class="specialchoice"
-                                                    *ngIf="isTileMode"
+                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='splinterfaith' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('splinterfaith', level.number)"
                                                 >
@@ -1748,7 +1735,7 @@
                                             <ng-container *ngFor="let finished of [!!character.class.additionalHeritages[heritageIndex].name]; trackBy: trackByIndex">
                                                 <div
                                                     class="list-item"
-                                                    *ngIf="!isTileMode"
+                                                    *ngIf="!tileMode.enabled"
                                                     [ngClass]="{'minimized-hide':finished}"
                                                 >
                                                     <button
@@ -1768,7 +1755,7 @@
                                                     type="button"
                                                     aria-label="Show additional heritages menu"
                                                     class="specialchoice"
-                                                    *ngIf="isTileMode"
+                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='additionalheritage' && shownContentLevelNumber()===level.number && this.shownContent()?.id===heritageGain.source}"
                                                     (click)="toggleShownList('additionalheritages', level.number, {id: 'additionalheritage'+level.number+heritageGain.source, source: heritageGain.source})"
                                                 >
@@ -1790,7 +1777,7 @@
                                         <ng-container *ngFor="let finished of [fuseStanceData.valueAsStringArray('stances')?.length === 2 && !!fuseStanceData.getValue('name')]; trackBy: trackByIndex">
                                             <div
                                                 class="list-item"
-                                                *ngIf="!isTileMode"
+                                                *ngIf="!tileMode.enabled"
                                                 [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
@@ -1811,7 +1798,7 @@
                                                 type="button"
                                                 aria-label="Show fuse stance menu"
                                                 class="specialchoice"
-                                                *ngIf="isTileMode"
+                                                *ngIf="tileMode.enabled"
                                                 [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='fusestance' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('fusestance', level.number)"
                                             >
@@ -1832,7 +1819,7 @@
                                         <ng-container *ngFor="let finished of [!!syncretismData.getValue('deity')]; trackBy: trackByIndex">
                                             <div
                                                 class="list-item"
-                                                *ngIf="!isTileMode"
+                                                *ngIf="!tileMode.enabled"
                                                 [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
@@ -1850,7 +1837,7 @@
                                                 type="button"
                                                 aria-label="Show syncretism menu"
                                                 class="specialchoice"
-                                                *ngIf="isTileMode"
+                                                *ngIf="tileMode.enabled"
                                                 [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='syncretism' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('syncretism', level.number)"
                                             >
@@ -1870,7 +1857,7 @@
                                     <ng-container *ngFor="let choice of level.loreChoices; trackBy: trackByIndex;">
                                         <div
                                             class="list-item"
-                                            *ngIf="choice.available && !isTileMode"
+                                            *ngIf="choice.available && !tileMode.enabled"
                                             [ngClass]="{'problem':(choice.increases.length > choice.available), 'minimized-hide':choice.increases.length === choice.available}"
                                         >
                                             <button
@@ -1889,7 +1876,7 @@
                                             type="button"
                                             aria-label="Show lore training menu"
                                             class="specialchoice"
-                                            *ngIf="choice.available && isTileMode"
+                                            *ngIf="choice.available && tileMode.enabled"
                                             [ngClass]="{'fancy-button choicecleared minimized-hide':choice.increases.length === choice.available, 'activechoice':shownList()===choice.id}"
                                             (click)="toggleShownList(choice.id, level.number, choice)"
                                         >

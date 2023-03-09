@@ -2,7 +2,8 @@
 <div class="corner-button-tray">
     <app-minimize-button
         *ngIf="shouldShowMinimizeButton"
-        [(ngModel)]="isMinimized"
+        [ngModel]="(isMinimized$ | async) ?? false"
+        (ngModelChange)="toggleMinimized($event)"
     ></app-minimize-button>
 </div>
 

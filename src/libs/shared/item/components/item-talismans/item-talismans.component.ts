@@ -9,9 +9,9 @@ import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Character } from 'src/app/classes/Character';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
@@ -130,7 +130,7 @@ export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements O
                     )
                 ),
             )
-            .sort((a, b) => SortAlphaNum(
+            .sort((a, b) => sortAlphaNum(
                 a.talisman.level.toString().padStart(twoDigits, '0') + a.talisman.name,
                 b.talisman.level.toString().padStart(twoDigits, '0') + b.talisman.name,
             ));
@@ -202,7 +202,7 @@ export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements O
     }
 
     private _priceText(talisman: Talisman): string {
-        return PriceTextFromCopper(talisman.price);
+        return priceTextFromCopper(talisman.price);
     }
 
     private _setTalismanNames(): void {

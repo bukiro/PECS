@@ -11,8 +11,8 @@ import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficien
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { SignNumber } from 'src/libs/shared/util/numberUtils';
-import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
+import { signNumber } from 'src/libs/shared/util/numberUtils';
+import { skillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
 import { attackRuneSource } from '../../util/attackRuneSource';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -126,26 +126,26 @@ export class AttacksService {
         if (range === 'ranged') {
             if (traits.includes('Brutal')) {
                 abilityMod = str;
-                explain += `\nStrength Modifier (Brutal): ${ SignNumber(abilityMod) }`;
+                explain += `\nStrength Modifier (Brutal): ${ signNumber(abilityMod) }`;
                 isStrUsed = true;
 
             } else {
                 abilityMod = dex;
-                explain += `\nDexterity Modifier: ${ SignNumber(abilityMod) }`;
+                explain += `\nDexterity Modifier: ${ signNumber(abilityMod) }`;
                 isDexUsed = true;
             }
         } else {
             if (traits.includes('Finesse') && dex + dexPenaltySum > str + strPenaltySum) {
                 abilityMod = dex;
-                explain += `\nDexterity Modifier (Finesse): ${ SignNumber(abilityMod) }`;
+                explain += `\nDexterity Modifier (Finesse): ${ signNumber(abilityMod) }`;
                 isDexUsed = true;
             } else if (weapon.dexterityBased) {
                 abilityMod = dex;
-                explain += `\nDexterity Modifier (Dexterity-based): ${ SignNumber(abilityMod) }`;
+                explain += `\nDexterity Modifier (Dexterity-based): ${ signNumber(abilityMod) }`;
                 isDexUsed = true;
             } else {
                 abilityMod = str;
-                explain += `\nStrength Modifier: ${ SignNumber(abilityMod) }`;
+                explain += `\nStrength Modifier: ${ signNumber(abilityMod) }`;
                 isStrUsed = true;
             }
         }
@@ -182,7 +182,7 @@ export class AttacksService {
                     //"Strength-based Attack Rolls", "Dexterity-based Attack Rolls"
                     `${ abilityName }-based Attack Rolls`,
                     //"Untrained Attack Rolls", "Expert Attack Rolls"
-                    `${ SkillLevelName(skillLevel) } Attack Rolls`,
+                    `${ skillLevelName(skillLevel) } Attack Rolls`,
                 ]);
         //For any activated traits of weapon weapon, check if any effects on Attack apply. These need to be evaluated in the Trait class.
         const traitEffects: Array<Effect> = [];

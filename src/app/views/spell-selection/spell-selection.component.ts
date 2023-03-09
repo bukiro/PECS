@@ -5,7 +5,7 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { map, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
@@ -13,7 +13,7 @@ import { DisplayService } from 'src/libs/shared/services/display/display.service
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
@@ -21,6 +21,7 @@ import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -51,10 +52,16 @@ interface SpellParameters {
 })
 export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
+    @HostBinding('class.minimized')
+    private _isMinimized = false;
+
     public allowBorrow = false;
     public creatureTypesEnum = CreatureTypes;
 
-    private _isMinimized = false;
+    public isTileMode$: Observable<boolean>;
+
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _showSpell = '';
     private _showChoice = '';
     private _showContent?: SpellChoice;
@@ -63,6 +70,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClas
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -76,26 +84,23 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClas
     ) {
         super();
 
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => settings.spellsMinimized),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this.isMinimized$.next(this._isMinimized);
             });
-    }
 
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this._isMinimized;
-    }
-
-    public set isMinimized(minimized: boolean) {
-        CreatureService.settings.spellsMinimized = minimized;
-    }
-
-    public get isTileMode(): boolean {
-        return CreatureService.settings.spellsTileMode;
+        this.isTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.spellsTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
     public get character(): Character {
@@ -106,10 +111,12 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClas
         return this._menuService.spellsMenuState;
     }
 
-    public toggleTileMode(): void {
-        this.character.settings.spellsTileMode = !this.character.settings.spellsTileMode;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-        this._refreshService.processPreparedChanges();
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.spellsMinimized = minimized;
+    }
+
+    public toggleTileMode(isTileMode: boolean): void {
+        SettingsService.settings.spellsTileMode = !isTileMode;
     }
 
     public toggleSpellMenu(): void {
@@ -269,6 +276,8 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClas
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
     }
 
     //TO-DO: This method and others are also used in the spellbook. Can they be centralized, e.g. in the SpellCasting class?
@@ -399,7 +408,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClas
                             cantripAllowed: false,
                         },
                     )
-                    .sort((a, b) => SortAlphaNum(a.gain.name, b.gain.name));
+                    .sort((a, b) => sortAlphaNum(a.gain.name, b.gain.name));
             } else {
                 return [];
             }
@@ -427,7 +436,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseClas
                         ) === levelNumber,
                     ),
                 )
-                .sort((a, b) => SortAlphaNum(a.gain.name, b.gain.name));
+                .sort((a, b) => sortAlphaNum(a.gain.name, b.gain.name));
         }
     }
 

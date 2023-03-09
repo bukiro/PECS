@@ -1,24 +1,9 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="window-button-container">
-    <button
-        type="button"
-        aria-label="Switch between list layout and tile layout"
-        class="tilemodebutton"
-        [ngClass]="{'fancy-button':isTileMode}"
-        (click)="toggleTileMode()"
-        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'"
-    >
-        <!-- Content is css only -->
-        <div>
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-        </div>
-    </button>
+    <app-tile-mode-button
+        [ngModel]="(isTileMode$ | async) ?? false"
+        (ngModelChange)="toggleTileMode($event)"
+    ></app-tile-mode-button>
 </div>
 
 <div
@@ -160,8 +145,8 @@
                                 </button>
 
                                 <div
-                                    [ngClass]="{'icon-list left-aligned':isTileMode, 'list-item':!isTileMode}"
-                                    *ngIf="visibleSpells.length && [-2,level].includes(shownList())"
+                                    [ngClass]="{'icon-list left-aligned':tileMode.enabled, 'list-item':!tileMode.enabled}"
+                                    *ngIf="visibleSpells.length && [-2,level].includes(shownList()) && { enabled: isTileMode$ | async } as tileMode"
                                 >
                                     <div
                                         class="newrow list-item"
@@ -186,7 +171,7 @@
                                             <ng-template #SpellTemplate>
                                                 <header
                                                     class="spellHeader"
-                                                    *ngIf="isTileMode"
+                                                    *ngIf="tileMode.enabled"
                                                 >
                                                     {{spell.name}}
                                                     <app-action-icons
@@ -265,7 +250,7 @@
                                             </ng-template>
 
                                             <ng-template #SpellTitleTemplate>
-                                                <span *ngIf="!isTileMode">
+                                                <span *ngIf="!tileMode.enabled">
                                                     <i
                                                         class="value bi-patch-plus bonus"
                                                         *ngIf="!spell.isHostile()"
@@ -290,7 +275,7 @@
                                                 </span>
                                             </ng-template>
 
-                                            <ng-container *ngIf="!isTileMode">
+                                            <ng-container *ngIf="!tileMode.enabled">
                                                 <div class="list-item">
                                                     <button
                                                         type="button"
@@ -330,7 +315,7 @@
                                                 </div>
                                             </ng-container>
 
-                                            <ng-container *ngIf="isTileMode">
+                                            <ng-container *ngIf="tileMode.enabled">
                                                 <button
                                                     type="button"
                                                     aria-label="Show spell"

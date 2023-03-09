@@ -2,28 +2,14 @@
 <div class="corner-button-tray">
     <app-minimize-button
         *ngIf="shouldShowMinimizeButton"
-        [(ngModel)]="isMinimized"
+        [ngModel]="(isMinimized$ | async) ?? false"
+        (ngModelChange)="toggleMinimized($event)"
     ></app-minimize-button>
 
-    <button
-        type="button"
-        aria-label="Switch between app-spell-choiceand tile layout"
-        class="tilemodebutton"
-        [ngClass]="{'fancy-button':isTileMode}"
-        (click)="toggleTileMode()"
-        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'"
-    >
-        <!-- Content is css only -->
-        <div>
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-        </div>
-    </button>
+    <app-tile-mode-button
+        [ngModel]="(isTileMode$ | async) ?? false"
+        (ngModelChange)="toggleTileMode($event)"
+    ></app-tile-mode-button>
 </div>
 
 <div
@@ -385,9 +371,9 @@
                     cdkDropList
                     id="{{inventory.id}}|blank"
                     (cdkDropListDropped)="dragdropInventoryItem($event)"
-                    [ngClass]="{'icon-list':isTileMode, 'vlist fullwidth':!isTileMode}"
-                    *ngIf="isInventoryEmpty(inventory)"
-                    [ngStyle]="{'min-height': isTileMode ? null : '2em', 'display': isTileMode ? null : 'flex'}"
+                    [ngClass]="{'icon-list':tileMode.enabled, 'vlist fullwidth':!tileMode.enabled}"
+                    *ngIf="isInventoryEmpty(inventory) && { enabled: isTileMode$ | async } as tileMode"
+                    [ngStyle]="{'min-height': tileMode.enabled ? null : '2em', 'display': tileMode.enabled ? null : 'flex'}"
                 >
                 </div>
 
@@ -404,9 +390,9 @@
                             cdkDropList
                             id="{{inventory.id}}|{{itemSet.key}}"
                             (cdkDropListDropped)="dragdropInventoryItem($event)"
-                            [ngClass]="{'icon-list':isTileMode, 'vlist fullwidth':!isTileMode}"
-                            *ngIf="itemList.length"
-                            [ngStyle]="{'min-height': isTileMode ? null : '2em'}"
+                            [ngClass]="{'icon-list':tileMode.enabled, 'vlist fullwidth':!tileMode.enabled}"
+                            *ngIf="itemList.length && { enabled: isTileMode$ | async } as tileMode"
+                            [ngStyle]="{'min-height': tileMode.enabled ? null : '2em'}"
                         >
                             <ng-container *ngFor="let itemParameters of itemParameters(itemList); trackBy:trackByObjectId;">
 
@@ -484,16 +470,16 @@
 
                                 <ng-template #ItemTitleTemplate>
                                     <span class="hlist left-aligned">
-                                        <span *ngIf="itemParameters.canUse !== undefined">
+                                        <span *ngIf="itemParameters.canUse !== undefined && { enabled: isTileMode$ | async } as tileMode">
                                             <i
                                                 class="value bi-x penalty"
-                                                *ngIf="!isTileMode && itemParameters.canUse === false"
+                                                *ngIf="!tileMode.enabled && itemParameters.canUse === false"
                                                 [ngbTooltip]="'You are not trained with this item.'"
                                             ></i>
 
                                             <i
                                                 class="value bi-check2 bonus"
-                                                *ngIf="!isTileMode && itemParameters.canUse"
+                                                *ngIf="!tileMode.enabled && itemParameters.canUse"
                                                 [ngbTooltip]="'You are trained with this item.'"
                                             ></i>
                                         </span>
@@ -539,7 +525,7 @@
                                 <ng-template #ItemTemplate>
                                     <header
                                         class="spellHeader newrow"
-                                        *ngIf="isTileMode"
+                                        *ngIf="isTileMode$ | async"
                                     >
                                         <ng-container *ngTemplateOutlet="ItemTitleTemplate"></ng-container>
                                     </header>
@@ -1445,7 +1431,8 @@
                                 </ng-template>
 
                                 <ng-container *ngIf="itemParameters.item.id as inventoryID">
-                                    <ng-container *ngIf="!isTileMode">
+
+                                    <ng-template #ListModeTemplate>
                                         <div
                                             class="list-item"
                                             cdkDrag
@@ -1470,9 +1457,9 @@
                                                 <ng-container *ngTemplateOutlet="ItemTemplate"></ng-container>
                                             </div>
                                         </div>
-                                    </ng-container>
+                                    </ng-template>
 
-                                    <ng-container *ngIf="isTileMode">
+                                    <ng-container *ngIf="isTileMode$ | async; else ListModeTemplate">
                                         <button
                                             type="button"
                                             aria-label="Show item"

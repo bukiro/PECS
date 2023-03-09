@@ -9,7 +9,7 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
 import { Character } from 'src/app/classes/Character';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
@@ -139,7 +139,7 @@ export class ItemBladeAllyComponent extends TrackByMixin(BaseClass) implements O
         const twoDigits = 2;
 
         return allRunes
-            .sort((a, b) => SortAlphaNum(
+            .sort((a, b) => sortAlphaNum(
                 a.rune.level.toString().padStart(twoDigits, '0') + a.rune.name,
                 b.rune.level.toString().padStart(twoDigits, '0') + b.rune.name,
             ));

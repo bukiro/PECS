@@ -1,4 +1,4 @@
-export const SignNumber = (number: number): string => `${ number > 0 ? '+' : '' }${ number }`;
+export const signNumber = (number: number): string => `${ number > 0 ? '+' : '' }${ number }`;
 
 /**
  * Cut off the number's digits after the decimal point.

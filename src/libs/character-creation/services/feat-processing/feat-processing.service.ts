@@ -33,7 +33,7 @@ import { CharacterLanguagesService } from 'src/libs/shared/services/character-la
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
 import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
-import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
@@ -464,7 +464,7 @@ export class FeatProcessingService {
                                 insertSpellChoice.tradition === 'Primal' &&
                                 feat.traits.includes('Gnome')
                             ) {
-                                insertSpellChoice.tradition = SpellTraditionFromString(character.class.heritage.subType);
+                                insertSpellChoice.tradition = spellTraditionFromString(character.class.heritage.subType);
                             }
                         }
 

@@ -4,7 +4,7 @@ import { LanguageGain } from './LanguageGain';
 import { Talisman } from './Talisman';
 import { MaxSpellLevel } from 'src/libs/shared/definitions/spellLevels';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
-import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
+import { strikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject } from 'rxjs';
@@ -53,7 +53,7 @@ export class WornItem extends Equipment {
     public isRingOfWizardry: Array<RingOfWizardrySlot> = [];
     /** Is this a pair of Bracers of Armor and lets you attach talismans like a light armor? */
     public isBracersOfArmor = false;
-    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = StrikingTitleFromLevel;
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = strikingTitleFromLevel;
     public propertyRunes: Array<WeaponRune> = [];
 
     public runesChanged$ = new BehaviorSubject<true>(true);

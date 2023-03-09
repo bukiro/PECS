@@ -1,28 +1,14 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="corner-button-tray">
     <app-minimize-button
-        [(ngModel)]="isMinimized"
+        [ngModel]="(isMinimized$ | async) ?? false"
+        (ngModelChange)="toggleMinimized($event)"
     ></app-minimize-button>
 
-    <button
-        type="button"
-        aria-label="Switch between list layout and tile layout"
-        class="tilemodebutton"
-        [ngClass]="{'fancy-button':isTileMode}"
-        (click)="toggleTileMode()"
-        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'"
-    >
-        <!-- Content is css only -->
-        <div>
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-        </div>
-    </button>
+    <app-tile-mode-button
+        [ngModel]="(isTileMode$ | async) ?? false"
+        (ngModelChange)="toggleTileMode($event)"
+    ></app-tile-mode-button>
 </div>
 
 <div
@@ -153,7 +139,8 @@
                                 </header>
 
                                 <div
-                                    [ngClass]="{'icon-list':isTileMode, 'vlist':!isTileMode}"
+                                    *ngIf="{ enabled: isTileMode$ | async } as tileMode"
+                                    [ngClass]="{'icon-list':tileMode.enabled, 'vlist':!tileMode.enabled}"
                                     style="min-height: auto"
                                 >
                                     <!-- Fixed Spells gained -->
@@ -161,7 +148,7 @@
                                         <ng-template #FixedSpellContent>
                                             <header
                                                 class="spellHeader left-aligned"
-                                                *ngIf="isTileMode"
+                                                *ngIf="tileMode.enabled"
                                             >
                                                 {{spellParameters.gain.name}}
                                                 <app-action-icons
@@ -187,7 +174,7 @@
                                             </app-spell>
                                         </ng-template>
 
-                                        <ng-container *ngIf="!isTileMode">
+                                        <ng-container *ngIf="!tileMode.enabled">
                                             <div
                                                 class="list-item minimized-hide"
                                                 *ngIf="'showFixedSpell'+spellParameters.choice.id+spellParameters.gain.name as spellID"
@@ -211,7 +198,7 @@
                                             </div>
                                         </ng-container>
 
-                                        <ng-container *ngIf="isTileMode">
+                                        <ng-container *ngIf="tileMode.enabled">
                                             <div class="minimized-hide">
                                                 <button
                                                     type="button"
@@ -247,7 +234,7 @@
                                             [prepared]="componentParameters.allowSwitchingPreparedSpells"
                                             [spellbook]="true"
                                             [showContent]="false"
-                                            [tileMode]="isTileMode"
+                                            [isTileMode]="tileMode.enabled ?? false"
                                         >
                                         </app-spell-choice>
                                     </ng-container>

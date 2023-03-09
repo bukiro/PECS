@@ -12,9 +12,9 @@ import { Armor } from 'src/app/classes/Armor';
 import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
 import { Character } from 'src/app/classes/Character';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
@@ -553,7 +553,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
         const twoDigits = 2;
 
         return allRunes
-            .sort((a, b) => SortAlphaNum(
+            .sort((a, b) => sortAlphaNum(
                 (a.rune?.level.toString() || '').padStart(twoDigits, '0') + a.rune?.name,
                 (b.rune?.level.toString() || '').padStart(twoDigits, '0') + b.rune?.name,
             ));
@@ -634,7 +634,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
         const twoDigits = 2;
 
         return allRunes
-            .sort((a, b) => SortAlphaNum(
+            .sort((a, b) => sortAlphaNum(
                 (a.rune?.level.toString() || '').padStart(twoDigits, '0') + a.rune?.name,
                 (b.rune?.level.toString() || '').padStart(twoDigits, '0') + b.rune?.name,
             ));
@@ -892,7 +892,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
     }
 
     private _priceText(price: number): string {
-        return PriceTextFromCopper(price);
+        return priceTextFromCopper(price);
     }
 
     private _prepareChanges(rune: Rune): void {

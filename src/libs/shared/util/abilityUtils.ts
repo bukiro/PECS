@@ -1,4 +1,4 @@
-export const AbilityModFromAbilityValue = (abilityValue: number): number => {
+export const abilityModFromAbilityValue = (abilityValue: number): number => {
     /**
      * Calculates the ability modifier from the effective ability in the usual d20 fashion:
      * 0-1 => -5;

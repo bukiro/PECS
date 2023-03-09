@@ -496,8 +496,8 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
                 (
                     (
                         this.action.isHostile() ?
-                            !this.character.settings.noHostileCasterConditions :
-                            !this.character.settings.noFriendlyCasterConditions
+                            !SettingsService.settings.noHostileCasterConditions :
+                            !SettingsService.settings.noFriendlyCasterConditions
                     ) ||
                     (
                         this._conditionsDataService.conditions()

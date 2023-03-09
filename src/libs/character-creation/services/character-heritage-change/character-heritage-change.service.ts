@@ -8,7 +8,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
@@ -255,7 +255,7 @@ export class CharacterHeritageChangeService {
 
                 characterClass.spellCasting.find(casting => casting.castingType === SpellCastingTypes.Innate)
                     ?.spellChoices.filter(choice => feats.includes(choice.source.replace('Feat: ', ''))).forEach(choice => {
-                        choice.tradition = SpellTraditionFromString(heritage.subType);
+                        choice.tradition = spellTraditionFromString(heritage.subType);
 
                         if (choice.available || choice.dynamicAvailable) {
                             choice.spells.length = 0;

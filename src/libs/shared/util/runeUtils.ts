@@ -1,7 +1,7 @@
 import { BasicRuneLevels } from '../definitions/basicRuneLevels';
 import { ResilientRuneLevelNames, StrikingRuneLevelNames } from '../definitions/runeLevelNames';
 
-export const ResilientTitleFromLevel = (resilient: number): string => {
+export const resilientTitleFromLevel = (resilient: number): string => {
     switch (resilient) {
         case BasicRuneLevels.None:
             return ResilientRuneLevelNames.None;
@@ -16,7 +16,7 @@ export const ResilientTitleFromLevel = (resilient: number): string => {
     }
 };
 
-export const StrikingTitleFromLevel = (striking: number): string => {
+export const strikingTitleFromLevel = (striking: number): string => {
     switch (striking) {
         case BasicRuneLevels.None:
             return StrikingRuneLevelNames.None;

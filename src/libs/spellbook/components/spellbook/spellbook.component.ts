@@ -14,14 +14,14 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { Condition } from 'src/app/classes/Condition';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { map, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
 import { Trait } from 'src/app/classes/Trait';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Skill } from 'src/app/classes/Skill';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
@@ -100,17 +100,24 @@ interface SpellParameters {
 })
 export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
-    @Input()
-    public forceMinimized?: boolean;
+    @HostBinding('class.minimized')
+    private _combinedMinimized = false;
 
     public creatureTypesEnum = CreatureTypes;
 
+    public isTileMode$: Observable<boolean>;
+
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _isMinimized = false;
+    private _forceMinimized = false;
+
     private _showSpell = '';
     private _showList = '';
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -136,26 +143,31 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
     ) {
         super();
 
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => settings.spellbookMinimized),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this._combinedMinimized = this._isMinimized || this._forceMinimized;
+                this.isMinimized$.next(this._combinedMinimized);
             });
+
+        this.isTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.spellbookTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this.forceMinimized || this._isMinimized;
-    }
-
-    public set isMinimized(minimized: boolean) {
-        CreatureService.settings.spellbookMinimized = minimized;
-    }
-
-    public get isTileMode(): boolean {
-        return this._character.settings.spellbookTileMode;
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._forceMinimized = forceMinimized ?? false;
+        this._combinedMinimized = this._isMinimized || this._forceMinimized;
+        this.isMinimized$.next(this._combinedMinimized);
     }
 
     public get isManualMode(): boolean {
@@ -164,6 +176,14 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
 
     private get _character(): Character {
         return CreatureService.character;
+    }
+
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.spellbookMinimized = minimized;
+    }
+
+    public toggleTileMode(isTileMode: boolean): void {
+        SettingsService.settings.spellbookTileMode = isTileMode;
     }
 
     public toggleShownSpell(id = ''): void {
@@ -189,12 +209,6 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
 
     public shownList(): string {
         return this._showList;
-    }
-
-    public toggleTileMode(): void {
-        this._character.settings.spellbookTileMode = !this._character.settings.spellbookTileMode;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        this._refreshService.processPreparedChanges();
     }
 
     public traitFromName(name: string): Trait {
@@ -652,6 +666,13 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
         this._refreshService.processPreparedChanges();
     }
 
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
+    }
+
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
@@ -665,11 +686,6 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
                     this._changeDetector.detectChanges();
                 }
             });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _allSpellCastings(): Array<SpellCasting> {
@@ -762,7 +778,7 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
                             cantripAllowed: false,
                         },
                     )
-                    .sort((a, b) => SortAlphaNum(a.gain.name, b.gain.name));
+                    .sort((a, b) => sortAlphaNum(a.gain.name, b.gain.name));
             } else {
                 return [];
             }
@@ -786,7 +802,7 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
                         ) === levelNumber,
                     ),
                 )
-                .sort((a, b) => SortAlphaNum(a.gain.name || '', b.gain.name || ''));
+                .sort((a, b) => sortAlphaNum(a.gain.name || '', b.gain.name || ''));
         }
     }
 

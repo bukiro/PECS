@@ -4,7 +4,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Character } from 'src/app/classes/Character';
-import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
@@ -185,7 +185,7 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
 
     private _priceText(stone: WornItem): string {
         if (stone.price) {
-            return PriceTextFromCopper(stone.price);
+            return priceTextFromCopper(stone.price);
         } else {
             return '';
         }

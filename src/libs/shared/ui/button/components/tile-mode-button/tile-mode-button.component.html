@@ -1,0 +1,21 @@
+<button
+    type="button"
+    aria-label="button"
+    [attr.aria-label]="tileModeLabel"
+    (click)="value = !value"
+    [disabled]="isDisabled"
+    [ngbTooltip]="tileModeLabel"
+>
+    <!-- The icon is css only -->
+    <div class="icon">
+        <div class="icon__element"></div>
+
+        <div class="icon__element"></div>
+
+        <div class="icon__element"></div>
+
+        <div class="icon__element"></div>
+    </div>
+
+    <ng-content></ng-content>
+</button>

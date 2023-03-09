@@ -5,14 +5,14 @@ import { Character } from 'src/app/classes/Character';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { Consumable } from 'src/app/classes/Consumable';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay, Subscription } from 'rxjs';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { Snare } from 'src/app/classes/Snare';
@@ -28,6 +28,7 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 const itemsPerPage = 40;
 
@@ -50,6 +51,8 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
     public creature: CreatureTypes = CreatureTypes.Character;
     public range = 0;
 
+    public isTileMode$: Observable<boolean>;
+
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
 
@@ -71,10 +74,13 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
         private readonly _characterFeatsService: CharacterFeatsService,
     ) {
         super();
-    }
 
-    public get isTileMode(): boolean {
-        return this._character.settings.craftingTileMode;
+        this.isTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.craftingTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
     public get craftingMenuState(): MenuState {
@@ -83,6 +89,10 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
 
     private get _character(): Character {
         return CreatureService.character;
+    }
+
+    public toggleTileMode(isTileMode: boolean): void {
+        SettingsService.settings.craftingTileMode = isTileMode;
     }
 
     //TO-DO: create list and pagination component for these lists
@@ -108,12 +118,6 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
 
     public shownList(): string {
         return this._showList;
-    }
-
-    public toggleTileMode(): void {
-        this._character.settings.craftingTileMode = !this._character.settings.craftingTileMode;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'crafting');
-        this._refreshService.processPreparedChanges();
     }
 
     public toggleShownSorting(type: SortingOption): void {
@@ -217,7 +221,7 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
                     )
                 ),
             )
-            .sort((a, b) => SortAlphaNum(a[this.sorting], b[this.sorting]));
+            .sort((a, b) => sortAlphaNum(a[this.sorting], b[this.sorting]));
     }
 
     public cannotCraftReason(item: Item): Array<string> {

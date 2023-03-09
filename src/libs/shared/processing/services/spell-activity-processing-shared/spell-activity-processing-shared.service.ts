@@ -16,6 +16,7 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 @Injectable({
     providedIn: 'root',
@@ -70,8 +71,8 @@ export class SpellActivityProcessingSharedService {
                 (
                     (
                         source.isHostile() ?
-                            CreatureService.settings.noHostileCasterConditions :
-                            CreatureService.settings.noFriendlyCasterConditions
+                            SettingsService.settings.noHostileCasterConditions :
+                            SettingsService.settings.noFriendlyCasterConditions
                     ) &&
                     (
                         !condition.hasEffects() &&

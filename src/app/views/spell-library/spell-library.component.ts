@@ -6,14 +6,14 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay, Subscription } from 'rxjs';
 import { Trait } from 'src/app/classes/Trait';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { SpellLearned } from 'src/app/classes/SpellLearned';
@@ -25,6 +25,7 @@ import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 const itemsPerPage = 40;
 const showAllLists = -2;
@@ -52,6 +53,8 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
     public range = 0;
     public spellTraditions = Object.values(SpellTraditions);
 
+    public isTileMode$: Observable<boolean>;
+
     private _showList = -1;
     private _showItem = '';
 
@@ -68,18 +71,25 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
         private readonly _characterFeatsService: CharacterFeatsService,
     ) {
         super();
+
+        this.isTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.spellLibraryTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
     public get spellLibraryMenuState(): MenuState {
         return this._menuService.spellLibraryMenuState;
     }
 
-    public get isTileMode(): boolean {
-        return this._character.settings.spellLibraryTileMode;
-    }
-
     private get _character(): Character {
         return CreatureService.character;
+    }
+
+    public toggleTileMode(tileMode: boolean): void {
+        SettingsService.settings.spellLibraryTileMode = !tileMode;
     }
 
     public incRange(amount: number): void {
@@ -155,14 +165,8 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
         this._menuService.toggleMenu(MenuNames.SpellLibraryMenu);
     }
 
-    public toggleTileMode(): void {
-        this._character.settings.spellLibraryTileMode = !this._character.settings.spellLibraryTileMode;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spelllibrary');
-        this._refreshService.processPreparedChanges();
-    }
-
     public isSpellbookMinimized(): boolean {
-        return CreatureService.settings.spellbookMinimized;
+        return SettingsService.settings.spellbookMinimized;
     }
 
     public componentParameters(): ComponentParameters {
@@ -212,7 +216,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
                         !spell.traditions.includes(SpellTraditions.Focus)
                 ),
             )
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public wizardSchool(): string {
@@ -554,7 +558,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
     public learnSpell(spell: Spell, source: string): void {
         this._character.class.learnSpell(spell, source);
 
-        if (this._character.settings.autoCloseChoices) { this.toggleShownItem(); }
+        if (SettingsService.settings.autoCloseChoices) { this.toggleShownItem(); }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
         this._refreshService.processPreparedChanges();
@@ -607,7 +611,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
                 const twoDigits = 2;
 
                 selected
-                    .sort((a, b) => SortAlphaNum(a.level.toString().padStart(twoDigits, '0'), b.level.toString().padStart(twoDigits, '0')))
+                    .sort((a, b) => sortAlphaNum(a.level.toString().padStart(twoDigits, '0'), b.level.toString().padStart(twoDigits, '0')))
                     .forEach(choice => {
                         result += `\n${ choice.spells[0].name } (level ${ choice.level })`;
                     });

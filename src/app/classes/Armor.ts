@@ -4,7 +4,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { AdventuringGear } from './AdventuringGear';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
-import { ResilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
+import { resilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject } from 'rxjs';
@@ -53,7 +53,7 @@ export class Armor extends Equipment {
 
     public runesChanged$ = new BehaviorSubject<true>(true);
 
-    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = ResilientTitleFromLevel;
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = resilientTitleFromLevel;
 
     public get secondaryRune(): BasicRuneLevels {
         return this.resilientRune;
@@ -197,7 +197,7 @@ export class Armor extends Equipment {
     }
 
     protected _secondaryRuneName(): string {
-        return ResilientTitleFromLevel(this.effectiveResilient());
+        return resilientTitleFromLevel(this.effectiveResilient());
     }
 
 }

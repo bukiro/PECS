@@ -11,14 +11,14 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { map, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Trait } from 'src/app/classes/Trait';
 import { Skill } from 'src/app/classes/Skill';
 import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ArmorClassService, CalculatedAC, CoverTypes } from '../../../shared/services/armor-class/armor-class.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
@@ -28,6 +28,7 @@ import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -45,17 +46,21 @@ interface ComponentParameters {
 export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public forceMinimized?: boolean;
-
-    @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
+
+    @HostBinding('class.minimized')
+    private _combinedMinimized = false;
 
     public shieldDamage = 0;
 
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _isMinimized = false;
+    private _forceMinimized = false;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -71,8 +76,9 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
     ) {
         super();
 
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -83,19 +89,20 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
                             return settings.defenseMinimized;
                     }
                 }),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this._combinedMinimized = this._isMinimized || this._forceMinimized;
+                this.isMinimized$.next(this._combinedMinimized);
             });
     }
 
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this.forceMinimized || this._isMinimized;
-    }
-
-    public set isMinimized(minimized: boolean) {
-        CreatureService.settings.defenseMinimized = minimized;
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._forceMinimized = forceMinimized ?? false;
+        this._combinedMinimized = this._isMinimized || this._forceMinimized;
+        this.isMinimized$.next(this._combinedMinimized);
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -108,6 +115,10 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     private get _currentCreature(): Creature {
         return CreatureService.creatureFromType(this.creature);
+    }
+
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.defenseMinimized = minimized;
     }
 
     public armorSpecialization(armor: Armor | WornItem): Array<Specialization> {
@@ -242,7 +253,7 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     public skillsOfType(type: string): Array<Skill> {
         return this._skillsDataService.skills(this._currentCreature.customSkills, '', { type })
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public traitFromName(traitName: string): Trait {
@@ -336,6 +347,8 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
     }
 
     private _setDefenseChanged(): void {

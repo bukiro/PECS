@@ -12,7 +12,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
-import { SpellCastingTypeFromString, SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { spellCastingTypeFromString, spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
@@ -703,8 +703,8 @@ export class FeatRequirementsService {
                                 charLevel,
                                 {
                                     classNames,
-                                    traditions: traditions.map(tradition => SpellTraditionFromString(tradition)),
-                                    castingTypes: castingTypes.map(castingType => SpellCastingTypeFromString(castingType)),
+                                    traditions: traditions.map(tradition => spellTraditionFromString(tradition)),
+                                    castingTypes: castingTypes.map(castingType => spellCastingTypeFromString(castingType)),
                                 },
                             )
                                 .map(spellSet => spellSet.gain.name);

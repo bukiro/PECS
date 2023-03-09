@@ -15,7 +15,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Consumable } from 'src/app/classes/Consumable';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay, Subscription } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -24,7 +24,7 @@ import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
@@ -39,6 +39,7 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 const itemsPerPage = 40;
 
@@ -91,6 +92,8 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         { label: 'Held Items', key: 'helditems' },
     ];
 
+    public isTileMode$: Observable<boolean>;
+
     private _showList = '';
     private _showItem = '';
     private _showCreature: CreatureTypes = CreatureTypes.Character;
@@ -116,10 +119,13 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         private readonly _featsDataService: FeatsDataService,
     ) {
         super();
-    }
 
-    public get isTileMode(): boolean {
-        return this.character.settings.conditionsTileMode;
+        this.isTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.conditionsTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
     public get character(): Character {
@@ -144,6 +150,10 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
 
     private get _isFamiliarAvailable(): boolean {
         return this._creatureAvailabilityService.isFamiliarAvailable();
+    }
+
+    public toggleTileMode(isTileMode: boolean): void {
+        SettingsService.settings.conditionsTileMode = isTileMode;
     }
 
     public incRange(amount: number): void {
@@ -205,12 +215,6 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         return this._showCreature;
     }
 
-    public toggleTileMode(): void {
-        this.character.settings.conditionsTileMode = !this.character.settings.conditionsTileMode;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'conditions');
-        this._refreshService.processPreparedChanges();
-    }
-
     public validateDurationNumbers(): void {
         const maxHours = 23;
         const maxMinutes = 59;
@@ -266,7 +270,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
                     )
                 ),
             )
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
+            .sort((a, b) => sortAlphaNum(a.name, b.name));
 
     }
 
@@ -541,7 +545,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         return Object.keys(this.newEffect)
             .map(key => propertyData(key as keyof EffectGain))
             .filter((property): property is ItemProperty<EffectGain> => property !== undefined)
-            .sort((a, b) => SortAlphaNum(a.group + a.priority, b.group + b.priority));
+            .sort((a, b) => sortAlphaNum(a.group + a.priority, b.group + b.priority));
     }
 
     public effectPropertyExamples(propertyData: ItemProperty<EffectGain>): Array<string> {

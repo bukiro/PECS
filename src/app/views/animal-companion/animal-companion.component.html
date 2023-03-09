@@ -1,7 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="corner-button-tray">
     <app-minimize-button
-        [(ngModel)]="isMinimized"
+        [ngModel]="(isMinimized$ | async) ?? false"
+        (ngModelChange)="toggleMinimized($event)"
     ></app-minimize-button>
 </div>
 
@@ -173,7 +174,6 @@
                         if="general"
                         class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
-                        [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="!showMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(showMode())"
                     >
                     </app-general>
@@ -182,7 +182,6 @@
                         if="abilities"
                         class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
-                        [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="!showMode()"
                     >
                     </app-abilities>
@@ -191,8 +190,7 @@
                         if="health"
                         class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
-                        [showMinimizeButton]="(showMode() !== 'Downtime')"
-                        [ngClass]="{'minimized':(isMinimized || (showMode() === 'Downtime'))}"
+                        [forceMinimized]="showMode() === 'Downtime'"
                         *ngIf="showMode()==='Health'"
                     >
                     </app-health>
@@ -201,7 +199,6 @@
                         if="defense"
                         class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
-                        [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="showMode()==='Defense'"
                     >
                     </app-defense>
@@ -210,7 +207,6 @@
                         if="attacks"
                         class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
-                        [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="showMode()==='Attacks'"
                     >
                     </app-attacks>
@@ -219,7 +215,6 @@
                         if="skills"
                         class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
-                        [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="showMode()==='Skills'"
                     >
                     </app-skills>
@@ -228,7 +223,6 @@
                         if="activities"
                         class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
-                        [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="showMode()==='Actions'"
                     >
                     </app-activities>
@@ -237,7 +231,6 @@
                         if="inventory"
                         class="character-sheet-app"
                         [creature]="creatureTypesEnum.AnimalCompanion"
-                        [ngClass]="{'minimized':(isMinimized)}"
                         *ngIf="showMode()==='Inventory'"
                     >
                     </app-inventory>

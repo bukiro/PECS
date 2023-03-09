@@ -20,7 +20,7 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
+import { creatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
@@ -166,7 +166,7 @@ export class EvaluationService {
         const Size = (asNumber = false): string | number => (
             asNumber
                 ? this._creaturePropertiesService.effectiveSize(Creature)
-                : CreatureSizeName(this._creaturePropertiesService.effectiveSize(Creature))
+                : creatureSizeName(this._creaturePropertiesService.effectiveSize(Creature))
         );
         const Skill = (name: string): number => (
             this._skillValuesService.baseValue(name, Creature, Level).result

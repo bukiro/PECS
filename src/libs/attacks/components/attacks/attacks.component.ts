@@ -19,11 +19,11 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { map, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Specialization } from 'src/app/classes/Specialization';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Skill } from 'src/app/classes/Skill';
 import { Trait } from 'src/app/classes/Trait';
 import { WornItem } from 'src/app/classes/WornItem';
@@ -62,21 +62,28 @@ interface WeaponParameters {
 export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public forceMinimized?: boolean;
-
-    @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
+
+    @HostBinding('class.minimized')
+    private _combinedMinimized = false;
 
     public onlyAttacks: Array<AttackRestriction> = [];
     public forbiddenAttacks: Array<AttackRestriction> = [];
     public showRestricted = false;
 
+    public isInventoryTileMode$: Observable<boolean>;
+
+    public isMinimized$ = new BehaviorSubject<boolean>(false);
+
     private _isMinimized = false;
+    private _forceMinimized = false;
+
     private _showItem = '';
     private _showList = '';
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -97,8 +104,9 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
     ) {
         super();
 
-        CreatureService.settings$
+        SettingsService.settings$
             .pipe(
+                takeUntil(this._destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -107,19 +115,27 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
                             return settings.attacksMinimized;
                     }
                 }),
+                distinctUntilChanged(),
             )
             .subscribe(minimized => {
                 this._isMinimized = minimized;
+                this._combinedMinimized = this._isMinimized || this._forceMinimized;
+                this.isMinimized$.next(this._combinedMinimized);
             });
+
+        this.isInventoryTileMode$ = SettingsService.settings$
+            .pipe(
+                map(settings => settings.inventoryTileMode),
+                distinctUntilChanged(),
+                shareReplay(1),
+            );
     }
 
-    @HostBinding('class.minimized')
-    public get isMinimized(): boolean {
-        return this.forceMinimized || this._isMinimized;
-    }
-
-    public set isMinimized(minimized: boolean) {
-        CreatureService.settings.attacksMinimized = minimized;
+    @Input()
+    public set forceMinimized(forceMinimized: boolean | undefined) {
+        this._forceMinimized = forceMinimized ?? false;
+        this._combinedMinimized = this._isMinimized || this._forceMinimized;
+        this.isMinimized$.next(this._combinedMinimized);
     }
 
     public get shouldShowMinimizeButton(): boolean {
@@ -130,16 +146,16 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
         return SettingsService.isManualMode;
     }
 
-    public get isInventoryTileMode(): boolean {
-        return this._character.settings.inventoryTileMode;
-    }
-
     private get _character(): Character {
         return CreatureService.character;
     }
 
     private get _currentCreature(): Character | AnimalCompanion {
         return CreatureService.creatureFromType(this.creature) as Character | AnimalCompanion;
+    }
+
+    public toggleMinimized(minimized: boolean): void {
+        SettingsService.settings.attacksMinimized = minimized;
     }
 
     public toggleShownList(name: string): void {
@@ -243,7 +259,7 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
             });
         });
 
-        return ammoList.sort((a, b) => SortAlphaNum(a.name, b.name));
+        return ammoList.sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public availableSnares(): Array<{ item: Snare; name: string; inventory: ItemCollection }> {
@@ -255,7 +271,7 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
             });
         });
 
-        return snares.sort((a, b) => SortAlphaNum(a.name, b.name));
+        return snares.sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public onConsumableUse(
@@ -707,6 +723,8 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
+        this._destroyed$.next(true);
+        this._destroyed$.complete();
     }
 
     private _setAttackRestrictions(): void {

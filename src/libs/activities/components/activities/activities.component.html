@@ -2,28 +2,14 @@
 <div class="corner-button-tray">
     <app-minimize-button
         *ngIf="shouldShowMinimizeButton"
-        [(ngModel)]="isMinimized"
+        [ngModel]="(isMinimized$ | async) ?? false"
+        (ngModelChange)="toggleMinimized($event)"
     ></app-minimize-button>
 
-    <button
-        type="button"
-        aria-label="Switch between list layout and tile layout"
-        class="tilemodebutton"
-        [ngClass]="{'fancy-button':isTileMode}"
-        (click)="toggleTileMode()"
-        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'"
-    >
-        <!-- Content is css only -->
-        <div>
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-        </div>
-    </button>
+    <app-tile-mode-button
+        [ngModel]="(isTileMode$ | async) ?? false"
+        (ngModelChange)="toggleTileMode($event)"
+    ></app-tile-mode-button>
 </div>
 
 <div
@@ -81,12 +67,12 @@
 
         <ng-container *ngIf="activityParameters() as allActivityParameters">
             <div
-                *ngIf="allActivityParameters.length"
-                [ngClass]="{'icon-list':isTileMode, 'vlist':!isTileMode}"
+                *ngIf="allActivityParameters.length && { enabled: isTileMode$ | async } as tileMode"
+                [ngClass]="{'icon-list':tileMode.enabled, 'vlist':!tileMode.enabled}"
             >
                 <ng-container *ngFor="let activityParameters of allActivityParameters; trackBy:trackByIndex;">
                     <ng-template #ActivityTitleTemplate>
-                        <span *ngIf="!isTileMode">
+                        <span *ngIf="!tileMode.enabled">
                             <i
                                 class="value bi-patch-plus bonus"
                                 *ngIf="!activityParameters.hostile"
@@ -112,7 +98,7 @@
                     <ng-template #ActivityTemplate>
                         <header
                             class="spellHeader"
-                            *ngIf="isTileMode"
+                            *ngIf="tileMode.enabled"
                         >
                             <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
                         </header>
@@ -126,7 +112,7 @@
                         </app-activity>
                     </ng-template>
 
-                    <ng-container *ngIf="!isTileMode">
+                    <ng-container *ngIf="!tileMode.enabled">
                         <div class="list-item">
                             <button
                                 type="button"
@@ -148,7 +134,7 @@
                         </div>
                     </ng-container>
 
-                    <ng-container *ngIf="isTileMode">
+                    <ng-container *ngIf="tileMode.enabled">
                         <button
                             type="button"
                             aria-label="Show activity"

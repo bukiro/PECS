@@ -6,8 +6,8 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { CreatureTypeIDFromType } from 'src/libs/shared/util/creatureUtils';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { creatureTypeIDFromType } from 'src/libs/shared/util/creatureUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ConditionEffectsObject } from 'src/app/classes/ConditionEffectsObject';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { RecastService } from '../recast/recast.service';
@@ -42,7 +42,7 @@ export class CreatureConditionsService {
         options: { readonly?: boolean } = {},
     ): Array<ConditionGain> {
         const activeConditions = creature.conditions;
-        const creatureIndex: number = CreatureTypeIDFromType(creature.type);
+        const creatureIndex: number = creatureTypeIDFromType(creature.type);
 
         // Readonly skips any modifications and just returns the currently applied conditions.
         // The same happens if the conditions haven't changed since the last run.
@@ -58,7 +58,7 @@ export class CreatureConditionsService {
                 (!filter.name?.toLowerCase() || condition.name.toLowerCase() === filter.name.toLowerCase()) &&
                 (!filter.source?.toLowerCase() || condition.source.toLowerCase() === filter.source.toLowerCase()),
             )
-            .sort((a, b) => SortAlphaNum(a.name + a.id, b.name + b.id));
+            .sort((a, b) => sortAlphaNum(a.name + a.id, b.name + b.id));
     }
 
     public addCondition(

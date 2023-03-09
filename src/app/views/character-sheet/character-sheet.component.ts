@@ -11,7 +11,6 @@ import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
-import { Settings } from 'src/app/classes/Settings';
 
 const slideInOutTrigger = trigger('slideInOut', [
     state('in', style({
@@ -74,10 +73,6 @@ export class CharacterSheetComponent extends DestroyableMixin(IsMobileMixin(Trac
         super();
 
         this.isLoadingCharacter$ = StatusService.isLoadingCharacter$;
-    }
-
-    public get settings(): Settings {
-        return CreatureService.settings;
     }
 
     public get itemsMenuState(): MenuState {

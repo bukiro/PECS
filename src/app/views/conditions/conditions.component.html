@@ -1,24 +1,9 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="window-button-container">
-    <button
-        type="button"
-        aria-label="Switch between list layout and tile layout"
-        class="tilemodebutton"
-        [ngClass]="{'fancy-button':isTileMode}"
-        (click)="toggleTileMode()"
-        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'"
-    >
-        <!-- Content is css only -->
-        <div>
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-        </div>
-    </button>
+    <app-tile-mode-button
+        [ngModel]="(isTileMode$ | async) ?? false"
+        (ngModelChange)="toggleTileMode($event)"
+    ></app-tile-mode-button>
 </div>
 
 <div
@@ -237,8 +222,8 @@
                                     </button>
 
                                     <div
-                                        [ngClass]="{'icon-list left-aligned':isTileMode, 'list-item':!isTileMode}"
-                                        *ngIf="visibleConditions.length && [typeSet.label, 'all'].includes(shownList())"
+                                        [ngClass]="{'icon-list left-aligned':tileMode.enabled, 'list-item':!tileMode.enabled}"
+                                        *ngIf="visibleConditions.length && [typeSet.label, 'all'].includes(shownList()) && { enabled: isTileMode$ | async } as tileMode"
                                     >
                                         <div
                                             class="newrow list-item"
@@ -261,7 +246,7 @@
                                         <ng-container *ngFor="let condition of visibleConditions; let conditionIndex = index; trackBy:trackByIndex;">
                                             <ng-container *ngIf="isConditionShown(visibleConditions, conditionIndex, range)">
                                                 <ng-template #ConditionTitleTemplate>
-                                                    <span *ngIf="!isTileMode">
+                                                    <span *ngIf="!tileMode.enabled">
                                                         <i
                                                             class="value bi-patch-plus bonus"
                                                             *ngIf="condition.buff"
@@ -280,7 +265,7 @@
                                                 <ng-template #ConditionTemplate>
                                                     <header
                                                         class="spellHeader"
-                                                        *ngIf="isTileMode"
+                                                        *ngIf="tileMode.enabled"
                                                     >
                                                         <ng-container *ngTemplateOutlet="ConditionTitleTemplate"></ng-container>
                                                     </header>
@@ -470,7 +455,7 @@
                                                     </div>
                                                 </ng-template>
 
-                                                <ng-container *ngIf="!isTileMode">
+                                                <ng-container *ngIf="!tileMode.enabled">
                                                     <div class="list-item">
                                                         <button
                                                             type="button"
@@ -490,7 +475,7 @@
                                                     </div>
                                                 </ng-container>
 
-                                                <ng-container *ngIf="isTileMode">
+                                                <ng-container *ngIf="tileMode.enabled">
                                                     <button
                                                         type="button"
                                                         aria-label="Show condition"

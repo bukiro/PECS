@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Effect } from 'src/app/classes/Effect';
 import { EffectCollection } from 'src/app/classes/EffectCollection';
 import { Creature } from 'src/app/classes/Creature';
-import { CreatureTypeIDFromType } from 'src/libs/shared/util/creatureUtils';
+import { creatureTypeIDFromType } from 'src/libs/shared/util/creatureUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 
@@ -14,13 +14,13 @@ export class CreatureEffectsService {
     private _creatureEffects: Array<EffectCollection> = [new EffectCollection(), new EffectCollection(), new EffectCollection()];
 
     public effects(creatureType: CreatureTypes): EffectCollection {
-        const creatureIndex = CreatureTypeIDFromType(creatureType);
+        const creatureIndex = creatureTypeIDFromType(creatureType);
 
         return this._creatureEffects[creatureIndex];
     }
 
     public replaceCreatureEffects(creatureType: CreatureTypes, effects: Array<Effect>): void {
-        const creatureIndex = CreatureTypeIDFromType(creatureType);
+        const creatureIndex = creatureTypeIDFromType(creatureType);
 
         this._creatureEffects[creatureIndex] = new EffectCollection();
         this._creatureEffects[creatureIndex].all = effects

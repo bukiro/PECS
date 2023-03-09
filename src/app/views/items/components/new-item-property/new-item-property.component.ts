@@ -27,7 +27,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Consumable } from 'src/app/classes/Consumable';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { Character } from 'src/app/classes/Character';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
@@ -314,7 +314,7 @@ export class NewItemPropertyComponent<T extends Item | object> extends TrackByMi
                     .find(property => property.parent === this.propertyData.key && property.key === key),
             )
             .filter(property => property !== undefined)
-            .sort((a, b) => SortAlphaNum(a.group + a.priority, b.group + b.priority));
+            .sort((a, b) => sortAlphaNum(a.group + a.priority, b.group + b.priority));
     }
 
     // eslint-disable-next-line complexity

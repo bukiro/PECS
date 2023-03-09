@@ -2,28 +2,14 @@
 <div class="corner-button-tray">
     <app-minimize-button
         *ngIf="shouldShowMinimizeButton"
-        [(ngModel)]="isMinimized"
+        [ngModel]="(isMinimized$ | async) ?? false"
+        (ngModelChange)="toggleMinimized($event)"
     ></app-minimize-button>
 
-    <button
-        type="button"
-        aria-label="Switch between list layout and tile layout"
-        class="tilemodebutton"
-        [ngClass]="{'fancy-button':isTileMode}"
-        (click)="toggleTileMode()"
-        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'"
-    >
-        <!-- Content is css only -->
-        <div>
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-
-            <div></div>
-        </div>
-    </button>
+    <app-tile-mode-button
+        [ngModel]="(isTileMode$ | async) ?? false"
+        (ngModelChange)="toggleTileMode($event)"
+    ></app-tile-mode-button>
 </div>
 
 <div
@@ -37,7 +23,8 @@
             <app-skill
                 [creature]="creature"
                 [skill]=skill
-                [minimized]="isMinimized"
+                [isMinimized]="(isMinimized$ | async) ?? false"
+                [isTileMode]="(isTileMode$ | async) ?? false"
                 [relatedActivityGains]="skillMatchingActivities(activityGains, skill.name)"
                 [showAction]="shownAction()"
                 (showActionMessage)="receiveShowActionMessage($event)"
@@ -82,7 +69,8 @@
             <ng-container *ngFor="let skill of skillsOfType('Familiar Proficiency'); trackBy:trackByIndex;">
                 <app-skill
                     [creature]="creature"
-                    [minimized]="isMinimized"
+                    [isMinimized]="(isMinimized$ | async) ?? false"
+                    [isTileMode]="(isTileMode$ | async) ?? false"
                     [skill]=skill
                 ></app-skill>
             </ng-container>
@@ -229,7 +217,8 @@
             <app-skill
                 [creature]="creature"
                 [skill]=skill
-                [minimized]="isMinimized"
+                [isMinimized]="(isMinimized$ | async) ?? false"
+                [isTileMode]="(isTileMode$ | async) ?? false"
                 [relatedActivityGains]="skillMatchingActivities(activityGains, skill.name)"
                 [showAction]="shownAction()"
                 (showActionMessage)="receiveShowActionMessage($event)"
