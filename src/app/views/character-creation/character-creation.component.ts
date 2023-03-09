@@ -33,7 +33,7 @@ import { Domain } from 'src/app/classes/Domain';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, noop, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, noop, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
@@ -89,6 +89,7 @@ import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -98,7 +99,7 @@ type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id:
     styleUrls: ['./character-creation.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
+export class CharacterCreationComponent extends DestroyableMixin(IsMobileMixin(TrackByMixin(BaseClass))) implements OnInit, OnDestroy {
 
     @HostBinding('class.minimized')
     private _isMinimized = false;
@@ -132,7 +133,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     private readonly _activeChoiceContent$
         = new BehaviorSubject<{ name: string; levelNumber: number; choice?: ShowContent } | undefined>(undefined);
@@ -225,7 +225,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => settings.characterMinimized),
                 distinctUntilChanged(),
             )
@@ -1983,8 +1983,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     private _resetChoiceArea(): void {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
-import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { Ability } from 'src/app/classes/Ability';
 import { Creature } from 'src/app/classes/Creature';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
@@ -10,6 +10,7 @@ import { AbilityValuesService, CalculatedAbility } from 'src/libs/shared/service
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 @Component({
     selector: 'app-abilities',
@@ -17,7 +18,7 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
     styleUrls: ['./abilities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class AbilitiesComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
@@ -32,7 +33,6 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -44,7 +44,7 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -106,8 +106,7 @@ export class AbilitiesComponent extends TrackByMixin(BaseClass) implements OnIni
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     public ngOnInit(): void {

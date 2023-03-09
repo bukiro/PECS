@@ -14,7 +14,7 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { Condition } from 'src/app/classes/Condition';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
 import { Trait } from 'src/app/classes/Trait';
@@ -41,6 +41,7 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -98,7 +99,7 @@ interface SpellParameters {
     styleUrls: ['./spellbook.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class SpellbookComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     @HostBinding('class.minimized')
     private _combinedMinimized = false;
@@ -117,7 +118,6 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -145,7 +145,7 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => settings.spellbookMinimized),
                 distinctUntilChanged(),
             )
@@ -669,8 +669,7 @@ export class SpellbookComponent extends TrackByMixin(BaseClass) implements OnIni
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     public ngOnInit(): void {

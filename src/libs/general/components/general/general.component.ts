@@ -8,7 +8,7 @@ import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.service';
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
@@ -25,6 +25,7 @@ import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 @Component({
     selector: 'app-general',
@@ -32,7 +33,7 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
     styleUrls: ['./general.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class GeneralComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -52,7 +53,6 @@ export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -71,7 +71,7 @@ export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit,
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -341,8 +341,7 @@ export class GeneralComponent extends TrackByMixin(BaseClass) implements OnInit,
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     private _archetypeFeats(): Array<Feat> {

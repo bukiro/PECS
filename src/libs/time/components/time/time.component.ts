@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, HostBinding } from '@angular/core';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 @Component({
     selector: 'app-time',
@@ -15,7 +16,7 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
     styleUrls: ['./time.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimeComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class TimeComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     @Input()
     public showTurn = true;
@@ -33,7 +34,6 @@ export class TimeComponent extends TrackByMixin(BaseClass) implements OnInit, On
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -46,7 +46,7 @@ export class TimeComponent extends TrackByMixin(BaseClass) implements OnInit, On
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => settings.timeMinimized),
                 distinctUntilChanged(),
             )
@@ -102,8 +102,7 @@ export class TimeComponent extends TrackByMixin(BaseClass) implements OnInit, On
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     public ngOnInit(): void {

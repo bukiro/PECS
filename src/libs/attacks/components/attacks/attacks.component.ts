@@ -19,7 +19,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Specialization } from 'src/app/classes/Specialization';
@@ -46,6 +46,7 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { Oil } from 'src/app/classes/Oil';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -59,7 +60,7 @@ interface WeaponParameters {
     styleUrls: ['./attacks.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class AttacksComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
@@ -83,7 +84,6 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -106,7 +106,7 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -723,8 +723,7 @@ export class AttacksComponent extends TrackByMixin(BaseClass) implements OnInit,
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     private _setAttackRestrictions(): void {

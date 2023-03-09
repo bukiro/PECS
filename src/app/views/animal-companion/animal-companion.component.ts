@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
-import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -10,6 +10,8 @@ import { DisplayService } from 'src/libs/shared/services/display/display.service
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 @Component({
     selector: 'app-animal-companion',
@@ -17,7 +19,7 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
     styleUrls: ['./animal-companion.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimalCompanionComponent implements OnInit, OnDestroy {
+export class AnimalCompanionComponent extends DestroyableMixin(BaseClass) implements OnInit, OnDestroy {
 
     @HostBinding('class.minimized')
     private _isMinimized = false;
@@ -31,7 +33,6 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     private _showMode = '';
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -39,9 +40,11 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
         private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
+        super();
+
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => settings.companionMinimized),
                 distinctUntilChanged(),
             )
@@ -98,8 +101,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     private _setMobile(): void {

@@ -21,7 +21,7 @@ import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, noop, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, noop, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -60,6 +60,7 @@ import { InputValidationService } from 'src/libs/shared/services/input-validatio
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -90,7 +91,7 @@ interface CalculatedMaxInvested {
     styleUrls: ['./inventory.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InventoryComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class InventoryComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -115,7 +116,6 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -149,7 +149,7 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -978,8 +978,7 @@ export class InventoryComponent extends TrackByMixin(BaseClass) implements OnIni
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     private _allAvailableCreatures(): Array<Creature> {

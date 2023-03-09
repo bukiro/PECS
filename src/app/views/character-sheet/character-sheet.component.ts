@@ -116,7 +116,7 @@ export class CharacterSheetComponent extends DestroyableMixin(IsMobileMixin(Trac
     }
 
     public ngOnDestroy(): void {
-        this.destroyed$.next(undefined);
+        this.destroy();
     }
 
     private _attacksAndSpellsOrder(): Record<string, number> {

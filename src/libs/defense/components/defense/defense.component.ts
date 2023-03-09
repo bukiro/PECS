@@ -11,7 +11,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Trait } from 'src/app/classes/Trait';
 import { Skill } from 'src/app/classes/Skill';
@@ -29,6 +29,7 @@ import { InputValidationService } from 'src/libs/shared/services/input-validatio
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -43,7 +44,7 @@ interface ComponentParameters {
     styleUrls: ['./defense.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class DefenseComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -60,7 +61,6 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -78,7 +78,7 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -347,8 +347,7 @@ export class DefenseComponent extends TrackByMixin(BaseClass) implements OnInit,
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     private _setDefenseChanged(): void {

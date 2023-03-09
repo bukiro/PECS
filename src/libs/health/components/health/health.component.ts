@@ -4,7 +4,7 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
@@ -17,6 +17,7 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 @Component({
     selector: 'app-health',
@@ -24,7 +25,7 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
     styleUrls: ['./health.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class HealthComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
@@ -49,7 +50,6 @@ export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, 
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -65,7 +65,7 @@ export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, 
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -351,8 +351,7 @@ export class HealthComponent extends TrackByMixin(BaseClass) implements OnInit, 
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     private _die(reason: string): void {

@@ -5,7 +5,7 @@ import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { Activity } from 'src/app/classes/Activity';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
@@ -19,6 +19,7 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 interface ActivitySet {
     name: string;
@@ -41,7 +42,7 @@ interface ActivityParameter {
     styleUrls: ['./activities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class ActivitiesComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     @Input()
     public creature = CreatureTypes.Character;
@@ -62,7 +63,6 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
-    private readonly _destroyed$ = new Subject<true>();
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -77,7 +77,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
 
         SettingsService.settings$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntil(this.destroyed$),
                 map(settings => {
                     switch (this.creature) {
                         case CreatureTypes.AnimalCompanion:
@@ -215,8 +215,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseClass) implements OnIn
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
+        this.destroy();
     }
 
     private _toggleShownItem(name: string): void {
