@@ -1,270 +1,229 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<header
-    class="mainHeader mobile-hide"
-    [ngbTooltip]="'Pathfinder Excessive Character Sheet'"
->
-    P.E.C.S.
-</header>
+<app-logo
+    class="mobile-hide logo"
+    ngbTooltip="Pathfinder Excessive Character Sheet"
+></app-logo>
 
-<button
-    type="button"
-    class="fancy-button loading"
-    *ngIf="isLoadingCharacter$ | async"
+<app-button
+    class="top-bar-button top-bar-button--loading"
+    *ngIf="isLoadingCharacter$ | async; else MenuTemplate"
 >
     {{loadingStatus$ | async}}
-</button>
+</app-button>
 
-<ng-container *ngIf="(isLoadingCharacter$ | async) === false">
-    <button
-        type="button"
-        [ngClass]="{'fancy-button':characterMenuState==='out'}"
+<ng-template #MenuTemplate>
+    <app-button
+        class="top-bar-button"
+        [toggled]="characterMenuState=== 'in'"
         (click)="toggleMenu(MenuNamesEnum.CharacterMenu)"
     >
-        <i class="ra ra-player"></i>
+        <div class=top-bar-button__content>
+            <i class="ra ra-player"></i>
 
-        <div class="mobile-hide">{{character.name || "Character"}}&nbsp;</div>
+            <div class="mobile-hide">{{character.name || "Character"}}</div>
 
-        <i class="bi-gear"></i>
-    </button>
+            <i class="bi-gear"></i>
+        </div>
+    </app-button>
 
-    <button
-        type="button"
-        [ngClass]="{'fancy-button':companionMenuState==='out'}"
+    <app-button
+        class="top-bar-button"
+        [toggled]="companionMenuState=== 'in'"
         (click)="toggleMenu(MenuNamesEnum.CompanionMenu)"
         *ngIf="isCompanionAvailable()"
     >
-        <i class="ra ra-wolf-howl"></i>
+        <div class=top-bar-button__content>
+            <i class="ra ra-wolf-howl"></i>
 
-        <div class="mobile-hide">
-            {{companion.name || "Animal Companion"}}
+            <div class="mobile-hide">
+                {{companion.name || "Animal Companion"}}
+            </div>
         </div>
-    </button>
+    </app-button>
 
-    <button
-        type="button"
-        [ngClass]="{'fancy-button':familiarMenuState==='out'}"
+    <app-button
+        class="top-bar-button"
+        [toggled]="familiarMenuState=== 'in'"
         (click)="toggleMenu(MenuNamesEnum.FamiliarMenu)"
         *ngIf="isFamiliarAvailable()"
     >
-        <i class="ra ra-raven"></i>
+        <div class=top-bar-button__content>
+            <i class="ra ra-raven"></i>
 
-        <div class="mobile-hide">{{familiar.name || "Familiar"}}</div>
-    </button>
+            <div class="mobile-hide">{{familiar.name || "Familiar"}}</div>
+        </div>
+    </app-button>
 
-    <button
-        type="button"
-        [ngClass]="{'fancy-button':itemsMenuState==='out'}"
+    <app-button
+        class="top-bar-button"
+        [toggled]="itemsMenuState=== 'in'"
         (click)="toggleMenu(MenuNamesEnum.ItemsMenu)"
     >
         Items
-    </button>
+    </app-button>
 
-    <button
-        type="button"
-        [ngClass]="{'fancy-button':craftingMenuState==='out'}"
+    <app-button
+        class="top-bar-button"
+        [toggled]="craftingMenuState=== 'in'"
         (click)="toggleMenu(MenuNamesEnum.CraftingMenu)"
     >
         Crafting
-    </button>
+    </app-button>
 
-    <button
-        type="button"
-        [ngClass]="{'fancy-button':spellsMenuState==='out'}"
+    <app-button
+        class="top-bar-button"
+        [toggled]="spellsMenuState=== 'in'"
         (click)="toggleMenu(MenuNamesEnum.SpellsMenu)"
         *ngIf="hasAnySpells()"
     >
         Spellbook
-    </button>
+    </app-button>
 
-    <button
-        type="button"
-        [ngClass]="{'fancy-button':spellLibraryMenuState==='out'}"
+    <app-button
+        class="top-bar-button"
+        [toggled]="spellLibraryMenuState=== 'in'"
         (click)="toggleMenu(MenuNamesEnum.SpellLibraryMenu)"
     >
-        Spell Library
-    </button>
+        Spell&nbsp;Library
+    </app-button>
 
-    <button
-        type="button"
-        [ngClass]="{'fancy-button':conditionsMenuState==='out'}"
+    <app-button
+        class="top-bar-button"
+        [toggled]="conditionsMenuState=== 'in'"
         (click)="toggleMenu(MenuNamesEnum.ConditionsMenu)"
     >
         Conditions
-    </button>
+    </app-button>
 
-    <button
-        aria-label="Dice"
-        type="button"
-        [ngClass]="{'fancy-button':diceMenuState==='out'}"
-        [ngbTooltip]="'Dice'"
+    <app-button
+        class="top-bar-button"
+        label="Dice"
+        [toggled]="diceMenuState=== 'in'"
         (click)="toggleMenu(MenuNamesEnum.DiceMenu)"
     >
-        <app-dice-icon-D20></app-dice-icon-D20>
-    </button>
+        <app-dice-icon-D20 class="top-bar-button__content top-bar-button__content--dice"></app-dice-icon-D20>
+    </app-button>
 
-    <span
+    <app-button
         *ngIf="areSavegamesInitializing || isLoggingIn"
-        style="flex-grow: initial"
-        [ngbTooltip]="'Connecting to database...'"
+        class="top-bar-button top-bar-button--loading"
+        label="Connecting to database..."
+        showLabel
+        disabled
     >
-        <button
-            aria-label="Connecting to database..."
-            id="save-button-connecting"
-            class="fancy-button loading"
-            type="button"
-            disabled
-        >
-            <i class="bi-file-earmark-arrow-up"></i>
-        </button>
-    </span>
+        <i class="bi-file-earmark-arrow-up"></i>
+    </app-button>
 
-    <button
+    <app-button
         *ngIf="isGMMode"
-        type="button"
-        class="inactive-button no-animation"
-        [ngbTooltip]="'In GM mode, the character can\'t be saved and can\'t send effects to other players.'"
+        class="top-bar-button"
+        label="In GM mode, the character can\'t be saved and can\'t send effects to other players."
+        showLabel
+        disabled
     >
         GM Mode
-    </button>
+    </app-button>
 
     <ng-container *ngIf="!areSavegamesInitializing && !isLoggingIn">
-        <span
+        <app-button
             *ngIf="cannotLogin"
-            style="flex-grow: initial"
-            [ngbTooltip]="'Database connection failed'"
+            class="top-bar-button"
+            label="Database connection failed"
+            disabled
         >
-            <button
-                type="button"
-                aria-label="Database connection failed"
-                class="fancy-button"
-                disabled
-            >
-                <i class="bi-file-earmark-break"></i>
-            </button>
-        </span>
+            <i class="bi-file-earmark-break"></i>
+        </app-button>
 
         <ng-container *ngIf="!cannotLogin">
-            <span
+            <app-button
                 *ngIf="!isLoggedIn"
-                style="flex-grow: initial"
-                [ngbTooltip]="'Not logged in'"
+                class="top-bar-button"
+                label="Not logged in"
+                showLabel
+                disabled
             >
-                <button
-                    type="button"
-                    aria-label="Not logged in"
-                    class="fancy-button"
-                    disabled
-                >
-                    <i class="bi-file-earmark-lock"></i>
-                </button>
-            </span>
+                <i class="bi-file-earmark-lock"></i>
+            </app-button>
 
-            <span
+            <app-button
                 *ngIf="!hasDBConnectionURL"
-                style="flex-grow: initial"
-                [ngbTooltip]="'No database configured'"
+                class="top-bar-button"
+                label="No database configured"
+                showLabel
+                disabled
             >
-                <button
-                    type="button"
-                    aria-label="No database configured"
-                    class="fancy-button"
-                    disabled
-                >
-                    <i class="bi-file-earmark-x"></i>
-                </button>
-            </span>
+                <i class="bi-file-earmark-x"></i>
+            </app-button>
 
             <ng-container *ngIf="hasDBConnectionURL && isLoggedIn">
-                <span
+
+                <app-button
                     *ngIf="!savegames"
-                    style="flex-grow: initial"
-                    [ngbTooltip]="'Database connection failed'"
+                    class="top-bar-button"
+                    label="Database connection failed"
+                    showLabel
+                    disabled
                 >
-                    <button
-                        type="button"
-                        aria-label="Database connection failed"
-                        class="fancy-button"
-                        disabled
-                    >
-                        <i class="bi-file-earmark-break"></i>
-                    </button>
-                </span>
+                    <i class="bi-file-earmark-break"></i>
+                </app-button>
 
                 <ng-container *ngIf="savegames && { isBlankCharacter: isBlankCharacter() } as blankCharacterStatus">
                     <ng-container *ngIf="!isGMMode">
-                        <span
+                        <app-button
                             *ngIf="blankCharacterStatus.isBlankCharacter"
-                            style="flex-grow: initial"
-                            [ngbTooltip]="'No changes to character yet'"
+                            class="top-bar-button"
+                            label="No changes to character yet"
+                            showLabel
+                            disabled
                         >
-                            <button
-                                type="button"
-                                aria-label="No changes to character yet"
-                                class="fancy-button"
-                                disabled
-                            >
-                                <i class="bi-file-earmark-arrow-up"></i>
-                            </button>
-                        </span>
+                            <i class="bi-file-earmark-arrow-up"></i>
+                        </app-button>
 
-                        <span
+                        <app-button
                             *ngIf="!blankCharacterStatus.isBlankCharacter"
-                            style="flex-grow: initial"
-                            [ngbTooltip]="'Save Character'"
+                            class="top-bar-button"
+                            label="Save Character"
+                            showLabel
+                            (click)="save()"
                         >
-                            <button
-                                type="button"
-                                aria-label="Save Character"
-                                class="fancy-button"
-                                (click)="save()"
-                            >
-                                <i class="bi-file-earmark-arrow-up"></i>
-                            </button>
-                        </span>
+                            <i class="bi-file-earmark-arrow-up"></i>
+                        </app-button>
                     </ng-container>
 
-                    <span
+                    <app-button
                         *ngIf="!blankCharacterStatus.isBlankCharacter && !isManualMode"
-                        style="flex-grow: initial"
-                        [ngbTooltip]="character.partyName ? 'Check for new effects' : 'You can only receive effects in a party.'"
+                        label="character.partyName ? 'Check for new effects' : 'You can only receive effects in a party.'"
+                        showLabel
+                        (click)="getMessages()"
+                        [disabled]="!character.partyName"
                     >
-                        <button
-                            type="button"
-                            class="fancy-button"
-                            (click)="getMessages()"
-                            [disabled]="!character.partyName"
-                        >
-                            <i class="ra ra-player-thunder-struck"></i>
+                        <i class="ra ra-player-thunder-struck"></i>
 
-                            <ng-container *ngIf="!modalOpen && newMessagesFromService() as newMessages">
-                                <div
-                                    class="window-button-container"
-                                    *ngIf="newMessages.length"
-                                >
-                                    {{newMessages.length}}
-                                </div>
-                            </ng-container>
-                        </button>
-                    </span>
+                        <ng-container *ngIf="!modalOpen && newMessagesFromService() as newMessages">
+                            <div
+                                class="window-button-container"
+                                *ngIf="newMessages.length"
+                            >
+                                {{newMessages.length}}
+                            </div>
+                        </ng-container>
+                    </app-button>
                 </ng-container>
             </ng-container>
         </ng-container>
     </ng-container>
 
-    <span
-        style="flex-grow: initial"
-        [ngbTooltip]="'Refresh all'"
+    <app-button
+        class="top-bar-button"
+        label="Refresh all"
+        showLabel
+        (click)="refreshAll()"
     >
-        <button
-            aria-label="Refresh all"
-            type="button"
-            class="fancy-button"
-            (click)="refreshAll()"
-        >
+        <div class="top-bar-button__content">
             <i class="ra ra-cycle"></i>
-        </button>
-    </span>
-</ng-container>
+        </div>
+    </app-button>
+</ng-template>
 
 <!-- New Effects Dialog -->
 <ng-template
@@ -279,15 +238,14 @@
             {{cachedNewMessages.length}} New Effect{{cachedNewMessages.length > 1 ? "s" : ""}}
         </header>
 
-        <button
-            type="button"
+        <app-button
             class="close"
-            aria-label="close"
+            label="close"
             (click)="modal.dismiss('Cross click')"
             ngbAutofocus
         >
             <span aria-hidden="true">&times;</span>
-        </button>
+        </app-button>
     </div>
 
     <div class="modal-body vlist">
@@ -305,7 +263,6 @@
             >
             <label
                 for="messagesSelectAll"
-                style="font-size: 1.5em;"
             >
                 <strong>Select all</strong>
             </label>
@@ -313,7 +270,6 @@
 
         <div
             class="fullsize-scroll-box vlist"
-            style="max-height: 50vh;"
         >
             <ng-container *ngFor="let message of cachedNewMessages; trackBy:trackByIndex">
                 <ng-container *ngIf="creatureFromMessage(message) as creature">
@@ -351,19 +307,16 @@
                                         <i
                                             class="ra ra-player"
                                             *ngIf="creature.type==='Character'"
-                                            style="line-height: 1.5;"
                                         ></i>
 
                                         <i
                                             class="ra ra-wolf-howl"
                                             *ngIf="creature.type==='Companion'"
-                                            style="line-height: 1.5;"
                                         ></i>
 
                                         <i
                                             class="ra ra-raven"
                                             *ngIf="creature.type==='Familiar'"
-                                            style="line-height: 1.5;"
                                         ></i>
 
                                         <ng-container *ngIf="message.gainCondition.length">
@@ -415,22 +368,19 @@
     </div>
 
     <div class="modal-footer">
-        <button
-            type="button"
+        <app-button
             class="btn btn-outline-secondary"
             (click)="modal.dismiss('Cancel click')"
         >
             Cancel
-        </button>
+        </app-button>
 
-        <button
-            type="button"
+        <app-button
             class="btn btn-primary"
-            style="background-color: rgb(var(--accent));"
             (click)="modal.close('Apply click')"
         >
             Apply selected effects
-        </button>
+        </app-button>
     </div>
 </ng-template>
 
@@ -475,14 +425,13 @@
         </div>
 
         <div class="modal-footer">
-            <button
+            <app-button
                 type="submit"
                 class="btn btn-primary"
-                style="background-color: rgb(var(--accent));"
                 (click)="modal.close('OK click')"
             >
                 Login
-            </button>
+            </app-button>
         </div>
     </form>
 </ng-template>

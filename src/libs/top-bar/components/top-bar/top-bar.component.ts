@@ -40,6 +40,7 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
 
     @ViewChild('NewMessagesModal', { static: false })
     private readonly _newMessagesModal?: HTMLElement;
+
     @ViewChild('LoginModal', { static: false })
     private readonly _loginModal?: HTMLElement;
 

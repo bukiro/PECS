@@ -1,8 +1,11 @@
-<button
-    type="button"
-    aria-label="Roll dice"
-    [ngbTooltip]="'Roll ' + description"
+<app-button
+    class="button"
+    [label]="'Roll ' + description"
+    showLabel
+    [noOutline]="noOutline"
+    [ghost]="ghost"
+    compact
     (click)="roll()"
 >
     <app-dice-icon-D20 class="dice"></app-dice-icon-D20>
-</button>
+</app-button>

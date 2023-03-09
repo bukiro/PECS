@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -37,8 +37,11 @@ export class QuickdiceComponent implements OnChanges {
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
 
-    @HostBinding('class.ghost')
-    private _ghost = false;
+    @Input()
+    public ghost?: string | boolean | undefined;
+
+    @Input()
+    public noOutline: string | boolean | undefined;
 
     public description = '';
 
@@ -48,11 +51,6 @@ export class QuickdiceComponent implements OnChanges {
         private readonly _integrationsService: FoundryVTTIntegrationService,
         private readonly _abilityValuesService: AbilityValuesService,
     ) { }
-
-    @Input()
-    public set ghost(ghost: string | boolean | undefined) {
-        this._ghost = ghost !== undefined && ghost !== false;
-    }
 
     public roll(forceLocal = false): void {
         if (!forceLocal && this._canRollInFoundryVTT()) {

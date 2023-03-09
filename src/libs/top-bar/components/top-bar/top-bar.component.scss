@@ -4,4 +4,38 @@
     @include character-sheet-card;
 
     @include flex-row-center;
+
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacing-m;
+
+    min-height: 5rem;
+
+    font-size: $font-size-large;
+}
+
+.logo {
+    position: absolute;
+
+    left: $spacing-xs;
+}
+
+.top-bar-button {
+    height: 2.1em;
+
+    > * {
+        height: 1em;
+    }
+
+    &__content {
+        @include flex-row-center;
+        @include flex-center-cross-axis;
+
+        gap: $spacing-xs;
+
+        &--dice {
+            height: 1em;
+            line-height: 1.5em;
+        }
+    }
 }

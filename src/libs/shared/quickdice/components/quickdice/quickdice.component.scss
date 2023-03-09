@@ -3,23 +3,18 @@
 :host {
     display: inline-block;
 
-    height: 1.5em;
-    width: 1.5em;
+    height: 1.8em;
+    width: 1.8em;
 
-    button {
+    .button {
         height: 100%;
         width: 100%;
-
-        padding: $spacing-xs;
+        padding: $spacing-xxs;
     }
-}
 
-:host(.ghost) {
-    button {
-        background-color: transparent;
-        border: none;
-        padding: 0;
-        color: inherit;
+    .dice {
+        height: 1em;
+        width: 1em;
     }
 }
 
@@ -28,7 +23,7 @@
     margin-right: .3em;
 }
 
-:host-context(app-attribute-value) {
+:host-context(app-attribute-value .value) {
     height: 1rem;
-    width: 1rem;
+    width: 1.3rem;
 }
