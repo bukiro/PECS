@@ -1,6 +1,7 @@
 import { Effect } from 'src/app/classes/Effect';
 import { BonusDescription } from '../ui/bonus-list';
 import { signNumber } from './numberUtils';
+import { capitalize } from './stringUtils';
 
 export const addFromEffect = (bonuses: Array<BonusDescription>, effect: Effect): Array<BonusDescription> => {
     const setValue = effect.setValue ? parseInt(effect.setValue, 10) : undefined;
@@ -8,7 +9,9 @@ export const addFromEffect = (bonuses: Array<BonusDescription>, effect: Effect):
     const isAbsolute = !!effect.setValue;
     const isPenalty = !!effect.value && effect.penalty;
     const isBonus = !!effect.value && !effect.penalty;
-    const type = effect.type ? effect.type : undefined;
+    const type = effect.type
+        ? `${ capitalize(effect.type) } ${ isPenalty ? 'penalty' : 'bonus' }`
+        : undefined;
     const title = effect.source;
 
     bonuses.push({
