@@ -18,9 +18,10 @@ export class DisplayService {
     public static get isMobile$(): Observable<boolean> {
         if (!DisplayService._isMobileDistinct$) {
             DisplayService._isMobileDistinct$ =
-                DisplayService._isMobile$.pipe(
-                    distinctUntilChanged(),
-                );
+                DisplayService._isMobile$
+                    .pipe(
+                        distinctUntilChanged(),
+                    );
         }
 
         return DisplayService._isMobileDistinct$;
@@ -28,7 +29,7 @@ export class DisplayService {
 
 
     public static setMobile(): void {
-        DisplayService._isMobile$.next(window.innerWidth < Defaults.mobileBreakpointPx);
+        DisplayService._isMobile$.next(window.innerWidth <= Defaults.mobileBreakpointPx);
     }
 
     public static setPageHeight(): void {

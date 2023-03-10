@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <app-logo
-    class="mobile-hide logo"
+    class="logo"
     ngbTooltip="Pathfinder Excessive Character Sheet"
 ></app-logo>
 
@@ -20,8 +20,6 @@
         <div class=top-bar-button__content>
             <i class="ra ra-player"></i>
 
-            <div class="mobile-hide">{{character.name || "Character"}}</div>
-
             <i class="bi-gear"></i>
         </div>
     </app-button>
@@ -34,10 +32,6 @@
     >
         <div class=top-bar-button__content>
             <i class="ra ra-wolf-howl"></i>
-
-            <div class="mobile-hide">
-                {{companion.name || "Animal Companion"}}
-            </div>
         </div>
     </app-button>
 
@@ -49,8 +43,6 @@
     >
         <div class=top-bar-button__content>
             <i class="ra ra-raven"></i>
-
-            <div class="mobile-hide">{{familiar.name || "Familiar"}}</div>
         </div>
     </app-button>
 

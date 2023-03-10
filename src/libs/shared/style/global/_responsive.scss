@@ -33,14 +33,14 @@
     }
 }
 
-@media (min-width: $screen-width-wide) {
+@media (min-width: calc($screen-width-wide + 1px)) {
 
     .desktop-hide {
         display: none !important;
     }
 }
 
-@media (min-width: $screen-width-wider) {
+@media (min-width: calc($screen-width-wider + 1px)) {
 
     .app-container {
         max-width: 1360px;

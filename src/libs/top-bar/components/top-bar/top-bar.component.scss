@@ -12,11 +12,19 @@
     min-height: 5rem;
 
     font-size: $font-size-large;
+
+    padding-left: 5rem;
+
+    @media (min-width: calc($screen-width-mobile-breakpoint + 1px)) {
+
+        padding-right: 5rem;
+    }
 }
 
 .logo {
     position: absolute;
 
+    top: $spacing-xs;
     left: $spacing-xs;
 
     z-index: 1;
