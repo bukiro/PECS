@@ -192,7 +192,7 @@
 
                     <app-button
                         *ngIf="!blankCharacterStatus.isBlankCharacter && !isManualMode"
-                        label="character.partyName ? 'Check for new effects' : 'You can only receive effects in a party.'"
+                        [label]="character.partyName ? 'Check for new effects' : 'You can only receive effects in a party.'"
                         showLabel
                         (click)="getMessages()"
                         [disabled]="!character.partyName"

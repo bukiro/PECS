@@ -9,7 +9,7 @@
 
     position: relative;
 
-    font-weight: bold;
+    font-weight: 800;
 
     font-size: $font-size-small;
 
@@ -25,10 +25,10 @@
     &__diamond {
         @include background-color-default;
         @include border-color-accent;
-        border-width: $spacing-xxs;
-
-        border-style: solid;
         position: absolute;
+
+        border-width: .1em;
+        border-style: solid;
 
         height: 45%;
         width: 45%;
@@ -77,22 +77,22 @@
     }
 
     &--P {
-        top: 0;
-        left: 28%;
+        top: -2%;
+        left: 27.5%;
     }
 
     &--E {
-        left: 0;
-        top: 28%;
+        left: -2%;
+        top: 27.5%;
     }
 
     &--C {
-        right: 0;
-        top: 28%;
+        right: -1%;
+        top: 27.5%;
     }
 
     &--S {
-        bottom: 0;
-        left: 28%;
+        bottom: -1%;
+        left: 27.5%;
     }
 }

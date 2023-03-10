@@ -1,0 +1,280 @@
+@import "utilities";
+
+:host {
+    @include flex-column-center;
+    @include flex-center-main-axis;
+
+    height: 4rem;
+    width: 4rem;
+
+    position: relative;
+
+    font-weight: 800;
+
+    font-size: $font-size-small;
+
+    flex: 0 0 4rem;
+}
+
+.diamonds-container {
+    height: 75%;
+    width: 75%;
+
+    transform: rotate(45deg);
+
+    &__diamond {
+        @include background-color-default;
+        @include border-color-accent;
+        position: absolute;
+
+        border-width: .1em;
+        border-style: solid;
+
+        height: 45%;
+        width: 45%;
+
+        animation: inverting-background ease-in-out 4s infinite;
+
+        &--P {
+            top: 0;
+            left: 0;
+        }
+
+        &--E {
+            animation-delay: 1s;
+            bottom: 0;
+            left: 0;
+        }
+
+        &--C {
+            animation-delay: 2s;
+            top: 0;
+            right: 0;
+        }
+
+        &--S {
+            animation-delay: 3s;
+            bottom: 0;
+            right: 0;
+        }
+    }
+}
+
+.option {
+    @include flex-column-center;
+    @include flex-center-main-axis;
+
+    position: absolute;
+
+    width: 45%;
+    height: 45%;
+
+    line-height: 100%;
+    text-align: center;
+    vertical-align: middle;
+
+    animation: inverting-text 4s infinite;
+
+    &--P {
+        top: -2%;
+        left: 27.5%;
+    }
+
+    &--E {
+        animation-delay: 1s;
+        left: -2%;
+        top: 27.5%;
+    }
+
+    &--C {
+        animation-delay: 2s;
+        right: -1%;
+        top: 27.5%;
+    }
+
+    &--S {
+        animation-delay: 3s;
+        bottom: -1%;
+        left: 27.5%;
+    }
+}
+
+:host-context(.darkmode) {
+    .diamonds-container {
+        &__diamond {
+            animation-name: inverting-background-darkmode;
+        }
+    }
+
+    .option {
+        animation-name: inverting-text-darkmode;
+    }
+}
+
+@-webkit-keyframes inverting-text {
+    0% {
+        color: $color-text-dark;
+    }
+
+    15% {
+        color: $color-text-light;
+    }
+
+    30% {
+        color: $color-text-dark;
+    }
+}
+
+@-moz-keyframes inverting-text {
+    0% {
+        color: $color-text-dark;
+    }
+
+    15% {
+        color: $color-text-light;
+    }
+
+    30% {
+        color: $color-text-dark;
+    }
+}
+
+@keyframes inverting-text {
+    0% {
+        color: $color-text-dark;
+    }
+
+    15% {
+        color: $color-text-light;
+    }
+
+    30% {
+        color: $color-text-dark;
+    }
+}
+
+@-webkit-keyframes inverting-text-darkmode {
+    0% {
+        color: $color-text-light;
+    }
+
+    15% {
+        color: $color-text-dark;
+    }
+
+    30% {
+        color: $color-text-light;
+    }
+}
+
+@-moz-keyframes inverting-text-darkmode {
+    0% {
+        color: $color-text-light;
+    }
+
+    15% {
+        color: $color-text-dark;
+    }
+
+    30% {
+        color: $color-text-light;
+    }
+}
+
+@keyframes inverting-text-darkmode {
+    0% {
+        color: $color-text-light;
+    }
+
+    15% {
+        color: $color-text-dark;
+    }
+
+    30% {
+        color: $color-text-light;
+    }
+}
+
+@-webkit-keyframes inverting-background {
+    0% {
+        background-color: $color-background-light;
+    }
+
+    15% {
+        background-color: $color-background-dark;
+    }
+
+    30% {
+        background-color: $color-background-light;
+    }
+}
+
+@-moz-keyframes inverting-background {
+    0% {
+        background-color: $color-background-light;
+    }
+
+    15% {
+        background-color: $color-background-dark;
+    }
+
+    30% {
+        background-color: $color-background-light;
+    }
+}
+
+@keyframes inverting-background {
+    0% {
+        background-color: $color-background-light;
+    }
+
+    15% {
+        background-color: $color-background-dark;
+    }
+
+    30% {
+        background-color: $color-background-light;
+    }
+}
+
+@-webkit-keyframes inverting-background-darkmode {
+    0% {
+        background-color: $color-background-dark;
+    }
+
+    15% {
+        background-color: $color-background-light;
+    }
+
+    30% {
+        background-color: $color-background-dark;
+    }
+}
+
+@-moz-keyframes inverting-background-darkmode {
+    0% {
+        background-color: $color-background-dark;
+    }
+
+    15% {
+        background-color: $color-background-light;
+    }
+
+    30% {
+        background-color: $color-background-dark;
+    }
+}
+
+@keyframes inverting-background-darkmode {
+    0% {
+        background-color: $color-background-dark;
+    }
+
+    15% {
+        background-color: $color-background-light;
+    }
+
+    30% {
+        background-color: $color-background-dark;
+    }
+}

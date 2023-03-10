@@ -12,6 +12,8 @@
     font-weight: bold;
 
     font-size: $font-size-small;
+
+    flex: 0 0 3.5rem;
 }
 
 .diamonds-container {
@@ -25,7 +27,7 @@
         @include border-color-inverted;
         position: absolute;
 
-        border-width: $spacing-xxs;
+        border-width: .1em;
         border-style: solid;
 
         height: 45%;
@@ -75,22 +77,22 @@
     }
 
     &--T {
-        top: 2%;
-        left: 28%;
+        top: -2%;
+        left: 27.5%;
     }
 
     &--E {
         left: -2%;
-        top: 28%;
+        top: 27.5%;
     }
 
     &--M {
-        right: -2%;
-        top: 28%;
+        right: -1%;
+        top: 27.5%;
     }
 
     &--L {
-        bottom: -2%;
-        left: 28%;
+        bottom: -1%;
+        left: 27.5%;
     }
 }

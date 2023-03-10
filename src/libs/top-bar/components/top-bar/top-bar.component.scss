@@ -18,10 +18,14 @@
     position: absolute;
 
     left: $spacing-xs;
+
+    z-index: 1;
 }
 
 .top-bar-button {
     height: 2.1em;
+
+    z-index: 2;
 
     > * {
         height: 1em;

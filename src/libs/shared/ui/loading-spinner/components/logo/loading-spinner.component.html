@@ -1,0 +1,13 @@
+<div class="diamonds-container">
+    <div
+        *ngFor="let letter of letters; trackBy:trackByIndex;"
+        [className]="'diamonds-container__diamond diamonds-container__diamond--' + letter.letter"
+    ></div>
+</div>
+
+<div
+    *ngFor="let letter of letters; trackBy:trackByIndex;"
+    [className]="'option option--' + letter.letter"
+>
+    {{letter.letter}}
+</div>

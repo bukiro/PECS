@@ -6,6 +6,7 @@ import { DiceIconsModule } from '../shared/ui/dice-icons/dice-icons.module';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LogoModule } from '../shared/ui/logo/logo.module';
 import { ButtonModule } from '../shared/ui/button/button.module';
+import { LoadingSpinnerModule } from '../shared/ui/loading-spinner/loading-spinner.module';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { ButtonModule } from '../shared/ui/button/button.module';
         DiceIconsModule,
         LogoModule,
         ButtonModule,
+        LoadingSpinnerModule,
     ],
     declarations: [
         TopBarComponent,

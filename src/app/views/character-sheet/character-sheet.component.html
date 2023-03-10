@@ -1,4 +1,4 @@
-<ng-container *ngIf="(isLoadingCharacter$ | async) === false">
+<ng-template #CharacterSheetTemplate>
     <!-- Desktop or mobile character sheet -->
 
     <app-character-sheet-desktop
@@ -38,6 +38,11 @@
     ></app-familiar>
 
     <app-dice [@slideInOutVert]="diceMenuState"></app-dice>
-</ng-container>
+</ng-template>
 
-<ng-template #LoadingTemplate>Loading...</ng-template>
+<div
+    class="loading"
+    *ngIf="(isLoadingCharacter$ | async); else CharacterSheetTemplate"
+>
+    <app-loading-spinner class="loading__spinner"></app-loading-spinner>
+</div>

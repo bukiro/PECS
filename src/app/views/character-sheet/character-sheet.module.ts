@@ -26,6 +26,7 @@ import { CharacterSheetMobileComponent } from './components/character-sheet-mobi
 import { ActivitiesModule } from 'src/libs/activities/activities.module';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingSpinnerModule } from 'src/libs/shared/ui/loading-spinner/loading-spinner.module';
 
 @NgModule({
     imports: [
@@ -55,6 +56,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
         SpellbookModule,
         ActivitiesModule,
         ButtonModule,
+        LoadingSpinnerModule,
     ],
     declarations: [
         CharacterSheetComponent,

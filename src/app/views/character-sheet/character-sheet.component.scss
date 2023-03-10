@@ -7,3 +7,18 @@
 
     overflow-y: hidden;
 }
+
+.loading {
+    width: 100vw;
+    height: 100vw;
+
+    @include flex-column-center;
+    @include flex-center-main-axis;
+
+    &__spinner {
+        width: 25vw;
+        height: 25vw;
+        flex: 0 0 25vw;
+        font-size: 6vw;
+    }
+}
