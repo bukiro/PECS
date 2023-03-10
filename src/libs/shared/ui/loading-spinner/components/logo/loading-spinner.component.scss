@@ -35,67 +35,28 @@
 
         animation: inverting-background ease-in-out 4s infinite;
 
-        &--P {
+        &--top {
             top: 0;
             left: 0;
         }
 
-        &--E {
+        &--left {
             animation-delay: 1s;
             bottom: 0;
             left: 0;
         }
 
-        &--C {
+        &--right {
             animation-delay: 2s;
             top: 0;
             right: 0;
         }
 
-        &--S {
+        &--bottom {
             animation-delay: 3s;
             bottom: 0;
             right: 0;
         }
-    }
-}
-
-.option {
-    @include flex-column-center;
-    @include flex-center-main-axis;
-
-    position: absolute;
-
-    width: 45%;
-    height: 45%;
-
-    line-height: 100%;
-    text-align: center;
-    vertical-align: middle;
-
-    animation: inverting-text 4s infinite;
-
-    &--P {
-        top: -2%;
-        left: 27.5%;
-    }
-
-    &--E {
-        animation-delay: 1s;
-        left: -2%;
-        top: 27.5%;
-    }
-
-    &--C {
-        animation-delay: 2s;
-        right: -1%;
-        top: 27.5%;
-    }
-
-    &--S {
-        animation-delay: 3s;
-        bottom: -1%;
-        left: 27.5%;
     }
 }
 
@@ -104,94 +65,6 @@
         &__diamond {
             animation-name: inverting-background-darkmode;
         }
-    }
-
-    .option {
-        animation-name: inverting-text-darkmode;
-    }
-}
-
-@-webkit-keyframes inverting-text {
-    0% {
-        color: $color-text-dark;
-    }
-
-    15% {
-        color: $color-text-light;
-    }
-
-    30% {
-        color: $color-text-dark;
-    }
-}
-
-@-moz-keyframes inverting-text {
-    0% {
-        color: $color-text-dark;
-    }
-
-    15% {
-        color: $color-text-light;
-    }
-
-    30% {
-        color: $color-text-dark;
-    }
-}
-
-@keyframes inverting-text {
-    0% {
-        color: $color-text-dark;
-    }
-
-    15% {
-        color: $color-text-light;
-    }
-
-    30% {
-        color: $color-text-dark;
-    }
-}
-
-@-webkit-keyframes inverting-text-darkmode {
-    0% {
-        color: $color-text-light;
-    }
-
-    15% {
-        color: $color-text-dark;
-    }
-
-    30% {
-        color: $color-text-light;
-    }
-}
-
-@-moz-keyframes inverting-text-darkmode {
-    0% {
-        color: $color-text-light;
-    }
-
-    15% {
-        color: $color-text-dark;
-    }
-
-    30% {
-        color: $color-text-light;
-    }
-}
-
-@keyframes inverting-text-darkmode {
-    0% {
-        color: $color-text-light;
-    }
-
-    15% {
-        color: $color-text-dark;
-    }
-
-    30% {
-        color: $color-text-light;
     }
 }
 

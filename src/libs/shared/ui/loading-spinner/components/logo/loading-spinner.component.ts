@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, HostBinding, Input } from '@angular/core';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
@@ -10,11 +10,21 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 })
 export class LoadingSpinnerComponent extends TrackByMixin(BaseClass) {
 
-    public letters = [
-        { letter: 'P', checked: false },
-        { letter: 'E', checked: true },
-        { letter: 'C', checked: false },
-        { letter: 'S', checked: false },
+    @HostBinding('style.height')
+    @HostBinding('style.width')
+    @HostBinding('style.flex-basis')
+    private _size = '4rem';
+
+    public corners = [
+        'top',
+        'left',
+        'right',
+        'bottom',
     ];
+
+    @Input()
+    public set size(size: string) {
+        this._size = size;
+    }
 
 }
