@@ -51,7 +51,7 @@ import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { Constructable } from 'src/libs/shared/definitions/interfaces/constructable';
-import { ExtensionsService } from './extensions.service';
+import { DataService } from './data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -66,7 +66,7 @@ export class ItemsDataService {
     private _basicEquipmentService?: BasicEquipmentService;
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
+        private readonly _extensionsService: DataService,
         private readonly _typeService: TypeService,
         private readonly _recastService: RecastService,
     ) { }

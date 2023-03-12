@@ -3,7 +3,6 @@ import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Creature } from 'src/app/classes/Creature';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 
 @Injectable({
     providedIn: 'root',
@@ -20,8 +19,6 @@ export class CreatureFeatsService {
         filter: { charLevel?: number; minLevel?: number } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
     ): number {
-        if (StatusService.isLoadingCharacter$.value) { return 0; }
-
         filter = {
             charLevel: CreatureService.character.level,
             minLevel: 1,

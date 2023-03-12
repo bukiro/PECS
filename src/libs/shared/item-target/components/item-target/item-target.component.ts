@@ -12,7 +12,7 @@ import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-p
 import { ItemBulkService } from 'src/libs/shared/services/item-bulk/item-bulk.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { noop } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, noop, Observable } from 'rxjs';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
@@ -39,6 +39,8 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
     public selectedAmount = 1;
     public excluding = false;
 
+    public itemTargets$: Observable<Array<ItemCollection | SpellTarget>>;
+
     constructor(
         private readonly _savegamesService: SavegamesService,
         private readonly _itemBulkService: ItemBulkService,
@@ -49,6 +51,8 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
         public modal: NgbActiveModal,
     ) {
         super();
+
+        this.itemTargets$ = this._createItemTargetsObservable();
     }
 
     public get isItemContainer(): boolean {
@@ -88,56 +92,6 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
                 },
                 () => noop,
             );
-    }
-
-    public itemTargets(): Array<ItemCollection | SpellTarget> {
-        //Collect all possible targets for the item.
-        //This includes your own inventories, your companions or your allies.
-        const targets: Array<ItemCollection | SpellTarget> = [];
-        const creature = this._currentCreature;
-        const character = this._character;
-
-        targets.push(...creature.inventories.filter(inv => inv.itemId !== this.item.id));
-
-        if (!this.excluding) {
-            this._creatureAvailabilityService.allAvailableCreatures().filter(otherCreature => otherCreature !== creature)
-                .forEach(otherCreature => {
-                    targets.push(
-                        Object.assign(
-                            new SpellTarget(),
-                            {
-                                name: otherCreature.name || otherCreature.type,
-                                id: otherCreature.id,
-                                playerId: character.id,
-                                type: otherCreature.type,
-                                selected: false,
-                            },
-                        ),
-                    );
-                });
-        }
-
-        if (character.partyName && !this.excluding && !SettingsService.isGMMode && !SettingsService.isManualMode) {
-            //Only allow selecting other players if you are in a party.
-            this._savegamesService.savegames()
-                .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
-                .forEach(savegame => {
-                    targets.push(
-                        Object.assign(
-                            new SpellTarget(),
-                            {
-                                name: savegame.name || 'Unnamed',
-                                id: savegame.id,
-                                playerId: savegame.id,
-                                type: CreatureTypes.Character,
-                                selected: false,
-                            },
-                        ),
-                    );
-                });
-        }
-
-        return targets;
     }
 
     public onIncSplit(amount: number): void {
@@ -236,6 +190,69 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
 
     public ngOnInit(): void {
         this.selectedAmount = this.item.amount;
+    }
+
+    private _createItemTargetsObservable(): Observable<Array<ItemCollection | SpellTarget>> {
+        return combineLatest([
+            this._savegamesService.savegames$,
+            SettingsService.settings$
+                .pipe(
+                    map(settings => settings.manualMode),
+                    distinctUntilChanged(),
+                ),
+        ])
+            .pipe(
+                map(([savegames, isManualMode]) => {
+                    //Collect all possible targets for the item.
+                    //This includes your own inventories, your companions or your allies.
+                    const targets: Array<ItemCollection | SpellTarget> = [];
+                    const creature = this._currentCreature;
+                    const character = this._character;
+
+                    targets.push(...creature.inventories.filter(inv => inv.itemId !== this.item.id));
+
+                    if (!this.excluding) {
+                        this._creatureAvailabilityService.allAvailableCreatures().filter(otherCreature => otherCreature !== creature)
+                            .forEach(otherCreature => {
+                                targets.push(
+                                    Object.assign(
+                                        new SpellTarget(),
+                                        {
+                                            name: otherCreature.name || otherCreature.type,
+                                            id: otherCreature.id,
+                                            playerId: character.id,
+                                            type: otherCreature.type,
+                                            selected: false,
+                                        },
+                                    ),
+                                );
+                            });
+                    }
+
+                    //Only allow selecting other players if you are in a party and not in GM or manual mode.
+                    //To-Do: Figure out how to make partyName reactive, then query it in the combineLatest
+                    if (character.partyName && !this.excluding && !SettingsService.isGMMode && !isManualMode) {
+                        savegames
+                            .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
+                            .forEach(savegame => {
+                                targets.push(
+                                    Object.assign(
+                                        new SpellTarget(),
+                                        {
+                                            name: savegame.name || 'Unnamed',
+                                            id: savegame.id,
+                                            playerId: savegame.id,
+                                            type: CreatureTypes.Character,
+                                            selected: false,
+                                        },
+                                    ),
+                                );
+                            });
+                    }
+
+                    return targets;
+                }),
+            );
     }
 
     private _isCircularContainer(target: ItemCollection | SpellTarget): boolean {

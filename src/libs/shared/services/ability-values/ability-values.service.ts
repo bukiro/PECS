@@ -7,7 +7,6 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { Defaults } from '../../definitions/defaults';
 import { abilityModFromAbilityValue } from '../../util/abilityUtils';
 import { AbilitiesDataService } from '../data/abilities-data.service';
-import { StatusService } from '../status/status.service';
 
 const abilityBoostWeightFull = 2;
 const abilityBoostWeightHalf = 1;
@@ -63,10 +62,6 @@ export class AbilityValuesService {
         if (creature.isFamiliar()) {
             return { result: 0, explain: '' };
         } else {
-            if (StatusService.isLoadingCharacter$.value) {
-                return { result: Defaults.abilityBaseValue, explain: 'Base value: 10' };
-            }
-
             const ability = this._normalizeAbilityOrName(abilityOrName);
 
             //Get manual baseValues for the character if they exist, otherwise 10

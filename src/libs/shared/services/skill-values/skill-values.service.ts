@@ -13,7 +13,6 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { SkillsDataService } from '../data/skills-data.service';
-import { StatusService } from '../status/status.service';
 import { BonusDescription } from '../../ui/bonus-list';
 import { signNumber } from '../../util/numberUtils';
 import { addFromEffect } from '../../util/bonusDescriptionUtils';
@@ -125,8 +124,6 @@ export class SkillValuesService {
         charLevel: number = CreatureService.character.level,
         excludeTemporary = false,
     ): number {
-        if (StatusService.isLoadingCharacter$.value) { return 0; }
-
         const skill = this._normalizeSkillOrName(skillOrName, creature);
 
         if (creature.isFamiliar()) {
@@ -290,67 +287,65 @@ export class SkillValuesService {
         let bonuses: Array<BonusDescription> = [];
         let ability = '';
 
-        if (!StatusService.isLoadingCharacter$.value) {
-            if (creature.isFamiliar()) {
-                //Familiars have special rules:
-                //- Saves are equal to the character's before applying circumstance or status effects.
-                //- Perception, Acrobatics and Stealth are equal to the character level plus spellcasting modifier (or Charisma).
-                //- All others (including attacks) are equal to the character level.
-                const character = CreatureService.character;
+        if (creature.isFamiliar()) {
+            //Familiars have special rules:
+            //- Saves are equal to the character's before applying circumstance or status effects.
+            //- Perception, Acrobatics and Stealth are equal to the character level plus spellcasting modifier (or Charisma).
+            //- All others (including attacks) are equal to the character level.
+            const character = CreatureService.character;
 
-                if (['Fortitude', 'Reflex', 'Will'].includes(skill.name)) {
-                    const charBaseValue = this.baseValue(skill, character, charLevel);
+            if (['Fortitude', 'Reflex', 'Will'].includes(skill.name)) {
+                const charBaseValue = this.baseValue(skill, character, charLevel);
 
-                    result = charBaseValue.result;
-                    bonuses = charBaseValue.bonuses;
-                } else if (['Perception', 'Acrobatics', 'Stealth'].includes(skill.name)) {
-                    result = character.level;
-                    bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
-                    ability = 'Charisma';
-                    ability = this._modifierAbility(skill, creature);
-
-                    const abilityMod = this._abilityValuesService.mod(ability, creature, charLevel);
-
-                    if (abilityMod) {
-                        result += abilityMod.result;
-                        bonuses.push({
-                            title: 'Character Spellcasting Ability',
-                            value: signNumber(abilityMod.result),
-                        });
-                    }
-                } else {
-                    result = character.level;
-                    bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
-                }
-            } else {
-                // Add character level if the character is trained or better with the Skill.
-                // Add half the level if the skill is unlearned and the character has
-                // the Untrained Improvisation feat(full level from 7 on).
-                // Gets applied to saves and perception, but they are never untrained.
-                let charLevelBonus = 0;
-
-                if (skillLevel) {
-                    charLevelBonus = charLevel;
-                    bonuses.push({ title: 'Proficiency Rank', value: `${ skillLevel }` });
-                    bonuses.push({ title: 'Character Level', value: signNumber(charLevelBonus) });
-                }
-
-                //Add the Ability modifier identified by the skill's ability property
-                let abilityMod = 0;
-
+                result = charBaseValue.result;
+                bonuses = charBaseValue.bonuses;
+            } else if (['Perception', 'Acrobatics', 'Stealth'].includes(skill.name)) {
+                result = character.level;
+                bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
+                ability = 'Charisma';
                 ability = this._modifierAbility(skill, creature);
 
-                if (ability) {
-                    abilityMod = this._abilityValuesService.mod(ability, creature, charLevel).result;
-                }
+                const abilityMod = this._abilityValuesService.mod(ability, creature, charLevel);
 
                 if (abilityMod) {
-                    bonuses.push({ title: `${ ability } Modifier `, value: signNumber(abilityMod) });
+                    result += abilityMod.result;
+                    bonuses.push({
+                        title: 'Character Spellcasting Ability',
+                        value: signNumber(abilityMod.result),
+                    });
                 }
-
-                //Add up all modifiers, the skill proficiency and all active effects and return the sum
-                result = charLevelBonus + skillLevel + abilityMod;
+            } else {
+                result = character.level;
+                bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
             }
+        } else {
+            // Add character level if the character is trained or better with the Skill.
+            // Add half the level if the skill is unlearned and the character has
+            // the Untrained Improvisation feat(full level from 7 on).
+            // Gets applied to saves and perception, but they are never untrained.
+            let charLevelBonus = 0;
+
+            if (skillLevel) {
+                charLevelBonus = charLevel;
+                bonuses.push({ title: 'Proficiency Rank', value: `${ skillLevel }` });
+                bonuses.push({ title: 'Character Level', value: signNumber(charLevelBonus) });
+            }
+
+            //Add the Ability modifier identified by the skill's ability property
+            let abilityMod = 0;
+
+            ability = this._modifierAbility(skill, creature);
+
+            if (ability) {
+                abilityMod = this._abilityValuesService.mod(ability, creature, charLevel).result;
+            }
+
+            if (abilityMod) {
+                bonuses.push({ title: `${ ability } Modifier `, value: signNumber(abilityMod) });
+            }
+
+            //Add up all modifiers, the skill proficiency and all active effects and return the sum
+            result = charLevelBonus + skillLevel + abilityMod;
         }
 
         return { result, bonuses, skillLevel, ability };
@@ -466,57 +461,55 @@ export class SkillValuesService {
         let result = 0;
         let bonuses: Array<BonusDescription> = [];
 
-        if (!StatusService.isLoadingCharacter$.value) {
-            result = (isDC ? DCBasis : 0) + baseValue.result;
+        result = (isDC ? DCBasis : 0) + baseValue.result;
 
-            bonuses = isDC
-                ? [{ title: 'DC base value', value: '10' }, ...baseValue.bonuses]
-                : baseValue.bonuses;
+        bonuses = isDC
+            ? [{ title: 'DC base value', value: '10' }, ...baseValue.bonuses]
+            : baseValue.bonuses;
 
-            const skillLevel = baseValue.skillLevel;
-            const ability = baseValue.ability;
-            //Applying assurance prevents any other bonuses, penalties or modifiers.
-            let shouldSkipRelativeEffects = false;
+        const skillLevel = baseValue.skillLevel;
+        const ability = baseValue.ability;
+        //Applying assurance prevents any other bonuses, penalties or modifiers.
+        let shouldSkipRelativeEffects = false;
 
-            //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
-            this._absolutes(skill, creature, isDC, skillLevel, ability).forEach(effect => {
-                result = parseInt(effect.setValue, 10);
-                bonuses = addFromEffect([], effect);
+        //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
+        this._absolutes(skill, creature, isDC, skillLevel, ability).forEach(effect => {
+            result = parseInt(effect.setValue, 10);
+            bonuses = addFromEffect([], effect);
 
-                if (effect.source.includes('Assurance')) {
-                    shouldSkipRelativeEffects = true;
-                }
+            if (effect.source.includes('Assurance')) {
+                shouldSkipRelativeEffects = true;
+            }
+        });
+
+        const relatives: Array<Effect> = [];
+
+        //Familiars apply the characters skill value (before circumstance and status effects) on saves
+        //We get this by calculating the skill's baseValue and adding effects that aren't circumstance or status effects.
+        if (creature.isFamiliar()) {
+            const character = CreatureService.character;
+
+            if (['Fortitude', 'Reflex', 'Will'].includes(skill.name)) {
+                this._absolutes(skill, character, isDC, baseValue.skillLevel, baseValue.ability)
+                    .forEach(effect => {
+                        baseValue.result = parseInt(effect.setValue, 10);
+                        baseValue.bonuses = addFromEffect([], effect);
+                    });
+                relatives
+                    .push(
+                        ...this._relatives(skill, character, isDC, baseValue.skillLevel, baseValue.ability)
+                            .filter(effect => effect.type !== 'circumstance' && effect.type !== 'status'),
+                    );
+            }
+        }
+
+        //Get all active relative effects on this and sum them up
+        if (!shouldSkipRelativeEffects) {
+            relatives.push(...this._relatives(skill, creature, isDC, baseValue.skillLevel, baseValue.ability));
+            relatives.forEach(effect => {
+                result += parseInt(effect.value, 10);
+                addFromEffect(bonuses, effect);
             });
-
-            const relatives: Array<Effect> = [];
-
-            //Familiars apply the characters skill value (before circumstance and status effects) on saves
-            //We get this by calculating the skill's baseValue and adding effects that aren't circumstance or status effects.
-            if (creature.isFamiliar()) {
-                const character = CreatureService.character;
-
-                if (['Fortitude', 'Reflex', 'Will'].includes(skill.name)) {
-                    this._absolutes(skill, character, isDC, baseValue.skillLevel, baseValue.ability)
-                        .forEach(effect => {
-                            baseValue.result = parseInt(effect.setValue, 10);
-                            baseValue.bonuses = addFromEffect([], effect);
-                        });
-                    relatives
-                        .push(
-                            ...this._relatives(skill, character, isDC, baseValue.skillLevel, baseValue.ability)
-                                .filter(effect => effect.type !== 'circumstance' && effect.type !== 'status'),
-                        );
-                }
-            }
-
-            //Get all active relative effects on this and sum them up
-            if (!shouldSkipRelativeEffects) {
-                relatives.push(...this._relatives(skill, creature, isDC, baseValue.skillLevel, baseValue.ability));
-                relatives.forEach(effect => {
-                    result += parseInt(effect.value, 10);
-                    addFromEffect(bonuses, effect);
-                });
-            }
         }
 
         return { result, bonuses };

@@ -1,6 +1,6 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, switchMap, tap } from 'rxjs';
+import { of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
@@ -38,7 +38,7 @@ export class MessageSendingService {
 
     public sendTurnChangeToPlayers(): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isLoggedIn) {
+        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isReady) {
             return;
         }
 
@@ -46,11 +46,11 @@ export class MessageSendingService {
 
         this._messagesService.timeFromConnector()
             .pipe(
-                switchMap(result => {
+                withLatestFrom(this._savegamesService.savegames$),
+                switchMap(([result, savegames]) => {
                     const timeStamp = result.time;
                     const targets =
-                        this._savegamesService.savegames()
-                            .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id);
+                        savegames.filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id);
                     const messages: Array<PlayerMessage> = [];
 
                     targets.forEach(target => {
@@ -92,7 +92,7 @@ export class MessageSendingService {
 
     public sendConditionToPlayers(targets: Array<SpellTarget>, conditionGain: ConditionGain, activate = true): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isLoggedIn) {
+        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isReady) {
             return;
         }
 
@@ -170,7 +170,7 @@ export class MessageSendingService {
 
     public sendItemsToPlayer(sender: Creature, target: SpellTarget, item: Item, amount = 0): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isLoggedIn) {
+        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isReady) {
             return;
         }
 
@@ -234,7 +234,7 @@ export class MessageSendingService {
 
     public sendItemAcceptedMessage(message: PlayerMessage, accepted = true): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isLoggedIn) {
+        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isReady) {
             return;
         }
 

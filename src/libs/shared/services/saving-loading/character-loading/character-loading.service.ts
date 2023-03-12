@@ -9,12 +9,9 @@ import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
 import { CharacterPatchingService } from '../character-patching/character-patching.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { AppInitService } from 'src/libs/shared/services/app-init/app-init.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { DocumentStyleService } from 'src/libs/shared/services/document-style/document-style.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
@@ -22,6 +19,7 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { ClassSavingLoadingService } from '../class-saving-loading/class-saving-loading.service';
 import { HistorySavingLoadingService } from '../history-saving-loading/history-saving-loading.service';
+import { ApiStatusKey } from 'src/libs/shared/definitions/apiStatusKey';
 
 interface DatabaseCharacter {
     _id: string;
@@ -32,7 +30,7 @@ interface DatabaseCharacter {
 })
 export class CharacterLoadingService {
 
-    private _appInitService?: AppInitService;
+    private _resetApp?: () => void;
 
     constructor(
         private readonly _http: HttpClient,
@@ -43,10 +41,8 @@ export class CharacterLoadingService {
         private readonly _classSavingLoadingService: ClassSavingLoadingService,
         private readonly _historySavingLoadingService: HistorySavingLoadingService,
         private readonly _characterPatchingService: CharacterPatchingService,
-        private readonly _statusService: StatusService,
         private readonly _refreshService: RefreshService,
         private readonly _toastService: ToastService,
-        private readonly _documentStyleService: DocumentStyleService,
         private readonly _timeService: TimeService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _basicEquipmentService: BasicEquipmentService,
@@ -54,15 +50,13 @@ export class CharacterLoadingService {
     ) { }
 
     public loadOrResetCharacter(id = '', loadAsGM = false): void {
-        if (!this._appInitService) { console.error('AppInitService missing in CharacterLoadingService!'); }
+        if (!this._resetApp) { console.error('App reset function missing in CharacterLoadingService!'); }
 
-        this._appInitService?.reset();
-        this._statusService.setLoadingCharacter(true);
-        this._statusService.setLoadingStatus('Resetting character');
-        this._refreshService.setComponentChanged('charactersheet');
+        CreatureService.characterStatus$.next({ key: ApiStatusKey.Loading, message: 'Resetting character...' });
+        this._resetApp?.();
 
         if (id) {
-            this._statusService.setLoadingStatus('Loading character');
+            CreatureService.characterStatus$.next({ key: ApiStatusKey.Loading, message: 'Loading character...' });
             this._loadCharacterFromDatabase(id)
                 .subscribe({
                     next: (results: Array<Partial<Character>>) => {
@@ -97,16 +91,13 @@ export class CharacterLoadingService {
     }
 
     public finishLoading(newCharacter: Character, loadAsGM = false): void {
-        this._statusService.setLoadingStatus('Initializing character');
+        CreatureService.characterStatus$.next({ key: ApiStatusKey.Initializing, message: 'Initializing character...' });
         // Assign the loaded character.
         CreatureService.setNewCharacter(newCharacter);
 
         const character = CreatureService.character;
 
         character.GMMode = loadAsGM;
-
-        // Disable the loading status so things can depend on the character again.
-        this._statusService.setLoadingCharacter(false);
 
         //Grant and equip basic items
         this._basicEquipmentService.equipBasicItems(character, false);
@@ -115,21 +106,16 @@ export class CharacterLoadingService {
         this._timeService.yourTurn = character.yourTurn;
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
         this._characterFeatsService.buildCharacterFeats(character);
-        // Set accent color and dark mode according to the settings.
-        this._documentStyleService.setAccent();
-        this._documentStyleService.setDarkmode();
 
         this._refreshAfterLoading();
     }
 
-    public initialize(appInitService: AppInitService): void {
-        this._appInitService = appInitService;
+    public initialize(resetApp: () => void): void {
+        this._resetApp = resetApp;
     }
 
     private _cancelLoading(): void {
         const character = CreatureService.character;
-
-        this._statusService.setLoadingCharacter(false);
 
         // Fill a runtime variable with all the feats the character has taken,
         // and another with the level at which they were taken. These were cleared when trying to load.
@@ -139,15 +125,11 @@ export class CharacterLoadingService {
     }
 
     private _refreshAfterLoading(): void {
+        CreatureService.characterStatus$.next({ key: ApiStatusKey.Ready });
 
         //Update everything once, then effects, and then the player can take over.
         this._refreshService.setComponentChanged();
-        this._statusService.setLoadingStatus('Loading', false);
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-
-        if (!this._configService.isLoggedIn && !this._configService.cannotLogin) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'logged-out');
-        }
 
         this._refreshService.processPreparedChanges();
         this._refreshService.setComponentChanged();
@@ -233,7 +215,7 @@ export class CharacterLoadingService {
     private _loadCharacterFromDatabase(id: string): Observable<Array<Partial<Character>>> {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         return this._http.get<Array<Partial<Character>>>(
-            `${ this._configService.dBConnectionURL }/loadCharacter/${ id }`,
+            `${ this._configService.dataServiceURL }/loadCharacter/${ id }`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
         );

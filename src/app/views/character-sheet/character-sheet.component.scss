@@ -3,19 +3,9 @@
 :host {
     @include flex-column-center;
 
+    width: 100%;
+
     position: relative;
 
     overflow-y: hidden;
-}
-
-.loading {
-    position: fixed;
-
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    @include flex-column-center;
-    @include flex-center-main-axis;
 }

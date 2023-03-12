@@ -19,7 +19,7 @@ export class MessagePropertiesService {
     }
 
     public messageSenderName(message: PlayerMessage): string {
-        return this._savegamesService.savegames().find(savegame => savegame.id === message.senderId)?.name || message.senderId;
+        return this._savegamesService.savegames.find(savegame => savegame.id === message.senderId)?.name || message.senderId;
     }
 
 }

@@ -1,26 +1,51 @@
 import { Injectable } from '@angular/core';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { SettingsService } from '../settings/settings.service';
-import { StatusService } from '../status/status.service';
+
+const accentChangingDebounce = 10;
 
 @Injectable({
     providedIn: 'root',
 })
 export class DocumentStyleService {
 
-    public setAccent(): void {
-        document.documentElement.style.setProperty('--accent', this._rgbAccent());
+    constructor() {
+        SettingsService.settings$
+            .pipe(
+                map(settings => settings.accent),
+                debounceTime(accentChangingDebounce),
+                distinctUntilChanged(),
+            )
+            .subscribe(accent => {
+                this._setAccent(accent);
+            });
+
+        SettingsService.settings$
+            .pipe(
+                map(settings => settings.darkmode),
+                distinctUntilChanged(),
+            )
+            .subscribe(darkmode => {
+                this._setDarkmode(darkmode);
+            });
     }
 
-    public setDarkmode(): void {
-        if (SettingsService.isDarkmode) {
+    private _setAccent(accent: string = Defaults.colorAccent): void {
+        const rgbAccent = this._rgbAccent(accent);
+
+        document.documentElement.style.setProperty('--accent', rgbAccent);
+    }
+
+    private _setDarkmode(darkmode: boolean): void {
+        if (darkmode) {
             document.body.classList.add('darkmode');
         } else {
             document.body.classList.remove('darkmode');
         }
     }
 
-    private _rgbAccent(): string {
+    private _rgbAccent(accent: string): string {
         const rgbLength = 4;
         const rrggbbLength = 7;
         const redIndex = 1;
@@ -51,19 +76,15 @@ export class DocumentStyleService {
             }
         };
 
-        if (!StatusService.isLoadingCharacter$.value) {
-            const original = SettingsService.settings.accent;
+        if (accent.length === rgbLength || accent.length === rrggbbLength) {
+            try {
+                const rgba = hexToRgb(accent);
 
-            if (original.length === rgbLength || original.length === rrggbbLength) {
-                try {
-                    const rgba = hexToRgb(original);
-
-                    if (rgba) {
-                        return `${ rgba.r }, ${ rgba.g }, ${ rgba.b }`;
-                    }
-                } catch (error) {
-                    return Defaults.colorAccentRGB;
+                if (rgba) {
+                    return `${ rgba.r }, ${ rgba.g }, ${ rgba.b }`;
                 }
+            } catch (error) {
+                return Defaults.colorAccentRGB;
             }
         }
 

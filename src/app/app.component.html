@@ -1,11 +1,49 @@
-<app-top-bar class="top-bar"></app-top-bar>
-
 <app-toast-container
-    class="ngb-toasts"
+    class="toast-container ngb-toasts"
     aria-live="polite"
     aria-atomic="true"
 ></app-toast-container>
 
-<div class="app-container">
-    <router-outlet></router-outlet>
-</div>
+<ng-container *ngIf="isReady$ | async; else LoadingTemplate">
+    <app-top-bar class="top-bar"></app-top-bar>
+
+    <app-character-sheet class="character-sheet"></app-character-sheet>
+</ng-container>
+
+<ng-template #LoadingTemplate>
+    <div
+        class="loading"
+        *ngIf="loadingStatus$ | async as loadingStatus"
+    >
+        <app-login
+            *ngIf="loadingStatus.key === apiStatusKey.NotLoggedIn; else LoadingStatusTemplate"
+            [loadingStatus]="loadingStatus"
+        ></app-login>
+
+        <ng-template #LoadingStatusTemplate>
+            <i
+                *ngIf="loadingStatus.key === apiStatusKey.Failed; else SpinnerTemplate"
+                class="bi-slash-circle loading__icon loading__icon--failed"
+            ></i>
+
+            <ng-template #SpinnerTemplate>
+                <app-loading-spinner
+                    class="loading__spinner"
+                    size="25vw"
+                ></app-loading-spinner>
+            </ng-template>
+
+            <app-description
+                class="loading__text"
+                [text]="loadingStatus.message ?? ''"
+            ></app-description>
+
+            <app-button
+                *ngIf="loadingStatus.retryFn"
+                (clicked)="loadingStatus.retryFn()"
+            >
+                Try again
+            </app-button>
+        </ng-template>
+    </div>
+</ng-template>

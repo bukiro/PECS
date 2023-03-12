@@ -5,109 +5,93 @@
 ></app-logo>
 
 <app-button
-    class="top-bar-button top-bar-button--loading"
-    *ngIf="isLoadingCharacter$ | async; else MenuTemplate"
+    class="top-bar-button"
+    [toggled]="characterMenuState=== 'in'"
+    (clicked)="toggleMenu(MenuNamesEnum.CharacterMenu)"
 >
-    {{loadingStatus$ | async}}
+    <div class=top-bar-button__content>
+        <i class="ra ra-player"></i>
+
+        <i class="bi-gear"></i>
+    </div>
 </app-button>
 
-<ng-template #MenuTemplate>
-    <app-button
-        class="top-bar-button"
-        [toggled]="characterMenuState=== 'in'"
-        (click)="toggleMenu(MenuNamesEnum.CharacterMenu)"
-    >
-        <div class=top-bar-button__content>
-            <i class="ra ra-player"></i>
+<app-button
+    class="top-bar-button"
+    [toggled]="companionMenuState=== 'in'"
+    (clicked)="toggleMenu(MenuNamesEnum.CompanionMenu)"
+    *ngIf="isCompanionAvailable()"
+>
+    <div class=top-bar-button__content>
+        <i class="ra ra-wolf-howl"></i>
+    </div>
+</app-button>
 
-            <i class="bi-gear"></i>
-        </div>
-    </app-button>
+<app-button
+    class="top-bar-button"
+    [toggled]="familiarMenuState=== 'in'"
+    (clicked)="toggleMenu(MenuNamesEnum.FamiliarMenu)"
+    *ngIf="isFamiliarAvailable()"
+>
+    <div class=top-bar-button__content>
+        <i class="ra ra-raven"></i>
+    </div>
+</app-button>
 
-    <app-button
-        class="top-bar-button"
-        [toggled]="companionMenuState=== 'in'"
-        (click)="toggleMenu(MenuNamesEnum.CompanionMenu)"
-        *ngIf="isCompanionAvailable()"
-    >
-        <div class=top-bar-button__content>
-            <i class="ra ra-wolf-howl"></i>
-        </div>
-    </app-button>
+<app-button
+    class="top-bar-button"
+    [toggled]="itemsMenuState=== 'in'"
+    (clicked)="toggleMenu(MenuNamesEnum.ItemsMenu)"
+>
+    Items
+</app-button>
 
-    <app-button
-        class="top-bar-button"
-        [toggled]="familiarMenuState=== 'in'"
-        (click)="toggleMenu(MenuNamesEnum.FamiliarMenu)"
-        *ngIf="isFamiliarAvailable()"
-    >
-        <div class=top-bar-button__content>
-            <i class="ra ra-raven"></i>
-        </div>
-    </app-button>
+<app-button
+    class="top-bar-button"
+    [toggled]="craftingMenuState=== 'in'"
+    (clicked)="toggleMenu(MenuNamesEnum.CraftingMenu)"
+>
+    Crafting
+</app-button>
 
-    <app-button
-        class="top-bar-button"
-        [toggled]="itemsMenuState=== 'in'"
-        (click)="toggleMenu(MenuNamesEnum.ItemsMenu)"
-    >
-        Items
-    </app-button>
+<app-button
+    class="top-bar-button"
+    [toggled]="spellsMenuState=== 'in'"
+    (clicked)="toggleMenu(MenuNamesEnum.SpellsMenu)"
+    *ngIf="hasAnySpells()"
+>
+    Spellbook
+</app-button>
 
-    <app-button
-        class="top-bar-button"
-        [toggled]="craftingMenuState=== 'in'"
-        (click)="toggleMenu(MenuNamesEnum.CraftingMenu)"
-    >
-        Crafting
-    </app-button>
+<app-button
+    class="top-bar-button"
+    [toggled]="spellLibraryMenuState=== 'in'"
+    (clicked)="toggleMenu(MenuNamesEnum.SpellLibraryMenu)"
+>
+    Spell&nbsp;Library
+</app-button>
 
-    <app-button
-        class="top-bar-button"
-        [toggled]="spellsMenuState=== 'in'"
-        (click)="toggleMenu(MenuNamesEnum.SpellsMenu)"
-        *ngIf="hasAnySpells()"
-    >
-        Spellbook
-    </app-button>
+<app-button
+    class="top-bar-button"
+    [toggled]="conditionsMenuState=== 'in'"
+    (clicked)="toggleMenu(MenuNamesEnum.ConditionsMenu)"
+>
+    Conditions
+</app-button>
 
-    <app-button
-        class="top-bar-button"
-        [toggled]="spellLibraryMenuState=== 'in'"
-        (click)="toggleMenu(MenuNamesEnum.SpellLibraryMenu)"
-    >
-        Spell&nbsp;Library
-    </app-button>
+<app-button
+    class="top-bar-button"
+    label="Dice"
+    [toggled]="diceMenuState=== 'in'"
+    (clicked)="toggleMenu(MenuNamesEnum.DiceMenu)"
+>
+    <app-dice-icon-D20 class="top-bar-button__content top-bar-button__content--dice"></app-dice-icon-D20>
+</app-button>
 
+<!-- Save and Effects buttons change depending on some factors -->
+<ng-container *ngIf="apiButtonsStatus$ | async as apiButtonsStatus">
     <app-button
-        class="top-bar-button"
-        [toggled]="conditionsMenuState=== 'in'"
-        (click)="toggleMenu(MenuNamesEnum.ConditionsMenu)"
-    >
-        Conditions
-    </app-button>
-
-    <app-button
-        class="top-bar-button"
-        label="Dice"
-        [toggled]="diceMenuState=== 'in'"
-        (click)="toggleMenu(MenuNamesEnum.DiceMenu)"
-    >
-        <app-dice-icon-D20 class="top-bar-button__content top-bar-button__content--dice"></app-dice-icon-D20>
-    </app-button>
-
-    <app-button
-        *ngIf="areSavegamesInitializing || isLoggingIn"
-        class="top-bar-button top-bar-button--loading"
-        label="Connecting to database..."
-        showLabel
-        disabled
-    >
-        <i class="bi-file-earmark-arrow-up"></i>
-    </app-button>
-
-    <app-button
-        *ngIf="isGMMode"
+        *ngIf="apiButtonsStatus.isGMMode; else ButtonsTemplate"
         class="top-bar-button"
         label="In GM mode, the character can\'t be saved and can\'t send effects to other players."
         showLabel
@@ -116,106 +100,63 @@
         GM Mode
     </app-button>
 
-    <ng-container *ngIf="!areSavegamesInitializing && !isLoggingIn">
+    <ng-template #ButtonsTemplate>
+
+        <!-- //To-Do: Figure out how to make isBlankCharacter reactive -->
         <app-button
-            *ngIf="cannotLogin"
+            *ngIf="isBlankCharacter(); else FinalButtonsTemplate"
             class="top-bar-button"
-            label="Database connection failed"
+            label="No changes to character yet"
+            showLabel
             disabled
         >
-            <i class="bi-file-earmark-break"></i>
+            <i class="bi-file-earmark-arrow-up"></i>
         </app-button>
 
-        <ng-container *ngIf="!cannotLogin">
+        <ng-template #FinalButtonsTemplate>
             <app-button
-                *ngIf="!isLoggedIn"
                 class="top-bar-button"
-                label="Not logged in"
+                label="Save Character"
                 showLabel
-                disabled
+                (clicked)="save()"
             >
-                <i class="bi-file-earmark-lock"></i>
+                <i class="bi-file-earmark-arrow-up"></i>
             </app-button>
 
+            <!-- //To-Do: Figure out how to make character.partyName reactive -->
             <app-button
-                *ngIf="!hasDBConnectionURL"
-                class="top-bar-button"
-                label="No database configured"
+                *ngIf="!apiButtonsStatus.isManualMode"
+                [label]="character.partyName ? 'Check for new effects' : 'You can only receive effects in a party.'"
                 showLabel
-                disabled
+                (clicked)="getMessages()"
+                [disabled]="!character.partyName"
             >
-                <i class="bi-file-earmark-x"></i>
-            </app-button>
+                <i class="ra ra-player-thunder-struck"></i>
 
-            <ng-container *ngIf="hasDBConnectionURL && isLoggedIn">
-
-                <app-button
-                    *ngIf="!savegames"
-                    class="top-bar-button"
-                    label="Database connection failed"
-                    showLabel
-                    disabled
-                >
-                    <i class="bi-file-earmark-break"></i>
-                </app-button>
-
-                <ng-container *ngIf="savegames && { isBlankCharacter: isBlankCharacter() } as blankCharacterStatus">
-                    <ng-container *ngIf="!isGMMode">
-                        <app-button
-                            *ngIf="blankCharacterStatus.isBlankCharacter"
-                            class="top-bar-button"
-                            label="No changes to character yet"
-                            showLabel
-                            disabled
-                        >
-                            <i class="bi-file-earmark-arrow-up"></i>
-                        </app-button>
-
-                        <app-button
-                            *ngIf="!blankCharacterStatus.isBlankCharacter"
-                            class="top-bar-button"
-                            label="Save Character"
-                            showLabel
-                            (click)="save()"
-                        >
-                            <i class="bi-file-earmark-arrow-up"></i>
-                        </app-button>
-                    </ng-container>
-
-                    <app-button
-                        *ngIf="!blankCharacterStatus.isBlankCharacter && !isManualMode"
-                        [label]="character.partyName ? 'Check for new effects' : 'You can only receive effects in a party.'"
-                        showLabel
-                        (click)="getMessages()"
-                        [disabled]="!character.partyName"
+                <!-- //To-Do: move to new component and make reactive -->
+                <ng-container *ngIf="!modalOpen && newMessagesFromService() as newMessages">
+                    <div
+                        class="window-button-container"
+                        *ngIf="newMessages.length"
                     >
-                        <i class="ra ra-player-thunder-struck"></i>
-
-                        <ng-container *ngIf="!modalOpen && newMessagesFromService() as newMessages">
-                            <div
-                                class="window-button-container"
-                                *ngIf="newMessages.length"
-                            >
-                                {{newMessages.length}}
-                            </div>
-                        </ng-container>
-                    </app-button>
+                        {{newMessages.length}}
+                    </div>
                 </ng-container>
-            </ng-container>
-        </ng-container>
-    </ng-container>
+            </app-button>
+        </ng-template>
+    </ng-template>
+</ng-container>
 
-    <app-button
-        class="top-bar-button"
-        label="Refresh all"
-        showLabel
-        (click)="refreshAll()"
-    >
-        <div class="top-bar-button__content">
-            <i class="ra ra-cycle"></i>
-        </div>
-    </app-button>
-</ng-template>
+<app-button
+    class="top-bar-button"
+    label="Refresh all"
+    showLabel
+    (clicked)="refreshAll()"
+>
+    <div class="top-bar-button__content">
+        <i class="ra ra-cycle"></i>
+    </div>
+</app-button>
 
 <!-- New Effects Dialog -->
 <ng-template
@@ -233,7 +174,7 @@
         <app-button
             class="close"
             label="close"
-            (click)="modal.dismiss('Cross click')"
+            (clicked)="modal.dismiss('Cross click')"
             ngbAutofocus
         >
             <span aria-hidden="true">&times;</span>
@@ -253,16 +194,12 @@
                 (change)="onSelectAllMessages($event)"
                 [checked]="areAllMessagesSelected()"
             >
-            <label
-                for="messagesSelectAll"
-            >
+            <label for="messagesSelectAll">
                 <strong>Select all</strong>
             </label>
         </div>
 
-        <div
-            class="fullsize-scroll-box vlist"
-        >
+        <div class="fullsize-scroll-box vlist">
             <ng-container *ngFor="let message of cachedNewMessages; trackBy:trackByIndex">
                 <ng-container *ngIf="creatureFromMessage(message) as creature">
                     <ng-container *ngIf="messageSenderName(message) as sender">
@@ -362,68 +299,16 @@
     <div class="modal-footer">
         <app-button
             class="btn btn-outline-secondary"
-            (click)="modal.dismiss('Cancel click')"
+            (clicked)="modal.dismiss('Cancel click')"
         >
             Cancel
         </app-button>
 
         <app-button
             class="btn btn-primary"
-            (click)="modal.close('Apply click')"
+            (clicked)="modal.close('Apply click')"
         >
             Apply selected effects
         </app-button>
     </div>
-</ng-template>
-
-<ng-template
-    #LoginModal
-    let-modal
->
-    <div class="modal-header">
-        <header
-            class="sectionHeader modal-title"
-            id="modal-title"
-            autocomplete="off"
-        >
-            Password Required
-        </header>
-    </div>
-
-    <form>
-        <div class="modal-body vlist">
-            <p *ngIf="loggedOutMessage as loggedOutMessageText">{{loggedOutMessageText}}</p>
-
-            <p>
-                Please enter the password for this PECS server:
-            </p>
-
-            <input
-                placeholder="Password"
-                aria-label="Password"
-                name="password"
-                id="passwordInput"
-                type="password"
-                class="fullwidth"
-                [(ngModel)]="password"
-            >
-
-            <p
-                class="problem"
-                *ngIf="passwordFailed"
-            >
-                The password was not correct.
-            </p>
-        </div>
-
-        <div class="modal-footer">
-            <app-button
-                type="submit"
-                class="btn btn-primary"
-                (click)="modal.close('OK click')"
-            >
-                Login
-            </app-button>
-        </div>
-    </form>
 </ng-template>

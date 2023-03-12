@@ -46,12 +46,6 @@
 
     <div class="character-sheet-column-container">
         <div class="character-sheet-column">
-            <div
-                class="loading"
-                *ngIf="isLoadingCharacter$ | async"
-            >
-                Loading
-            </div>
 
             <!-- Management list mode -->
             <ng-container *ngIf="!tileMode.enabled">
@@ -125,39 +119,31 @@
                     </div>
                 </ng-template>
 
-                <ng-container *ngIf="!areSavegamesInitializing && !isLoggingIn; else SavegamesInitializingTemplate">
-                    <ng-container *ngIf="!cannotLogin; else CannotLoginTemplate">
-                        <ng-container *ngIf="hasDBConnectionURL; else NoDatabaseConfiguredTemplate">
-                            <ng-container *ngIf="isLoggedIn; else NotLoggedInTemplate">
-                                <ng-container *ngIf="savegames(); else NoSavegamesTemplate">
-                                    <div class="list-item">
-                                        <button
-                                            type="button"
-                                            class="newrow"
-                                            (click)="toggleShownList('load')"
-                                            [ngClass]="{'activechoice':shownList()==='load'}"
-                                        >
-                                            Load Character
-                                        </button>
-                                    </div>
+                <ng-container *ngIf="(savegames$ | async); else NoSavegamesTemplate">
+                    <div class="list-item">
+                        <button
+                            type="button"
+                            class="newrow"
+                            (click)="toggleShownList('load')"
+                            [ngClass]="{'activechoice':shownList()==='load'}"
+                        >
+                            Load Character
+                        </button>
+                    </div>
 
-                                    <div
-                                        class="list-item"
-                                        *ngIf="!isGMMode && wasCharacterLoadedOrCreated()"
-                                    >
-                                        <button
-                                            type="button"
-                                            class="newrow"
-                                            (click)="saveCharacterToDB()"
-                                            [disabled]="isBlankCharacter()"
-                                        >
-                                            Save Character
-                                        </button>
-                                    </div>
-                                </ng-container>
-                            </ng-container>
-                        </ng-container>
-                    </ng-container>
+                    <div
+                        class="list-item"
+                        *ngIf="!isGMMode && wasCharacterLoadedOrCreated()"
+                    >
+                        <button
+                            type="button"
+                            class="newrow"
+                            (click)="saveCharacterToDB()"
+                            [disabled]="isBlankCharacter()"
+                        >
+                            Save Character
+                        </button>
+                    </div>
                 </ng-container>
 
                 <div
@@ -288,43 +274,35 @@
                         </button>
                     </ng-template>
 
-                    <ng-container *ngIf="!areSavegamesInitializing && !isLoggingIn; else SavegamesInitializingTemplate">
-                        <ng-container *ngIf="!cannotLogin; else CannotLoginTemplate">
-                            <ng-container *ngIf="hasDBConnectionURL; else NoDatabaseConfiguredTemplate">
-                                <ng-container *ngIf="isLoggedIn; else NotLoggedInTemplate">
-                                    <ng-container *ngIf="savegames(); else NoSavegamesTemplate">
-                                        <button
-                                            type="button"
-                                            aria-label="Load character"
-                                            (click)="toggleShownList('load')"
-                                            [ngClass]="{'activechoice':shownList()==='load'}"
-                                        >
-                                            <app-grid-icon
-                                                [ngbTooltip]="'Load Character'"
-                                                [subTitle]="'Load'"
-                                                [superTitle]="'icon-bi-file-earmark-arrow-down'"
-                                            >
-                                            </app-grid-icon>
-                                        </button>
+                    <ng-container *ngIf="savegames$ | async; else NoSavegamesTemplate">
+                        <button
+                            type="button"
+                            aria-label="Load character"
+                            (click)="toggleShownList('load')"
+                            [ngClass]="{'activechoice':shownList()==='load'}"
+                        >
+                            <app-grid-icon
+                                [ngbTooltip]="'Load Character'"
+                                [subTitle]="'Load'"
+                                [superTitle]="'icon-bi-file-earmark-arrow-down'"
+                            >
+                            </app-grid-icon>
+                        </button>
 
-                                        <button
-                                            type="button"
-                                            aria-label="Save character"
-                                            *ngIf="!isGMMode && wasCharacterLoadedOrCreated()"
-                                            (click)="saveCharacterToDB()"
-                                            [disabled]="isBlankCharacter()"
-                                        >
-                                            <app-grid-icon
-                                                [ngbTooltip]="isBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
-                                                [subTitle]="'Save'"
-                                                [superTitle]="'icon-bi-file-earmark-arrow-up'"
-                                            >
-                                            </app-grid-icon>
-                                        </button>
-                                    </ng-container>
-                                </ng-container>
-                            </ng-container>
-                        </ng-container>
+                        <button
+                            type="button"
+                            aria-label="Save character"
+                            *ngIf="!isGMMode && wasCharacterLoadedOrCreated()"
+                            (click)="saveCharacterToDB()"
+                            [disabled]="isBlankCharacter()"
+                        >
+                            <app-grid-icon
+                                [ngbTooltip]="isBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
+                                [subTitle]="'Save'"
+                                [superTitle]="'icon-bi-file-earmark-arrow-up'"
+                            >
+                            </app-grid-icon>
+                        </button>
                     </ng-container>
 
                     <button
@@ -374,7 +352,7 @@
                 </div>
             </div>
 
-            <ng-container *ngIf="((isLoadingCharacter$ | async) === false) && characterMenuState === 'in' && wasCharacterLoadedOrCreated()">
+            <ng-container *ngIf="characterMenuState === 'in' && wasCharacterLoadedOrCreated()">
                 <div class="list-item">
                     <strong>Experience Points</strong>
 
@@ -519,7 +497,7 @@
 
                         <div
                             class="newrow"
-                            *ngIf="savegames()?.length"
+                            *ngIf="(savegames$ | async)?.length"
                         >
                             <span></span>
 
@@ -529,7 +507,7 @@
                                     [(ngModel)]="character.partyName"
                                 >
                                     <option
-                                        *ngFor="let partyName of partyNames(); trackBy: trackByIndex;"
+                                        *ngFor="let partyName of (partyNames$ | async); trackBy: trackByIndex;"
                                         [ngValue]="partyName"
                                     >
                                         {{partyName}}
@@ -544,7 +522,7 @@
 
                         <span>
                             <select
-                            aria-label="Select alignment"
+                                aria-label="Select alignment"
                                 [(ngModel)]="character.alignment"
                                 (ngModelChange)="onAlignmentChange()"
                             >
@@ -1926,7 +1904,7 @@
                         <div class="list-item">No characters available in database.</div>
                     </ng-template>
 
-                    <ng-container *ngIf="savegames() as savegames; else NoSavegamesTemplate">
+                    <ng-container *ngIf="(savegames$ | async) as savegames; else NoSavegamesTemplate">
                         <div
                             *ngIf="savegames.length"
                             class="list-item gridicon-fullsizebox"
@@ -2061,7 +2039,6 @@
                                 id="coloraccent"
                                 style="padding:0 2px"
                                 [(ngModel)]="character.settings.accent"
-                                (ngModelChange)="onChangeAccent()"
                                 maxLength="7"
                             >
                             <label for="accent">
@@ -2075,7 +2052,6 @@
                                 class="character-choice"
                                 type="checkbox"
                                 [(ngModel)]="character.settings.darkmode"
-                                (ngModelChange)="onToggleDarkmode()"
                             >
                             <label for="darkmode">
                                 <strong>Dark mode</strong>

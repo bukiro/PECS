@@ -13,7 +13,6 @@ import { SkillValuesService } from '../skill-values/skill-values.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { SkillsDataService } from '../data/skills-data.service';
-import { StatusService } from '../status/status.service';
 
 @Injectable({
     providedIn: 'root',
@@ -94,7 +93,7 @@ export class WeaponPropertiesService {
         charLevel: number = CreatureService.character.level,
         options: { preparedProficiency?: string } = {},
     ): number {
-        if (StatusService.isLoadingCharacter$.value || creature.isFamiliar()) { return 0; }
+        if (creature.isFamiliar()) { return 0; }
 
         let skillLevel = 0;
         const prof = options.preparedProficiency || this.effectiveProficiency(weapon, { creature, charLevel });

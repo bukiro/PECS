@@ -6,7 +6,7 @@
     </p>
 </div>
 
-<ng-container *ngIf="updateAvailable() as updateAvailable">
+<ng-container *ngIf="updateAvailable$ | async as updateAvailable">
     <div
         class="list-item newrow center-aligned"
         *ngIf="updateAvailable.available"
@@ -45,7 +45,7 @@
 
     <div
         class="newrow list-item left-aligned"
-        *ngFor="let change of versionShown()?.changes; trackBy:trackByIndex;"
+        *ngFor="let change of (selectedVersionLog$ | async)?.changes; trackBy:trackByIndex;"
     >
         <header
             class="subsectionHeader"

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, debounceTime } from 'rxjs';
 import { Settings } from 'src/app/classes/Settings';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+
+const updateSettingsDebounce = 100;
 
 @Injectable({
     providedIn: 'root',
@@ -14,10 +16,6 @@ export class SettingsService {
 
     public static get settings(): Settings {
         return CreatureService.character.settings;
-    }
-
-    public static get isDarkmode(): boolean {
-        return this.settings.darkmode;
     }
 
     public static get isGMMode(): boolean {
@@ -33,6 +31,9 @@ export class SettingsService {
             this._settings$ = this._updateSettings$
                 .pipe(
                     map(() => this.settings),
+                    // updateSettings$ emits every time the character settings change.
+                    // Keep a debounce so it doesn't spam its subscribers when a character is initialized.
+                    debounceTime(updateSettingsDebounce),
                 );
         }
 

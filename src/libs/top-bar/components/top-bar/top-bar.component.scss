@@ -9,16 +9,13 @@
     align-items: center;
     gap: $spacing-m;
 
+    flex-shrink: 0;
+
     min-height: 5rem;
 
     font-size: $font-size-large;
 
     padding-left: 5rem;
-
-    @media (min-width: calc($screen-width-mobile-breakpoint + 1px)) {
-
-        padding-right: 5rem;
-    }
 }
 
 .logo {

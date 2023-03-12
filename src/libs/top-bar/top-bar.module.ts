@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { FormsModule } from '@angular/forms';
@@ -12,6 +13,7 @@ import { LoadingSpinnerModule } from '../shared/ui/loading-spinner/loading-spinn
     imports: [
         CommonModule,
         FormsModule,
+        BrowserAnimationsModule,
 
         NgbTooltipModule,
 

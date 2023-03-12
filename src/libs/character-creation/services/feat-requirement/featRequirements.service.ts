@@ -23,7 +23,6 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequirements';
 
@@ -950,8 +949,6 @@ export class FeatRequirementsService {
         if (!context.charLevel || isNaN(context.charLevel)) {
             context.charLevel = context.choiceLevel;
         }
-
-        if (StatusService.isLoadingCharacter$.value) { return false; }
 
         //Don't check the level if skipLevel is set. This is used for subFeats, where the superFeat's levelreq is enough.
         const isLevelreqMet: boolean =

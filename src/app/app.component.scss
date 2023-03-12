@@ -3,25 +3,42 @@
 :host {
     @include flex-column-center;
 
-    justify-content: stretch;
+    gap: $spacing-s;
 
     width: 100vw;
     height: 100vh;
+
+    overflow-y: hidden;
 }
 
 .top-bar {
     flex-shrink: 0;
 }
 
-.app-container {
+.loading {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
     @include flex-column-center;
+    @include flex-center-main-axis;
 
-    align-items: stretch;
+    gap: $spacing-l;
 
-    gap: $spacing-s;
+    &__icon {
+        font-size: min(25vw, 25vh);
+        line-height: min(25vw, 25vh);
+    }
 
-    flex-grow: 1;
+    &__spinner {
+        max-height: min(25vw, 25vh);
+        max-width: min(25vw, 25vh);
+    }
 
-    width: 100%;
-    overflow-y: hidden;
+    &__text {
+        font-size: $font-size-large;
+    }
 }

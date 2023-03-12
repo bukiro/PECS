@@ -67,7 +67,6 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { ClassesDataService } from 'src/libs/shared/services/data/classes-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
-import { DocumentStyleService } from 'src/libs/shared/services/document-style/document-style.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { AppStateService } from 'src/libs/shared/services/app-state/app-state.service';
@@ -79,7 +78,6 @@ import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-e
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
 import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { CharacterDeletingService } from 'src/libs/shared/services/saving-loading/character-deleting/character-deleting.service';
 import { CharacterLoadingService } from 'src/libs/shared/services/saving-loading/character-loading/character-loading.service';
 import { CharacterSavingService } from 'src/libs/shared/services/saving-loading/character-saving/character-saving.service';
@@ -115,8 +113,10 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public activeFeatChoiceContent$: Observable<{ name: string; levelNumber: number; choice: FeatChoice } | undefined>;
     public activeLoreChoiceContent$: Observable<{ name: string; levelNumber: number; choice: LoreChoice } | undefined>;
 
-    public isLoadingCharacter$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
+
+    public savegames$: Observable<Array<Savegame>>;
+    public partyNames$: Observable<Array<string>>;
 
     private _showLevel = 0;
     private _showItem = '';
@@ -165,7 +165,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         private readonly _characterDeletingService: CharacterDeletingService,
         private readonly _characterSavingService: CharacterSavingService,
         private readonly _characterLoadingService: CharacterLoadingService,
-        private readonly _documentStyleService: DocumentStyleService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _appStateService: AppStateService,
@@ -179,8 +178,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         public modal: NgbActiveModal,
     ) {
         super();
-
-        this.isLoadingCharacter$ = StatusService.isLoadingCharacter$;
 
         this.activeAbilityChoiceContent$ = this._activeChoiceContent$
             .pipe(
@@ -234,6 +231,29 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 distinctUntilChanged(),
                 shareReplay(1),
             );
+
+        this.savegames$ = this._savegamesService.savegames$
+            .pipe(
+                map(savegames =>
+                    savegames
+                        .sort((a, b) => {
+                            if (a.partyName !== 'No Party' && b.partyName === 'No Party') {
+                                return 1;
+                            }
+
+                            if (a.partyName === 'No Party' && b.partyName !== 'No Party') {
+                                return -1;
+                            }
+
+                            return sortAlphaNum(a.partyName + a.name, b.partyName + b.name);
+                        }),
+                ),
+            );
+
+        this.partyNames$ = this.savegames$
+            .pipe(
+                map(savegames => Array.from(new Set(savegames.map(savegame => savegame.partyName)))),
+            );
     }
 
     @Input()
@@ -241,32 +261,12 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._updateMinimized({ forced: forceMinimized ?? false });
     }
 
-    public get isGMMode(): boolean {
-        return SettingsService.isGMMode;
-    }
-
-    public get areSavegamesInitializing(): boolean {
-        return this._savegamesService.stillLoading;
-    }
-
-    public get isLoggingIn(): boolean {
-        return this._configService.isLoggingIn;
-    }
-
-    public get hasDBConnectionURL(): boolean {
-        return this._configService.hasDBConnectionURL;
-    }
-
-    public get isLoggedIn(): boolean {
-        return this._configService.isLoggedIn;
-    }
-
-    public get cannotLogin(): boolean {
-        return this._configService.cannotLogin;
-    }
-
     public get character(): Character {
         return CreatureService.character;
+    }
+
+    public get isGMMode(): boolean {
+        return SettingsService.isGMMode;
     }
 
     public get companion(): AnimalCompanion {
@@ -393,14 +393,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         return this._showFixedChangesLevelNumber;
     }
 
-    public onChangeAccent(): void {
-        this._documentStyleService.setAccent();
-    }
-
-    public onToggleDarkmode(): void {
-        this._documentStyleService.setDarkmode();
-    }
-
     public onToggleManualMode(): void {
         //Manual mode changes some buttons on some components, so we need to refresh these.
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
@@ -436,23 +428,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._configService.login('');
     }
 
-    public savegames(): Array<Savegame> | undefined {
-        if (!this._savegamesService.loadingError()) {
-            return this._savegamesService.savegames()
-                .sort((a, b) => {
-                    if (a.partyName !== 'No Party' && b.partyName === 'No Party') {
-                        return 1;
-                    }
-
-                    if (a.partyName === 'No Party' && b.partyName !== 'No Party') {
-                        return -1;
-                    }
-
-                    return sortAlphaNum(a.partyName + a.name, b.partyName + b.name);
-                });
-        }
-    }
-
     public savegameTitle(savegame: Savegame): string {
         let title = '';
 
@@ -483,14 +458,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         }
 
         return title;
-    }
-
-    public partyNames(): Array<string> | undefined {
-        const savegames = this.savegames();
-
-        if (savegames) {
-            return Array.from(new Set(savegames.map(savegame => savegame.partyName)));
-        }
     }
 
     public loadCharacterFromDB(savegame: Savegame): void {

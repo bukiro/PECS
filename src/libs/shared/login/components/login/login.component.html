@@ -1,0 +1,35 @@
+<ng-container *ngIf="loadingStatus">
+    <form
+        class="login-form"
+        [formGroup]="passwordForm"
+    >
+        <div class="login-form__header text-large">Password Required</div>
+
+        <p>
+            Please enter the password for this PECS server
+        </p>
+
+        <input
+            placeholder="Password"
+            aria-label="Password"
+            name="password"
+            formControlName="password"
+            type="password"
+        >
+
+        <p
+            class="login-form__message"
+            *ngIf="loadingStatus.message"
+        >
+            {{loadingStatus.message}}
+        </p>
+
+        <app-button
+            label="Login"
+            (clicked)="login()"
+            [disabled]="passwordForm.invalid"
+        >
+            Login
+        </app-button>
+    </form>
+</ng-container>

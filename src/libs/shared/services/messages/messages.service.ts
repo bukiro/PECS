@@ -58,7 +58,7 @@ export class MessagesService {
 
     public timeFromConnector(): Observable<{ time: number }> {
         return this._http.get<{ time: number }>(
-            `${ this._configService.dBConnectionURL }/time`,
+            `${ this._configService.dataServiceURL }/time`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
         );
@@ -66,7 +66,7 @@ export class MessagesService {
 
     public sendMessagesToConnector(messages: Array<PlayerMessage>): Observable<Array<string>> {
         return this._http.post<Array<string>>(
-            `${ this._configService.dBConnectionURL }/saveMessages/`,
+            `${ this._configService.dataServiceURL }/saveMessages/`,
             messages,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
@@ -75,7 +75,7 @@ export class MessagesService {
 
     public loadMessagesFromConnector(recipientId: string): Observable<Array<string>> {
         return this._http.get<Array<string>>(
-            `${ this._configService.dBConnectionURL }/loadMessages/${ recipientId }`,
+            `${ this._configService.dataServiceURL }/loadMessages/${ recipientId }`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
         );
@@ -83,7 +83,7 @@ export class MessagesService {
 
     public cleanupMessagesOnConnector(): Observable<Array<string>> {
         return this._http.get<Array<string>>(
-            `${ this._configService.dBConnectionURL }/cleanupMessages`,
+            `${ this._configService.dataServiceURL }/cleanupMessages`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
         );
@@ -161,7 +161,7 @@ export class MessagesService {
             this._ignoredMessages().forEach(message => {
                 message.ttl--;
 
-                if (message.ttl === 0 && this._configService.isLoggedIn) {
+                if (message.ttl === 0 && this._configService.isReady) {
                     messagesToDelete++;
                     this._deleteMessageFromConnector(Object.assign(new PlayerMessage(), { id: message.id }))
                         .subscribe({
@@ -226,7 +226,7 @@ export class MessagesService {
             if (
                 SettingsService.settings.checkMessagesAutomatically &&
                 !SettingsService.isManualMode &&
-                this._configService.isLoggedIn
+                this._configService.isReady
             ) {
                 minuteTimer--;
 
@@ -263,7 +263,7 @@ export class MessagesService {
 
     private _deleteMessageFromConnector(message: PlayerMessage): Observable<Array<string>> {
         return this._http.post<Array<string>>(
-            `${ this._configService.dBConnectionURL }/deleteMessage`,
+            `${ this._configService.dataServiceURL }/deleteMessage`,
             { id: message.id },
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
@@ -272,7 +272,7 @@ export class MessagesService {
 
     private _checkForNewMessages(): void {
         //Don't check for new messages if you don't have a party or if you are not logged in, or if you are currently checking.
-        if (!CreatureService.character.partyName || !this._configService.isLoggedIn || this._checkingMessages) {
+        if (!CreatureService.character.partyName || !this._configService.isReady || this._checkingMessages) {
             return;
         }
 

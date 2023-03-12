@@ -64,7 +64,7 @@ export class MessageProcessingService {
 
                         if (hasConditionBeenRemoved) {
                             const senderName =
-                                this._savegamesService.savegames().find(savegame => savegame.id === senderId)?.name || 'Unknown';
+                                this._savegamesService.savegames.find(savegame => savegame.id === senderId)?.name || 'Unknown';
 
                             this._toastService.show(
                                 `Automatically removed <strong>${ existingConditionGain.name }`

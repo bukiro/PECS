@@ -1,181 +1,179 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="itemTargets() as targets">
-    <ng-template
-        #ItemTargetModal
-        let-modal
-    >
-        <div class="modal-header">
-            <header
-                class="sectionHeader modal-title"
-                id="modal-title"
-            >
-                Move item
-            </header>
+<ng-template
+    #ItemTargetModal
+    let-modal
+>
+    <div class="modal-header">
+        <header
+            class="sectionHeader modal-title"
+            id="modal-title"
+        >
+            Move item
+        </header>
 
-            <button
-                type="button"
-                class="close"
-                aria-label="close"
-                (click)="modal.dismiss('Cross click')"
-                ngbAutofocus
-            >
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+        <button
+            type="button"
+            class="close"
+            aria-label="close"
+            (click)="modal.dismiss('Cross click')"
+            ngbAutofocus
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 
-        <div class="modal-body vlist">
+    <div class="modal-body vlist">
+        <div
+            class="fullsize-scroll-box vlist"
+            style="max-height: 50vh;"
+        >
             <div
-                class="fullsize-scroll-box vlist"
-                style="max-height: 50vh;"
+                class="list-item newrow left-aligned"
+                *ngIf="isItemContainer"
             >
-                <div
-                    class="list-item newrow left-aligned"
-                    *ngIf="isItemContainer"
-                >
-                    <i class="ra ra-hive-emblem"></i>
-                    This item contains {{containedItemsAmount()}} items with a total bulk of {{inventoryBulk()}}.
-                </div>
-
-                <div
-                    class="list-item newrow left-aligned"
-                    *ngIf="doesItemGrantItems"
-                >
-                    <i class="ra ra-hive-emblem"></i>
-                    This item has additional parts with a total bulk of {{containedBulkString(item)}}.
-                    <div class="newrow left-aligned">
-                        <input
-                            id="including"
-                            type="checkbox"
-                            [(ngModel)]="excluding"
-                        >
-                        <label for="including">
-                            <strong>Move without parts (local only)</strong>
-                        </label>
-                    </div>
-                </div>
-
-                <div
-                    class="list-item newrow"
-                    *ngIf="canItemSplit"
-                >
-                    <strong>Split stack</strong>
-
-                    <span>
-                        Move
-                        <span class="value">
-                            <button
-                                type="button"
-                                (click)="onIncSplit(-1)"
-                                [disabled]="selectedAmount<=0"
-                            >
-                                -
-                            </button>
-                            {{selectedAmount}}
-                            <button
-                                type="button"
-                                (click)="onIncSplit(1)"
-                                [disabled]="selectedAmount>=item.amount"
-                            >
-                                +
-                            </button>
-                        </span>
-                    </span>
-
-                    <span>
-                        Keep
-                        <span class="value">{{item.amount - selectedAmount}}</span>
-                    </span>
-                </div>
-
-                <ng-container *ngFor="let target of targets; trackBy:trackByIndex">
-                    <div class="list-item newrow">
-                        <span
-                            class="hlist"
-                            style="font-size: 1.5em;"
-                        >
-                            <ng-container [ngSwitch]="targetType(target)">
-                                <i
-                                    class="ra ra-hive-emblem"
-                                    *ngSwitchCase="'Inventory'"
-                                    style="line-height: 1.5;"
-                                ></i>
-
-                                <i
-                                    class="ra ra-wolf-howl"
-                                    *ngSwitchCase="'Companion'"
-                                    style="line-height: 1.5;"
-                                ></i>
-
-                                <i
-                                    class="ra ra-raven"
-                                    *ngSwitchCase="'Familiar'"
-                                    style="line-height: 1.5;"
-                                ></i>
-
-                                <i
-                                    class="ra ra-player"
-                                    *ngSwitchDefault
-                                    style="line-height: 1.5;"
-                                ></i>
-                            </ng-container>
-
-                            <strong>{{targetName(target)}}</strong>
-
-                            <span>{{containerBulk(target)}}</span>
-                        </span>
-
-                        <span
-                            style="flex-grow:0"
-                            *ngFor="let cannotMove of [cannotMove(target)]; trackBy:trackByIndex"
-                            [ngbTooltip]="cannotMove"
-                        >
-                            <ng-template #CurrentButton>
-                                <button
-                                    type="button"
-                                    class="btn inactive-button"
-                                    disabled
-                                >
-                                    Current
-                                </button>
-                            </ng-template>
-
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                                *ngIf="!isSameInventoryAsTarget(target); else CurrentButton"
-                                style="background-color: rgb(var(--accent))"
-                                (click)="onSetTarget(target); modal.close('Move click')"
-                                [disabled]="cannotMove || (item.amount && !selectedAmount)"
-                                [ngSwitch]="targetType(target)"
-                            >
-                                <span *ngSwitchCase="'Inventory'">Move</span>
-
-                                <span *ngSwitchCase="'Player'">Offer</span>
-
-                                <span *ngSwitchDefault>Give</span>
-                            </button>
-                        </span>
-                    </div>
-                </ng-container>
+                <i class="ra ra-hive-emblem"></i>
+                This item contains {{containedItemsAmount()}} items with a total bulk of {{inventoryBulk()}}.
             </div>
-        </div>
 
-        <div class="modal-footer">
-            <button
-                type="button"
-                class="btn btn-outline-secondary"
-                (click)="modal.dismiss('Cancel click')"
+            <div
+                class="list-item newrow left-aligned"
+                *ngIf="doesItemGrantItems"
             >
-                Cancel
-            </button>
-        </div>
-    </ng-template>
+                <i class="ra ra-hive-emblem"></i>
+                This item has additional parts with a total bulk of {{containedBulkString(item)}}.
+                <div class="newrow left-aligned">
+                    <input
+                        id="including"
+                        type="checkbox"
+                        [(ngModel)]="excluding"
+                    >
+                    <label for="including">
+                        <strong>Move without parts (local only)</strong>
+                    </label>
+                </div>
+            </div>
 
-    <button
-        type="button"
-        class="center-aligned"
-        (click)="openItemTargetModal(ItemTargetModal)"
-    >
-        Move...
-    </button>
-</ng-container>
+            <div
+                class="list-item newrow"
+                *ngIf="canItemSplit"
+            >
+                <strong>Split stack</strong>
+
+                <span>
+                    Move
+                    <span class="value">
+                        <button
+                            type="button"
+                            (click)="onIncSplit(-1)"
+                            [disabled]="selectedAmount<=0"
+                        >
+                            -
+                        </button>
+                        {{selectedAmount}}
+                        <button
+                            type="button"
+                            (click)="onIncSplit(1)"
+                            [disabled]="selectedAmount>=item.amount"
+                        >
+                            +
+                        </button>
+                    </span>
+                </span>
+
+                <span>
+                    Keep
+                    <span class="value">{{item.amount - selectedAmount}}</span>
+                </span>
+            </div>
+
+            <ng-container *ngFor="let target of (itemTargets$ | async); trackBy:trackByIndex">
+                <div class="list-item newrow">
+                    <span
+                        class="hlist"
+                        style="font-size: 1.5em;"
+                    >
+                        <ng-container [ngSwitch]="targetType(target)">
+                            <i
+                                class="ra ra-hive-emblem"
+                                *ngSwitchCase="'Inventory'"
+                                style="line-height: 1.5;"
+                            ></i>
+
+                            <i
+                                class="ra ra-wolf-howl"
+                                *ngSwitchCase="'Companion'"
+                                style="line-height: 1.5;"
+                            ></i>
+
+                            <i
+                                class="ra ra-raven"
+                                *ngSwitchCase="'Familiar'"
+                                style="line-height: 1.5;"
+                            ></i>
+
+                            <i
+                                class="ra ra-player"
+                                *ngSwitchDefault
+                                style="line-height: 1.5;"
+                            ></i>
+                        </ng-container>
+
+                        <strong>{{targetName(target)}}</strong>
+
+                        <span>{{containerBulk(target)}}</span>
+                    </span>
+
+                    <span
+                        style="flex-grow:0"
+                        *ngFor="let cannotMove of [cannotMove(target)]; trackBy:trackByIndex"
+                        [ngbTooltip]="cannotMove"
+                    >
+                        <ng-template #CurrentButton>
+                            <button
+                                type="button"
+                                class="btn inactive-button"
+                                disabled
+                            >
+                                Current
+                            </button>
+                        </ng-template>
+
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            *ngIf="!isSameInventoryAsTarget(target); else CurrentButton"
+                            style="background-color: rgb(var(--accent))"
+                            (click)="onSetTarget(target); modal.close('Move click')"
+                            [disabled]="cannotMove || (item.amount && !selectedAmount)"
+                            [ngSwitch]="targetType(target)"
+                        >
+                            <span *ngSwitchCase="'Inventory'">Move</span>
+
+                            <span *ngSwitchCase="'Player'">Offer</span>
+
+                            <span *ngSwitchDefault>Give</span>
+                        </button>
+                    </span>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="modal.dismiss('Cancel click')"
+        >
+            Cancel
+        </button>
+    </div>
+</ng-template>
+
+<button
+    type="button"
+    class="center-aligned"
+    (click)="openItemTargetModal(ItemTargetModal)"
+>
+    Move...
+</button>

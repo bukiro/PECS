@@ -1,20 +1,20 @@
 @media (max-width: $screen-width-wider) {
 
-    .app-container {
+    .character-sheet {
         max-width: 1140px;
     }
 }
 
 @media (max-width: $screen-width-wide) {
 
-    .app-container {
+    .character-sheet {
         max-width: 960px;
     }
 }
 
 @media (max-width: $screen-width-medium) {
 
-    .app-container {
+    .character-sheet {
         max-width: 100%;
     }
 
@@ -42,7 +42,7 @@
 
 @media (min-width: calc($screen-width-wider + 1px)) {
 
-    .app-container {
+    .character-sheet {
         max-width: 1360px;
     }
 }

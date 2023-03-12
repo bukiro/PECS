@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import welcome from 'src/assets/json/about/welcome.json';
 import hints from 'src/assets/json/about/hints.json';
 import changelog from 'src/assets/json/about/changelog.json';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 interface ChangeLog {
     version: string;
@@ -17,38 +18,51 @@ interface ChangeLog {
     styleUrls: ['./about.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent extends TrackByMixin(BaseClass) implements OnInit {
-
-    public version = '';
+export class AboutComponent extends TrackByMixin(BaseClass) {
 
     public welcome: Array<{ header: string; desc: string }> = welcome;
     public hints: Array<{ header: string; desc: string; images: Array<{ file: string; title: string }> }> = hints;
     public changelog: Array<ChangeLog> = changelog;
 
+    public updateAvailable$: Observable<{ available: boolean; desc: string }>;
+
+    public selectedVersionLog$: BehaviorSubject<ChangeLog | undefined>;
+
+    private _selectedVersion = '';
+
     constructor(
         private readonly _configService: ConfigService,
     ) {
         super();
+
+        this.updateAvailable$ = this._configService.updateVersionAvailable$
+            .pipe(
+                map(updateAvailable => {
+                    if (updateAvailable === 'n/a') {
+                        return { available: false, desc: 'PECS was unable to check for new versions.' };
+                    } else if (updateAvailable) {
+                        return { available: true, desc: `Version ${ updateAvailable } is available for download!` };
+                    } else {
+                        return { available: false, desc: '' };
+                    }
+                }),
+            );
+
+        this._selectedVersion = changelog[0]?.version || '';
+
+        this.selectedVersionLog$ =
+            new BehaviorSubject<ChangeLog | undefined>(
+                this.changelog[0],
+            );
     }
 
-    public versionShown(): ChangeLog | undefined {
-        return this.changelog.find(versionChange => versionChange.version === this.version);
+    public set version(version: string) {
+        this._selectedVersion = version;
+        this.selectedVersionLog$.next(this.changelog.find(versionChange => versionChange.version === this._selectedVersion));
     }
 
-    public updateAvailable(): { available: boolean; desc: string } {
-        const updateAvailable = this._configService.updateAvailable;
-
-        if (updateAvailable === 'n/a') {
-            return { available: false, desc: 'PECS was unable to check for new versions.' };
-        } else if (updateAvailable) {
-            return { available: true, desc: `Version ${ updateAvailable } is available for download!` };
-        } else {
-            return { available: false, desc: '' };
-        }
-    }
-
-    public ngOnInit(): void {
-        this.version = changelog[0]?.version || '';
+    public get version(): string {
+        return this._selectedVersion;
     }
 
 }

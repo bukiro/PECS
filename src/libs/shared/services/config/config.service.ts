@@ -2,12 +2,10 @@ import { HttpClient, HttpHeaders, HttpRequest, HttpEvent, HttpStatusCode, HttpEv
 import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
 import { default as package_json } from 'package.json';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { filter, map, Observable, of, switchMap } from 'rxjs';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { SavegamesService } from '../saving-loading/savegames/savegames.service';
-import { StatusService } from '../status/status.service';
+import { BehaviorSubject, catchError, filter, map, Observable, of, switchMap } from 'rxjs';
+import { ApiStatus } from '../../definitions/interfaces/api-status';
+import { ApiStatusKey } from '../../definitions/apiStatusKey';
+import { Defaults } from '../../definitions/defaults';
 
 interface LoginToken {
     token: string | false;
@@ -18,72 +16,40 @@ interface LoginToken {
 })
 export class ConfigService {
 
-    private _dataServiceURL?: string;
-    private _localDataService = false;
-    private _initialized = false;
-    private _xAccessToken = 'testtoken';
-    private _loggingIn = false;
-    private _loggedIn = false;
-    private _cannotLogin = false;
-    private _loggedOutMessage = '';
-    private _updateAvailable = '';
-    private readonly _updateURL = 'http://api.github.com/repos/bukiro/PECS/releases/latest';
+    public static configStatus$ = new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing, message: 'Initializing...' });
 
-    private _savegamesService?: SavegamesService;
+    public updateVersionAvailable$ = new BehaviorSubject<string>('');
+
+    private _dataServiceURL?: string;
+    private _xAccessToken = 'testtoken';
 
     constructor(
         private readonly _httpClient: HttpClient,
-        private readonly _refreshService: RefreshService,
-        private readonly _toastService: ToastService,
-        private readonly _statusService: StatusService,
-    ) { }
+    ) {
+        this._checkForUpdate();
 
-    public get stillLoading(): boolean {
-        return this._loggingIn || !this._initialized;
+        this._initialize();
     }
 
-    public get isLoggingIn(): boolean {
-        return this._loggingIn;
-    }
-
-    public get isLoggedIn(): boolean {
-        return this._loggedIn;
-    }
-
-    public get cannotLogin(): boolean {
-        return this._cannotLogin;
-    }
-
-    public get loggedOutMessage(): string {
-        return this._loggedOutMessage;
+    public get isReady(): boolean {
+        return ConfigService.configStatus$.value.key === ApiStatusKey.Ready;
     }
 
     public get xAccessToken(): string {
         return this._xAccessToken;
     }
 
-    public get hasDBConnectionURL(): boolean {
-        return !!this._dataServiceURL || !!this._localDataService;
-    }
-
-    public get dBConnectionURL(): string {
-        if (this._dataServiceURL) {
-            return this._dataServiceURL;
-        } else {
-            return '';
-        }
-    }
-
-    public get updateAvailable(): string {
-        return this._updateAvailable;
+    public get dataServiceURL(): string {
+        return this._dataServiceURL ?? '';
     }
 
     public login(password = ''): void {
-        //We set loggingIn to true, which changes buttons in the character builder and the top-bar, so we need to update those.
-        this._loggingIn = true;
-        this._statusService.setLoadingStatus('Connecting');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-        this._refreshService.processPreparedChanges();
+        if (password) {
+            ConfigService.configStatus$.next({ key: ApiStatusKey.LoggingIn, message: 'Logging in...' });
+        } else {
+            ConfigService.configStatus$.next({ key: ApiStatusKey.LoggingIn, message: 'Connecting...' });
+        }
+
         // Try logging in. Return values are:
         // - false if the password was wrong
         // - a randomized token if it was correct
@@ -91,78 +57,84 @@ export class ConfigService {
         this._httpLogin(password)
             .subscribe({
                 next: result => {
-                    this._cannotLogin = false;
-
                     if (result.token !== false) {
                         this._xAccessToken = result.token;
-                        this._loggedIn = true;
-                        this._loggingIn = false;
-                        this._loggedOutMessage = '';
-                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'reset-savegames');
-                        this._refreshService.processPreparedChanges();
-                        this._savegamesService?.reset();
+                        ConfigService.configStatus$.next({ key: ApiStatusKey.Ready });
                     } else {
-                        this._loggedIn = false;
-                        this._loggingIn = false;
-
                         if (password) {
-                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'password-failed');
+                            ConfigService.configStatus$.next({ key: ApiStatusKey.NotLoggedIn, message: 'The password is incorrect.' });
                         } else {
-                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'logged-out');
+                            // Login with no password should only happen in the initial connection test.
+                            // This result means a password is required.
+                            ConfigService.configStatus$.next({ key: ApiStatusKey.NotLoggedIn });
                         }
-
-                        this._refreshService.processPreparedChanges();
                     }
                 }, error: error => {
                     console.error(`Error logging in: ${ error.message }`);
 
-                    if (error.status === 0) {
-                        this._toastService.show(
-                            'The configured database is not available. Characters can\'t be saved or loaded.',
-                        );
-                    }
-
-                    this._cannotLogin = true;
-                    this._loggingIn = false;
-                    this._initialized = true;
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-                    this._refreshService.processPreparedChanges();
+                    ConfigService.configStatus$.next({
+                        key: ApiStatusKey.Failed,
+                        message: 'The configured database is not available.',
+                        retryFn: this.login.bind(this),
+                    });
                 },
             });
     }
 
     public logout(notification = ''): void {
-        this._loggedIn = false;
-        this._loggedOutMessage = notification;
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'character-sheet');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'logged-out');
-        this._refreshService.processPreparedChanges();
+        ConfigService.configStatus$.next({ key: ApiStatusKey.NotLoggedIn, message: notification });
     }
 
-    public initialize(savegamesService: SavegamesService): void {
-        this._savegamesService = savegamesService;
+    private _initialize(): void {
 
         const headers = new HttpHeaders()
             .set('Cache-Control', 'no-cache')
             .set('Pragma', 'no-cache');
 
-        this._httpClient.request(new HttpRequest('HEAD', '/assets/config.json', headers))
+        this._checkForConfig$(headers)
             .pipe(
                 filter((response: HttpEvent<unknown>) => (response.type !== HttpEventType.Sent)),
                 switchMap((response: HttpEvent<unknown>) => {
                     if (response.type === HttpEventType.Response && response.status) {
                         if (response.status === HttpStatusCode.Ok) {
-                            return this._httpClient.get('assets/config.json', { headers });
+                            return this._readConfig$(headers);
                         } else {
                             //If there was any result other than 200, we can assume that we are working with a local data service.
                             //In that case, login will run without a dataServiceURL.
                             return of(undefined);
                         }
                     }
+
+                    // In any other non-error case, we don't know what happened, but we don't have a connection URL.
+                    return of(undefined);
+                }),
+                catchError(error => {
+                    if (error.status === HttpStatusCode.NotFound) {
+                        // If no config file exists, assume a local connection URL.
+                        // Warn about the file in case it is mistakenly missing.
+                        console.warn(
+                            'No config file was found. '
+                            + 'Switching to a local service. '
+                            + 'If a configuration was intended, see assets/config.json.example for more information.',
+                        );
+
+                        return of(undefined);
+                    } else if (error.message.includes('failure during parsing')) {
+                        console.error('A bad config file was found. See assets/config.json.example for more information.');
+
+                        ConfigService.configStatus$.next({
+                            key: ApiStatusKey.Failed,
+                            message:
+                                'A bad config file was found.\n'
+                                + 'PECS cannot be started.\n'
+                                + 'See assets/config.json.example for more information.',
+                        });
+
+                        throw (error);
+                    }
+
+                    console.warn('An unknown error occurred while reading the config file. Switching to a local service.');
+                    console.error(error);
 
                     return of(undefined);
                 }),
@@ -171,31 +143,34 @@ export class ConfigService {
                         const config = JSON.parse(JSON.stringify(data));
 
                         this._dataServiceURL = config.dataServiceURL || config.dbConnectionURL || '';
-                        this._localDataService = config.localDataService || config.localDBConnector;
                     }
 
-                    //Establish a connection to the data service and do a dummy login to check whether login is required.
+                    //If the result is undefined, PECS will assume a local service.
+
+                    //Establish a connection to the data service and perform a dummy login to check whether login is required.
                     this.login();
-                    this._initialized = true;
 
                     return data;
                 }),
             )
-            .subscribe({
-                error: error => {
-                    if (error.status === HttpStatusCode.NotFound) {
-                        console.error('No config file was found. See assets/config.json.example for more information.');
-                        this._statusService.setLoadingStatus('No config file!');
-                        this._toastService.show('No config file was found. PECS cannot be started.');
-                    } else if (error.message.includes('failure during parsing')) {
-                        console.error('A bad config file was found. See assets/config.json.example for more information.');
-                        this._statusService.setLoadingStatus('Bad config file!');
-                        this._toastService.show('The config file could not be read. PECS cannot be started.');
-                    }
-                },
-            });
+            .subscribe();
+    }
 
-        this._httpClient.get(this._updateURL)
+    private _checkForConfig$(headers: HttpHeaders): Observable<HttpEvent<unknown>> {
+        return this._httpClient.request(new HttpRequest('HEAD', '/assets/config.json', headers));
+    }
+
+    private _readConfig$(headers: HttpHeaders): Observable<object> {
+        return this._httpClient.get('assets/config.json', { headers });
+    }
+
+    private _httpLogin(password = ''): Observable<LoginToken> {
+        // If no connection URL is set, the login will be posted against the local service.
+        return this._httpClient.post<LoginToken>(`${ this.dataServiceURL }/login`, { password: Md5.hashStr(password) });
+    }
+
+    private _checkForUpdate(): void {
+        this._httpClient.get(Defaults.updateURL)
             .subscribe({
                 next: response => {
                     const cvs = package_json.version.split('.').map(version => parseInt(version, 10));
@@ -219,21 +194,17 @@ export class ConfigService {
                                 avs[minorVersionIndex] > cvs[minorVersionIndex]
                             )
                         ) {
-                            this._updateAvailable = availableVersion;
+                            this.updateVersionAvailable$.next(availableVersion);
                         }
                     } else {
-                        this._updateAvailable = availableVersion;
+                        this.updateVersionAvailable$.next(availableVersion);
                     }
                 },
                 error: () => {
                     console.warn('Could not contact github to check for new version.');
-                    this._updateAvailable = 'n/a';
+                    this.updateVersionAvailable$.next('n/a');
                 },
             });
-    }
-
-    private _httpLogin(password = ''): Observable<LoginToken> {
-        return this._httpClient.post<LoginToken>(`${ this.dBConnectionURL }/login`, { password: Md5.hashStr(password) });
     }
 
 }

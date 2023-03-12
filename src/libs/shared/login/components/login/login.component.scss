@@ -1,0 +1,10 @@
+@import '_utilities';
+
+.login-form {
+    @include character-sheet-card;
+    @include flex-column-left;
+
+    align-items: stretch;
+
+    gap: $spacing-m;
+}

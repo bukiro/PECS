@@ -4,7 +4,7 @@ import { Recastable } from 'src/libs/shared/definitions/interfaces/recastable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { ExtensionsService } from './extensions.service';
+import { DataService } from './data.service';
 
 type SingleIdentifier = 'id' | 'name';
 
@@ -16,7 +16,7 @@ type MultipleIdentifiers = Array<'parent' | 'key' | 'name' | 'itemFilter' | 'gro
 export class DataLoadingService {
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
+        private readonly _extensionsService: DataService,
         private readonly _recastService: RecastService,
     ) { }
 

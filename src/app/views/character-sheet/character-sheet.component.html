@@ -1,48 +1,37 @@
-<ng-template #CharacterSheetTemplate>
-    <!-- Desktop or mobile character sheet -->
+<!-- Desktop or mobile character sheet -->
 
-    <app-character-sheet-desktop
-        *ngIf="(isMobile$ | async) === false"
-        [shownMode]="(shownModeDesktop$ | async) ?? 'All'"
-        [attacksAndSpellsOrder]="(attacksAndSpellsOrder$ | async) ?? {}"
-    ></app-character-sheet-desktop>
+<app-character-sheet-desktop
+    *ngIf="(isMobile$ | async) === false"
+    [attacksAndSpellsOrder]="(attacksAndSpellsOrder$ | async) ?? {}"
+></app-character-sheet-desktop>
 
-    <app-character-sheet-mobile
-        *ngIf="(isMobile$ | async)"
-        [shownMode]="(shownModeMobile$ | async) ?? 'All'"
-    ></app-character-sheet-mobile>
+<app-character-sheet-mobile
+    *ngIf="(isMobile$ | async)"
+></app-character-sheet-mobile>
 
-    <!-- Slide-in menus -->
+<!-- Slide-in menus -->
 
-    <app-items [@slideInOut]="itemsMenuState"></app-items>
+<app-items [@slideInOut]="itemsMenuState"></app-items>
 
-    <app-crafting [@slideInOut]="craftingMenuState"></app-crafting>
+<app-crafting [@slideInOut]="craftingMenuState"></app-crafting>
 
-    <app-spell-selection [@slideInOut]="spellsMenuState"></app-spell-selection>
+<app-spell-selection [@slideInOut]="spellsMenuState"></app-spell-selection>
 
-    <app-spell-library [@slideInOut]="spellLibraryMenuState"></app-spell-library>
+<app-spell-library [@slideInOut]="spellLibraryMenuState"></app-spell-library>
 
-    <app-conditions [@slideInOut]="conditionsMenuState"></app-conditions>
+<app-conditions [@slideInOut]="conditionsMenuState"></app-conditions>
 
-    <app-character-creation [@slideInOut]="characterMenuState"></app-character-creation>
+<app-character-creation [@slideInOut]="characterMenuState"></app-character-creation>
 
-    <app-animal-companion
-        *ngIf="isAnimalCompanionAvailable$ | async"
-        [@slideInOut]="companionMenuState"
-    >
-    </app-animal-companion>
-
-    <app-familiar
-        *ngIf="isFamiliarAvailable$ | async"
-        [@slideInOut]="familiarMenuState"
-    ></app-familiar>
-
-    <app-dice [@slideInOutVert]="diceMenuState"></app-dice>
-</ng-template>
-
-<div
-    class="loading"
-    *ngIf="(isLoadingCharacter$ | async); else CharacterSheetTemplate"
+<app-animal-companion
+    *ngIf="isAnimalCompanionAvailable$ | async"
+    [@slideInOut]="companionMenuState"
 >
-    <app-loading-spinner class="loading__spinner" size="25vw"></app-loading-spinner>
-</div>
+</app-animal-companion>
+
+<app-familiar
+    *ngIf="isFamiliarAvailable$ | async"
+    [@slideInOut]="familiarMenuState"
+></app-familiar>
+
+<app-dice [@slideInOutVert]="diceMenuState"></app-dice>

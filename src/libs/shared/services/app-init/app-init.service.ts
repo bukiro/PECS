@@ -7,7 +7,6 @@ import { ItemsDataService } from '../data/items-data.service';
 import { ItemMaterialsDataService } from '../data/item-materials-data.service';
 import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';
 import { ItemPropertiesDataService } from '../data/item-properties-data.service';
-import { StatusService } from '../status/status.service';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -27,9 +26,7 @@ import { ItemActivationProcessingService } from '../../processing/services/item-
 import { SpellActivityProcessingSharedService } from '../../processing/services/spell-activity-processing-shared/spell-activity-processing-shared.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 import { CharacterLoadingService } from '../saving-loading/character-loading/character-loading.service';
-import { SavegamesService } from '../saving-loading/savegames/savegames.service';
 import { EffectsGenerationService } from '../../effects-generation/services/effects-generation/effects-generation.service';
-import { ConfigService } from '../config/config.service';
 import { AbilitiesDataService } from '../data/abilities-data.service';
 import { ActivitiesDataService } from '../data/activities-data.service';
 import { AnimalCompanionsDataService } from '../data/animal-companions-data.service';
@@ -37,7 +34,7 @@ import { ClassesDataService } from '../data/classes-data.service';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { DeitiesDataService } from '../data/deities-data.service';
 import { EffectPropertiesDataService } from '../data/effect-properties-data.service';
-import { ExtensionsService } from '../data/extensions.service';
+import { DataService } from '../data/data.service';
 import { FamiliarsDataService } from '../data/familiars-data.service';
 import { FeatsDataService } from '../data/feats-data.service';
 import { HistoryDataService } from '../data/history-data.service';
@@ -46,6 +43,10 @@ import { SpellsDataService } from '../data/spells-data.service';
 import { TraitsDataService } from '../data/traits-data.service';
 import { DisplayService } from '../display/display.service';
 import { MessagesService } from '../messages/messages.service';
+import { ApiStatusKey } from '../../definitions/apiStatusKey';
+import { filter, take } from 'rxjs';
+import { DocumentStyleService } from '../document-style/document-style.service';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
     providedIn: 'root',
@@ -53,8 +54,6 @@ import { MessagesService } from '../messages/messages.service';
 export class AppInitService {
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
-        private readonly _configService: ConfigService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -77,7 +76,6 @@ export class AppInitService {
         private readonly _effectsPropertiesDataService: EffectPropertiesDataService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
-        private readonly _statusService: StatusService,
         private readonly _itemInitializationService: ItemInitializationService,
         private readonly _refreshService: RefreshService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
@@ -97,7 +95,11 @@ export class AppInitService {
         private readonly _featProcessingService: FeatProcessingService,
         private readonly _processingServiceProvider: ProcessingServiceProvider,
         private readonly _itemActivationProcessingService: ItemActivationProcessingService,
-        private readonly _savegamesService: SavegamesService,
+        //Initialize these services simply by injecting them.
+        _configService: ConfigService,
+        _extensionsService: DataService,
+        _documentStyleService: DocumentStyleService,
+
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
@@ -116,9 +118,8 @@ export class AppInitService {
     }
 
     public init(): void {
-        this._statusService.setLoadingStatus('Loading extensions');
-        this._extensionsService.initialize();
-        this._configService.initialize(this._savegamesService);
+        DisplayService.setPageHeight();
+
         this._processingServiceProvider.registerServices(
             this._activitiesProcessingService,
             this._conditionProcessingService,
@@ -129,21 +130,21 @@ export class AppInitService {
             this._spellActivityProcessingSharedService,
             this._spellProcessingService,
         );
-        DisplayService.setPageHeight();
 
-        const waitForFileServices = setInterval(() => {
-            if (!this._extensionsService.stillLoading && !this._configService.stillLoading) {
-                clearInterval(waitForFileServices);
-                this._statusService.setLoadingStatus('Initializing content');
-
-                // Initialize itemsDataService and activitiesDataService first.
-                // They provide restoration functions for other services.
+        DataService.dataStatus$
+            .pipe(
+                filter(dataStatus => dataStatus.key !== ApiStatusKey.Initializing),
+                take(1),
+            )
+            .subscribe(() => {
+                // Initialize all data services after the extension service.
+                // Start with itemsDataService and activitiesDataService; they provide restoration functions for other services.
                 this._itemsDataService.initialize(
                     this._itemInitializationService,
                     this._basicEquipmentService,
                 );
-                this._activitiesDataService.initialize();
 
+                this._activitiesDataService.initialize();
                 this._abilitiesDataService.initialize();
                 this._animalCompanionsDataService.initialize();
                 this._classesDataService.initialize();
@@ -159,6 +160,11 @@ export class AppInitService {
                 this._skillsDataService.initialize();
                 this._spellsDataService.initialize();
                 this._traitsDataService.initialize();
+
+                DataService.dataStatus$.next({ key: ApiStatusKey.Ready });
+
+                // Initialize other services.
+
                 this._messagesService.initialize();
                 this._customEffectPropertiesService.initialize();
                 this._effectsGenerationService.initialize();
@@ -173,10 +179,9 @@ export class AppInitService {
                 this._creatureConditionsService.initialize(
                     this._evaluationService,
                 );
-                this._characterLoadingService.initialize(this);
+                this._characterLoadingService.initialize(this.reset.bind(this));
                 this._characterLoadingService.loadOrResetCharacter();
-            }
-        }, Defaults.waitForServiceDelay);
+            });
     }
 
     public reset(): void {

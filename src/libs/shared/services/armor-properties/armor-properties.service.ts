@@ -14,7 +14,6 @@ import { CreatureConditionsService } from '../creature-conditions/creature-condi
 import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';
 import { SkillsDataService } from '../data/skills-data.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
-import { StatusService } from '../status/status.service';
 
 @Injectable({
     providedIn: 'root',
@@ -49,7 +48,7 @@ export class ArmorPropertiesService {
         charLevel: number = CreatureService.character.level,
         options: { itemStore?: boolean } = {},
     ): number {
-        if (StatusService.isLoadingCharacter$.value || creature.isFamiliar()) { return 0; }
+        if (creature.isFamiliar()) { return 0; }
 
         this._cacheArmoredSkirt(armor, creature, options);
 

@@ -12,7 +12,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 
 export interface CalculatedAC {
     absolutes: Array<Effect>;
@@ -203,8 +202,6 @@ export class ArmorClassService {
         absolutes?: Array<Effect>,
         relatives?: Array<Effect>,
     ): { result: number; explain: string } {
-        if (StatusService.isLoadingCharacter$.value) { return { result: 0, explain: '' }; }
-
         //Get the bonus from the worn armor. This includes the basic 10
         let basicBonus = 10;
         let explain = 'DC Basis: 10';

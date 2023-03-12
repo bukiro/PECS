@@ -205,7 +205,7 @@ export class CharacterSavingService {
 
     private _saveCharacterToDatabase(savegame: Partial<Character>): Observable<SaveCharacterResponse> {
         return this._http.post<SaveCharacterResponse>(
-            `${ this._configService.dBConnectionURL }/saveCharacter`,
+            `${ this._configService.dataServiceURL }/saveCharacter`,
             savegame,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },

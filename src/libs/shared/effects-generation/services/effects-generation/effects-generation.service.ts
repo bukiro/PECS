@@ -30,7 +30,6 @@ import { CharacterLanguagesService } from 'src/libs/shared/services/character-la
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 
@@ -61,11 +60,6 @@ export class EffectsGenerationService {
     public initialize(): void {
         this._refreshService.componentChanged$
             .subscribe(target => {
-                //Only react to effects refreshing commands when a character is not currently being loaded.
-                if (StatusService.isLoadingCharacter$.value) {
-                    return;
-                }
-
                 if (['effects', 'all', CreatureTypes.Character, 'Companion', 'Familiar'].includes(target)) {
                     if (target in CreatureTypes) {
                         this._updateEffectsAndConditions(target as CreatureTypes);
@@ -85,11 +79,6 @@ export class EffectsGenerationService {
             });
         this._refreshService.detailChanged$
             .subscribe(target => {
-                //Only react to effects refreshing commands when a character is not currently being loaded.
-                if (StatusService.isLoadingCharacter$.value) {
-                    return;
-                }
-
                 if (['effects', 'all'].includes(target.target) && target.creature !== '') {
                     this._updateEffectsAndConditions(target.creature);
                 }
@@ -883,11 +872,7 @@ export class EffectsGenerationService {
             this._refreshService.prepareChangesByEffects(effects, this._creatureEffectsService.effects(context.creature.type).all, context);
             this._creatureEffectsService.replaceCreatureEffects(context.creature.type, effects);
 
-            if (!StatusService.isLoadingCharacter$.value) {
-                return this._generateEffects(context.creature.type, { secondRun: true });
-            } else {
-                return false;
-            }
+            return this._generateEffects(context.creature.type, { secondRun: true });
         } else if (options.secondRun) {
             return true;
         } else {

@@ -5,8 +5,7 @@ import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Observable, Subscription } from 'rxjs';
-import { Savegame } from 'src/app/classes/Savegame';
+import { distinctUntilChanged, map, Observable, takeUntil } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
@@ -16,7 +15,6 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { HttpStatusCode } from '@angular/common/http';
 import { Creature } from 'src/app/classes/Creature';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
@@ -29,6 +27,7 @@ import { SavegamesService } from 'src/libs/shared/services/saving-loading/savega
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 
 @Component({
     selector: 'app-top-bar',
@@ -36,7 +35,7 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
     styleUrls: ['./top-bar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class TopBarComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnInit, OnDestroy {
 
     @ViewChild('NewMessagesModal', { static: false })
     private readonly _newMessagesModal?: HTMLElement;
@@ -51,17 +50,15 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
     public passwordFailed = false;
     public MenuNamesEnum = MenuNames;
 
-    public isLoadingCharacter$: Observable<boolean>;
-    public loadingStatus$: Observable<string>;
-
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
+    public apiButtonsStatus$: Observable<{
+        isManualMode: boolean;
+        isGMMode: boolean;
+    }>;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
         private readonly _configService: ConfigService,
-        private readonly _savegamesService: SavegamesService,
         private readonly _messagesService: MessagesService,
         private readonly _toastService: ToastService,
         private readonly _modalService: NgbModal,
@@ -72,44 +69,27 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
         private readonly _messageProcessingService: MessageProcessingService,
         private readonly _recastService: RecastService,
         private readonly _messagePropertiesService: MessagePropertiesService,
+        _savegamesService: SavegamesService,
         public modal: NgbActiveModal,
     ) {
         super();
 
-        this.isLoadingCharacter$ = StatusService.isLoadingCharacter$;
-        this.loadingStatus$ = StatusService.loadingStatus$;
-    }
-
-    public get hasDBConnectionURL(): boolean {
-        return this._configService.hasDBConnectionURL;
-    }
-
-    public get isLoggingIn(): boolean {
-        return this._configService.isLoggingIn;
-    }
-
-    public get isLoggedIn(): boolean {
-        return this._configService.isLoggedIn;
-    }
-
-    public get cannotLogin(): boolean {
-        return this._configService.cannotLogin;
-    }
-
-    public get loggedOutMessage(): string {
-        return this._configService.loggedOutMessage;
-    }
-
-    public get areSavegamesInitializing(): boolean {
-        return this._savegamesService.stillLoading;
+        this.apiButtonsStatus$ =
+            SettingsService.settings$
+                .pipe(
+                    map(settings => ({
+                        isManualMode: settings.manualMode,
+                        // GMMode is only set while loading a character,
+                        // which updates the settings,
+                        // so it doesn't need to be reactive here.
+                        isGMMode: SettingsService.isGMMode,
+                    })),
+                    distinctUntilChanged(),
+                );
     }
 
     public get character(): Character {
         return CreatureService.character;
-    }
-
-    public get isGMMode(): boolean {
-        return SettingsService.isGMMode;
     }
 
     public get isManualMode(): boolean {
@@ -163,14 +143,6 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
         return this._messagesService.newMessages();
     }
 
-    public savegames(): Array<Savegame> | undefined {
-        if (this._savegamesService.loadingError() || this.areSavegamesInitializing) {
-            return undefined;
-        } else {
-            return this._savegamesService.savegames();
-        }
-    }
-
     public refreshAll(): void {
         this._refreshService.setComponentChanged();
     }
@@ -205,7 +177,7 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
     }
 
     public getMessages(): void {
-        if (this.isManualMode || !this.isLoggedIn) {
+        if (this.isManualMode || !this._configService.isReady) {
             // Don't check effects in manual mode or if not logged in.
             return;
         }
@@ -348,53 +320,28 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
         }
     }
 
-    public openLoginModal(options: { passwordFailed?: boolean } = {}): void {
-        if (!this.modalOpen) {
-            this.modalOpen = true;
-            this.password = '';
-
-            if (options.passwordFailed) {
-                this.passwordFailed = true;
-            }
-
-            this._modalService
-                .open(this._loginModal, { centered: true, ariaLabelledBy: 'modal-title' })
-                .result
-                .then(
-                    result => {
-                        if (result === 'OK click') {
-                            this.passwordFailed = false;
-                            this.modalOpen = false;
-                            this._configService.login(this.password);
-                            this.password = '';
-                        }
-                    },
-                    () => {
-                        //If the login modal is cancelled in any way, it can go ahead and open right back up.
-                        this.modalOpen = false;
-                        this.openLoginModal();
-                    },
-                );
-        }
-    }
-
     public ngOnInit(): void {
         this._subscribeToChanges();
     }
 
     public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
+        this.destroy();
     }
 
     private _subscribeToChanges(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
+        this._refreshService.componentChanged$
+            .pipe(
+                takeUntil(this.destroyed$),
+            )
             .subscribe(target => {
                 if (['top-bar', 'all', 'character'].includes(target.toLowerCase())) {
                     this._changeDetector.detectChanges();
                 }
             });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
+        this._refreshService.detailChanged$
+            .pipe(
+                takeUntil(this.destroyed$),
+            )
             .subscribe(view => {
                 if (view.creature.toLowerCase() === 'character' && ['top-bar', 'all'].includes(view.target.toLowerCase())) {
                     this._changeDetector.detectChanges();
@@ -402,14 +349,6 @@ export class TopBarComponent extends TrackByMixin(BaseClass) implements OnInit, 
 
                 if (view.creature.toLowerCase() === 'character' && view.target.toLowerCase() === 'check-messages-manually') {
                     this.getMessages();
-                }
-
-                if (view.creature.toLowerCase() === 'character' && view.target.toLowerCase() === 'logged-out') {
-                    this.openLoginModal();
-                }
-
-                if (view.creature.toLowerCase() === 'character' && view.target.toLowerCase() === 'password-failed') {
-                    this.openLoginModal({ passwordFailed: true });
                 }
             });
     }

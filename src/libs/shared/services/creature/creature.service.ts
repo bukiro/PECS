@@ -4,11 +4,17 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SettingsService } from '../settings/settings.service';
+import { BehaviorSubject } from 'rxjs';
+import { ApiStatus } from '../../definitions/interfaces/api-status';
+import { ApiStatusKey } from '../../definitions/apiStatusKey';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CreatureService {
+
+    public static characterStatus$ = new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing });
+
     private static _character: Character = new Character();
 
     public static get character(): Character {

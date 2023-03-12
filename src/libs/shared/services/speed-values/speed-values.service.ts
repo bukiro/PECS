@@ -3,7 +3,6 @@ import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { Speed } from 'src/app/classes/Speed';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { StatusService } from '../status/status.service';
 
 interface CalculatedSpeed {
     name: string;
@@ -93,7 +92,6 @@ export class SpeedValuesService {
 
     private _baseValue(speed: Speed, creature: Creature): { result: number; explain: string } {
         //Gets the basic speed and adds all effects
-        if (StatusService.isLoadingCharacter$.value) { return { result: 0, explain: '' }; }
 
         //Get the base speed from the ancestry.
         const baseValue = creature.baseSpeed(speed.name);

@@ -135,7 +135,7 @@
 
         <!-- Button to activate on selected allies. -->
         <ng-container *ngIf="canTargetAlly(parameters.targetNumber)">
-            <ng-container *ngIf="spellTargets() as targets">
+            <ng-container *ngIf="spellTargets$ | async as targets">
                 <ng-template
                     #SpellTargetModal
                     let-modal

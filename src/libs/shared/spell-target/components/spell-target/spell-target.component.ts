@@ -21,7 +21,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { noop, Subscription } from 'rxjs';
+import { map, noop, Observable, Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
@@ -100,6 +100,8 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
 
     public creatureTypesEnum = CreatureTypes;
 
+    public spellTargets$: Observable<Array<SpellTarget>>;
+
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
 
@@ -115,6 +117,8 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
         public modal: NgbActiveModal,
     ) {
         super();
+
+        this.spellTargets$ = this._createSpellTargetObservable$();
     }
 
     public get action(): Activity | Spell {
@@ -278,85 +282,6 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
             );
     }
 
-    public spellTargets(): Array<SpellTarget> {
-        //Collect all possible targets for a spell/activity (allies only).
-        //Hostile spells and activities don't get targets.
-        if (this.action.isHostile(true)) {
-            return [];
-        }
-
-        const newTargets: Array<SpellTarget> = [];
-        const character = this.character;
-
-        this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
-            newTargets.push(
-                Object.assign(
-                    new SpellTarget(),
-                    {
-                        name: creature.name || creature.type,
-                        id: creature.id,
-                        playerId: character.id,
-                        type: creature.type,
-                        selected: (this.gain.targets.find(target => target.id === creature.id)?.selected || false),
-                        isPlayer: creature === character,
-                    }));
-        });
-
-        //Make all party members available for selection only if you are in a party.
-        if (character.partyName) {
-            this._savegamesService.savegames()
-                .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
-                .forEach(savegame => {
-                    newTargets.push(
-                        Object.assign(
-                            new SpellTarget(),
-                            {
-                                name: savegame.name || 'Unnamed',
-                                id: savegame.id,
-                                playerId: savegame.id,
-                                type: CreatureTypes.Character,
-                                selected: (this.gain.targets.find(target => target.id === savegame.id)?.selected || false),
-                            },
-                        ),
-                    );
-
-                    if (savegame.companionId) {
-                        newTargets.push(
-                            Object.assign(
-                                new SpellTarget(),
-                                {
-                                    name: savegame.companionName || 'Companion',
-                                    id: savegame.companionId,
-                                    playerId: savegame.id,
-                                    type: 'Companion',
-                                    selected: (this.gain.targets.find(target => target.id === savegame.companionId)?.selected || false),
-                                },
-                            ),
-                        );
-                    }
-
-                    if (savegame.familiarId) {
-                        newTargets.push(
-                            Object.assign(
-                                new SpellTarget(),
-                                {
-                                    name: savegame.familiarName || 'Familiar',
-                                    id: savegame.familiarId,
-                                    playerId: savegame.id,
-                                    type: 'Familiar',
-                                    selected: (this.gain.targets.find(target => target.id === savegame.familiarId)?.selected || false),
-                                },
-                            ),
-                        );
-                    }
-                });
-        }
-
-        this.gain.targets = newTargets;
-
-        return this.gain.targets;
-    }
-
     public onSelectAllTargets(event: Event): void {
         const shouldSelectAll = (event.target as HTMLInputElement).checked;
 
@@ -429,6 +354,93 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _createSpellTargetObservable$(): Observable<Array<SpellTarget>> {
+        return this._savegamesService.savegames$
+            .pipe(
+                map(savegames => {
+                    //Collect all possible targets for a spell/activity (allies only).
+                    //Hostile spells and activities don't get targets.
+                    if (this.action.isHostile(true)) {
+                        return [];
+                    }
+
+                    const newTargets = new Array<SpellTarget>();
+                    const character = this.character;
+
+                    this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
+                        newTargets.push(
+                            Object.assign(
+                                new SpellTarget(),
+                                {
+                                    name: creature.name || creature.type,
+                                    id: creature.id,
+                                    playerId: character.id,
+                                    type: creature.type,
+                                    selected: (this.gain.targets.find(target => target.id === creature.id)?.selected || false),
+                                    isPlayer: creature === character,
+                                }));
+                    });
+
+                    if (!character.partyName) {
+                        this.gain.targets = newTargets;
+
+                        return this.gain.targets;
+                    }
+
+                    savegames
+                        .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
+                        .forEach(savegame => {
+                            newTargets.push(
+                                Object.assign(
+                                    new SpellTarget(),
+                                    {
+                                        name: savegame.name || 'Unnamed',
+                                        id: savegame.id,
+                                        playerId: savegame.id,
+                                        type: CreatureTypes.Character,
+                                        selected: this._isTargetSelected(savegame.id),
+                                    },
+                                ),
+                            );
+
+                            if (savegame.companionId) {
+                                newTargets.push(
+                                    Object.assign(
+                                        new SpellTarget(),
+                                        {
+                                            name: savegame.companionName || 'Companion',
+                                            id: savegame.companionId,
+                                            playerId: savegame.id,
+                                            type: 'Companion',
+                                            selected: this._isTargetSelected(savegame.companionId),
+                                        },
+                                    ),
+                                );
+                            }
+
+                            if (savegame.familiarId) {
+                                newTargets.push(
+                                    Object.assign(
+                                        new SpellTarget(),
+                                        {
+                                            name: savegame.familiarName || 'Familiar',
+                                            id: savegame.familiarId,
+                                            playerId: savegame.id,
+                                            type: 'Familiar',
+                                            selected: this._isTargetSelected(savegame.familiarId),
+                                        },
+                                    ),
+                                );
+                            }
+                        });
+
+                    this.gain.targets = newTargets;
+
+                    return this.gain.targets;
+                }),
+            );
     }
 
     private _bloodMagicTrigger(): string {
@@ -530,6 +542,10 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
 
     private _canTargetList(list: Array<string>): boolean {
         return list.includes(this._target);
+    }
+
+    private _isTargetSelected(id: string): boolean {
+        return this.gain.targets.find(target => target.id === id)?.selected ?? false;
     }
 
 }

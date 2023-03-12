@@ -40,7 +40,7 @@ export class CharacterDeletingService {
 
     private _deleteCharacterFromDatabase(savegame: Savegame): Observable<Array<string>> {
         return this._http.post<Array<string>>(
-            `${ this._configService.dBConnectionURL }/deleteCharacter`,
+            `${ this._configService.dataServiceURL }/deleteCharacter`,
             { id: savegame.id },
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },

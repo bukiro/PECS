@@ -2,11 +2,10 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, filter, Observable, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, takeUntil } from 'rxjs';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { StatusService } from 'src/libs/shared/services/status/status.service';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
@@ -56,14 +55,9 @@ const slideInOutVertical = trigger('slideInOutVert', [
 })
 export class CharacterSheetComponent extends DestroyableMixin(IsMobileMixin(TrackByMixin(BaseClass))) implements OnInit, OnDestroy {
 
-    public shownModeDesktop$ = new BehaviorSubject<string>('All');
-    public shownModeMobile$ = new BehaviorSubject<string>('All');
-
     public isAnimalCompanionAvailable$ = new BehaviorSubject<boolean>(false);
     public isFamiliarAvailable$ = new BehaviorSubject<boolean>(false);
     public attacksAndSpellsOrder$ = new BehaviorSubject<Record<string, number>>({});
-
-    public isLoadingCharacter$: Observable<boolean>;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -71,8 +65,6 @@ export class CharacterSheetComponent extends DestroyableMixin(IsMobileMixin(Trac
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
         super();
-
-        this.isLoadingCharacter$ = StatusService.isLoadingCharacter$;
     }
 
     public get itemsMenuState(): MenuState {
@@ -142,31 +134,25 @@ export class CharacterSheetComponent extends DestroyableMixin(IsMobileMixin(Trac
     }
 
     private _subscribeToChanges(): void {
-        StatusService.isLoadingCharacter$
-            .pipe(
-                filter(loading => !loading),
-                take(1),
-            )
-            .subscribe(() => {
-                this._refreshService.componentChanged$
-                    .pipe(
-                        takeUntil(this.destroyed$),
-                    )
-                    .subscribe(target => {
-                        if (['character-sheet', 'all', 'character'].includes(target.toLowerCase())) {
-                            this._updateValues();
-                        }
-                    });
 
-                this._refreshService.detailChanged$
-                    .pipe(
-                        takeUntil(this.destroyed$),
-                    )
-                    .subscribe(view => {
-                        if (view.creature.toLowerCase() === 'character' && ['character-sheet', 'all'].includes(view.target.toLowerCase())) {
-                            this._updateValues();
-                        }
-                    });
+        this._refreshService.componentChanged$
+            .pipe(
+                takeUntil(this.destroyed$),
+            )
+            .subscribe(target => {
+                if (['character-sheet', 'all', 'character'].includes(target.toLowerCase())) {
+                    this._updateValues();
+                }
+            });
+
+        this._refreshService.detailChanged$
+            .pipe(
+                takeUntil(this.destroyed$),
+            )
+            .subscribe(view => {
+                if (view.creature.toLowerCase() === 'character' && ['character-sheet', 'all'].includes(view.target.toLowerCase())) {
+                    this._updateValues();
+                }
             });
     }
 
