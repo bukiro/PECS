@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
 
 @Component({
     selector: 'app-button',
@@ -39,45 +40,41 @@ export class ButtonComponent {
 
     @Input()
     public set disabled(disabled: boolean | string | undefined) {
-        this.isDisabled = this._forceBoolean(disabled);
+        this.isDisabled = forceBooleanFromInput(disabled);
     }
 
     @Input()
     public set processing(processing: boolean | string | undefined) {
-        this.isProcessing = this._forceBoolean(processing);
+        this.isProcessing = forceBooleanFromInput(processing);
     }
 
     @Input()
     public set toggled(toggled: boolean | string | undefined) {
-        this.isToggled = this._forceBoolean(toggled);
+        this.isToggled = forceBooleanFromInput(toggled);
     }
 
     @Input()
     public set ghost(ghost: boolean | string | undefined) {
-        this.isGhost = this._forceBoolean(ghost);
+        this.isGhost = forceBooleanFromInput(ghost);
     }
 
     @Input()
     public set noOutline(noOutline: boolean | string | undefined) {
-        this.isNotOutlined = this._forceBoolean(noOutline);
+        this.isNotOutlined = forceBooleanFromInput(noOutline);
     }
 
     @Input()
     public set compact(compact: boolean | string | undefined) {
-        this.isCompact = this._forceBoolean(compact);
+        this.isCompact = forceBooleanFromInput(compact);
     }
 
     @Input()
     public set circle(circle: boolean | string | undefined) {
-        this.isCircle = this._forceBoolean(circle);
+        this.isCircle = forceBooleanFromInput(circle);
     }
 
     @Input()
     public set showLabel(showLabel: boolean | string | undefined) {
-        this.shouldShowLabel = this._forceBoolean(showLabel);
-    }
-
-    private _forceBoolean(value: boolean | string | undefined): boolean {
-        return value !== undefined && value !== false;
+        this.shouldShowLabel = forceBooleanFromInput(showLabel);
     }
 }

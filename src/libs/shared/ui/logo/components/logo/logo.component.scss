@@ -4,14 +4,14 @@
     @include flex-column-center;
     @include flex-center-main-axis;
 
+    font-size: $font-size-small;
+
     height: 4rem;
     width: 4rem;
 
     position: relative;
 
     font-weight: 800;
-
-    font-size: $font-size-small;
 
     flex: 0 0 4rem;
 }

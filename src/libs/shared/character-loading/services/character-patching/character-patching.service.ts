@@ -12,10 +12,10 @@ import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { CharacterFeatsService } from '../../character-feats/character-feats.service';
-import { DeitiesDataService } from '../../data/deities-data.service';
-import { FeatsDataService } from '../../data/feats-data.service';
-import { InventoryService } from '../../inventory/inventory.service';
+import { CharacterFeatsService } from '../../../services/character-feats/character-feats.service';
+import { DeitiesDataService } from '../../../services/data/deities-data.service';
+import { FeatsDataService } from '../../../services/data/feats-data.service';
+import { InventoryService } from '../../../services/inventory/inventory.service';
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTakingService } from 'src/libs/character-creation/services/feat-taking/feat-taking.service';
 

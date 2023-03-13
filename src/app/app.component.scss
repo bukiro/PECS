@@ -39,6 +39,6 @@
     }
 
     &__text {
-        font-size: $font-size-large;
+        @include text-large;
     }
 }

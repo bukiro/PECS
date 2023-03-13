@@ -6,5 +6,15 @@
 
     align-items: stretch;
 
+    max-width: 100vw;
+    max-height: 100vh;
+
     gap: $spacing-m;
+
+    &__header {
+        @include flex-row-center;
+        @include flex-center-cross-axis;
+
+        gap: $spacing-m;
+    }
 }

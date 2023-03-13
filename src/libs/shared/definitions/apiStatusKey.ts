@@ -5,4 +5,5 @@ export enum ApiStatusKey {
     NotLoggedIn,
     LoggingIn,
     Loading,
+    NoCharacter,
 }

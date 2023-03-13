@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Templa
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { QuickdiceComponent } from 'src/libs/shared/quickdice/components/quickdice/quickdice.component';
 import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
+import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
+import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
     selector: 'app-attribute-value',
@@ -9,12 +12,12 @@ import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
     styleUrls: ['./attribute-value.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttributeValueComponent {
+export class AttributeValueComponent extends TrackByMixin(BaseClass) {
     @Input()
     public title?: string;
 
     @Input()
-    public subline?: string;
+    public sublines?: Array<string>;
 
     @Input()
     public value?: number | string;
@@ -37,6 +40,7 @@ export class AttributeValueComponent {
 
     private _bonuses?: Array<BonusDescription>;
     private _showNotes?: boolean | undefined;
+    private _showValueOnLeftSide?: boolean | undefined;
 
     public get showNotes(): boolean | undefined {
         return this._showNotes;
@@ -48,7 +52,6 @@ export class AttributeValueComponent {
         this.showNotesChange.emit(!!showNotes);
     }
 
-    // eslint-disable-next-line @typescript-eslint/member-ordering
     public get bonuses(): Array<BonusDescription> | undefined {
         return this._bonuses;
     }
@@ -59,5 +62,14 @@ export class AttributeValueComponent {
         this.hasBonuses = !!bonuses?.some(bonus => bonus.isBonus);
         this.hasPenalties = !!bonuses?.some(bonus => bonus.isPenalty);
         this.hasAbsolutes = !!bonuses?.some(bonus => bonus.isAbsolute);
+    }
+
+    public get showValueOnLeftSide(): boolean {
+        return !!this._showValueOnLeftSide;
+    }
+
+    @Input()
+    public set showValueOnLeftSide(showValueOnLeftSide: boolean | string | undefined) {
+        this._showValueOnLeftSide = forceBooleanFromInput(showValueOnLeftSide);
     }
 }

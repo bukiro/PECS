@@ -1,0 +1,131 @@
+@import '_utilities';
+
+:host {
+    max-width: 90vw;
+    max-height: 90vh;
+
+    @media (max-width: $screen-width-narrow) {
+        max-width: 100vw;
+        max-height: 100vh;
+    }
+}
+
+.character-selection {
+    @include character-sheet-card;
+
+    height: 100%;
+    width: 100%;
+
+    gap: $spacing-m;
+
+    &__header {
+        @include flex-row-center;
+        @include flex-center-cross-axis;
+
+        gap: $spacing-m;
+    }
+
+    &__content {
+        @include flex-column-left;
+
+        overflow-y: hidden;
+    }
+}
+
+.character-selection__button {
+    flex-shrink: 0;
+
+    .new-character-button {
+        @include flex-row-start;
+        @include flex-center-cross-axis;
+
+        gap: $spacing-s;
+
+        .icon {
+            display: inline-block;
+            font-size: 2rem;
+            width: 3rem;
+            height: 3rem;
+            margin: $spacing-xs;
+        }
+    }
+}
+
+.savegames {
+    @include flex-column-center;
+
+    overflow-y: auto;
+
+    gap: $spacing-m;
+
+    padding: $spacing-s;
+
+    &__header {
+        @include text-large;
+    }
+
+    &__option {
+        @include flex-row-start;
+
+        width: 100%;
+
+        gap: $spacing-s;
+
+        .button {
+            &--load {
+                flex: 1 1 100%;
+            }
+
+            &--delete {
+                @include background-color-penalty;
+
+                flex-shrink: 0;
+
+                .icon {
+                    display: inline-block;
+                    font-size: 2rem;
+                    width: 3rem;
+                }
+            }
+        }
+    }
+}
+
+.delete-modal {
+    //To-Do: Why does this not apply dark mode?
+
+    @include character-sheet-card;
+
+    gap: $spacing-s;
+
+    position: relative;
+
+    &__header {
+        @include flex-row-center;
+        @include flex-center-cross-axis;
+        @include text-large;
+    }
+
+    &__footer {
+        @include flex-row-spread;
+
+        gap: $spacing-l;
+
+        .button {
+            flex: 1 1 100%;
+
+            &--delete {
+                @include background-color-penalty;
+            }
+        }
+    }
+
+    .corner-button-tray {
+        @include corner-button-tray-right;
+
+        app-button {
+            height: 2rem;
+            width: 2rem;
+        }
+    }
+}

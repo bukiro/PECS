@@ -1,0 +1,121 @@
+<ng-container *ngIf="savegames$ | async as savegames">
+    <div class="character-selection">
+        <div class="character-selection__header">
+            <app-logo class="logo"></app-logo>
+            <div class="text-large">Select your character</div>
+        </div>
+
+        <app-button
+            class="character-selection__button"
+            (clicked)="createNewCharacter()"
+        >
+            <div class="new-character-button">
+                <i class="bi-person-plus icon"></i>
+                <div class="text-large">New Character</div>
+            </div>
+        </app-button>
+
+        <div class="character-selection__content">
+
+            <ng-template #NoSavegamesTemplate>
+                <div class="savegames">
+                    <app-button disabled>No characters available in database.</app-button>
+                </div>
+            </ng-template>
+
+            <ng-container *ngIf="savegames.length; else NoSavegamesTemplate">
+                <div class="character-selection__options">
+                    <input
+                        id="loadAsGM"
+                        type="checkbox"
+                        [(ngModel)]="loadAsGM"
+                    >
+                    <span>
+                        <label for="loadAsGM">
+                            <strong>Load character as GM</strong>
+                        </label>
+
+                        <i
+                            class="bi-question-circle"
+                            [ngbTooltip]="'Open the character in a read-only mode where it can\'t be saved and can\'t send effects to other players.'"
+                        ></i>
+                    </span>
+                </div>
+
+                <div class="savegames">
+                    <ng-container *ngFor="let savegame of savegames; let index = index; trackBy: trackByIndex;">
+                        <div
+                            class="savegames__header"
+                            *ngIf="index === 0 || savegame.partyName !== savegames[index-1].partyName"
+                        >
+                            {{savegame.partyName}}
+                        </div>
+
+                        <div class="savegames__option">
+                            <app-button
+                                class="button button--load"
+                                (clicked)="loadCharacterFromDB(savegame.id)"
+                            >
+                                <app-attribute-value
+                                    [value]="savegame.level"
+                                    [title]="savegame.name"
+                                    [sublines]="[savegame.class, savegame.ancestry]"
+                                    showValueOnLeftSide
+                                ></app-attribute-value>
+                            </app-button>
+
+                            <app-button
+                                [label]="'Delete ' + savegame.name"
+                                class="button button--delete"
+                                (clicked)="openDeleteModal(DeleteModal, savegame)"
+                            >
+                                <i class="bi-file-earmark-x icon"></i>
+                            </app-button>
+                        </div>
+
+                        <!-- Character delete dialog -->
+                        <ng-template
+                            #DeleteModal
+                            let-modal
+                        >
+                            <!--
+                                Modals seem to break darkmode.
+                                As a workaround, set class .darkmode on the modal content.
+                                isDarkmode needs to be set synchronously; An async pipe will give a short moment of light mode.
+                            -->
+                            <div class="delete-modal" [class.darkmode]="isDarkmode">
+                                <div class="corner-button-tray">
+                                    <app-button
+                                        class="close-button"
+                                        label="Close dialog"
+                                        (clicked)="modal.dismiss('Cross click')"
+                                        compact
+                                        ngbAutofocus
+                                    >
+                                        <i class="bi-x-lg"></i>
+                                    </app-button>
+                                </div>
+
+                                <div class="delete-modal__header">
+                                    <div>Delete Character</div>
+                                </div>
+
+                                <div class="delete-modal__content">
+                                    Are you sure you want to delete
+                                    <strong>{{savegame.name}}</strong>
+                                    <span>?</span>
+                                </div>
+
+                                <div class="delete-modal__footer">
+                                    <app-button class="button button--cancel" (clicked)="modal.dismiss('Cancel click')">Cancel</app-button>
+
+                                    <app-button class="button button--delete" (clicked)="modal.close('Ok click')">Delete</app-button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-container>

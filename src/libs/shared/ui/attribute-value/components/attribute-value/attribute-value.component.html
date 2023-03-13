@@ -1,13 +1,17 @@
-<div class="title">
-    <span class="title__title">{{ title }}</span>
+<ng-template #TitleTemplate>
+    <div class="title">
+        <span class="title__title">{{ title }}</span>
 
-    <span
-        *ngIf="subline"
-        class="title__subline"
-    >
-        {{ subline }}
-    </span>
-</div>
+        <span
+            *ngFor="let subline of sublines ?? []; trackBy:trackByIndex"
+            class="title__subline"
+        >
+            {{ subline }}
+        </span>
+    </div>
+</ng-template>
+
+<ng-container *ngIf="!showValueOnLeftSide" [ngTemplateOutlet]="TitleTemplate"></ng-container>
 
 <div
     class="value"
@@ -90,3 +94,5 @@
         </ng-template>
     </div>
 </div>
+
+<ng-container *ngIf="!!showValueOnLeftSide" [ngTemplateOutlet]="TitleTemplate"></ng-container>

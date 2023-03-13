@@ -26,7 +26,7 @@ export class MessagesService {
     private _cleaningUpIgnoredMessages = false;
 
     constructor(
-        private readonly _http: HttpClient,
+        private readonly _httpClient: HttpClient,
         private readonly _configService: ConfigService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
@@ -57,7 +57,7 @@ export class MessagesService {
     }
 
     public timeFromConnector(): Observable<{ time: number }> {
-        return this._http.get<{ time: number }>(
+        return this._httpClient.get<{ time: number }>(
             `${ this._configService.dataServiceURL }/time`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
@@ -65,7 +65,7 @@ export class MessagesService {
     }
 
     public sendMessagesToConnector(messages: Array<PlayerMessage>): Observable<Array<string>> {
-        return this._http.post<Array<string>>(
+        return this._httpClient.post<Array<string>>(
             `${ this._configService.dataServiceURL }/saveMessages/`,
             messages,
             // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -74,7 +74,7 @@ export class MessagesService {
     }
 
     public loadMessagesFromConnector(recipientId: string): Observable<Array<string>> {
-        return this._http.get<Array<string>>(
+        return this._httpClient.get<Array<string>>(
             `${ this._configService.dataServiceURL }/loadMessages/${ recipientId }`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
@@ -82,7 +82,7 @@ export class MessagesService {
     }
 
     public cleanupMessagesOnConnector(): Observable<Array<string>> {
-        return this._http.get<Array<string>>(
+        return this._httpClient.get<Array<string>>(
             `${ this._configService.dataServiceURL }/cleanupMessages`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
@@ -262,7 +262,7 @@ export class MessagesService {
     }
 
     private _deleteMessageFromConnector(message: PlayerMessage): Observable<Array<string>> {
-        return this._http.post<Array<string>>(
+        return this._httpClient.post<Array<string>>(
             `${ this._configService.dataServiceURL }/deleteMessage`,
             { id: message.id },
             // eslint-disable-next-line @typescript-eslint/naming-convention

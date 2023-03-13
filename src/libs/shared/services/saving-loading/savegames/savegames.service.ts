@@ -14,7 +14,7 @@ type DatabaseCharacter = Partial<Character> & { _id: string; id: string };
 })
 export class SavegamesService {
 
-    public savegamesStatus$ = new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing });
+    public static savegamesStatus$ = new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing });
 
     public savegames$ = new BehaviorSubject<Array<Savegame>>([]);
 
@@ -44,20 +44,23 @@ export class SavegamesService {
         new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing });
 
         this._savegames = [];
-        this.savegames$.next(this._savegames);
 
         this._loadAllCharactersFromDatabase()
             .pipe(
                 tap({
                     next: (characters: Array<DatabaseCharacter>) => {
                         this._savegames = this._parseCharacters(characters);
+                        SavegamesService.savegamesStatus$.next({ key: ApiStatusKey.Ready });
                     },
                     error: error => {
                         if (error.status === HttpStatusCode.Unauthorized) {
                             this._configService.logout('Your login is no longer valid.');
                         } else {
                             console.error(`Error loading characters from database: ${ error.message }`);
-                            this.savegamesStatus$.next({ key: ApiStatusKey.Failed, message: 'Characters could not be loaded.' });
+                            SavegamesService.savegamesStatus$.next({
+                                key: ApiStatusKey.Failed,
+                                message: 'Characters could not be loaded.',
+                            });
                         }
                     },
                 }),

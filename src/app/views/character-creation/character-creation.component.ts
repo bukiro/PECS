@@ -20,20 +20,19 @@ import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/anima
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Familiar } from 'src/app/classes/Familiar';
-import { Savegame } from 'src/app/classes/Savegame';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Activity } from 'src/app/classes/Activity';
 import { Domain } from 'src/app/classes/Domain';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, noop, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { MenuState } from 'src/libs/shared/definitions/types/menuState';
@@ -78,8 +77,6 @@ import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-e
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
 import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
-import { CharacterDeletingService } from 'src/libs/shared/services/saving-loading/character-deleting/character-deleting.service';
-import { CharacterLoadingService } from 'src/libs/shared/services/saving-loading/character-loading/character-loading.service';
 import { CharacterSavingService } from 'src/libs/shared/services/saving-loading/character-saving/character-saving.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
@@ -102,7 +99,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public adventureBackgrounds = true;
     public regionalBackgrounds = true;
     public deityWordFilter = '';
-    public loadAsGM = false;
     public blankCharacter: Character = new Character();
     public bonusSource = 'Bonus';
     public versionString: string = package_json.version;
@@ -115,7 +111,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public isTileMode$: Observable<boolean>;
 
-    public savegames$: Observable<Array<Savegame>>;
     public partyNames$: Observable<Array<string>>;
 
     private _showLevel = 0;
@@ -150,7 +145,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         private readonly _savegamesService: SavegamesService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
-        private readonly _modalService: NgbModal,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _characterClassChangeService: CharacterClassChangeService,
         private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
@@ -162,9 +156,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
-        private readonly _characterDeletingService: CharacterDeletingService,
         private readonly _characterSavingService: CharacterSavingService,
-        private readonly _characterLoadingService: CharacterLoadingService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _appStateService: AppStateService,
@@ -232,27 +224,12 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 shareReplay(1),
             );
 
-        this.savegames$ = this._savegamesService.savegames$
+        this.partyNames$ = this._savegamesService.savegames$
             .pipe(
                 map(savegames =>
-                    savegames
-                        .sort((a, b) => {
-                            if (a.partyName !== 'No Party' && b.partyName === 'No Party') {
-                                return 1;
-                            }
-
-                            if (a.partyName === 'No Party' && b.partyName !== 'No Party') {
-                                return -1;
-                            }
-
-                            return sortAlphaNum(a.partyName + a.name, b.partyName + b.name);
-                        }),
+                    Array.from(new Set(savegames.map(savegame => savegame.partyName)))
+                        .sort(sortAlphaNum),
                 ),
-            );
-
-        this.partyNames$ = this.savegames$
-            .pipe(
-                map(savegames => Array.from(new Set(savegames.map(savegame => savegame.partyName)))),
             );
     }
 
@@ -291,10 +268,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public toggleCharacterMenu(): void {
         this._menuService.toggleMenu(MenuNames.CharacterMenu);
-    }
-
-    public wasCharacterLoadedOrCreated(): boolean {
-        return this._appStateService.wasCharacterLoadedOrCreated();
     }
 
     public toggleShownLevel(levelNumber: number = 0): void {
@@ -408,18 +381,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public onNewCharacter(): void {
-        // The app starts with a character loaded, but not displayed.
-        // The first time you click New Character, the loaded character is just displayed.
-        // Every subsequent time, a new character is created.
-        if (this.wasCharacterLoadedOrCreated()) {
-            this.toggleShownList();
-            this._characterLoadingService.loadOrResetCharacter();
-        } else {
-            this._appStateService.setCharacterLoadedOrCreated();
-        }
-    }
-
     public onRetryDatabaseConnection(): void {
         this._savegamesService.reset();
     }
@@ -428,60 +389,8 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._configService.login('');
     }
 
-    public savegameTitle(savegame: Savegame): string {
-        let title = '';
-
-        if (savegame.heritage) {
-            title += ` | ${ savegame.heritage }`;
-
-            if (savegame.ancestry) {
-                if (!savegame.heritage.includes(savegame.ancestry)) {
-                    title += ` ${ savegame.ancestry }`;
-                }
-            }
-        } else {
-            if (savegame.ancestry) {
-                title += ` | ${ savegame.ancestry }`;
-            }
-        }
-
-        if (savegame.class) {
-            title += ' | ';
-
-            if (savegame.classChoice) {
-                title += `${ savegame.classChoice } `;
-            }
-
-            if (!savegame.classChoice?.includes(savegame.class)) {
-                title += savegame.class;
-            }
-        }
-
-        return title;
-    }
-
-    public loadCharacterFromDB(savegame: Savegame): void {
-        this._appStateService.setCharacterLoadedOrCreated();
-        this.toggleCharacterMenu();
-        this._characterLoadingService.loadOrResetCharacter(savegame.id, this.loadAsGM);
-    }
-
     public saveCharacterToDB(): void {
         this._characterSavingService.saveCharacter();
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public openCharacterDeleteModal(content: any, savegame: Savegame): void {
-        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' })
-            .result
-            .then(
-                result => {
-                    if (result === 'Ok click') {
-                        this._deleteCharacterFromDB(savegame);
-                    }
-                },
-                () => noop,
-            );
     }
 
     public closeButtonTitle(): string {
@@ -1959,10 +1868,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         if (!this.isMobile) {
             document.getElementById('character-choiceArea-top')?.scrollIntoView({ behavior: 'smooth' });
         }
-    }
-
-    private _deleteCharacterFromDB(savegame: Savegame): void {
-        this._characterDeletingService.deleteCharacter(savegame);
     }
 
     private _isAbilityBoostedByThisChoice(ability: Ability, choice: AbilityChoice): boolean {

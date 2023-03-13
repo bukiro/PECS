@@ -6,6 +6,7 @@ import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DataService } from 'src/libs/shared/services/data/data.service';
 import { DisplayService } from 'src/libs/shared/services/display/display.service';
+import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 
 @Component({
     selector: 'app-root',
@@ -29,15 +30,13 @@ export class AppComponent {
             combineLatest([
                 ConfigService.configStatus$,
                 DataService.dataStatus$,
+                SavegamesService.savegamesStatus$,
                 CreatureService.characterStatus$,
             ])
                 .pipe(
-                    map(([configStatus, dataStatus, characterStatus]) =>
-                        (configStatus.key === ApiStatusKey.Ready)
-                            ? (dataStatus.key === ApiStatusKey.Ready)
-                                ? characterStatus
-                                : dataStatus
-                            : configStatus,
+                    map(statuses =>
+                        statuses.find(status => status.key !== ApiStatusKey.Ready)
+                        ?? { key: ApiStatusKey.Ready },
                     ),
                 );
 

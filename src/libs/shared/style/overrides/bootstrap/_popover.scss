@@ -55,7 +55,7 @@ $popover-directions: (
     }
 }
 
-@media (max-width: 991px) {
+@media (max-width: $screen-width-narrow) {
     .pecs-popover {
         max-height: 90vh;
         min-width: 90vw;

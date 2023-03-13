@@ -29,7 +29,7 @@ interface SaveCharacterResponse {
 export class CharacterSavingService {
 
     constructor(
-        private readonly _http: HttpClient,
+        private readonly _httpClient: HttpClient,
         private readonly _configService: ConfigService,
         private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
@@ -204,7 +204,7 @@ export class CharacterSavingService {
     /* eslint-enable @typescript-eslint/no-dynamic-delete */
 
     private _saveCharacterToDatabase(savegame: Partial<Character>): Observable<SaveCharacterResponse> {
-        return this._http.post<SaveCharacterResponse>(
+        return this._httpClient.post<SaveCharacterResponse>(
             `${ this._configService.dataServiceURL }/saveCharacter`,
             savegame,
             // eslint-disable-next-line @typescript-eslint/naming-convention

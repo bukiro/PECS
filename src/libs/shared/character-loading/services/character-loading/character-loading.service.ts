@@ -17,9 +17,10 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { ClassSavingLoadingService } from '../class-saving-loading/class-saving-loading.service';
-import { HistorySavingLoadingService } from '../history-saving-loading/history-saving-loading.service';
+import { ClassSavingLoadingService } from '../../../services/saving-loading/class-saving-loading/class-saving-loading.service';
+import { HistorySavingLoadingService } from '../../../services/saving-loading/history-saving-loading/history-saving-loading.service';
 import { ApiStatusKey } from 'src/libs/shared/definitions/apiStatusKey';
+import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -33,7 +34,7 @@ export class CharacterLoadingService {
     private _resetApp?: () => void;
 
     constructor(
-        private readonly _http: HttpClient,
+        private readonly _httpClient: HttpClient,
         private readonly _configService: ConfigService,
         private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
@@ -47,6 +48,7 @@ export class CharacterLoadingService {
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _basicEquipmentService: BasicEquipmentService,
         private readonly _recastService: RecastService,
+        private readonly _savegamesService: SavegamesService,
     ) { }
 
     public loadOrResetCharacter(id = '', loadAsGM = false): void {
@@ -61,7 +63,7 @@ export class CharacterLoadingService {
                 .subscribe({
                     next: (results: Array<Partial<Character>>) => {
                         if (results) {
-                            this.finishLoading(
+                            this._finishLoading(
                                 this._processLoadedCharacter(
                                     JSON.parse(JSON.stringify(results)),
                                 ),
@@ -69,6 +71,7 @@ export class CharacterLoadingService {
                             );
                         } else {
                             this._toastService.show('The character could not be found in the database.');
+                            this._savegamesService.reset();
                             this._cancelLoading();
                         }
                     },
@@ -81,16 +84,21 @@ export class CharacterLoadingService {
                         } else {
                             this._toastService.show('An error occurred while loading the character. See console for more information.');
                             console.error(`Error loading character from database: ${ error.message }`);
+                            this._savegamesService.reset();
                             this._cancelLoading();
                         }
                     },
                 });
         } else {
-            this.finishLoading(new Character());
+            this._finishLoading(new Character());
         }
     }
 
-    public finishLoading(newCharacter: Character, loadAsGM = false): void {
+    public initialize(resetApp: () => void): void {
+        this._resetApp = resetApp;
+    }
+
+    private _finishLoading(newCharacter: Character, loadAsGM = false): void {
         CreatureService.characterStatus$.next({ key: ApiStatusKey.Initializing, message: 'Initializing character...' });
         // Assign the loaded character.
         CreatureService.setNewCharacter(newCharacter);
@@ -107,26 +115,20 @@ export class CharacterLoadingService {
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
         this._characterFeatsService.buildCharacterFeats(character);
 
+        CreatureService.characterStatus$.next({ key: ApiStatusKey.Ready });
+
         this._refreshAfterLoading();
     }
 
-    public initialize(resetApp: () => void): void {
-        this._resetApp = resetApp;
-    }
-
     private _cancelLoading(): void {
-        const character = CreatureService.character;
+        CreatureService.setNewCharacter(new Character());
 
-        // Fill a runtime variable with all the feats the character has taken,
-        // and another with the level at which they were taken. These were cleared when trying to load.
-        this._characterFeatsService.buildCharacterFeats(character);
+        CreatureService.characterStatus$.next({ key: ApiStatusKey.NoCharacter });
 
         this._refreshAfterLoading();
     }
 
     private _refreshAfterLoading(): void {
-        CreatureService.characterStatus$.next({ key: ApiStatusKey.Ready });
-
         //Update everything once, then effects, and then the player can take over.
         this._refreshService.setComponentChanged();
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
@@ -214,7 +216,7 @@ export class CharacterLoadingService {
 
     private _loadCharacterFromDatabase(id: string): Observable<Array<Partial<Character>>> {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.get<Array<Partial<Character>>>(
+        return this._httpClient.get<Array<Partial<Character>>>(
             `${ this._configService.dataServiceURL }/loadCharacter/${ id }`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },

@@ -3,12 +3,17 @@
 :host {
     @include flex-row-spread;
     @include flex-center-cross-axis;
+
+    gap: $spacing-s;
 }
 
 .title {
     @include flex-column-left;
 
     flex-grow: 1;
+
+    text-align: left;
+    word-break: break-word;
 
     &__title {
         @include text-large;
@@ -17,7 +22,7 @@
 
     &__subline {
         @include text-small;
-        line-height: $font-size-tiny;
+        line-height: $font-size-small;
     }
 }
 

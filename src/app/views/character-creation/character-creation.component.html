@@ -49,107 +49,22 @@
 
             <!-- Management list mode -->
             <ng-container *ngIf="!tileMode.enabled">
-                <div class="list-item">
-                    <button
-                        type="button"
-                        class="newrow"
-                        (click)="onNewCharacter()"
-                    >
-                        New Character
-                    </button>
-                </div>
-
-                <ng-template #SavegamesInitializingTemplate>
-                    <div class="list-item">
-                        <button
-                            type="button"
-                            class="newrow loading"
-                            disabled
-                        >
-                            Connecting to database...
-                        </button>
-                    </div>
-                </ng-template>
-
-                <ng-template #CannotLoginTemplate>
-                    <div class="list-item">
-                        <button
-                            type="button"
-                            class="newrow"
-                            (click)="onRetryDatabaseConnection()"
-                        >
-                            Database connection failed - click to retry
-                        </button>
-                    </div>
-                </ng-template>
-
-                <ng-template #NoDatabaseConfiguredTemplate>
-                    <div class="list-item">
-                        <button
-                            type="button"
-                            class="newrow"
-                            disabled
-                        >
-                            No database configured
-                        </button>
-                    </div>
-                </ng-template>
-
-                <ng-template #NotLoggedInTemplate>
-                    <div class="list-item">
-                        <button
-                            type="button"
-                            class="newrow"
-                            disabled
-                        >
-                            Not logged in
-                        </button>
-                    </div>
-                </ng-template>
-
-                <ng-template #NoSavegamesTemplate>
-                    <div class="list-item">
-                        <button
-                            type="button"
-                            class="newrow"
-                            (click)="onRetryDatabaseConnection()"
-                        >
-                            Database connection failed - click to retry
-                        </button>
-                    </div>
-                </ng-template>
-
-                <ng-container *ngIf="(savegames$ | async); else NoSavegamesTemplate">
-                    <div class="list-item">
-                        <button
-                            type="button"
-                            class="newrow"
-                            (click)="toggleShownList('load')"
-                            [ngClass]="{'activechoice':shownList()==='load'}"
-                        >
-                            Load Character
-                        </button>
-                    </div>
-
-                    <div
-                        class="list-item"
-                        *ngIf="!isGMMode && wasCharacterLoadedOrCreated()"
-                    >
-                        <button
-                            type="button"
-                            class="newrow"
-                            (click)="saveCharacterToDB()"
-                            [disabled]="isBlankCharacter()"
-                        >
-                            Save Character
-                        </button>
-                    </div>
-                </ng-container>
 
                 <div
                     class="list-item"
-                    *ngIf="wasCharacterLoadedOrCreated()"
+                    *ngIf="!isGMMode"
                 >
+                    <button
+                        type="button"
+                        class="newrow"
+                        (click)="saveCharacterToDB()"
+                        [disabled]="isBlankCharacter()"
+                    >
+                        Save Character
+                    </button>
+                </div>
+
+                <div class="list-item">
                     <button
                         type="button"
                         class="newrow"
@@ -189,126 +104,25 @@
                 *ngIf="tileMode.enabled"
             >
                 <div class="icon-list">
+
                     <button
                         type="button"
-                        aria-label="New character"
-                        (click)="onNewCharacter()"
+                        aria-label="Save character"
+                        *ngIf="!isGMMode"
+                        (click)="saveCharacterToDB()"
+                        [disabled]="isBlankCharacter()"
                     >
                         <app-grid-icon
-                            [ngbTooltip]="'New Character'"
-                            [subTitle]="'New'"
-                            [superTitle]="'icon-bi-file-earmark-person'"
+                            [ngbTooltip]="isBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
+                            [subTitle]="'Save'"
+                            [superTitle]="'icon-bi-file-earmark-arrow-up'"
                         >
                         </app-grid-icon>
                     </button>
 
-                    <ng-template #SavegamesInitializingTemplate>
-                        <button
-                            type="button"
-                            aria-label="Connecting to database"
-                            disabled
-                        >
-                            <app-grid-icon
-                                class="loading"
-                                [ngbTooltip]="'Connecting to database...'"
-                                [title]="'D B'"
-                                [superTitle]="'icon-bi-arrow-repeat'"
-                            >
-                            </app-grid-icon>
-                        </button>
-                    </ng-template>
-
-                    <ng-template #CannotLoginTemplate>
-                        <button
-                            type="button"
-                            aria-label="Retry database connection"
-                            (click)="onRetryLogin()"
-                        >
-                            <app-grid-icon
-                                [ngbTooltip]="'Database connection failed - click to retry'"
-                                [superTitle]="'icon-bi-arrow-repeat'"
-                            >
-                            </app-grid-icon>
-                        </button>
-                    </ng-template>
-
-                    <ng-template #NoDatabaseConfiguredTemplate>
-                        <button
-                            type="button"
-                            aria-label="No database configured"
-                            disabled
-                        >
-                            <app-grid-icon
-                                [ngbTooltip]="'No database configured'"
-                                [superTitle]="'icon-bi-file-earmark-x'"
-                            >
-                            </app-grid-icon>
-                        </button>
-                    </ng-template>
-
-                    <ng-template #NotLoggedInTemplate>
-                        <button
-                            type="button"
-                            aria-label="Not logged in"
-                            disabled
-                        >
-                            <app-grid-icon
-                                [ngbTooltip]="'Not logged in'"
-                                [superTitle]="'icon-bi-file-earmark-lock'"
-                            >
-                            </app-grid-icon>
-                        </button>
-                    </ng-template>
-
-                    <ng-template #NoSavegamesTemplate>
-                        <button
-                            type="button"
-                            aria-label="Retry database connection"
-                            (click)="onRetryDatabaseConnection()"
-                        >
-                            <app-grid-icon
-                                [ngbTooltip]="'Database connection failed - click to retry'"
-                                [superTitle]="'icon-bi-arrow-repeat'"
-                            >
-                            </app-grid-icon>
-                        </button>
-                    </ng-template>
-
-                    <ng-container *ngIf="savegames$ | async; else NoSavegamesTemplate">
-                        <button
-                            type="button"
-                            aria-label="Load character"
-                            (click)="toggleShownList('load')"
-                            [ngClass]="{'activechoice':shownList()==='load'}"
-                        >
-                            <app-grid-icon
-                                [ngbTooltip]="'Load Character'"
-                                [subTitle]="'Load'"
-                                [superTitle]="'icon-bi-file-earmark-arrow-down'"
-                            >
-                            </app-grid-icon>
-                        </button>
-
-                        <button
-                            type="button"
-                            aria-label="Save character"
-                            *ngIf="!isGMMode && wasCharacterLoadedOrCreated()"
-                            (click)="saveCharacterToDB()"
-                            [disabled]="isBlankCharacter()"
-                        >
-                            <app-grid-icon
-                                [ngbTooltip]="isBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
-                                [subTitle]="'Save'"
-                                [superTitle]="'icon-bi-file-earmark-arrow-up'"
-                            >
-                            </app-grid-icon>
-                        </button>
-                    </ng-container>
-
                     <button
                         type="button"
                         aria-label="Settings"
-                        *ngIf="wasCharacterLoadedOrCreated()"
                         (click)="toggleShownList('settings')"
                         [ngClass]="{'activechoice':shownList()==='settings'}"
                     >
@@ -352,7 +166,7 @@
                 </div>
             </div>
 
-            <ng-container *ngIf="characterMenuState === 'in' && wasCharacterLoadedOrCreated()">
+            <ng-container *ngIf="characterMenuState === 'in'">
                 <div class="list-item">
                     <strong>Experience Points</strong>
 
@@ -495,10 +309,7 @@
                             </span>
                         </div>
 
-                        <div
-                            class="newrow"
-                            *ngIf="(savegames$ | async)?.length"
-                        >
+                        <div class="newrow">
                             <span></span>
 
                             <span>
@@ -1886,138 +1697,6 @@
             ></div>
 
             <!-- Choice content and templates -->
-            <!-- Load character content -->
-            <ng-container *ngIf="shownList()==='load'">
-                <div class="newrow list-item padding-8 center-aligned">
-                    <header class="box-header sectionHeader">Load Character</header>
-                </div>
-
-                <div
-                    id="choiceArea"
-                    class="list-item"
-                >
-                    <ng-template #SavegameConnectionFailed>
-                        <div class="list-item">Database connection failed.</div>
-                    </ng-template>
-
-                    <ng-template #NoSavegamesTemplate>
-                        <div class="list-item">No characters available in database.</div>
-                    </ng-template>
-
-                    <ng-container *ngIf="(savegames$ | async) as savegames; else NoSavegamesTemplate">
-                        <div
-                            *ngIf="savegames.length"
-                            class="list-item gridicon-fullsizebox"
-                        >
-                            <input
-                                class="character-choice"
-                                id="loadAsGM"
-                                type="checkbox"
-                                [(ngModel)]="loadAsGM"
-                            >
-                            <span>
-                                <label for="loadAsGM">
-                                    <strong>Load character as GM</strong>
-                                </label>
-
-                                <i
-                                    class="bi-question-circle"
-                                    [ngbPopover]="'Open the character in a read-only mode where it can\'t be saved and can\'t send effects to other players.'"
-                                ></i>
-                            </span>
-                        </div>
-
-                        <ng-container *ngFor="let savegame of savegames; let index = index; trackBy: trackByIndex;">
-                            <ng-template
-                                #SavegameDeleteModal
-                                let-modal
-                            >
-                                <div class="modal-header">
-                                    <header
-                                        class="sectionHeader modal-title"
-                                        id="modal-title"
-                                    >
-                                        Delete Character
-                                    </header>
-
-                                    <button
-                                        type="button"
-                                        type="button"
-                                        class="close"
-                                        aria-label="close"
-                                        (click)="modal.dismiss('Cross click')"
-                                        ngbAutofocus
-                                    >
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-
-                                <div class="modal-body vlist">
-                                    <p>
-                                        Are you sure you want to delete
-                                        <strong>{{savegame.name}}</strong>
-                                        ?
-                                    </p>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button
-                                        type="button"
-                                        type="button"
-                                        class="btn btn-outline-secondary"
-                                        (click)="modal.dismiss('Cancel click')"
-                                    >
-                                        Cancel
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        type="button"
-                                        class="btn btn-danger"
-                                        (click)="modal.close('Ok click')"
-                                    >
-                                        Ok
-                                    </button>
-                                </div>
-                            </ng-template>
-
-                            <header
-                                class="sectionHeader center-aligned"
-                                *ngIf="index === 0 || savegame.partyName !== savegames[index-1].partyName"
-                            >
-                                {{savegame.partyName}}
-                            </header>
-
-                            <div class="list-item newrow">
-                                <span>
-                                    <strong>{{savegame.name}}</strong>
-                                    Level {{savegame.level}}
-                                    <span>{{savegameTitle(savegame)}}</span>
-                                </span>
-
-                                <span style="flex-basis: auto; flex-grow: 0;">
-                                    <button
-                                        type="button"
-                                        (click)="loadCharacterFromDB(savegame)"
-                                    >
-                                        Load
-                                        {{loadAsGM ? "as GM" : ""}}
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        style="margin-left: .3em;"
-                                        (click)="openCharacterDeleteModal(SavegameDeleteModal, savegame)"
-                                    >
-                                        Delete
-                                    </button>
-                                </span>
-                            </div>
-                        </ng-container>
-                    </ng-container>
-                </div>
-            </ng-container>
-
             <!-- Settings -->
             <ng-container *ngIf="shownList()==='settings'">
                 <div class="newrow list-item padding-8 center-aligned">

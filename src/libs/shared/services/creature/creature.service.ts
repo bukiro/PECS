@@ -13,7 +13,7 @@ import { ApiStatusKey } from '../../definitions/apiStatusKey';
 })
 export class CreatureService {
 
-    public static characterStatus$ = new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing });
+    public static characterStatus$ = new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.NoCharacter });
 
     private static _character: Character = new Character();
 
@@ -43,6 +43,10 @@ export class CreatureService {
     public static setNewCharacter(newCharacter: Character): void {
         this._character = newCharacter;
         SettingsService.updateSettings();
+    }
+
+    public static closeCharacter(): void {
+        this.characterStatus$.next({ key: ApiStatusKey.NoCharacter });
     }
 
 }

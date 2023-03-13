@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from '../ui/button/button.module';
+import { LogoModule } from '../ui/logo/logo.module';
 
 @NgModule({
     imports: [
@@ -10,6 +11,7 @@ import { ButtonModule } from '../ui/button/button.module';
         ReactiveFormsModule,
 
         ButtonModule,
+        LogoModule,
     ],
     declarations: [
         LoginComponent,

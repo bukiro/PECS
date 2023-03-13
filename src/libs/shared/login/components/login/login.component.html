@@ -3,7 +3,10 @@
         class="login-form"
         [formGroup]="passwordForm"
     >
-        <div class="login-form__header text-large">Password Required</div>
+        <div class="login-form__header text-large">
+            <app-logo></app-logo>
+            <div class="text-large">Password Required</div>
+        </div>
 
         <p>
             Please enter the password for this PECS server

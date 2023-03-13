@@ -25,7 +25,7 @@ import { FeatProcessingService } from 'src/libs/character-creation/services/feat
 import { ItemActivationProcessingService } from '../../processing/services/item-activation-processing/item-activation-processing.service';
 import { SpellActivityProcessingSharedService } from '../../processing/services/spell-activity-processing-shared/spell-activity-processing-shared.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
-import { CharacterLoadingService } from '../saving-loading/character-loading/character-loading.service';
+import { CharacterLoadingService } from '../../character-loading/services/character-loading/character-loading.service';
 import { EffectsGenerationService } from '../../effects-generation/services/effects-generation/effects-generation.service';
 import { AbilitiesDataService } from '../data/abilities-data.service';
 import { ActivitiesDataService } from '../data/activities-data.service';
@@ -180,7 +180,6 @@ export class AppInitService {
                     this._evaluationService,
                 );
                 this._characterLoadingService.initialize(this.reset.bind(this));
-                this._characterLoadingService.loadOrResetCharacter();
             });
     }
 

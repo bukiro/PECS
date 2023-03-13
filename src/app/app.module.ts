@@ -11,6 +11,7 @@ import { LoadingSpinnerModule } from 'src/libs/shared/ui/loading-spinner/loading
 import { DescriptionModule } from 'src/libs/shared/ui/description/description.module';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 import { LoginModule } from 'src/libs/shared/login/login.module';
+import { CharacterLoadingModule } from 'src/libs/shared/character-loading/character-loading.module';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { LoginModule } from 'src/libs/shared/login/login.module';
         DescriptionModule,
         ButtonModule,
         LoginModule,
+        CharacterLoadingModule,
     ],
     providers: [
         NgbActiveModal,
