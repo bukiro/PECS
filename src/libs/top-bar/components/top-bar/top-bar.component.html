@@ -5,9 +5,11 @@
 ></app-logo>
 
 <app-button
+    label="Edit character and settings"
+    showLabel
     class="top-bar-button"
-    [toggled]="characterMenuState=== 'in'"
-    (clicked)="toggleMenu(MenuNamesEnum.CharacterMenu)"
+    [toggled]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu"
+    (clicked)="toggleMenu(menuNames.CharacterCreationMenu)"
 >
     <div class=top-bar-button__content>
         <i class="ra ra-player"></i>
@@ -17,9 +19,11 @@
 </app-button>
 
 <app-button
+    label="Show animal companion"
+    showLabel
     class="top-bar-button"
-    [toggled]="companionMenuState=== 'in'"
-    (clicked)="toggleMenu(MenuNamesEnum.CompanionMenu)"
+    [toggled]="(sideMenuState$ | async) === menuNames.CompanionMenu"
+    (clicked)="toggleMenu(menuNames.CompanionMenu)"
     *ngIf="isCompanionAvailable()"
 >
     <div class=top-bar-button__content>
@@ -28,9 +32,11 @@
 </app-button>
 
 <app-button
+    label="Show familiar"
+    showLabel
     class="top-bar-button"
-    [toggled]="familiarMenuState=== 'in'"
-    (clicked)="toggleMenu(MenuNamesEnum.FamiliarMenu)"
+    [toggled]="(sideMenuState$ | async) === menuNames.FamiliarMenu"
+    (clicked)="toggleMenu(menuNames.FamiliarMenu)"
     *ngIf="isFamiliarAvailable()"
 >
     <div class=top-bar-button__content>
@@ -40,24 +46,24 @@
 
 <app-button
     class="top-bar-button"
-    [toggled]="itemsMenuState=== 'in'"
-    (clicked)="toggleMenu(MenuNamesEnum.ItemsMenu)"
+    [toggled]="(sideMenuState$ | async) === menuNames.ItemsMenu"
+    (clicked)="toggleMenu(menuNames.ItemsMenu)"
 >
     Items
 </app-button>
 
 <app-button
     class="top-bar-button"
-    [toggled]="craftingMenuState=== 'in'"
-    (clicked)="toggleMenu(MenuNamesEnum.CraftingMenu)"
+    [toggled]="(sideMenuState$ | async) === menuNames.CraftingMenu"
+    (clicked)="toggleMenu(menuNames.CraftingMenu)"
 >
     Crafting
 </app-button>
 
 <app-button
     class="top-bar-button"
-    [toggled]="spellsMenuState=== 'in'"
-    (clicked)="toggleMenu(MenuNamesEnum.SpellsMenu)"
+    [toggled]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu"
+    (clicked)="toggleMenu(menuNames.SpellSelectionMenu)"
     *ngIf="hasAnySpells()"
 >
     Spellbook
@@ -65,16 +71,16 @@
 
 <app-button
     class="top-bar-button"
-    [toggled]="spellLibraryMenuState=== 'in'"
-    (clicked)="toggleMenu(MenuNamesEnum.SpellLibraryMenu)"
+    [toggled]="(sideMenuState$ | async) === menuNames.SpellLibraryMenu"
+    (clicked)="toggleMenu(menuNames.SpellLibraryMenu)"
 >
     Spell&nbsp;Library
 </app-button>
 
 <app-button
     class="top-bar-button"
-    [toggled]="conditionsMenuState=== 'in'"
-    (clicked)="toggleMenu(MenuNamesEnum.ConditionsMenu)"
+    [toggled]="(sideMenuState$ | async) === menuNames.ConditionsMenu"
+    (clicked)="toggleMenu(menuNames.ConditionsMenu)"
 >
     Conditions
 </app-button>
@@ -82,8 +88,8 @@
 <app-button
     class="top-bar-button"
     label="Dice"
-    [toggled]="diceMenuState=== 'in'"
-    (clicked)="toggleMenu(MenuNamesEnum.DiceMenu)"
+    [toggled]="(topMenuState$ | async) === menuNames.DiceMenu"
+    (clicked)="toggleMenu(menuNames.DiceMenu)"
 >
     <app-dice-icon-D20 class="top-bar-button__content top-bar-button__content--dice"></app-dice-icon-D20>
 </app-button>

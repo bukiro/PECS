@@ -9,7 +9,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { distinctUntilChanged, map, Observable, shareReplay, Subscription } from 'rxjs';
 import { Trait } from 'src/app/classes/Trait';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
@@ -54,6 +53,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
     public spellTraditions = Object.values(SpellTraditions);
 
     public isTileMode$: Observable<boolean>;
+    public isMenuOpen$: Observable<boolean>;
 
     private _showList = -1;
     private _showItem = '';
@@ -78,10 +78,12 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
                 distinctUntilChanged(),
                 shareReplay(1),
             );
-    }
 
-    public get spellLibraryMenuState(): MenuState {
-        return this._menuService.spellLibraryMenuState;
+        this.isMenuOpen$ = MenuService.sideMenuState$
+            .pipe(
+                map(menuState => menuState === MenuNames.SpellLibraryMenu),
+                distinctUntilChanged(),
+            );
     }
 
     private get _character(): Character {

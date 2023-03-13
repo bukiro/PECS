@@ -20,7 +20,7 @@
 
     <div
         class="animalcompanion-box"
-        *ngIf="character.class && isCompanionAvailable && companionMenuState === 'in'"
+        *ngIf="character.class && isCompanionAvailable && (isMenuOpen$ | async)"
     >
         <!-- Desktop-only view -->
         <ng-template #DesktopViewTemplate>

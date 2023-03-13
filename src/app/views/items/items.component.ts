@@ -24,7 +24,6 @@ import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
-import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { copperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -98,6 +97,7 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
     public newItem: Equipment | Consumable | null = null;
 
     public isTileMode$: Observable<boolean>;
+    public isMenuOpen$: Observable<boolean>;
 
     private _showList = '';
     private _showItem = '';
@@ -134,10 +134,12 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
                 distinctUntilChanged(),
                 shareReplay(1),
             );
-    }
 
-    public get itemsMenuState(): MenuState {
-        return this._menuService.itemsMenuState;
+        this.isMenuOpen$ = MenuService.sideMenuState$
+            .pipe(
+                map(menuState => menuState === MenuNames.ItemsMenu),
+                distinctUntilChanged(),
+            );
     }
 
     private get _character(): Character {
@@ -218,7 +220,7 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
     }
 
     public otherCreaturesAvailable(): { companion: boolean; familiar: boolean } | undefined {
-        this.creature = this._menuService.itemsMenuTarget();
+        this.creature = MenuService.itemsMenuTarget$.value;
 
         const isCompanionAvailable = this._creatureAvailabilityService.isCompanionAvailable();
 

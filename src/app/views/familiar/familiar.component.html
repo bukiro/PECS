@@ -20,7 +20,7 @@
 
     <div
         class="familiar-box"
-        *ngIf="character.class && isFamiliarAvailable && familiarMenuState==='in'"
+        *ngIf="character.class && isFamiliarAvailable && (isMenuOpen$ | async)"
     >
         <!-- Desktop-only view -->
         <ng-template #DesktopViewTemplate>

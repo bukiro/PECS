@@ -21,6 +21,8 @@ import { ClassSavingLoadingService } from '../../../services/saving-loading/clas
 import { HistorySavingLoadingService } from '../../../services/saving-loading/history-saving-loading/history-saving-loading.service';
 import { ApiStatusKey } from 'src/libs/shared/definitions/apiStatusKey';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
+import { MenuService } from 'src/libs/shared/services/menu/menu.service';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 
 interface DatabaseCharacter {
     _id: string;
@@ -49,6 +51,7 @@ export class CharacterLoadingService {
         private readonly _basicEquipmentService: BasicEquipmentService,
         private readonly _recastService: RecastService,
         private readonly _savegamesService: SavegamesService,
+        private readonly _menuService: MenuService,
     ) { }
 
     public loadOrResetCharacter(id = '', loadAsGM = false): void {
@@ -56,6 +59,8 @@ export class CharacterLoadingService {
 
         CreatureService.characterStatus$.next({ key: ApiStatusKey.Loading, message: 'Resetting character...' });
         this._resetApp?.();
+
+        this._menuService.toggleMenu();
 
         if (id) {
             CreatureService.characterStatus$.next({ key: ApiStatusKey.Loading, message: 'Loading character...' });
@@ -90,6 +95,8 @@ export class CharacterLoadingService {
                     },
                 });
         } else {
+            this._menuService.toggleMenu(MenuNames.CharacterCreationMenu);
+
             this._finishLoading(new Character());
         }
     }

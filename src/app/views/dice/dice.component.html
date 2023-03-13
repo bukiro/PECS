@@ -12,7 +12,7 @@
     </button>
 
     <div
-        *ngIf="diceMenuState==='in'"
+        *ngIf="isMenuOpen$ | async"
         class="list-item"
         style="gap:8px;"
     >

@@ -5,10 +5,9 @@ import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, Observable, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay, takeUntil } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
@@ -48,12 +47,14 @@ export class TopBarComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
     public loginModalOpen = false;
     public password = '';
     public passwordFailed = false;
-    public MenuNamesEnum = MenuNames;
+    public menuNames = MenuNames;
 
     public apiButtonsStatus$: Observable<{
         isManualMode: boolean;
         isGMMode: boolean;
     }>;
+    public sideMenuState$: Observable<MenuNames | null>;
+    public topMenuState$: Observable<MenuNames | null>;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -73,6 +74,18 @@ export class TopBarComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
         public modal: NgbActiveModal,
     ) {
         super();
+
+        this.sideMenuState$ =
+            MenuService.sideMenuState$
+                .pipe(
+                    shareReplay(1),
+                );
+
+        this.topMenuState$ =
+            MenuService.topMenuState$
+                .pipe(
+                    shareReplay(1),
+                );
 
         this.apiButtonsStatus$ =
             SettingsService.settings$
@@ -102,41 +115,6 @@ export class TopBarComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
 
     public get familiar(): Familiar {
         return CreatureService.familiar;
-    }
-    public get itemsMenuState(): MenuState {
-        return this._menuService.itemsMenuState;
-    }
-
-    public get craftingMenuState(): MenuState {
-        return this._menuService.craftingMenuState;
-    }
-
-    public get characterMenuState(): MenuState {
-        return this._menuService.characterMenuState;
-    }
-
-    public get companionMenuState(): MenuState {
-        return this._menuService.companionMenuState;
-    }
-
-    public get familiarMenuState(): MenuState {
-        return this._menuService.familiarMenuState;
-    }
-
-    public get spellsMenuState(): MenuState {
-        return this._menuService.spellsMenuState;
-    }
-
-    public get spellLibraryMenuState(): MenuState {
-        return this._menuService.spellLibraryMenuState;
-    }
-
-    public get conditionsMenuState(): MenuState {
-        return this._menuService.conditionsMenuState;
-    }
-
-    public get diceMenuState(): MenuState {
-        return this._menuService.diceMenuState;
     }
 
     public newMessagesFromService(): Array<PlayerMessage> {

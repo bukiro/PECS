@@ -211,7 +211,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implemen
     }
 
     public toggleSpellsMenu(): void {
-        this._menuService.toggleMenu(MenuNames.SpellsMenu);
+        this._menuService.toggleMenu(MenuNames.SpellSelectionMenu);
     }
 
     public spellDCs(): Array<Skill> {

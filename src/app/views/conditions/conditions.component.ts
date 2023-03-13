@@ -23,7 +23,6 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
-import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
@@ -93,6 +92,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
     ];
 
     public isTileMode$: Observable<boolean>;
+    public isMenuOpen$: Observable<boolean>;
 
     private _showList = '';
     private _showItem = '';
@@ -126,6 +126,12 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
                 distinctUntilChanged(),
                 shareReplay(1),
             );
+
+        this.isMenuOpen$ = MenuService.sideMenuState$
+            .pipe(
+                map(menuState => menuState === MenuNames.ConditionsMenu),
+                distinctUntilChanged(),
+            );
     }
 
     public get character(): Character {
@@ -138,10 +144,6 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
 
     public get familiar(): Familiar {
         return CreatureService.familiar;
-    }
-
-    public get conditionsMenuState(): MenuState {
-        return this._menuService.conditionsMenuState;
     }
 
     private get _isCompanionAvailable(): boolean {

@@ -18,7 +18,7 @@
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
 
-    <ng-container *ngIf="spellLibraryMenuState==='in'">
+    <ng-container *ngIf="isMenuOpen$ | async">
         <div class="character-sheet-column-container">
             <div class="character-sheet-column">
                 <div class="list-item">

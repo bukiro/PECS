@@ -56,6 +56,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
     public creatureTypesEnum = CreatureTypes;
 
     public isTileMode$: Observable<boolean>;
+    public isMenuOpen$: Observable<boolean>;
 
     private _showSpell = '';
     private _showChoice = '';
@@ -94,6 +95,12 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
                 distinctUntilChanged(),
                 shareReplay(1),
             );
+
+        this.isMenuOpen$ = MenuService.sideMenuState$
+            .pipe(
+                map(menuState => menuState === MenuNames.SpellSelectionMenu),
+                distinctUntilChanged(),
+            );
     }
 
     @Input()
@@ -105,10 +112,6 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
         return CreatureService.character;
     }
 
-    public get spellsMenuState(): string {
-        return this._menuService.spellsMenuState;
-    }
-
     public toggleMinimized(minimized: boolean): void {
         SettingsService.settings.spellsMinimized = minimized;
     }
@@ -118,7 +121,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
     }
 
     public toggleSpellMenu(): void {
-        this._menuService.toggleMenu(MenuNames.SpellsMenu);
+        this._menuService.toggleMenu(MenuNames.SpellSelectionMenu);
     }
 
     public toggleShownSpell(name: string): void {

@@ -1,10 +1,10 @@
 export enum MenuNames {
     ItemsMenu = 'items',
     CraftingMenu = 'crafting',
-    CharacterMenu = 'character',
+    CharacterCreationMenu = 'charactercreation',
     CompanionMenu = 'companion',
     FamiliarMenu = 'familiar',
-    SpellsMenu = 'spells',
+    SpellSelectionMenu = 'spellselection',
     SpellLibraryMenu = 'spelllibrary',
     ConditionsMenu = 'conditions',
     DiceMenu = 'dice',

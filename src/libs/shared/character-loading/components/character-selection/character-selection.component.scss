@@ -10,6 +10,10 @@
     }
 }
 
+.separator {
+    @include separator-horizontal;
+}
+
 .character-selection {
     @include character-sheet-card;
 
@@ -26,7 +30,7 @@
     }
 
     &__content {
-        @include flex-column-left;
+        @include flex-column-center;
 
         overflow-y: hidden;
     }

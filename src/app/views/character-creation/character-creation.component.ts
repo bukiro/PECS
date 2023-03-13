@@ -35,7 +35,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -110,7 +109,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public activeLoreChoiceContent$: Observable<{ name: string; levelNumber: number; choice: LoreChoice } | undefined>;
 
     public isTileMode$: Observable<boolean>;
-
+    public isMenuOpen$: Observable<boolean>;
     public partyNames$: Observable<Array<string>>;
 
     private _showLevel = 0;
@@ -207,6 +206,12 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 ),
             );
 
+        this.isMenuOpen$ = MenuService.sideMenuState$
+            .pipe(
+                map(menuState => menuState === MenuNames.CharacterCreationMenu),
+                distinctUntilChanged(),
+            );
+
         SettingsService.settings$
             .pipe(
                 takeUntil(this._destroyed$),
@@ -254,10 +259,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         return CreatureService.character.class.familiar;
     }
 
-    public get characterMenuState(): MenuState {
-        return this._menuService.characterMenuState;
-    }
-
     public toggleMinimized(minimized: boolean): void {
         SettingsService.settings.characterMinimized = minimized;
     }
@@ -267,7 +268,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public toggleCharacterMenu(): void {
-        this._menuService.toggleMenu(MenuNames.CharacterMenu);
+        this._menuService.toggleMenu(MenuNames.CharacterCreationMenu);
     }
 
     public toggleShownLevel(levelNumber: number = 0): void {

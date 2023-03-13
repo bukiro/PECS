@@ -2,14 +2,14 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, takeUntil } from 'rxjs';
-import { MenuState } from 'src/libs/shared/definitions/types/menuState';
+import { BehaviorSubject, Observable, shareReplay, takeUntil } from 'rxjs';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 
 const slideInOutTrigger = trigger('slideInOut', [
     state('in', style({
@@ -55,52 +55,31 @@ const slideInOutVertical = trigger('slideInOutVert', [
 })
 export class CharacterSheetComponent extends DestroyableMixin(IsMobileMixin(TrackByMixin(BaseClass))) implements OnInit, OnDestroy {
 
+    public menuNames = MenuNames;
+
     public isAnimalCompanionAvailable$ = new BehaviorSubject<boolean>(false);
     public isFamiliarAvailable$ = new BehaviorSubject<boolean>(false);
     public attacksAndSpellsOrder$ = new BehaviorSubject<Record<string, number>>({});
+    public sideMenuState$: Observable<MenuNames | null>;
+    public topMenuState$: Observable<MenuNames | null>;
 
     constructor(
         private readonly _refreshService: RefreshService,
-        private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
         super();
-    }
 
-    public get itemsMenuState(): MenuState {
-        return this._menuService.itemsMenuState;
-    }
+        this.sideMenuState$ =
+            MenuService.sideMenuState$
+                .pipe(
+                    shareReplay(1),
+                );
 
-    public get craftingMenuState(): MenuState {
-        return this._menuService.craftingMenuState;
-    }
-
-    public get characterMenuState(): MenuState {
-        return this._menuService.characterMenuState;
-    }
-
-    public get companionMenuState(): MenuState {
-        return this._menuService.companionMenuState;
-    }
-
-    public get familiarMenuState(): MenuState {
-        return this._menuService.familiarMenuState;
-    }
-
-    public get spellsMenuState(): MenuState {
-        return this._menuService.spellsMenuState;
-    }
-
-    public get spellLibraryMenuState(): MenuState {
-        return this._menuService.spellLibraryMenuState;
-    }
-
-    public get conditionsMenuState(): MenuState {
-        return this._menuService.conditionsMenuState;
-    }
-
-    public get diceMenuState(): MenuState {
-        return this._menuService.diceMenuState;
+        this.topMenuState$ =
+            MenuService.topMenuState$
+                .pipe(
+                    shareReplay(1),
+                );
     }
 
     public ngOnInit(): void {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
-import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Observable, Subscription, takeUntil } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
@@ -7,7 +7,6 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
@@ -23,6 +22,8 @@ import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     public creatureTypesEnum = CreatureTypes;
+
+    public isMenuOpen$: Observable<boolean>;
 
     private _showMode = '';
     private _changeSubscription?: Subscription;
@@ -46,15 +47,17 @@ export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implemen
             .subscribe(minimized => {
                 this._updateMinimized({ bySetting: minimized });
             });
+
+        this.isMenuOpen$ = MenuService.sideMenuState$
+            .pipe(
+                map(menuState => menuState === MenuNames.FamiliarMenu),
+                distinctUntilChanged(),
+            );
     }
 
     @Input()
     public set forceMinimized(forceMinimized: boolean | undefined) {
         this._updateMinimized({ forced: forceMinimized ?? false });
-    }
-
-    public get familiarMenuState(): MenuState {
-        return this._menuService.familiarMenuState;
     }
 
     public get character(): Character {

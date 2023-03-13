@@ -1,0 +1,15 @@
+@mixin separator-horizontal {
+    height: 0;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 1px solid $color-accent;
+}
+
+@mixin separator-vertical {
+    width: 0;
+    height: 90%;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-right: 1px solid $color-accent;
+}

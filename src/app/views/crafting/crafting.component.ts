@@ -9,7 +9,6 @@ import { distinctUntilChanged, map, Observable, shareReplay, Subscription } from
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -52,6 +51,7 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
     public range = 0;
 
     public isTileMode$: Observable<boolean>;
+    public isMenuOpen$: Observable<boolean>;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -81,10 +81,12 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
                 distinctUntilChanged(),
                 shareReplay(1),
             );
-    }
 
-    public get craftingMenuState(): MenuState {
-        return this._menuService.craftingMenuState;
+        this.isMenuOpen$ = MenuService.sideMenuState$
+            .pipe(
+                map(menuState => menuState === MenuNames.CraftingMenu),
+                distinctUntilChanged(),
+            );
     }
 
     private get _character(): Character {

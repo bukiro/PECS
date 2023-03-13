@@ -18,7 +18,7 @@
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
 
-    <ng-container *ngIf="conditionsMenuState==='in'">
+    <ng-container *ngIf="isMenuOpen$ | async">
         <ng-container *ngIf="componentParameters() as componentParameters">
             <div class="character-sheet-column-container">
                 <div class="character-sheet-column">

@@ -5,9 +5,8 @@ import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { distinctUntilChanged, map, Observable, Subscription } from 'rxjs';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
@@ -29,6 +28,8 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
     public diceNum = defaultDiceNum;
     public bonus = 0;
 
+    public isMenuOpen$: Observable<boolean>;
+
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
 
@@ -42,10 +43,12 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
         super();
-    }
 
-    public get diceMenuState(): MenuState {
-        return this._menuService.diceMenuState;
+        this.isMenuOpen$ = MenuService.topMenuState$
+            .pipe(
+                map(menuState => menuState === MenuNames.DiceMenu),
+                distinctUntilChanged(),
+            );
     }
 
     public get diceResults(): Array<DiceResult> {

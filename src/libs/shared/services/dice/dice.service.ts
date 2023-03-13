@@ -60,7 +60,7 @@ export class DiceService {
 
         this._diceResults.unshift(diceResult);
 
-        if (this._menuService.diceMenuState === 'out') {
+        if (MenuService.topMenuState$.value !== MenuNames.DiceMenu) {
             this._menuService.toggleMenu(MenuNames.DiceMenu);
         }
 

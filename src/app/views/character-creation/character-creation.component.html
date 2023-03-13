@@ -166,7 +166,7 @@
                 </div>
             </div>
 
-            <ng-container *ngIf="characterMenuState === 'in'">
+            <ng-container *ngIf="isMenuOpen$ | async">
                 <div class="list-item">
                     <strong>Experience Points</strong>
 
