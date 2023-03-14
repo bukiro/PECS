@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
 import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
 
 @Component({
@@ -8,6 +8,9 @@ import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils'
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
+
+    @ViewChild('Button')
+    public button?: ElementRef<HTMLButtonElement>;
 
     @Input()
     public label?: string;
@@ -76,5 +79,9 @@ export class ButtonComponent {
     @Input()
     public set showLabel(showLabel: boolean | string | undefined) {
         this.shouldShowLabel = forceBooleanFromInput(showLabel);
+    }
+
+    public focus(): void {
+        this.button?.nativeElement?.focus();
     }
 }

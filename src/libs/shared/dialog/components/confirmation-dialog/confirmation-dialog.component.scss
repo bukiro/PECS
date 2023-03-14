@@ -1,0 +1,40 @@
+@import 'utilities';
+
+:host {
+    //To-Do: Why does this not apply dark mode?
+
+    @include character-sheet-card;
+
+    gap: $spacing-s;
+
+    position: relative;
+
+    .header {
+        @include flex-row-center;
+        @include flex-center-cross-axis;
+        @include text-large;
+    }
+
+    .footer {
+        @include flex-row-spread;
+
+        gap: $spacing-l;
+
+        &__button {
+            flex: 1 1 100%;
+
+            &.danger {
+                @include background-color-penalty;
+            }
+        }
+    }
+
+    .corner-button-tray {
+        @include corner-button-tray-right;
+
+        app-button {
+            height: 2rem;
+            width: 2rem;
+        }
+    }
+}

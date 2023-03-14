@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiStatus } from 'src/libs/shared/definitions/interfaces/api-status';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
@@ -9,7 +9,10 @@ import { ConfigService } from 'src/libs/shared/services/config/config.service';
     styleUrls: ['./login.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent {
+export class LoginComponent implements AfterViewInit {
+
+    @ViewChild('PasswordInput')
+    public passwordInput?: ElementRef<HTMLInputElement>;
 
     @Input()
     public loadingStatus?: ApiStatus;
@@ -29,6 +32,10 @@ export class LoginComponent {
 
     public login(): void {
         this._configService.login(this.passwordForm.value.password ?? '');
+    }
+
+    public ngAfterViewInit(): void {
+        this.passwordInput?.nativeElement?.focus();
     }
 
 }

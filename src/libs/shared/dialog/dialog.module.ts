@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './components/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { ButtonModule } from '../ui/button/button.module';
-import { LogoModule } from '../ui/logo/logo.module';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { LogoModule } from '../ui/logo/logo.module';
 
 @NgModule({
     imports: [
         CommonModule,
-        ReactiveFormsModule,
 
         NgbModalModule,
 
@@ -17,10 +15,10 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
         LogoModule,
     ],
     declarations: [
-        LoginComponent,
+        ConfirmationDialogComponent,
     ],
     exports: [
-        LoginComponent,
+        NgbModalModule,
     ],
 })
-export class LoginModule { }
+export class DialogModule { }

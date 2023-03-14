@@ -1,0 +1,40 @@
+<div class="corner-button-tray">
+    <app-button
+        #CloseButton
+        class="close-button"
+        label="Close dialog"
+        (clicked)="close?.()"
+        compact
+    >
+        <i class="bi-x-lg"></i>
+    </app-button>
+</div>
+
+<div class="header">
+    <div>{{title}}</div>
+</div>
+
+<div
+    class="content"
+    [innerHtml]="content"
+></div>
+
+<div class="footer">
+    <app-button
+        #CancelButton
+        *ngIf="!hideCancel"
+        class="footer__button footer__button--cancel"
+        (clicked)="close?.()"
+    >
+        {{ cancelLabel }}
+    </app-button>
+
+    <app-button
+        *ngFor="let button of buttons; trackBy:trackByIndex"
+        class="footer__button"
+        [class.danger]="button.danger"
+        (clicked)="button.onClick(); close?.()"
+    >
+        {{ button.label }}
+    </app-button>
+</div>

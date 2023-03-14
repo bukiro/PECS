@@ -13,11 +13,13 @@
         </p>
 
         <input
+            #PasswordInput
             placeholder="Password"
             aria-label="Password"
             name="password"
             formControlName="password"
             type="password"
+            (keyDown.enter)="passwordForm.valid ? login() : null"
         >
 
         <p

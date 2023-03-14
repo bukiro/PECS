@@ -71,52 +71,11 @@
                             <app-button
                                 [label]="'Delete ' + savegame.name"
                                 class="button button--delete"
-                                (clicked)="openDeleteModal(DeleteModal, savegame)"
+                                (clicked)="showDeleteDialog(savegame)"
                             >
                                 <i class="bi-file-earmark-x icon"></i>
                             </app-button>
                         </div>
-
-                        <!-- Character delete dialog -->
-                        <ng-template
-                            #DeleteModal
-                            let-modal
-                        >
-                            <!--
-                                Modals seem to break darkmode.
-                                As a workaround, set class .darkmode on the modal content.
-                                isDarkmode needs to be set synchronously; An async pipe will give a short moment of light mode.
-                            -->
-                            <div class="delete-modal" [class.darkmode]="isDarkmode">
-                                <div class="corner-button-tray">
-                                    <app-button
-                                        class="close-button"
-                                        label="Close dialog"
-                                        (clicked)="modal.dismiss('Cross click')"
-                                        compact
-                                        ngbAutofocus
-                                    >
-                                        <i class="bi-x-lg"></i>
-                                    </app-button>
-                                </div>
-
-                                <div class="delete-modal__header">
-                                    <div>Delete Character</div>
-                                </div>
-
-                                <div class="delete-modal__content">
-                                    Are you sure you want to delete
-                                    <strong>{{savegame.name}}</strong>
-                                    <span>?</span>
-                                </div>
-
-                                <div class="delete-modal__footer">
-                                    <app-button class="button button--cancel" (clicked)="modal.dismiss('Cancel click')">Cancel</app-button>
-
-                                    <app-button class="button button--delete" (clicked)="modal.close('Ok click')">Delete</app-button>
-                                </div>
-                            </div>
-                        </ng-template>
                     </ng-container>
                 </div>
             </ng-container>
