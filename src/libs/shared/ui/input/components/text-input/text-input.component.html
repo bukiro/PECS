@@ -1,0 +1,10 @@
+<input
+    #Input
+    [id]="id"
+    class="input"
+    aria-label="checkbox"
+    [attr.aria-label]="label"
+    [type]="isPassword ? 'password' : 'text'"
+    [disabled]="disabled"
+    [(ngModel)]="value"
+>

@@ -1,0 +1,56 @@
+@import 'utilities';
+
+:host {
+    display: inline-block;
+    height: 1.5em;
+    width: 1.5em;
+
+    padding: 0;
+}
+
+.input {
+    @include background-color-default;
+    border: $spacing-xxs solid $color-accent;
+
+    display: block;
+    height: 100%;
+    width: 100%;
+
+    padding: 0;
+
+    cursor: pointer;
+
+    //Disable the default checkbox look
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    box-shadow: none;
+    transition: box-shadow .25s;
+
+    &:hover {
+        box-shadow: 0 0 $spacing-s $color-accent inset;
+    }
+
+    &:checked {
+        @include background-color-accent;
+    }
+
+    &:after {
+        @include border-color-default;
+        content: ' ';
+        position: relative;
+        left: 35%;
+        top: 5%;
+        width: 35%;
+        height: 70%;
+        border-style: solid;
+        border-width: 0 .2em .2em 0;
+        transform: rotate(40deg);
+        display: none;
+    }
+
+    &:checked:after {
+        display:block;
+    }
+}

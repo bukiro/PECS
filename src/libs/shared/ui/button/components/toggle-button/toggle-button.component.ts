@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ButtonComponent } from '../button/button.component';
 
@@ -10,7 +10,7 @@ import { ButtonComponent } from '../button/button.component';
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: ToggleButtonComponent,
+            useExisting: forwardRef(() => ToggleButtonComponent),
             multi: true,
         },
     ],

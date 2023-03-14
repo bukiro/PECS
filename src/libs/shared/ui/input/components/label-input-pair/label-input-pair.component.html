@@ -1,0 +1,28 @@
+<div class="label">
+    <label for="{{id}}">
+        {{ label }}
+        <i
+            *ngIf="hint"
+            class="bi-question-circle label__icon"
+            [ngbTooltip]="hint"
+        ></i>
+    </label>
+</div>
+
+<div class="value">
+    <ng-container [ngSwitch]="type">
+        <app-checkbox-input
+            #Input
+            [id]="id"
+            *ngSwitchCase="'switch'"
+            [(ngModel)]="value"
+        ></app-checkbox-input>
+
+        <app-text-input
+            #Input
+            [id]="id"
+            *ngSwitchCase="'text'"
+            [(ngModel)]="value"
+        ></app-text-input>
+    </ng-container>
+</div>

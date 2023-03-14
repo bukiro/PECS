@@ -31,8 +31,11 @@
 
     &__content {
         @include flex-column-center;
+        align-items: stretch;
 
         overflow-y: hidden;
+
+        gap: $spacing-s;
     }
 }
 

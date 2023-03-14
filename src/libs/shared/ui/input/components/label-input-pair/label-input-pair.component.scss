@@ -1,0 +1,26 @@
+@import 'utilities';
+
+:host {
+    @include flex-row-start;
+    @include flex-center-cross-axis;
+
+    width: 100%;
+
+    padding: $spacing-s;
+    gap: $spacing-m;
+}
+
+.label {
+    font-weight: bold;
+
+    width: min(300px, 50%);
+    border-right: 1px solid $color-accent;
+
+    &__icon {
+        margin-left: $spacing-s;
+    }
+}
+
+.value {
+    line-height: 0;
+}

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ObjectEffectsModule } from '../object-effects/object-effects.module';
 import { QuickdiceModule } from '../quickdice/quickdice.module';
-import { NgbCollapseModule, NgbPopover, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActionIconsModule } from '../ui/action-icons/action-icons.module';
 import { AttributeValueModule } from '../ui/attribute-value/attribute-value.module';
 import { GridIconModule } from '../ui/grid-icon/grid-icon.module';
@@ -20,7 +20,7 @@ import { TagsModule } from '../tags/tags.module';
 
         NgbTooltipModule,
         NgbCollapseModule,
-        NgbPopover,
+        NgbPopoverModule,
 
         AttributeValueModule,
         QuickdiceModule,

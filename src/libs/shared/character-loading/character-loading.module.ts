@@ -7,6 +7,7 @@ import { ButtonModule } from '../ui/button/button.module';
 import { LogoModule } from '../ui/logo/logo.module';
 import { AttributeValueModule } from '../ui/attribute-value/attribute-value.module';
 import { DialogModule } from '../dialog/dialog.module';
+import { InputModule } from '../ui/input/input.module';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { DialogModule } from '../dialog/dialog.module';
         LogoModule,
         AttributeValueModule,
         DialogModule,
+        InputModule,
     ],
     declarations: [
         CharacterSelectionComponent,
