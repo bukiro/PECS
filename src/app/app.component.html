@@ -51,3 +51,13 @@
         </ng-container>
     </div>
 </ng-template>
+
+<app-button
+    class="darkmode-button"
+    label="Toggle dark mode"
+    (clicked)="toggleDarkmode()"
+    noOutline
+    ghost
+>
+    <i [className]="(isDarkmode$ | async) ? 'bi-moon-fill' : 'bi-sun-fill'"></i>
+</app-button>

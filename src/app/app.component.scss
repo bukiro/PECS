@@ -11,6 +11,14 @@
     overflow-y: hidden;
 }
 
+.darkmode-button {
+    position: fixed;
+    top: $spacing-s;
+    right: $spacing-s;
+
+    font-size: 2rem;
+}
+
 .top-bar {
     flex-shrink: 0;
 }

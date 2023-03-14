@@ -7,6 +7,7 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { DataService } from 'src/libs/shared/services/data/data.service';
 import { DisplayService } from 'src/libs/shared/services/display/display.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 @Component({
     selector: 'app-root',
@@ -22,6 +23,7 @@ export class AppComponent {
 
     public isReady$: Observable<boolean>;
     public loadingStatus$: Observable<ApiStatus>;
+    public isDarkmode$: Observable<boolean>;
 
     constructor() {
         this._setMobile();
@@ -45,6 +47,12 @@ export class AppComponent {
                 .pipe(
                     map(status => status.key === ApiStatusKey.Ready),
                 );
+
+        this.isDarkmode$ =
+            SettingsService.settings$
+                .pipe(
+                    map(settings => !!settings.darkmode),
+                );
     }
 
     @HostListener('window:resize', ['$event'])
@@ -57,6 +65,10 @@ export class AppComponent {
     public onRotate(): void {
         this._setMobile();
         DisplayService.setPageHeight();
+    }
+
+    public toggleDarkmode(): void {
+        SettingsService.settings.darkmode = !SettingsService.settings.darkmode;
     }
 
     private _setMobile(): void {
