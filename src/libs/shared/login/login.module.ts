@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from '../ui/button/button.module';
 import { LogoModule } from '../ui/logo/logo.module';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { InputModule } from '../ui/input/input.module';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
         ButtonModule,
         LogoModule,
+        InputModule,
     ],
     declarations: [
         LoginComponent,

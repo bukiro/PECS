@@ -13,6 +13,7 @@
     <ng-container [ngSwitch]="type">
         <app-checkbox-input
             #Input
+            class="value__input value__input--checkbox"
             [id]="id"
             *ngSwitchCase="'switch'"
             [(ngModel)]="value"
@@ -21,7 +22,9 @@
         <app-text-input
             #Input
             [id]="id"
+            class="value__input value__input--text"
             *ngSwitchCase="'text'"
+            [password]="password"
             [(ngModel)]="value"
         ></app-text-input>
     </ng-container>

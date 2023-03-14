@@ -12,15 +12,15 @@
             Please enter the password for this PECS server
         </p>
 
-        <input
+        <app-text-input
             #PasswordInput
+            class="login-form__input"
             placeholder="Password"
-            aria-label="Password"
-            name="password"
+            label="Password"
             formControlName="password"
-            type="password"
+            password
             (keyDown.enter)="passwordForm.valid ? login() : null"
-        >
+        ></app-text-input>
 
         <p
             class="login-form__message"

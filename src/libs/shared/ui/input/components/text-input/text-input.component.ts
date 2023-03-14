@@ -24,6 +24,9 @@ export class TextInputComponent extends BaseValueAccessorComponent<string> {
     @Input()
     public label?: string;
 
+    @Input()
+    public placeholder?: string;
+
     private _isPassword?: boolean;
 
     @Input()

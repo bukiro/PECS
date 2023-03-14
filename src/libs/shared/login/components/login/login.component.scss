@@ -11,10 +11,22 @@
 
     gap: $spacing-m;
 
+    p {
+        margin: 0;
+    }
+
     &__header {
         @include flex-row-center;
         @include flex-center-cross-axis;
 
         gap: $spacing-m;
+    }
+
+    &__input {
+        line-height: 2em;
+    }
+
+    &__message {
+        @include text-color-penalty;
     }
 }

@@ -4,6 +4,7 @@
     class="input"
     aria-label="checkbox"
     [attr.aria-label]="label"
+    [placeholder]="placeholder ?? ''"
     [type]="isPassword ? 'password' : 'text'"
     [disabled]="disabled"
     [(ngModel)]="value"

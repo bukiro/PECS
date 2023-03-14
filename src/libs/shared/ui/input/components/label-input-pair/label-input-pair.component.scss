@@ -16,11 +16,17 @@
     width: min(300px, 50%);
     border-right: 1px solid $color-accent;
 
+    padding-right: $spacing-m;
+
     &__icon {
-        margin-left: $spacing-s;
+        margin-left: $spacing-xs;
     }
 }
 
 .value {
-    line-height: 0;
+    &__input {
+        &--checkbox {
+            vertical-align: bottom;
+        }
+    }
 }

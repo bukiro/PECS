@@ -1,0 +1,23 @@
+@import 'utilities';
+
+:host {
+    width: 100%;
+}
+
+.input {
+    @include background-color-default;
+    @include text-color-default;
+
+    width: 100%;
+
+    border: $spacing-xxs solid $color-accent;
+
+    box-shadow: none;
+    transition: box-shadow .25s;
+
+    font-size: $font-size-medium;
+
+    &:hover {
+        box-shadow: 0 0 $spacing-s $color-accent inset;
+    }
+}

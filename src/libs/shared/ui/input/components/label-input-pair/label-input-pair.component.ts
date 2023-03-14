@@ -32,6 +32,9 @@ export class LabelInputPairComponent extends BaseValueAccessorComponent<string |
     @Input()
     public hint?: string;
 
+    @Input()
+    public password?: boolean | string;
+
     public id = uuidv4();
 
     public focus(): void {
