@@ -18,9 +18,11 @@
 
     transition: box-shadow .5s;
 
-    &:not(.disabled):not(.processing):hover {
+    &:not(.disabled):not(.processing):not(.toggled):hover {
         @include box-shadow-large;
+    }
 
+    &:not(.disabled):not(.processing):hover {
         button {
             opacity: 50%;
         }

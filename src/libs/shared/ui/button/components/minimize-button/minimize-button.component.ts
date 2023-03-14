@@ -16,6 +16,13 @@ import { ToggleButtonComponent } from '../toggle-button/toggle-button.component'
     ],
 })
 export class MinimizeButtonComponent extends ToggleButtonComponent {
+
+    constructor() {
+        super();
+
+        this.compact = true;
+    }
+
     public get minimizeLabel(): string {
         return this.value
             ? 'Click to show all information.'
