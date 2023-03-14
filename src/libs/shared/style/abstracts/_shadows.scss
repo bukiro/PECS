@@ -1,0 +1,49 @@
+@mixin box-shadow-small {
+    box-shadow: 0 3px 1px #AAA;
+
+    :host-context(.darkmode) & {
+        box-shadow: 0 3px 1px black;
+    }
+
+    .darkmode & {
+        box-shadow: 0 3px 1px black;
+    }
+
+}
+
+@mixin box-shadow-large {
+    box-shadow: 1px 5px 10px #AAA, -1px 5px 10px #AAA;
+
+    :host-context(.darkmode) & {
+        box-shadow: 1px 5px 10px black, -1px 5px 10px black;
+    }
+
+    .darkmode & {
+        box-shadow: 1px 5px 10px black, -1px 5px 10px black;
+    }
+}
+
+@mixin box-shadow-tiny {
+    box-shadow: 1px 1x 2px #AAA, -1px 1px 2px #AAA;
+
+    :host-context(.darkmode) & {
+        box-shadow: 1px 1x 2px black, -1px 1px 2px black;
+    }
+
+    .darkmode & {
+        box-shadow: 1px 1x 2px black, -1px 1px 2px black;
+    }
+}
+
+// To override the previous mixins
+@mixin box-shadow-none {
+    box-shadow: none;
+
+    :host-context(.darkmode) & {
+        box-shadow: none;
+    }
+
+    .darkmode & {
+        box-shadow: none;
+    }
+}

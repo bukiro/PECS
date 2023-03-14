@@ -4,15 +4,33 @@
     @include text-color-default;
     @include background-color-default;
     @include border-default;
+    @include box-shadow-small;
 
     border-width: $spacing-xxs;
 
     display: inline-flex;
+    opacity: 100%;
 
     min-height: 1em;
     min-width: 1em;
 
     line-height: inherit;
+
+    transition: box-shadow .5s;
+
+    &:not(.disabled):not(.processing):hover {
+        @include box-shadow-large;
+
+        button {
+            opacity: 50%;
+        }
+    }
+
+    &:not(.disabled):not(.processing):active {
+        @include box-shadow-none;
+        transform: translate(0, 5px);
+        transition: box-shadow .01s;
+    }
 
     button {
         height: 100%;
@@ -25,6 +43,8 @@
         padding: .25em .5em;
 
         line-height: inherit;
+
+        transition: opacity .5s;
     }
 }
 
@@ -34,6 +54,8 @@
 
 :host(.no-outline) {
     border-color: transparent;
+
+    box-shadow: none !important;
 }
 
 :host(.compact) {
@@ -43,8 +65,12 @@
 }
 
 :host(.toggled) {
-    @include text-color-inverted;
-    @include background-color-inverted;
+    @include box-shadow-none;
+    transform: translate(0, 2px);
+
+    &:active {
+        transform: translate(0, 5px);
+    }
 }
 
 :host(.circle) {

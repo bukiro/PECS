@@ -41,7 +41,7 @@ export class SavegamesService {
     }
 
     public reset(): void {
-        new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing });
+        new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing, message: 'Loading characters...' });
 
         this._savegames = [];
 
