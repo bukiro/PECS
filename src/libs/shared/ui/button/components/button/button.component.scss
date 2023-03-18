@@ -60,7 +60,13 @@
     box-shadow: none !important;
 }
 
-:host(.compact) {
+:host(.compact):not(.tight) {
+    button {
+        padding: .25em;
+    }
+}
+
+:host(.tight) {
     button {
         padding: 0;
     }

@@ -3,9 +3,6 @@
 :host {
     display: inline-block;
 
-    height: 1.8em;
-    width: 1.8em;
-
     .button {
         height: 100%;
         width: 100%;
@@ -13,17 +10,11 @@
     }
 
     .dice {
-        height: 1em;
-        width: 1em;
+        @include button-icon(1rem);
     }
 }
 
 :host-context(span) {
     margin-left: .3em;
     margin-right: .3em;
-}
-
-:host-context(app-attribute-value .value) {
-    height: 1rem;
-    width: 1.3rem;
 }

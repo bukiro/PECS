@@ -36,6 +36,9 @@ export class ButtonComponent {
     @HostBinding('class.compact')
     public isCompact?: boolean;
 
+    @HostBinding('class.tight')
+    public isTight?: boolean;
+
     @HostBinding('class.circle')
     public isCircle?: boolean;
 
@@ -69,6 +72,11 @@ export class ButtonComponent {
     @Input()
     public set compact(compact: boolean | string | undefined) {
         this.isCompact = forceBooleanFromInput(compact);
+    }
+
+    @Input()
+    public set tight(tight: boolean | string | undefined) {
+        this.isTight = forceBooleanFromInput(tight);
     }
 
     @Input()
