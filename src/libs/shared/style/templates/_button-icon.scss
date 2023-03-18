@@ -1,0 +1,7 @@
+@mixin button-icon($size) {
+    display: block;
+    font-size: $size;
+    line-height: 1em;
+    width: 1em;
+    height: 1em;
+}
