@@ -73,7 +73,7 @@
 }
 
 :host(.toggled) {
-    @include box-shadow-none;
+    @include box-shadow-glow;
     transform: translate(0, 2px);
 
     &:active {
