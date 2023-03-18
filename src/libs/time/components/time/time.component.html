@@ -1,77 +1,61 @@
-<div class="corner-button-tray">
-    <app-minimize-button
-        *ngIf="shouldShowMinimizeButton"
-        [ngModel]="(isMinimized$ | async) ?? false"
-        (ngModelChange)="toggleMinimized($event)"
-    ></app-minimize-button>
+<div class="time-control" *ngIf="{desc: turnPassingBlocked$ | async } as turnPassingBlocked">
+    <div
+        class="time-control__turn-button time-control__turn-button--start"
+        [ngClass]="{'disabled': (yourTurn.state === 5) || turnPassingBlocked.desc}"
+        *ngIf="{ state: yourTurn$ | async } as yourTurn"
+    >
+        <app-button
+            (clicked)="startTurn()"
+            [disabled]="(yourTurn.state === 5) || turnPassingBlocked.desc ?? undefined"
+            [ngbTooltip]="turnPassingBlocked.desc ?? 'Start your turn'"
+            [disableTooltip]="yourTurn.state === 5"
+            ghost
+            compact
+            noOutline
+        >
+            <i class="bi-play-fill"></i>
+        </app-button>
+    </div>
+
+    <app-circular-menu
+        class="time-control__pass-button"
+        label="Pass time"
+        [radius]="6"
+        [options]="(timePassingOptions$ | async) ?? undefined"
+        [ngbTooltip]="turnPassingBlocked.desc ?? 'Pass time'"
+        [disabled]="turnPassingBlocked.desc ?? undefined"
+        circle
+        compact
+    >
+        <i class="bi-clock icon--pass-time"></i>
+    </app-circular-menu>
+
+    <div
+        class="time-control__turn-button time-control__turn-button--end"
+        [ngClass]="{'disabled': (yourTurn.state === 0) || turnPassingBlocked.desc}"
+        *ngIf="{ state: yourTurn$ | async } as yourTurn"
+    >
+        <app-button
+            (clicked)="startTurn()"
+            [disabled]="(yourTurn.state === 0) || turnPassingBlocked.desc ?? undefined"
+            [ngbTooltip]="turnPassingBlocked.desc ?? 'End your turn'"
+            [disableTooltip]="yourTurn.state === 0"
+            ghost
+            compact
+            noOutline
+        >
+            <i class="bi-stop-fill"></i>
+        </app-button>
+    </div>
 </div>
 
 <div
-    *ngIf="showTurn && {desc: waitingDescription(5)} as waitingStatus"
-    class="turn-control"
+    class="turn-indicator"
+    *ngIf="(yourTurn$ | async) === 0; else YourTurnTemplate"
 >
-    <div [ngbTooltip]="waitingStatus.desc">
-        <button
-            type="button"
-            (click)="startTurn()"
-            [disabled]="yourTurn === 5 || waitingStatus.desc.length"
-        >
-            Start Turn
-        </button>
-    </div>
-
-    <div class="turn-indicator">
-        <strong *ngIf="yourTurn === 0">Not your Turn</strong>
-
-        <strong
-            class="yourTurn"
-            *ngIf="yourTurn === 5"
-        >
-            Your Turn
-        </strong>
-    </div>
-
-    <div [ngbTooltip]="waitingStatus.desc">
-        <button
-            type="button"
-            (click)="endTurn()"
-            [disabled]="yourTurn === 0 || waitingStatus.desc.length"
-        >
-            End Turn
-        </button>
-    </div>
+    Not your turn
 </div>
 
-<div
-    *ngIf="showTime"
-    class="time-control"
-    [ngClass]="{'minimized-hide':showTurn}"
->
-    <ng-container *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;">
-        <div
-            [ngbTooltip]="waitingStatus.desc"
-            *ngIf="{desc: waitingDescription(duration)} as waitingStatus"
-        >
-            <button
-                type="button"
-                class="fancybutton"
-                (click)="tick(duration)"
-                [disabled]="waitingStatus.desc.length"
-            >
-                <span class="hlist">
-                    <i class="bi bi-clock-history desktop-hide"></i>
-
-                    <span class="mobile-hide">Pass</span>
-
-                    <span class="mobile-hide">
-                        {{durationDescription(duration, false)}}
-                    </span>
-
-                    <span class="desktop-hide">
-                        {{durationDescription(duration, false, true)}}
-                    </span>
-                </span>
-            </button>
-        </div>
-    </ng-container>
-</div>
+<ng-template #YourTurnTemplate>
+    <div class="turn-indicator turn-indicator--active">Your turn</div>
+</ng-template>

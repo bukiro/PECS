@@ -48,5 +48,6 @@
 
     &__text {
         @include text-large;
+        text-align: center;
     }
 }

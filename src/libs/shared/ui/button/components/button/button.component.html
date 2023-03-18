@@ -5,7 +5,7 @@
     aria-label="button"
     [attr.aria-label]="label"
     (click)="clicked.emit()"
-    [disabled]="isDisabled"
+    [disabled]="isDisabled ?? isProcessing"
     [ngbTooltip]="label"
     [disableTooltip]="!shouldShowLabel"
 >

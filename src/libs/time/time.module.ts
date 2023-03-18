@@ -4,6 +4,7 @@ import { TimeComponent } from './components/time/time.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from '../shared/ui/button/button.module';
+import { CircularMenuModule } from '../shared/ui/circular-menu/circular-menu.module';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { ButtonModule } from '../shared/ui/button/button.module';
         NgbTooltipModule,
 
         ButtonModule,
+        CircularMenuModule,
     ],
     declarations: [
         TimeComponent,

@@ -46,7 +46,7 @@ export class CharacterSavingService {
     public saveCharacter(): void {
         const character = CreatureService.character;
 
-        character.yourTurn = this._timeService.yourTurn;
+        character.yourTurn = this._timeService.yourTurn$.value;
         this._toastService.show('Saving...');
 
         const savegame =

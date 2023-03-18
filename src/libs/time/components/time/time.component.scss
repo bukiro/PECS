@@ -4,14 +4,116 @@
     @include character-sheet-card;
 }
 
-.turn-control {
-    @include flex-row-center;
+.corner-button-tray {
+    @include corner-button-tray-right;
 }
 
 .time-control {
     @include flex-row-center;
+    @include flex-center-cross-axis;
+
+    flex: 0 0 8rem;
+
+    &__pass-button {
+        z-index: 20;
+    }
+
+    &__turn-button {
+        z-index: 10;
+        width: 4rem;
+        height: 4rem;
+        overflow: hidden;
+        position: relative;
+
+        app-button {
+            position: absolute;
+
+            z-index: 30;
+
+            font-size: 1.25rem;
+            line-height: 1em;
+        }
+
+        &:before {
+            content: "";
+            display: block;
+            width: 200%;
+            height: 200%;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        &--start {
+            transform: translate(3rem, -1.5rem);
+
+            app-button {
+                top: 0;
+                left: 0;
+            }
+
+            &:before {
+                top: 0;
+                left: 0;
+                box-shadow: -50px -50px 0 0 $color-bonus-light;
+            }
+        }
+
+        &--end {
+            transform: translate(-3rem, 1.5rem);
+
+            app-button {
+                bottom: 0;
+                right: 0;
+            }
+
+            &:before {
+                bottom: 0;
+                right: 0;
+                box-shadow: 50px 50px 0 0 $color-penalty-light;
+            }
+        }
+
+        &.disabled {
+            &:before {
+                opacity: 15%;
+            }
+        }
+    }
 }
 
-.corner-button-tray {
-    @include corner-button-tray-right;
+:host-context(.darkmode) {
+    .time-control {
+        &__turn-button {
+            &--start {
+                &:before {
+                    box-shadow: -50px -50px 0 0 $color-bonus-dark;
+                }
+            }
+
+            &--end {
+                &:before {
+                    box-shadow: 50px 50px 0 0 $color-penalty-dark;
+                }
+            }
+        }
+    }
+}
+
+.icon {
+    &--pass-time {
+        display: block;
+        height: 5rem;
+        width: 5rem;
+        font-size: 5rem;
+        line-height: 5rem;
+    }
+}
+
+.turn-indicator {
+    @include flex-row-center;
+    @include text-large;
+
+    &--active {
+        @include pulsing-text-animation(2s);
+    }
 }

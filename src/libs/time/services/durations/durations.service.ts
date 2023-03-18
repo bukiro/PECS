@@ -46,13 +46,13 @@ export class DurationsService {
         workingDuration -= remainder;
 
         if (workingDuration === TimePeriods.HalfTurn) {
-            if (this._timeService.yourTurn === TimePeriods.HalfTurn) {
+            if (this._timeService.yourTurn$.value === TimePeriods.HalfTurn) {
                 return inASentence
                     ? 'for rest of turn'
                     : 'Rest of turn';
             }
 
-            if (this._timeService.yourTurn === TimePeriods.NoTurn) {
+            if (this._timeService.yourTurn$.value === TimePeriods.NoTurn) {
                 return inASentence
                     ? 'until start of next turn'
                     : 'To start of next turn';
@@ -93,11 +93,11 @@ export class DurationsService {
             workingDuration %= TimePeriods.Turn;
         }
 
-        if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this._timeService.yourTurn === TimePeriods.HalfTurn) {
+        if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this._timeService.yourTurn$.value === TimePeriods.HalfTurn) {
             returnString += ' to end of turn';
         }
 
-        if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this._timeService.yourTurn === TimePeriods.NoTurn) {
+        if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this._timeService.yourTurn$.value === TimePeriods.NoTurn) {
             returnString += ' to start of turn';
         }
 

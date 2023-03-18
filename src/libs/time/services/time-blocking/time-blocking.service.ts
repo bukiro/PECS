@@ -20,8 +20,8 @@ export class TimeBlockingService {
     public waitingDescription(
         duration: number,
         options: { includeResting: boolean },
-    ): string {
-        let result = '';
+    ): string | undefined {
+        let result: string | undefined;
         const AfflictionOnsetsWithinDuration = (creature: Creature): boolean =>
             this._creatureConditionsService
                 .currentCreatureConditions(creature, {}, { readonly: true })

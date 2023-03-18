@@ -100,7 +100,7 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
         return Math.abs(number);
     }
 
-    public waitingDescription(duration: number): string {
+    public waitingDescription(duration: number): string | undefined {
         return this._timeBlockingService.waitingDescription(
             duration,
             { includeResting: true },

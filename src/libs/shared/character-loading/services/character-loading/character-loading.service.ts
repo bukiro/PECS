@@ -118,7 +118,7 @@ export class CharacterLoadingService {
         this._basicEquipmentService.equipBasicItems(character, false);
 
         // Set your turn state according to the saved state.
-        this._timeService.yourTurn = character.yourTurn;
+        this._timeService.setYourTurn(character.yourTurn);
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
         this._characterFeatsService.buildCharacterFeats(character);
 

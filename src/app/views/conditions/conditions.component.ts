@@ -324,7 +324,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
             (
                 includeTurn
                     ? (
-                        this.endOn === this._timeService.yourTurn
+                        this.endOn === this._timeService.yourTurn$.value
                             ? TimePeriods.NoTurn
                             : TimePeriods.HalfTurn
                     )
@@ -354,7 +354,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         if (duration < 0 || duration === 1 || !includeTurnState) {
             newGain.duration = duration;
         } else {
-            newGain.duration = duration + (this.endOn === this._timeService.yourTurn ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
+            newGain.duration = duration + (this.endOn === this._timeService.yourTurn$.value ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
         }
 
         newGain.choice = condition.choice;
@@ -422,7 +422,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
             newEffect.maxDuration = newEffect.duration = duration;
         } else {
             newEffect.maxDuration = newEffect.duration =
-                duration + (this.endOn === this._timeService.yourTurn ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
+                duration + (this.endOn === this._timeService.yourTurn$.value ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
         }
 
         this._refreshService.prepareDetailToChange(creature.type, 'effects');

@@ -24,6 +24,7 @@ import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -31,7 +32,7 @@ import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 export class TimeService {
 
     //yourTurn is 5 if it is your turn or 0 if not.
-    private _yourTurn: TimePeriods.NoTurn | TimePeriods.HalfTurn = TimePeriods.NoTurn;
+    public yourTurn$ = new BehaviorSubject<TimePeriods.NoTurn | TimePeriods.HalfTurn>(TimePeriods.NoTurn);
 
     constructor(
         private readonly _activitiesTimeService: ActivitiesTimeService,
@@ -54,13 +55,9 @@ export class TimeService {
         private readonly _spellCastingPrerequisitesService: SpellCastingPrerequisitesService,
     ) { }
 
-    public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
-        return this._yourTurn;
-    }
-
-    public set yourTurn(yourTurn: TimePeriods.NoTurn | TimePeriods.HalfTurn) {
+    public setYourTurn(yourTurn: TimePeriods.NoTurn | TimePeriods.HalfTurn): void {
         //Only used when loading a character
-        this._yourTurn = yourTurn;
+        this.yourTurn$.next(yourTurn);
     }
 
     public startTurn(): void {
@@ -279,7 +276,7 @@ export class TimeService {
                         this._refreshService.prepareDetailToChange(creature.type, 'health');
                     }
 
-                    this._conditionsTimeService.tickConditions(creature, timeStopDuration, this._yourTurn);
+                    this._conditionsTimeService.tickConditions(creature, timeStopDuration, this.yourTurn$.value);
                     this._refreshService.prepareDetailToChange(creature.type, 'effects');
                 }
 
@@ -296,7 +293,7 @@ export class TimeService {
                             this._refreshService.prepareDetailToChange(creature.type, 'health');
                         }
 
-                        this._conditionsTimeService.tickConditions(creature, creatureTurns, this._yourTurn);
+                        this._conditionsTimeService.tickConditions(creature, creatureTurns, this.yourTurn$.value);
                         this._refreshService.prepareDetailToChange(creature.type, 'effects');
                     }
 
@@ -316,7 +313,7 @@ export class TimeService {
                 }
             }
         });
-        this._yourTurn = (this._yourTurn + turns) % TimePeriods.Turn;
+        this.yourTurn$.next((this.yourTurn$.value + turns) % TimePeriods.Turn);
 
         if (reload) {
             this._refreshService.processPreparedChanges();

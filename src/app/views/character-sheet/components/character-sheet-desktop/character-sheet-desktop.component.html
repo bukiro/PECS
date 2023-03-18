@@ -50,10 +50,7 @@
 </div>
 
 <ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
-    <app-time
-        [showTurn]="['All','Encounter'].includes(shownMode)"
-        [showTime]="(shownMode !== 'Encounter')"
-    ></app-time>
+    <app-time></app-time>
 
     <app-effects></app-effects>
 

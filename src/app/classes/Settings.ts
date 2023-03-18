@@ -49,7 +49,6 @@ export class Settings {
     private _spelllibraryMinimized = false;
     private _spellsMinimized = false;
     private _spellsTileMode = true;
-    private _timeMinimized = false;
     private _unavailableFeats = true;
 
     public get abilitiesMinimized(): boolean {
@@ -425,14 +424,6 @@ export class Settings {
     }
     public set spellsTileMode(spellsTileMode: boolean) {
         this._spellsTileMode = spellsTileMode;
-        SettingsService.updateSettings();
-    }
-
-    public get timeMinimized(): boolean {
-        return this._timeMinimized;
-    }
-    public set timeMinimized(timeMinimized: boolean) {
-        this._timeMinimized = timeMinimized;
         SettingsService.updateSettings();
     }
 
