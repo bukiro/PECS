@@ -44,7 +44,7 @@ import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';

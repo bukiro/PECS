@@ -5,7 +5,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellGain } from 'src/app/classes/SpellGain';
-import { TimeService } from 'src/libs/time/services/time/time.service';
+import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
@@ -32,7 +32,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';

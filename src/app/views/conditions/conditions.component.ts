@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestro
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Condition } from 'src/app/classes/Condition';
-import { TimeService } from 'src/libs/time/services/time/time.service';
+import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { ItemProperty } from 'src/app/classes/ItemProperty';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Creature } from 'src/app/classes/Creature';
@@ -29,7 +29,7 @@ import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { EffectPropertiesDataService } from 'src/libs/shared/services/data/effect-properties-data.service';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';

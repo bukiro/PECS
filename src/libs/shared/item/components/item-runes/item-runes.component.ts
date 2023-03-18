@@ -18,7 +18,7 @@ import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';

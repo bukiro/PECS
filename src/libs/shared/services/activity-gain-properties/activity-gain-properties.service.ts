@@ -3,7 +3,7 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Creature } from 'src/app/classes/Creature';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 
 @Injectable({
     providedIn: 'root',

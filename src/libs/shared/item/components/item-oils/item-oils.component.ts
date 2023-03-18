@@ -7,7 +7,7 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';

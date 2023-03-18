@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, O
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { TimeService } from 'src/libs/time/services/time/time.service';
+import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
@@ -11,7 +11,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Health } from 'src/app/classes/Health';
 import { CalculatedHealth, HealthService } from 'src/libs/shared/services/health/health.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
+import { TimeBlockingService } from 'src/libs/shared/time/services/time-blocking/time-blocking.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';

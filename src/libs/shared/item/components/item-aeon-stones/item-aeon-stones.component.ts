@@ -6,7 +6,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Character } from 'src/app/classes/Character';
 import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';

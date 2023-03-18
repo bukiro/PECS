@@ -16,7 +16,7 @@ import { Trait } from 'src/app/classes/Trait';
 import { HintShowingItem } from 'src/libs/shared/definitions/types/hintShowingItem';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
 import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';

@@ -50,8 +50,6 @@
 </div>
 
 <ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
-    <app-time></app-time>
-
     <app-effects></app-effects>
 
     <div class="character-sheet-columns">
@@ -91,7 +89,5 @@
 </ng-container>
 
 <ng-template #ConditionsAndEffectsTemplate>
-    <app-time></app-time>
-
     <app-effects [fullDisplay]="true"></app-effects>
 </ng-template>

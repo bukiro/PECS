@@ -14,7 +14,7 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { HttpStatusCode } from '@angular/common/http';
 import { Creature } from 'src/app/classes/Creature';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';

@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { TimeService } from 'src/libs/time/services/time/time.service';
+import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BehaviorSubject, Observable, takeUntil } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
-import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
+import { TimeBlockingService } from 'src/libs/shared/time/services/time-blocking/time-blocking.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { CircularMenuOption } from 'src/libs/shared/ui/circular-menu';

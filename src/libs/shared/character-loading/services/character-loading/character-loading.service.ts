@@ -12,7 +12,7 @@ import { CharacterPatchingService } from '../character-patching/character-patchi
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { TimeService } from 'src/libs/time/services/time/time.service';
+import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';

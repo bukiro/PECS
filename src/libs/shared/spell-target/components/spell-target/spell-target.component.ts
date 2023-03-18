@@ -29,7 +29,7 @@ import { SpellCast } from 'src/app/classes/SpellCast';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
-import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';

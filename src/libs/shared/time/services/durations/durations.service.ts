@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { TimeService } from 'src/libs/time/services/time/time.service';
+import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 
 @Injectable({
     providedIn: 'root',

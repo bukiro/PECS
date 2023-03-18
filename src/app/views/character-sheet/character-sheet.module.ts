@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { CharacterSheetComponent } from './character-sheet.component';
 import { DiceModule } from 'src/app/views/dice/dice.module';
 import { EffectsModule } from 'src/libs/effects/effects.module';
-import { TimeModule } from 'src/libs/time/time.module';
 import { HealthModule } from 'src/libs/health/health.module';
 import { ActionIconsModule } from 'src/libs/shared/ui/action-icons/action-icons.module';
 import { ItemsModule } from '../items/items.module';
@@ -36,7 +35,6 @@ import { LoadingSpinnerModule } from 'src/libs/shared/ui/loading-spinner/loading
 
         DiceModule,
         EffectsModule,
-        TimeModule,
         HealthModule,
         ActionIconsModule,
         ItemsModule,
