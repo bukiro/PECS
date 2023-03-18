@@ -5,11 +5,12 @@
 ></app-logo>
 
 <app-button
-    label="Edit character and settings"
-    showLabel
     class="top-bar-button"
+    label="Edit character and settings"
     [toggled]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu"
     (clicked)="toggleMenu(menuNames.CharacterCreationMenu)"
+    showLabel
+    compact
 >
     <div class=top-bar-button__content>
         <i class="ra ra-player"></i>
@@ -18,71 +19,76 @@
     </div>
 </app-button>
 
+<!-- //To-Do: Make reactive -->
 <app-button
+    *ngIf="isCompanionAvailable()"
     label="Show animal companion"
-    showLabel
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.CompanionMenu"
     (clicked)="toggleMenu(menuNames.CompanionMenu)"
-    *ngIf="isCompanionAvailable()"
+    showLabel
+    compact
 >
-    <div class=top-bar-button__content>
-        <i class="ra ra-wolf-howl"></i>
-    </div>
+    <i class="ra ra-wolf-howl top-bar-button__content"></i>
 </app-button>
 
+<!-- //To-Do: Make reactive -->
 <app-button
+    *ngIf="isFamiliarAvailable()"
     label="Show familiar"
-    showLabel
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.FamiliarMenu"
     (clicked)="toggleMenu(menuNames.FamiliarMenu)"
-    *ngIf="isFamiliarAvailable()"
+    showLabel
 >
-    <div class=top-bar-button__content>
-        <i class="ra ra-raven"></i>
-    </div>
+    <i class="ra ra-raven top-bar-button__content"></i>
 </app-button>
 
 <app-button
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.ItemsMenu"
     (clicked)="toggleMenu(menuNames.ItemsMenu)"
+    compact
 >
-    Items
+    <span class="top-bar-button__content">Items</span>
 </app-button>
 
 <app-button
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.CraftingMenu"
     (clicked)="toggleMenu(menuNames.CraftingMenu)"
+    compact
 >
-    Crafting
+    <span class="top-bar-button__content">Crafting</span>
 </app-button>
 
+<!-- //To-Do: Make reactive -->
 <app-button
+    *ngIf="hasAnySpells()"
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu"
     (clicked)="toggleMenu(menuNames.SpellSelectionMenu)"
-    *ngIf="hasAnySpells()"
+    compact
 >
-    Spellbook
+    <span class="top-bar-button__content">Spellbook</span>
 </app-button>
 
 <app-button
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.SpellLibraryMenu"
     (clicked)="toggleMenu(menuNames.SpellLibraryMenu)"
+    compact
 >
-    Spell&nbsp;Library
+    <span class="top-bar-button__content">Spell Library</span>
 </app-button>
 
 <app-button
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.ConditionsMenu"
     (clicked)="toggleMenu(menuNames.ConditionsMenu)"
+    compact
 >
-    Conditions
+    <span class="top-bar-button__content">Conditions</span>
 </app-button>
 
 <app-button
@@ -90,6 +96,7 @@
     label="Dice"
     [toggled]="(topMenuState$ | async) === menuNames.DiceMenu"
     (clicked)="toggleMenu(menuNames.DiceMenu)"
+    compact
 >
     <app-dice-icon-D20 class="top-bar-button__content top-bar-button__content--dice"></app-dice-icon-D20>
 </app-button>
@@ -102,8 +109,9 @@
         label="In GM mode, the character can\'t be saved and can\'t send effects to other players."
         showLabel
         disabled
+        compact
     >
-        GM Mode
+        <span class="top-bar-button__content">GM Mode</span>
     </app-button>
 
     <ng-template #ButtonsTemplate>
@@ -115,29 +123,32 @@
             label="No changes to character yet"
             showLabel
             disabled
+            compact
         >
-            <i class="bi-file-earmark-arrow-up"></i>
+            <i class="bi-file-earmark-arrow-up top-bar-button__content"></i>
         </app-button>
 
         <ng-template #FinalButtonsTemplate>
             <app-button
                 class="top-bar-button"
                 label="Save Character"
-                showLabel
                 (clicked)="save()"
+                showLabel
+                compact
             >
-                <i class="bi-file-earmark-arrow-up"></i>
+                <i class="bi-file-earmark-arrow-up top-bar-button__content"></i>
             </app-button>
 
             <!-- //To-Do: Figure out how to make character.partyName reactive -->
             <app-button
                 *ngIf="!apiButtonsStatus.isManualMode"
                 [label]="character.partyName ? 'Check for new effects' : 'You can only receive effects in a party.'"
-                showLabel
-                (clicked)="getMessages()"
                 [disabled]="!character.partyName"
+                (clicked)="getMessages()"
+                showLabel
+                compact
             >
-                <i class="ra ra-player-thunder-struck"></i>
+                <i class="ra ra-player-thunder-struck top-bar-button__content"></i>
 
                 <!-- //To-Do: move to new component and make reactive -->
                 <ng-container *ngIf="!modalOpen && newMessagesFromService() as newMessages">
@@ -156,12 +167,11 @@
 <app-button
     class="top-bar-button"
     label="Refresh all"
-    showLabel
     (clicked)="refreshAll()"
+    showLabel
+    compact
 >
-    <div class="top-bar-button__content">
-        <i class="ra ra-cycle"></i>
-    </div>
+    <i class="ra ra-cycle top-bar-button__content"></i>
 </app-button>
 
 <!-- New Effects Dialog -->

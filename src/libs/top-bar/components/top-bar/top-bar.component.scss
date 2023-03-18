@@ -29,12 +29,10 @@
 }
 
 .top-bar-button {
-    height: 2.1em;
-
     z-index: 2;
 
     > * {
-        height: 1em;
+        line-height: 1em;
     }
 
     &__content {
@@ -43,9 +41,10 @@
 
         gap: $spacing-xs;
 
+        line-height: 1em;
+
         &--dice {
             height: 1em;
-            line-height: 1.5em;
         }
     }
 }
