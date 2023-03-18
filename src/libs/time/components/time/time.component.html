@@ -1,20 +1,16 @@
-<div class="time-control" *ngIf="{desc: turnPassingBlocked$ | async } as turnPassingBlocked">
+<div
+    *ngIf="{desc: turnPassingBlocked$ | async } as turnPassingBlocked"
+    class="time-control"
+>
     <div
+        *ngIf="{ state: yourTurn$ | async } as yourTurn"
         class="time-control__turn-button time-control__turn-button--start"
         [ngClass]="{'disabled': (yourTurn.state === 5) || turnPassingBlocked.desc}"
-        *ngIf="{ state: yourTurn$ | async } as yourTurn"
+        (click)="((yourTurn.state === 5) || turnPassingBlocked.desc) ? null : startTurn()"
+        [ngbTooltip]="turnPassingBlocked.desc ?? 'Start your turn'"
+        [disableTooltip]="yourTurn.state === 5"
     >
-        <app-button
-            (clicked)="startTurn()"
-            [disabled]="(yourTurn.state === 5) || turnPassingBlocked.desc ?? undefined"
-            [ngbTooltip]="turnPassingBlocked.desc ?? 'Start your turn'"
-            [disableTooltip]="yourTurn.state === 5"
-            ghost
-            compact
-            noOutline
-        >
-            <i class="bi-play-fill"></i>
-        </app-button>
+        <i class="bi-play-fill icon icon--turn-control"></i>
     </div>
 
     <app-circular-menu
@@ -27,31 +23,25 @@
         circle
         compact
     >
-        <i class="bi-clock icon--pass-time"></i>
+        <i class="bi-clock icon icon--pass-time"></i>
     </app-circular-menu>
 
     <div
+        *ngIf="{ state: yourTurn$ | async } as yourTurn"
         class="time-control__turn-button time-control__turn-button--end"
         [ngClass]="{'disabled': (yourTurn.state === 0) || turnPassingBlocked.desc}"
-        *ngIf="{ state: yourTurn$ | async } as yourTurn"
+        (click)="((yourTurn.state === 0) || turnPassingBlocked.desc) ? null : endTurn()"
+        [ngbTooltip]="turnPassingBlocked.desc ?? 'End your turn'"
+        [disableTooltip]="yourTurn.state === 0"
     >
-        <app-button
-            (clicked)="startTurn()"
-            [disabled]="(yourTurn.state === 0) || turnPassingBlocked.desc ?? undefined"
-            [ngbTooltip]="turnPassingBlocked.desc ?? 'End your turn'"
-            [disableTooltip]="yourTurn.state === 0"
-            ghost
-            compact
-            noOutline
-        >
-            <i class="bi-stop-fill"></i>
-        </app-button>
+        <i class="bi-stop-fill icon icon--turn-control"></i>
+
     </div>
 </div>
 
 <div
-    class="turn-indicator"
     *ngIf="(yourTurn$ | async) === 0; else YourTurnTemplate"
+    class="turn-indicator"
 >
     Not your turn
 </div>
