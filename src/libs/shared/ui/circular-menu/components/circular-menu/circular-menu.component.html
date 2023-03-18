@@ -1,0 +1,58 @@
+<div
+    class="click-outside-overlay"
+    *ngIf="showOptions"
+    (click)="toggleOptions()"
+></div>
+
+<ng-container *ngIf="options">
+    <div
+        *ngFor="let option of options; let index = index; trackBy: trackByIndex"
+        class="option option--of-{{options.length}} option--index-{{index}} option--left-{{option.left}}"
+        [ngClass]="{'option--active': showOptions}"
+        [style.top]="option.top + 'px'"
+        [style.left]="option.left + 'px'"
+        [style.transform]="showOptions ? option.transform : 'none'"
+    >
+        <div
+            #option
+            class="option__inner-button"
+            [ngbTooltip]="option.disabled"
+        >
+            <app-button
+                (clicked)="option.onClick(); option.closeAfter ? toggleOptions() : null;"
+                tabindex="-1"
+                [toggled]="option.toggled"
+                [circle]="option.circle"
+                [disabled]="option.disabled"
+            >
+                <span *ngIf="option.label">{{option.label}}</span>
+                <i
+                    [ngClass]="option.icon"
+                    *ngIf="option.icon"
+                ></i>
+            </app-button>
+        </div>
+    </div>
+</ng-container>
+
+<div
+    #centerButton
+    class="button-container"
+>
+    <app-button
+        #centerButton
+        [label]="label"
+        [showLabel]="shouldShowLabel"
+        class="button button--center"
+        (click)="toggleOptions()"
+        [circle]="isCircle"
+        [compact]="isCompact"
+        [disabled]="isDisabled"
+        [toggled]="isToggled"
+        [processing]="isProcessing"
+        [noOutline]="isNotOutlined"
+        [ghost]="isGhost"
+    >
+        <ng-content></ng-content>
+    </app-button>
+</div>

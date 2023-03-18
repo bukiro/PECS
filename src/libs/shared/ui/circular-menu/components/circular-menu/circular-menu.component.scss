@@ -1,0 +1,32 @@
+@import 'utilities';
+
+.option {
+    position: fixed;
+    z-index: -10;
+    opacity: 0;
+    transition: opacity 200ms, transform 200ms, z-index 200ms;
+    transform-origin: center center;
+
+    // The actual transformation is set in the template.
+
+    &--active {
+        z-index: 90;
+        opacity: 1;
+    }
+}
+
+.click-outside-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 80;
+
+    background-color: $color-background-dark;
+
+    opacity: 50%;
+
+    transition: opacity 10ms;
+}

@@ -83,5 +83,7 @@
 :host(.processing) {
     opacity: 50%;
 
-    border-color: $color-text-medium;
+    &:not(.no-outline) {
+        border-color: $color-text-medium;
+    }
 }
