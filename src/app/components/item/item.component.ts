@@ -29,7 +29,7 @@ import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { Rune } from 'src/app/classes/Rune';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';

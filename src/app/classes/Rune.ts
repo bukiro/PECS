@@ -3,7 +3,7 @@ import { Item } from 'src/app/classes/Item';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Hint } from 'src/app/classes/Hint';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export abstract class Rune extends Item {
     public activities: Array<ItemActivity> = [];

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import * as json_abilities from 'src/assets/json/familiarabilities';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { DataLoadingService } from './data-loading.service';
 
 @Injectable({

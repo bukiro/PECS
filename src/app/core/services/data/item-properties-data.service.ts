@@ -4,7 +4,7 @@ import { ItemProperty } from 'src/app/classes/ItemProperty';
 import * as json_itemproperties from 'src/assets/json/itemproperties';
 import { Item } from 'src/app/classes/Item';
 import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',

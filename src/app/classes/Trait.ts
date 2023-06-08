@@ -5,7 +5,7 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { Effect } from 'src/app/classes/Effect';
 import { ActivityGain } from './ActivityGain';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Trait {
     public desc = '';

@@ -21,7 +21,7 @@ import { AdventuringGear } from './AdventuringGear';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Ammunition } from './Ammunition';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export interface TraitActivation {
     trait: string;

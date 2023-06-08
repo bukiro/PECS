@@ -6,7 +6,7 @@ import { CreatureSizes } from 'src/libs/shared/definitions/creatureSizes';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityBoost } from './AbilityBoost';
 import { SkillIncrease } from './SkillIncrease';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Familiar extends Creature {
     public readonly type = CreatureTypes.Familiar;

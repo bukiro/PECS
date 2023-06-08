@@ -6,7 +6,7 @@ import { Hint } from 'src/app/classes/Hint';
 import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export enum ActivityTargetOptions {
     Companion = 'companion',

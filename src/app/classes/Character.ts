@@ -13,7 +13,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { Weapon } from './Weapon';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Character extends Creature {
     public readonly type = CreatureTypes.Character;

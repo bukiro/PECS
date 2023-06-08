@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Snare extends Consumable {
     //Snares should be type "snares" to be found in the database

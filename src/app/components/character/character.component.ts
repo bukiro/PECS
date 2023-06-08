@@ -40,7 +40,7 @@ import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
 import { DisplayService } from 'src/app/core/services/display/display.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
-import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';

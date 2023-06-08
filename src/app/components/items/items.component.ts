@@ -26,7 +26,7 @@ import { InputValidationService } from 'src/libs/shared/input-validation/input-v
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
-import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CopperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';

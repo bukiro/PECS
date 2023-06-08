@@ -10,7 +10,7 @@ import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
-import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';

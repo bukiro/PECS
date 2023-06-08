@@ -7,7 +7,7 @@ import { FoundryVTTIntegrationService } from 'src/app/core/services/foundry-vtt-
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HealthService } from 'src/libs/shared/services/health/health.service';

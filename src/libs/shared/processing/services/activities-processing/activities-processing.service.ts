@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { Activity } from 'src/app/classes/Activity';

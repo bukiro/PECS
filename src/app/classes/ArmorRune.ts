@@ -1,7 +1,7 @@
 import { Rune } from 'src/app/classes/Rune';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class ArmorRune extends Rune {
     //Armor Runes should be type "armorrunes" to be found in the database

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { AppStateService } from '../app-state/app-state.service';
 

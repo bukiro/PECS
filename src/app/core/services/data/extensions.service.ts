@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 
 type SingleIdentifier = 'id' | 'name';
 

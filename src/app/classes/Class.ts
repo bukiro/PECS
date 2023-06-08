@@ -19,7 +19,7 @@ import { LoreChoice } from './LoreChoice';
 import { SpellChoice } from './SpellChoice';
 import { Item } from './Item';
 import { Spell } from './Spell';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Class {
     public disabled = '';

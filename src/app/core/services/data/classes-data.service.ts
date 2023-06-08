@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Class } from 'src/app/classes/Class';
 import * as json_classes from 'src/assets/json/classes';
 import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',

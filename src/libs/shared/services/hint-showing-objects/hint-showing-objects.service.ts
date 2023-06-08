@@ -9,7 +9,7 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { Shield } from 'src/app/classes/Shield';
 import { Specialization } from 'src/app/classes/Specialization';
-import { HintShowingItem } from '../../definitions/Types/hintShowingItem';
+import { HintShowingItem } from '../../definitions/types/hintShowingItem';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { ArmorPropertiesService } from '../armor-properties/armor-properties.service';

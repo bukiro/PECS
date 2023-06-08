@@ -26,7 +26,7 @@ import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Wand } from 'src/app/classes/Wand';
 import { Rune } from 'src/app/classes/Rune';
 import { MaterialItem } from './MaterialItem';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class ItemCollection {
     //This is the amount of bulk that can be ignored when weighing this inventory.

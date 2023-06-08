@@ -6,7 +6,7 @@ import { MaxSpellLevel } from 'src/libs/shared/definitions/spellLevels';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject } from 'rxjs';
 
 export interface RingOfWizardrySlot {

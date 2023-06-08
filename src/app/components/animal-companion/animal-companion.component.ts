@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { DisplayService } from 'src/app/core/services/display/display.service';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Character } from 'src/app/classes/Character';
-import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';

@@ -8,7 +8,7 @@ import { HistoryDataService } from './history-data.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { ItemsDataService } from './items-data.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
 

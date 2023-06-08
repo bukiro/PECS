@@ -23,7 +23,7 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
-import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { MenuState } from 'src/libs/shared/definitions/types/menuState';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';

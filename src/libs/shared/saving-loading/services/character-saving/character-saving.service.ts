@@ -16,7 +16,7 @@ import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { SavegamesService } from '../savegames/savegames.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { Constructable } from 'src/libs/shared/definitions/Interfaces/constructable';
+import { Constructable } from 'src/libs/shared/definitions/interfaces/constructable';
 
 
 interface SaveCharacterResponse {

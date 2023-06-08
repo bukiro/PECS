@@ -29,7 +29,7 @@ import { Trait } from 'src/app/classes/Trait';
 import { WornItem } from 'src/app/classes/WornItem';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { Trackers } from 'src/libs/shared/util/trackers';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 import { AttackResult, AttacksService, DamageResult } from '../../services/attacks/attacks.service';
 import { DamageService } from 'src/libs/attacks/services/damage/damage.service';
 import { attackRuneSource } from 'src/libs/attacks/util/attackRuneSource';

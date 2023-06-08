@@ -3,7 +3,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import * as json_spells from 'src/assets/json/spells';
 import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',

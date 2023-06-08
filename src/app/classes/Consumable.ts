@@ -1,7 +1,7 @@
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Item } from 'src/app/classes/Item';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export abstract class Consumable extends Item {
     //Allow changing of "equippable" by custom item creation.

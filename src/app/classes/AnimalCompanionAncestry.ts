@@ -3,7 +3,7 @@ import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Hint } from 'src/app/classes/Hint';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class AnimalCompanionAncestry {
     public abilityChoices: Array<AbilityChoice> = [];

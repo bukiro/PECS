@@ -12,7 +12,7 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';

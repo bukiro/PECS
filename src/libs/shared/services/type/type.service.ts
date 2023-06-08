@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
-import { Constructable } from '../../definitions/Interfaces/constructable';
+import { Constructable } from '../../definitions/interfaces/constructable';
 
 type CastFn<T> = (object: Partial<T>) => T;
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Item } from 'src/app/classes/Item';
-import { ActivityGainRecastFn, ItemRecastFn, RecastFns } from '../../definitions/Interfaces/recastFns';
+import { ActivityGainRecastFn, ItemRecastFn, RecastFns } from '../../definitions/interfaces/recastFns';
 
 @Injectable({
     providedIn: 'root',

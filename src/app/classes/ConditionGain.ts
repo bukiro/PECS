@@ -2,7 +2,7 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { v4 as uuidv4 } from 'uuid';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class ConditionGain {
     public addValue = 0;

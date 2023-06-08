@@ -10,7 +10,7 @@ import { Rune } from 'src/app/classes/Rune';
 import * as json_activities from 'src/assets/json/activities';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',

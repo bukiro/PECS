@@ -18,7 +18,7 @@ import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { FeatRequirements } from 'src/app/character-creation/definitions/models/featRequirements';
 import { FeatIgnoreRequirements } from './featIgnoreRequirements';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Feat {
     public abilityreq: Array<FeatRequirements.AbilityRequirement> = [];

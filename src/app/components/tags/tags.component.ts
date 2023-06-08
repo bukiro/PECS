@@ -14,7 +14,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
 import { Trait } from 'src/app/classes/Trait';
-import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingItem';
+import { HintShowingItem } from 'src/libs/shared/definitions/types/hintShowingItem';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';

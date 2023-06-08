@@ -1,5 +1,5 @@
 import { Weapon } from 'src/app/classes/Weapon';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class AlchemicalBomb extends Weapon {
     //Alchemical bombs should be type "alchemicalbombs" to be found in the database
