@@ -58,7 +58,7 @@ import { Constructable } from 'src/libs/shared/definitions/interfaces/constructa
 })
 export class ItemsDataService {
 
-    private _cleanItems: ItemCollection = new ItemCollection();
+    private readonly _cleanItems: ItemCollection = new ItemCollection();
     private _storeItems: ItemCollection = new ItemCollection();
     private _craftingItems: ItemCollection = new ItemCollection();
     private _initialized = false;
@@ -190,7 +190,7 @@ export class ItemsDataService {
         this._typeService.registerItemCasting(OtherConsumableBomb);
 
         this._cleanItems.potions =
-            this._loadItemType(json_potions, Potion);
+            this._loadItemType(json_potions as ImportedJsonFileList<Potion>, Potion);
         this._typeService.registerItemCasting(Potion);
 
         this._cleanItems.scrolls =
