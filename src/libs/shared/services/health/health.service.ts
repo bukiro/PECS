@@ -8,6 +8,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { SettingsService } from '../settings/settings.service';
+import { abilityModFromAbilityValue } from '../../util/abilityUtils';
 
 export interface CalculatedHealth {
     maxHP: { result: number; explain: string };
@@ -41,9 +42,10 @@ export class HealthService {
 
     public maxHP(creature: Creature): { result: number; explain: string } {
         const charLevel = CreatureService.character.level;
-        const conModifier = creature.requiresConForHP
+        const conValue = creature.requiresConForHP
             ? this._abilityValuesService.baseValue('Constitution', creature, charLevel).result
             : 0;
+        const conModifier = abilityModFromAbilityValue(conValue);
         const baseHP = creature.baseHP(charLevel, conModifier);
         let effectsSum = 0;
 
