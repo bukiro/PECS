@@ -190,7 +190,7 @@ export class ItemsDataService {
         this._typeService.registerItemCasting(OtherConsumableBomb);
 
         this._cleanItems.potions =
-            this._loadItemType(json_potions, Potion);
+            this._loadItemType(json_potions as ImportedJsonFileList<Potion>, Potion);
         this._typeService.registerItemCasting(Potion);
 
         this._cleanItems.scrolls =

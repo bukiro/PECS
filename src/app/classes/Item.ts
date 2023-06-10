@@ -22,6 +22,7 @@ import { AlchemicalBomb } from './AlchemicalBomb';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Ammunition } from './Ammunition';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { Potion } from './Potion';
 
 export interface TraitActivation {
     trait: string;
@@ -168,6 +169,8 @@ export abstract class Item {
 
         return this;
     }
+
+    public canCastSpells(): this is Oil | Potion { return false; }
 
     public hasActivities(): this is Equipment | Rune { return false; }
 

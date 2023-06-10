@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Consumable } from 'src/app/classes/Consumable';
 import { Creature } from 'src/app/classes/Creature';
-import { Oil } from 'src/app/classes/Oil';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
@@ -49,7 +48,7 @@ export class ItemActivationProcessingService {
             });
 
             //Cast Spells
-            if (item instanceof Oil) {
+            if (item.canCastSpells()) {
                 item.castSpells.forEach((cast: SpellCast) => {
                     cast.spellGain.duration = cast.duration;
 

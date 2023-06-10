@@ -55,4 +55,6 @@ export class Oil extends Consumable {
     public hasHints(): this is Oil { return true; }
 
     public hasSuccessResults(): this is Oil { return false; }
+
+    public canCastSpells(): this is Oil { return true; }
 }
