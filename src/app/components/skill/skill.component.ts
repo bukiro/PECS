@@ -153,6 +153,7 @@ export class SkillComponent implements OnInit, OnDestroy {
                 if ([
                     'individualskills',
                     'all',
+                    'allskills',
                     this.creature.toLowerCase(),
                     this.skill.name.toLowerCase(),
                 ].includes(target.toLowerCase())) {
@@ -166,6 +167,7 @@ export class SkillComponent implements OnInit, OnDestroy {
                 if (view.creature === this.creature &&
                     (
                         view.target === 'all' ||
+                        view.target === 'allskills' ||
                         (view.target === 'individualskills' &&
                             (
                                 [

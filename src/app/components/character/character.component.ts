@@ -675,6 +675,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'allskills');
 
         if (character.abilityBoosts(lowerLevel, higherLevel).length) {
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'abilities');
