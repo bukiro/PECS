@@ -15,7 +15,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Condition } from 'src/app/classes/Condition';
 import { Equipment } from 'src/app/classes/Equipment';
 import { RingOfWizardrySlot, WornItem } from 'src/app/classes/WornItem';
-import { Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, switchMap } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -29,13 +29,10 @@ import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes
 import { spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { Rune } from 'src/app/classes/Rune';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
-import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
-import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
@@ -47,8 +44,6 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
-    @Input()
     public item!: Item;
     @Input()
     public allowActivate?: boolean;
@@ -58,6 +53,10 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
     public itemStore?: boolean;
     @Input()
     public isSubItem?: boolean;
+
+    public creature$ = new Subject<Creature>();
+
+    private _creature: Creature = CreatureService.character;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -70,27 +69,29 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
-        private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _conditionPropertiesService: ConditionPropertiesService,
+        private readonly _spellPropertiesService: SpellPropertiesService,
         private readonly _itemRolesService: ItemRolesService,
-        private readonly _itemTraitsService: ItemTraitsService,
         private readonly _itemActivationService: ItemActivationService,
     ) {
         super();
     }
 
-    private get _currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
+    public get creature(): Creature {
+        return this._creature;
+    }
+
+    @Input()
+    public set creature(value: Creature) {
+        this._creature = value;
+        this.creature$.next(this._creature);
     }
 
     private get _character(): Character {
         return CreatureService.character;
     }
 
-    public itemTraits(): Array<string> {
-        this._itemTraitsService.cacheItemEffectiveTraits(this.item, { creature: this._currentCreature });
-
-        return this.item.$traits;
+    public itemTraits$(): Observable<Array<string>> {
+        return this.item.effectiveTraits$;
     }
 
     public traitFromName(name: string): Trait {
@@ -109,12 +110,16 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
         return this._spellsDataService.spellFromName(name);
     }
 
-    public gainedSpellLevel(spell: Spell, context: { gain: SpellGain; choice: SpellChoice }): number {
-        return this._spellsService.effectiveSpellLevel(
-            spell,
-            { baseLevel: (context.choice.level ? context.choice.level : 0), creature: this._currentCreature, gain: context.gain },
-            { noEffects: true },
-        );
+    public gainedSpellLevel$(spell: Spell, context: { gain: SpellGain; choice: SpellChoice }): Observable<number> {
+        return this.creature$
+            .pipe(
+                switchMap(creature => this._spellsService.effectiveSpellLevel$(
+                    spell,
+                    { baseLevel: (context.choice.level ? context.choice.level : 0), creature, gain: context.gain },
+                    { noEffects: true },
+                )),
+            );
+
     }
 
     public hasMatchingTalismanCord(item: Equipment, talisman: Talisman): boolean {
@@ -125,28 +130,28 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
     }
 
     public onActivateTalisman(itemRoles: ItemRoles, talisman: Talisman, index: number, options: { preserve?: boolean } = {}): void {
-        this._itemActivationService.useConsumable(this._currentCreature, talisman, options.preserve);
+        this._itemActivationService.useConsumable(this.creature, talisman, options.preserve);
 
         if (!options.preserve) {
             itemRoles.asEquipment?.talismans.splice(index, 1);
         }
 
         if (itemRoles.asArmor || itemRoles.asShield) {
-            this._refreshService.prepareDetailToChange(this.creature, 'defense');
+            this._refreshService.prepareDetailToChange(this.creature.type, 'defense');
         }
 
         if (itemRoles.asWeapon) {
-            this._refreshService.prepareDetailToChange(this.creature, 'attacks');
+            this._refreshService.prepareDetailToChange(this.creature.type, 'attacks');
         }
 
         this._refreshService.processPreparedChanges();
     }
 
     public onActivatePoison(weapon: Weapon, poison: AlchemicalPoison): void {
-        this._itemActivationService.useConsumable(this._currentCreature, poison);
+        this._itemActivationService.useConsumable(this.creature, poison);
 
         weapon.poisonsApplied.length = 0;
-        this._refreshService.prepareDetailToChange(this.creature, 'attacks');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'attacks');
 
         this._refreshService.processPreparedChanges();
     }
@@ -154,24 +159,16 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
     public doublingRingsOptions(ring: string): Array<Weapon> {
         switch (ring) {
             case 'gold':
-                return this._currentCreature.inventories[0].weapons.filter(weapon => weapon.melee && weapon.potencyRune);
+                return this.creature.inventories[0].weapons.filter(weapon => weapon.melee && weapon.potencyRune);
             case 'iron':
-                return this._currentCreature.inventories[0].weapons.filter(weapon => weapon.melee);
+                return this.creature.inventories[0].weapons.filter(weapon => weapon.melee);
             default:
                 return [];
         }
     }
 
     public onSelectDoublingRingsOption(item: WornItem): void {
-        this._refreshService.prepareDetailToChange(this.creature, 'inventory');
-
-        const ironItem = this.doublingRingsOptions('iron').find(weapon => weapon.id === this.item.data[0].value);
-
-        if (ironItem && item.invested) {
-            this._refreshService.prepareChangesByItem(this._currentCreature, ironItem);
-        }
-
-        this._refreshService.processPreparedChanges();
+        item.data.triggerOnChange();
     }
 
     public ringOfWizardrySlotName(wizardrySlot: RingOfWizardrySlot): string {
@@ -244,12 +241,11 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
                 item.gainSpells.push(newSpellGain);
                 this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'Spells');
             } else if (castingType.toLowerCase() === 'spontaneous') {
-                const newEffectGain = new EffectGain();
-
-                newEffectGain.affected = `${ className } ${ castingType } Level ${ wizardrySlot.level } Spell Slots`;
-                newEffectGain.value = '1';
-                newEffectGain.source = `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`;
-                item.effects.push(newEffectGain);
+                item.effects.push(EffectGain.from({
+                    affected: `${ className } ${ castingType } Level ${ wizardrySlot.level } Spell Slots`,
+                    value: '1',
+                    source: `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`,
+                }));
                 this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
             }
         }
@@ -299,34 +295,13 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
             );
     }
 
-    public spellConditions(spell: Spell, spellLevel: number, gain: SpellGain): Array<{ gain: ConditionGain; condition: Condition }> {
-        // For all conditions that are included with this spell on this level,
-        // create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
-        const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
-
-        spell.heightenedConditions(spellLevel)
-            .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsDataService.conditionFromName(conditionGain.name) }))
-            .forEach((conditionSet, index) => {
-                // Create the temporary list of currently available choices.
-                this._conditionPropertiesService.cacheEffectiveChoices(
-                    conditionSet.condition,
-                    (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel),
-                );
-                // Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
-                conditionSets.push(conditionSet);
-
-                // Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices,
-                // insert or replace that choice on the gain.
-                while (!gain.effectChoices.length || gain.effectChoices.length < index - 1) {
-                    gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
-                }
-
-                if (!conditionSet.condition.$choices.includes(gain.effectChoices?.[index]?.choice)) {
-                    gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
-                }
-            });
-
-        return conditionSets;
+    //TO-DO: Verify that effectChoices is properly mutated.
+    public spellConditions$(
+        spell: Spell,
+        spellLevel: number,
+        gain: SpellGain,
+    ): Observable<Array<{ conditionGain: ConditionGain; condition: Condition; choices: Array<string>; show: boolean }>> {
+        return this._spellPropertiesService.spellConditionsForComponent$(spell, spellLevel, gain.effectChoices);
     }
 
     public onActivateSpellRune(rune: Rune): void {
@@ -360,7 +335,7 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
     }
 
     public onSelectVariation(): void {
-        this._refreshService.prepareChangesByItem(this._currentCreature, this.item);
+        this._refreshService.prepareChangesByItem(this.creature, this.item);
         this._refreshService.processPreparedChanges();
         this._updateItem();
     }

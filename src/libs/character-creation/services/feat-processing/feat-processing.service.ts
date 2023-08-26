@@ -29,7 +29,6 @@ import { CharacterHeritageChangeService } from 'src/libs/character-creation/serv
 import { CharacterSkillIncreaseService } from 'src/libs/character-creation/services/character-skill-increase/character-skill-increase.service';
 import { NamedFeatProcessingService } from './named-feat-processing.service';
 import { FeatProcessingRefreshService } from './feat-processing-refresh.service';
-import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
 import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
@@ -37,6 +36,7 @@ import { spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
+import { take } from 'rxjs';
 
 export interface FeatProcessingContext {
     creature: Character | Familiar;
@@ -64,7 +64,6 @@ export class FeatProcessingService {
         private readonly _featsDataService: FeatsDataService,
         private readonly _featProcessingRefreshService: FeatProcessingRefreshService,
         private readonly _namedFeatProcessingService: NamedFeatProcessingService,
-        private readonly _characterLanguagesService: CharacterLanguagesService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _animalCompanionService: AnimalCompanionService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
@@ -137,13 +136,17 @@ export class FeatProcessingService {
 
             //Losing a stance needs to update Fuse Stance.
             if (feat.traits.includes('Stance')) {
-                character.class.filteredFeatData(0, 0, 'Fuse Stance').forEach(featData => {
+                const featDataList = character.class.filteredFeatDataSnapshot(0, 0, 'Fuse Stance');
+
+                featDataList.forEach(featData => {
                     const stances = featData.valueAsStringArray('stances');
 
                     if (stances) {
                         featData.setValue('stances', stances.filter((stance: string) => !feat.gainActivities.includes(stance)));
                     }
                 });
+
+                character.class.featData.triggerOnChange();
             }
 
             this._featProcessingRefreshService.processFeatRefreshing(feat, context);
@@ -177,9 +180,9 @@ export class FeatProcessingService {
         // The function checks for feats that may have been taken multiple times and keeps them.
         if (context.creature.isCharacter()) {
             if (taken) {
-                this._characterFeatsService.addCharacterFeat(feat, context.gain, context.level.number);
+                this._characterFeatsService.addCharacterFeat(feat, context.gain, context.level.number, context.choice.showOnSheet);
             } else {
-                this._characterFeatsService.removeCharacterFeat(feat, context.gain, context.level.number);
+                this._characterFeatsService.removeCharacterFeat(context.gain, context.level.number);
             }
         }
     }
@@ -767,47 +770,31 @@ export class FeatProcessingService {
             if (taken) {
                 this._animalCompanionService.initializeAnimalCompanion();
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-        }
-
-        // Feats that level up the animal companion to Mature or an advanced option (like Nimble or Savage).
-        if (
-            feat.gainAnimalCompanion &&
-            !['Young', 'Specialized'].includes(feat.gainAnimalCompanion)
-        ) {
-            const companion = CreatureService.companion;
-
-            this._animalCompanionLevelsService.setLevel(companion);
-            this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
         }
 
         // Feats that grant an animal companion specialization.
         if (feat.gainAnimalCompanion === 'Specialized') {
-            const companion = CreatureService.companion;
+            const companion = character.class.animalCompanion;
 
             if (!taken) {
                 //Remove the latest specialization chosen on this level, only if all choices are taken.
                 const specializations = companion.class.specializations.filter(spec => spec.level === context.level.number);
 
-                if (specializations.length &&
-                    (specializations.length >=
-                        this._characterFeatsService.characterFeatsTaken(context.level.number, context.level.number)
-                            .map(characterFeatTaken =>
-                                this._characterFeatsService.characterFeatsAndFeatures(
-                                    characterFeatTaken.name,
-                                )[0],
-                            )
-                            .filter(characterFeat => characterFeat.gainAnimalCompanion === 'Specialized')
-                            .length
+                this._characterFeatsService.characterFeatsTakenWithContext$(context.level.number, context.level.number)
+                    .pipe(
+                        take(1),
                     )
-                ) {
-                    companion.class.specializations = companion.class.specializations
-                        .filter(spec => spec.name !== specializations[specializations.length - 1].name);
-                }
+                    .subscribe(featsTaken => {
+                        const specializationFeatsAtLevel =
+                            featsTaken
+                                .filter(characterFeat => characterFeat.feat.gainAnimalCompanion === 'Specialized');
 
-                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
+                        if (specializations.length >= specializationFeatsAtLevel.length) {
+                            companion.class.specializations =
+                                companion.class.specializations
+                                    .filter(spec => spec.name !== specializations[specializations.length - 1].name);
+                        }
+                    });
             }
         }
     }
@@ -878,7 +865,6 @@ export class FeatProcessingService {
                 });
             }
 
-            this._characterLanguagesService.updateLanguageList();
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
         }
     }
@@ -971,12 +957,6 @@ export class FeatProcessingService {
                     .filter(speed => !(speed.name === effect.affected && speed.source === `Feat: ${ feat.name }`));
             }
         });
-
-        //Feats that grant language effects should update the language list.
-        if (feat.effects.some(effect => effect.affected === 'Max Languages')) {
-            this._characterLanguagesService.updateLanguageList();
-            this._refreshService.prepareDetailToChange(context.creature.type, 'charactersheet');
-        }
     }
 
 }

@@ -12,6 +12,7 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
+import { take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -287,82 +288,87 @@ export class ItemTransferService {
         if (creature.type !== targetCreature.type) {
             this.updateGrantingItemBeforeTransfer(creature, item);
 
-            const included = this.packGrantingItemForTransfer(creature, item);
-            const toCreature = CreatureService.creatureFromType(targetCreature.type);
-            const targetInventory = toCreature.inventories[0];
+            CreatureService.creatureFromType$(targetCreature.type)
+                .pipe(
+                    take(1),
+                )
+                .subscribe(toCreature => {
+                    const included = this.packGrantingItemForTransfer(creature, item);
+                    const targetInventory = toCreature.inventories[0];
 
-            //Iterate through the main item and all its granted items and inventories.
-            [item].concat(included.items).forEach(includedItem => {
-                //If any existing, stackable items are found, add this item's amount on top and finish.
-                //If no items are found, add the new item and its included items to the inventory.
-                let existingItems: Array<Item> = [];
+                    //Iterate through the main item and all its granted items and inventories.
+                    [item].concat(included.items).forEach(includedItem => {
+                        //If any existing, stackable items are found, add this item's amount on top and finish.
+                        //If no items are found, add the new item and its included items to the inventory.
+                        let existingItems: Array<Item> = [];
 
-                if (!includedItem.expiration && includedItem.canStack()) {
-                    existingItems =
-                        targetInventory.itemsOfType(includedItem.type)
-                            .filter(existing =>
-                                existing.name === includedItem.name
-                                && existing.refId === includedItem.refId
-                                && existing.canStack()
-                                && !includedItem.expiration,
+                        if (!includedItem.expiration && includedItem.canStack()) {
+                            existingItems =
+                                targetInventory.itemsOfType(includedItem.type)
+                                    .filter(existing =>
+                                        existing.name === includedItem.name
+                                        && existing.refId === includedItem.refId
+                                        && existing.canStack()
+                                        && !includedItem.expiration,
+                                    );
+                        }
+
+                        if (existingItems.length) {
+                            existingItems[0].amount += includedItem.amount;
+                            //Update the item's gridicon to reflect its changed amount.
+                            this._refreshService.setComponentChanged(existingItems[0].id);
+                        } else {
+                            const targetItems = targetInventory.itemsOfType(includedItem.type);
+
+                            const movedItem = includedItem.clone(this._recastService.recastOnlyFns);
+                            const newLength = targetInventory.addItem(movedItem);
+
+                            if (newLength) {
+                                const newItem = targetItems[newLength - 1];
+
+                                this._psp.inventoryItemProcessingService?.processGrantedItem(
+                                    toCreature,
+                                    newItem,
+                                    targetInventory,
+                                    true,
+                                    false,
+                                    true,
+                                    true,
+                                );
+                            }
+
+                        }
+                    });
+                    //Add included inventories and process all items inside them.
+                    included.inventories.forEach(includedInventory => {
+                        const newLength = toCreature.inventories.push(includedInventory);
+                        const newInventory = toCreature.inventories[newLength - 1];
+
+                        newInventory.allItems().forEach(invItem => {
+                            this._psp.inventoryItemProcessingService?.processGrantedItem(
+                                toCreature,
+                                invItem,
+                                newInventory,
+                                true,
+                                false,
+                                true,
+                                true,
                             );
-                }
+                        });
+                    });
 
-                if (existingItems.length) {
-                    existingItems[0].amount += includedItem.amount;
-                    //Update the item's gridicon to reflect its changed amount.
-                    this._refreshService.setComponentChanged(existingItems[0].id);
-                } else {
-                    const targetItems = targetInventory.itemsOfType(includedItem.type);
-
-                    const movedItem = includedItem.clone(this._recastService.recastOnlyFns);
-                    const newLength = targetInventory.addItem(movedItem);
-
-                    if (newLength) {
-                        const newItem = targetItems[newLength - 1];
-
-                        this._psp.inventoryItemProcessingService?.processGrantedItem(
-                            toCreature,
-                            newItem,
-                            targetInventory,
-                            true,
-                            false,
-                            true,
-                            true,
-                        );
+                    //If the item still exists on the inventory, drop it with all its contents.
+                    if (
+                        (inventory.getItemById(item.type, item.id))
+                    ) {
+                        this._inventoryService.dropInventoryItem(creature, inventory, item, false, true, true, amount);
                     }
 
-                }
-            });
-            //Add included inventories and process all items inside them.
-            included.inventories.forEach(includedInventory => {
-                const newLength = toCreature.inventories.push(includedInventory);
-                const newInventory = toCreature.inventories[newLength - 1];
-
-                newInventory.allItems().forEach(invItem => {
-                    this._psp.inventoryItemProcessingService?.processGrantedItem(
-                        toCreature,
-                        invItem,
-                        newInventory,
-                        true,
-                        false,
-                        true,
-                        true,
-                    );
+                    this._refreshService.prepareDetailToChange(toCreature.type, 'inventory');
+                    this._refreshService.prepareDetailToChange(creature.type, 'inventory');
+                    this._refreshService.prepareDetailToChange(toCreature.type, 'effects');
+                    this._refreshService.prepareDetailToChange(creature.type, 'effects');
                 });
-            });
-
-            //If the item still exists on the inventory, drop it with all its contents.
-            if (
-                (inventory.getItemById(item.type, item.id))
-            ) {
-                this._inventoryService.dropInventoryItem(creature, inventory, item, false, true, true, amount);
-            }
-
-            this._refreshService.prepareDetailToChange(toCreature.type, 'inventory');
-            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-            this._refreshService.prepareDetailToChange(toCreature.type, 'effects');
-            this._refreshService.prepareDetailToChange(creature.type, 'effects');
         }
     }
 

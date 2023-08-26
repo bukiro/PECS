@@ -18,6 +18,8 @@ import { FeatsDataService } from '../../../services/data/feats-data.service';
 import { InventoryService } from '../../../services/inventory/inventory.service';
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTakingService } from 'src/libs/character-creation/services/feat-taking/feat-taking.service';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
 @Injectable({
     providedIn: 'root',
@@ -32,13 +34,14 @@ export class CharacterPatchingService {
         private readonly _inventoryService: InventoryService,
     ) { }
 
-    public patchPartialCharacter(character: Character): void {
+    public patchPartialCharacter(character: Character, databaseCharacter: DeepPartial<Character>): void {
 
         // STAGE 1
         // Before restoring data from class, ancestry etc.
         // If choices need to be added or removed that have already been added or removed in the class,
         // do it here or your character's choices will get messed up.
         // The character is not reassigned at this point, so we need to be careful with assuming that an object has a property.
+        // The databaseCharacter is what has been loaded from the database, for comparison.
 
         const companion = character.class.animalCompanion;
         const familiar = character.class.familiar;
@@ -50,6 +53,7 @@ export class CharacterPatchingService {
         const minorVersionFive = 5;
         const minorVersionSix = 6;
         const minorVersionFourteen = 14;
+        const minorVersionSixteen = 16;
 
         //Monks below version 1.0.2 will lose their Path to Perfection skill increases and gain the feat choices instead.
         //The matching feats will be added in stage 2.
@@ -152,7 +156,7 @@ export class CharacterPatchingService {
                     Object.keys(inventory).forEach(key => {
                         if (
                             Array.isArray(inventory[key as keyof ItemCollection])
-                             && !['names', 'keys', 'otherItems'].includes(key)) {
+                            && !['names', 'keys', 'otherItems'].includes(key)) {
                             (inventory[key as keyof ItemCollection] as Array<Equipment>)
                                 .forEach(item => {
                                     //For each inventory, for each array property, recast all hints of the listed items.
@@ -586,7 +590,7 @@ export class CharacterPatchingService {
         // may also have a broken spell choice for "Shifting Form (claws)".
         // This needs to be removed.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionFourteen) {
-            character.class?.spellCasting?.forEach(casting => {
+            character.class.spellCasting.forEach(casting => {
                 if (
                     casting.spellChoices
                         ?.some(choice => choice.spells?.some(taken => taken.id === 'e782c108-71d9-11eb-84d9-f95cb9540073'))
@@ -598,6 +602,16 @@ export class CharacterPatchingService {
                         });
                 }
             });
+        }
+
+        // Characters before 1.0.16 need to update their useIndividualAbilityBaseValues setting.
+        // It gets set if the base values on the character have data in them and the value hasn't already been set once.
+        if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionSixteen) {
+            if (character.baseValues.length && (databaseCharacter?.settings?.useIndividualAbilityBaseValues !== false)) {
+                character.settings.useIndividualAbilityBaseValues = true;
+            } else {
+                character.settings.useIndividualAbilityBaseValues = false;
+            }
         }
     }
 
@@ -777,7 +791,7 @@ export class CharacterPatchingService {
         // These custom feats can be removed afterwards.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionTwelve) {
             type OldFeatWithData = Feat & {
-                data: Array<FeatData>;
+                data?: Array<FeatData>;
             };
 
             const baseFeats = this._featsDataService.feats(character.customFeats).filter(feat => feat.lorebase || feat.weaponfeatbase)
@@ -793,14 +807,18 @@ export class CharacterPatchingService {
                 )
                 .forEach(feat => {
                     //For each time you have this feat (should be exactly one), add its data to the class object.
-                    this._characterFeatsService
-                        .characterFeatsTakenWithLevel(0, 0, feat.name, '', '', undefined, false, false)
-                        .forEach(taken => {
-                            const newFeatData =
-                                new FeatData(taken.level, feat.name, taken.gain.sourceId, JSON.parse(JSON.stringify(feat.data)));
+                    character.class.levels.forEach(level => {
+                        level.featChoices.forEach(featChoice => {
+                            featChoice.feats
+                                .filter(taken => stringEqualsCaseInsensitive(taken.name, feat.name))
+                                .forEach(taken => {
+                                    const newFeatData =
+                                        new FeatData(level.number, feat.name, taken.sourceId, JSON.parse(JSON.stringify(feat.data)));
 
-                            character.class.featData.push(newFeatData);
+                                    character.class.featData.push(newFeatData);
+                                });
                         });
+                    });
                     //Mark the feat to delete.
                     feat.name = 'DELETE THIS';
                 });

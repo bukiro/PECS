@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { ConfirmationDialogComponent } from 'src/libs/shared/dialog/components/confirmation-dialog/confirmation-dialog.component';
 import { DialogService } from 'src/libs/shared/dialog/services/dialog.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CharacterDeletingService } from '../../services/character-deleting/character-deleting.service';
@@ -15,7 +15,7 @@ import { CharacterLoadingService } from '../../services/character-loading/charac
     styleUrls: ['./character-selection.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterSelectionComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnDestroy {
+export class CharacterSelectionComponent extends TrackByMixin(BaseClass) {
 
     public savegames$: Observable<Array<{
         name: string;
@@ -84,15 +84,15 @@ export class CharacterSelectionComponent extends DestroyableMixin(TrackByMixin(B
         const content = `Are you sure you want to delete
                         <strong>${ savegame.name }</strong>?`;
 
-        this._dialogService.openConfirmationDialog({
-            content,
-            title: 'Delete character',
-            buttons: [{ label: 'Delete', danger: true, onClick: () => this._deleteCharacterFromDB(savegame) }],
-        });
-    }
-
-    public ngOnDestroy(): void {
-        this.destroy();
+        this._dialogService.showDialog$(
+            ConfirmationDialogComponent,
+            {
+                content,
+                title: 'Delete character',
+                buttons: [{ label: 'Delete', danger: true, onClick: () => this._deleteCharacterFromDB(savegame) }],
+            },
+        )
+            .subscribe();
     }
 
     private _deleteCharacterFromDB(savegame: { name: string; id: string }): void {

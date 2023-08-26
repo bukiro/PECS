@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { zip, take, of } from 'rxjs';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
@@ -29,11 +30,11 @@ export class ConditionsTimeService {
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
-    public tickConditions(
+    public async tickConditions(
         creature: Creature,
         turns = 10,
         yourTurn: number,
-    ): void {
+    ): Promise<void> {
         const creatureConditions = creature.conditions;
         //If any conditions are currently stopping time, these are the only ones processed.
         const IsConditionStoppingTime = (gain: ConditionGain): boolean =>
@@ -153,24 +154,24 @@ export class ConditionsTimeService {
                         // or move to the next stage if automaticStages is on.
                         const condition = this._conditionsDataService.conditionFromName(gain.name);
 
-                        let choices: Array<string> = [];
-
-                        if (gain.source !== 'Manual') {
-                            this._conditionPropertiesService.cacheEffectiveChoices(condition, gain.heightened);
-
-                            choices = condition.$choices;
-                        } else {
-                            choices = condition.unfilteredChoices();
-                        }
-
                         if (condition.automaticStages) {
-                            this._conditionGainPropertiesService.changeConditionStage(
-                                creature,
-                                gain,
-                                condition,
-                                choices,
-                                1,
-                            );
+                            (
+                                gain.source !== 'Manual'
+                                    ? this._conditionPropertiesService.effectiveChoices$(condition, gain.heightened)
+                                    : of(condition.unfilteredChoices())
+                            )
+                                .pipe(
+                                    take(1),
+                                )
+                                .subscribe(choices => {
+                                    this._conditionGainPropertiesService.changeConditionStage(
+                                        creature,
+                                        gain,
+                                        condition,
+                                        choices,
+                                        1,
+                                    );
+                                });
                         } else {
                             gain.nextStage = -1;
                         }
@@ -197,117 +198,132 @@ export class ConditionsTimeService {
     }
 
     public restConditions(creature: Creature): void {
-        creature.conditions.filter(gain => gain.durationIsUntilRest).forEach(gain => {
-            gain.duration = 0;
-        });
-
-        //After resting with full HP, the Wounded condition is removed.
-        if (creature.health.damage === 0) {
-            creature.conditions
-                .filter(gain => gain.name === 'Wounded')
-                .forEach(gain => this._creatureConditionsService.removeCondition(creature, gain, false));
-        }
-
-        // If Verdant Metamorphosis is active, remove the following non-permanent conditions after resting:
-        // - Drained
-        // - Enfeebled
-        // - Clumsy
-        // - Stupefied
-        // - all poisons and diseases of 19th level or lower.
-        const verdantMetamorphosisMaxAfflictionLevel = 19;
-
-        if (this._creatureEffectsService.effectsOnThis(creature, 'Verdant Metamorphosis').length) {
-            creature.conditions
-                .filter(gain =>
-                    gain.duration !== -1 &&
-                    !gain.lockedByParent &&
-                    ['Drained', 'Enfeebled', 'Clumsy', 'Stupefied'].includes(gain.name),
-                )
-                .forEach(gain => { gain.value = -1; });
-            creature.conditions
-                .filter(gain =>
-                    gain.duration !== -1 &&
-                    !gain.lockedByParent &&
-                    gain.value !== -1 &&
-                    this._conditionsDataService.conditionFromName(gain.name)?.type === 'afflictions',
-                ).forEach(gain => {
-                    if (
-                        !this._itemsDataService.cleanItems().alchemicalpoisons
-                            .some(poison => gain.name.includes(poison.name) && poison.level > verdantMetamorphosisMaxAfflictionLevel)
-                    ) {
-                        gain.value = -1;
-                    }
+        zip([
+            this._creatureEffectsService.toggledEffectsOnThis$(creature, 'Verdant Metamorphosis'),
+            this._creatureEffectsService.toggledEffectsOnThis$(creature, ' after rest', { allowPartialString: true }),
+            creature.isCharacter()
+                ? this._characterFeatsService.characterHasFeatAtLevel$('Fast Recovery')
+                : of(false),
+        ])
+            .pipe(
+                take(1),
+            )
+            .subscribe(([verdantMetamorphosisEffects, afterRestEffects, hasFastRecovery]) => {
+                creature.conditions.filter(gain => gain.durationIsUntilRest).forEach(gain => {
+                    gain.duration = 0;
                 });
-        }
 
-        // After resting, the Fatigued condition is removed (unless locked by its parent),
-        // and the value of Doomed and Drained is reduced (unless locked by its parent).
-        creature.conditions
-            .filter(gain => gain.name === 'Fatigued' && !gain.valueLockedByParent)
-            .forEach(gain => this._creatureConditionsService.removeCondition(creature, gain), false);
-        creature.conditions
-            .filter(gain => gain.name === 'Doomed' && !gain.valueLockedByParent && !(gain.lockedByParent && gain.value === 1))
-            .forEach(gain => { gain.value -= 1; });
-        creature.conditions
-            .filter(gain => gain.name === 'Drained' && !gain.valueLockedByParent && !(gain.lockedByParent && gain.value === 1))
-            .forEach(gain => {
-                gain.value -= 1;
-
-                if (gain.apply) {
-                    creature.health.damage += creature.level;
+                //After resting with full HP, the Wounded condition is removed.
+                if (creature.health.damage === 0) {
+                    creature.conditions
+                        .filter(gain => gain.name === 'Wounded')
+                        .forEach(gain => this._creatureConditionsService.removeCondition(creature, gain, false));
                 }
 
-                if (
-                    //If you have Fast Recovery or have activated the effect of Forge-Day's Rest, reduce the value by 2 instead of 1.
-                    (
-                        (creature.isCharacter()) &&
-                        this._characterFeatsService.characterFeatsTaken(1, creature.level, { featName: 'Fast Recovery' }).length
-                    ) ||
-                    this._featsDataService.feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)
-                ) {
-                    gain.value -= 1;
+                if (verdantMetamorphosisEffects.length) {
+                    // If Verdant Metamorphosis is active, remove the following non-permanent conditions after resting:
+                    // - Drained
+                    // - Enfeebled
+                    // - Clumsy
+                    // - Stupefied
+                    // - all poisons and diseases of 19th level or lower.
+                    const verdantMetamorphosisMaxAfflictionLevel = 19;
 
-                    if (gain.apply) {
-                        creature.health.damage += creature.level;
-                    }
+                    creature.conditions
+                        .filter(gain =>
+                            gain.duration !== -1 &&
+                            !gain.lockedByParent &&
+                            ['Drained', 'Enfeebled', 'Clumsy', 'Stupefied'].includes(gain.name),
+                        )
+                        .forEach(gain => { gain.value = -1; });
+                    creature.conditions
+                        .filter(gain =>
+                            gain.duration !== -1 &&
+                            !gain.lockedByParent &&
+                            gain.value !== -1 &&
+                            this._conditionsDataService.conditionFromName(gain.name)?.type === 'afflictions',
+                        ).forEach(gain => {
+                            if (
+                                !this._itemsDataService.cleanItems().alchemicalpoisons
+                                    .some(poison =>
+                                        gain.name.includes(poison.name)
+                                        && poison.level > verdantMetamorphosisMaxAfflictionLevel,
+                                    )
+                            ) {
+                                gain.value = -1;
+                            }
+                        });
                 }
-            });
 
-        //If an effect with "X After Rest" is active, the condition is added.
-        this._creatureEffectsService.effects(creature.type).all
-            .filter(effect => !effect.ignored && effect.apply && effect.target.toLowerCase().includes(' after rest'))
-            .forEach(effect => {
-                const regex = new RegExp(' after rest', 'ig');
-                const conditionName = effect.target.replace(regex, '');
+                // After resting, the Fatigued condition is removed (unless locked by its parent),
+                // and the value of Doomed and Drained is reduced (unless locked by its parent).
+                creature.conditions
+                    .filter(gain => gain.name === 'Fatigued' && !gain.valueLockedByParent)
+                    .forEach(gain => this._creatureConditionsService.removeCondition(creature, gain), false);
+                creature.conditions
+                    .filter(gain => gain.name === 'Doomed' && !gain.valueLockedByParent && !(gain.lockedByParent && gain.value === 1))
+                    .forEach(gain => { gain.value -= 1; });
+                creature.conditions
+                    .filter(gain => gain.name === 'Drained' && !gain.valueLockedByParent && !(gain.lockedByParent && gain.value === 1))
+                    .forEach(gain => {
+                        gain.value -= 1;
 
-                //Only add real conditions.
-                if (this._conditionsDataService.conditionFromName(conditionName).name === conditionName) {
-                    //Turn effect into condition:
-                    //- no value or setValue (i.e. only toggle) means the condition is added without a value.
-                    //- setValue means the condition has a value and is added with that value.
-                    //- value means the value is added to an existing condition with the same name.
-                    if (!creature.conditions.some(gain => gain.name === conditionName && gain.source === effect.source) || effect.value) {
-                        const newCondition = new ConditionGain();
-
-                        newCondition.name = conditionName;
-                        newCondition.duration = -1;
-
-                        if (effect.setValue) {
-                            newCondition.value = parseInt(effect.setValue, 10);
+                        if (gain.apply) {
+                            creature.health.damage += creature.level;
                         }
 
-                        if (parseInt(effect.value, 10)) {
-                            newCondition.addValue = parseInt(effect.value, 10);
-                        }
+                        if (
+                            // If you have Fast Recovery or have activated the effect of Forge-Day's Rest,
+                            // reduce the value by 2 instead of 1.
+                            hasFastRecovery
+                            || this._featsDataService.feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)
+                        ) {
+                            gain.value -= 1;
 
-                        newCondition.source = effect.source;
-                        this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
-                        this._toastService.show(
-                            `Added <strong>${ conditionName }</strong> condition to <strong>${ creature.name || creature.type }`
-                            + `</strong> after resting (caused by <strong>${ effect.source }</strong>)`,
-                        );
-                    }
-                }
+                            if (gain.apply) {
+                                creature.health.damage += creature.level;
+                            }
+                        }
+                    });
+
+                //If an effect with "X After Rest" is active, the condition is added.
+                afterRestEffects
+                    .forEach(effect => {
+                        const regex = new RegExp(' after rest', 'ig');
+                        const conditionName = effect.target.replace(regex, '');
+
+                        //Only add real conditions.
+                        if (this._conditionsDataService.conditionFromName(conditionName).name === conditionName) {
+                            //Turn effect into condition:
+                            //- no value or setValue (i.e. only toggle) means the condition is added without a value.
+                            //- setValue means the condition has a value and is added with that value.
+                            //- value means the value is added to an existing condition with the same name.
+                            if (
+                                !creature.conditions
+                                    .some(gain => gain.name === conditionName && gain.source === effect.source) || effect.value
+                            ) {
+                                const newCondition = new ConditionGain();
+
+                                newCondition.name = conditionName;
+                                newCondition.duration = -1;
+
+                                if (effect.isAbsoluteEffect()) {
+                                    newCondition.value = effect.setValueNumerical;
+                                }
+
+                                if (effect.valueNumerical) {
+                                    newCondition.addValue = effect.valueNumerical;
+                                }
+
+                                newCondition.source = effect.source;
+                                this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
+                                this._toastService.show(
+                                    `Added <strong>${ conditionName }</strong> condition to <strong>${ creature.name || creature.type }`
+                                    + `</strong> after resting (caused by <strong>${ effect.source }</strong>)`,
+                                );
+                            }
+                        }
+                    });
             });
 
     }

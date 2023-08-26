@@ -1,5 +1,5 @@
 import { Constructable } from '../../definitions/interfaces/constructable';
-import { BaseClass } from './base-class';
+import { BaseClass } from '../classes/base-class';
 
 interface TrackBy {
     trackByIndex: (index: number) => number;

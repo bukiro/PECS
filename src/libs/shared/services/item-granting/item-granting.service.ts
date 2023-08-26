@@ -10,6 +10,7 @@ import { CharacterDeitiesService } from '../character-deities/character-deities.
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { ItemsDataService } from '../data/items-data.service';
 import { InventoryService } from '../inventory/inventory.service';
+import { combineLatest, map, of, switchMap, take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -183,63 +184,59 @@ export class ItemGrantingService {
         creature: Creature,
         context: { sourceName?: string; grantingItem?: Item } = {},
     ): void {
-        const deities = this._characterDeitiesService.currentCharacterDeities();
-
-        if (deities.length) {
-            const favoredWeaponNames: Array<string> = [];
-            const deity = this._characterDeitiesService.currentCharacterDeities()[0];
-
-            if (deity && deity.favoredWeapon.length) {
-                favoredWeaponNames.push(...deity.favoredWeapon);
-            }
-
-            if (
-                this._characterFeatsService.characterFeatsTaken(
-                    1,
-                    creature.level,
-                    { featName: 'Favored Weapon (Syncretism)' },
-                ).length
-            ) {
-                favoredWeaponNames.push(
-                    ...(
-                        this._characterDeitiesService.currentCharacterDeities('syncretism')[0]?.favoredWeapon ||
-                        []
+        if (creature.isCharacter()) {
+            combineLatest([
+                this._characterDeitiesService.mainCharacterDeity$,
+                this._characterFeatsService.characterHasFeatAtLevel$('Favored Weapon (Syncretism)')
+                    .pipe(
+                        switchMap(hasFavoredWeaponSyncretism =>
+                            hasFavoredWeaponSyncretism
+                                ? this._characterDeitiesService.syncretismDeity$()
+                                : of(null),
+                        ),
                     ),
+            ])
+                .pipe(
+                    take(1),
+                    map(deities => {
+                        if (deities.length) {
+                            const favoredWeaponNames = new Array<string>()
+                                .concat(...deities.map(deity => deity?.favoredWeapon ?? []));
+
+                            if (favoredWeaponNames.length) {
+                                const favoredWeapons: Array<Weapon> =
+                                    this._itemsDataService.cleanItems().weapons.filter(weapon => favoredWeaponNames.includes(weapon.name));
+
+                                if (favoredWeapons.length) {
+                                    const grantedItemIDs: Array<string> = [];
+
+                                    favoredWeapons.forEach(weapon => {
+                                        const newGain: ItemGain = itemGain.clone();
+
+                                        newGain.special = '';
+                                        newGain.id = weapon.id;
+
+                                        this.grantGrantedItem(newGain, creature, context);
+                                        grantedItemIDs.push(newGain.grantedItemID);
+                                    });
+                                    itemGain.grantedItemID = grantedItemIDs.join(',');
+                                } else {
+                                    this._toastService.show(
+                                        'You did not gain your deity\'s favored weapon because no weapon by that name could be found.',
+                                    );
+                                }
+                            } else {
+                                this._toastService.show(
+                                    'You did not gain your deity\'s favored weapon because your deity has no favored weapon.',
+                                );
+                            }
+                        } else {
+                            this._toastService.show(
+                                'You did not gain your deity\'s favored weapon because you have no deity.',
+                            );
+                        }
+                    }),
                 );
-            }
-
-            if (favoredWeaponNames.length) {
-                const favoredWeapons: Array<Weapon> =
-                    this._itemsDataService.cleanItems().weapons.filter(weapon => favoredWeaponNames.includes(weapon.name));
-
-                if (favoredWeapons.length) {
-                    const grantedItemIDs: Array<string> = [];
-
-                    favoredWeapons.forEach(weapon => {
-                        const newGain: ItemGain = itemGain.clone();
-
-                        newGain.special = '';
-                        newGain.id = weapon.id;
-
-                        this.grantGrantedItem(newGain, creature, context);
-                        grantedItemIDs.push(newGain.grantedItemID);
-                    });
-                    itemGain.grantedItemID = grantedItemIDs.join(',');
-                } else {
-                    this._toastService.show(
-                        'You did not gain your deity\'s favored weapon because it could not be found.',
-                    );
-                }
-            } else {
-                this._toastService.show(
-                    'You did not gain your deity\'s favored weapon because your deity has no favored weapon.',
-                );
-            }
-        } else {
-            this._toastService.show(
-                'You did not gain your deity\'s favored weapon because you have no deity.',
-            );
         }
     }
-
 }

@@ -5,6 +5,7 @@ import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import * as json_armormaterials from 'src/assets/json/armormaterials';
 import * as json_shieldmaterials from 'src/assets/json/shieldmaterials';
 import * as json_weaponmaterials from 'src/assets/json/weaponmaterials';
+import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
 import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
@@ -45,7 +46,7 @@ export class ItemMaterialsDataService {
 
     public initialize(): void {
         this._armorMaterials = this._dataLoadingService.loadRecastable(
-            json_armormaterials,
+            json_armormaterials as ImportedJsonFileList<ArmorMaterial>,
             'armorMaterials',
             'name',
             ArmorMaterial,

@@ -20,37 +20,156 @@ import { Item } from './Item';
 import { Spell } from './Spell';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 
 export class Class {
     public disabled = '';
     public warning = '';
     public activities: Array<ActivityGain> = [];
-    public ancestry: Ancestry = new Ancestry();
     public anathema: Array<string> = [];
     public deityFocused = false;
-    public featData: Array<FeatData> = [];
     public showDeityEdicts = false;
     public showDeityAnathema = false;
-    public animalCompanion: AnimalCompanion = new AnimalCompanion();
-    public background: Background = new Background();
+
     public customSkills: Array<Skill> = [];
-    public deity = '';
     public desc: Array<{ name: string; value: string }> = [];
-    public familiar: Familiar = new Familiar();
-    public focusPoints = 0;
     public focusPointsLast = 0;
     public gainItems: Array<ItemGain> = [];
-    public heritage: Heritage = new Heritage();
-    public additionalHeritages: Array<AdditionalHeritage> = [];
     public hitPoints = 0;
-    public languages: Array<LanguageGain> = [];
     public levels: Array<ClassLevel> = [];
     public name = '';
     public sourceBook = '';
-    public spellCasting: Array<SpellCasting> = [];
+
     public spellBook: Array<SpellLearned> = [];
     public spellList: Array<SpellLearned> = [];
     public formulaBook: Array<FormulaLearned> = [];
+
+    public readonly ancestry$: BehaviorSubject<Ancestry>;
+    public readonly animalCompanion$: BehaviorSubject<AnimalCompanion>;
+    public readonly background$: BehaviorSubject<Background>;
+    public readonly deity$: BehaviorSubject<string>;
+    public readonly familiar$: BehaviorSubject<Familiar>;
+    public readonly focusPoints$: BehaviorSubject<number>;
+    public readonly heritage$: BehaviorSubject<Heritage>;
+
+    private readonly _additionalHeritages = new OnChangeArray<AdditionalHeritage>();
+    private _ancestry: Ancestry = new Ancestry();
+    private _animalCompanion: AnimalCompanion = new AnimalCompanion();
+    private _background: Background = new Background();
+    private _deity = '';
+    private _familiar: Familiar = new Familiar();
+    private readonly _featData = new OnChangeArray<FeatData>();
+    private _focusPoints = 0;
+    private _heritage: Heritage = new Heritage();
+    private readonly _languages = new OnChangeArray<LanguageGain>();
+    private readonly _spellCasting = new OnChangeArray<SpellCasting>();
+
+    constructor() {
+        this.ancestry$ = new BehaviorSubject(this._ancestry);
+        this.animalCompanion$ = new BehaviorSubject(this._animalCompanion);
+        this.background$ = new BehaviorSubject(this._background);
+        this.deity$ = new BehaviorSubject(this._deity);
+        this.familiar$ = new BehaviorSubject(this._familiar);
+        this.focusPoints$ = new BehaviorSubject(this._focusPoints);
+        this.heritage$ = new BehaviorSubject(this._heritage);
+    }
+
+    public get additionalHeritages(): OnChangeArray<AdditionalHeritage> {
+        return this._additionalHeritages;
+    }
+
+    public set additionalHeritages(value: Array<AdditionalHeritage>) {
+        this._additionalHeritages.setValues(...value);
+    }
+
+    public get ancestry(): Ancestry {
+        return this._ancestry;
+    }
+
+    public set ancestry(value: Ancestry) {
+        this._ancestry = value;
+        this.ancestry$.next(this._ancestry);
+    }
+
+    public get animalCompanion(): AnimalCompanion {
+        return this._animalCompanion;
+    }
+
+    public set animalCompanion(value: AnimalCompanion) {
+        this._animalCompanion = value;
+        this.animalCompanion$.next(this._animalCompanion);
+    }
+
+    public get background(): Background {
+        return this._background;
+    }
+
+    public set background(value: Background) {
+        this._background = value;
+        this.background$.next(this._background);
+    }
+
+    public get deity(): string {
+        return this._deity;
+    }
+
+    public set deity(value: string) {
+        this._deity = value;
+        this.deity$.next(this._deity);
+    }
+
+    public get featData(): OnChangeArray<FeatData> {
+        return this._featData;
+    }
+
+    public set featData(value: Array<FeatData>) {
+        this._featData.setValues(...value);
+    }
+
+    public get familiar(): Familiar {
+        return this._familiar;
+    }
+
+    public set familiar(value: Familiar) {
+        this._familiar = value;
+        this.familiar$.next(this._familiar);
+    }
+
+    public get focusPoints(): number {
+        return this._focusPoints;
+    }
+
+    public set focusPoints(focusPoints: number) {
+        this._focusPoints = focusPoints;
+        this.focusPoints$.next(this._focusPoints);
+    }
+
+    public get heritage(): Heritage {
+        return this._heritage;
+    }
+
+    public set heritage(value: Heritage) {
+        this._heritage = value;
+        this.heritage$.next(this._heritage);
+    }
+
+    public get languages(): OnChangeArray<LanguageGain> {
+        return this._languages;
+    }
+
+    public set languages(value: Array<LanguageGain>) {
+        this._languages.setValues(...value);
+    }
+
+    public get spellCasting(): OnChangeArray<SpellCasting> {
+        return this._spellCasting;
+    }
+
+    public set spellCasting(value: Array<SpellCasting>) {
+        this._spellCasting.setValues(...value);
+    }
 
     public recast(recastFns: RecastFns): Class {
         this.activities = this.activities.map(obj => recastFns.activityGain(obj).recast(recastFns));
@@ -75,23 +194,66 @@ export class Class {
         return Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
-    public filteredFeatData(minLevel = 0, maxLevel = 0, featName: string, sourceId = ''): Array<FeatData> {
-        return this.featData.filter(data =>
-            (data.featName.toLowerCase() === featName.toLowerCase()) &&
-            (!minLevel || data.level >= minLevel) &&
-            (!maxLevel || data.level <= maxLevel) &&
-            (!sourceId || data.sourceId === sourceId),
-        );
+    /**
+     * Gets featdata for a specific feat and source in a specific level range.
+     * As this is an observable, the result is immutable. To change featdata, use filteredFeatDataSnapshot.
+     * //TO-DO: Is this actually true? Tests say no?
+     *
+     * @param minLevel
+     * @param maxLevel
+     * @param featName
+     * @param sourceId
+     * @returns
+     */
+    public filteredFeatData$(minLevel = 0, maxLevel = 0, featName: string, sourceId = ''): Observable<Array<FeatData>> {
+        return this.featData.values$
+            .pipe(
+                map(featData => featData.filter(data =>
+                    stringEqualsCaseInsensitive(data.featName, featName) &&
+                    (!minLevel || data.level >= minLevel) &&
+                    (!maxLevel || data.level <= maxLevel) &&
+                    (!sourceId || data.sourceId === sourceId),
+                )),
+            );
     }
 
+    public filteredFeatDataSnapshot(minLevel = 0, maxLevel = 0, featName: string, sourceId = ''): Array<FeatData> {
+        return this.featData
+            .filter(data =>
+                stringEqualsCaseInsensitive(data.featName, featName) &&
+                (!minLevel || data.level >= minLevel) &&
+                (!maxLevel || data.level <= maxLevel) &&
+                (!sourceId || data.sourceId === sourceId),
+            );
+    }
+
+    /**
+     * Return the spellcasting that is assigned to this class, named "<class> Spellcasting" and neither focus not innate.
+     * Useful for feat requirements and assigning spell choices to the default spellcasting.
+     */
     public defaultSpellcasting(): SpellCasting | undefined {
-        // Return the spellcasting that is assigned to this class, named "<class> Spellcasting" and neither focus not innate.
-        // Useful for feat requirements and assigning spell choices to the default spellcasting.
         return this.spellCasting.find(casting =>
             casting.className === this.name &&
             ![SpellCastingTypes.Focus, SpellCastingTypes.Innate].includes(casting.castingType) &&
             casting.source === `${ this.name } Spellcasting`,
         );
+    }
+
+    /**
+     * Return the spellcasting that is assigned to this class, named "<class> Spellcasting" and neither focus not innate.
+     * Useful for feat requirements and assigning spell choices to the default spellcasting.
+     */
+    public defaultSpellcasting$(): Observable<SpellCasting | undefined> {
+        return this.spellCasting.values$
+            .pipe(
+                map(castings => castings
+                    .find(casting =>
+                        casting.className === this.name &&
+                        ![SpellCastingTypes.Focus, SpellCastingTypes.Innate].includes(casting.castingType) &&
+                        casting.source === `${ this.name } Spellcasting`,
+                    ),
+                ),
+            );
     }
 
     public getSkillChoiceBySourceId(sourceId: string): SkillChoice | undefined {
@@ -153,13 +315,13 @@ export class Class {
             );
 
         if (spellCasting) {
-            const newLength: number = spellCasting.spellChoices.push(insertChoice);
-            const choice = spellCasting.spellChoices[newLength - 1];
-
             // If the choice has a charLevelAvailable lower than the current level,
             // you could choose spells before you officially get this choice.
             // So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
-            choice.charLevelAvailable = Math.max(choice.charLevelAvailable, levelNumber);
+            insertChoice.charLevelAvailable = Math.max(insertChoice.charLevelAvailable, levelNumber);
+
+            const newLength: number = spellCasting.spellChoices.push(insertChoice);
+            const choice = spellCasting.spellChoices[newLength - 1];
 
             //If the spellcasting was not available so far, it is now available at your earliest spell choice.
             if (!spellCasting.charLevelAvailable) {

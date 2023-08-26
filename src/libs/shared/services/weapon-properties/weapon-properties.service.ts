@@ -3,16 +3,17 @@ import { Creature } from 'src/app/classes/Creature';
 import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
-import { MaxSkillLevel, skillLevelBaseStep } from '../../definitions/skillLevels';
+import { maxSkillLevel, skillLevelBaseStep } from '../../definitions/skillLevels';
 import { WeaponProficiencies } from '../../definitions/weaponProficiencies';
-import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { SkillsDataService } from '../data/skills-data.service';
+import { combineLatest, Observable, of, switchMap, map, distinctUntilChanged, tap } from 'rxjs';
+import { Skill } from 'src/app/classes/Skill';
+import { stringsIncludeCaseInsensitive } from '../../util/stringUtils';
+import { EquipmentPropertiesSharedService } from '../equipment-properties-shared/equipment-properties-shared.service';
 
 @Injectable({
     providedIn: 'root',
@@ -20,312 +21,285 @@ import { SkillsDataService } from '../data/skills-data.service';
 export class WeaponPropertiesService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
-        private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _skillsDataService: SkillsDataService,
+        private readonly _equipmentPropertiesSharedService: EquipmentPropertiesSharedService,
     ) { }
 
-    public effectiveProficiency(
+    public effectiveProficiency$(
         weapon: Weapon,
         context: { creature: Creature; charLevel?: number },
-    ): string {
-        const charLevel = context.charLevel || CreatureService.character.level;
-
-        let proficiency = weapon.prof;
-        // Some feats allow you to apply another proficiency to certain weapons, e.g.:
-        // "For the purpose of determining your proficiency,
-        // martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons."
-        const proficiencyChanges: Array<ProficiencyChange> = [];
-
+    ): Observable<WeaponProficiencies> {
         if (context.creature.isFamiliar()) {
-            return '';
+            return of(WeaponProficiencies.None);
         }
 
-        if (context.creature.isCharacter()) {
-            this._characterFeatsService.characterFeatsAndFeatures()
-                .filter(feat =>
-                    feat.changeProficiency.length &&
-                    this._creatureFeatsService.creatureHasFeat(
-                        feat,
-                        { creature: context.creature },
-                        { charLevel },
-                    ),
-                )
-                .forEach(feat => {
-                    proficiencyChanges.push(...feat.changeProficiency.filter(change =>
-                        (!change.name || weapon.name.toLowerCase() === change.name.toLowerCase()) &&
-                        (!change.trait || weapon.traits.some(trait => change.trait.includes(trait))) &&
-                        (!change.proficiency || (weapon.prof && change.proficiency === weapon.prof)) &&
-                        (!change.group || (weapon.group && change.group === weapon.group)),
-                    ));
-                });
+        return (
+            context.creature.isCharacter()
+                ? this._characterFeatsService.characterFeatsAtLevel$(context.charLevel)
+                : of([])
+        )
+            .pipe(
+                map(characterFeats => {
+                    let proficiency: WeaponProficiencies = weapon.prof;
+                    // Some feats allow you to apply another proficiency to certain weapons, e.g.:
+                    // "For the purpose of determining your proficiency,
+                    // martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons."
+                    const proficiencyChanges: Array<ProficiencyChange> = [];
 
-            const proficiencies: Array<string> = proficiencyChanges.map(change => change.result);
 
-            //Set the resulting proficiency to the best result by setting it in order of worst to best.
-            if (proficiencies.includes(WeaponProficiencies.Advanced)) {
-                proficiency = WeaponProficiencies.Advanced;
-            }
+                    characterFeats
+                        .filter(feat => feat.changeProficiency.length)
+                        .forEach(feat => {
+                            proficiencyChanges.push(...feat.changeProficiency.filter(change =>
+                                (!change.name || weapon.name.toLowerCase() === change.name.toLowerCase()) &&
+                                (!change.trait || weapon.traits.some(trait => change.trait.includes(trait))) &&
+                                (!change.proficiency || (weapon.prof && change.proficiency === weapon.prof)) &&
+                                (!change.group || (weapon.group && change.group === weapon.group)),
+                            ));
+                        });
 
-            if (proficiencies.includes(WeaponProficiencies.Martial)) {
-                proficiency = WeaponProficiencies.Martial;
-            }
+                    const proficiencies: Array<WeaponProficiencies> =
+                        proficiencyChanges.map(change => change.result);
 
-            if (proficiencies.includes(WeaponProficiencies.Simple)) {
-                proficiency = WeaponProficiencies.Simple;
-            }
+                    //Set the resulting proficiency to the best result by setting it in order of worst to best.
+                    if (proficiencies.includes(WeaponProficiencies.Advanced)) {
+                        proficiency = WeaponProficiencies.Advanced;
+                    }
 
-            if (proficiencies.includes(WeaponProficiencies.Unarmed)) {
-                proficiency = WeaponProficiencies.Unarmed;
-            }
-        }
+                    if (proficiencies.includes(WeaponProficiencies.Martial)) {
+                        proficiency = WeaponProficiencies.Martial;
+                    }
 
-        return proficiency;
+                    if (proficiencies.includes(WeaponProficiencies.Simple)) {
+                        proficiency = WeaponProficiencies.Simple;
+                    }
+
+                    if (proficiencies.includes(WeaponProficiencies.Unarmed)) {
+                        proficiency = WeaponProficiencies.Unarmed;
+                    }
+
+                    return proficiency;
+                }),
+            );
     }
 
-    public profLevel(
+    public profLevel$(
         weapon: Weapon,
         creature: Creature,
         runeSource: Weapon | WornItem,
-        charLevel: number = CreatureService.character.level,
         options: { preparedProficiency?: string } = {},
-    ): number {
-        if (creature.isFamiliar()) { return 0; }
+    ): Observable<number> {
+        if (creature.isFamiliar()) { return of(0); }
 
-        let skillLevel = 0;
-        const prof = options.preparedProficiency || this.effectiveProficiency(weapon, { creature, charLevel });
-        //There are a lot of ways to be trained with a weapon.
-        //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
-        const levels: Array<number> = [];
+        return combineLatest([
+            options.preparedProficiency
+                ? of(options.preparedProficiency)
+                : this.effectiveProficiency$(weapon, { creature }),
+            creature.customSkills.values$,
+        ])
+            .pipe(
+                switchMap(([prof, customSkills]) => {
+                    // There are a lot of ways to be trained with a weapon.
+                    // To determine the skill level, we have to find skills for the item's proficiency,
+                    // its name, its weapon base and any of its traits.
+                    // Many of the skills requested here do not actually exist, but they will be created by the skillsDataService
+                    // for the purpose of these calculations.
+                    // Generally, if a skill is requested from the skillsDataService and noSubstitutions is not set,
+                    // a skill will be returned.
+                    const levelSources: Array<Observable<number>> = [];
 
-        //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
-        if (weapon.useHighestAttackProficiency) {
-            const highestProficiencySkill =
-                this._skillsDataService
-                    .skills(creature.customSkills, 'Highest Attack Proficiency', { type: 'Specific Weapon Proficiency' });
+                    // If useHighestAttackProficiency is true,
+                    // the proficiency level will be copied from your highest unarmed or weapon proficiency.
+                    if (weapon.useHighestAttackProficiency) {
+                        levelSources.push(
+                            this._skillValuesService.level$(
+                                this._skillsDataService
+                                    .skills(customSkills, 'Highest Attack Proficiency', { type: 'Specific Weapon Proficiency' })[0],
+                                creature,
+                            ),
+                        );
+                    }
 
-            levels.push(
-                this._skillValuesService.level(
-                    (
-                        this._skillsDataService.skills(creature.customSkills, weapon.name)[0] ||
-                        highestProficiencySkill[0]
+                    //Weapon name, e.g. Demon Sword.
+                    levelSources.push(
+                        this._skillValuesService.level$(
+                            this._skillsDataService.skills(customSkills, weapon.name, { type: 'Specific Weapon Proficiency' })[0],
+                            creature,
+                        ),
+                    );
+                    //Weapon base, e.g. Longsword.
+                    levelSources.push(
+                        weapon.weaponBase
+                            ? this._skillValuesService.level$(
+                                this._skillsDataService
+                                    .skills(customSkills, weapon.weaponBase, { type: 'Specific Weapon Proficiency' })[0],
+                                creature,
+                            )
+                            : of(0),
+                    );
+
+                    // Proficiency and Group, e.g. Martial Sword.
+                    // There are proficiencies for "Simple Sword" or "Advanced Bow" that we need to consider, so we build that phrase here.
+                    const profAndGroup = `${ prof.split(' ')[0] } ${ weapon.group }`;
+
+                    levelSources.push(
+                        this._skillValuesService.level$(
+                            this._skillsDataService.skills(customSkills, profAndGroup, { type: 'Specific Weapon Proficiency' })[0],
+                            creature,
+                        ),
+                    );
+                    // Proficiency, e.g. Martial Weapons.
+                    levelSources.push(
+                        this._skillValuesService.level$(prof, creature) || 0);
+                    // Any traits, e.g. Monk. Will include, for instance, "Thrown 20 ft",
+                    // so we also test the first word of any multi-word trait.
+                    levelSources.push(
+                        ...weapon.traits
+                            .map(trait =>
+                                this._skillValuesService.level$(
+                                    this._skillsDataService
+                                        .skills(customSkills, trait, { type: 'Specific Weapon Proficiency' })[0],
+                                    creature,
+                                ),
+                            ),
+                    );
+                    levelSources.push(
+                        ...weapon.traits
+                            .filter(trait => trait.includes(' '))
+                            .map(trait =>
+                                this._skillValuesService.level$(
+                                    this._skillsDataService
+                                        .skills(customSkills, trait.split(' ')[0], { type: 'Specific Weapon Proficiency' })[0],
+                                    creature,
+                                ),
+                            ),
+                    );
+                    // Favored Weapon.
+                    levelSources.push(
+                        this.isFavoredWeapon$(weapon, creature)
+                            .pipe(isFavoredWeapon =>
+                                isFavoredWeapon
+                                    ? this._skillValuesService.level$(
+                                        this._skillsDataService.skills(customSkills, 'Favored Weapon', { type: 'Favored Weapon' })[0],
+                                        creature,
+                                    )
+                                    : of(0),
+                            ),
+                    );
+
+                    return combineLatest(levelSources);
+                }),
+                // Get the skill level by applying the result with the most increases, but no higher than 8.
+                map(skillLevels => Math.min(Math.max(...skillLevels, maxSkillLevel))),
+                switchMap(skillLevel => {
+                    // If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level,
+                    // up to the highest proficiency you have.
+                    // If you have an oil applied that emulates an Ancestral Echoing rune,
+                    // apply the same rule (there is no such oil, but things can change).
+                    if (
+                        runeSource.propertyRunes.some(rune => rune.name === 'Ancestral Echoing')
+                        || weapon.oilsApplied.some(oil => oil.runeEffect && oil.runeEffect.name === 'Ancestral Echoing')
+                    ) {
+                        // First, we get all the weapon proficiencies...
+                        const skills: Array<Skill> =
+                            this._skillsDataService
+                                .skills(creature.customSkills, '', { type: 'Weapon Proficiency' })
+                                .concat(
+                                    this._skillsDataService.skills(creature.customSkills, '', { type: 'Specific Weapon Proficiency' }),
+                                );
+
+                        // Then we set this skill level to either this level +2
+                        // or the highest of the found proficiencies - whichever is lower.
+                        return combineLatest(
+                            skills.map(skill => this._skillValuesService.level$(skill, creature)),
+                        )
+                            .pipe(
+                                map(skillLevels => Math.min(skillLevel + skillLevelBaseStep, Math.max(...skillLevels))),
+                            );
+                    }
+
+                    return of(skillLevel);
+                }),
+            );
+    }
+
+    public updateModifiers$(weapon: Weapon, creature: Creature): Observable<void> {
+        return combineLatest([
+            this._calculateShoddy$(weapon, creature)
+                .pipe(
+                    distinctUntilChanged(),
+                    tap(shoddyValue => {
+                        weapon.effectiveShoddy$.next(shoddyValue);
+                    }),
+                ),
+            this._equipmentPropertiesSharedService.calculateEmblazonArmament(weapon, creature)
+                .pipe(
+                    distinctUntilChanged(),
+                    tap(emblazonArmament => {
+                        weapon.effectiveEmblazonArmament$.next(emblazonArmament);
+                    }),
+                ),
+        ])
+            .pipe(
+                switchMap(() => of()),
+            );
+    }
+
+    public isFavoredWeapon$(weapon: Weapon, creature: Creature): Observable<boolean> {
+        if (creature.isCharacter()) {
+            return combineLatest([
+                this._characterDeitiesService.mainCharacterDeity$,
+                this._characterFeatsService.characterHasFeatAtLevel$('Favored Weapon (Syncretism)')
+                    .pipe(
+                        switchMap(hasFavoredWeaponSyncretism =>
+                            hasFavoredWeaponSyncretism
+                                ? this._characterDeitiesService.syncretismDeity$()
+                                : of(null),
+                        ),
                     ),
-                    creature
-                    , charLevel,
-                ) ||
-                0,
-            );
+            ])
+                .pipe(
+                    map(deities => deities.some(
+                        deity => deity?.favoredWeapon.some(
+                            favoredWeapon =>
+                                stringsIncludeCaseInsensitive([
+                                    weapon.name,
+                                    weapon.weaponBase,
+                                    weapon.displayName,
+                                ], favoredWeapon),
+                        ),
+                    )),
+                );
         }
 
-        //Weapon name, e.g. Demon Sword.
-        levels.push(
-            this._skillValuesService.level(
-                this._skillsDataService.skills(creature.customSkills, weapon.name, { type: 'Specific Weapon Proficiency' })[0],
-                creature,
-                charLevel,
-            ) ||
-            0,
-        );
-        //Weapon base, e.g. Longsword.
-        levels.push(
-            weapon.weaponBase
-                ? this._skillValuesService.level(
-                    this._skillsDataService.skills(creature.customSkills, weapon.weaponBase, { type: 'Specific Weapon Proficiency' })[0],
-                    creature,
-                    charLevel,
-                )
-                : 0,
-        );
-
-        //Proficiency and Group, e.g. Martial Sword.
-        //There are proficiencies for "Simple Sword" or "Advanced Bow" that we need to consider, so we build that phrase here.
-        const profAndGroup = `${ prof.split(' ')[0] } ${ weapon.group }`;
-
-        levels.push(
-            this._skillValuesService.level(
-                this._skillsDataService.skills(creature.customSkills, profAndGroup, { type: 'Specific Weapon Proficiency' })[0],
-                creature,
-                charLevel,
-            ) ||
-            0,
-        );
-        //Proficiency, e.g. Martial Weapons.
-        levels.push(
-            this._skillValuesService.level(prof, creature, charLevel) || 0);
-        //Any traits, e.g. Monk. Will include, for instance, "Thrown 20 ft", so we also test the first word of any multi-word trait.
-        levels.push(
-            ...weapon.traits
-                .map(trait =>
-                    this._skillValuesService.level(
-                        this._skillsDataService.skills(creature.customSkills, trait, { type: 'Specific Weapon Proficiency' })[0],
-                        creature,
-                        charLevel,
-                    ) ||
-                    0,
-                ),
-        );
-        levels.push(
-            ...weapon.traits
-                .filter(trait => trait.includes(' '))
-                .map(trait =>
-                    this._skillValuesService.level(
-                        this._skillsDataService
-                            .skills(creature.customSkills, trait.split(' ')[0], { type: 'Specific Weapon Proficiency' })[0],
-                        creature,
-                        charLevel,
-                    ) ||
-                    0,
-                ),
-        );
-        // Favored Weapon.
-        levels.push(
-            this.isFavoredWeapon(weapon, creature)
-                ? this._skillValuesService.level(
-                    this._skillsDataService.skills(creature.customSkills, 'Favored Weapon', { type: 'Favored Weapon' })[0],
-                    creature,
-                    charLevel,
-                )
-                : 0,
-        );
-        // Get the skill level by applying the result with the most increases, but no higher than 8.
-        skillLevel = Math.min(Math.max(...levels.filter(level => level !== undefined)), MaxSkillLevel);
-
-        // If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level,
-        // up to the highest proficiency you have.
-        let bestSkillLevel: number = skillLevel;
-
-        if (runeSource.propertyRunes.some(rune => rune.name === 'Ancestral Echoing')) {
-            // First, we get all the weapon proficiencies...
-            const skills: Array<number> =
-                this._skillsDataService.skills(creature.customSkills, '', { type: 'Weapon Proficiency' })
-                    .map(skill => this._skillValuesService.level(skill, creature, charLevel));
-
-            skills.push(
-                ...this._skillsDataService.skills(creature.customSkills, '', { type: 'Specific Weapon Proficiency' })
-                    .map(skill => this._skillValuesService.level(skill, creature, charLevel)),
-            );
-            //Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
-            bestSkillLevel = Math.min(skillLevel + skillLevelBaseStep, Math.max(...skills));
-        }
-
-        // If you have an oil applied that emulates an Ancestral Echoing rune,
-        // apply the same rule (there is no such oil, but things can change)
-        if (weapon.oilsApplied.some(oil => oil.runeEffect && oil.runeEffect.name === 'Ancestral Echoing')) {
-            // First, we get all the weapon proficiencies...
-            const skills: Array<number> =
-                this._skillsDataService.skills(creature.customSkills, '', { type: 'Weapon Proficiency' })
-                    .map(skill => this._skillValuesService.level(skill, creature, charLevel));
-
-            skills.push(
-                ...this._skillsDataService.skills(creature.customSkills, '', { type: 'Specific Weapon Proficiency' })
-                    .map(skill => this._skillValuesService.level(skill, creature, charLevel)));
-            // Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
-            bestSkillLevel = Math.min(skillLevel + skillLevelBaseStep, Math.max(...skills));
-        }
-
-        return bestSkillLevel;
+        return of(false);
     }
 
-    public updateModifiers(weapon: Weapon, creature: Creature): void {
-        //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
-        //Set components to update if these values have changed from before.
-        const oldValues = [weapon.$shoddy, weapon.$emblazonArmament, weapon.$emblazonEnergy, weapon.$emblazonAntimagic];
-
-        this._cacheEffectiveShoddy(weapon, creature);
-        this._cacheIsEmblazonArmamentActive(weapon, creature);
-
-        const newValues = [weapon.$shoddy, weapon.$emblazonArmament, weapon.$emblazonEnergy, weapon.$emblazonAntimagic];
-
-        if (oldValues.some((previous, index) => previous !== newValues[index])) {
-            this._refreshService.prepareDetailToChange(creature.type, weapon.id);
-            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-        }
-    }
-
-    public isFavoredWeapon(weapon: Weapon, creature: Creature): boolean {
-        if (creature.isFamiliar()) {
-            return false;
-        }
-
-        if (creature.isCharacter() && creature.class.deity) {
-            if (this._characterDeitiesService.currentCharacterDeities()[0]?.favoredWeapon
-                .some(favoredWeapon =>
-                    [
-                        weapon.name.toLowerCase(),
-                        weapon.weaponBase.toLowerCase(),
-                        weapon.displayName.toLowerCase(),
-                    ].includes(favoredWeapon.toLowerCase()),
-                )
-            ) {
-                return true;
-            }
-        }
-
-        if (
-            creature.isCharacter() &&
-            this._characterFeatsService.characterFeatsTaken(0, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length
-        ) {
-            if (this._characterDeitiesService.currentCharacterDeities('syncretism')[0]?.favoredWeapon
-                .some(favoredWeapon =>
-                    [
-                        weapon.name.toLowerCase(),
-                        weapon.weaponBase.toLowerCase(),
-                        weapon.displayName.toLowerCase(),
-                    ].includes(favoredWeapon.toLowerCase()),
-                )) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private _cacheEffectiveShoddy(weapon: Weapon, creature: Creature): void {
+    private _calculateShoddy$(weapon: Weapon, creature: Creature): Observable<ShoddyPenalties> {
         //Shoddy items have a -2 penalty to Attack, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (
-            weapon.shoddy &&
-            weapon.crafted &&
-            creature.isCharacter() &&
-            this._characterFeatsService.characterHasFeat('Junk Tinker')
-        ) {
-            weapon.$shoddy = ShoddyPenalties.NotShoddy;
-        } else if (weapon.shoddy) {
-            weapon.$shoddy = ShoddyPenalties.Shoddy;
-        } else {
-            weapon.$shoddy = ShoddyPenalties.NotShoddy;
-        }
-    }
-
-    private _cacheIsEmblazonArmamentActive(weapon: Weapon, creature: Creature): void {
-        weapon.$emblazonArmament = false;
-        weapon.$emblazonEnergy = false;
-        weapon.emblazonArmament.forEach(ea => {
-            if (
-                ea.emblazonDivinity ||
-                (
-                    creature.isCharacter() &&
-                    this._characterDeitiesService.currentCharacterDeities()
-                        .some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
-                )
-            ) {
-                switch (ea.type) {
-                    case 'emblazonArmament':
-                        weapon.$emblazonArmament = true;
-                        break;
-                    case 'emblazonEnergy':
-                        weapon.$emblazonEnergy = true;
-                        break;
-                    case 'emblazonAntimagic':
-                        weapon.$emblazonAntimagic = true;
-                        break;
-                    default: break;
-                }
-            }
-        });
+        return (
+            creature.isCharacter()
+                ? this._characterFeatsService.characterHasFeatAtLevel$('Junk Tinker')
+                : of(false)
+        )
+            .pipe(
+                map(hasJunkTinker => {
+                    if (
+                        weapon.shoddy &&
+                        weapon.crafted &&
+                        hasJunkTinker
+                    ) {
+                        return ShoddyPenalties.NotShoddy;
+                    } else if (weapon.shoddy) {
+                        return ShoddyPenalties.Shoddy;
+                    } else {
+                        return ShoddyPenalties.NotShoddy;
+                    }
+                }),
+            );
     }
 
 }

@@ -84,6 +84,7 @@ export class ItemInitializationService {
             newItem = Object.assign(newItem, { propertyRunes: options.newPropertyRunes });
         }
 
+        //TODO: What happens to an OnChangeArray when JSON is cast onto an Item? I fear it may turn into an Array.
         if (options.restoreRunesAndMaterials) {
             this._restoreRunesAndMaterials(newItem);
         }
@@ -121,21 +122,18 @@ export class ItemInitializationService {
 
         //For base items that come with property Runes with name only, load the rune into the item here.
         if (
-            (
-                newItem.isWeapon() ||
-                (newItem.isWornItem() && newItem.isHandwrapsOfMightyBlows)
-            ) &&
-            newItem.propertyRunes?.length
+            (newItem.isWeapon() || newItem.isWornItem()) &&
+            (newItem.weaponRunes?.length)
         ) {
             const newRunes: Array<WeaponRune> = [];
 
-            newItem.propertyRunes.forEach(rune => {
+            newItem.weaponRunes.forEach(rune => {
                 const libraryItem = this._itemsDataService
                     .cleanItems().weaponrunes
                     .find(newrune => newrune.name === rune.name);
 
                 if (libraryItem) {
-                    newRunes.push(this._typeService.mergeObject(libraryItem, rune));
+                    newRunes.push(this._typeService.mergeObject(libraryItem, rune as WeaponRune));
                 }
             });
             newItem.propertyRunes = newRunes;
@@ -144,7 +142,7 @@ export class ItemInitializationService {
         if (newItem.isArmor() && newItem.propertyRunes?.length) {
             const newRunes: Array<ArmorRune> = [];
 
-            newItem.propertyRunes.forEach(rune => {
+            newItem.armorRunes.forEach(rune => {
                 const libraryItem = this._itemsDataService.cleanItems().armorrunes
                     .find(newrune => newrune.name === rune.name);
 
@@ -159,7 +157,7 @@ export class ItemInitializationService {
         if (newItem.isWeapon() && newItem.material?.length) {
             const newMaterials: Array<WeaponMaterial> = [];
 
-            newItem.material.forEach(material => {
+            newItem.weaponMaterial.forEach(material => {
                 const libraryItem =
                     this._itemMaterialsDataService.weaponMaterials().find(newMaterial => newMaterial.name === material.name);
 
@@ -173,7 +171,7 @@ export class ItemInitializationService {
         if (newItem.isArmor() && newItem.material?.length) {
             const newMaterials: Array<ArmorMaterial> = [];
 
-            newItem.material.forEach(material => {
+            newItem.armorMaterial.forEach(material => {
                 const libraryItem =
                     this._itemMaterialsDataService.armorMaterials().find(newMaterial => newMaterial.name === material.name);
 
@@ -187,7 +185,7 @@ export class ItemInitializationService {
         if (newItem.isShield() && newItem.material?.length) {
             const newMaterials: Array<ShieldMaterial> = [];
 
-            newItem.material.forEach(material => {
+            newItem.shieldMaterial.forEach(material => {
                 const libraryItem =
                     this._itemMaterialsDataService.shieldMaterials().find(newMaterial => newMaterial.name === material.name);
 

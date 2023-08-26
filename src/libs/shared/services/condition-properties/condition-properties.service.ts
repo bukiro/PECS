@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
 import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
-import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FamiliarsDataService } from '../data/familiars-data.service';
+import { Observable, combineLatest, distinctUntilChanged, map, of, shareReplay, switchMap } from 'rxjs';
+import { ConditionChoice } from 'src/app/classes/ConditionChoice';
 
 @Injectable({
     providedIn: 'root',
@@ -86,66 +85,101 @@ export class ConditionPropertiesService {
         );
     }
 
-    public cacheEffectiveChoices(
+    /**
+     * Creates an observable for the effective choices for this condition at this spell level,
+     * then saves it on the condition for later use and returns.
+     * If the observable exists on the condition already, just returns it.
+     */
+    public effectiveChoices$(
         condition: Condition,
         spellLevel: number = condition.minLevel,
-    ): void {
-        //If this.choice is not one of the available choices, set it to the first.
-        if (condition.choices.length && !condition.choices.map(choice => choice.name).includes(condition.choice)) {
-            condition.choice = condition.choices[0].name;
+    ): Observable<Array<string>> {
+        if (!condition.effectiveChoicesBySpellLevel$.get(spellLevel)) {
+            condition.effectiveChoicesBySpellLevel$.set(
+                spellLevel,
+                combineLatest(
+                    condition.choices.map(choice => {
+                        const requirementSources$: Array<Observable<boolean>> = [];
+
+                        //The default choice is never tested. This ensures a fallback if no choices are available.
+                        if (choice.name === condition.choice) {
+                            return of(choice);
+                        }
+
+                        if (choice.spelllevelreq) {
+                            requirementSources$.push(of(spellLevel >= choice.spelllevelreq));
+                        }
+
+                        if (choice.featreq?.length) {
+
+                            choice.featreq.forEach(featreq => {
+
+                                const testFeats = featreq.split(' or ');
+
+                                requirementSources$.push(
+                                    combineLatest(
+                                        testFeats.map(testFeat => {
+                                            if (featreq.includes('Familiar:')) {
+                                                testFeat = featreq.split('Familiar:')[1].trim();
+
+                                                if (testFeat) {
+                                                    return CreatureService.familiar$
+                                                        .pipe(
+                                                            switchMap(familiar =>
+                                                                this._creatureFeatsService.creatureHasFeat$(
+                                                                    testFeat,
+                                                                    { creature: familiar },
+                                                                ),
+                                                            ),
+                                                            distinctUntilChanged(),
+                                                        );
+                                                }
+
+                                                return of(false);
+                                            } else {
+                                                return this._characterFeatsService.characterHasFeatAtLevel$(
+                                                    testFeat,
+                                                    0,
+                                                    { allowCountAs: true },
+                                                )
+                                                    .pipe(
+                                                        distinctUntilChanged(),
+                                                    );
+                                            }
+                                        }),
+                                    )
+                                        .pipe(
+                                            map(hasFeats => hasFeats.some(hasFeat => !!hasFeat)),
+                                        ),
+                                );
+
+                            });
+                        }
+
+                        return combineLatest(requirementSources$)
+                            .pipe(
+                                map(requirements =>
+                                    requirements.every(requirement => !!requirement)
+                                        ? choice
+                                        : null,
+                                ),
+                            );
+                    }),
+                )
+                    .pipe(
+                        map(choices =>
+                            choices
+                                .filter((choice): choice is ConditionChoice => !!choice)
+                                .map(choice => choice.name),
+                        ),
+                        shareReplay({ refCount: true, bufferSize: 1 }),
+                    ),
+            );
         }
 
-        const choices: Array<string> = [];
-
-        condition.choices.forEach(choice => {
-            //The default choice is never tested. This ensures a fallback if no choices are available.
-            if (choice.name === condition.choice) {
-                choices.push(choice.name);
-            } else {
-                const character = CreatureService.character;
-
-                //If the choice has a featreq, check if you meet that (or a feat that has this supertype).
-                //Requirements like "Aggressive Block or Brutish Shove" are split in get_CharacterFeatsAndFeatures().
-                if (!choice.spelllevelreq || spellLevel >= choice.spelllevelreq) {
-                    let hasOneFeatreqFailed = false;
-
-                    if (choice.featreq?.length) {
-
-                        choice.featreq.forEach(featreq => {
-                            //Allow to check for the Familiar's feats
-                            let requiredFeat: Array<Feat>;
-                            let testCreature: Character | Familiar;
-                            let testFeat = featreq;
-
-                            if (featreq.includes('Familiar:')) {
-                                testCreature = CreatureService.familiar;
-                                testFeat = featreq.split('Familiar:')[1].trim();
-                                requiredFeat = this._familiarsDataService.familiarAbilities(testFeat);
-                            } else {
-                                testCreature = character;
-                                requiredFeat = this._characterFeatsService.characterFeatsAndFeatures(testFeat, '', true);
-                            }
-
-                            if (
-                                !requiredFeat.length ||
-                                !requiredFeat.some(feat =>
-                                    this._creatureFeatsService.creatureHasFeat(feat, { creature: testCreature }),
-                                )
-                            ) {
-                                hasOneFeatreqFailed = true;
-                            }
-                        });
-
-                        if (!hasOneFeatreqFailed) {
-                            choices.push(choice.name);
-                        }
-                    } else {
-                        choices.push(choice.name);
-                    }
-                }
-            }
-        });
-        condition.$choices = choices;
+        return condition.effectiveChoicesBySpellLevel$.get(spellLevel)
+            // This fallback will never happen, but is necessary for code safety.
+            ?? of(condition.choices.map(choice => choice.name));
     }
 
 }

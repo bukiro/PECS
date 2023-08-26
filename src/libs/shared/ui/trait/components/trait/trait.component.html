@@ -1,4 +1,3 @@
-<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <cite
     class="trait"
     [ngClass]="{'trait-rare': trait.name === 'Rare', 'trait-uncommon': trait.name === 'Uncommon', 'extra-trait': extraDescription}"
@@ -43,7 +42,7 @@
     </span>
 
     <ng-container *ngIf="trait.objectEffects && trait.objectEffects.length && item">
-        <ng-container *ngFor="let activation of objectTraitActivations(); trackBy:trackByIndex;">
+        <ng-container *ngFor="let activation of objectTraitActivations$() | async; trackBy:trackByIndex;">
             <input
                 aria-label="Activate the default level of this trait's effects"
                 type="checkbox"

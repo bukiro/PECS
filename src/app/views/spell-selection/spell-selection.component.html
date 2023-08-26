@@ -41,7 +41,7 @@
     </ng-template>
 
     <ng-container *ngIf="character.class && (isMenuOpen$ | async)">
-        <ng-container *ngIf="componentParameters() as componentParameters">
+        <ng-container *ngIf="componentParameters$() | async as componentParameters">
             <div class="character-sheet-column-container">
                 <div class="character-sheet-column">
                     <div class="fullsize-scroll-box vlist">
@@ -61,7 +61,7 @@
                             </span>
                         </div>
 
-                        <ng-container *ngFor="let spellCastingParameters of spellCastingParameters(); let index = index; trackBy:trackByIndex;">
+                        <ng-container *ngFor="let spellCastingParameters of spellCastingParameters$() | async; let index = index; trackBy:trackByIndex;">
                             <header class="sectionHeader">
                                 {{(spellCastingParameters.casting.className + " " +
                                 spellCastingParameters.casting.tradition + ((spellCastingParameters.casting.castingType
@@ -77,7 +77,7 @@
                             </header>
 
                             <app-tags
-                                [creature]="creatureTypesEnum.Character"
+                                [creature]="character"
                                 [objectName]="spellCastingParameters.casting.className + ' ' + spellCastingParameters.casting.castingType + ' Spells'"
                                 [showTraits]=true
                                 [showFeats]=true
@@ -109,7 +109,7 @@
                                 </span>
                             </div>
 
-                            <ng-container *ngFor="let spellCastingLevelParameters of spellCastingLevelParameters(spellCastingParameters); trackBy:trackByIndex;">
+                            <ng-container *ngFor="let spellCastingLevelParameters of spellCastingLevelParameters$(spellCastingParameters) | async; trackBy:trackByIndex;">
                                 <header
                                     class="subsectionHeader"
                                     *ngIf="spellCastingLevelParameters.level === -1 && spellCastingParameters.casting.castingType === 'Focus'"

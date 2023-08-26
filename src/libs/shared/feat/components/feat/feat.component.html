@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="feat">
+<ng-container *ngIf="feat$ | async as feat">
     <div class="newrow left-aligned">
         <app-trait
             *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
@@ -27,17 +27,16 @@
             {{feat.access}}
         </div>
 
-        <ng-container *ngIf="featRequirements(choice, feat) as reqs">
+        <ng-container *ngIf="featRequirements$ | async as reqs">
             <p *ngIf="reqs.length">
                 <strong>Requirements&nbsp;</strong>
 
                 <span
-                    [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}"
-                    [ngbPopover]="req.ignored ? 'This requirement is ignored.' : ''"
+                    [ngClass]="{'problem':(!(req.ignored || req.skipped) && !req.met), 'disabled':(req.ignored || req.skipped)}"
+                    [ngbPopover]="req.ignored ? 'This requirement is ignored.' : req.skipped ? 'This requirement was not evaluated.' : ''"
                     *ngFor="let req of reqs; trackBy:trackByIndex;"
                 >
-                    {{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored
-                    ? ")" : ''}}
+                    {{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored ? ")" : ''}}
                 </span>
             </p>
         </ng-container>

@@ -2,9 +2,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
-import { BehaviorSubject, catchError, map, Observable, of, switchMap, tap, zip } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, tap, zip, take } from 'rxjs';
 import { ApiStatusKey } from '../../definitions/apiStatusKey';
-import { ApiStatus } from '../../definitions/interfaces/api-status';
+import { setDataStatus } from 'src/libs/store/status/status.actions';
+import { Store } from '@ngrx/store';
 
 type SingleIdentifier = 'id' | 'name';
 
@@ -34,12 +35,11 @@ type OverrideTypeMultipleIdentifiers<T> = T & {
 })
 export class DataService {
 
-    public static dataStatus$ = new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing });
-
     public extensions: Record<string, ImportedJsonFileList<unknown>> = {};
 
     constructor(
         private readonly _httpClient: HttpClient,
+        private readonly _store$: Store,
     ) {
         this._initialize();
     }
@@ -164,63 +164,66 @@ export class DataService {
     }
 
     private _initialize(): void {
-        DataService.dataStatus$.next({ key: ApiStatusKey.Initializing, message: 'Loading extensions...' });
+        this._store$.dispatch(setDataStatus({ status: { key: ApiStatusKey.Initializing, message: 'Loading extensions...' } }));
 
         this.extensions = {};
 
         zip([
-            this._loadExtensions('assets/json/abilities', 'abilities'),
-            this._loadExtensions('assets/json/activities', 'activities'),
-            this._loadExtensions('assets/json/ancestries', 'ancestries'),
-            this._loadExtensions('assets/json/animalcompanionlevels', 'companionLevels'),
-            this._loadExtensions('assets/json/animalcompanions', 'companionAncestries'),
-            this._loadExtensions('assets/json/animalcompanionspecializations', 'companionSpecializations'),
-            this._loadExtensions('assets/json/armormaterials', 'armorMaterials'),
-            this._loadExtensions('assets/json/backgrounds', 'backgrounds'),
-            this._loadExtensions('assets/json/conditions', 'conditions'),
-            this._loadExtensions('assets/json/deities', 'deities'),
-            this._loadExtensions('assets/json/domains', 'domains'),
-            this._loadExtensions('assets/json/effectproperties', 'effectProperties'),
-            this._loadExtensions('assets/json/familiarabilities', 'familiarAbilities'),
-            this._loadExtensions('assets/json/feats', 'feats'),
-            this._loadExtensions('assets/json/features', 'features'),
-            this._loadExtensions('assets/json/heritages', 'heritages'),
-            this._loadExtensions('assets/json/itemproperties', 'itemProperties'),
-            this._loadExtensions('assets/json/items/adventuringgear', 'items_adventuringgear'),
-            this._loadExtensions('assets/json/items/alchemicalbombs', 'items_alchemicalbombs'),
-            this._loadExtensions('assets/json/items/alchemicalelixirs', 'items_alchemicalelixirs'),
-            this._loadExtensions('assets/json/items/alchemicalpoisons', 'items_alchemicalpoisons'),
-            this._loadExtensions('assets/json/items/alchemicaltools', 'items_alchemicaltools'),
-            this._loadExtensions('assets/json/items/ammunition', 'items_ammunition'),
-            this._loadExtensions('assets/json/items/armorrunes', 'items_armorrunes'),
-            this._loadExtensions('assets/json/items/armors', 'items_armors'),
-            this._loadExtensions('assets/json/items/helditems', 'items_helditems'),
-            this._loadExtensions('assets/json/items/materialitems', 'items_materialitems'),
-            this._loadExtensions('assets/json/items/oils', 'items_oils'),
-            this._loadExtensions('assets/json/items/otherconsumables', 'items_otherconsumables'),
-            this._loadExtensions('assets/json/items/otherconsumablesbombs', 'items_otherconsumablesbombs'),
-            this._loadExtensions('assets/json/items/potions', 'items_potions'),
-            this._loadExtensions('assets/json/items/scrolls', 'items_scrolls'),
-            this._loadExtensions('assets/json/items/shields', 'items_shields'),
-            this._loadExtensions('assets/json/items/snares', 'items_snares'),
-            this._loadExtensions('assets/json/items/talismans', 'items_talismans'),
-            this._loadExtensions('assets/json/items/wands', 'items_wands'),
-            this._loadExtensions('assets/json/items/weaponrunes', 'items_weaponrunes'),
-            this._loadExtensions('assets/json/items/weapons', 'items_weapons'),
-            this._loadExtensions('assets/json/items/wornitems', 'items_wornitems'),
-            this._loadExtensions('assets/json/shieldmaterials', 'shieldMaterials'),
-            this._loadExtensions('assets/json/skills', 'skills'),
-            this._loadExtensions('assets/json/specializations', 'specializations'),
-            this._loadExtensions('assets/json/spells', 'spells'),
-            this._loadExtensions('assets/json/traits', 'traits'),
-            this._loadExtensions('assets/json/weaponmaterials', 'weaponMaterials'),
+            this._loadExtensions$('assets/json/abilities', 'abilities'),
+            this._loadExtensions$('assets/json/activities', 'activities'),
+            this._loadExtensions$('assets/json/ancestries', 'ancestries'),
+            this._loadExtensions$('assets/json/animalcompanionlevels', 'companionLevels'),
+            this._loadExtensions$('assets/json/animalcompanions', 'companionAncestries'),
+            this._loadExtensions$('assets/json/animalcompanionspecializations', 'companionSpecializations'),
+            this._loadExtensions$('assets/json/armormaterials', 'armorMaterials'),
+            this._loadExtensions$('assets/json/backgrounds', 'backgrounds'),
+            this._loadExtensions$('assets/json/conditions', 'conditions'),
+            this._loadExtensions$('assets/json/deities', 'deities'),
+            this._loadExtensions$('assets/json/domains', 'domains'),
+            this._loadExtensions$('assets/json/effectproperties', 'effectProperties'),
+            this._loadExtensions$('assets/json/familiarabilities', 'familiarAbilities'),
+            this._loadExtensions$('assets/json/feats', 'feats'),
+            this._loadExtensions$('assets/json/features', 'features'),
+            this._loadExtensions$('assets/json/heritages', 'heritages'),
+            this._loadExtensions$('assets/json/itemproperties', 'itemProperties'),
+            this._loadExtensions$('assets/json/items/adventuringgear', 'items_adventuringgear'),
+            this._loadExtensions$('assets/json/items/alchemicalbombs', 'items_alchemicalbombs'),
+            this._loadExtensions$('assets/json/items/alchemicalelixirs', 'items_alchemicalelixirs'),
+            this._loadExtensions$('assets/json/items/alchemicalpoisons', 'items_alchemicalpoisons'),
+            this._loadExtensions$('assets/json/items/alchemicaltools', 'items_alchemicaltools'),
+            this._loadExtensions$('assets/json/items/ammunition', 'items_ammunition'),
+            this._loadExtensions$('assets/json/items/armorrunes', 'items_armorrunes'),
+            this._loadExtensions$('assets/json/items/armors', 'items_armors'),
+            this._loadExtensions$('assets/json/items/helditems', 'items_helditems'),
+            this._loadExtensions$('assets/json/items/materialitems', 'items_materialitems'),
+            this._loadExtensions$('assets/json/items/oils', 'items_oils'),
+            this._loadExtensions$('assets/json/items/otherconsumables', 'items_otherconsumables'),
+            this._loadExtensions$('assets/json/items/otherconsumablesbombs', 'items_otherconsumablesbombs'),
+            this._loadExtensions$('assets/json/items/potions', 'items_potions'),
+            this._loadExtensions$('assets/json/items/scrolls', 'items_scrolls'),
+            this._loadExtensions$('assets/json/items/shields', 'items_shields'),
+            this._loadExtensions$('assets/json/items/snares', 'items_snares'),
+            this._loadExtensions$('assets/json/items/talismans', 'items_talismans'),
+            this._loadExtensions$('assets/json/items/wands', 'items_wands'),
+            this._loadExtensions$('assets/json/items/weaponrunes', 'items_weaponrunes'),
+            this._loadExtensions$('assets/json/items/weapons', 'items_weapons'),
+            this._loadExtensions$('assets/json/items/wornitems', 'items_wornitems'),
+            this._loadExtensions$('assets/json/shieldmaterials', 'shieldMaterials'),
+            this._loadExtensions$('assets/json/skills', 'skills'),
+            this._loadExtensions$('assets/json/specializations', 'specializations'),
+            this._loadExtensions$('assets/json/spells', 'spells'),
+            this._loadExtensions$('assets/json/traits', 'traits'),
+            this._loadExtensions$('assets/json/weaponmaterials', 'weaponMaterials'),
         ])
+            .pipe(
+                take(1),
+            )
             .subscribe(() => {
-                DataService.dataStatus$.next({ key: ApiStatusKey.Ready });
+                this._store$.dispatch(setDataStatus({ status: { key: ApiStatusKey.Ready } }));
             });
     }
 
-    private _loadExtensions(path: string, target: string): Observable<boolean> {
+    private _loadExtensions$(path: string, target: string): Observable<boolean> {
         const headers = new HttpHeaders().set('Cache-Control', 'no-cache')
             .set('Pragma', 'no-cache');
 

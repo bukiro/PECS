@@ -1,15 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
-import { Ability } from 'src/app/classes/Ability';
-import { Creature } from 'src/app/classes/Creature';
+import { Component, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { combineLatest, distinctUntilChanged, Observable, shareReplay, switchMap, takeUntil, tap } from 'rxjs';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { AbilityValuesService, CalculatedAbility } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { AbilityValuesService, AbilityLiveValue } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
+import { Character } from 'src/app/classes/Character';
 
 @Component({
     selector: 'app-abilities',
@@ -17,101 +15,68 @@ import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/bas
     styleUrls: ['./abilities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AbilitiesComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
+export class AbilitiesComponent extends TrackByMixin(BaseCardComponent) implements OnDestroy {
 
-    @Input()
-    public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
-
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
+    public readonly abilityValues$: Observable<Array<AbilityLiveValue>>;
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _abilitiesDataService: AbilitiesDataService,
-        private readonly _ablityValuesService: AbilityValuesService,
-        private readonly _refreshService: RefreshService,
+        private readonly _abilityValuesService: AbilityValuesService,
     ) {
         super();
 
-        SettingsService.settings$
+        this.isMinimized$ = this.creature$
+            .pipe(
+                switchMap(creature => SettingsService.settings$
+                    .pipe(
+                        switchMap(settings => {
+                            switch (creature.type) {
+                                case CreatureTypes.AnimalCompanion:
+                                    return settings.companionMinimized$;
+                                default:
+                                    return settings.abilitiesMinimized$;
+                            }
+                        }),
+                    ),
+                ),
+                distinctUntilChanged(),
+                tap(minimized => this._updateMinimized(minimized)),
+                // If the button is hidden, another subscription ensures that the pipe is run.
+                // shareReplay prevents it from running twice if the button is not hidden.
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
+        this.isMinimized$
             .pipe(
                 takeUntil(this._destroyed$),
-                map(settings => {
-                    switch (this.creature) {
-                        case CreatureTypes.AnimalCompanion:
-                            return settings.companionMinimized;
-                        default:
-                            return settings.abilitiesMinimized;
-                    }
-                }),
-                distinctUntilChanged(),
             )
-            .subscribe(minimized => {
-                this._updateMinimized({ bySetting: minimized });
-            });
+            .subscribe();
+
+        this.abilityValues$ = this.creature$
+            .pipe(
+                switchMap(creature => combineLatest(
+                    this._abilitiesDataService.abilities()
+                        .map(ability => this._abilityValuesService.liveValue$(ability, creature)),
+                )),
+            );
     }
 
     @Input()
-    public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._updateMinimized({ forced: forceMinimized ?? false });
+    public set creature(creature: Character | AnimalCompanion) {
+        this._updateCreature(creature);
     }
 
     public get shouldShowMinimizeButton(): boolean {
-        return !this.forceMinimized && this.creature === CreatureTypes.Character;
-    }
-
-    private get _currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
+        return this.creature.isCharacter();
     }
 
     public toggleMinimized(minimized: boolean): void {
-        SettingsService.settings.abilitiesMinimized = minimized;
-    }
-
-    public abilities(subset = 0): Array<Ability> {
-        const all = 0;
-        const firstThree = 1;
-        const lastThree = 2;
-        const thirdAbility = 2;
-
-        switch (subset) {
-            case all:
-                return this._abilitiesDataService.abilities();
-            case firstThree:
-                return this._abilitiesDataService.abilities().filter((_ability, index) => index <= thirdAbility);
-            case lastThree:
-                return this._abilitiesDataService.abilities().filter((_ability, index) => index > thirdAbility);
-            default:
-                return this._abilitiesDataService.abilities();
-        }
-    }
-
-    public calculateAbility(ability: Ability): CalculatedAbility {
-        return this._ablityValuesService.calculate(ability, this._currentCreature);
+        SettingsService.setSetting(settings => settings.abilitiesMinimized = minimized);
     }
 
     public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
         this._destroy();
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['abilities', 'all', this.creature.toLowerCase()].includes(target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
-                    ['abilities', 'all'].includes(view.target.toLowerCase())
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
     }
 
 }

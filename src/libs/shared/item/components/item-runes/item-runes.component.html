@@ -65,7 +65,7 @@
                 <select
                     aria-label="Select property rune"
                     [(ngModel)]="newPropertyRune[index]"
-                    (ngModelChange)="onSelectPropertyRune(index, runeItemType)"
+                    (ngModelChange)="onSelectPropertyRune(index)"
                     [disabled]="!item.propertyRunes[index-1] && index > 0"
                 >
                     <ng-container *ngFor="let rune of initialPropertyRunes(index); let initialRuneIndex = index; trackBy:trackByIndex;">
@@ -86,9 +86,9 @@
                     </ng-container>
 
                     <ng-container *ngFor="let inv of inventoriesOrCleanItems(); trackBy:trackByIndex;">
-                        <ng-container *ngIf="availablePropertyRunes(index, inv, runeItemType) as availablePropertyRunes">
+                        <ng-container *ngIf="availablePropertyRunes$(index, inv, runeItemType) | async as availablePropertyRunes">
                             <optgroup
-                                label="{{itemStore ? 'Available runes' : inventoryName(inv)}}"
+                                [label]="itemStore ? 'Available runes' : inventoryName$(inv) | async"
                                 *ngIf="availablePropertyRunes.length"
                             >
                                 <option

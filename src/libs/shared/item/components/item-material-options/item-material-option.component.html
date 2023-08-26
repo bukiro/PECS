@@ -28,7 +28,7 @@
                 </optgroup>
             </ng-container>
 
-            <ng-container *ngIf="availableMaterials$ | async as availableMaterials">
+            <ng-container *ngIf="availableMaterials$() | async as availableMaterials">
                 <optgroup
                     label="Available materials"
                     *ngIf="availableMaterials.length"

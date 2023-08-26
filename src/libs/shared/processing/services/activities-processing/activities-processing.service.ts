@@ -24,6 +24,8 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
+import { Observable, combineLatest, map, of, switchMap, take, tap, zip } from 'rxjs';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
 
 @Injectable({
     providedIn: 'root',
@@ -106,16 +108,7 @@ export class ActivitiesProcessingService {
 
         let shouldClosePopupsAfterActivation = false;
 
-        // Start cooldown, unless one is already in effect.
-        if (!context.gain.activeCooldown) {
-            this._activityPropertiesService.cacheEffectiveCooldown(activity, context);
-
-            if (activity.$cooldown) {
-                context.gain.activeCooldown = activity.$cooldown;
-            }
-        }
-
-        this._activityPropertiesService.cacheMaxCharges(activity, context);
+        this._activityPropertiesService.effectiveMaxCharges$(activity, context);
 
         // Use charges
         this._useActivityCharges(activity, context);
@@ -123,126 +116,177 @@ export class ActivitiesProcessingService {
         //The conditions listed in conditionsToRemove will be removed after the activity is processed.
         const conditionsToRemove: Array<string> = [];
 
-        if (activity.toggle) {
-            //Determine the toggled activity's duration and save the names of the conditions that influenced it.
-            conditionsToRemove.push(...this._activateToggledActivity(activity, context));
-        } else {
-            context.gain.active = false;
-            context.gain.duration = 0;
-            context.gain.selectedTarget = '';
-        }
+        zip([
+            context.gain.activeCooldown
+                ? of(0)
+                : this._activityPropertiesService.effectiveCooldown$(activity, context),
+            activity.toggle
+                //Determine the toggled activity's duration and save the names of the conditions that influenced it.
+                ? this._activateToggledActivity$(activity, context)
+                : of([]),
+            propMap$(SettingsService.settings$, 'manualMode$'),
+        ])
+            .pipe(
+                switchMap(([effectiveActivityCooldown, conditionsToRemoveFromToggledActivation, isManualMode]) => {
+                    // Process gained conditions of the activity and keep the affecting conditions and whether to close popups.
+                    // Don't process gained conditions in manual mode.
+                    if (!isManualMode && activity.gainConditions) {
+                        const isSlottedAeonStone =
+                            (context.item && context.item instanceof WornItem && context.item.isSlottedAeonStone);
+                        const conditions: Array<ConditionGain> =
+                            activity.gainConditions.filter(conditionGain => conditionGain.resonant ? isSlottedAeonStone : true);
 
-        //Process various results of activating the activity
-
-        //Gain Items on Activation
-        if (activity.gainItems.length) {
-            if (context.gain instanceof ActivityGain) {
-                context.gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem).recast());
-            }
-
-            context.gain.gainItems.forEach(gainItem => {
-                this._itemGrantingService.grantGrantedItem(
-                    gainItem,
-                    context.creature,
-                    { sourceName: activity.name },
-                );
-            });
-        }
-
-        //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!SettingsService.isManualMode) {
-
-            //One time effects
-            if (activity.onceEffects) {
-                activity.onceEffects.forEach(effect => {
-                    if (!effect.source) {
-                        effect.source = activity.name;
+                        return this._applyGainingConditions$(
+                            activity,
+                            conditions,
+                            {
+                                ...context,
+                                targets: context.targets,
+                            },
+                        )
+                            .pipe(
+                                map(gainingConditionsResult => ({
+                                    effectiveActivityCooldown,
+                                    conditionsToRemoveFromToggledActivation,
+                                    isManualMode,
+                                    gainingConditionsResult,
+                                })),
+                            );
                     }
 
-                    this._onceEffectsService.processOnceEffect(context.creature, effect);
-                });
-            }
-
-            //Apply conditions and save the names of the conditions that influenced their duration.
-            if (activity.gainConditions) {
-                const isSlottedAeonStone = (context.item && context.item instanceof WornItem && context.item.isSlottedAeonStone);
-                const conditions: Array<ConditionGain> =
-                    activity.gainConditions.filter(conditionGain => conditionGain.resonant ? isSlottedAeonStone : true);
-
-                const gainingConditionsResult = this._applyGainingConditions(
-                    activity,
-                    conditions,
-                    {
-                        ...context,
-                        targets: context.targets,
-                    },
-                );
-
-                conditionsToRemove.push(
-                    ...gainingConditionsResult.conditionsToRemove,
-                );
-
-                shouldClosePopupsAfterActivation =
-                    gainingConditionsResult.shouldClosePopupsAfterActivation || shouldClosePopupsAfterActivation;
-
-            }
-
-            //Cast Spells
-            if (activity.castSpells) {
-                // For non-item activities, which are read-only, we have to store any temporary spell gain data
-                // (like duration and targets) on the activity gain instead of the activity,
-                // so we copy all spell casts (which include spell gains) to the activity gain.
-                if (context.gain instanceof ActivityGain) {
-                    context.gain.castSpells =
-                        activity.castSpells
-                            .map(spellCast => spellCast.clone());
+                    return of(({
+                        effectiveActivityCooldown,
+                        conditionsToRemoveFromToggledActivation,
+                        isManualMode,
+                        gainingConditionsResult: {
+                            conditionsToRemove: [],
+                            shouldClosePopupsAfterActivation: false,
+                        },
+                    }));
+                }),
+                take(1),
+            )
+            .subscribe(({
+                effectiveActivityCooldown,
+                conditionsToRemoveFromToggledActivation,
+                isManualMode,
+                gainingConditionsResult,
+            }) => {
+                // Start cooldown, unless one is already in effect.
+                if (!context.gain.activeCooldown) {
+                    if (effectiveActivityCooldown) {
+                        context.gain.activeCooldown = effectiveActivityCooldown;
+                    }
                 }
 
-                context.gain.castSpells.forEach((cast, spellCastIndex) => {
-                    const librarySpell = this._spellsDataService.spellFromName(cast.name);
+                if (activity.toggle) {
+                    //Determine the toggled activity's duration and save the names of the conditions that influenced it.
+                    conditionsToRemove.push(...conditionsToRemoveFromToggledActivation);
+                } else {
+                    context.gain.active = false;
+                    context.gain.duration = 0;
+                    context.gain.selectedTarget = '';
+                }
 
-                    if (librarySpell) {
-                        if (context.gain.spellEffectChoices[spellCastIndex].length) {
-                            cast.spellGain.effectChoices = context.gain.spellEffectChoices[spellCastIndex];
-                        }
+                //Process various results of activating the activity
 
-                        if (cast.overrideChoices.length) {
-                            //If the SpellCast has overrideChoices, copy them to the SpellGain.
-                            cast.spellGain.overrideChoices = JSON.parse(JSON.stringify(cast.overrideChoices));
-                        }
-
-                        if (cast.duration) {
-                            cast.spellGain.duration = cast.duration;
-                        }
-
-                        cast.spellGain.selectedTarget = context.target || '';
-
-                        this._psp.spellProcessingService?.processSpell(
-                            librarySpell,
-                            true,
-                            {
-                                creature: context.creature,
-                                target: cast.spellGain.selectedTarget,
-                                gain: cast.spellGain,
-                                level: cast.level,
-                                activityGain: context.gain,
-                            },
-                            { manual: true },
-                        );
+                //Gain Items on Activation
+                if (activity.gainItems.length) {
+                    if (context.gain instanceof ActivityGain) {
+                        context.gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem).recast());
                     }
-                });
-            }
 
-        }
+                    context.gain.gainItems.forEach(gainItem => {
+                        this._itemGrantingService.grantGrantedItem(
+                            gainItem,
+                            context.creature,
+                            { sourceName: activity.name },
+                        );
+                    });
+                }
 
-        this._deactivateExclusiveActivities(activity, context);
+                //In manual mode, targets, conditions, one time effects and spells are not processed.
+                if (isManualMode) {
 
-        //All Conditions that have affected the duration of this activity or its conditions are now removed.
-        this._psp.spellActivityProcessingSharedService?.removeConditionsToRemove(conditionsToRemove, context);
+                    //One time effects
+                    if (activity.onceEffects) {
+                        activity.onceEffects.forEach(effect => {
+                            if (!effect.source) {
+                                effect.source = activity.name;
+                            }
 
-        if (shouldClosePopupsAfterActivation) {
-            this._refreshService.prepareDetailToChange(context.creature.type, 'close-popovers');
-        }
+                            this._onceEffectsService.processOnceEffect(context.creature, effect);
+                        });
+                    }
+
+                    //Apply conditions and save the names of the conditions that influenced their duration.
+                    if (activity.gainConditions) {
+                        conditionsToRemove.push(
+                            ...gainingConditionsResult.conditionsToRemove,
+                        );
+
+                        shouldClosePopupsAfterActivation =
+                            gainingConditionsResult.shouldClosePopupsAfterActivation || shouldClosePopupsAfterActivation;
+
+                    }
+
+                    //Cast Spells
+                    if (activity.castSpells) {
+                        // For non-item activities, which are read-only, we have to store any temporary spell gain data
+                        // (like duration and targets) on the activity gain instead of the activity,
+                        // so we copy all spell casts (which include spell gains) to the activity gain.
+                        if (context.gain instanceof ActivityGain) {
+                            context.gain.castSpells =
+                                activity.castSpells
+                                    .map(spellCast => spellCast.clone());
+                        }
+
+                        context.gain.castSpells.forEach((cast, spellCastIndex) => {
+                            const librarySpell = this._spellsDataService.spellFromName(cast.name);
+
+                            if (librarySpell) {
+                                if (context.gain.spellEffectChoices[spellCastIndex].length) {
+                                    cast.spellGain.effectChoices = context.gain.spellEffectChoices[spellCastIndex];
+                                }
+
+                                if (cast.overrideChoices.length) {
+                                    //If the SpellCast has overrideChoices, copy them to the SpellGain.
+                                    cast.spellGain.overrideChoices = JSON.parse(JSON.stringify(cast.overrideChoices));
+                                }
+
+                                if (cast.duration) {
+                                    cast.spellGain.duration = cast.duration;
+                                }
+
+                                cast.spellGain.selectedTarget = context.target || '';
+
+                                this._psp.spellProcessingService?.processSpell(
+                                    librarySpell,
+                                    true,
+                                    {
+                                        creature: context.creature,
+                                        target: cast.spellGain.selectedTarget,
+                                        gain: cast.spellGain,
+                                        level: cast.level,
+                                        activityGain: context.gain,
+                                    },
+                                    { manual: true },
+                                );
+                            }
+                        });
+                    }
+
+                }
+
+                this._deactivateExclusiveActivities(activity, context);
+
+                //All Conditions that have affected the duration of this activity or its conditions are now removed.
+                this._psp.spellActivityProcessingSharedService?.removeConditionsToRemove(conditionsToRemove, context);
+
+                if (shouldClosePopupsAfterActivation) {
+                    this._refreshService.prepareDetailToChange(context.creature.type, 'close-popovers');
+                }
+            });
     }
 
     private _useActivityCharges(
@@ -254,51 +298,49 @@ export class ActivitiesProcessingService {
         },
     ): void {
         // Use charges
-        const maxCharges = activity.$charges;
-
-        if (maxCharges || context.gain.sharedChargesID) {
-            // If this activity belongs to an item and has a sharedCharges ID,
-            // spend a charge for every activity with the same sharedChargesID and start their cooldown if necessary.
-            if (context.item && context.gain.sharedChargesID) {
-                context.item.activities
-                    .filter(itemActivity => itemActivity.sharedChargesID === context.gain.sharedChargesID)
-                    .forEach(itemActivity => {
-                        this._activityPropertiesService.cacheMaxCharges(itemActivity, context);
-
-                        if (itemActivity.$charges) {
-                            itemActivity.chargesUsed += 1;
+        zip([
+            this._activityPropertiesService.effectiveMaxCharges$(activity, context),
+            (context.gain.sharedChargesID)
+                // If this activity belongs to an item and has a sharedCharges ID,
+                // collect all of the item's activities with their effective cooldown and max charges.
+                ? combineLatest([
+                    ...context.item?.activities
+                        .filter(itemActivity => itemActivity.sharedChargesID === context.gain.sharedChargesID) ?? [],
+                    ...(context.item?.isEquipment() ? context.item.gainActivities : [])
+                        .filter(gain => gain.sharedChargesID === context.gain.sharedChargesID),
+                ]
+                    .map(gain => combineLatest([
+                        this._activityPropertiesService.effectiveMaxCharges$(gain.originalActivity, context),
+                        this._activityPropertiesService.effectiveCooldown$(gain.originalActivity, context),
+                    ])
+                        .pipe(
+                            map(([maxCharges, cooldown]) => ({ gain, maxCharges, cooldown })),
+                        ),
+                    ),
+                )
+                : of([]),
+        ])
+            .pipe(
+                take(1),
+            )
+            .subscribe(([maxCharges, children]) => {
+                // If child activities with the same sharedChargesID were collected,
+                // spend a charge for all of them and start their cooldown if necessary.
+                children
+                    .forEach(child => {
+                        if (child.maxCharges) {
+                            child.gain.chargesUsed += 1;
                         }
 
-                        this._activityPropertiesService.cacheEffectiveCooldown(itemActivity, context);
-
-                        if (!itemActivity.activeCooldown && itemActivity.$cooldown) {
-                            itemActivity.activeCooldown = itemActivity.$cooldown;
+                        if (!child.gain.activeCooldown && child.cooldown) {
+                            child.gain.activeCooldown = child.cooldown;
                         }
                     });
-                context.item instanceof Equipment && context.item.gainActivities
-                    .filter(gain => gain.sharedChargesID === context.gain.sharedChargesID)
-                    .forEach(gain => {
-                        const originalActivity = gain.originalActivity;
 
-                        if (originalActivity.name === gain.name) {
-                            this._activityPropertiesService.cacheMaxCharges(originalActivity, context);
-
-                            if (originalActivity.$charges) {
-                                gain.chargesUsed += 1;
-                            }
-
-                            this._activityPropertiesService.cacheEffectiveCooldown(originalActivity, context);
-
-                            if (!gain.activeCooldown && originalActivity.$cooldown) {
-                                gain.activeCooldown = originalActivity.$cooldown;
-                            }
-                        }
-
-                    });
-            } else if (maxCharges) {
-                context.gain.chargesUsed += 1;
-            }
-        }
+                if (maxCharges) {
+                    context.gain.chargesUsed += 1;
+                }
+            });
     }
 
     /**
@@ -307,41 +349,58 @@ export class ActivitiesProcessingService {
      *
      * Returns the names of the conditions that should be removed after they changed the sustain duration.
      */
-    private _activateToggledActivity(
+    private _activateToggledActivity$(
         activity: Activity,
         context: {
             creature: Creature;
             gain: ActivityGain | ItemActivity;
             target?: SpellTargetSelection;
         },
-    ): Array<string> {
+    ): Observable<Array<string>> {
         const conditionsToRemove: Array<string> = [];
 
         context.gain.active = true;
 
         if (activity.maxDuration) {
             context.gain.duration = activity.maxDuration;
-            //If an effect changes the duration of this activitiy, change the duration here.
-            this._creatureEffectsService
-                .absoluteEffectsOnThis(context.creature, `${ activity.name } Duration`)
-                .forEach(effect => {
-                    context.gain.duration = parseInt(effect.setValue, 10);
-                    conditionsToRemove.push(effect.source);
-                });
-            this._creatureEffectsService
-                .relativeEffectsOnThis(context.creature, `${ activity.name } Duration`)
-                .forEach(effect => {
-                    context.gain.duration += parseInt(effect.value, 10);
-                    conditionsToRemove.push(effect.source);
-                });
         }
 
         context.gain.selectedTarget = context.target || '';
 
-        return conditionsToRemove;
+        return (
+            activity.maxDuration
+                ? zip(
+                    this._creatureEffectsService
+                        .absoluteEffectsOnThis$(context.creature, `${ activity.name } Duration`),
+                    this._creatureEffectsService
+                        .relativeEffectsOnThis$(context.creature, `${ activity.name } Duration`),
+                )
+                : zip([
+                    of([]),
+                    of([]),
+                ])
+        )
+            .pipe(
+                take(1),
+                // If an effect changes the duration of this activitiy, change the duration here.
+                // Afterwards, the condition causing the effect should be removed.
+                tap(([absolutes, relatives]) => {
+                    absolutes
+                        .forEach(effect => {
+                            context.gain.duration = effect.setValueNumerical;
+                            conditionsToRemove.push(effect.source);
+                        });
+                    relatives
+                        .forEach(effect => {
+                            context.gain.duration += effect.valueNumerical;
+                            conditionsToRemove.push(effect.source);
+                        });
+                }),
+                map(() => conditionsToRemove),
+            );
     }
 
-    private _applyGainingConditions(
+    private _applyGainingConditions$(
         activity: Activity,
         conditions: Array<ConditionGain>,
         context: {
@@ -350,8 +409,7 @@ export class ActivitiesProcessingService {
             item?: Equipment | Rune;
             targets: Array<Creature | SpellTarget>;
         },
-    ): { conditionsToRemove: Array<string>; shouldClosePopupsAfterActivation: boolean } {
-        const conditionsToRemove: Array<string> = [];
+    ): Observable<{ conditionsToRemove: Array<string>; shouldClosePopupsAfterActivation: boolean }> {
         let shouldClosePopupsAfterActivation = false;
 
         const hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter !== 'caster');
@@ -363,87 +421,107 @@ export class ActivitiesProcessingService {
             hasCasterCondition &&
             Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length === 1;
 
-        conditions.forEach((conditionGain, conditionIndex) => {
-            const newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast(this._recastService.recastOnlyFns);
-            const condition = this._conditionsDataService.conditionFromName(conditionGain.name);
+        return zip(
+            conditions.map((conditionGain, conditionIndex) => {
+                const newConditionGain = conditionGain.clone(this._recastService.recastOnlyFns);
+                const condition = this._conditionsDataService.conditionFromName(conditionGain.name);
 
-            if (
-                condition.endConditions.some(endCondition =>
-                    endCondition.name.toLowerCase() === context.gain.source.toLowerCase(),
-                )) {
-                // If any condition ends the condition that this activity came from,
-                // close all popovers after the activity is processed.
-                // This ensures that conditions in stickyPopovers don't remain open even after they have been removed.
-                shouldClosePopupsAfterActivation = true;
-            }
-
-            //Unless preset, the condition source is the activity name.
-            if (!newConditionGain.source) {
-                newConditionGain.source = activity.name;
-            }
-
-            //Under certain circumstances, don't grant a condition.
-            if (
-                this._psp.spellActivityProcessingSharedService?.shouldGainCondition(
-                    activity,
-                    newConditionGain,
-                    condition,
-                    { hasTargetCondition, isCasterATarget, isCasterConditionSameAsTargetCondition },
-                )
-            ) {
-                newConditionGain.sourceGainID = context.gain?.id || '';
-
-                // If this activityGain has taken over a spell level from a spell condition,
-                // and the new condition is a spell condition itself, transfer the spell level to it.
-                if (condition.minLevel) {
-                    newConditionGain.heightened = newConditionGain.heightened || context.gain.heightened || condition.minLevel;
+                if (
+                    condition.endConditions.some(endCondition =>
+                        endCondition.name.toLowerCase() === context.gain.source.toLowerCase(),
+                    )) {
+                    // If any condition ends the condition that this activity came from,
+                    // close all popovers after the activity is processed.
+                    // This ensures that conditions in stickyPopovers don't remain open even after they have been removed.
+                    shouldClosePopupsAfterActivation = true;
                 }
 
-                //Unless the conditionGain has a choice set, try to set it by various factors.
-                if (!newConditionGain.choice) {
-                    this._psp.spellActivityProcessingSharedService.determineGainedConditionChoice(
-                        newConditionGain,
-                        conditionIndex,
-                        condition,
-                        context,
-                    );
+                //Unless preset, the condition source is the activity name.
+                if (!newConditionGain.source) {
+                    newConditionGain.source = activity.name;
                 }
 
-                //Determine the condition's duration and save the names of the conditions that influenced it.
-                conditionsToRemove.push(
-                    ...this._psp.spellActivityProcessingSharedService.determineGainedConditionDuration(
+                //Under certain circumstances, don't grant a condition.
+                if (
+                    this._psp.spellActivityProcessingSharedService?.shouldGainCondition(
+                        activity,
                         newConditionGain,
                         condition,
-                        { ...context, source: activity },
-                        { hasTargetCondition, isCasterATarget },
-                    ),
-                );
+                        { hasTargetCondition, isCasterATarget, isCasterConditionSameAsTargetCondition },
+                    )
+                ) {
+                    newConditionGain.sourceGainID = context.gain?.id || '';
 
-                if (condition.hasValue) {
-                    conditionsToRemove.push(
-                        //Determine the condition's value and save the names of the conditions that influenced it.
-                        ...this._psp.spellActivityProcessingSharedService.determineGainedConditionValue(
+                    // If this activityGain has taken over a spell level from a spell condition,
+                    // and the new condition is a spell condition itself, transfer the spell level to it.
+                    if (condition.minLevel) {
+                        newConditionGain.heightened = newConditionGain.heightened || context.gain.heightened || condition.minLevel;
+                    }
+
+                    return zip([
+                        //Unless the conditionGain has a choice set, try to determine it by various factors.
+                        newConditionGain.choice
+                            ? of(newConditionGain.choice)
+                            : this._psp.spellActivityProcessingSharedService.determineGainedConditionChoice$(
+                                newConditionGain,
+                                conditionIndex,
+                                condition,
+                                context,
+                            ),
+                        //Determine the condition's duration and the names of the conditions that influenced it.
+                        this._psp.spellActivityProcessingSharedService.determineGainedConditionDuration$(
                             newConditionGain,
                             condition,
-                            context,
+                            { ...context, source: activity },
+                            { hasTargetCondition, isCasterATarget },
                         ),
-                    );
+                        //Determine the condition's value and the names of the conditions that influenced it.
+                        condition.hasValue
+                            ? this._psp.spellActivityProcessingSharedService.determineGainedConditionValue$(
+                                newConditionGain,
+                                condition,
+                                context,
+                            )
+                            : of({ conditionsToRemove: [], newValue: newConditionGain.value }),
+                    ])
+                        .pipe(
+                            map(([determinedConditionChoice, determinedConditionDuration, determinedConditionValue]) => {
+                                //Determine the condition's duration and the names of the conditions that influenced it.
+                                newConditionGain.choice = determinedConditionChoice;
+                                newConditionGain.duration = determinedConditionDuration.newDuration;
+                                newConditionGain.value = determinedConditionValue.newValue;
+
+                                if (this._psp.spellActivityProcessingSharedService) {
+                                    const conditionTargets = this._psp.spellActivityProcessingSharedService.determineConditionTargets(
+                                        newConditionGain,
+                                        { ...context, source: activity },
+                                    );
+
+                                    this._psp.spellActivityProcessingSharedService.distributeGainingConditions(
+                                        newConditionGain,
+                                        conditionTargets,
+                                        activity,
+                                    );
+                                }
+
+                                return determinedConditionDuration.conditionsToRemove
+                                    .concat(
+                                        determinedConditionValue.conditionsToRemove,
+                                    );
+                            }),
+                        );
                 }
 
-                const conditionTargets = this._psp.spellActivityProcessingSharedService.determineConditionTargets(
-                    newConditionGain,
-                    { ...context, source: activity },
-                );
 
-                this._psp.spellActivityProcessingSharedService.distributeGainingConditions(
-                    newConditionGain,
-                    conditionTargets,
-                    activity,
-                );
-            }
-        });
-
-        return { conditionsToRemove, shouldClosePopupsAfterActivation };
+                return of([]);
+            }),
+        )
+            .pipe(
+                map(conditionsToRemoveLists => ({
+                    conditionsToRemove: new Array<string>().concat(...conditionsToRemoveLists),
+                    shouldClosePopupsAfterActivation,
+                })),
+            );
     }
 
     private _deactivateExclusiveActivities(
@@ -511,12 +589,16 @@ export class ActivitiesProcessingService {
         }
 
         if (activity.cooldownAfterEnd) {
-            this._activityPropertiesService.cacheEffectiveCooldown(activity, context);
-
-            // If the activity ends and cooldownAfterEnd is set, start the cooldown anew.
-            if (activity.$cooldown) {
-                context.gain.activeCooldown = activity.$cooldown;
-            }
+            this._activityPropertiesService.effectiveCooldown$(activity, context)
+                .pipe(
+                    take(1),
+                )
+                .subscribe(effectiveCooldown => {
+                    // If the activity ends and cooldownAfterEnd is set, start the cooldown anew.
+                    if (effectiveCooldown) {
+                        context.gain.activeCooldown = effectiveCooldown;
+                    }
+                });
         }
 
         context.gain.active = false;
@@ -535,7 +617,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!SettingsService.isManualMode) {
+        if (!SettingsService.settings.manualMode) {
 
             //Remove applied conditions.
             //The condition source is the activity name.

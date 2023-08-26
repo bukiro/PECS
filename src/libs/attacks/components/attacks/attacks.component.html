@@ -81,7 +81,7 @@
                 </button>
             </span>
 
-            <ng-container *ngIf="isFlurryAllowed()">
+            <ng-container *ngIf="isFlurryAllowed$() | async">
                 <strong>Flurry MAP</strong>
 
                 <span class="hlist right-aligned">
@@ -192,7 +192,7 @@
         <div
             class="list-item"
             [ngClass]="{'problem minimized-hide':!weaponParameters.isAllowed, 'invisible':!weaponParameters.isAllowed && !showRestricted}"
-            *ngFor="let attack of attacksOfWeapon(weaponParameters.weapon); trackBy:trackByIndex;"
+            *ngFor="let attack of attacksOfWeapon$(weaponParameters.weapon) | async; trackBy:trackByIndex;"
         >
             <div class="newrow">
                 <span style="flex-basis:auto">
@@ -210,10 +210,10 @@
                         >
                             <i class='ra ra-target-arrows'></i>
                         </span>
-                        {{weaponParameters.weapon.effectiveName()}}
+                        {{weaponParameters.weapon.effectiveName$()}}
                     </strong>
 
-                    <strong *ngIf="applyingHandwrapsOfMightyBlows(weaponParameters.weapon) as handwraps">({{handwraps.effectiveName()}})</strong>
+                    <strong *ngIf="applyingHandwrapsOfMightyBlows(weaponParameters.weapon) as handwraps">({{handwraps.effectiveName$()}})</strong>
 
                     <button
                         type="button"
@@ -240,7 +240,7 @@
 
                         <span>
                             {{(weaponParameters.asBomb.amount !== undefined && weaponParameters.asBomb.amount !== 1)
-                                ? weaponParameters.asBomb.amount+" " : ""}}{{weaponParameters.asBomb.effectiveName()}}
+                                ? weaponParameters.asBomb.amount+" " : ""}}{{weaponParameters.asBomb.effectiveName$()}}
                             <app-action-icons
                                 *ngIf="weaponParameters.asBomb.actions"
                                 [actionString]="weaponParameters.asBomb.actions"
@@ -251,18 +251,22 @@
                     </button>
                 </span>
 
-                <span style="flex-basis:auto">
+                <!--A value component goes here-->
+
+
+                    <span style="flex-basis:auto">
                     Attack
                     <span>
                         <app-quickdice
                             [creature]="creature"
                             [diceNum]="1"
                             [diceSize]="20"
-                            [bonus]="attack.attackResult"
+                            [bonus]="attack.result"
                             [type]="'(Attack)'"
                         >
                         </app-quickdice>
 
+                    <!--
                         <div
                             class="value"
                             [ngbPopover]="attack.explain"
@@ -270,73 +274,71 @@
                         >
                             {{attack.attackResult}}
                         </div>
+                    -->
                     </span>
 
-                    <ng-container *ngIf="damageOfWeapon(weaponParameters.weapon, attack.range) as damage">
-                        <span *ngIf="!damage.damageResult.includes('0d0')">
+                <!--Another component is needed for damage-->
+
+                    <ng-container *ngIf="damageOfWeapon$(weaponParameters.weapon, attack.range) | async as damage">
+                        <span *ngIf="!damage.result.includes('0d0')">
                             &nbsp;Damage&nbsp;
                             <app-quickdice
                                 [creature]="creature"
-                                [diceString]="damage.damageResult"
+                                [diceString]="damage.result"
                             ></app-quickdice>
                         </span>
 
-                        <ng-container *ngFor="let line of damage.damageResult.split('\n'); let index = index; trackBy:trackByIndex;">
-                            <div
-                                class="value"
-                                [ngbPopover]="damage.explain"
-                                [ngClass]="{'penalty':!index && damage.penalties.length, 'bonus':!index && damage.bonuses.length, 'absolute':!index && damage.absolutes.length}"
-                                *ngIf="!line.includes('0d0')"
-                            >
-                                {{line}}
-                            </div>
-
+                        <ng-container *ngFor="let line of damage.result.split('\n'); let index = index; trackBy:trackByIndex;">
+                            <!--
+                                <div
+                                    class="value"
+                                    [ngbPopover]="damage.explain"
+                                    [ngClass]="{'penalty':!index && damage.penalties.length, 'bonus':!index && damage.bonuses.length, 'absolute':!index && damage.absolutes.length}"
+                                    *ngIf="!line.includes('0d0')"
+                                >
+                                    {{line}}
+                                </div>
+                            -->
                             <br>
                         </ng-container>
                     </ng-container>
                 </span>
             </div>
 
-            <ng-container *ngIf="weaponParameters.weapon.$traits as traits">
-                <div
-                    class="minimized-hide newrow left-aligned tags"
-                    *ngIf="traits.length"
-                >
-                    <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
-                        <app-trait
-                            [trait]="traitFromName(trait)"
-                            [item]="weaponParameters.weapon"
-                            [name]="trait"
-                            [creature]="creature"
-                        ></app-trait>
-                    </ng-container>
-                </div>
-            </ng-container>
-
-            <ng-container *ngIf="weaponParameters.weapon.$traits as traits">
-                <div
-                    class="minimized-hide newrow left-aligned tags"
-                    *ngIf="traits.length"
-                >
-                    <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
-                        <ng-container *ngIf="traitFromName(trait) as realTrait">
-                            <app-hint
-                                *ngIf="realTrait.hints.length"
-                                [creature]="creature"
-                                [object]="realTrait"
-                                [description]="trait"
-                                [sourceBook]="realTrait.sourceBook"
-                                [noFilter]="true"
-                            >
-                            </app-hint>
+            <ng-container *ngIf="weaponParameters.weapon.effectiveTraits$ | async as traits">
+                <ng-container *ngIf="traits.length">
+                    <div class="minimized-hide newrow left-aligned tags">
+                        <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
+                            <app-trait
+                                [trait]="traitFromName(trait)"
+                                [item]="weaponParameters.weapon"
+                                [name]="trait"
+                                [creatureType]="creature.type"
+                            ></app-trait>
                         </ng-container>
-                    </ng-container>
-                </div>
+                    </div>
+
+                    <div class="minimized-hide newrow left-aligned tags">
+                        <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
+                            <ng-container *ngIf="traitFromName(trait) as realTrait">
+                                <app-hint
+                                    *ngIf="realTrait.hints.length"
+                                    [creature]="creature"
+                                    [object]="realTrait"
+                                    [description]="trait"
+                                    [sourceBook]="realTrait.sourceBook"
+                                    [noFilter]="true"
+                                >
+                                </app-hint>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </ng-container>
             </ng-container>
 
             <div
                 class="minimized-hide newrow left-aligned"
-                *ngIf="hintShowingRunes(weaponParameters.weapon, attack.range) as hintRunes"
+                *ngIf="hintShowingRunes$(weaponParameters.weapon, attack.range) | async as hintRunes"
                 style="margin-top:initial"
             >
                 <ng-container *ngFor="let hintRune of hintRunes; trackBy:trackByIndex;">
@@ -372,7 +374,7 @@
                 [showItems]=true
                 [showActivities]=true
                 [showConditions]=true
-                [specialNames]="specialShowOnNames(weaponParameters.weapon, attack.range)"
+                [specialNames]="(specialShowOnNames$(weaponParameters.weapon, attack.range) | async) ?? []"
                 [specialEffects]=attack.effects
             ></app-tags>
 
@@ -533,7 +535,7 @@
                 </div>
             </ng-container>
 
-            <ng-container *ngIf="criticalSpecialization(weaponParameters.weapon, attack.range) as specs">
+            <ng-container *ngIf="criticalSpecialization$(weaponParameters.weapon, attack.range) | async as specs">
                 <div
                     class="minimized-hide list-item newrow"
                     *ngIf="specs.length"
@@ -564,7 +566,7 @@
             </ng-container>
 
             <ng-container
-                *ngFor="let rune of runesOfWeapon(weaponParameters.weapon, attack.range); trackBy:trackByIndex;"
+                *ngFor="let rune of runesOfWeapon$(weaponParameters.weapon, attack.range) | async; trackBy:trackByIndex;"
                 style="margin-top:initial"
             >
                 <div
@@ -673,11 +675,11 @@
 
             <div
                 class="list-item"
-                *ngFor="let ammo of availableAmmo(ammoType); let ammoIndex = index; trackBy:trackByIndex;"
+                *ngFor="let ammo of availableAmmo$(ammoType) | async; let ammoIndex = index; trackBy:trackByIndex;"
             >
                 <strong>
                     {{(ammo.item.amount !== undefined && ammo.item.amount !== 1) ? ammo.item.amount+" " : ""}}
-                        {{ammo.item.effectiveName()}}
+                        {{ammo.item.effectiveName$()}}
                 </strong>
 
                 <div [ngbTooltip]="ammo.item.storedSpells.length ? 'Cast spell on any target. To choose a specific target (if applicable), use the item in the inventory instead.' : ''">
@@ -701,7 +703,7 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="availableSnares() as snares">
+    <ng-container *ngIf="availableSnares$() | async as snares">
         <ng-container *ngIf="snares.length">
             <header class="sectionHeader box-header">Deployed Snares</header>
 
@@ -721,7 +723,7 @@
             >
                 <ng-container *ngFor="let snare of snares; let snareIndex = index; trackBy:trackByIndex;">
                     <ng-template #SnareTitleTemplate>
-                        <span>{{snare.item.effectiveName()}}</span>
+                        <span>{{snare.item.effectiveName$()}}</span>
                     </ng-template>
 
                     <ng-template #SnareTemplate>
@@ -822,7 +824,7 @@
 
     <div
         class="list-item newrow"
-        *ngIf="favoredWeapons() as favoredWeapons"
+        *ngIf="favoredWeapons$() | async as favoredWeapons"
     >
         <strong>Favored Weapon</strong>
         {{favoredWeapons.join(" or ")}}

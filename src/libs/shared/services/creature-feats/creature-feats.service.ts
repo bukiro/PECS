@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Creature } from 'src/app/classes/Creature';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { Observable, map, of } from 'rxjs';
+import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
 
 @Injectable({
     providedIn: 'root',
@@ -13,29 +13,35 @@ export class CreatureFeatsService {
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
-    public creatureHasFeat(
-        feat: Feat,
+    /**
+     * Common feat checker for all creatures.
+     *
+     * @param featName
+     * @param context
+     * @param filter
+     * @param options
+     * @returns The amount to which the creature has the feat.
+     */
+    public creatureHasFeat$(
+        featName: string,
         context: { creature: Creature },
         filter: { charLevel?: number; minLevel?: number } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
-    ): number {
-        filter = {
-            charLevel: CreatureService.character.level,
-            minLevel: 1,
-            ...filter,
-        };
-
+    ): Observable<number> {
         if (context.creature.isCharacter()) {
-            return this._characterFeatsService.characterFeatsTaken(
+            return this._characterFeatsService.characterFeatsTaken$(
                 filter.minLevel,
                 filter.charLevel,
-                { featName: feat.name },
+                { featName },
                 options,
-            )?.length || 0;
+            )
+                .pipe(
+                    map(featsTaken => featsTaken.length),
+                );
         } else if (context.creature.isFamiliar()) {
-            return context.creature.abilities.feats.filter(gain => gain.name.toLowerCase() === feat.name.toLowerCase())?.length || 0;
+            return of(context.creature.abilities.feats.filter(gain => stringEqualsCaseInsensitive(gain.name, featName))?.length ?? 0);
         } else {
-            return 0;
+            return of(0);
         }
     }
 

@@ -3,11 +3,13 @@ import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Creature } from 'src/app/classes/Creature';
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
-import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { Observable, combineLatest, map, of } from 'rxjs';
+import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
+import { deepDistinctUntilChanged, propMap$ } from 'src/libs/shared/util/observableUtils';
+import { Familiar } from 'src/app/classes/Familiar';
 
 interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;
@@ -21,89 +23,116 @@ export class CreatureEffectsGenerationService {
 
     constructor(
         private readonly _familiarsDataService: FamiliarsDataService,
-        private readonly _featsDataService: FeatsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
-    public creatureEffectsGenerationObjects(creature: Creature): CreatureEffectsGenerationObjects {
-        if (creature.isAnimalCompanion()) {
-            return this._animalCompanionEffectsGenerationObjects();
-        }
+    public creatureEffectsGenerationObjects$(creature: Creature): Observable<CreatureEffectsGenerationObjects> {
+        return (() => {
+            if (creature.isAnimalCompanion()) {
+                return this._animalCompanionEffectsGenerationObjects$(creature);
+            }
 
-        if (creature.isCharacter()) {
-            return this._characterEffectsGenerationObjects();
-        }
+            if (creature.isCharacter()) {
+                return this._characterEffectsGenerationObjects();
+            }
 
-        if (creature.isFamiliar()) {
-            return this._familiarEffectsGenerationObjects();
-        }
+            if (creature.isFamiliar()) {
+                return this._familiarEffectsGenerationObjects$(creature);
+            }
 
-        return {
-            feats: [],
-            hintSets: [],
-        };
+            return of({
+                feats: [],
+                hintSets: [],
+            });
+        })()
+            .pipe(
+                deepDistinctUntilChanged(),
+            );
+
+
     }
 
-    private _animalCompanionEffectsGenerationObjects(): CreatureEffectsGenerationObjects {
-        const companion = CreatureService.companion;
+    private _animalCompanionEffectsGenerationObjects$(companion: AnimalCompanion): Observable<CreatureEffectsGenerationObjects> {
+        return combineLatest([
+            propMap$(companion.class$, 'ancestry$'),
+            propMap$(companion.class$, 'specializations', 'values$'),
+        ])
+            .pipe(
+                map(([ancestry, specializations]) => {
+                    //Return the Companion's Ancestry's Hints as well as its Specializations and their Hints for effect generation.
+                    const feats: Array<AnimalCompanionSpecialization> = [];
+                    const hintSets: Array<HintEffectsObject> = [];
 
-        //Return the Companion, its Ancestry's Hints and its Specializations and their Hints for effect generation.
-        const feats: Array<AnimalCompanionSpecialization> = [];
-        const hintSets: Array<HintEffectsObject> = [];
+                    ancestry.hints
+                        .forEach(hint => {
+                            hintSets.push({ hint, objectName: companion.class.ancestry.name });
+                        });
 
-        companion.class?.ancestry?.hints?.forEach(hint => {
-            hintSets.push({ hint, objectName: companion.class.ancestry.name });
-        });
-        companion.class?.specializations?.filter(spec => spec.effects?.length || spec.hints?.length).forEach(spec => {
-            feats.push(spec);
-            spec.hints?.forEach(hint => {
-                hintSets.push({ hint, objectName: spec.name });
-            });
-        });
+                    specializations
+                        .filter(spec => spec.effects?.length || spec.hints?.length)
+                        .forEach(spec => {
+                            feats.push(spec);
+                            spec.hints?.forEach(hint => {
+                                hintSets.push({ hint, objectName: spec.name });
+                            });
+                        });
 
-        return { feats, hintSets };
+                    return { feats, hintSets };
+                }),
+            );
     }
 
-    private _characterEffectsGenerationObjects(): CreatureEffectsGenerationObjects {
-        const character = CreatureService.character;
+    private _characterEffectsGenerationObjects(): Observable<CreatureEffectsGenerationObjects> {
+        //Return the Character's Feats and their Hints for effect generation.
+        return this._characterFeatsService.characterFeatsAtLevel$()
+            .pipe(
+                map(feats => {
+                    const hintSets: Array<HintEffectsObject> = [];
 
-        //Return the Character, its Feats and their Hints for effect generation.
-        const feats: Array<Feat> = [];
-        const hintSets: Array<HintEffectsObject> = [];
+                    feats
+                        .forEach(feat => {
+                            feat.hints?.forEach(hint => {
+                                hintSets.push({ hint, objectName: feat.name });
+                            });
+                        });
 
-        this._characterFeatsService.characterFeatsTaken(0, character.level)
-            .map(gain => this._featsDataService.featOrFeatureFromName(character.customFeats, gain.name))
-            .filter(feat => feat)
-            .forEach(feat => {
-                feats.push(feat);
-                feat.hints?.forEach(hint => {
-                    hintSets.push({ hint, objectName: feat.name });
-                });
-            });
-
-        return { feats, hintSets };
+                    return { feats, hintSets };
+                }),
+            );
     }
 
-    private _familiarEffectsGenerationObjects(): CreatureEffectsGenerationObjects {
-        const familiar = CreatureService.familiar;
+    private _familiarEffectsGenerationObjects$(familiar: Familiar): Observable<CreatureEffectsGenerationObjects> {
+        return combineLatest(
+            this._familiarsDataService.familiarAbilities()
+                .map(ability =>
+                    (ability.effects?.length || ability.hints?.length)
+                        ?
+                        this._creatureFeatsService.creatureHasFeat$(ability.name, { creature: familiar })
+                            .pipe(
+                                map(hasAbility =>
+                                    hasAbility
+                                        ? ability
+                                        : null,
+                                ),
+                            )
+                        : of(null),
+                ),
+        )
+            .pipe(
+                map(abilities => abilities.filter((ability): ability is Feat => !!ability)),
+                map(feats => {
+                    //Return the Familiar, its Feats and their hints for effect generation.
+                    const hintSets: Array<HintEffectsObject> = [];
 
-        //Return the Familiar, its Feats and their hints for effect generation.
-        const feats: Array<Feat> = [];
-        const hintSets: Array<HintEffectsObject> = [];
+                    feats.forEach(ability => {
+                        ability.hints?.forEach(hint => {
+                            hintSets.push({ hint, objectName: ability.name });
+                        });
+                    });
 
-        this._familiarsDataService.familiarAbilities()
-            .filter(ability =>
-                (ability.effects?.length || ability.hints?.length) &&
-                this._creatureFeatsService.creatureHasFeat(ability, { creature: familiar }))
-            .filter(ability => ability.effects?.length || ability.hints?.length)
-            .forEach(ability => {
-                feats.push(ability);
-                ability.hints?.forEach(hint => {
-                    hintSets.push({ hint, objectName: ability.name });
-                });
-            });
-
-        return { feats, hintSets };
+                    return { feats, hintSets };
+                }),
+            );
     }
 }

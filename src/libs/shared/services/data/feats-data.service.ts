@@ -113,7 +113,12 @@ export class FeatsDataService {
         return resultingFeats;
     }
 
-    public featsAndFeatures(customFeats: Array<Feat>, name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
+    public featsAndFeatures(
+        customFeats: Array<Feat>,
+        name = '',
+        type = '',
+        options: { includeSubTypes?: boolean; includeCountAs?: boolean } = {},
+    ): Array<Feat> {
         // ATTENTION: Use this function sparingly!
         // There are thousands of feats.
         // Particularly if you need to find out if you have a feat with an attribute, use get_CharacterFeats instead:
@@ -123,13 +128,13 @@ export class FeatsDataService {
         // you only do 20 + 4 * 20 comparisons instead of 20 * 1000.
         if (!this.stillLoading) {
             //If a name is the only given parameter, we can get the feat or feature from the customFeats or the map more quickly.
-            if (name && !type && !includeSubTypes && !includeCountAs) {
+            if (name && !type && !options.includeSubTypes && !options.includeCountAs) {
                 return name.toLowerCase().split(' or ')
                     .map(alternative => this.featOrFeatureFromName(customFeats, alternative))
                     .filter(feat => feat);
             }
 
-            return this.filterFeats(this._feats.concat(customFeats).concat(this._features), name, type, includeSubTypes, includeCountAs);
+            return this.filterFeats(this._feats.concat(customFeats).concat(this._features), name, type, options);
         }
 
         return [this._replacementFeat()];
@@ -143,7 +148,12 @@ export class FeatsDataService {
             this._replacementFeat(name);
     }
 
-    public filterFeats(feats: Array<Feat>, name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
+    public filterFeats(
+        feats: Array<Feat>,
+        name = '',
+        type = '',
+        options: { includeSubTypes?: boolean; includeCountAs?: boolean } = {},
+    ): Array<Feat> {
         return feats.filter(feat =>
             !name ||
             //For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
@@ -152,11 +162,11 @@ export class FeatsDataService {
                     !alternative ||
                     feat.name.toLowerCase() === alternative ||
                     (
-                        includeSubTypes &&
+                        options.includeSubTypes &&
                         feat.superType.toLowerCase() === alternative
                     ) ||
                     (
-                        includeCountAs &&
+                        options.includeCountAs &&
                         feat.countAsFeat.toLowerCase() === alternative
                     ),
                 ) &&

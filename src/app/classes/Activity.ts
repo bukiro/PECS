@@ -7,6 +7,8 @@ import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { Observable, combineLatest, map, of } from 'rxjs';
+import { Creature } from './Creature';
 
 export enum ActivityTargetOptions {
     Companion = 'companion',
@@ -52,7 +54,7 @@ export class Activity {
     public sustained = false;
     /**
      * How often can you activate the activity?
-     * 0 is one activation per cooldown, or infinite activations if no cooldown is given. Use maxCharges() to read.
+     * 0 is one activation per cooldown, or infinite activations if no cooldown is given.
      */
     public charges = 0;
     public critfailure = '';
@@ -110,18 +112,18 @@ export class Activity {
      * (In case of "you and [...]", the caster condition should take care of the caster's part.)
      */
     public cannotTargetCaster = false;
-    /**
-     * $cooldown is a calculated cooldown that is set by cacheEffectiveCooldown()
-     * so that it can be used by canActivate() without passing parameters.
-     */
-    public $cooldown = 0;
-    /**
-     * $charges is the calculated number of charges that is set by cacheMaxCharges()
-     * so that it can be used by canActivate() and other functions without passing parameters.
-     */
-    public $charges = 0;
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
     public displayOnly = false;
+    /**
+     * effectiveCooldownByCreature$ is a map of calculated cooldown observables matched to creatures
+     * created by the ActivityPropertiesService so that it can be subscribed to without passing parameters.
+     */
+    public readonly effectiveCooldownByCreature$ = new Map<string, Observable<number>>();
+    /**
+     * effectiveMaxChargesByCreature$ is a map of calculated cooldown observables matched to creatures
+     * created by the ActivityPropertiesService so that it can be subscribed to without passing parameters.
+     */
+    public readonly effectiveMaxChargesByCreature$ = new Map<string, Observable<number>>();
 
     public recast(recastFns: RecastFns): Activity {
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
@@ -150,7 +152,16 @@ export class Activity {
     }
 
     public clone(recastFns: RecastFns): Activity {
-        return Object.assign<Activity, Activity>(new Activity(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Object.assign<Activity, Activity>(new Activity(), JSON.parse(JSON.stringify(this)))
+            .recast(recastFns)
+            .clearTemporaryValues();
+    }
+
+    public clearTemporaryValues(): Activity {
+        this.effectiveCooldownByCreature$.clear();
+        this.effectiveMaxChargesByCreature$.clear();
+
+        return this;
     }
 
     public activationTraits(): Array<string> {
@@ -176,18 +187,30 @@ export class Activity {
         ));
     }
 
-    public canActivate(): boolean {
+    public canActivate$(creature: Creature): Observable<boolean> {
         //Test any circumstance under which this can be activated
-        return (this.traits.includes('Stance')) ||
-            !!this.gainItems.length ||
-            !!this.castSpells.length ||
-            !!this.gainConditions.length ||
-            !!this.charges ||
-            !!this.$charges ||
-            !!this.cooldown ||
-            !!this.$cooldown ||
-            this.toggle ||
-            !!this.onceEffects.length;
+        return (
+            this.traits.includes('Stance')
+            || !!this.gainItems.length
+            || !!this.castSpells.length
+            || !!this.gainConditions.length
+            || !!this.charges
+            || !!this.cooldown
+            || !!this.onceEffects.length
+            || this.toggle
+        )
+            ? of(true)
+            : combineLatest([
+                this.effectiveMaxChargesByCreature$.get(creature.id) ?? of(0),
+                this.effectiveCooldownByCreature$.get(creature.id) ?? of(0),
+            ])
+                .pipe(
+                    map(([charges, cooldown]) =>
+                        !!charges
+                        || !!cooldown,
+                    ),
+                );
+
     }
 
     public isHostile(ignoreOverride = false): boolean {

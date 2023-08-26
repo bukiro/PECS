@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Shield } from 'src/app/classes/Shield';
@@ -6,13 +6,13 @@ import { Material } from 'src/app/classes/Material';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
-import { Character } from 'src/app/classes/Character';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
-import { Observable, of } from 'rxjs';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BehaviorSubject, Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 
 interface ShieldMaterialSet {
     material: ShieldMaterial;
@@ -20,15 +20,13 @@ interface ShieldMaterialSet {
 }
 
 @Component({
-    selector: 'app-item-material-shield',
+    selector: 'app-item-material-shield[item]',
     templateUrl: './item-material-option.component.html',
     styleUrls: ['./item-material-option.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) implements OnInit, OnChanges {
+export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) implements OnInit {
 
-    @Input()
-    public item!: Shield;
     @Input()
     public craftingStation?: boolean;
     @Input()
@@ -37,7 +35,9 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
     public newMaterial: Array<ShieldMaterialSet> = [];
     public inventories: Array<string> = [];
 
-    public availableMaterials$?: Observable<Array<ShieldMaterialSet>>;
+    public item$: BehaviorSubject<Shield>;
+
+    private _item!: Shield;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -45,6 +45,18 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
         private readonly _skillValuesService: SkillValuesService,
     ) {
         super();
+
+        this.item$ = new BehaviorSubject<Shield>(this._item);
+    }
+
+    public get item(): Shield {
+        return this._item;
+    }
+
+    @Input()
+    public set item(value: Shield) {
+        this._item = value;
+        this.item$.next(this._item);
     }
 
     public get materialOptionApplies(): boolean {
@@ -55,10 +67,6 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
                 !!this.customItemStore
             )
         );
-    }
-
-    private get _character(): Character {
-        return CreatureService.character;
     }
 
     public initialMaterials(): Array<ShieldMaterialSet> {
@@ -76,78 +84,90 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
         return allShieldMaterials;
     }
 
-    public availableMaterials(): Array<ShieldMaterialSet> {
-        const allMaterials: Array<ShieldMaterialSet> = [];
+    public availableMaterials$(): Observable<Array<ShieldMaterialSet>> {
+        return this.item$
+            .pipe(
+                switchMap(item =>
+                    combineLatest([
+                        of(item),
+                        CreatureService.character$,
+                        CharacterFlatteningService.characterLevel$,
+                    ]),
 
-        this._itemMaterialsDataService.shieldMaterials().forEach(material => {
-            allMaterials.push({ material });
-        });
-
-        //Set all materials to disabled that have the same name as any that is already equipped.
-        allMaterials.forEach(materialSet => {
-            if (this.item.material.length && this.item.material[0].name === materialSet.material.name) {
-                materialSet.disabled = true;
-            }
-        });
-
-        let charLevel = 0;
-        let craftingLevel = 0;
-
-        if (this.craftingStation) {
-            const character = this._character;
-
-            charLevel = character.level;
-            craftingLevel =
-                this._skillValuesService.level('Crafting', character, character.level) || 0;
-        }
-
-        //Disable all materials whose requirements are not met.
-        allMaterials.filter(materialSet => !(
-            (
-                //If you are crafting this item yourself, you must fulfill the crafting skill requirement.
-                this.craftingStation
-                    ? materialSet.material.craftingRequirement <= craftingLevel && materialSet.material.level <= charLevel
-                    : true
-            ) &&
-            (
-                materialSet.material.itemFilter.length
-                    ? (
-                        materialSet.material.itemFilter.includes(this.item.name) ||
-                        materialSet.material.itemFilter.includes(this.item.shieldBase)
+                ),
+                switchMap(([item, character, charLevel]) =>
+                    (
+                        this.craftingStation
+                            ? this._skillValuesService.level$('Crafting', character)
+                            : of(0)
                     )
-                    : true
-            )
-        )).forEach(materialSet => {
-            materialSet.disabled = true;
-        });
+                        .pipe(
+                            map(craftingLevel => ({ item, charLevel, craftingLevel })),
+                        ),
+                ),
+                map(({ item, charLevel, craftingLevel }) => {
+                    const allMaterials: Array<ShieldMaterialSet> = [];
 
-        // Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material
-        // and don't share the name with another disabled material that comes before it.
-        // This means you can still see a material that you can't take at the moment,
-        // but you don't see duplicates of a material that only apply to other items.
-        const materials = allMaterials.filter((material, index) =>
-            !material.disabled ||
-            (
-                !allMaterials.some(othermaterial =>
-                    !othermaterial.disabled &&
-                    othermaterial !== material &&
-                    othermaterial.material.name === material.material.name,
-                ) &&
-                !allMaterials.slice(0, index).some(othermaterial =>
-                    othermaterial.disabled &&
-                    othermaterial !== material &&
-                    othermaterial.material.name === material.material.name,
-                )
-            ),
-        );
+                    this._itemMaterialsDataService.shieldMaterials().forEach(material => {
+                        allMaterials.push({ material });
+                    });
 
-        const twoDigits = 2;
+                    //Set all materials to disabled that have the same name as any that is already equipped.
+                    allMaterials.forEach(materialSet => {
+                        if (item.material.length && item.material[0].name === materialSet.material.name) {
+                            materialSet.disabled = true;
+                        }
+                    });
 
-        return materials
-            .sort((a, b) => sortAlphaNum(
-                a.material.level.toString().padStart(twoDigits, '0') + a.material.name,
-                b.material.level.toString().padStart(twoDigits, '0') + b.material.name,
-            ));
+                    //Disable all materials whose requirements are not met.
+                    allMaterials.filter(materialSet => !(
+                        (
+                            //If you are crafting this item yourself, you must fulfill the crafting skill requirement.
+                            this.craftingStation
+                                ? materialSet.material.craftingRequirement <= craftingLevel && materialSet.material.level <= charLevel
+                                : true
+                        ) &&
+                        (
+                            materialSet.material.itemFilter.length
+                                ? (
+                                    materialSet.material.itemFilter.includes(item.name) ||
+                                    materialSet.material.itemFilter.includes(item.shieldBase)
+                                )
+                                : true
+                        )
+                    )).forEach(materialSet => {
+                        materialSet.disabled = true;
+                    });
+
+                    // Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material
+                    // and don't share the name with another disabled material that comes before it.
+                    // This means you can still see a material that you can't take at the moment,
+                    // but you don't see duplicates of a material that only apply to other items.
+                    const materials = allMaterials.filter((material, index) =>
+                        !material.disabled ||
+                        (
+                            !allMaterials.some(othermaterial =>
+                                !othermaterial.disabled &&
+                                othermaterial !== material &&
+                                othermaterial.material.name === material.material.name,
+                            ) &&
+                            !allMaterials.slice(0, index).some(othermaterial =>
+                                othermaterial.disabled &&
+                                othermaterial !== material &&
+                                othermaterial.material.name === material.material.name,
+                            )
+                        ),
+                    );
+
+                    const twoDigits = 2;
+
+                    return materials
+                        .sort((a, b) => sortAlphaNum(
+                            a.material.level.toString().padStart(twoDigits, '0') + a.material.name,
+                            b.material.level.toString().padStart(twoDigits, '0') + b.material.name,
+                        ));
+                }),
+            );
     }
 
     public onSelectMaterial(): void {
@@ -197,22 +217,18 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
         this._setMaterialNames();
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.item) {
-            this.availableMaterials$ = of(this.availableMaterials());
-        }
-    }
-
     private _priceText(price: number): string {
         return priceTextFromCopper(price);
     }
 
     private _setMaterialNames(): void {
+        const shieldMaterial = this.item.shieldMaterial;
+
         this.newMaterial =
-            this.item.material
+            shieldMaterial
                 ? [
-                    this.item.material[0]
-                        ? { material: this.item.material[0] }
+                    shieldMaterial[0]
+                        ? { material: shieldMaterial[0] }
                         : { material: new ShieldMaterial() },
                 ]
                 : [

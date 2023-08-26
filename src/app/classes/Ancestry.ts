@@ -1,6 +1,7 @@
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 
 export class Ancestry {
     public disabled = '';
@@ -20,7 +21,16 @@ export class Ancestry {
     public sourceBook = '';
     public size = 0;
     public speeds: Array<{ name: string; value: number }> = [];
-    public traits: Array<string> = [];
+
+    private readonly _traits = new OnChangeArray<string>();
+
+    public get traits(): OnChangeArray<string> {
+        return this._traits;
+    }
+
+    public set traits(value: Array<string>) {
+        this._traits.setValues(...value);
+    }
 
     public recast(): Ancestry {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());

@@ -1,11 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Item } from 'src/app/classes/Item';
 import { Character } from 'src/app/classes/Character';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { Consumable } from 'src/app/classes/Consumable';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, Observable, shareReplay, Subscription } from 'rxjs';
+import { combineLatest, debounceTime, distinctUntilChanged, map, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -22,12 +22,16 @@ import { ArmorPropertiesService } from 'src/libs/shared/services/armor-propertie
 import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
-import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { Store } from '@ngrx/store';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 
 const itemsPerPage = 40;
 
@@ -43,24 +47,19 @@ interface ItemParameters extends ItemRoles {
     styleUrls: ['./crafting.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class CraftingComponent extends TrackByMixin(BaseClass) {
 
     public wordFilter = '';
     public sorting: SortingOption = 'sortLevel';
-    public creature: CreatureTypes = CreatureTypes.Character;
     public range = 0;
 
     public isTileMode$: Observable<boolean>;
     public isMenuOpen$: Observable<boolean>;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     private _showList = '';
     private _showItem = '';
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
@@ -69,23 +68,29 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         private readonly _itemPriceService: ItemPriceService,
-        private readonly _menuService: MenuService,
         private readonly _inventoryService: InventoryService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _store$: Store,
     ) {
         super();
 
-        this.isTileMode$ = SettingsService.settings$
+        this.isTileMode$ = propMap$(SettingsService.settings$, 'craftingTileMode$')
             .pipe(
-                map(settings => settings.craftingTileMode),
                 distinctUntilChanged(),
-                shareReplay(1),
+                shareReplay({ refCount: true, bufferSize: 1 }),
             );
 
-        this.isMenuOpen$ = MenuService.sideMenuState$
+        this.isMenuOpen$ = _store$.select(selectLeftMenu)
             .pipe(
-                map(menuState => menuState === MenuNames.CraftingMenu),
+                map(menu => menu === MenuNames.CraftingMenu),
                 distinctUntilChanged(),
+                switchMap(isMenuOpen => isMenuOpen
+                    ? of(isMenuOpen)
+                    : of(isMenuOpen)
+                        .pipe(
+                            debounceTime(Defaults.closingMenuClearDelay),
+                        ),
+                ),
             );
     }
 
@@ -164,31 +169,38 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
     }
 
     public toggleCraftingMenu(): void {
-        this._menuService.toggleMenu(MenuNames.CraftingMenu);
+        this._store$.dispatch(toggleLeftMenu({ menu: MenuNames.CraftingMenu }));
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
         return InputValidationService.positiveNumbersOnly(event);
     }
 
-    public visibleItemParameters(itemList: Array<Item>): Array<ItemParameters> {
+    public visibleItemParameters$(itemList: Array<Item>): Observable<Array<ItemParameters>> {
         const character = this._character;
 
-        return itemList.map(item => {
-            const itemRoles = this._itemRolesService.getItemRoles(item);
-            const armorOrWeapon = (itemRoles.asArmor || itemRoles.asWeapon);
-            const proficiency = armorOrWeapon
-                ? this._equipmentPropertiesService.effectiveProficiency(
-                    armorOrWeapon,
-                    { creature: character, charLevel: character.level },
-                )
-                : '';
+        return combineLatest(
+            itemList.map(item => {
+                const itemRoles = this._itemRolesService.getItemRoles(item);
+                const armorOrWeapon = (itemRoles.asArmor || itemRoles.asWeapon);
 
-            return {
-                ...itemRoles,
-                canUse: this._canUseItem(itemRoles, proficiency),
-            };
-        });
+                return (
+                    armorOrWeapon
+                        ? this._equipmentPropertiesService.effectiveProficiency$(
+                            armorOrWeapon,
+                            { creature: character, charLevel: character.level },
+                        )
+                        : of('')
+                )
+                    .pipe(
+                        switchMap(proficiency => this._canUseItem$(itemRoles, proficiency)),
+                        map(canUse => ({
+                            ...itemRoles,
+                            canUse,
+                        })),
+                    );
+            }),
+        );
     }
 
     public effectivePrice(item: Item): number {
@@ -226,50 +238,59 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
             .sort((a, b) => sortAlphaNum(a[this.sorting], b[this.sorting]));
     }
 
-    public cannotCraftReason(item: Item): Array<string> {
+    public cannotCraftReason$(item: Item): Observable<Array<string>> {
         //Return any reasons why you cannot craft an item.
         const character: Character = this._character;
-        const reasons: Array<string> = [];
         const legendaryRequiringLevel = 16;
         const masterRequiringLevel = 9;
 
-        if (
-            item.traits.includes('Alchemical') &&
-            !this._characterFeatsService.characterHasFeat('Alchemical Crafting')
-        ) {
-            reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
-        }
+        return combineLatest([
+            item.traits.includes('Alchemical')
+                ? this._characterFeatsService.characterHasFeatAtLevel$('Alchemical Crafting')
+                : of(true),
+            item.traits.includes('Magical')
+                ? this._characterFeatsService.characterHasFeatAtLevel$('Magical Crafting')
+                : of(true),
+            item.traits.includes('Snare')
+                ? this._characterFeatsService.characterHasFeatAtLevel$('Snare Crafting')
+                : of(true),
+            item.level >= masterRequiringLevel
+                ? this._skillValuesService.level$('Crafting', character)
+                : of(SkillLevels.Legendary),
+        ])
+            .pipe(
+                map(([hasAlchemicalCrafting, hasMagicalCrafting, hasSnareCrafting, craftingSkillLevel]) => {
+                    const reasons: Array<string> = [];
 
-        if (
-            item.traits.includes('Magical') &&
-            !this._characterFeatsService.characterHasFeat('Magical Crafting')
-        ) {
-            reasons.push('You need the Magical Crafting skill feat to create magic items.');
-        }
+                    if (!hasAlchemicalCrafting) {
+                        reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
+                    }
 
-        if (
-            item.traits.includes('Snare') &&
-            !this._characterFeatsService.characterHasFeat('Snare Crafting')
-        ) {
-            reasons.push('You need the Snare Crafting skill feat to create snares.');
-        }
+                    if (!hasMagicalCrafting) {
+                        reasons.push('You need the Magical Crafting skill feat to create magic items.');
+                    }
 
-        if (item.level > character.level) {
-            reasons.push('The item to craft must be your level or lower.');
-        }
+                    if (!hasSnareCrafting) {
+                        reasons.push('You need the Snare Crafting skill feat to create snares.');
+                    }
 
-        if (item.level >= masterRequiringLevel) {
-            const craftingSkillLevel =
-                this._skillValuesService.level('Crafting', character, character.level) || 0;
+                    if (item.level > character.level) {
+                        reasons.push('The item to craft must be your level or lower.');
+                    }
 
-            if (item.level >= legendaryRequiringLevel && craftingSkillLevel < SkillLevels.Legendary) {
-                reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
-            } else if (item.level >= masterRequiringLevel && craftingSkillLevel < SkillLevels.Master) {
-                reasons.push('You must be a master in Crafting to craft items of 9th level or higher.');
-            }
-        }
+                    if (item.level >= masterRequiringLevel) {
+                        if (item.level >= legendaryRequiringLevel && craftingSkillLevel < SkillLevels.Legendary) {
+                            reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
+                        } else if (item.level >= masterRequiringLevel && craftingSkillLevel < SkillLevels.Master) {
+                            reasons.push('You must be a master in Crafting to craft items of 9th level or higher.');
+                        }
+                    }
 
-        return reasons;
+                    return reasons;
+                }),
+            );
+
+
     }
 
     public craftItem(item: Item): void {
@@ -287,34 +308,50 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
         );
     }
 
-    public snareSpecialistParameters(inventory: ItemCollection): { available: number; prepared: number; snares: Array<Snare> } | undefined {
-        if (this._characterFeatsService.characterHasFeat('Snare Specialist')) {
-            const prepared: number = this._learnedFormulas().reduce((sum, current) => sum + current.snareSpecialistPrepared, 0);
-            let available = 0;
-            const character = this._character;
-            const craftingSkillLevel =
-                this._skillValuesService.level('Crafting', character, character.level) || 0;
-            const ubiquitousSnaresMultiplier = 2;
+    public snareSpecialistParameters$(
+        inventory: ItemCollection,
+    ): Observable<{ available: number; prepared: number; snares: Array<Snare> } | undefined> {
+        const character = this._character;
 
-            switch (craftingSkillLevel) {
-                case SkillLevels.Expert:
-                    available += SkillLevels.Expert;
-                    break;
-                case SkillLevels.Master:
-                    available += SkillLevels.Master;
-                    break;
-                case SkillLevels.Legendary:
-                    available += SkillLevels.Legendary;
-                    break;
-                default: break;
-            }
+        return this._characterFeatsService.characterHasFeatAtLevel$('Snare Specialist')
+            .pipe(
+                switchMap(hasSnareSpecialist =>
+                    hasSnareSpecialist
+                        ? combineLatest([
+                            this._skillValuesService.level$('Crafting', character, character.level),
+                            this._characterFeatsService.characterHasFeatAtLevel$('Ubiquitous Snares'),
+                        ])
+                            .pipe(
+                                map(([craftingSkillLevel, hasUbiquitousSnares]) => {
+                                    const prepared: number =
+                                        this._learnedFormulas().reduce((sum, current) => sum + current.snareSpecialistPrepared, 0);
+                                    let available = 0;
 
-            if (this._characterFeatsService.characterHasFeat('Ubiquitous Snares')) {
-                available *= ubiquitousSnaresMultiplier;
-            }
+                                    const ubiquitousSnaresMultiplier = 2;
 
-            return { available, prepared, snares: this.visibleItems<Snare>(inventory, 'snares') };
-        }
+                                    switch (craftingSkillLevel) {
+                                        case SkillLevels.Expert:
+                                            available += SkillLevels.Expert;
+                                            break;
+                                        case SkillLevels.Master:
+                                            available += SkillLevels.Master;
+                                            break;
+                                        case SkillLevels.Legendary:
+                                            available += SkillLevels.Legendary;
+                                            break;
+                                        default: break;
+                                    }
+
+                                    if (hasUbiquitousSnares) {
+                                        available *= ubiquitousSnaresMultiplier;
+                                    }
+
+                                    return { available, prepared, snares: this.visibleItems<Snare>(inventory, 'snares') };
+                                }),
+                            )
+                        : of(undefined),
+                ),
+            );
     }
 
     public snareParameters(snares: Array<Snare>): Array<{ snare: Snare; preparedAmount: number }> {
@@ -342,53 +379,33 @@ export class CraftingComponent extends TrackByMixin(BaseClass) implements OnInit
         }
     }
 
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['crafting', 'all'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
-                    ['crafting', 'all'].includes(view.target.toLowerCase())
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
-    }
-
-    private _canUseItem(itemRoles: ItemRoles, proficiency: string): boolean | undefined {
+    private _canUseItem$(itemRoles: ItemRoles, proficiency: string): Observable<boolean | undefined> {
         const character = this._character;
 
         if (itemRoles.asWeapon) {
             return this._weaponPropertiesService
-                .profLevel(
+                .profLevel$(
                     itemRoles.asWeapon,
                     character,
                     itemRoles.asWeapon,
-                    character.level,
                     { preparedProficiency: proficiency },
-                ) > 0;
+                )
+                .pipe(
+                    map(skillLevel => skillLevel > 0),
+                );
         }
 
         if (itemRoles.asArmor) {
-            return this._armorPropertiesService.profLevel(
+            return this._armorPropertiesService.profLevel$(
                 itemRoles.asArmor,
                 character,
-                character.level,
-                { itemStore: true },
-            ) > 0;
+            )
+                .pipe(
+                    map(skillLevel => skillLevel > 0),
+                );
         }
 
-        return undefined;
+        return of(undefined);
     }
 
     private _learnedFormulas(id = '', source = ''): Array<FormulaLearned> {

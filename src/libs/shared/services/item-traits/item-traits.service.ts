@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { combineLatest, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Armor } from 'src/app/classes/Armor';
 import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
@@ -8,8 +9,8 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { SpellsDataService } from '../data/spells-data.service';
-import { TraitsDataService } from '../data/traits-data.service';
-import { RefreshService } from '../refresh/refresh.service';
+import { deepDistinctUntilChanged } from '../../util/observableUtils';
+import { CreatureService } from '../creature/creature.service';
 
 @Injectable({
     providedIn: 'root',
@@ -19,95 +20,105 @@ export class ItemTraitsService {
     constructor(
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _traitsDataService: TraitsDataService,
-        private readonly _refreshService: RefreshService,
-
+        private readonly _creatureService: CreatureService,
     ) { }
 
-    public cacheItemEffectiveTraits(item: Item, context: { creature: Creature }): void {
-
-        let traits: Array<string> = item.traits;
-
-        if (item.isArmor()) {
-            traits = this._armorEffectiveTraits(item);
-        }
-
-        if (item.isWeapon()) {
-            traits = this._weaponEffectiveTraits(item, context);
-        }
-
-        if (item.isWornItem()) {
-            traits = this._wornItemEffectiveTraits(item);
-        }
-
-        if (item.isWand() || item.isScroll()) {
-            traits = this._storedSpellsEffectiveTraits(item);
-        }
-
-        item.$traits = Array.from(new Set(traits)).sort();
+    /** Always keep the traits of all items in all inventories up to date. */
+    public initialize(): void {
+        this._creatureService.allAvailableCreatures$()
+            .pipe(
+                switchMap(creatures => combineLatest(
+                    creatures
+                        .map(creature =>
+                            creature.inventories.values$
+                                .pipe(
+                                    switchMap(inventories => combineLatest(
+                                        inventories
+                                            .map(inventory =>
+                                                inventory.allItems$()
+                                                    .pipe(
+                                                        switchMap(allItems => combineLatest(
+                                                            allItems.map(item =>
+                                                                this._itemEffectiveTraits$(item, { creature }),
+                                                            ),
+                                                        )),
+                                                    ),
+                                            ),
+                                    )),
+                                ),
+                        ),
+                )),
+            )
+            .subscribe();
     }
 
-    private _armorEffectiveTraits(armor: Armor): Array<string> {
-        let traits = armor.traits.filter(trait => !armor.material.some(material => material.removeTraits.includes(trait)));
-
-        if (armor.$affectedByArmoredSkirt !== 0) {
-            //An armored skirt makes your armor noisy if it isn't already.
-            if (!traits.includes('Noisy')) {
-                traits = traits.concat('Noisy');
+    private _itemEffectiveTraits$(item: Item, context: { creature: Creature }): Observable<Array<string>> {
+        return (() => {
+            if (item.isArmor()) {
+                return this._armorEffectiveTraits$(item);
             }
-        }
 
-        return traits;
+            if (item.isWeapon()) {
+                return this._weaponEffectiveTraits$(item, context);
+            }
+
+            if (item.isWornItem()) {
+                return of(this._wornItemEffectiveTraits(item));
+            }
+
+            if (item.isWand() || item.isScroll()) {
+                return of(this._storedSpellsEffectiveTraits(item));
+            }
+
+            return of([]);
+        })()
+            .pipe(
+                deepDistinctUntilChanged(),
+                // TO-DO: ideally, item.effectiveTraits$ should embody this method and be queried instead of it.
+                tap(effectiveTraits => { item.effectiveTraits$.next(effectiveTraits); }),
+            );
     }
 
-    private _weaponEffectiveTraits(weapon: Weapon, context: { creature: Creature }): Array<string> {
+    private _armorEffectiveTraits$(armor: Armor): Observable<Array<string>> {
+        return armor.effectiveArmoredSkirt$
+            .pipe(
+                map(armoredSkirtFactor => {
+                    let traits = armor.traits.filter(trait => !armor.material.some(material => material.removeTraits.includes(trait)));
+
+                    if (armoredSkirtFactor !== 0) {
+                        //An armored skirt makes your armor noisy if it isn't already.
+                        if (!traits.includes('Noisy')) {
+                            traits = traits.concat('Noisy');
+                        }
+                    }
+
+                    return traits;
+                }),
+            );
+    }
+
+    private _weaponEffectiveTraits$(weapon: Weapon, context: { creature: Creature }): Observable<Array<string>> {
         //Test for certain feats that give traits to unarmed attacks.
         let traits: Array<string> = JSON.parse(JSON.stringify(weapon.traits));
 
-        if (weapon.melee) {
-            //Find and apply effects that give this weapon reach.
-            const effectsService = this._creatureEffectsService;
-            const noReach = 5;
-            const typicalReach = 10;
-            let reach = noReach;
-            const reachTrait = traits.find(trait => trait.includes('Reach'));
+        //Find and apply effects that give this weapon reach.
+        const noReach = 5;
+        const typicalReach = 10;
+        let reach = noReach;
+        const reachTrait = traits.find(trait => trait.includes('Reach'));
 
-            if (reachTrait) {
-                reach = reachTrait.includes(' ') ? parseInt(reachTrait.split(' ')[1], 10) : typicalReach;
-            }
-
-            let newReach = reach;
-            const list = [
-                'Reach',
-                `${ weapon.name } Reach`,
-                `${ weapon.weaponBase } Reach`,
-                //"Unarmed Attacks Reach", "Simple Weapon Reach"
-                `${ weapon.prof } Reach`,
-            ];
-
-            effectsService.absoluteEffectsOnThese(context.creature, list)
-                .forEach(effect => {
-                    newReach = parseInt(effect.setValue, 10);
-                });
-            effectsService.relativeEffectsOnThese(context.creature, list)
-                .forEach(effect => {
-                    newReach += parseInt(effect.value, 10);
-                });
-
-            if (newReach !== reach) {
-                if (newReach === noReach || newReach === 0) {
-                    traits = traits.filter(trait => !trait.includes('Reach'));
-                } else {
-                    const reachString: string | undefined = traits.find(trait => trait.includes('Reach'));
-
-                    if (reachString) {
-                        traits[traits.indexOf(reachString)] = `Reach ${ newReach } feet`;
-                    } else {
-                        traits.push(`Reach ${ newReach } feet`);
-                    }
-                }
-            }
+        if (reachTrait) {
+            reach = reachTrait.includes(' ') ? parseInt(reachTrait.split(' ')[1], 10) : typicalReach;
         }
+
+        let newReach = reach;
+        const reachNamesList = [
+            'Reach',
+            `${ weapon.name } Reach`,
+            `${ weapon.weaponBase } Reach`,
+            //"Unarmed Attacks Reach", "Simple Weapon Reach"
+            `${ weapon.prof } Reach`,
+        ];
 
         //Create names list for effects, checking both Gain Trait and Lose Trait
         const namesList = [
@@ -137,40 +148,53 @@ export class ItemTraitsService {
         }
 
         namesList.push(...namesList.map(name => name.replace('Gain Trait', 'Lose Trait')));
-        this._creatureEffectsService.toggledEffectsOnThese(context.creature, namesList).filter(effect => effect.title)
-            .forEach(effect => {
-                if (effect.target.toLowerCase().includes('gain trait')) {
-                    traits.push(effect.title);
-                } else if (effect.target.toLowerCase().includes('lose trait')) {
-                    traits = traits.filter(trait => trait !== effect.title);
-                }
-            });
-        traits = traits.filter(trait => !weapon.material.some(material => material.removeTraits.includes(trait)));
-        traits = Array.from(new Set(traits)).sort();
 
-        if (JSON.stringify(weapon.$traits) !== JSON.stringify(traits)) {
-            // If any traits have changed, we need to update elements that these traits show on.
-            // First we save the traits, so we don't start a loop if anything wants to update attacks again.
-            const changed: Array<string> =
-                weapon
-                    .$traits.filter(trait => !traits.includes(trait))
-                    .concat(
-                        traits.filter(trait => !weapon.$traits.includes(trait)),
-                    );
+        return combineLatest([
+            this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, reachNamesList),
+            this._creatureEffectsService.relativeEffectsOnThese$(context.creature, reachNamesList),
+            this._creatureEffectsService.toggledEffectsOnThese$(context.creature, namesList),
+        ])
+            .pipe(
+                map(([reachAbsolutes, reachRelatives, traitsToggled]) => {
+                    reachAbsolutes
+                        .forEach(effect => {
+                            newReach = effect.setValueNumerical;
+                        });
+                    reachRelatives
+                        .forEach(effect => {
+                            newReach += effect.valueNumerical;
+                        });
 
-            weapon.$traits = traits;
-            changed.forEach(changedTrait => {
-                this._traitsDataService.traits(changedTrait).forEach(trait => {
-                    this._refreshService.prepareChangesByHints(
-                        context.creature,
-                        trait.hints,
-                    );
-                });
-            });
-            this._refreshService.processPreparedChanges();
-        }
+                    if (newReach !== reach) {
+                        if (newReach === noReach || newReach === 0) {
+                            traits = traits.filter(trait => !trait.includes('Reach'));
+                        } else {
+                            const reachString: string | undefined = traits.find(trait => trait.includes('Reach'));
 
-        return traits;
+                            if (reachString) {
+                                traits[traits.indexOf(reachString)] = `Reach ${ newReach } feet`;
+                            } else {
+                                traits.push(`Reach ${ newReach } feet`);
+                            }
+                        }
+                    }
+
+                    traitsToggled
+                        .filter(effect => effect.title)
+                        .forEach(effect => {
+                            if (effect.target.toLowerCase().includes('gain trait')) {
+                                traits.push(effect.title);
+                            } else if (effect.target.toLowerCase().includes('lose trait')) {
+                                traits = traits.filter(trait => trait !== effect.title);
+                            }
+                        });
+
+                    traits = traits.filter(trait => !weapon.material.some(material => material.removeTraits.includes(trait)));
+                    traits = Array.from(new Set(traits)).sort();
+
+                    return traits;
+                }),
+            );
     }
 
     private _wornItemEffectiveTraits(wornItem: WornItem): Array<string> {

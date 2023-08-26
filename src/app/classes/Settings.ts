@@ -1,7 +1,57 @@
+import { BehaviorSubject } from 'rxjs';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 export class Settings {
+    public readonly abilitiesMinimized$: BehaviorSubject<boolean>;
+    public readonly accent$: BehaviorSubject<string>;
+    public readonly activitiesMinimized$: BehaviorSubject<boolean>;
+    public readonly activitiesTileMode$: BehaviorSubject<boolean>;
+    public readonly applyMessagesAutomatically$: BehaviorSubject<boolean>;
+    public readonly archetypeFeats$: BehaviorSubject<boolean>;
+    public readonly attacksMinimized$: BehaviorSubject<boolean>;
+    public readonly autoCloseChoices$: BehaviorSubject<boolean>;
+    public readonly characterMinimized$: BehaviorSubject<boolean>;
+    public readonly characterTileMode$: BehaviorSubject<boolean>;
+    public readonly craftingTileMode$: BehaviorSubject<boolean>;
+    public readonly checkMessagesAutomatically$: BehaviorSubject<boolean>;
+    public readonly companionMinimized$: BehaviorSubject<boolean>;
+    public readonly conditionsTileMode$: BehaviorSubject<boolean>;
+    public readonly darkmode$: BehaviorSubject<boolean>;
+    public readonly defenseMinimized$: BehaviorSubject<boolean>;
+    public readonly effectsMinimized$: BehaviorSubject<boolean>;
+    public readonly familiarMinimized$: BehaviorSubject<boolean>;
+    public readonly foundryVTTSendRolls$: BehaviorSubject<boolean>;
+    public readonly foundryVTTUrl$: BehaviorSubject<string>;
+    public readonly foundryVTTRollDirectly$: BehaviorSubject<boolean>;
+    public readonly foundryVTTTimeout$: BehaviorSubject<number>;
+    public readonly generalMinimized$: BehaviorSubject<boolean>;
+    public readonly healthMinimized$: BehaviorSubject<boolean>;
+    public readonly hiddenFeats$: BehaviorSubject<boolean>;
+    public readonly higherLevelFeats$: BehaviorSubject<boolean>;
+    public readonly hintsShowMoreInformation$: BehaviorSubject<boolean>;
+    public readonly itemsTileMode$: BehaviorSubject<boolean>;
+    public readonly inventoryMinimized$: BehaviorSubject<boolean>;
+    public readonly inventoryTileMode$: BehaviorSubject<boolean>;
+    public readonly lowerLevelFeats$: BehaviorSubject<boolean>;
+    public readonly manualMode$: BehaviorSubject<boolean>;
+    public readonly noFriendlyCasterConditions$: BehaviorSubject<boolean>;
+    public readonly noHostileCasterConditions$: BehaviorSubject<boolean>;
+    public readonly sendTurnEndMessage$: BehaviorSubject<boolean>;
+    public readonly sendTurnStartMessage$: BehaviorSubject<boolean>;
+    public readonly showHeightenedSpells$: BehaviorSubject<boolean>;
+    public readonly showOtherOptions$: BehaviorSubject<boolean>;
+    public readonly showSkillActivities$: BehaviorSubject<boolean>;
+    public readonly skillsMinimized$: BehaviorSubject<boolean>;
+    public readonly skillsTileMode$: BehaviorSubject<boolean>;
+    public readonly spellLibraryTileMode$: BehaviorSubject<boolean>;
+    public readonly spellbookMinimized$: BehaviorSubject<boolean>;
+    public readonly spellbookTileMode$: BehaviorSubject<boolean>;
+    public readonly spelllibraryMinimized$: BehaviorSubject<boolean>;
+    public readonly spellsMinimized$: BehaviorSubject<boolean>;
+    public readonly spellsTileMode$: BehaviorSubject<boolean>;
+    public readonly unavailableFeats$: BehaviorSubject<boolean>;
+    public readonly useIndividualAbilityBaseValues$: BehaviorSubject<boolean>;
+
     private _abilitiesMinimized = false;
     private _accent = Defaults.colorAccent;
     private _activitiesMinimized = false;
@@ -50,13 +100,66 @@ export class Settings {
     private _spellsMinimized = false;
     private _spellsTileMode = true;
     private _unavailableFeats = true;
+    private _useIndividualAbilityBaseValues = false;
+
+    constructor() {
+        this.abilitiesMinimized$ = new BehaviorSubject(this._abilitiesMinimized);
+        this.accent$ = new BehaviorSubject(this._accent);
+        this.activitiesMinimized$ = new BehaviorSubject(this._activitiesMinimized);
+        this.activitiesTileMode$ = new BehaviorSubject(this._activitiesTileMode);
+        this.applyMessagesAutomatically$ = new BehaviorSubject(this._applyMessagesAutomatically);
+        this.archetypeFeats$ = new BehaviorSubject(this._archetypeFeats);
+        this.attacksMinimized$ = new BehaviorSubject(this._attacksMinimized);
+        this.autoCloseChoices$ = new BehaviorSubject(this._autoCloseChoices);
+        this.characterMinimized$ = new BehaviorSubject(this._characterMinimized);
+        this.characterTileMode$ = new BehaviorSubject(this._characterTileMode);
+        this.craftingTileMode$ = new BehaviorSubject(this._craftingTileMode);
+        this.checkMessagesAutomatically$ = new BehaviorSubject(this._checkMessagesAutomatically);
+        this.companionMinimized$ = new BehaviorSubject(this._companionMinimized);
+        this.conditionsTileMode$ = new BehaviorSubject(this._conditionsTileMode);
+        this.darkmode$ = new BehaviorSubject(this._darkmode);
+        this.defenseMinimized$ = new BehaviorSubject(this._defenseMinimized);
+        this.effectsMinimized$ = new BehaviorSubject(this._effectsMinimized);
+        this.familiarMinimized$ = new BehaviorSubject(this._familiarMinimized);
+        this.foundryVTTSendRolls$ = new BehaviorSubject(this._foundryVTTSendRolls);
+        this.foundryVTTUrl$ = new BehaviorSubject(this._foundryVTTUrl);
+        this.foundryVTTRollDirectly$ = new BehaviorSubject(this._foundryVTTRollDirectly);
+        this.foundryVTTTimeout$ = new BehaviorSubject(this._foundryVTTTimeout);
+        this.generalMinimized$ = new BehaviorSubject(this._generalMinimized);
+        this.healthMinimized$ = new BehaviorSubject(this._healthMinimized);
+        this.hiddenFeats$ = new BehaviorSubject(this._hiddenFeats);
+        this.higherLevelFeats$ = new BehaviorSubject(this._higherLevelFeats);
+        this.hintsShowMoreInformation$ = new BehaviorSubject(this._hintsShowMoreInformation);
+        this.itemsTileMode$ = new BehaviorSubject(this._itemsTileMode);
+        this.inventoryMinimized$ = new BehaviorSubject(this._inventoryMinimized);
+        this.inventoryTileMode$ = new BehaviorSubject(this._inventoryTileMode);
+        this.lowerLevelFeats$ = new BehaviorSubject(this._lowerLevelFeats);
+        this.manualMode$ = new BehaviorSubject(this._manualMode);
+        this.noFriendlyCasterConditions$ = new BehaviorSubject(this._noFriendlyCasterConditions);
+        this.noHostileCasterConditions$ = new BehaviorSubject(this._noHostileCasterConditions);
+        this.sendTurnEndMessage$ = new BehaviorSubject(this._sendTurnEndMessage);
+        this.sendTurnStartMessage$ = new BehaviorSubject(this._sendTurnStartMessage);
+        this.showHeightenedSpells$ = new BehaviorSubject(this._showHeightenedSpells);
+        this.showOtherOptions$ = new BehaviorSubject(this._showOtherOptions);
+        this.showSkillActivities$ = new BehaviorSubject(this._showSkillActivities);
+        this.skillsMinimized$ = new BehaviorSubject(this._skillsMinimized);
+        this.skillsTileMode$ = new BehaviorSubject(this._skillsTileMode);
+        this.spellLibraryTileMode$ = new BehaviorSubject(this._spellLibraryTileMode);
+        this.spellbookMinimized$ = new BehaviorSubject(this._spellbookMinimized);
+        this.spellbookTileMode$ = new BehaviorSubject(this._spellbookTileMode);
+        this.spelllibraryMinimized$ = new BehaviorSubject(this._spelllibraryMinimized);
+        this.spellsMinimized$ = new BehaviorSubject(this._spellsMinimized);
+        this.spellsTileMode$ = new BehaviorSubject(this._spellsTileMode);
+        this.unavailableFeats$ = new BehaviorSubject(this._unavailableFeats);
+        this.useIndividualAbilityBaseValues$ = new BehaviorSubject(this._useIndividualAbilityBaseValues);
+    }
 
     public get abilitiesMinimized(): boolean {
         return this._abilitiesMinimized;
     }
     public set abilitiesMinimized(abilitiesMinimized: boolean) {
         this._abilitiesMinimized = abilitiesMinimized;
-        SettingsService.updateSettings();
+        this.abilitiesMinimized$.next(this._abilitiesMinimized);
     }
 
     public get accent(): string {
@@ -64,7 +167,7 @@ export class Settings {
     }
     public set accent(accent: string) {
         this._accent = accent;
-        SettingsService.updateSettings();
+        this.accent$.next(this._accent);
     }
 
     public get activitiesMinimized(): boolean {
@@ -72,7 +175,7 @@ export class Settings {
     }
     public set activitiesMinimized(activitiesMinimized: boolean) {
         this._activitiesMinimized = activitiesMinimized;
-        SettingsService.updateSettings();
+        this.activitiesMinimized$.next(this._activitiesMinimized);
     }
 
     public get activitiesTileMode(): boolean {
@@ -80,7 +183,7 @@ export class Settings {
     }
     public set activitiesTileMode(activitiesTileMode: boolean) {
         this._activitiesTileMode = activitiesTileMode;
-        SettingsService.updateSettings();
+        this.activitiesTileMode$.next(this._activitiesTileMode);
     }
 
     public get applyMessagesAutomatically(): boolean {
@@ -88,7 +191,7 @@ export class Settings {
     }
     public set applyMessagesAutomatically(applyMessagesAutomatically: boolean) {
         this._applyMessagesAutomatically = applyMessagesAutomatically;
-        SettingsService.updateSettings();
+        this.applyMessagesAutomatically$.next(this._applyMessagesAutomatically);
     }
 
     public get archetypeFeats(): boolean {
@@ -96,7 +199,7 @@ export class Settings {
     }
     public set archetypeFeats(archetypeFeats: boolean) {
         this._archetypeFeats = archetypeFeats;
-        SettingsService.updateSettings();
+        this.archetypeFeats$.next(this._archetypeFeats);
     }
 
     public get attacksMinimized(): boolean {
@@ -104,7 +207,7 @@ export class Settings {
     }
     public set attacksMinimized(attacksMinimized: boolean) {
         this._attacksMinimized = attacksMinimized;
-        SettingsService.updateSettings();
+        this.attacksMinimized$.next(this._attacksMinimized);
     }
 
     public get autoCloseChoices(): boolean {
@@ -112,7 +215,7 @@ export class Settings {
     }
     public set autoCloseChoices(autoCloseChoices: boolean) {
         this._autoCloseChoices = autoCloseChoices;
-        SettingsService.updateSettings();
+        this.autoCloseChoices$.next(this._autoCloseChoices);
     }
 
     public get characterMinimized(): boolean {
@@ -120,7 +223,7 @@ export class Settings {
     }
     public set characterMinimized(characterMinimized: boolean) {
         this._characterMinimized = characterMinimized;
-        SettingsService.updateSettings();
+        this.characterMinimized$.next(this._characterMinimized);
     }
 
     public get characterTileMode(): boolean {
@@ -128,7 +231,7 @@ export class Settings {
     }
     public set characterTileMode(characterTileMode: boolean) {
         this._characterTileMode = characterTileMode;
-        SettingsService.updateSettings();
+        this.characterTileMode$.next(this._characterTileMode);
     }
 
     public get craftingTileMode(): boolean {
@@ -136,7 +239,7 @@ export class Settings {
     }
     public set craftingTileMode(craftingTileMode: boolean) {
         this._craftingTileMode = craftingTileMode;
-        SettingsService.updateSettings();
+        this.craftingTileMode$.next(this._craftingTileMode);
     }
 
     public get checkMessagesAutomatically(): boolean {
@@ -144,7 +247,7 @@ export class Settings {
     }
     public set checkMessagesAutomatically(checkMessagesAutomatically: boolean) {
         this._checkMessagesAutomatically = checkMessagesAutomatically;
-        SettingsService.updateSettings();
+        this.checkMessagesAutomatically$.next(this._checkMessagesAutomatically);
     }
 
     public get companionMinimized(): boolean {
@@ -152,7 +255,7 @@ export class Settings {
     }
     public set companionMinimized(companionMinimized: boolean) {
         this._companionMinimized = companionMinimized;
-        SettingsService.updateSettings();
+        this.companionMinimized$.next(this._companionMinimized);
     }
 
     public get conditionsTileMode(): boolean {
@@ -160,7 +263,7 @@ export class Settings {
     }
     public set conditionsTileMode(conditionsTileMode: boolean) {
         this._conditionsTileMode = conditionsTileMode;
-        SettingsService.updateSettings();
+        this.conditionsTileMode$.next(this._conditionsTileMode);
     }
 
     public get darkmode(): boolean {
@@ -168,7 +271,7 @@ export class Settings {
     }
     public set darkmode(darkmode: boolean) {
         this._darkmode = darkmode;
-        SettingsService.updateSettings();
+        this.darkmode$.next(this._darkmode);
     }
 
     public get defenseMinimized(): boolean {
@@ -176,7 +279,7 @@ export class Settings {
     }
     public set defenseMinimized(defenseMinimized: boolean) {
         this._defenseMinimized = defenseMinimized;
-        SettingsService.updateSettings();
+        this.defenseMinimized$.next(this._defenseMinimized);
     }
 
     public get effectsMinimized(): boolean {
@@ -184,7 +287,7 @@ export class Settings {
     }
     public set effectsMinimized(effectsMinimized: boolean) {
         this._effectsMinimized = effectsMinimized;
-        SettingsService.updateSettings();
+        this.effectsMinimized$.next(this._effectsMinimized);
     }
 
     public get familiarMinimized(): boolean {
@@ -192,7 +295,7 @@ export class Settings {
     }
     public set familiarMinimized(familiarMinimized: boolean) {
         this._familiarMinimized = familiarMinimized;
-        SettingsService.updateSettings();
+        this.familiarMinimized$.next(this._familiarMinimized);
     }
 
     public get foundryVTTSendRolls(): boolean {
@@ -200,7 +303,7 @@ export class Settings {
     }
     public set foundryVTTSendRolls(foundryVTTSendRolls: boolean) {
         this._foundryVTTSendRolls = foundryVTTSendRolls;
-        SettingsService.updateSettings();
+        this.foundryVTTSendRolls$.next(this._foundryVTTSendRolls);
     }
 
     public get foundryVTTUrl(): string {
@@ -208,7 +311,7 @@ export class Settings {
     }
     public set foundryVTTUrl(foundryVTTUrl: string) {
         this._foundryVTTUrl = foundryVTTUrl;
-        SettingsService.updateSettings();
+        this.foundryVTTUrl$.next(this._foundryVTTUrl);
     }
 
     public get foundryVTTRollDirectly(): boolean {
@@ -216,7 +319,7 @@ export class Settings {
     }
     public set foundryVTTRollDirectly(foundryVTTRollDirectly: boolean) {
         this._foundryVTTRollDirectly = foundryVTTRollDirectly;
-        SettingsService.updateSettings();
+        this.foundryVTTRollDirectly$.next(this._foundryVTTRollDirectly);
     }
 
     public get foundryVTTTimeout(): number {
@@ -224,7 +327,7 @@ export class Settings {
     }
     public set foundryVTTTimeout(foundryVTTTimeout: number) {
         this._foundryVTTTimeout = foundryVTTTimeout;
-        SettingsService.updateSettings();
+        this.foundryVTTTimeout$.next(this._foundryVTTTimeout);
     }
 
     public get generalMinimized(): boolean {
@@ -232,7 +335,7 @@ export class Settings {
     }
     public set generalMinimized(generalMinimized: boolean) {
         this._generalMinimized = generalMinimized;
-        SettingsService.updateSettings();
+        this.generalMinimized$.next(this._generalMinimized);
     }
 
     public get healthMinimized(): boolean {
@@ -240,7 +343,7 @@ export class Settings {
     }
     public set healthMinimized(healthMinimized: boolean) {
         this._healthMinimized = healthMinimized;
-        SettingsService.updateSettings();
+        this.healthMinimized$.next(this._healthMinimized);
     }
 
     public get hiddenFeats(): boolean {
@@ -248,7 +351,7 @@ export class Settings {
     }
     public set hiddenFeats(hiddenFeats: boolean) {
         this._hiddenFeats = hiddenFeats;
-        SettingsService.updateSettings();
+        this.hiddenFeats$.next(this._hiddenFeats);
     }
 
     public get higherLevelFeats(): boolean {
@@ -256,7 +359,7 @@ export class Settings {
     }
     public set higherLevelFeats(higherLevelFeats: boolean) {
         this._higherLevelFeats = higherLevelFeats;
-        SettingsService.updateSettings();
+        this.higherLevelFeats$.next(this._higherLevelFeats);
     }
 
     public get hintsShowMoreInformation(): boolean {
@@ -264,7 +367,7 @@ export class Settings {
     }
     public set hintsShowMoreInformation(hintsShowMoreInformation: boolean) {
         this._hintsShowMoreInformation = hintsShowMoreInformation;
-        SettingsService.updateSettings();
+        this.hintsShowMoreInformation$.next(this._hintsShowMoreInformation);
     }
 
     public get itemsTileMode(): boolean {
@@ -272,7 +375,7 @@ export class Settings {
     }
     public set itemsTileMode(itemsTileMode: boolean) {
         this._itemsTileMode = itemsTileMode;
-        SettingsService.updateSettings();
+        this.itemsTileMode$.next(this._itemsTileMode);
     }
 
     public get inventoryMinimized(): boolean {
@@ -280,7 +383,7 @@ export class Settings {
     }
     public set inventoryMinimized(inventoryMinimized: boolean) {
         this._inventoryMinimized = inventoryMinimized;
-        SettingsService.updateSettings();
+        this.inventoryMinimized$.next(this._inventoryMinimized);
     }
 
     public get inventoryTileMode(): boolean {
@@ -288,7 +391,7 @@ export class Settings {
     }
     public set inventoryTileMode(inventoryTileMode: boolean) {
         this._inventoryTileMode = inventoryTileMode;
-        SettingsService.updateSettings();
+        this.inventoryTileMode$.next(this._inventoryTileMode);
     }
 
     public get lowerLevelFeats(): boolean {
@@ -296,7 +399,7 @@ export class Settings {
     }
     public set lowerLevelFeats(lowerLevelFeats: boolean) {
         this._lowerLevelFeats = lowerLevelFeats;
-        SettingsService.updateSettings();
+        this.lowerLevelFeats$.next(this._lowerLevelFeats);
     }
 
     public get manualMode(): boolean {
@@ -304,7 +407,7 @@ export class Settings {
     }
     public set manualMode(manualMode: boolean) {
         this._manualMode = manualMode;
-        SettingsService.updateSettings();
+        this.manualMode$.next(this._manualMode);
     }
 
     public get noFriendlyCasterConditions(): boolean {
@@ -312,7 +415,7 @@ export class Settings {
     }
     public set noFriendlyCasterConditions(noFriendlyCasterConditions: boolean) {
         this._noFriendlyCasterConditions = noFriendlyCasterConditions;
-        SettingsService.updateSettings();
+        this.noFriendlyCasterConditions$.next(this._noFriendlyCasterConditions);
     }
 
     public get noHostileCasterConditions(): boolean {
@@ -320,7 +423,7 @@ export class Settings {
     }
     public set noHostileCasterConditions(noHostileCasterConditions: boolean) {
         this._noHostileCasterConditions = noHostileCasterConditions;
-        SettingsService.updateSettings();
+        this.noHostileCasterConditions$.next(this._noHostileCasterConditions);
     }
 
     public get sendTurnEndMessage(): boolean {
@@ -328,7 +431,7 @@ export class Settings {
     }
     public set sendTurnEndMessage(sendTurnEndMessage: boolean) {
         this._sendTurnEndMessage = sendTurnEndMessage;
-        SettingsService.updateSettings();
+        this.sendTurnEndMessage$.next(this._sendTurnEndMessage);
     }
 
     public get sendTurnStartMessage(): boolean {
@@ -336,7 +439,7 @@ export class Settings {
     }
     public set sendTurnStartMessage(sendTurnStartMessage: boolean) {
         this._sendTurnStartMessage = sendTurnStartMessage;
-        SettingsService.updateSettings();
+        this.sendTurnStartMessage$.next(this._sendTurnStartMessage);
     }
 
     public get showHeightenedSpells(): boolean {
@@ -344,7 +447,7 @@ export class Settings {
     }
     public set showHeightenedSpells(showHeightenedSpells: boolean) {
         this._showHeightenedSpells = showHeightenedSpells;
-        SettingsService.updateSettings();
+        this.showHeightenedSpells$.next(this._showHeightenedSpells);
     }
 
     public get showOtherOptions(): boolean {
@@ -352,7 +455,7 @@ export class Settings {
     }
     public set showOtherOptions(showOtherOptions: boolean) {
         this._showOtherOptions = showOtherOptions;
-        SettingsService.updateSettings();
+        this.showOtherOptions$.next(this._showOtherOptions);
     }
 
     public get showSkillActivities(): boolean {
@@ -360,7 +463,7 @@ export class Settings {
     }
     public set showSkillActivities(showSkillActivities: boolean) {
         this._showSkillActivities = showSkillActivities;
-        SettingsService.updateSettings();
+        this.showSkillActivities$.next(this._showSkillActivities);
     }
 
     public get skillsMinimized(): boolean {
@@ -368,7 +471,7 @@ export class Settings {
     }
     public set skillsMinimized(skillsMinimized: boolean) {
         this._skillsMinimized = skillsMinimized;
-        SettingsService.updateSettings();
+        this.skillsMinimized$.next(this._skillsMinimized);
     }
 
     public get skillsTileMode(): boolean {
@@ -376,7 +479,7 @@ export class Settings {
     }
     public set skillsTileMode(skillsTileMode: boolean) {
         this._skillsTileMode = skillsTileMode;
-        SettingsService.updateSettings();
+        this.skillsTileMode$.next(this._skillsTileMode);
     }
 
     public get spellLibraryTileMode(): boolean {
@@ -384,7 +487,7 @@ export class Settings {
     }
     public set spellLibraryTileMode(spellLibraryTileMode: boolean) {
         this._spellLibraryTileMode = spellLibraryTileMode;
-        SettingsService.updateSettings();
+        this.spellLibraryTileMode$.next(this._spellLibraryTileMode);
     }
 
     public get spellbookMinimized(): boolean {
@@ -392,7 +495,7 @@ export class Settings {
     }
     public set spellbookMinimized(spellbookMinimized: boolean) {
         this._spellbookMinimized = spellbookMinimized;
-        SettingsService.updateSettings();
+        this.spellbookMinimized$.next(this._spellbookMinimized);
     }
 
     public get spellbookTileMode(): boolean {
@@ -400,7 +503,7 @@ export class Settings {
     }
     public set spellbookTileMode(spellbookTileMode: boolean) {
         this._spellbookTileMode = spellbookTileMode;
-        SettingsService.updateSettings();
+        this.spellbookTileMode$.next(this._spellbookTileMode);
     }
 
     public get spelllibraryMinimized(): boolean {
@@ -408,7 +511,7 @@ export class Settings {
     }
     public set spelllibraryMinimized(spelllibraryMinimized: boolean) {
         this._spelllibraryMinimized = spelllibraryMinimized;
-        SettingsService.updateSettings();
+        this.spelllibraryMinimized$.next(this._spelllibraryMinimized);
     }
 
     public get spellsMinimized(): boolean {
@@ -416,7 +519,7 @@ export class Settings {
     }
     public set spellsMinimized(spellsMinimized: boolean) {
         this._spellsMinimized = spellsMinimized;
-        SettingsService.updateSettings();
+        this.spellsMinimized$.next(this._spellsMinimized);
     }
 
     public get spellsTileMode(): boolean {
@@ -424,7 +527,7 @@ export class Settings {
     }
     public set spellsTileMode(spellsTileMode: boolean) {
         this._spellsTileMode = spellsTileMode;
-        SettingsService.updateSettings();
+        this.spellsTileMode$.next(this._spellsTileMode);
     }
 
     public get unavailableFeats(): boolean {
@@ -432,6 +535,14 @@ export class Settings {
     }
     public set unavailableFeats(unavailableFeats: boolean) {
         this._unavailableFeats = unavailableFeats;
-        SettingsService.updateSettings();
+        this.unavailableFeats$.next(this._unavailableFeats);
+    }
+
+    public get useIndividualAbilityBaseValues(): boolean {
+        return this._useIndividualAbilityBaseValues;
+    }
+    public set useIndividualAbilityBaseValues(useIndividualAbilityBaseValues: boolean) {
+        this._useIndividualAbilityBaseValues = useIndividualAbilityBaseValues;
+        this.useIndividualAbilityBaseValues$.next(this._useIndividualAbilityBaseValues);
     }
 }

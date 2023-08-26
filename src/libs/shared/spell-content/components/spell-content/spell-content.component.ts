@@ -5,7 +5,7 @@ import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.ser
 import { Trait } from 'src/app/classes/Trait';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({

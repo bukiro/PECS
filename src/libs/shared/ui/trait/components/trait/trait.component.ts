@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Trait } from 'src/app/classes/Trait';
 import { Item, TraitActivation } from 'src/app/classes/Item';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Creature } from 'src/app/classes/Creature';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { map, Observable, of } from 'rxjs';
 
 @Component({
     selector: 'app-trait',
@@ -17,7 +16,7 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 export class TraitComponent extends TrackByMixin(BaseClass) {
 
     @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
+    public creatureType: CreatureTypes = CreatureTypes.Character;
     @Input()
     public trait!: Trait;
     @Input()
@@ -33,29 +32,28 @@ export class TraitComponent extends TrackByMixin(BaseClass) {
         super();
     }
 
-    public currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
-    }
-
     public onActivateEffect(): void {
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.prepareDetailToChange(this.creatureType, 'effects');
         this._refreshService.processPreparedChanges();
     }
 
-    public objectTraitActivations(): Array<TraitActivation> {
+    public objectTraitActivations$(): Observable<Array<TraitActivation>> {
         if (this.item) {
-            this.item.prepareTraitActivations();
-
-            return this.item.traitActivations.filter(activation =>
-                activation.trait === this.trait.name ||
-                (
-                    this.trait.dynamic &&
-                    activation.trait.includes(this.trait.name)
-                ),
-            );
+            return this.item.traitActivations$
+                .pipe(
+                    map(activations => activations
+                        .filter(activation =>
+                            activation.trait === this.trait.name ||
+                            (
+                                this.trait.dynamic &&
+                                activation.trait.includes(this.trait.name)
+                            ),
+                        ),
+                    ),
+                );
         }
 
-        return [];
+        return of([]);
     }
 
 }

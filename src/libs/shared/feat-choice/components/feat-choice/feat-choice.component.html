@@ -1,11 +1,11 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngIf="(choice.source+choice.id) as listId">
-    <ng-container *ngIf="allowedAmount(choice) as allowedFeatsAmount">
-        <ng-container *ngIf="buttonTitle(allowedFeatsAmount) as buttonTitle">
+    <ng-container *ngIf="allowedFeatsAmount$ | async as allowedFeatsAmount">
+        <ng-container *ngIf="buttonTitle$ as buttonTitle">
             <div
-                *ngIf="allowedFeatsAmount > 0 && !shouldHideChoice(choice, allowedFeatsAmount)"
+                *ngIf="allowedFeatsAmount > 0 && (shouldHideChoice$ | async) === false"
                 class="featchoice-container"
-                [ngClass]="{'list-item': showTitle && !isTileMode, 'vlist': !showTitle, 'problem':(areAnyFeatsIllegal || choice.feats.length > allowedFeatsAmount), 'minimized-hide':(allowedFeatsAmount === choice.feats.length)}"
+                [ngClass]="{'list-item': showTitle && !isTileMode, 'vlist': !showTitle, 'problem':((areAnyFeatsIllegal$ | async) || choice.feats.length > allowedFeatsAmount), 'minimized-hide':(allowedFeatsAmount === choice.feats.length)}"
             >
                 <!-- Choice button shows in title mode -->
                 <!-- List mode button -->
@@ -28,7 +28,7 @@
                     [ngClass]="{'fancy-button choicecleared':(allowedFeatsAmount === choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice, 'activechoice':shownChoice()===listId}"
                 >
                     <app-grid-icon
-                        [ngbTooltip]="buttonTitle"
+                        [ngbTooltip]="buttonTitle$ | async"
                         [superTitle]="allowedFeatsAmount.toString()"
                         [title]="gridIconTitle(allowedFeatsAmount, choice)"
                         [detail]="(allowedFeatsAmount === 1 && choice.feats.length) ? (choice.feats[0].name.split(': ')[1] || '') : ''"
@@ -75,7 +75,7 @@
                                 class="character-choice"
                                 id="unavailableFeats"
                                 type="checkbox"
-                                [(ngModel)]="unavailableFeats"
+                                [(ngModel)]="showUnavailableFeats"
                             >
                             <label for="unavailableFeats">
                                 <strong>
@@ -92,7 +92,7 @@
                                 class="character-choice"
                                 id="lowerLevelFeats"
                                 type="checkbox"
-                                [(ngModel)]="lowerLevelFeats"
+                                [(ngModel)]="showLowerLevelFeats"
                             >
                             <label for="lowerLevelFeats">
                                 <strong>Show lower level feats</strong>
@@ -101,7 +101,7 @@
 
                         <div
                             class="fullwidth"
-                            [ngbCollapse]="!unavailableFeats"
+                            [ngbCollapse]="!showUnavailableFeats"
                             *ngIf="!choice.specialChoice && choice.type !== 'Familiar'"
                         >
                             <div class="list-item gridicon-fullsizebox">
@@ -109,7 +109,7 @@
                                     class="character-choice"
                                     id="higherLevelFeats"
                                     type="checkbox"
-                                    [(ngModel)]="higherLevelFeats"
+                                    [(ngModel)]="showHigherLevelFeats"
                                 >
                                 <label for="higherLevelFeats">
                                     <strong>Show higher level feats</strong>
@@ -125,7 +125,7 @@
                                 class="character-choice"
                                 id="archetypeFeats"
                                 type="checkbox"
-                                [(ngModel)]="archetypeFeats"
+                                [(ngModel)]="showArchetypeFeats"
                             >
                             <label for="archetypeFeats">
                                 <strong>Show archetype feats</strong>
@@ -134,17 +134,17 @@
                     </div>
 
                     <!-- End Filter -->
-                    <ng-container *ngIf="availableFeatsParameters(choice, allowedFeatsAmount) as featParametersList">
+                    <ng-container *ngIf="availableFeats$ | async as featParametersList">
                         <div
                             class="list-item"
-                            *ngIf="availableFeatsCount(featParametersList) < allowedFeatsAmount"
+                            *ngIf="((availableFeatsCount$ | async) ?? 0) < allowedFeatsAmount"
                         >
                             <span>
                                 There are fewer results available than you are allowed to take. This may be due to a
                                 choice with limited options, and it might be intended at this time.
                             </span>
 
-                            <span *ngIf="!higherLevelFeats || !lowerLevelFeats">
+                            <span *ngIf="!showHigherLevelFeats || !showLowerLevelFeats">
                                 More results may be found if you allow
                                 lower and higher level feats.
                             </span>
@@ -173,7 +173,7 @@
 
                                                 <input
                                                     type="checkbox"
-                                                    (change)="onFeatTaken(featParameters.feat, $event, choice, false)"
+                                                    (change)="onFeatTaken(featParameters.feat, $event, choice, allowedFeatsAmount, false)"
                                                     [checked]="featParameters.checked"
                                                     [disabled]="featParameters.disabled"
                                                     hidden
@@ -196,13 +196,14 @@
                                     <app-feat
                                         class="newrow"
                                         [feat]="featParameters.feat"
+                                        [featChoiceRequirementResults]="featParameters.featRequirementResults"
                                         [choice]="choice"
                                         [levelNumber]="levelNumber"
-                                        [featLevel]="featLevel"
+                                        [featLevel]="(featLevel$ | async) ?? levelNumber"
                                     ></app-feat>
 
                                     <!-- Subfeats -->
-                                    <ng-container *ngFor="let subFeatParameters of availableSubFeatParameters(allowedFeatsAmount, choice, featParameters.feat); trackBy:trackBySubType;">
+                                    <ng-container *ngFor="let subFeatParameters of featParameters.subFeats; trackBy:trackBySubType;">
 
                                         <div
                                             class="newrow list-item"
@@ -222,7 +223,7 @@
                                                         id="{{choice.id+subFeatParameters.feat.name}}"
                                                         type="checkbox"
                                                         class="character-choice"
-                                                        (change)="onFeatTaken(subFeatParameters.feat, $event, choice, false)"
+                                                        (change)="onFeatTaken(subFeatParameters.feat, $event, choice, allowedFeatsAmount, false)"
                                                         [checked]="subFeatParameters.checked"
                                                         [disabled]="subFeatParameters.disabled"
                                                         *ngIf="subFeatParameters.available"
@@ -270,7 +271,7 @@
                                                             <label>
                                                                 <input
                                                                     type="checkbox"
-                                                                    (change)="onFeatTaken(subFeatParameters.feat, $event, choice, false)"
+                                                                    (change)="onFeatTaken(subFeatParameters.feat, $event, choice, allowedFeatsAmount, false)"
                                                                     [checked]="subFeatParameters.checked"
                                                                     [disabled]="subFeatParameters.disabled"
                                                                     hidden
@@ -294,9 +295,10 @@
                                                         <app-feat
                                                             class="newrow"
                                                             [feat]="subFeatParameters.feat"
+                                                            [featChoiceRequirementResults]="subFeatParameters.featRequirementResults"
                                                             [choice]="choice"
                                                             [levelNumber]="levelNumber"
-                                                            [featLevel]="featLevel"
+                                                            [featLevel]="(featLevel$ | async) ?? levelNumber"
                                                         >
                                                         </app-feat>
                                                     </div>
@@ -309,7 +311,7 @@
 
                             <div
                                 class="list-item gridicon-fullsizebox"
-                                [ngClass]="{'unavailable':(!featParameters.available), 'selected':(featParameters.taken || isAnySubFeatTakenByThisChoice(undefined, featParameters.feat, choice))}"
+                                [ngClass]="{'unavailable':(!featParameters.available), 'selected':(featParameters.taken || featParameters.subFeatsTaken.length)}"
                             >
                                 <input
                                     aria-label="Take feat"
@@ -317,7 +319,7 @@
                                     class="character-choice"
                                     id="{{featParameters.feat.name}}"
                                     type="checkbox"
-                                    (change)="onFeatTaken(featParameters.feat, $event, choice, false)"
+                                    (change)="onFeatTaken(featParameters.feat, $event, choice, allowedFeatsAmount, false)"
                                     [checked]="featParameters.checked"
                                     [disabled]="featParameters.disabled || !featParameters.available"
                                 >

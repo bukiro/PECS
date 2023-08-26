@@ -21,7 +21,20 @@ import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, noop, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import {
+    combineLatest,
+    distinctUntilChanged,
+    map,
+    noop,
+    Observable,
+    of,
+    shareReplay,
+    Subscription,
+    switchMap,
+    take,
+    takeUntil,
+    tap,
+} from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -37,7 +50,7 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { BulkService, CalculatedBulk } from 'src/libs/shared/services/bulk/bulk.service';
+import { BulkLiveValue, BulkService } from 'src/libs/shared/services/bulk/bulk.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
@@ -48,7 +61,6 @@ import { DurationsService } from 'src/libs/shared/time/services/durations/durati
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
-import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
@@ -60,6 +72,11 @@ import { InputValidationService } from 'src/libs/shared/services/input-validatio
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { Store } from '@ngrx/store';
+import { InvestedLiveValue, InvestedService } from 'src/libs/shared/services/invested/invested.service';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -74,16 +91,6 @@ interface ItemParameters extends ItemRoles {
     containedItemsAmount: number;
 }
 
-interface CalculatedMaxInvested {
-    max: number;
-    current: number;
-    explain: string;
-    effects: Array<Effect>;
-    penalties: boolean;
-    bonuses: boolean;
-    absolutes: boolean;
-}
-
 @Component({
     selector: 'app-inventory',
     templateUrl: './inventory.component.html',
@@ -93,15 +100,21 @@ interface CalculatedMaxInvested {
 export class InventoryComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
     @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
-
-    @Input()
     public itemStore = false;
 
     public shieldDamage = 0;
     public creatureTypesEnum = CreatureTypes;
 
     public isTileMode$: Observable<boolean>;
+    public isManualMode$: Observable<boolean>;
+    public currentBulk$: Observable<BulkLiveValue>;
+    public encumberedLimit$: Observable<BulkLiveValue>;
+    public maxBulk$: Observable<BulkLiveValue>;
+    public currentInvested$: Observable<number>;
+    public maxInvested$: Observable<InvestedLiveValue>;
+    public isAnimalCompanionAvailable$: Observable<boolean>;
+    public isFamiliarAvailable$: Observable<boolean>;
+
     private _showItem = '';
     private _showList = '';
 
@@ -122,68 +135,112 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _bulkService: BulkService,
+        private readonly _investedService: InvestedService,
         private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         private readonly _itemPriceService: ItemPriceService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _durationsService: DurationsService,
         private readonly _itemTransferService: ItemTransferService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
-        private readonly _menuService: MenuService,
         private readonly _inventoryService: InventoryService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _currencyService: CurrencyService,
         private readonly _itemActivationService: ItemActivationService,
         private readonly _messageSendingService: MessageSendingService,
+        private readonly _creatureService: CreatureService,
+        private readonly _store$: Store,
     ) {
         super();
 
-        SettingsService.settings$
+        this.isMinimized$ = this.creature$
+            .pipe(
+                switchMap(creature => SettingsService.settings$
+                    .pipe(
+                        switchMap(settings => {
+                            switch (creature.type) {
+                                case CreatureTypes.AnimalCompanion:
+                                    return settings.companionMinimized$;
+                                case CreatureTypes.Familiar:
+                                    return settings.familiarMinimized$;
+                                default:
+                                    return settings.inventoryMinimized$;
+                            }
+                        }),
+                    ),
+                ),
+                distinctUntilChanged(),
+                tap(minimized => this._updateMinimized(minimized)),
+                // If the button is hidden, another subscription ensures that the pipe is run.
+                // shareReplay prevents it from running twice if the button is not hidden.
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
+        this.isMinimized$
             .pipe(
                 takeUntil(this._destroyed$),
-                map(settings => {
-                    switch (this.creature) {
-                        case CreatureTypes.AnimalCompanion:
-                            return settings.companionMinimized;
-                        case CreatureTypes.Familiar:
-                            return settings.familiarMinimized;
-                        default:
-                            return settings.inventoryMinimized;
-                    }
-                }),
-                distinctUntilChanged(),
             )
-            .subscribe(minimized => {
-                this._updateMinimized({ bySetting: minimized });
-            });
+            .subscribe();
 
-        this.isTileMode$ = SettingsService.settings$
+        this.isTileMode$ = propMap$(SettingsService.settings$, 'inventoryTileMode$')
             .pipe(
-                map(settings => settings.inventoryTileMode),
                 distinctUntilChanged(),
-                shareReplay(1),
+                shareReplay({ refCount: true, bufferSize: 1 }),
             );
+
+        this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$')
+            .pipe(
+                distinctUntilChanged(),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.currentBulk$ = this.creature$
+            .pipe(
+                switchMap(creature => this._bulkService.currentValue$(creature)),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.encumberedLimit$ = this.creature$
+            .pipe(
+                switchMap(creature => this._bulkService.encumberedLimit$(creature)),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.maxBulk$ = this.creature$
+            .pipe(
+                switchMap(creature => this._bulkService.maxLimit$(creature)),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.currentInvested$ = this.creature$
+            .pipe(
+                switchMap(creature => this._investedService.currentValue$(creature)),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.maxInvested$ = this.creature$
+            .pipe(
+                switchMap(creature => this._investedService.maxLimit$(creature)),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.isAnimalCompanionAvailable$ = this._creatureAvailabilityService.isCompanionAvailable$();
+
+        this.isFamiliarAvailable$ = this._creatureAvailabilityService.isFamiliarAvailable$();
     }
 
     @Input()
-    public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._updateMinimized({ forced: forceMinimized ?? false });
+    public set creature(creature: Creature) {
+        this._updateCreature(creature);
     }
 
     public get shouldShowMinimizeButton(): boolean {
-        return !this.forceMinimized && this.creature === CreatureTypes.Character;
-    }
-
-    public get isManualMode(): boolean {
-        return SettingsService.isManualMode;
+        return this.creature.isCharacter();
     }
 
     public get character(): Character {
         return CreatureService.character;
-    }
-
-    public get currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
     }
 
     public toggleMinimized(minimized: boolean): void {
@@ -195,11 +252,11 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     }
 
     public setItemsMenuTarget(target: CreatureTypes): void {
-        this._menuService.setItemsMenuTarget(target);
+        this._store$.dispatch(setItemsMenuTarget({ target }));
     }
 
     public toggleItemsMenu(): void {
-        this._menuService.toggleMenu(MenuNames.ItemsMenu);
+        this._store$.dispatch(toggleLeftMenu({ menu: MenuNames.ItemsMenu }));
     }
 
     public toggleShownList(type: string): void {
@@ -216,14 +273,6 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
 
     public shownItem(): string {
         return this._showItem;
-    }
-
-    public isCompanionAvailable(): boolean {
-        return this._creatureAvailabilityService.isCompanionAvailable();
-    }
-
-    public isFamiliarAvailable(): boolean {
-        return this._creatureAvailabilityService.isFamiliarAvailable();
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
@@ -254,54 +303,76 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
             .sort((a, b) => sortAlphaNum(a.name + a.id, b.name + b.id));
     }
 
-    public itemParameters(itemList: Array<Item>): Array<ItemParameters> {
-        const creature = this.currentCreature;
+    public itemParameters$(itemList: Array<Item>): Observable<Array<ItemParameters>> {
+        const creature = this.creature;
 
-        return itemList.map(item => {
-            const itemRoles = this._itemRolesService.getItemRoles(item);
+        return combineLatest(
+            itemList
+                .map(item => {
+                    const itemRoles = this._itemRolesService.getItemRoles(item);
 
-            const armorOrWeapon = (itemRoles.asArmor || itemRoles.asWeapon);
+                    const armorOrWeapon = (itemRoles.asArmor || itemRoles.asWeapon);
 
-            const proficiency = (
-                !(creature.isFamiliar()) &&
-                armorOrWeapon
-            )
-                ? this._equipmentPropertiesService.effectiveProficiency(
-                    armorOrWeapon,
-                    { creature, charLevel: this.character.level },
-                )
-                : '';
-
-            return {
-                ...itemRoles,
-                id: item.id,
-                proficiency,
-                asBattleforgedChangeable: this._itemAsBattleforgedChangeable(item),
-                asBladeAllyChangeable: this._itemAsBladeAllyChangeable(item),
-                asEmblazonArmamentChangeable: this._itemAsEmblazonArmamentChangeable(item),
-                hasEmblazonArmament: this._itemHasEmblazonArmament(item),
-                hasEmblazonAntimagic: this._itemHasEmblazonAntimagic(item),
-                emblazonEnergyChoice: this._itemEmblazonEnergyChoice(item),
-                canUse: this._hasProficiencyWithItem(itemRoles, proficiency),
-                containedItemsAmount: this._containedItemsOfItem(item),
-            };
-        });
+                    return (
+                        (
+                            !(creature.isFamiliar()) &&
+                            armorOrWeapon
+                        )
+                            ? this._equipmentPropertiesService.effectiveProficiency$(
+                                armorOrWeapon,
+                                { creature, charLevel: this.character.level },
+                            )
+                            : of('')
+                    )
+                        .pipe(
+                            switchMap(proficiency =>
+                                this._hasProficiencyWithItem$(itemRoles, proficiency)
+                                    .pipe(
+                                        map(canUse => ({
+                                            item,
+                                            itemRoles,
+                                            proficiency,
+                                            canUse,
+                                        })),
+                                    ),
+                            ),
+                        );
+                }),
+        )
+            .pipe(
+                map(itemDataList =>
+                    itemDataList
+                        .map(({ item, itemRoles, proficiency, canUse }) => ({
+                            ...itemRoles,
+                            id: item.id,
+                            proficiency,
+                            asBattleforgedChangeable: this._itemAsBattleforgedChangeable(item),
+                            asBladeAllyChangeable: this._itemAsBladeAllyChangeable(item),
+                            asEmblazonArmamentChangeable: this._itemAsEmblazonArmamentChangeable(item),
+                            hasEmblazonArmament: this._itemHasEmblazonArmament(item),
+                            hasEmblazonAntimagic: this._itemHasEmblazonAntimagic(item),
+                            emblazonEnergyChoice: this._itemEmblazonEnergyChoice(item),
+                            canUse,
+                            containedItemsAmount: this._containedItemsOfItem(item),
+                        })),
+                ),
+            );
     }
 
     public canEquipItem(item: Item, inventoryIndex: number): boolean {
         return (
-            inventoryIndex === 0 &&
-            item.equippable &&
-            (!(item as Equipment).broken || item instanceof Armor) &&
-            (
+            inventoryIndex === 0
+            && item.equippable
+            && (!(item as Equipment).broken || item instanceof Armor)
+            && (
                 (
-                    (this.creature === CreatureTypes.Character) === !item.traits.includes('Companion')
-                ) ||
-                item.name === 'Unarmored'
-            ) &&
-            (
-                (this.creature !== CreatureTypes.Familiar) ||
-                !(item instanceof Armor || item instanceof Shield || item instanceof Weapon)
+                    (this.creature.isCharacter()) !== item.traits.includes('Companion')
+                )
+                || item.name === 'Unarmored'
+            )
+            && (
+                !this.creature.isFamiliar()
+                || !(item.isArmor() || item.isShield() || item.isWeapon)
             )
         );
     }
@@ -309,7 +380,7 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     public canInvestItem(item: Item, inventoryIndex: number): boolean {
         return inventoryIndex === 0 &&
             item.canInvest() &&
-            (this.creature === CreatureTypes.Character) === !item.traits.includes('Companion');
+            (this.creature.isCharacter()) !== item.traits.includes('Companion');
     }
 
     public canDropItem(item: Item): boolean {
@@ -364,7 +435,7 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         const shouldPreserveInventoryContent = (pay && item instanceof Equipment && !!item.gainInventory.length);
 
         this._inventoryService.dropInventoryItem(
-            this.currentCreature,
+            this.creature,
             inventory,
             item,
             false,
@@ -374,8 +445,8 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
             shouldPreserveInventoryContent,
         );
         this.toggleShownItem();
-        this._refreshService.prepareDetailToChange(this.creature, 'inventory');
-        this._refreshService.prepareDetailToChange(this.creature, 'close-popovers');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'close-popovers');
         this._refreshService.processPreparedChanges();
     }
 
@@ -387,31 +458,37 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         including: boolean,
         reload = true,
     ): void {
-        if (target instanceof ItemCollection) {
-            this._itemTransferService.moveItemLocally(this.currentCreature, item, target, inventory, amount, including);
-        } else if (target instanceof SpellTarget) {
-            if (this._allAvailableCreatures().some(creature => creature.id === target.id)) {
-                this._itemTransferService.moveInventoryItemToLocalCreature(
-                    this.currentCreature,
-                    target,
-                    item,
-                    inventory,
-                    amount,
-                );
-            } else {
-                this._messageSendingService.sendItemsToPlayer(this.currentCreature, target, item, amount);
-            }
+        this._allAvailableCreatures$()
+            .pipe(
+                take(1),
+            )
+            .subscribe(creatures => {
+                if (target instanceof ItemCollection) {
+                    this._itemTransferService.moveItemLocally(this.creature, item, target, inventory, amount, including);
+                } else if (target instanceof SpellTarget) {
+                    if (creatures.some(creature => creature.id === target.id)) {
+                        this._itemTransferService.moveInventoryItemToLocalCreature(
+                            this.creature,
+                            target,
+                            item,
+                            inventory,
+                            amount,
+                        );
+                    } else {
+                        this._messageSendingService.sendItemsToPlayer(this.creature, target, item, amount);
+                    }
 
-            this.toggleShownItem();
-        }
+                    this.toggleShownItem();
+                }
 
-        if (reload) {
-            this._refreshService.setComponentChanged('close-popovers');
-            this._refreshService.setComponentChanged(item.id);
-            this._refreshService.prepareDetailToChange(this.creature, 'inventory');
-            this._refreshService.prepareDetailToChange(this.creature, 'effects');
-            this._refreshService.processPreparedChanges();
-        }
+                if (reload) {
+                    this._refreshService.setComponentChanged('close-popovers');
+                    this._refreshService.setComponentChanged(item.id);
+                    this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
+                    this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
+                    this._refreshService.processPreparedChanges();
+                }
+            });
     }
 
     public dragdropInventoryItem(event: CdkDragDrop<Array<string>>): void {
@@ -419,20 +496,20 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
             return;
         } else {
             const sourceID = event.previousContainer.id.split('|')[0];
-            const source = this.currentCreature.inventories.find(inv => inv.id === sourceID);
+            const source = this.creature.inventories.find(inv => inv.id === sourceID);
             const targetId = event.container.id.split('|')[0];
-            const target = this.currentCreature.inventories.find(inv => inv.id === targetId);
+            const target = this.creature.inventories.find(inv => inv.id === targetId);
             const itemKey = event.previousContainer.id.split('|')[1] as keyof ItemCollection;
             const item = source?.itemsOfType(itemKey)?.[event.previousIndex];
 
             if (source && target && item && this.canDropItem(item)) {
-                const cannotMove = this._itemTransferService.cannotMoveItem(this.currentCreature, item, target);
+                const cannotMove = this._itemTransferService.cannotMoveItem(this.creature, item, target);
 
                 if (cannotMove) {
                     this._toastService.show(`${ cannotMove } The item was not moved.`);
                 } else {
                     this._itemTransferService.moveItemLocally(
-                        this.currentCreature,
+                        this.creature,
                         item,
                         target,
                         source,
@@ -441,8 +518,8 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
                     );
                     this._refreshService.setComponentChanged('close-popovers');
                     this._refreshService.setComponentChanged(item.id);
-                    this._refreshService.prepareDetailToChange(this.creature, 'inventory');
-                    this._refreshService.prepareDetailToChange(this.creature, 'effects');
+                    this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
+                    this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
                     this._refreshService.processPreparedChanges();
                 }
             }
@@ -455,14 +532,14 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
 
     public dropContainerWithoutContent(item: Item, inventory: ItemCollection): void {
         this.toggleShownItem();
-        this._inventoryService.dropInventoryItem(this.currentCreature, inventory, item, false, true, false, item.amount, true);
-        this._refreshService.prepareDetailToChange(this.creature, 'close-popovers');
+        this._inventoryService.dropInventoryItem(this.creature, inventory, item, false, true, false, item.amount, true);
+        this._refreshService.prepareDetailToChange(this.creature.type, 'close-popovers');
         this._refreshService.processPreparedChanges();
     }
 
     public addNewOtherItem(inventory: ItemCollection): void {
         inventory.otheritems.push(new OtherItem());
-        this._refreshService.prepareDetailToChange(this.creature, 'inventory');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
         this._refreshService.processPreparedChanges();
     }
 
@@ -478,7 +555,7 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         }
 
         //Update effects to re-calculate your bulk.
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
         this._refreshService.processPreparedChanges();
     }
 
@@ -490,82 +567,26 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         return !!turns && this._durationsService.durationDescription(turns) || undefined;
     }
 
-    public calculatedCreatureBulk(): CalculatedBulk {
-        return this._bulkService.calculate(this.currentCreature);
-    }
-
-    public investedParameters(): CalculatedMaxInvested {
-        let maxInvest = 0;
-        const CharacterBaseMax = 10;
-        const OtherBaseMax = 10;
-        const effects: Array<Effect> = [];
-        let hasPenalties = false;
-        let hasBonuses = false;
-        let hasAbsolutes = false;
-        let explain = '';
-
-        if (this.creature === CreatureTypes.Character) {
-            maxInvest = CharacterBaseMax;
-            explain = 'Base limit: 10';
-        } else {
-            maxInvest = OtherBaseMax;
-            explain = 'Base limit: 2';
-        }
-
-        this._creatureEffectsService.absoluteEffectsOnThis(this.currentCreature, 'Max Invested').forEach(effect => {
-            maxInvest = parseInt(effect.setValue, 10);
-            explain = `${ effect.source }: ${ effect.setValue }`;
-            hasAbsolutes = true;
-            effects.push(effect);
-        });
-        this._creatureEffectsService.relativeEffectsOnThis(this.currentCreature, 'Max Invested').forEach(effect => {
-            maxInvest += parseInt(effect.value, 10);
-            explain += `\n${ effect.source }: ${ effect.value }`;
-
-            if (parseInt(effect.value, 10) < 0) {
-                hasPenalties = true;
-            } else {
-                hasBonuses = true;
-            }
-
-            effects.push(effect);
-        });
-
-        return {
-            max: maxInvest,
-            current: this._currentInvested(),
-            explain,
-            effects,
-            penalties: hasPenalties,
-            bonuses: hasBonuses,
-            absolutes: hasAbsolutes,
-        };
-    }
-
-    public investedItems(): Array<Equipment> {
-        return this._creatureEquipmentService.investedCreatureEquipment(this.currentCreature);
-    }
-
     public onEquipItem(item: Equipment, inventory: ItemCollection, equipped: boolean): void {
-        this._creatureEquipmentService.equipItem(this.currentCreature, inventory, item, equipped);
+        this._creatureEquipmentService.equipItem(this.creature, inventory, item, equipped);
     }
 
     public onInvestItem(item: Equipment, inventory: ItemCollection, invested: boolean): void {
-        this._creatureEquipmentService.investItem(this.currentCreature, inventory, item, invested);
+        this._creatureEquipmentService.investItem(this.creature, inventory, item, invested);
     }
 
     public onItemBroken(item: Equipment): void {
         if (item.broken) {
             if (!this.canEquipItem(item, 0) && item.equipped) {
                 this._creatureEquipmentService.equipItem(
-                    this.currentCreature,
-                    this.currentCreature.inventories[0],
+                    this.creature,
+                    this.creature.inventories[0],
                     item,
                     false,
                     false,
                     true,
                 );
-                this._toastService.show(`Your <strong>${ item.effectiveName() }</strong> was unequipped because it is broken.`);
+                this._toastService.show(`Your <strong>${ item.effectiveNameSnapshot() }</strong> was unequipped because it is broken.`);
             }
         }
 
@@ -573,7 +594,7 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     }
 
     public onItemChange(item: Item): void {
-        this._refreshService.prepareChangesByItem(this.currentCreature, item);
+        this._refreshService.prepareChangesByItem(this.creature, item);
         this._refreshService.processPreparedChanges();
         this._refreshItem(item);
     }
@@ -591,99 +612,113 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
             }
         }
 
-        this._refreshService.prepareChangesByItem(this.currentCreature, item);
+        this._refreshService.prepareChangesByItem(this.creature, item);
         this._refreshService.processPreparedChanges();
         this._refreshItem(item);
     }
 
-    public inventoryName(inventory: ItemCollection): string {
-        return this._inventoryPropertiesService.effectiveName(inventory, this.currentCreature);
+    public inventoryName$(inventory: ItemCollection): Observable<string> {
+        return this._inventoryPropertiesService.effectiveName$(inventory, this.creature);
     }
 
     public onUseSpellCastingItem(item: Item, creature: '' | 'self' | 'Selected' | CreatureTypes, inventory: ItemCollection): void {
         const spellName = item.storedSpells[0]?.spells[0]?.name || '';
         const spellChoice = item.storedSpells[0];
 
-        if (spellChoice && spellName) {
-            const spell = this._spellFromName(spellName);
+        this.isManualMode$
+            .pipe(
+                take(1),
+            )
+            .subscribe(isManualMode => {
+                if (spellChoice && spellName) {
+                    const spell = this._spellFromName(spellName);
 
-            if (spell && (!(item instanceof Wand && item.overcharged) || this.isManualMode)) {
-                this._spellProcessingService.processSpell(
-                    spell,
-                    true,
-                    {
-                        creature: this.character,
-                        choice: spellChoice,
-                        target: creature,
-                        gain: item.storedSpells[0].spells[0],
-                        level: spellChoice.level,
-                    },
-                    { manual: true },
-                );
-            }
-
-            if (item instanceof Wand) {
-                if (item.cooldown) {
-                    if (item.overcharged && !this.isManualMode) {
-                        this.dropInventoryItem(item, inventory, false);
-                        this._toastService.show(
-                            `The <strong>${ item.effectiveName() }</strong> was destroyed because it was overcharged too much. `
-                            + 'The spell was not cast.',
+                    if (spell && (!(item instanceof Wand && item.overcharged) || isManualMode)) {
+                        this._spellProcessingService.processSpell(
+                            spell,
+                            true,
+                            {
+                                creature: this.character,
+                                choice: spellChoice,
+                                target: creature,
+                                gain: item.storedSpells[0].spells[0],
+                                level: spellChoice.level,
+                            },
+                            { manual: true },
                         );
-                    } else if (item.overcharged && this.isManualMode) {
-                        this._toastService.show(
-                            `The <strong>${ item.effectiveName() }</strong> was overcharged too many times. `
-                            + 'It was not destroyed because manual mode is enabled.',
-                        );
-                        item.broken = true;
-                    } else {
-                        item.overcharged = true;
-                        item.broken = true;
                     }
-                } else {
-                    item.cooldown = TimePeriods.Day;
+
+                    if (item instanceof Wand) {
+                        if (item.cooldown) {
+                            if (item.overcharged && !isManualMode) {
+                                this.dropInventoryItem(item, inventory, false);
+                                this._toastService.show(
+                                    `The <strong>${ item.effectiveNameSnapshot()
+                                    }</strong> was destroyed because it was overcharged too much. `
+                                    + 'The spell was not cast.',
+                                );
+                            } else if (item.overcharged && isManualMode) {
+                                this._toastService.show(
+                                    `The <strong>${ item.effectiveNameSnapshot()
+                                    }</strong> was overcharged too many times. `
+                                    + 'It was not destroyed because manual mode is enabled.',
+                                );
+                                item.broken = true;
+                            } else {
+                                item.overcharged = true;
+                                item.broken = true;
+                            }
+                        } else {
+                            item.cooldown = TimePeriods.Day;
+                        }
+                    } else {
+                        spellChoice.spells.shift();
+                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
+                    }
                 }
-            } else {
-                spellChoice.spells.shift();
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-            }
-        }
 
-        if (item instanceof Consumable) {
-            this.onUseConsumable(item, creature as CreatureTypes, inventory);
-        } else {
-            this._refreshService.processPreparedChanges();
-        }
+                if (item instanceof Consumable) {
+                    this.onUseConsumable(item, creature as CreatureTypes, inventory);
+                } else {
+                    this._refreshService.processPreparedChanges();
+                }
 
-        this._refreshItem(item);
+                this._refreshItem(item);
+            });
     }
 
-    public onUseConsumable(item: Consumable, creature: CreatureTypes, inventory: ItemCollection): void {
-        this._itemActivationService.useConsumable(CreatureService.creatureFromType(creature), item);
+    public onUseConsumable(item: Consumable, creatureType: CreatureTypes, inventory: ItemCollection): void {
+        CreatureService.creatureFromType$(creatureType)
+            .pipe(
+                take(1),
+            )
+            .subscribe(creature => {
+                this._itemActivationService.useConsumable(creature, item);
 
-        if (this.canDropItem(item) && !item.canStack()) {
-            this.dropInventoryItem(item, inventory, false);
-        }
+                if (this.canDropItem(item) && !item.canStack()) {
+                    this.dropInventoryItem(item, inventory, false);
+                }
 
-        this._refreshService.processPreparedChanges();
+                this._refreshService.processPreparedChanges();
+            });
     }
 
     public canApplyTalismans(item: Equipment): boolean {
         return (
             !!item.talismans.length ||
-            this.currentCreature.inventories.some(inv => inv.talismans.length)
+            this.creature.inventories.some(inv => inv.talismans.length)
         );
     }
 
     public canApplyTalismanCords(item: Equipment): boolean {
         return (
             !!item.talismanCords.length ||
-            this.currentCreature.inventories.some(inv => inv.wornitems.some(wornitem => wornitem.isTalismanCord))
+            this.creature.inventories.some(inv => inv.wornitems.some(wornitem => wornitem.isTalismanCord))
         );
     }
 
     public itemHasBlockedSlottedAeonStones(item: WornItem): boolean {
-        const creature = this.currentCreature;
+        const creature = this.creature;
 
         return (
             !!item &&
@@ -713,24 +748,23 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         }
     }
 
-    public creatureHasFeat(name: string): boolean | undefined {
-        switch (this.creature) {
-            case CreatureTypes.Character:
-                return this._characterFeatsService.characterHasFeat(name);
-            default: return;
-        }
+    public creatureHasFeat$(name: string): Observable<boolean> {
+        return this.creature.isCharacter()
+            ? this._characterFeatsService.characterHasFeatAtLevel$(name)
+            : of(false);
     }
 
-    public quickCraftingParameters(): { quickAlchemy?: boolean; snareSpecialist?: boolean } | undefined {
-        const hasQuickAlchemy = this.creatureHasFeat('Quick Alchemy');
-        const hasSnareSpecialist = this.creatureHasFeat('Snare Specialist');
-
-        if (hasQuickAlchemy || hasSnareSpecialist) {
-            return {
-                quickAlchemy: hasQuickAlchemy,
-                snareSpecialist: hasSnareSpecialist,
-            };
-        }
+    public quickCraftingParameters$(): Observable<{ hasQuickAlchemy?: boolean; hasSnareSpecialist?: boolean }> {
+        return combineLatest([
+            this.creatureHasFeat$('Quick Alchemy'),
+            this.creatureHasFeat$('Snare Specialist'),
+        ])
+            .pipe(
+                map(([hasQuickAlchemy, hasSnareSpecialist]) => ({
+                    hasQuickAlchemy,
+                    hasSnareSpecialist,
+                })),
+            );
     }
 
     public learnedFormulas(id = '', source = ''): Array<FormulaLearned> {
@@ -749,55 +783,63 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     }
 
     //TO-DO: CraftingComponent has the same method. Maybe a CraftingService?
-    public cannotCraftReason(item: Item, learned: FormulaLearned, type: string): Array<string> {
+    public cannotCraftReason$(item: Item, learned: FormulaLearned, type: string): Observable<Array<string>> {
         //Return any reasons why you cannot craft an item.
         const character: Character = this.character;
-        const reasons: Array<string> = [];
 
-        if (
-            item.traits.includes('Alchemical') &&
-            !this.creatureHasFeat('Alchemical Crafting')
-        ) {
-            reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
-        }
+        return combineLatest([
+            item.traits.includes('Alchemical')
+                ? this.creatureHasFeat$('Alchemical Crafting')
+                : of(true),
+            item.traits.includes('Magical')
+                ? this.creatureHasFeat$('Magical Crafting')
+                : of(true),
+            item.traits.includes('Snare')
+                ? this.creatureHasFeat$('Snare Crafting')
+                : of(true),
+            character.level$
+                .pipe(
+                    switchMap(level => this._skillValuesService.level$('Crafting', character, level)),
+                ),
+        ])
+            .pipe(
+                map(([alchemicalCraftingOk, magicalCraftingOk, snareCraftingOk, craftingSkillLevel]) => {
+                    const reasons: Array<string> = [];
 
-        if (
-            item.traits.includes('Magical') &&
-            !this.creatureHasFeat('Magical Crafting')
-        ) {
-            reasons.push('You need the Magical Crafting skill feat to create magic items.');
-        }
+                    if (!alchemicalCraftingOk) {
+                        reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
+                    }
 
-        if (
-            item.traits.includes('Snare') &&
-            !this.creatureHasFeat('Snare Crafting')
-        ) {
-            reasons.push('You need the Snare Crafting skill feat to create snares.');
-        }
+                    if (magicalCraftingOk) {
+                        reasons.push('You need the Magical Crafting skill feat to create magic items.');
+                    }
 
-        if (item.level > character.level) {
-            reasons.push('The item to craft must be your level or lower.');
-        }
+                    if (snareCraftingOk) {
+                        reasons.push('You need the Snare Crafting skill feat to create snares.');
+                    }
 
-        const legendaryRequiringLevel = 16;
-        const masterRequiringLevel = 9;
+                    if (item.level > character.level) {
+                        reasons.push('The item to craft must be your level or lower.');
+                    }
 
-        if (item.level >= masterRequiringLevel) {
-            const craftingSkillLevel =
-                this._skillValuesService.level('Crafting', character, character.level) || 0;
+                    const legendaryRequiringLevel = 16;
+                    const masterRequiringLevel = 9;
 
-            if (item.level >= legendaryRequiringLevel && craftingSkillLevel < SkillLevels.Legendary) {
-                reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
-            } else if (item.level >= masterRequiringLevel && craftingSkillLevel < SkillLevels.Master) {
-                reasons.push('You must be a master in Crafting to craft items of 9th level or higher.');
-            }
-        }
+                    if (item.level >= masterRequiringLevel) {
+                        if (item.level >= legendaryRequiringLevel && craftingSkillLevel < SkillLevels.Legendary) {
+                            reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
+                        } else if (item.level >= masterRequiringLevel && craftingSkillLevel < SkillLevels.Master) {
+                            reasons.push('You must be a master in Crafting to craft items of 9th level or higher.');
+                        }
+                    }
 
-        if (type === 'snarespecialist' && !learned.snareSpecialistAvailable) {
-            reasons.push('You must do your preparations again before you can deploy more of this item.');
-        }
+                    if (type === 'snarespecialist' && !learned.snareSpecialistAvailable) {
+                        reasons.push('You must do your preparations again before you can deploy more of this item.');
+                    }
 
-        return reasons;
+                    return reasons;
+                }),
+            );
     }
 
     public craftItem(item: Item, learned: FormulaLearned, type: string): void {
@@ -821,18 +863,27 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         this._refreshService.processPreparedChanges();
     }
 
-    public snareSpecialistActions(item: Snare): string {
+    public snareSpecialistActions$(item: Snare): Observable<string> {
         //The rules for snare specialist and lightning snares say that these numbers apply to snares that take 1 minute to craft,
         //  but there doesn't seem to be any other type of snare.
-        if (item.actions === '1 minute') {
-            if (this.creatureHasFeat('Lightning Snares')) {
-                return '1A';
-            } else {
-                return '3A';
-            }
-        } else {
-            return item.actions;
-        }
+        return (
+            item.actions === '1 minute'
+                ? this.creatureHasFeat$('Lightning Snares')
+                : of(true)
+        )
+            .pipe(
+                map(lightningSnaresOk => {
+                    if (item.actions === '1 minute') {
+                        if (lightningSnaresOk) {
+                            return '1A';
+                        } else {
+                            return '3A';
+                        }
+                    } else {
+                        return item.actions;
+                    }
+                }),
+            );
     }
 
     public itemStoredSpell(item: Item): Array<{ spell: Spell; gain: SpellGain; choice: SpellChoice }> {
@@ -849,43 +900,57 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         }
     }
 
-    public isLargeWeaponAllowed(item: Item): boolean {
+    public isLargeWeaponAllowed$(item: Item): Observable<boolean> {
         return (
-            this.creature === CreatureTypes.Character &&
-            item instanceof Weapon &&
-            item.prof !== 'Unarmed Attacks' &&
             (
-                this.creatureHasFeat('Titan Mauler') ||
-                !!this._creatureEffectsService.effectsOnThis(this.currentCreature, 'Use Large Weapons').length
+                this.creature.isCharacter()
+                && item.isWeapon()
+                && item.prof !== 'Unarmed Attacks'
             )
-        );
+                ? combineLatest([
+                    this.creatureHasFeat$('Titan Mauler'),
+                    this._creatureEffectsService.effectsOnThis$(this.creature, 'Use Large Weapons'),
+                ])
+                : combineLatest([
+                    of(false),
+                    of(new Array<Effect>()),
+                ])
+        )
+            .pipe(
+                map(([hasTitanMauler, largeWeaponEffects]) => (
+                    hasTitanMauler
+                    || !!largeWeaponEffects.length
+                )),
+            );
     }
 
-    public isBladeAllyAllowed(item: Item): boolean {
+    public isBladeAllyAllowed$(item: Item): Observable<boolean> {
         return (
-            this.creature === CreatureTypes.Character &&
-            (
-                (
-                    item instanceof Weapon &&
-                    item.prof !== 'Unarmed Attacks'
-                ) ||
-                (
-                    item instanceof WornItem &&
-                    item.isHandwrapsOfMightyBlows
+            this.creature.isCharacter()
+                && (
+                    (
+                        item instanceof Weapon
+                        && item.prof !== 'Unarmed Attacks'
+                    )
+                    || (
+                        item instanceof WornItem
+                        && item.isHandwrapsOfMightyBlows
+                    )
                 )
-            ) &&
-            !!this.creatureHasFeat('Divine Ally: Blade Ally')
+                ? this.creatureHasFeat$('Divine Ally: Blade Ally')
+                : of(false)
         );
     }
 
-    public isEmblazonArmamentAllowed(item: Item): boolean {
+    public isEmblazonArmamentAllowed$(item: Item): Observable<boolean> {
         return (
-            this.creature === CreatureTypes.Character &&
-            (
-                item instanceof Weapon ||
-                item instanceof Shield
-            ) &&
-            !!this.creatureHasFeat('Emblazon Armament')
+            this.creature.isCharacter() &&
+                (
+                    item instanceof Weapon ||
+                    item instanceof Shield
+                )
+                ? this.creatureHasFeat$('Emblazon Armament')
+                : of(false)
         );
     }
 
@@ -898,45 +963,58 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         );
     }
 
-    public isBattleforgedAllowed(item: Item): boolean {
+    public isBattleforgedAllowed$(item: Item): Observable<boolean> {
         return (
-            this.creatureHasFeat('Battleforger') ||
-            !!this._creatureEffectsService.effectsOnThis(this.character, 'Allow Battleforger').length
-        )
-            && (
+            (
                 (
                     item.isWeapon() &&
                     item.prof !== 'Unarmed Attacks'
-                ) ||
-                item.isArmor() ||
-                (
+                )
+                || item.isArmor()
+                || (
                     item.isWornItem() &&
                     item.isHandwrapsOfMightyBlows
                 )
+            )
+                ? combineLatest([
+                    this.creatureHasFeat$('Battleforger'),
+                    this._creatureEffectsService.effectsOnThis$(this.character, 'Allow Battleforger'),
+                ])
+                : combineLatest([
+                    of(false),
+                    of(new Array<Effect>()),
+                ])
+        )
+            .pipe(
+                map(([hasBattleForger, battleForgerEffects]) => (
+                    hasBattleForger
+                    || !!battleForgerEffects.length
+                )),
             );
+
     }
 
     public onShieldHPChange(shield: Shield, amount: number): void {
         shield.damage += amount;
 
         if (shield.equipped) {
-            this._refreshService.prepareDetailToChange(this.creature, 'defense');
+            this._refreshService.prepareDetailToChange(this.creature.type, 'defense');
         }
 
-        if (shield.currentHitPoints() < shield.effectiveBrokenThreshold()) {
+        if (shield.currentHitPoints$() < shield.effectiveBrokenThreshold$()) {
             shield.broken = true;
             this.onItemBroken(shield);
         } else {
             shield.broken = false;
         }
 
-        this._refreshService.prepareDetailToChange(this.creature, 'inventory');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
         this._refreshService.processPreparedChanges();
     }
 
     public isRepairAllowed(item: Equipment): boolean {
         if (item.broken && item instanceof Shield) {
-            if (item.currentHitPoints() < item.effectiveBrokenThreshold()) {
+            if (item.currentHitPoints$() < item.effectiveBrokenThreshold$()) {
                 return false;
             }
         }
@@ -947,14 +1025,14 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
-                if (['inventory', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                if (['inventory', 'all', this.creature.type.toLowerCase()].includes(target.toLowerCase())) {
                     this._changeDetector.detectChanges();
                 }
             });
         this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
                 if (
-                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
+                    view.creature.toLowerCase() === this.creature.type.toLowerCase() &&
                     ['inventory', 'all'].includes(view.target.toLowerCase())
                 ) {
                     this._changeDetector.detectChanges();
@@ -968,15 +1046,15 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         this._destroy();
     }
 
-    private _allAvailableCreatures(): Array<Creature> {
-        return this._creatureAvailabilityService.allAvailableCreatures();
+    private _allAvailableCreatures$(): Observable<Array<Creature>> {
+        return this._creatureService.allAvailableCreatures$();
     }
 
     private _containedItemsOfItem(item: Item): number {
         //Add up the number of items in each inventory with this item's id
         //We have to sum up the items in each inventory, and then sum up those sums.
         if (item.id && (item as Equipment).gainInventory?.length) {
-            return this.currentCreature.inventories
+            return this.creature.inventories
                 .filter(inventory =>
                     inventory.itemId === item.id,
                 ).map(inventory => inventory.allItems()
@@ -990,7 +1068,7 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     }
 
     private _itemAsBattleforgedChangeable(item: Item): Armor | Weapon | WornItem | undefined {
-        return this.creature === CreatureTypes.Character &&
+        return this.creature.isCharacter() &&
             (
                 item instanceof Armor ||
                 (item instanceof Weapon && item.prof !== 'Unarmed Attacks') ||
@@ -999,7 +1077,7 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     }
 
     private _itemAsBladeAllyChangeable(item: Item): Weapon | WornItem | undefined {
-        return this.creature === CreatureTypes.Character &&
+        return this.creature.isCharacter() &&
             (
                 item instanceof Weapon ||
                 (item instanceof WornItem && item.isHandwrapsOfMightyBlows)
@@ -1011,53 +1089,55 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     }
 
     private _itemHasEmblazonArmament(item: Item): boolean {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type === 'emblazonArmament');
+        return (item instanceof Weapon || item instanceof Shield)
+            && item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonArmament;
     }
 
     private _itemEmblazonEnergyChoice(item: Item): string | undefined {
         return (item instanceof Weapon || item instanceof Shield)
-            ? item.emblazonArmament.find(ea => ea.type === 'emblazonEnergy')?.choice
+            && item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy
+            ? item.emblazonArmament.choice
             : undefined;
     }
 
     private _itemHasEmblazonAntimagic(item: Item): boolean {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type === 'emblazonAntimagic');
+        return (item instanceof Weapon || item instanceof Shield)
+            && item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonAntimagic;
     }
 
-    private _hasProficiencyWithItem(itemRoles: ItemRoles, proficiency: string): boolean | undefined {
-        const creature = this.currentCreature;
+    private _hasProficiencyWithItem$(itemRoles: ItemRoles, proficiency: string): Observable<boolean> {
+        const creature = this.creature;
 
-        if (!(creature.isFamiliar())) {
+        const determineProficiencyLevelObservable = (): Observable<number> => {
+            if (creature.isFamiliar()) {
+                return of(0);
+            }
+
             if (itemRoles.asWeapon) {
                 return this._weaponPropertiesService
-                    .profLevel(
+                    .profLevel$(
                         itemRoles.asWeapon,
                         creature,
                         itemRoles.asWeapon,
-                        undefined,
                         { preparedProficiency: proficiency },
-                    ) > 0;
+                    );
             }
 
             if (itemRoles.asArmor) {
-                return this._armorPropertiesService.profLevel(itemRoles.asArmor, creature) > 0;
+                return this._armorPropertiesService.profLevel$(itemRoles.asArmor, creature);
             }
-        }
+
+            return of(0);
+        };
+
+        return determineProficiencyLevelObservable()
+            .pipe(
+                map(level => level > 0),
+            );
     }
 
     private _refreshItem(item: Item): void {
         this._refreshService.setComponentChanged(item.id);
-    }
-
-    private _currentInvested(): number {
-        // Sum up the invested items: 1 for each item other than Wayfinders,
-        // and for Wayfinders:
-        //  1 for the Wayfinder, and 1 for each Aeon Stone but the first.
-        //  That is represented by 1 for each Aeon Stone (but at least 1).
-        return this.investedItems().map(item =>
-            (item instanceof WornItem && item.aeonStones.length) ? Math.max(item.aeonStones.length, 1) : 1,
-        )
-            .reduce((a, b) => a + b, 0);
     }
 
     private _spellFromName(name: string): Spell {

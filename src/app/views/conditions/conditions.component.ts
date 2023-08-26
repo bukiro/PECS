@@ -15,7 +15,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Consumable } from 'src/app/classes/Consumable';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, Observable, shareReplay, Subscription } from 'rxjs';
+import { combineLatest, debounceTime, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -31,14 +31,18 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { EffectPropertiesDataService } from 'src/libs/shared/services/data/effect-properties-data.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
-import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { Store } from '@ngrx/store';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 
 const itemsPerPage = 40;
 
@@ -112,25 +116,32 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         private readonly _evaluationService: EvaluationService,
         private readonly _customEffectPropertiesService: EffectPropertiesDataService,
         private readonly _durationsService: DurationsService,
-        private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _creatureService: CreatureService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _featsDataService: FeatsDataService,
+        private readonly _store$: Store,
     ) {
         super();
 
-        this.isTileMode$ = SettingsService.settings$
+        this.isTileMode$ = propMap$(SettingsService.settings$, 'conditionsTileMode$')
             .pipe(
-                map(settings => settings.conditionsTileMode),
                 distinctUntilChanged(),
-                shareReplay(1),
+                shareReplay({ refCount: true, bufferSize: 1 }),
             );
 
-        this.isMenuOpen$ = MenuService.sideMenuState$
+        this.isMenuOpen$ = _store$.select(selectLeftMenu)
             .pipe(
-                map(menuState => menuState === MenuNames.ConditionsMenu),
+                map(menu => menu === MenuNames.ConditionsMenu),
                 distinctUntilChanged(),
+                switchMap(isMenuOpen => isMenuOpen
+                    ? of(isMenuOpen)
+                    : of(isMenuOpen)
+                        .pipe(
+                            debounceTime(Defaults.closingMenuClearDelay),
+                        ),
+                ),
             );
     }
 
@@ -138,20 +149,20 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         return CreatureService.character;
     }
 
-    public get companion(): AnimalCompanion {
-        return CreatureService.companion;
+    public get companion$(): Observable<AnimalCompanion> {
+        return CreatureService.companion$;
     }
 
-    public get familiar(): Familiar {
-        return CreatureService.familiar;
+    public get familiar$(): Observable<Familiar> {
+        return CreatureService.familiar$;
     }
 
-    private get _isCompanionAvailable(): boolean {
-        return this._creatureAvailabilityService.isCompanionAvailable();
+    private get _isCompanionAvailable$(): Observable<boolean> {
+        return this._creatureAvailabilityService.isCompanionAvailable$();
     }
 
-    private get _isFamiliarAvailable(): boolean {
-        return this._creatureAvailabilityService.isFamiliarAvailable();
+    private get _isFamiliarAvailable$(): Observable<boolean> {
+        return this._creatureAvailabilityService.isFamiliarAvailable$();
     }
 
     public toggleTileMode(isTileMode: boolean): void {
@@ -217,6 +228,10 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         return this._showCreature;
     }
 
+    public creatureFromShownCreature$(): Observable<Creature> {
+        return CreatureService.creatureFromType$(this.shownCreature());
+    }
+
     public validateDurationNumbers(): void {
         const maxHours = 23;
         const maxMinutes = 59;
@@ -243,18 +258,24 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
     }
 
     public toggleConditionsMenu(): void {
-        this._menuService.toggleMenu(MenuNames.ConditionsMenu);
+        this._store$.dispatch(toggleLeftMenu({ menu: MenuNames.ConditionsMenu }));
     }
 
-    public allAvailableCreatures(companionAvailable?: boolean, familiarAvailable?: boolean): Array<Creature> {
-        return this._creatureAvailabilityService.allAvailableCreatures(companionAvailable, familiarAvailable);
+    public allAvailableCreatures$(): Observable<Array<Creature>> {
+        return this._creatureService.allAvailableCreatures$();
     }
 
-    public componentParameters(): { isCompanionAvailable: boolean; isFamiliarAvailable: boolean } {
-        return {
-            isCompanionAvailable: this._isCompanionAvailable,
-            isFamiliarAvailable: this._isFamiliarAvailable,
-        };
+    public componentParameters$(): Observable<{ isCompanionAvailable: boolean; isFamiliarAvailable: boolean }> {
+        return combineLatest([
+            this._isCompanionAvailable$,
+            this._isFamiliarAvailable$,
+        ])
+            .pipe(
+                map(([isCompanionAvailable, isFamiliarAvailable]) => ({
+                    isCompanionAvailable,
+                    isFamiliarAvailable,
+                })),
+            );
     }
 
     public visibleConditionsOfType(type: ConditionType): Array<Condition> {
@@ -371,27 +392,37 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         this._creatureConditionsService.addCondition(creature, newGain);
     }
 
-    public effectiveEffectValue(creature: Creature, effect: EffectGain): { value: string | number | null; penalty: boolean } {
+    public effectiveEffectValue$(
+        creature: Creature,
+        effect: EffectGain,
+    ): Observable<{ value: string | number | null; isPenalty: boolean }> {
         //Send the effect's setValue or value to the EvaluationService to get its result.
-        let result: string | number | null = null;
-        let isPenalty = false;
-
         if (effect.setValue) {
-            result =
-                this._evaluationService.valueFromFormula(effect.setValue, { creature, effect });
-            isPenalty = false;
+            return this._evaluationService.valueFromFormula$(effect.setValue, { creature, effect })
+                .pipe(
+                    map(value => ({
+                        value,
+                        isPenalty: false,
+                    })),
+                );
         } else if (effect.value) {
-            result =
-                this._evaluationService.valueFromFormula(effect.value, { creature, effect });
+            return this._evaluationService.valueFromFormula$(effect.value, { creature, effect })
+                .pipe(
+                    map(value => {
+                        let isPenalty = false;
 
-            if (!isNaN(result as number) && result !== null) {
-                isPenalty = (result < 0) === (effect.affected !== 'Bulk');
-            } else {
-                result = null;
-            }
+                        if (typeof value === 'number') {
+                            isPenalty = (value < 0) === (effect.affected !== 'Bulk');
+                        } else {
+                            value = null;
+                        }
+
+                        return { value, isPenalty };
+                    }),
+                );
         }
 
-        return { value: result, penalty: isPenalty };
+        return of({ value: null, isPenalty: false });
     }
 
     public isValueFormula(value: string): boolean {
@@ -468,7 +499,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         if (propertyData.key === 'value' && propertyData.parent === 'effects') {
             if (value && value !== '0') {
                 const validationResult =
-                    this._evaluationService.valueFromFormula(value.toString(), { creature: this.character })?.toString() || '0';
+                    this._evaluationService.valueFromFormula$(value.toString(), { creature: this.character })?.toString() || '0';
 
                 if (validationResult && validationResult !== '0' && (parseInt(validationResult, 10) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) === parseInt(validationResult, 10)) {
@@ -488,7 +519,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         } else if (propertyData.key === 'setValue' && propertyData.parent === 'effects') {
             if (value && value !== '0') {
                 const validationResult =
-                    this._evaluationService.valueFromFormula(value.toString(), { creature: this.character })?.toString();
+                    this._evaluationService.valueFromFormula$(value.toString(), { creature: this.character })?.toString();
 
                 if (
                     !!validationResult &&

@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellCastingTypes } from '../../definitions/spellCastingTypes';
 import { SpellTraditions } from '../../definitions/spellTraditions';
 import { SpellsDataService } from '../data/spells-data.service';
+import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +19,7 @@ export class SpellsTakenService {
         private readonly _spellsDataService: SpellsDataService,
     ) { }
 
-    public takenSpells(
+    public takenSpells$(
         minLevelNumber: number,
         maxLevelNumber: number,
         filter: {
@@ -34,9 +35,9 @@ export class SpellsTakenService {
             signatureAllowed?: boolean;
             cantripAllowed?: boolean;
         } = {},
-    ): Array<{ choice: SpellChoice; gain: SpellGain }> {
+    ): Observable<Array<{ choice: SpellChoice; gain: SpellGain }>> {
         filter = {
-            spellLevel: -1,
+            spellLevel: undefined,
             classNames: [],
             traditions: [],
             castingTypes: [],
@@ -49,25 +50,27 @@ export class SpellsTakenService {
         filter.spellName = filter.spellName?.toLowerCase();
         filter.source = filter.source?.toLowerCase();
 
-        const character = CreatureService.character;
+        const dynamicLevel$ = (choice: SpellChoice, casting: SpellCasting): Observable<number> => (
+            this._spellsService.dynamicSpellLevel$(casting, choice)
+        );
 
-        const dynamicLevel = (choice: SpellChoice, casting: SpellCasting): number => (
-            this._spellsService.dynamicSpellLevel(casting, choice)
+        const spellLevelMatches$ = (casting: SpellCasting, choice: SpellChoice): Observable<boolean> => (
+            filter.spellLevel === undefined
+                ? of(true)
+                : (choice.dynamicLevel ? dynamicLevel$(choice, casting) : of(choice.level))
+                    .pipe(
+                        map(choiceLevel => choiceLevel === filter.spellLevel),
+                    )
         );
 
         const choiceLevelMatches = (choice: SpellChoice): boolean => (
             choice.charLevelAvailable >= minLevelNumber && choice.charLevelAvailable <= maxLevelNumber
         );
 
-        const spellLevelMatches = (casting: SpellCasting, choice: SpellChoice): boolean => (
-            filter.spellLevel === -1 ||
-            (choice.dynamicLevel ? dynamicLevel(choice, casting) : choice.level) === filter.spellLevel
-        );
-
         const signatureSpellLevelMatches = (choice: SpellChoice): boolean => (
             !!filter.signatureAllowed &&
             choice.spells.some(spell => spell.signatureSpell) &&
-            ![0, -1].includes(filter.spellLevel || -1)
+            ![0, -1].includes(filter.spellLevel ?? 0)
         );
 
         const spellMatches = (choice: SpellChoice, gain: SpellGain): boolean => (
@@ -77,38 +80,63 @@ export class SpellsTakenService {
             ((filter.locked === undefined) || gain.locked === filter.locked) &&
             (
                 !(filter.signatureAllowed && gain.signatureSpell) ||
-                ((filter.spellLevel || -1) >= this._spellsDataService.spellFromName(gain.name)?.levelreq)
+                ((filter.spellLevel ?? 0) >= this._spellsDataService.spellFromName(gain.name)?.levelreq)
             ) &&
             (filter.cantripAllowed || (!this._spellsDataService.spellFromName(gain.name)?.traits.includes('Cantrip')))
         );
 
-        const spellsTaken: Array<{ choice: SpellChoice; gain: SpellGain }> = [];
+        return CharacterFlatteningService.characterSpellCasting$
+            .pipe(
+                map(spellCasting => spellCasting
+                    .filter(casting =>
+                        (filter.spellCasting ? casting === filter.spellCasting : true) &&
+                        //Castings that have become available on a previous level can still gain spells on this level.
+                        //(casting.charLevelAvailable >= minLevelNumber) &&
+                        (casting.charLevelAvailable <= maxLevelNumber) &&
+                        (filter.classNames?.length ? filter.classNames.includes(casting.className) : true) &&
+                        (filter.traditions?.length ? filter.traditions.includes(casting.tradition) : true) &&
+                        (filter.castingTypes?.length ? filter.castingTypes.includes(casting.castingType) : true),
+                    ),
+                ),
+                switchMap(spellCasting => combineLatest(
+                    spellCasting.map(casting =>
+                        combineLatest(casting.spellChoices.map(choice =>
+                            (
+                                choiceLevelMatches(choice)
+                                    ? signatureSpellLevelMatches(choice)
+                                        ? of(true)
+                                        : spellLevelMatches$(casting, choice)
+                                    : of(false)
+                            )
+                                .pipe(
+                                    map(choiceMatches => choiceMatches ? choice : undefined),
+                                ),
+                        )),
+                    ),
+                )
+                    .pipe(
+                        map(spellChoiceLists => {
+                            const spellsTaken: Array<{ choice: SpellChoice; gain: SpellGain }> = [];
 
-        character.class?.spellCasting
-            .filter(casting =>
-                (filter.spellCasting ? casting === filter.spellCasting : true) &&
-                //Castings that have become available on a previous level can still gain spells on this level.
-                //(casting.charLevelAvailable >= minLevelNumber) &&
-                (casting.charLevelAvailable <= maxLevelNumber) &&
-                (filter.classNames?.length ? filter.classNames.includes(casting.className) : true) &&
-                (filter.traditions?.length ? filter.traditions.includes(casting.tradition) : true) &&
-                (filter.castingTypes?.length ? filter.castingTypes.includes(casting.castingType) : true),
-            ).forEach(casting => {
-                casting.spellChoices
-                    .filter(choice =>
-                        choiceLevelMatches(choice) &&
-                        (signatureSpellLevelMatches(choice) || spellLevelMatches(casting, choice)),
-                    ).forEach(choice => {
-                        choice.spells
-                            .filter(gain =>
-                                spellMatches(choice, gain),
-                            ).forEach(gain => {
-                                spellsTaken.push({ choice, gain });
-                            });
-                    });
-            });
+                            spellChoiceLists
+                                .forEach(spellChoiceList => {
+                                    spellChoiceList
+                                        .filter((choice): choice is SpellChoice => !!choice)
+                                        .forEach(choice => {
+                                            choice.spells
+                                                .filter(gain =>
+                                                    spellMatches(choice, gain),
+                                                ).forEach(gain => {
+                                                    spellsTaken.push({ choice, gain });
+                                                });
+                                        });
+                                });
 
-        return spellsTaken;
+                            return spellsTaken;
+                        }),
+                    ),
+                ),
+            );
     }
 
 }

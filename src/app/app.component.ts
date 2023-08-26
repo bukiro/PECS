@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
-import { combineLatest, map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { ApiStatusKey } from 'src/libs/shared/definitions/apiStatusKey';
 import { ApiStatus } from 'src/libs/shared/definitions/interfaces/api-status';
-import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { DataService } from 'src/libs/shared/services/data/data.service';
 import { DisplayService } from 'src/libs/shared/services/display/display.service';
-import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { selectStatus } from 'src/libs/store/status/status.selectors';
 
 @Component({
     selector: 'app-root',
@@ -21,23 +21,22 @@ export class AppComponent {
 
     public apiStatusKey = ApiStatusKey;
 
+    public character$ = CreatureService.character$;
     public isReady$: Observable<boolean>;
     public loadingStatus$: Observable<ApiStatus>;
     public isDarkmode$: Observable<boolean>;
 
-    constructor() {
+    constructor(
+        _store$: Store,
+    ) {
         this._setMobile();
 
         this.loadingStatus$ =
-            combineLatest([
-                ConfigService.configStatus$,
-                DataService.dataStatus$,
-                SavegamesService.savegamesStatus$,
-                CreatureService.characterStatus$,
-            ])
+            _store$.select(selectStatus)
                 .pipe(
                     map(statuses =>
-                        statuses.find(status => status.key !== ApiStatusKey.Ready)
+                        ([statuses.config, statuses.data, statuses.savegames, statuses.character])
+                            .find(status => status.key !== ApiStatusKey.Ready)
                         ?? { key: ApiStatusKey.Ready },
                     ),
                 );
@@ -49,9 +48,9 @@ export class AppComponent {
                 );
 
         this.isDarkmode$ =
-            SettingsService.settings$
+            propMap$(SettingsService.settings$, 'darkmode$')
                 .pipe(
-                    map(settings => !!settings.darkmode),
+                    distinctUntilChanged(),
                 );
     }
 
@@ -68,7 +67,7 @@ export class AppComponent {
     }
 
     public toggleDarkmode(): void {
-        SettingsService.settings.darkmode = !SettingsService.settings.darkmode;
+        SettingsService.setSetting(settings => { settings.darkmode = !settings.darkmode; });
     }
 
     private _setMobile(): void {

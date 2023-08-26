@@ -8,7 +8,7 @@
     class="top-bar-button"
     label="Edit character and settings"
     [toggled]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu"
-    (clicked)="toggleMenu(menuNames.CharacterCreationMenu)"
+    (clicked)="toggleLeftMenu(menuNames.CharacterCreationMenu)"
     showLabel
     compact
 >
@@ -19,26 +19,24 @@
     </div>
 </app-button>
 
-<!-- //To-Do: Make reactive -->
 <app-button
-    *ngIf="isCompanionAvailable()"
+    *ngIf="isCompanionAvailable$ | async"
     label="Show animal companion"
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.CompanionMenu"
-    (clicked)="toggleMenu(menuNames.CompanionMenu)"
+    (clicked)="toggleLeftMenu(menuNames.CompanionMenu)"
     showLabel
     compact
 >
     <i class="ra ra-wolf-howl top-bar-button__content"></i>
 </app-button>
 
-<!-- //To-Do: Make reactive -->
 <app-button
-    *ngIf="isFamiliarAvailable()"
+    *ngIf="isFamiliarAvailable$ | async"
     label="Show familiar"
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.FamiliarMenu"
-    (clicked)="toggleMenu(menuNames.FamiliarMenu)"
+    (clicked)="toggleLeftMenu(menuNames.FamiliarMenu)"
     showLabel
 >
     <i class="ra ra-raven top-bar-button__content"></i>
@@ -47,7 +45,7 @@
 <app-button
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.ItemsMenu"
-    (clicked)="toggleMenu(menuNames.ItemsMenu)"
+    (clicked)="toggleLeftMenu(menuNames.ItemsMenu)"
     compact
 >
     <span class="top-bar-button__content">Items</span>
@@ -56,18 +54,17 @@
 <app-button
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.CraftingMenu"
-    (clicked)="toggleMenu(menuNames.CraftingMenu)"
+    (clicked)="toggleLeftMenu(menuNames.CraftingMenu)"
     compact
 >
     <span class="top-bar-button__content">Crafting</span>
 </app-button>
 
-<!-- //To-Do: Make reactive -->
 <app-button
-    *ngIf="hasAnySpells()"
+    *ngIf="hasAnySpells$ | async"
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu"
-    (clicked)="toggleMenu(menuNames.SpellSelectionMenu)"
+    (clicked)="toggleLeftMenu(menuNames.SpellSelectionMenu)"
     compact
 >
     <span class="top-bar-button__content">Spellbook</span>
@@ -76,7 +73,7 @@
 <app-button
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.SpellLibraryMenu"
-    (clicked)="toggleMenu(menuNames.SpellLibraryMenu)"
+    (clicked)="toggleLeftMenu(menuNames.SpellLibraryMenu)"
     compact
 >
     <span class="top-bar-button__content">Spell Library</span>
@@ -85,7 +82,7 @@
 <app-button
     class="top-bar-button"
     [toggled]="(sideMenuState$ | async) === menuNames.ConditionsMenu"
-    (clicked)="toggleMenu(menuNames.ConditionsMenu)"
+    (clicked)="toggleLeftMenu(menuNames.ConditionsMenu)"
     compact
 >
     <span class="top-bar-button__content">Conditions</span>
@@ -95,7 +92,7 @@
     class="top-bar-button"
     label="Dice"
     [toggled]="(topMenuState$ | async) === menuNames.DiceMenu"
-    (clicked)="toggleMenu(menuNames.DiceMenu)"
+    (clicked)="toggleTopMenu(menuNames.DiceMenu)"
     compact
 >
     <app-dice-icon-D20 class="top-bar-button__content top-bar-button__content--dice"></app-dice-icon-D20>
@@ -104,7 +101,7 @@
 <!-- Save and Effects buttons change depending on some factors -->
 <ng-container *ngIf="apiButtonsStatus$ | async as apiButtonsStatus">
     <app-button
-        *ngIf="apiButtonsStatus.isGMMode; else ButtonsTemplate"
+        *ngIf="apiButtonsStatus.isGmMode; else ButtonsTemplate"
         class="top-bar-button"
         label="In GM mode, the character can\'t be saved and can\'t send effects to other players."
         showLabel
@@ -116,9 +113,8 @@
 
     <ng-template #ButtonsTemplate>
 
-        <!-- //To-Do: Figure out how to make isBlankCharacter reactive -->
         <app-button
-            *ngIf="isBlankCharacter(); else FinalButtonsTemplate"
+            *ngIf="apiButtonsStatus.isBlankCharacter; else FinalButtonsTemplate"
             class="top-bar-button"
             label="No changes to character yet"
             showLabel
@@ -139,27 +135,13 @@
                 <i class="bi-file-earmark-arrow-up top-bar-button__content"></i>
             </app-button>
 
-            <!-- //To-Do: Figure out how to make character.partyName reactive -->
-            <app-button
-                *ngIf="!apiButtonsStatus.isManualMode"
-                [label]="character.partyName ? 'Check for new effects' : 'You can only receive effects in a party.'"
-                [disabled]="!character.partyName"
-                (clicked)="getMessages()"
-                showLabel
-                compact
-            >
-                <i class="ra ra-player-thunder-struck top-bar-button__content"></i>
-
-                <!-- //To-Do: move to new component and make reactive -->
-                <ng-container *ngIf="!modalOpen && newMessagesFromService() as newMessages">
-                    <div
-                        class="window-button-container"
-                        *ngIf="newMessages.length"
-                    >
-                        {{newMessages.length}}
-                    </div>
-                </ng-container>
-            </app-button>
+            <app-new-messages
+                *ngIf="apiButtonsStatus.showMessagesButton"
+                class="top-bar-button"
+                [hasPartyName]="apiButtonsStatus.hasPartyName"
+                [checkMessagesAutomatically]="apiButtonsStatus.checkMessagesAutomatically"
+                [applyMessagesAutomatically]="apiButtonsStatus.applyMessagesAutomatically"
+            ></app-new-messages>
         </ng-template>
     </ng-template>
 </ng-container>
@@ -173,158 +155,3 @@
 >
     <i class="ra ra-cycle top-bar-button__content"></i>
 </app-button>
-
-<!-- New Effects Dialog -->
-<ng-template
-    #NewMessagesModal
-    let-modal
->
-    <div class="modal-header">
-        <header
-            class="sectionHeader modal-title"
-            id="modal-title"
-        >
-            {{cachedNewMessages.length}} New Effect{{cachedNewMessages.length > 1 ? "s" : ""}}
-        </header>
-
-        <app-button
-            class="close"
-            label="close"
-            (clicked)="modal.dismiss('Cross click')"
-            ngbAutofocus
-        >
-            <span aria-hidden="true">&times;</span>
-        </app-button>
-    </div>
-
-    <div class="modal-body vlist">
-        <p>
-            Select all effects you want to apply. All other effects will be discarded.
-        </p>
-
-        <div class="gridicon-fullsizebox">
-            <input
-                id="messagesSelectAll"
-                class="character-choice"
-                type="checkbox"
-                (change)="onSelectAllMessages($event)"
-                [checked]="areAllMessagesSelected()"
-            >
-            <label for="messagesSelectAll">
-                <strong>Select all</strong>
-            </label>
-        </div>
-
-        <div class="fullsize-scroll-box vlist">
-            <ng-container *ngFor="let message of cachedNewMessages; trackBy:trackByIndex">
-                <ng-container *ngIf="creatureFromMessage(message) as creature">
-                    <ng-container *ngIf="messageSenderName(message) as sender">
-                        <ng-container *ngIf="creature && (message.gainCondition.length || message.offeredItem.length)">
-                            <div class="list-item gridicon-fullsizebox">
-                                <input
-                                    id="message{{message.id}}"
-                                    class="character-choice"
-                                    type="checkbox"
-                                    [(ngModel)]="message.selected"
-                                >
-                                <label for="message{{message.id}}">
-                                    <div class="newrow left-aligned">
-                                        <i
-                                            class="ra ra-sword"
-                                            *ngIf="message.offeredItem.length"
-                                        ></i>
-
-                                        <i
-                                            class="ra ra-splash"
-                                            *ngIf="message.gainCondition.length"
-                                        ></i>
-
-                                        <i
-                                            class="bi-play-circle"
-                                            *ngIf="message.gainCondition.length && message.activateCondition"
-                                        ></i>
-
-                                        <i
-                                            class="bi-stop-circle"
-                                            *ngIf="message.gainCondition.length && !message.activateCondition"
-                                        ></i>
-
-                                        <i
-                                            class="ra ra-player"
-                                            *ngIf="creature.type==='Character'"
-                                        ></i>
-
-                                        <i
-                                            class="ra ra-wolf-howl"
-                                            *ngIf="creature.type==='Companion'"
-                                        ></i>
-
-                                        <i
-                                            class="ra ra-raven"
-                                            *ngIf="creature.type==='Familiar'"
-                                        ></i>
-
-                                        <ng-container *ngIf="message.gainCondition.length">
-                                            <strong>
-                                                {{ message.gainCondition[0].name + (
-                                                    message.gainCondition[0].choice
-                                                        ? ": " + message.gainCondition[0].choice
-                                                        : ""
-                                                ) }}
-                                            </strong>
-                                            {{[durationDescription(message.gainCondition[0].duration)]}}
-                                        </ng-container>
-
-                                        <ng-container *ngIf="message.offeredItem.length">
-                                            <strong>
-                                                {{
-                                                    (
-                                                        message.itemAmount !== 1
-                                                            ? message.itemAmount + " "
-                                                            : ""
-                                                    ) + message.offeredItem[0].name
-                                                }}
-                                            </strong>
-                                            {{itemMessageIncludedAmount(message)}}
-                                        </ng-container>
-                                    </div>
-
-                                    <div class="newrow lower">
-                                        Sent{{sender ? " by " + sender : ""}} at {{message.time}}
-                                    </div>
-                                </label>
-                            </div>
-                        </ng-container>
-                    </ng-container>
-                </ng-container>
-            </ng-container>
-        </div>
-
-        <div class="newrow left-aligned">
-            <input
-                id="checkMessagesAutomatically"
-                type="checkbox"
-                [(ngModel)]="character.settings.checkMessagesAutomatically"
-            >
-            <label for="checkMessagesAutomatically">
-                Keep checking automatically (can be turned off in settings)
-            </label>
-        </div>
-    </div>
-
-    <div class="modal-footer">
-        <app-button
-            class="btn btn-outline-secondary"
-            (clicked)="modal.dismiss('Cancel click')"
-        >
-            Cancel
-        </app-button>
-
-        <app-button
-            class="btn btn-primary"
-            (clicked)="modal.close('Apply click')"
-        >
-            Apply selected effects
-        </app-button>
-    </div>
-</ng-template>

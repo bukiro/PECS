@@ -1,22 +1,19 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Effect } from 'src/app/classes/Effect';
 import { Condition } from 'src/app/classes/Condition';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Creature } from 'src/app/classes/Creature';
-import { EffectCollection } from 'src/app/classes/EffectCollection';
+import { Observable, distinctUntilChanged, map, shareReplay } from 'rxjs';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/creature-component/base-creature-element.component';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { Creature } from 'src/app/classes/Creature';
 
 interface ComponentParameters {
     effects: Array<Effect>;
@@ -35,10 +32,7 @@ interface ConditionParameters {
     styleUrls: ['./effects.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
-
-    @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
+export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     @Input()
     public fullDisplay = false;
@@ -48,27 +42,27 @@ export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit,
     public showHidden = false;
     public showItem = '';
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
+    public isManualMode$: Observable<boolean>;
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _refreshService: RefreshService,
         private readonly _durationsService: DurationsService,
     ) {
         super();
+
+        this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$')
+            .pipe(
+                distinctUntilChanged(),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
     }
 
-    public get isManualMode(): boolean {
-        return SettingsService.isManualMode;
-    }
-
-    private get _currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
+    @Input()
+    public set creature(creature: Creature) {
+        this._updateCreature(creature);
     }
 
     public toggleShownItem(name: string): void {
@@ -99,16 +93,18 @@ export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit,
         return (this.showApplied ? 1 : 0) + (this.showNotApplied ? 1 : 0) + (this.showHidden ? 1 : 0);
     }
 
-    public componentParameters(): ComponentParameters {
-        const conditions = this._creatureConditionsService.currentCreatureConditions(this._currentCreature);
+    public componentParameters$(): Observable<ComponentParameters> {
+        const conditions = this._creatureConditionsService.currentCreatureConditions(this.creature);
         const isTimeStopped = this._isTimeStopped(conditions);
-        const effects = this._creatureEffects().all;
 
-        return {
-            effects,
-            conditions,
-            isTimeStopped,
-        };
+        return this._creatureEffectsService.allCreatureEffects$(this.creature.type)
+            .pipe(
+                map(effects => ({
+                    effects,
+                    conditions,
+                    isTimeStopped,
+                })),
+            );
     }
 
     public conditionFromName(name: string): Condition {
@@ -117,20 +113,20 @@ export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     public appliedEffects(effects: Array<Effect>): Array<Effect> {
         return effects
-            .filter(effect => effect.creature === this._currentCreature.id && effect.apply && effect.show)
+            .filter(effect => effect.creature === this.creature.id && effect.applied && effect.displayed)
             .sort((a, b) => sortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
     public notAppliedEffects(effects: Array<Effect>): Array<Effect> {
         return effects
-            .filter(effect => effect.creature === this._currentCreature.id && !effect.apply)
+            .filter(effect => effect.creature === this.creature.id && !effect.applied)
             .sort((a, b) => sortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
     //TO-DO: Add an explanation why these are hidden.
     public hiddenEffects(effects: Array<Effect>): Array<Effect> {
         return effects
-            .filter(effect => effect.creature === this._currentCreature.id && effect.apply && !effect.show)
+            .filter(effect => effect.creature === this.creature.id && effect.applied && !effect.displayed)
             .sort((a, b) => sortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
@@ -179,7 +175,7 @@ export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit,
             return 'icon-bi-pause-circle';
         }
 
-        if (this._conditionPropertiesService.isConditionInformational(this._currentCreature, condition, conditionGain)) {
+        if (this._conditionPropertiesService.isConditionInformational(this.creature, condition, conditionGain)) {
             return 'icon-bi-info-circle';
         }
 
@@ -188,9 +184,9 @@ export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit,
 
     public onIgnoreEffect(effect: Effect, ignore: boolean): void {
         if (ignore) {
-            this._currentCreature.ignoredEffects.push(effect);
+            this.creature.ignoredEffects.push(effect);
         } else {
-            this._currentCreature.ignoredEffects = this._currentCreature.ignoredEffects.filter(ignoredEffect =>
+            this.creature.ignoredEffects = this.creature.ignoredEffects.filter(ignoredEffect =>
                 !(
                     ignoredEffect.creature === effect.creature &&
                     ignoredEffect.target === effect.target &&
@@ -198,40 +194,6 @@ export class EffectsComponent extends TrackByMixin(BaseClass) implements OnInit,
                 ),
             );
         }
-
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
-        this._refreshService.processPreparedChanges();
-    }
-
-    public ngOnInit(): void {
-        this._subscribeToChanges();
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
-    }
-
-    private _subscribeToChanges(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['effects', 'all', 'effects-component', this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
-                    ['effects', 'all', 'effects-component'].includes(view.target.toLowerCase())
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    private _creatureEffects(): EffectCollection {
-        return this._creatureEffectsService.effects(this.creature);
     }
 
     private _isTimeStopped(conditions: Array<ConditionGain>): boolean {

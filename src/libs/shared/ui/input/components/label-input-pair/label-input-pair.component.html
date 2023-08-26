@@ -1,5 +1,8 @@
 <div class="label">
-    <label for="{{id}}">
+    <label
+        for="{{id}}"
+        class="label__title"
+    >
         {{ label }}
         <i
             *ngIf="hint"
@@ -7,6 +10,13 @@
             [ngbTooltip]="hint"
         ></i>
     </label>
+
+    <span
+        *ngFor="let subline of sublines ?? []; trackBy:trackByIndex"
+        class="label__subline"
+    >
+        {{ subline }}
+    </span>
 </div>
 
 <div class="value">

@@ -13,6 +13,6 @@ export enum SkillLevelMinimumCharacterLevels {
     Legendary = 15,
 }
 
-export const MaxSkillLevel = 8;
+export const maxSkillLevel = 8;
 
 export const skillLevelBaseStep = 2;

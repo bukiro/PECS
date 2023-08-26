@@ -3,6 +3,7 @@ import { FeatTakingService } from 'src/libs/character-creation/services/feat-tak
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { RefreshService } from '../refresh/refresh.service';
+import { take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -23,12 +24,17 @@ export class FamiliarService {
     }
 
     public removeAllFamiliarAbilities(): void {
-        const familiar = CreatureService.familiar;
-        const abilityNames = familiar.abilities.feats.map(gain => gain.name);
+        CreatureService.familiar$
+            .pipe(
+                take(1),
+            )
+            .subscribe(familiar => {
+                const abilityNames = familiar.abilities.feats.map(gain => gain.name);
 
-        abilityNames.forEach(abilityName => {
-            this._featTakingService.takeFeat(familiar, undefined, abilityName, false, familiar.abilities);
-        });
+                abilityNames.forEach(abilityName => {
+                    this._featTakingService.takeFeat(familiar, undefined, abilityName, false, familiar.abilities);
+                });
+            });
     }
 
 }

@@ -6,6 +6,7 @@ import * as json_ancestries from 'src/assets/json/animalcompanions';
 import * as json_levels from 'src/assets/json/animalcompanionlevels';
 import * as json_specializations from 'src/assets/json/animalcompanionspecializations';
 import { DataLoadingService } from './data-loading.service';
+import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -48,7 +49,7 @@ export class AnimalCompanionsDataService {
     public initialize(): void {
         this._companionAncestries =
             this._dataLoadingService.loadRecastable(
-                json_ancestries,
+                json_ancestries as ImportedJsonFileList<AnimalCompanionAncestry>,
                 'companionAncestries',
                 'name',
                 AnimalCompanionAncestry,
@@ -68,7 +69,7 @@ export class AnimalCompanionsDataService {
 
         this._companionSpecializations =
             this._dataLoadingService.loadRecastable(
-                json_specializations,
+                json_specializations as ImportedJsonFileList<AnimalCompanionSpecialization>,
                 'companionSpecializations',
                 'name',
                 AnimalCompanionSpecialization,

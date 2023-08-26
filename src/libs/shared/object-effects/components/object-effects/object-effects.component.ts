@@ -3,10 +3,9 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface EffectValueParameters {
@@ -26,17 +25,13 @@ export class ObjectEffectsComponent extends TrackByMixin(BaseClass) {
     @Input()
     public objectName = '';
     @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
+    public creature: Creature = CreatureService.character;
 
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _evaluationService: EvaluationService,
     ) {
         super();
-    }
-
-    private get _currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
     }
 
     public validate(effect: EffectGain): void {
@@ -48,7 +43,7 @@ export class ObjectEffectsComponent extends TrackByMixin(BaseClass) {
     }
 
     public customEffectsOnThis(): Array<EffectGain> {
-        return this._currentCreature.effects.filter(effect => effect.affected.toLowerCase() === this.objectName.toLowerCase());
+        return this.creature.effects.filter(effect => effect.affected.toLowerCase() === this.objectName.toLowerCase());
     }
 
     public bonusTypes(): Array<string> {
@@ -56,16 +51,16 @@ export class ObjectEffectsComponent extends TrackByMixin(BaseClass) {
     }
 
     public newCustomEffectOnThis(): void {
-        this._currentCreature.effects.push(Object.assign(new EffectGain(), { affected: this.objectName }));
+        this.creature.effects.push(EffectGain.from({ affected: this.objectName }));
     }
 
     public removeCustomEffect(effect: EffectGain): void {
-        this._currentCreature.effects.splice(this._currentCreature.effects.indexOf(effect), 1);
+        this.creature.effects.splice(this.creature.effects.indexOf(effect), 1);
         this.updateEffects();
     }
 
     public updateEffects(): void {
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
         this._refreshService.processPreparedChanges();
     }
 
@@ -101,9 +96,9 @@ export class ObjectEffectsComponent extends TrackByMixin(BaseClass) {
 
         if (value) {
             const result =
-                this._evaluationService.valueFromFormula(
+                this._evaluationService.valueFromFormula$(
                     value,
-                    { creature: this._currentCreature, effect },
+                    { creature: this.creature, effect },
                 );
 
             if (result) {

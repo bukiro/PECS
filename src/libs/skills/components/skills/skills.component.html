@@ -18,8 +18,8 @@
 >
     <header class="sectionHeader box-header">Perception</header>
 
-    <ng-container *ngIf="ownedActivities() as activityGains">
-        <ng-container *ngFor="let skill of skillsOfType('Perception'); trackBy:trackByIndex;">
+    <ng-container *ngIf="(ownedActivities$() | async) as activityGains">
+        <ng-container *ngFor="let skill of skillsOfType$('Perception') | async; trackBy:trackByIndex;">
             <app-skill
                 [creature]="creature"
                 [skill]=skill
@@ -37,7 +37,7 @@
             <div
                 class="list-item lower"
                 [ngbPopover]="senseDesc(sense)"
-                *ngFor="let sense of senses(); trackBy:trackByIndex;"
+                *ngFor="let sense of senses$() | async; trackBy:trackByIndex;"
             >
                 {{sense}}
             </div>
@@ -53,7 +53,7 @@
             [showConditions]="true"
         ></app-tags>
 
-        <ng-container *ngIf="creature==='Familiar'">
+        <ng-container *ngIf="creature.isFamiliar()">
             <header class="sectionHeader box-header">Attack Rolls</header>
 
             <app-tags
@@ -66,7 +66,7 @@
                 [showConditions]="true"
             ></app-tags>
 
-            <ng-container *ngFor="let skill of skillsOfType('Familiar Proficiency'); trackBy:trackByIndex;">
+            <ng-container *ngFor="let skill of skillsOfType$('Familiar Proficiency') | async; trackBy:trackByIndex;">
                 <app-skill
                     [creature]="creature"
                     [isMinimized]="(isMinimized$ | async) ?? false"
@@ -130,7 +130,7 @@
 
         <div
             class="list-item"
-            *ngFor="let speedParameters of speedParameters(); trackBy:trackByIndex;"
+            *ngFor="let speedParameters of (speedParameters$() | async); trackBy:trackByIndex;"
         >
             <div class="newrow">
                 <span>
@@ -180,7 +180,7 @@
         <header class="sectionHeader box-header">Skills</header>
 
         <!-- Skill Increases -->
-        <ng-container *ngFor="let choice of skillChoices(); trackBy:trackByIndex;">
+        <ng-container *ngFor="let choice of skillChoices$() | async; trackBy:trackByIndex;">
             <app-skill-choice
                 (showSkillChoiceMessage)="receiveShowChoiceMessage($event)"
                 [showTitle]="true"
@@ -213,7 +213,7 @@
             [showEffects]="true"
         ></app-tags>
 
-        <ng-container *ngFor="let skill of skillsOfType('Skill'); trackBy:trackByIndex;">
+        <ng-container *ngFor="let skill of skillsOfType$('Skill') | async; trackBy:trackByIndex;">
             <app-skill
                 [creature]="creature"
                 [skill]=skill

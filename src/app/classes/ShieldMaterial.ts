@@ -14,4 +14,8 @@ export class ShieldMaterial extends Material {
     public clone(): ShieldMaterial {
         return Object.assign<ShieldMaterial, ShieldMaterial>(new ShieldMaterial(), JSON.parse(JSON.stringify(this))).recast();
     }
+
+    public isShieldMaterial(): this is ShieldMaterial {
+        return true;
+    }
 }

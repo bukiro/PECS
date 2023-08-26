@@ -20,6 +20,7 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { Observable, map, of, take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -125,15 +126,18 @@ export class ConditionProcessingService {
         condition.hints.forEach(hint => hint.deactivateAll());
 
         //Some conditions have individual effects.
-        const didNamedConditionsDoAnything = this._namedConditionEffects(creature, condition, gain, taken);
+        this._namedConditionEffects$(creature, condition, gain, taken)
+            .pipe(
+                take(1),
+            )
+            .subscribe(didNamedConditionsDoAnything => {
+                didConditionDoAnything = didNamedConditionsDoAnything || didConditionDoAnything;
 
-        didConditionDoAnything = didNamedConditionsDoAnything || didConditionDoAnything;
+                this._prepareChanges(creature, condition, gain, areOnceEffectsPrepared);
 
-        this._prepareChanges(creature, condition, gain, areOnceEffectsPrepared);
-
-        //Show a notification if a new condition has no duration and did nothing, because it will be removed in the next cycle.
-        this._notifyOnUselessCondition(gain, taken, didConditionDoAnything);
-
+                //Show a notification if a new condition has no duration and did nothing, because it will be removed in the next cycle.
+                this._notifyOnUselessCondition(gain, taken, didConditionDoAnything);
+            });
     }
 
     private _prepareConditionOneTimeEffects(
@@ -300,17 +304,23 @@ export class ConditionProcessingService {
 
     private _processDyingCondition(creature: Creature, taken: boolean, increaseWounded: boolean): void {
         if (taken) {
-            if (this._healthService.dying(creature) >= this._healthService.maxDying(creature)) {
-                if (!this._creatureConditionsService.currentCreatureConditions(creature, { name: 'Dead' }).length) {
-                    this._creatureConditionsService.addCondition(
-                        creature,
-                        Object.assign(new ConditionGain(), { name: 'Dead', source: 'Dying value too high' })
-                            .recast(this._recastService.recastOnlyFns),
-                        {},
-                        { noReload: true },
-                    );
-                }
-            }
+            this._healthService.maxDying$(creature)
+                .pipe(
+                    take(1),
+                )
+                .subscribe(maxDying => {
+                    if (this._healthService.dying(creature) >= maxDying) {
+                        if (!this._creatureConditionsService.currentCreatureConditions(creature, { name: 'Dead' }).length) {
+                            this._creatureConditionsService.addCondition(
+                                creature,
+                                Object.assign(new ConditionGain(), { name: 'Dead', source: 'Dying value too high' })
+                                    .recast(this._recastService.recastOnlyFns),
+                                {},
+                                { noReload: true },
+                            );
+                        }
+                    }
+                });
         } else {
             if (this._healthService.dying(creature) === 0) {
                 if (increaseWounded) {
@@ -331,24 +341,30 @@ export class ConditionProcessingService {
                     }
                 }
 
-                if (!this._healthService.currentHP(creature.health, creature).result) {
-                    if (
-                        !this._creatureConditionsService
-                            .currentCreatureConditions(creature, { name: 'Unconscious', source: '0 Hit Points' })
-                            .length &&
-                        !this._creatureConditionsService
-                            .currentCreatureConditions(creature, { name: 'Unconscious', source: 'Dying' })
-                            .length
-                    ) {
-                        this._creatureConditionsService.addCondition(
-                            creature,
-                            Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' })
-                                .recast(this._recastService.recastOnlyFns),
-                            {},
-                            { noReload: true },
-                        );
-                    }
-                }
+                this._healthService.currentHP$(creature)
+                    .pipe(
+                        take(1),
+                    )
+                    .subscribe(currentHP => {
+                        if (currentHP.result <= 0) {
+                            if (
+                                !this._creatureConditionsService
+                                    .currentCreatureConditions(creature, { name: 'Unconscious', source: '0 Hit Points' })
+                                    .length &&
+                                !this._creatureConditionsService
+                                    .currentCreatureConditions(creature, { name: 'Unconscious', source: 'Dying' })
+                                    .length
+                            ) {
+                                this._creatureConditionsService.addCondition(
+                                    creature,
+                                    Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' })
+                                        .recast(this._recastService.recastOnlyFns),
+                                    {},
+                                    { noReload: true },
+                                );
+                            }
+                        }
+                    });
             }
         }
     }
@@ -361,62 +377,91 @@ export class ConditionProcessingService {
             !this._creatureConditionsService.currentCreatureConditions(character)
                 .some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID === gain.sourceGainID)
         ) {
-            this._spellsTakenService
-                .takenSpells(0, Defaults.maxCharacterLevel)
-                .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
-                .filter(takenSpell => takenSpell.gain.id === gain.sourceGainID && takenSpell.gain.active)
-                .forEach(takenSpell => {
-                    const spell = this._spellsDataService.spellFromName(takenSpell.gain.name);
+            this._spellsTakenService.takenSpells$(0, Defaults.maxCharacterLevel)
+                .pipe(
+                    take(1),
+                )
+                .subscribe(takenSpells => {
+                    takenSpells
+                        .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
+                        .filter(takenSpell => takenSpell.gain.id === gain.sourceGainID && takenSpell.gain.active)
+                        .forEach(takenSpell => {
+                            const spell = this._spellsDataService.spellFromName(takenSpell.gain.name);
 
-                    if (spell) {
-                        this._psp.spellProcessingService?.processSpell(
-                            spell,
-                            false,
-                            { creature, target: takenSpell.gain.selectedTarget, gain: takenSpell.gain, level: 0 },
-                        );
-                    }
+                            if (spell) {
+                                this._psp.spellProcessingService?.processSpell(
+                                    spell,
+                                    false,
+                                    { creature, target: takenSpell.gain.selectedTarget, gain: takenSpell.gain, level: 0 },
+                                );
+                            }
 
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
+                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
+                        });
                 });
 
-            this._creatureActivitiesService.creatureOwnedActivities(creature, Defaults.maxCharacterLevel, true)
-                .filter(activityGain => activityGain.id === gain.sourceGainID && activityGain.active)
-                .forEach(activityGain => {
-                    const activity = activityGain.originalActivity;
+            this._creatureActivitiesService.creatureOwnedActivities$(creature, Defaults.maxCharacterLevel, true)
+                .pipe(
+                    take(1),
+                )
+                .subscribe(ownedActivities => {
+                    ownedActivities
+                        .filter(activityGain => activityGain.id === gain.sourceGainID && activityGain.active)
+                        .forEach(activityGain => {
+                            const activity = activityGain.originalActivity;
 
-                    if (activity) {
-                        this._psp.activitiesProcessingService?.activateActivity(
-                            activity,
-                            false,
-                            {
-                                creature,
-                                target: activityGain.selectedTarget,
-                                gain: activityGain,
-                            },
-                        );
-                    }
+                            if (activity) {
+                                this._psp.activitiesProcessingService?.activateActivity(
+                                    activity,
+                                    false,
+                                    {
+                                        creature,
+                                        target: activityGain.selectedTarget,
+                                        gain: activityGain,
+                                    },
+                                );
+                            }
 
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
+                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
+                        });
                 });
         }
     }
 
-    private _namedConditionEffects(creature: Creature, condition: Condition, gain: ConditionGain, taken: boolean): boolean {
-        let didNamedConditionsDoAnything = false;
-
-        //Leave cover behind shield if the Cover condition is removed.
+    /**
+     * Handle side effects of adding or removing certain named conditions.
+     *
+     * @param creature
+     * @param condition
+     * @param gain
+     * @param taken
+     * @returns Whether the change affected anything.
+     */
+    private _namedConditionEffects$(creature: Creature, condition: Condition, gain: ConditionGain, taken: boolean): Observable<boolean> {
+        // Leave cover behind shield if the Cover condition is removed.
         if (condition.name === 'Cover' && (!taken || (gain.choice !== 'Greater'))) {
-            this._creatureEquipmentService.equippedCreatureShield(creature).forEach(shield => {
-                if (shield.takingCover) {
-                    shield.takingCover = false;
-                    this._refreshService.prepareDetailToChange(creature.type, 'defense');
 
-                    didNamedConditionsDoAnything = true;
-                }
-            });
+            return this._creatureEquipmentService.equippedCreatureShield$(creature)
+                .pipe(
+                    map(shields => {
+                        let didNamedConditionsDoAnything = false;
+
+                        shields.forEach(shield => {
+                            if (shield.takingCover) {
+                                shield.takingCover = false;
+                                this._refreshService.prepareDetailToChange(creature.type, 'defense');
+
+                                didNamedConditionsDoAnything = true;
+                            }
+                        });
+
+                        return didNamedConditionsDoAnything;
+                    }),
+                );
+
         }
 
-        return didNamedConditionsDoAnything;
+        return of(false);
     }
 
     private _prepareChanges(creature: Creature, condition: Condition, gain: ConditionGain, areOnceEffectsPrepared: boolean): void {

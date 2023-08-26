@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationDialogComponent } from '../components/confirmation-dialog/confirmation-dialog.component';
-import { ConfirmationDialogOptions } from '../definitions/interfaces/confirmation-dialog-options';
+import { map, Observable, take } from 'rxjs';
+import { Constructable } from '../../definitions/interfaces/constructable';
+import { SettingsService } from '../../services/settings/settings.service';
+import { DialogComponent } from '../components/dialog/dialog.component';
+import { propMap$ } from '../../util/observableUtils';
 
 @Injectable({
     providedIn: 'root',
@@ -12,20 +15,33 @@ export class DialogService {
         private readonly _modalService: NgbModal,
     ) { }
 
-    public openConfirmationDialog(options: ConfirmationDialogOptions): NgbModalRef {
-        const modal = this._modalService.open(
-            ConfirmationDialogComponent,
-            { centered: true },
-        );
+    public showDialog$<T extends DialogComponent>(
+        dialog: Constructable<T>,
+        options: Partial<T> & Pick<T, 'title'>,
+    ): Observable<NgbModalRef> {
+        return propMap$(SettingsService.settings$, 'darkmode$')
+            .pipe(
+                map(isDarkMode => {
+                    const modal = this._modalService.open(
+                        dialog,
+                        { centered: true },
+                    );
 
-        modal.componentInstance.close = () => modal.close();
-        modal.componentInstance.title = options.title;
-        modal.componentInstance.content = options.content;
-        modal.componentInstance.buttons = options.buttons;
-        modal.componentInstance.cancelLabel = options.cancelLabel || 'Cancel';
-        modal.componentInstance.hideCancel = options.hideCancel;
+                    Object.assign(modal.componentInstance, options);
 
-        return modal;
+                    modal.componentInstance.close =
+                        options.close
+                            ? () => { modal.close(); (options.close as () => void)(); }
+                            : () => modal.close();
+                    modal.componentInstance.buttons = options.buttons;
+                    modal.componentInstance.cancelLabel = options.cancelLabel || 'Cancel';
+                    modal.componentInstance.hideCancel = options.hideCancel;
+                    modal.componentInstance.darkmode = isDarkMode;
+
+                    return modal;
+                }),
+                take(1),
+            );
     }
 
 }

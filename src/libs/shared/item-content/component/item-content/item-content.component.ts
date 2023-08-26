@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest, map, of } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
@@ -11,7 +11,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AlchemicalElixir } from 'src/app/classes/AlchemicalElixir';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface ComparedValue {
@@ -63,64 +63,80 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) implements OnI
         return '';
     }
 
-    public acBonusParameters(itemRoles: ItemRoles): ComparedValue | undefined {
+    public acBonusParameters$(itemRoles: ItemRoles): Observable<ComparedValue | undefined> {
         const acItem = itemRoles.asArmor || itemRoles.asShield;
 
         if (acItem) {
-            const effective = acItem.effectiveACBonus();
-
-            if (effective || acItem.acbonus) {
-                return {
-                    effective,
-                    basic: acItem.acbonus,
-                    penalty: effective < acItem.acbonus,
-                    bonus: effective > acItem.acbonus,
-                };
-            }
+            return acItem.effectiveACBonus$()
+                .pipe(
+                    map(effective => {
+                        if (effective || acItem.acbonus) {
+                            return {
+                                effective,
+                                basic: acItem.acbonus,
+                                penalty: effective < acItem.acbonus,
+                                bonus: effective > acItem.acbonus,
+                            };
+                        }
+                    }),
+                );
         }
+
+        return of(undefined);
     }
 
-    public dexCapParameters(itemRoles: ItemRoles): ComparedValue | undefined {
+    public dexCapParameters$(itemRoles: ItemRoles): Observable<ComparedValue | undefined> {
         const armorItem = itemRoles.asArmor;
 
         if (armorItem) {
-            const effective = armorItem.effectiveDexCap();
-            const doesEffectiveApply = effective < 0;
-            const basic = armorItem.dexcap;
-            const doesBasicApply = basic < 0;
+            return armorItem.effectiveDexCap$()
+                .pipe(
+                    map(effective => {
+                        const doesEffectiveApply = effective < 0;
+                        const basic = armorItem.dexcap;
+                        const doesBasicApply = basic < 0;
 
-            if (doesEffectiveApply || doesBasicApply) {
-                return {
-                    effective,
-                    basic: armorItem.dexcap,
-                    penalty: (
-                        (doesEffectiveApply && !doesBasicApply) ||
-                        (doesEffectiveApply && effective < basic)
-                    ),
-                    bonus: (
-                        (!doesEffectiveApply && doesBasicApply) ||
-                        (doesBasicApply && effective > basic)
-                    ),
-                };
-            }
+                        if (doesEffectiveApply || doesBasicApply) {
+                            return {
+                                effective,
+                                basic: armorItem.dexcap,
+                                penalty: (
+                                    (doesEffectiveApply && !doesBasicApply) ||
+                                    (doesEffectiveApply && effective < basic)
+                                ),
+                                bonus: (
+                                    (!doesEffectiveApply && doesBasicApply) ||
+                                    (doesBasicApply && effective > basic)
+                                ),
+                            };
+                        }
+                    }),
+                );
         }
+
+        return of(undefined);
     }
 
-    public skillPenaltyParameters(itemRoles: ItemRoles): ComparedValue | undefined {
+    public skillPenaltyParameters$(itemRoles: ItemRoles): Observable<ComparedValue | undefined> {
         const armorItem = itemRoles.asArmor;
 
         if (armorItem) {
-            const effective = armorItem.effectiveSkillPenalty();
-
-            if (effective || armorItem.acbonus) {
-                return {
-                    effective,
-                    basic: armorItem.skillpenalty,
-                    penalty: effective > armorItem.skillpenalty,
-                    bonus: effective < armorItem.skillpenalty,
-                };
-            }
+            return armorItem.effectiveSkillPenalty$()
+                .pipe(
+                    map(effective => {
+                        if (effective || armorItem.acbonus) {
+                            return {
+                                effective,
+                                basic: armorItem.skillpenalty,
+                                penalty: effective > armorItem.skillpenalty,
+                                bonus: effective < armorItem.skillpenalty,
+                            };
+                        }
+                    }),
+                );
         }
+
+        return of(undefined);
     }
 
     public speedPenaltyParameters(itemRoles: ItemRoles): ComparedValue | undefined {
@@ -140,21 +156,26 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) implements OnI
         }
     }
 
-    public strengthRequirementParameters(itemRoles: ItemRoles): ComparedValue | undefined {
+    public strengthRequirementParameters$(itemRoles: ItemRoles): Observable<ComparedValue | undefined> {
         const armorItem = itemRoles.asArmor;
 
         if (armorItem) {
-            const effective = armorItem.effectiveStrengthRequirement();
-
-            if (effective || armorItem.strength) {
-                return {
-                    effective,
-                    basic: armorItem.strength,
-                    penalty: effective > armorItem.strength,
-                    bonus: effective < armorItem.strength,
-                };
-            }
+            return armorItem.effectiveStrengthRequirement$()
+                .pipe(
+                    map(effective => {
+                        if (effective || armorItem.strength) {
+                            return {
+                                effective,
+                                basic: armorItem.strength,
+                                penalty: effective > armorItem.strength,
+                                bonus: effective < armorItem.strength,
+                            };
+                        }
+                    }),
+                );
         }
+
+        return of(undefined);
     }
 
     public bulkParameters(item: Item): ComparedStringValue | undefined {
@@ -172,55 +193,71 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) implements OnI
         }
     }
 
-    public hardnessParameters(itemRoles: ItemRoles): ComparedValue | undefined {
+    public hardnessParameters$(itemRoles: ItemRoles): Observable<ComparedValue | undefined> {
         const hardnessItem = itemRoles.asShield;
 
         if (hardnessItem) {
-            const effective = hardnessItem.effectiveHardness();
+            return hardnessItem.effectiveHardness$()
+                .pipe(
+                    map(effective => {
+                        if (effective || hardnessItem.hardness) {
+                            return {
+                                effective,
+                                basic: hardnessItem.hardness,
+                                penalty: effective < hardnessItem.hardness,
+                                bonus: effective > hardnessItem.hardness,
+                            };
+                        }
 
-            if (effective || hardnessItem.hardness) {
-                return {
-                    effective,
-                    basic: hardnessItem.hardness,
-                    penalty: effective < hardnessItem.hardness,
-                    bonus: effective > hardnessItem.hardness,
-                };
-            }
+                        return undefined;
+                    }),
+                );
         }
+
+        return of(undefined);
     }
 
-    public hitpointParameters(itemRoles: ItemRoles): { maxHP: ComparedValue; brokenThreshold?: ComparedValue } | undefined {
+    public hitpointParameters$(
+        itemRoles: ItemRoles,
+    ): Observable<{ maxHP: ComparedValue; brokenThreshold?: ComparedValue } | undefined> {
         const hitpointItem = itemRoles.asShield;
 
         if (hitpointItem) {
-            const effectiveMaxHP = hitpointItem.effectiveMaxHP();
+            return combineLatest([
+                hitpointItem.effectiveMaxHP$(),
+                hitpointItem.effectiveBrokenThreshold$(),
+            ])
+                .pipe(
+                    map(([effectiveMaxHP, effectiveBrokenThreshold]) => {
+                        if (effectiveMaxHP || hitpointItem.hitpoints) {
+                            const maxHP = {
+                                effective: effectiveMaxHP,
+                                basic: hitpointItem.hitpoints,
+                                penalty: effectiveMaxHP < hitpointItem.hitpoints,
+                                bonus: effectiveMaxHP > hitpointItem.hitpoints,
+                            };
 
-            if (effectiveMaxHP || hitpointItem.hitpoints) {
-                const maxHP = {
-                    effective: effectiveMaxHP,
-                    basic: hitpointItem.hitpoints,
-                    penalty: effectiveMaxHP < hitpointItem.hitpoints,
-                    bonus: effectiveMaxHP > hitpointItem.hitpoints,
-                };
+                            let brokenThreshold: ComparedValue | undefined;
 
-                const effectiveBrokenThreshold = hitpointItem.effectiveBrokenThreshold();
-                let brokenThreshold: ComparedValue | undefined;
+                            if (effectiveBrokenThreshold || hitpointItem.brokenThreshold) {
+                                brokenThreshold = {
+                                    effective: effectiveBrokenThreshold,
+                                    basic: hitpointItem.brokenThreshold,
+                                    penalty: effectiveBrokenThreshold < hitpointItem.brokenThreshold,
+                                    bonus: effectiveBrokenThreshold > hitpointItem.brokenThreshold,
+                                };
+                            }
 
-                if (effectiveBrokenThreshold || hitpointItem.brokenThreshold) {
-                    brokenThreshold = {
-                        effective: effectiveBrokenThreshold,
-                        basic: hitpointItem.brokenThreshold,
-                        penalty: effectiveBrokenThreshold < hitpointItem.brokenThreshold,
-                        bonus: effectiveBrokenThreshold > hitpointItem.brokenThreshold,
-                    };
-                }
-
-                return {
-                    maxHP,
-                    brokenThreshold,
-                };
-            }
+                            return {
+                                maxHP,
+                                brokenThreshold,
+                            };
+                        }
+                    }),
+                );
         }
+
+        return of(undefined);
     }
 
     public shouldShowActivations(): boolean {

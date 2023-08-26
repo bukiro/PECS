@@ -4,13 +4,13 @@ export class ConditionChoice {
     public nextStage = 0;
     /**
      * All featreqs must be fulfilled for the choice to be available.
-     * To require one of a list, use "Feat1 or Feat2 or Feat3".
+     * To require one of a list, use "Feat1 or Feat2 or Feat3" as a single entry.
      */
     public featreq: Array<string> = [];
     public spelllevelreq = 0;
 
     public recast(): ConditionChoice {
-        //Blank choices are saved with "name":"-" for easier managing; These need to be blanked here.
+        //Blank choices are saved with "name":"-" for easier managing; These need to be re-blanked here.
         if (this.name === '-') {
             this.name = '';
         }

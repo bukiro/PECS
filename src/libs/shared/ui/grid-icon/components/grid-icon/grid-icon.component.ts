@@ -8,18 +8,19 @@ import { Item } from 'src/app/classes/Item';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
-import { Consumable } from 'src/app/classes/Consumable';
 import { Activity } from 'src/app/classes/Activity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest, map, of } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { Creature } from 'src/app/classes/Creature';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 
 @Component({
     selector: 'app-grid-icon',
@@ -32,6 +33,8 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
     //TO-DO: This component should be much dumber.
     // Create wrappers for the different objects that build a gridIcon, and let them create the title, subTitle, superTitle etc.
 
+    @Input()
+    public creature: Creature = CreatureService.character;
     @Input()
     public title = '';
     @Input()
@@ -74,6 +77,7 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
     ) {
         super();
     }
@@ -309,11 +313,11 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
         return iconDetail;
     }
 
-    public iconSuperTitle(): string {
+    public iconSuperTitle$(): Observable<string> {
         let superTitle: string = this.superTitle;
 
         if (superTitle.includes('noparse|')) {
-            return superTitle.replace('noparse|', '');
+            return of(superTitle.replace('noparse|', ''));
         }
 
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
@@ -329,16 +333,9 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
         })
             .join('');
 
-        //For activities, show the number of activations if applicable.
-        if (this.activity && this.activityGain) {
-            if (this.activity.$charges) {
-                return (this.activity.$charges - this.activityGain.chargesUsed).toString();
-            }
-        }
-
         //For effect values, show the value as SuperTitle if up to 2 characters long. Longer values will be shown as Value instead.
         if (this.effect) {
-            if (this.effect.toggle) {
+            if (this.effect.toggled) {
                 superTitle = '';
             } else if (this.effect.title) {
                 superTitle = this.effect.title;
@@ -349,154 +346,197 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
             }
         } else if (this.condition?.durationIsInstant || this.condition?.nextStage === -1) {
             //If a condition has a duration of 1, it needs to be handled immediately, and we show an exclamation diamond to point that out.
-            return '<i class=\'bi-exclamation-diamond\'></i>';
+            return of('<i class=\'bi-exclamation-diamond\'></i>');
         } else if (this.condition?.lockedByParent || this.condition?.valueLockedByParent) {
             //If a condition or its value is locked by its parent, show a lock.
-            return '<i class=\'bi-lock\'></i>';
+            return of('<i class=\'bi-lock\'></i>');
         }
 
         if (this.item) {
-            if (this.item instanceof Weapon) {
-                switch ((this.item as Weapon).group) {
+            if (this.item.isWeapon()) {
+                switch (this.item.group) {
                     case 'Axe':
-                        return '<i class=\'ra ra-axe\'></i>';
+                        return of('<i class=\'ra ra-axe\'></i>');
                     case 'Bomb':
                         //Bombs can stack. Instead of showing a bomb icon, show the amount.
-                        return this.item.amount.toString();
+                        return of(this.item.amount.toString());
                     case 'Bow':
-                        return '<i class=\'ra ra-crossbow\'></i>';
+                        return of('<i class=\'ra ra-crossbow\'></i>');
                     case 'Brawling':
-                        return '<i class=\'ra ra-hand\'></i>';
+                        return of('<i class=\'ra ra-hand\'></i>');
                     case 'Club':
-                        return '<i class=\'ra ra-spiked-mace\'></i>';
+                        return of('<i class=\'ra ra-spiked-mace\'></i>');
                     case 'Dart':
-                        return '<i class=\'ra ra-kunai\'></i>';
+                        return of('<i class=\'ra ra-kunai\'></i>');
                     case 'Flail':
-                        return '<i class=\'ra ra-grappling-hook\'></i>';
+                        return of('<i class=\'ra ra-grappling-hook\'></i>');
                     case 'Hammer':
-                        return '<i class=\'ra ra-flat-hammer\'></i>';
+                        return of('<i class=\'ra ra-flat-hammer\'></i>');
                     case 'Knife':
-                        return '<i class=\'ra ra-plain-dagger\'></i>';
+                        return of('<i class=\'ra ra-plain-dagger\'></i>');
                     case 'Pick':
-                        return '<i class=\'ra ra-mining-diamonds\'></i>';
+                        return of('<i class=\'ra ra-mining-diamonds\'></i>');
                     case 'Polearm':
-                        return '<i class=\'ra ra-halberd\'></i>';
+                        return of('<i class=\'ra ra-halberd\'></i>');
                     case 'Shield':
-                        return '<i class=\'ra ra-shield\'></i>';
+                        return of('<i class=\'ra ra-shield\'></i>');
                     case 'Sling':
-                        return '<i class=\'ra ra-blaster\'></i>';
+                        return of('<i class=\'ra ra-blaster\'></i>');
                     case 'Spear':
-                        return '<i class=\'ra ra-spear-head\'></i>';
+                        return of('<i class=\'ra ra-spear-head\'></i>');
                     case 'Sword':
-                        return '<i class=\'ra ra-sword\'></i>';
+                        return of('<i class=\'ra ra-sword\'></i>');
                     default: break;
                 }
             }
 
             if (this.itemStore) {
-                if ((this.item instanceof Consumable || this.item instanceof AdventuringGear) && this.item.stack !== 1) {
-                    return this.item.stack.toString();
+                if ((this.item.isConsumable() || this.item.isAdventuringGear()) && this.item.stack !== 1) {
+                    return of(this.item.stack.toString());
                 }
             } else {
-                if (this.item instanceof Consumable || this.item.amount !== 1) {
-                    return this.item.amount.toString();
+                if (this.item.isConsumable() || this.item.amount !== 1) {
+                    return of(this.item.amount.toString());
                 }
             }
 
-            if (this.item instanceof Equipment && this.item.gainInventory.length) {
-                return '<i class=\'ra ra-hive-emblem\'></i>';
+            if (this.item.isEquipment() && this.item.gainInventory.length) {
+                return of('<i class=\'ra ra-hive-emblem\'></i>');
             }
         }
 
-        //Only show a supertitle if it has 2 or fewer characters, or is an icon.
-        const showSuperTitleBreakpoint = 2;
+        const defaultSuperTitle = (): string => {
+            //Only show a supertitle if it has 2 or fewer characters, or is an icon.
+            const showSuperTitleBreakpoint = 2;
 
-        if (superTitle.length <= showSuperTitleBreakpoint || superTitle.includes('<i')) {
-            return superTitle;
-        } else {
-            return '';
+            if (superTitle.length <= showSuperTitleBreakpoint || superTitle.includes('<i')) {
+                return superTitle;
+            } else {
+                return '';
+            }
+        };
+
+        //For activities, show the number of activations if applicable.
+        if (this.activity && this.activityGain) {
+            return combineLatest([
+                this._activityPropertiesService.effectiveMaxCharges$(this.activity, { creature: this.creature }),
+                this.activityGain.chargesUsed$,
+            ])
+                .pipe(
+                    map(([charges, chargesUsed]) => {
+                        if (charges) {
+                            return (chargesUsed - charges).toString();
+                        }
+
+                        return defaultSuperTitle();
+                    }),
+                );
         }
+
+        return of(defaultSuperTitle());
     }
 
-    public iconValue(): string {
+    public iconValue$(): Observable<string> {
         const maxIconValueLength = 6;
         const minIconValueLength = 2;
 
-        if (this.activity?.iconValueOverride) {
-            return this.activity.iconValueOverride.substring(0, maxIconValueLength);
+        if (this.activity) {
+            if (this.activity.iconValueOverride) {
+                return of(this.activity.iconValueOverride.substring(0, maxIconValueLength));
+            }
         }
 
         // Show condition value, and show effect values over 2 characters, trimmed to 6 characters.
+        if (this.condition) {
+            return combineLatest([
+                //TO-DO: Make reactive
+                of(this.condition.value),
+                of(this.condition.duration),
+            ])
+                .pipe(
+                    map(([value, duration]) => {
+                        if (value) {
+                            if (this.condition?.name === 'Stunned' && duration !== -1) {
+                                return '';
+                            } else {
+                                return value.toString();
+                            }
+                        }
+
+                        return '';
+                    }),
+                );
+        }
+
+
         // Shorter effect values will be shown as SuperTitle instead.
-        if (this.condition?.value) {
-            if (this.condition.name === 'Stunned' && this.condition.duration !== -1) {
-                return '';
-            } else {
-                return this.condition.value.toString();
+        if (this.effect) {
+            if (this.effect.title && (this.effect.title.length || 0) > minIconValueLength) {
+                return of(this.effect.title.split(' (')[0].split(':')[0].substring(0, maxIconValueLength));
+            } else if (this.effect?.setValue && this.effect?.setValue?.length > minIconValueLength) {
+                return of(this.effect.setValue.substring(0, maxIconValueLength));
+            } else if (this.effect?.value && this.effect?.value?.length > minIconValueLength) {
+                return of(this.effect.value.substring(0, maxIconValueLength));
             }
-        } else if (!!this.effect?.title && (this.effect?.title?.length || 0) > minIconValueLength) {
-            return this.effect.title.split(' (')[0].split(':')[0].substring(0, maxIconValueLength);
-        } else if (!!this.effect?.setValue && this.effect?.setValue?.length > minIconValueLength) {
-            return this.effect.setValue.substring(0, maxIconValueLength);
-        } else if (!!this.effect?.value && this.effect?.value?.length > minIconValueLength) {
-            return this.effect.value.substring(0, maxIconValueLength);
         }
 
         if (this.item) {
             if (this.item.iconValueOverride) {
-                return this.item.iconValueOverride;
+                return of(this.item.iconValueOverride);
             }
 
-            let value = '';
+            if (this.item.isEquipment()) {
+                return combineLatest([
+                    this.item.effectivePotency$(),
+                    this.item.effectiveStriking$(),
+                    this.item.effectiveResilient$(),
+                    this.item.propertyRunes.values$,
+                ])
+                    .pipe(
+                        map(([potency, striking, resilient, propertyRunes]) => {
+                            if (potency) {
+                                let value = potency.toString();
 
-            if ((this.item as Equipment)?.effectivePotency && (this.item as Equipment).effectivePotency()) {
-                value = `+${ (this.item as Equipment).effectivePotency().toString() }`;
+                                switch (striking) {
+                                    case BasicRuneLevels.First:
+                                        value += 'S';
+                                        break;
+                                    case BasicRuneLevels.Second:
+                                        value += 'GS';
+                                        break;
+                                    case BasicRuneLevels.Third:
+                                        value += 'MS';
+                                        break;
+                                    default: break;
+                                }
 
-                if ((this.item as Equipment)?.effectiveStriking()) {
-                    const striking = (this.item as Equipment).effectiveStriking();
+                                switch (resilient) {
+                                    case BasicRuneLevels.First:
+                                        value += 'R';
+                                        break;
+                                    case BasicRuneLevels.Second:
+                                        value += 'GR';
+                                        break;
+                                    case BasicRuneLevels.Third:
+                                        value += 'MR';
+                                        break;
+                                    default: break;
+                                }
 
-                    switch (striking) {
-                        case BasicRuneLevels.First:
-                            value += 'S';
-                            break;
-                        case BasicRuneLevels.Second:
-                            value += 'GS';
-                            break;
-                        case BasicRuneLevels.Third:
-                            value += 'MS';
-                            break;
-                        default: break;
-                    }
-                }
+                                if (propertyRunes.length) {
+                                    value += '+';
+                                }
 
-                if ((this.item as Equipment)?.effectiveResilient()) {
-                    const resilient = (this.item as Equipment).effectiveResilient();
+                                return value;
+                            }
 
-                    switch (resilient) {
-                        case BasicRuneLevels.First:
-                            value += 'R';
-                            break;
-                        case BasicRuneLevels.Second:
-                            value += 'GR';
-                            break;
-                        case BasicRuneLevels.Third:
-                            value += 'MR';
-                            break;
-                        default: break;
-                    }
-                }
-
-                if ((this.item as Equipment)?.propertyRunes.length) {
-                    value += '+';
-                }
-
-                return value;
-            } else if (this.item.gridIconValue()) {
-                return this.item.gridIconValue();
+                            return this.item?.gridIconValue() ?? '';
+                        }),
+                    );
             }
         }
 
-        return '';
+        return of('');
     }
 
     public durationOverlays(): Array<{ offset: number; percentage: number; over50: number }> {

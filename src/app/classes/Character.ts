@@ -13,28 +13,128 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { spellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { Weapon } from './Weapon';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
-import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
+import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
+import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
+import { Alignments } from 'src/libs/shared/definitions/alignments';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+
+interface IgoredMessage { id: string; ttl: number }
 
 export class Character extends Creature {
     public readonly type = CreatureTypes.Character;
-    public readonly typeId = 0;
+    public readonly typeId = CreatureTypeIds.Character;
     public appVersionMajor = 0;
     public appVersion = 0;
     public appVersionMinor = 0;
-    public ignoredMessages: Array<{ id: string; ttl: number }> = [];
-    public partyName = '';
-    public baseValues: Array<{ name: string; baseValue: number }> = [];
+    public ignoredMessages: Array<IgoredMessage> = [];
     public cash: Array<number> = [0, Defaults.startingGold, 0, 0];
-    public class: Class = new Class();
-    public customFeats: Array<Feat> = [];
-    public heroPoints = 1;
-    //Characters get one extra inventory for worn items.
-    public inventories: Array<ItemCollection> = [new ItemCollection(), new ItemCollection(Defaults.wornToolsInventoryBulkLimit)];
-    public experiencePoints = 0;
-    public settings: Settings = new Settings();
-    public GMMode = false;
     //yourTurn is only written when saving the character to the database and read when loading.
     public yourTurn = 0;
+
+    public readonly class$: BehaviorSubject<Class>;
+    public readonly experiencePoints$: BehaviorSubject<number>;
+    public readonly heroPoints$: BehaviorSubject<number>;
+    public readonly partyName$: BehaviorSubject<string>;
+    public readonly settings$: BehaviorSubject<Settings>;
+    public readonly isBlankCharacter$: Observable<boolean>;
+    public readonly maxSpellLevel$: Observable<number>;
+
+    private readonly _baseValues = new OnChangeArray<{ name: string; baseValue: number }>();
+    private _class: Class = new Class();
+    private readonly _customFeats = new OnChangeArray<Feat>();
+    private _heroPoints = 1;
+    private _experiencePoints = 0;
+    private _partyName = '';
+    private _settings: Settings = new Settings();
+
+    constructor() {
+        super();
+
+        this.class$ = new BehaviorSubject(this._class);
+        this.experiencePoints$ = new BehaviorSubject(this._experiencePoints);
+        this.heroPoints$ = new BehaviorSubject(this._heroPoints);
+        this.partyName$ = new BehaviorSubject(this._partyName);
+        this.settings$ = new BehaviorSubject(this._settings);
+
+        //Characters get one extra inventory for worn items.
+        this.inventories = [new ItemCollection(), new ItemCollection(Defaults.wornToolsInventoryBulkLimit)];
+
+        // The character is considered blank if texts haven't been changed, no class and no basevalues have been chosen,
+        // and no items or inventories have been added.
+        // Most other changes are only possible after selecting a class.
+        this.isBlankCharacter$ = this._isBlankCharacter$()
+            .pipe(
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.maxSpellLevel$ = this._maxSpellLevel$()
+            .pipe(
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+    }
+
+    public get class(): Class {
+        return this._class;
+    }
+
+    public set class(newClass: Class) {
+        this._class = newClass;
+        this.class$.next(this._class);
+    }
+
+    public get customFeats(): OnChangeArray<Feat> {
+        return this._customFeats;
+    }
+
+    public set customFeats(value: Array<Feat>) {
+        this._customFeats.setValues(...value);
+    }
+
+
+    public get experiencePoints(): number {
+        return this._experiencePoints;
+    }
+
+    public set experiencePoints(value: number) {
+        this._experiencePoints = value;
+        this.experiencePoints$.next(this._experiencePoints);
+    }
+
+    public get heroPoints(): number {
+        return this._heroPoints;
+    }
+
+    public set heroPoints(value) {
+        this._heroPoints = value;
+        this.heroPoints$.next(this._heroPoints);
+    }
+
+    public get partyName(): string {
+        return this._partyName;
+    }
+
+    public set partyName(value: string) {
+        this._partyName = value;
+        this.partyName$.next(this._partyName);
+    }
+
+    public get settings(): Settings {
+        return this._settings;
+    }
+
+    public set settings(value: Settings) {
+        this._settings = value;
+        this.settings$.next(this._settings);
+    }
+
+    public get baseValues(): OnChangeArray<{ name: string; baseValue: number }> {
+        return this._baseValues;
+    }
+
+    public set baseValues(value: Array<{ name: string; baseValue: number }>) {
+        this._baseValues.setValues(...value);
+    }
+
     public get requiresConForHP(): boolean { return true; }
 
     public recast(recastFns: RecastFns): Character {
@@ -51,6 +151,10 @@ export class Character extends Creature {
     }
 
     public isCharacter(): this is Character {
+        return true;
+    }
+
+    public canEquipItems(): this is Character {
         return true;
     }
 
@@ -88,28 +192,6 @@ export class Character extends Creature {
         }
 
         return { result: sum, explain: explain.trim() };
-    }
-
-    public isBlankCharacter(): boolean {
-        // The character is blank if textboxes haven't been used, no class and no basevalues have been chosen,
-        // and no items have been added other than the starter items.
-        const characterStartingInventoryAmount = 2;
-
-        return (
-            !this.class?.name &&
-            !this.name &&
-            !this.partyName &&
-            !this.experiencePoints &&
-            this.alignment === 'Neutral' &&
-            !this.baseValues.length &&
-            this.inventories.length <= characterStartingInventoryAmount &&
-            // The character is not blank if any inventory has been touched.
-            !this.inventories.some(inv => inv.touched)
-        );
-    }
-
-    public maxSpellLevel(levelNumber: number = this.level): number {
-        return spellLevelFromCharLevel(levelNumber);
     }
 
     public abilityBoosts(
@@ -166,16 +248,15 @@ export class Character extends Creature {
             });
             this.inventories.forEach(inventory => {
                 inventory.allEquipment()
-                    .filter(item =>
-                        item.propertyRunes
-                            .filter(rune => rune.loreChoices && rune.loreChoices.length)
-                            .length &&
-                        item.investedOrEquipped(),
-                    )
                     .forEach(item => {
-                        item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).forEach(rune => {
-                            choices.push(...rune.loreChoices);
-                        });
+                        if (item.hasRunes() && item.investedOrEquipped()) {
+                            item.propertyRunes
+                                .filter(rune => rune.loreChoices && rune.loreChoices.length)
+                                .forEach(rune => {
+                                    choices.push(...rune.loreChoices);
+                                });
+                        }
+
                     });
                 inventory.allEquipment()
                     .filter(item =>
@@ -223,53 +304,6 @@ export class Character extends Creature {
             }
 
             return increases;
-        } else {
-            return [];
-        }
-    }
-
-    public takenFeats(
-        minLevelNumber = 0,
-        maxLevelNumber = 0,
-        featName = '',
-        source = '',
-        sourceId = '',
-        locked: boolean | undefined = undefined,
-        excludeTemporary = false,
-        includeCountAs = false,
-        automatic: boolean | undefined = undefined,
-    ): Array<FeatTaken> {
-        if (this.class) {
-            const featsTaken: Array<FeatTaken> = [];
-            const levels =
-                this.class.levels
-                    .filter(level =>
-                        (
-                            !minLevelNumber ||
-                            level.number >= minLevelNumber
-                        ) &&
-                        (!maxLevelNumber || level.number <= maxLevelNumber),
-                    );
-
-            levels.forEach(level => {
-                level.featChoices.forEach(choice => {
-                    choice.feats.filter((taken: FeatTaken) =>
-                        (excludeTemporary ? !choice.showOnSheet : true) &&
-                        (
-                            !featName ||
-                            (includeCountAs && (taken.countAsFeat?.toLowerCase() === featName.toLowerCase() || false)) ||
-                            (taken.name.toLowerCase() === featName.toLowerCase())
-                        ) &&
-                        (!source || (taken.source.toLowerCase() === source.toLowerCase())) &&
-                        (!sourceId || (taken.sourceId === sourceId)) &&
-                        ((locked === undefined && automatic === undefined) || (taken.locked === locked) || (taken.automatic === automatic)),
-                    ).forEach(taken => {
-                        featsTaken.push(taken);
-                    });
-                });
-            });
-
-            return featsTaken;
         } else {
             return [];
         }
@@ -326,5 +360,36 @@ export class Character extends Creature {
         return this.inventories[0].wornitems
             .filter(item => item.isWayfinder && item.investedOrEquipped() && item.aeonStones.length)
             .length > Defaults.maxInvestedAeonStones;
+    }
+
+    private _isBlankCharacter$(): Observable<boolean> {
+        return combineLatest([
+            this.alignment$
+                .pipe(map(alignment => alignment !== Alignments.N)),
+            this.settings.useIndividualAbilityBaseValues$,
+            this.class$
+                .pipe(map(characterClass => !!characterClass.name)),
+            this.level$
+                .pipe(map(level => level > 1)),
+            this.experiencePoints$
+                .pipe(map(experiencePoints => !!experiencePoints)),
+            this.name$
+                .pipe(map(name => !!name)),
+            this.partyName$
+                .pipe(map(partyName => !!partyName)),
+            this._inventoriesTouched$,
+        ])
+            .pipe(
+                map(factors => !factors.includes(true)),
+                distinctUntilChanged(),
+            );
+    }
+
+    private _maxSpellLevel$(): Observable<number> {
+        return this.level$
+            .pipe(
+                map(level => spellLevelFromCharLevel(level)),
+                distinctUntilChanged(),
+            );
     }
 }

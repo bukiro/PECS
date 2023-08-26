@@ -3,7 +3,8 @@ import { DiceResult } from 'src/app/classes/DiceResult';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { MenuService } from 'src/libs/shared/services/menu/menu.service';
+import { setTopMenu } from 'src/libs/store/menu/menu.actions';
+import { Store } from '@ngrx/store';
 
 @Injectable({
     providedIn: 'root',
@@ -14,7 +15,7 @@ export class DiceService {
 
     constructor(
         private readonly _refreshService: RefreshService,
-        private readonly _menuService: MenuService,
+        private readonly _store$: Store,
     ) { }
 
     public get diceResults(): Array<DiceResult> {
@@ -60,9 +61,7 @@ export class DiceService {
 
         this._diceResults.unshift(diceResult);
 
-        if (MenuService.topMenuState$.value !== MenuNames.DiceMenu) {
-            this._menuService.toggleMenu(MenuNames.DiceMenu);
-        }
+        this._store$.dispatch(setTopMenu({ menu: MenuNames.DiceMenu }));
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'dice');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'character-sheet');

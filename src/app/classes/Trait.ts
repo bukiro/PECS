@@ -6,6 +6,10 @@ import { Effect } from 'src/app/classes/Effect';
 import { ActivityGain } from './ActivityGain';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { Observable, combineLatest, map, switchMap } from 'rxjs';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { Equipment } from './Equipment';
 
 export class Trait {
     public desc = '';
@@ -46,34 +50,52 @@ export class Trait {
     }
 
     /**
-     * Return all equipped items that have this trait, or alternatively only their names.
+     * Return all equipped items that have this trait.
      * Some trait instances have information after the trait name,
      * so we allow traits that include this trait's name as long as this trait is dynamic.
      */
-    public itemsWithThisTrait(creature: Creature, namesOnly = false): Array<Item> | Array<string> {
-        const filteredItems: Array<Item> = [];
-
-        creature.inventories.forEach(inventory => {
-            filteredItems.push(...inventory.allEquipment()
-                .filter(item =>
-                    item.equipped &&
-                    item.$traits
-                        .find(trait =>
-                            this.name.toLowerCase() === trait.toLowerCase() ||
-                            (
-                                trait.toLowerCase().includes(this.name.toLowerCase()) &&
-                                this.dynamic
-                            ),
+    public itemsWithThisTrait$(creature: Creature): Observable<Array<Item>> {
+        return creature.inventories.values$
+            .pipe(
+                switchMap(inventories => combineLatest(
+                    inventories.map(inventory => inventory.equippedEquipment$
+                        .pipe(
+                            switchMap(items => combineLatest(
+                                items.map(item => item.effectiveTraits$
+                                    .pipe(
+                                        map(traits =>
+                                            traits.some(trait =>
+                                                stringEqualsCaseInsensitive(this.name, trait, { allowPartialString: this.dynamic }),
+                                            )
+                                                ? item
+                                                : null,
+                                        ),
+                                    ),
+                                ),
+                            )),
+                            map(items => items.filter((item): item is Equipment => !!item)),
                         ),
+                    ),
+                )),
+                map(equipmentLists =>
+                    new Array<Item>()
+                        .concat(...equipmentLists),
                 ),
             );
-        });
+    }
 
-        if (namesOnly) {
-            return filteredItems.map(item => item.displayName || item.name);
-        } else {
-            return filteredItems;
-        }
+    /**
+     * Return the names of all equipped items that have this trait.
+     * Some trait instances have information after the trait name,
+     * so we allow traits that include this trait's name as long as this trait is dynamic.
+     */
+    public itemNamesWithThisTrait$(creature: Creature): Observable<Array<string>> {
+        return this.itemsWithThisTrait$(creature)
+            .pipe(
+                switchMap(items => combineLatest(
+                    items.map(item => item.effectiveName$()),
+                )),
+            );
     }
 
     public objectBoundEffects(
@@ -82,7 +104,7 @@ export class Trait {
     ): Array<Effect> {
         /**
          * Collect all object effect gains of this hint that match the filter, and generate effects from them.
-         * This uses a similar process to EvaluationService.get_ValueFromFormula, but with very reduced options.
+         * This uses a similar process to EvaluationService.valueFromFormula$, but with very reduced options.
          * Only active, active2, active3 and dynamicValue are available as variables, and no toggle or title effects will be produced.
          * The resulting effects are very minimized, as only their value and setValue are required.
          */
@@ -97,22 +119,25 @@ export class Trait {
                 const active2 = activation.active2;
                 const active3 = activation.active3;
                 const dynamicValue = this.dynamicValueAsNumber(activation.trait);
-
                 /* eslint-enable @typescript-eslint/no-unused-vars */
                 /* eslint-enable @typescript-eslint/naming-convention */
+
                 effects.forEach(effect => {
                     const shouldBeDisplayed: boolean | undefined = effect.show;
-                    let type = 'untyped';
-                    let isPenaltyEffect = false;
+                    let type = BonusTypes.Untyped;
+                    let shouldInvertPenalty = false;
                     let value = '0';
                     let setValue = '';
+                    let valueNumerical = 0;
 
                     try {
                         //TO-DO: replace eval with system similar to featrequirements
                         // eslint-disable-next-line no-eval
                         value = eval(effect.value).toString();
 
-                        if (parseInt(value, 10) > 0) {
+                        valueNumerical = parseInt(value, 10);
+
+                        if (valueNumerical > 0) {
                             value = `+${ value }`;
                         }
                     } catch (error) {
@@ -131,6 +156,7 @@ export class Trait {
 
                     if ((!parseInt(value, 10) && !parseFloat(value)) || parseFloat(value) === Infinity) {
                         value = '0';
+                        valueNumerical = 0;
                     }
 
                     if (effect.type) {
@@ -138,10 +164,9 @@ export class Trait {
                     }
 
                     if (setValue) {
-                        isPenaltyEffect = false;
                         value = '0';
                     } else {
-                        isPenaltyEffect = (parseInt(value, 10) < 0) === (effect.affected !== 'Bulk');
+                        shouldInvertPenalty = (valueNumerical < 0) === (effect.affected !== 'Bulk');
                     }
 
                     //Effects can affect another creature. In that case, remove the notation and change the target.
@@ -149,20 +174,19 @@ export class Trait {
                     const affected: string = effect.affected;
 
                     //Effects that have no value get ignored.
-                    if (setValue || parseInt(value, 10) !== 0) {
+                    if (setValue || (valueNumerical !== 0)) {
                         resultingEffects.push(
-                            Object.assign(
-                                new Effect(value),
-                                {
-                                    creature: target,
-                                    type,
-                                    target: affected,
-                                    setValue,
-                                    toggle: false,
-                                    source: `conditional, ${ this.name }`,
-                                    penalty: isPenaltyEffect,
-                                    show: shouldBeDisplayed,
-                                }));
+                            Effect.from({
+                                creature: target,
+                                type,
+                                target: affected,
+                                setValue,
+                                toggled: false,
+                                source: `conditional, ${ this.name }`,
+                                invertPenalty: shouldInvertPenalty,
+                                displayed: shouldBeDisplayed,
+                            }),
+                        );
                     }
                 });
 

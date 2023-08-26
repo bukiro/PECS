@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { QuickdiceComponent } from 'src/libs/shared/quickdice/components/quickdice/quickdice.component';
 import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
 import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { Creature } from 'src/app/classes/Creature';
 
 @Component({
     selector: 'app-attribute-value',
@@ -29,7 +29,7 @@ export class AttributeValueComponent extends TrackByMixin(BaseClass) {
     public quickdiceTemplate?: TemplateRef<QuickdiceComponent>;
 
     @Input()
-    public effectsTarget?: { creature: CreatureTypes; target: string };
+    public customEffectsTarget?: { creature: Creature; target: string };
 
     @Output()
     public readonly showNotesChange = new EventEmitter<boolean>();

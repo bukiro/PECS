@@ -23,12 +23,21 @@ import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Ammunition } from './Ammunition';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Potion } from './Potion';
+import { BehaviorSubject, distinctUntilChanged, map, Observable, of, tap } from 'rxjs';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 
 export interface TraitActivation {
     trait: string;
     active: boolean;
     active2: boolean;
     active3: boolean;
+}
+
+export interface ItemData {
+    name: string;
+    value: string | boolean;
+    show: boolean;
+    type: 'string' | 'boolean';
 }
 
 export abstract class Item {
@@ -52,8 +61,6 @@ export abstract class Item {
     public crafted = false;
     /** Some items need certain requirements to be crafted. */
     public craftRequirement = '';
-    /** Some items need to store data, usually via a hardcoded select box. */
-    public data: Array<{ name: string; value: string | boolean; show: boolean; type: 'string' | 'boolean' }> = [];
     /** Full description of the item, ideally unchanged from the source material */
     public desc = '';
     /**
@@ -85,8 +92,6 @@ export abstract class Item {
     public iconValueOverride = '';
     /** Any notes the player adds to the item */
     public notes = '';
-    /** Store any oils applied to this item. */
-    public oilsApplied: Array<Oil> = [];
     /** Price in Copper */
     public price = 0;
     /**
@@ -105,11 +110,6 @@ export abstract class Item {
      */
     public storeBulk: string | number = '';
     /**
-     * What spells are stored in this item, or can be?
-     * Only the first spell will be cast when using the item.
-     */
-    public storedSpells: Array<SpellChoice> = [];
-    /**
      * Does this item come in different types? Like lesser, greater, major...
      * If so, name the subtype here.
      */
@@ -125,8 +125,6 @@ export abstract class Item {
     public tradeable = true;
     /** What traits does the item have? Can be expanded under certain circumstances. */
     public traits: Array<string> = [];
-    /** Some items may recalculate their traits and store them here temporarily for easier access. */
-    public $traits: Array<string> = [];
     /** Items can store whether they have activated effects on any of their trait's hints here. */
     public traitActivations: Array<TraitActivation> = [];
     /**
@@ -144,8 +142,71 @@ export abstract class Item {
     public PFSnote = '';
     public inputRequired = '';
 
+    /** Some items may recalculate their traits and store them here temporarily for easier access. */
+    public effectiveTraits$: BehaviorSubject<Array<string>>;
+    public traitActivations$: Observable<Array<TraitActivation>>;
+
+    private readonly _data = new OnChangeArray<ItemData>();
+    private readonly _oilsApplied = new OnChangeArray<Oil>();
+    private readonly _storedSpells: OnChangeArray<SpellChoice> = new OnChangeArray<SpellChoice>();
+
     /** Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item */
     public abstract type: string;
+
+    constructor() {
+        this.effectiveTraits$ = new BehaviorSubject<Array<string>>(this.traits);
+
+        this.traitActivations$ = this.effectiveTraits$
+            .pipe(
+                distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+                tap(effectiveTraits => {
+                    // Remove activations for traits that don't exist on the item anymore.
+                    this.traitActivations = this.traitActivations.filter(activation => effectiveTraits.includes(activation.trait));
+                }),
+                map(effectiveTraits => {
+                    //Create trait activations for all traits that don't have one yet.
+                    effectiveTraits
+                        .filter(trait =>
+                            !this.traitActivations.some(activation => activation.trait === trait),
+                        )
+                        .forEach(trait => {
+                            this.traitActivations.push({ trait, active: false, active2: false, active3: false });
+                        });
+
+                    return this.traitActivations;
+                }),
+            );
+    }
+
+    public get data(): OnChangeArray<ItemData> {
+        return this._data;
+    }
+
+    /** Some items need to store data, usually via a hardcoded select box. */
+    public set data(value: Array<ItemData>) {
+        this._data.setValues(...value);
+    }
+
+    public get oilsApplied(): OnChangeArray<Oil> {
+        return this._oilsApplied;
+    }
+
+    /** Store any oils applied to this item. */
+    public set oilsApplied(value: Array<Oil>) {
+        this._oilsApplied.setValues(...value);
+    }
+
+    public get storedSpells(): OnChangeArray<SpellChoice> {
+        return this._storedSpells;
+    }
+
+    /**
+     * What spells are stored in this item, or can be?
+     * Only the first spell will be cast when using the item.
+     */
+    public set storedSpells(value: Array<SpellChoice>) {
+        this._storedSpells.setValues(...value);
+    }
 
     public get sortLevel(): string {
         const twoDigits = 2;
@@ -175,6 +236,8 @@ export abstract class Item {
     public hasActivities(): this is Equipment | Rune { return false; }
 
     public hasHints(): this is Equipment | Rune | Oil { return false; }
+
+    public hasRunes(): this is Armor | Weapon | WornItem { return false; }
 
     public hasSuccessResults(): this is Oil | Snare | Talisman | WeaponRune { return false; }
 
@@ -220,18 +283,7 @@ export abstract class Item {
         return this.subType[0] || '';
     }
 
-    public prepareTraitActivations(): void {
-        //Create trait activations for all traits that don't have one yet.
-        this.traitActivations = this.traitActivations.filter(activation => this.$traits.includes(activation.trait));
-        this.$traits
-            .filter(trait =>
-                !this.traitActivations.some(activation => activation.trait === trait),
-            )
-            .forEach(trait => {
-                this.traitActivations.push({ trait, active: false, active2: false, active3: false });
-            });
-    }
-
+    //TO-DO: Make reactive
     public activatedTraitsActivations(): Array<TraitActivation> {
         return this.traitActivations.filter(activation => activation.active || activation.active2 || activation.active3);
     }
@@ -263,14 +315,14 @@ export abstract class Item {
         );
     }
 
+    public effectiveName$(options?: { itemStore?: boolean }): Observable<string> {
+        return of(this.effectiveNameSnapshot(options));
+    }
+
     //Other implementations require itemStore.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectiveName(options: { itemStore?: boolean } = {}): string {
-        if (this.displayName) {
-            return this.displayName;
-        } else {
-            return this.name;
-        }
+    public effectiveNameSnapshot(options?: { itemStore?: boolean }): string {
+        return this.displayName ?? this.name;
     }
 
     public investedOrEquipped(): boolean {

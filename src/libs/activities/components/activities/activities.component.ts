@@ -5,7 +5,7 @@ import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, takeUntil, tap } from 'rxjs';
 import { Activity } from 'src/app/classes/Activity';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
@@ -19,6 +19,7 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { deepDistinctUntilChanged, propMap$ } from 'src/libs/shared/util/observableUtils';
 
 interface ActivitySet {
     name: string;
@@ -31,7 +32,8 @@ interface ActivityParameter {
     gain: ActivityGain | ItemActivity;
     activity: Activity | ItemActivity;
     maxCharges: number;
-    disabled: string;
+    cooldown: number;
+    disabledReason: string;
     hostile: boolean;
 }
 
@@ -42,9 +44,6 @@ interface ActivityParameter {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivitiesComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
-
-    @Input()
-    public creature = CreatureTypes.Character;
 
     public isTileMode$: Observable<boolean>;
 
@@ -66,44 +65,50 @@ export class ActivitiesComponent extends TrackByMixin(BaseCardComponent) impleme
     ) {
         super();
 
-        SettingsService.settings$
+        this.isMinimized$ = this.creature$
+            .pipe(
+                switchMap(creature => SettingsService.settings$
+                    .pipe(
+                        switchMap(settings => {
+                            switch (creature.type) {
+                                case CreatureTypes.AnimalCompanion:
+                                    return settings.companionMinimized$;
+                                case CreatureTypes.Familiar:
+                                    return settings.familiarMinimized$;
+                                default:
+                                    return settings.activitiesMinimized$;
+                            }
+                        }),
+                    ),
+                ),
+                distinctUntilChanged(),
+                tap(minimized => this._updateMinimized(minimized)),
+                // If the button is hidden, another subscription ensures that the pipe is run.
+                // shareReplay prevents it from running twice if the button is not hidden.
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
+        this.isMinimized$
             .pipe(
                 takeUntil(this._destroyed$),
-                map(settings => {
-                    switch (this.creature) {
-                        case CreatureTypes.AnimalCompanion:
-                            return settings.companionMinimized;
-                        case CreatureTypes.Familiar:
-                            return settings.familiarMinimized;
-                        default:
-                            return settings.activitiesMinimized;
-                    }
-                }),
-                distinctUntilChanged(),
             )
-            .subscribe(minimized => {
-                this._updateMinimized({ bySetting: minimized });
-            });
+            .subscribe();
 
-        this.isTileMode$ = SettingsService.settings$
+        this.isTileMode$ = propMap$(SettingsService.settings$, 'activitiesTileMode$')
             .pipe(
-                map(settings => settings.activitiesTileMode),
                 distinctUntilChanged(),
-                shareReplay(1),
+                shareReplay({ refCount: true, bufferSize: 1 }),
             );
     }
 
     @Input()
-    public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._updateMinimized({ forced: forceMinimized ?? false });
+    public set creature(creature: Creature) {
+        this._updateCreature(creature);
     }
 
     public get shouldShowMinimizeButton(): boolean {
-        return !this.forceMinimized && this.creature === CreatureTypes.Character;
-    }
-
-    public get currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
+        return this.creature.isCharacter();
     }
 
     private get _character(): Character {
@@ -142,37 +147,63 @@ export class ActivitiesComponent extends TrackByMixin(BaseCardComponent) impleme
         return this._showFeatChoice;
     }
 
-    public activityParameters(): Array<ActivityParameter> {
-        return this._ownedActivities().map(gainSet => {
-            const creature = this.currentCreature;
+    public activityParameters$(): Observable<Array<ActivityParameter>> {
+        return this._ownedActivities$()
+            .pipe(
+                switchMap(gainSets => combineLatest(
+                    gainSets.map(gainSet => {
+                        const creature = this.creature;
 
-            this._activityPropertiesService.cacheMaxCharges(gainSet.activity, { creature });
+                        const maxCharges$ = this._activityPropertiesService.effectiveMaxCharges$(gainSet.activity, { creature });
 
-            const maxCharges = gainSet.activity.$charges;
-
-            return {
-                name: gainSet.name,
-                gain: gainSet.gain,
-                activity: gainSet.activity,
-                maxCharges,
-                disabled: this._activityGainPropertyService.gainDisabledReason(gainSet.gain, { creature, maxCharges }),
-                hostile: gainSet.activity.isHostile(),
-            };
-        });
+                        return combineLatest([
+                            maxCharges$,
+                            this._activityPropertiesService.effectiveCooldown$(gainSet.activity, { creature }),
+                            this._activityGainPropertyService.disabledReason$(gainSet.gain, { creature, maxCharges$ }),
+                        ])
+                            .pipe(
+                                map(([maxCharges, cooldown, disabledReason]) => ({
+                                    name: gainSet.name,
+                                    gain: gainSet.gain,
+                                    activity: gainSet.activity,
+                                    maxCharges,
+                                    cooldown,
+                                    disabledReason,
+                                    hostile: gainSet.activity.isHostile(),
+                                })),
+                            );
+                    }),
+                )),
+            );
     }
 
-    public classDCs(): Array<Skill> {
-        return this._skillsDataService
-            .skills(this.currentCreature.customSkills, '', { type: 'Class DC' })
-            .filter(skill => this._skillValuesService.level(skill, this.currentCreature) > 0);
+    //TO-DO: customskills() should become async.
+    public classDCs$(): Observable<Array<Skill>> {
+        return combineLatest(
+            this._skillsDataService
+                .skills(this.creature.customSkills, '', { type: 'Class DC' })
+                .map(skill =>
+                    this._skillValuesService.level$(skill, this.creature)
+                        .pipe(
+                            map(level => ({ skill, level })),
+                        ),
+                ),
+        )
+            .pipe(
+                map(skillSets =>
+                    skillSets
+                        .filter(skillSet => skillSet.level > 0)
+                        .map(skillSet => skillSet.skill),
+                ),
+            );
     }
 
     public temporaryFeatChoices(): Array<FeatChoice> {
         const choices: Array<FeatChoice> = [];
 
-        if (this.creature === CreatureTypes.Character) {
-            (this.currentCreature as Character).class.levels
-                .filter(level => level.number <= this.currentCreature.level)
+        if (this.creature.isCharacter()) {
+            (this.creature as Character).class.levels
+                .filter(level => level.number <= this.creature.level)
                 .forEach(level => {
                     choices.push(...level.featChoices.filter(choice => choice.showOnSheet));
                 });
@@ -184,14 +215,14 @@ export class ActivitiesComponent extends TrackByMixin(BaseCardComponent) impleme
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
-                if (target === 'activities' || target === 'all' || target.toLowerCase() === this.creature.toLowerCase()) {
+                if (target === 'activities' || target === 'all' || target.toLowerCase() === this.creature.type.toLowerCase()) {
                     this._changeDetector.detectChanges();
                 }
             });
         this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
                 if (
-                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
+                    view.creature.toLowerCase() === this.creature.type.toLowerCase() &&
                     ['activities', 'all'].includes(view.target.toLowerCase())
                 ) {
                     this._changeDetector.detectChanges();
@@ -218,39 +249,53 @@ export class ActivitiesComponent extends TrackByMixin(BaseCardComponent) impleme
         }
     }
 
-    private _fuseStanceName(): string | undefined {
-        const data = this._character.class.filteredFeatData(0, 0, 'Fuse Stance')[0];
-
-        if (data) {
-            return data.valueAsString('name') || 'Fused Stance';
-        }
+    private _fuseStanceName$(): Observable<string> {
+        return this._character.class.filteredFeatData$(0, 0, 'Fuse Stance')
+            .pipe(
+                map(data => data?.[0]?.valueAsString('name') ?? 'Fused Stance'),
+                distinctUntilChanged(),
+            );
     }
 
-    private _ownedActivities(): Array<ActivitySet> {
-        const activities: Array<ActivitySet> = [];
-        const unique: Array<string> = [];
-        const fuseStanceName = this._fuseStanceName();
-
-        const activityName = (name: string): string => {
-            if (!!fuseStanceName && name === 'Fused Stance') {
-                return fuseStanceName;
+    private _ownedActivities$(): Observable<Array<ActivitySet>> {
+        const activityName$ = (name: string): Observable<string> => {
+            if (name === 'Fused Stance') {
+                return this._fuseStanceName$();
             } else {
-                return name;
+                return of(name);
             }
         };
 
-        this._creatureActivitiesService.creatureOwnedActivities(this.currentCreature).forEach(gain => {
-            const activity = gain.originalActivity;
+        return this._creatureActivitiesService.creatureOwnedActivities$(this.creature)
+            .pipe(
+                deepDistinctUntilChanged(),
+                map(gains => {
+                    const activitySets: Array<ActivitySet> = [];
+                    const uniques: Array<string> = [];
 
-            this._activityPropertiesService.cacheEffectiveCooldown(activity, { creature: this.currentCreature });
+                    gains.forEach(gain => {
+                        const activity = gain.originalActivity;
 
-            if (!unique.includes(gain.name) || gain instanceof ItemActivity) {
-                unique.push(gain.name);
-                activities.push({ name: activityName(gain.name), gain, activity });
-            }
-        });
+                        if (!uniques.includes(gain.name) || gain instanceof ItemActivity) {
+                            uniques.push(gain.name);
+                            activitySets.push({ name: gain.name, gain, activity });
+                        }
+                    });
 
-        return activities.sort((a, b) => sortAlphaNum(a.name, b.name));
+                    return activitySets;
+                }),
+                switchMap(activitySets => combineLatest(
+                    activitySets
+                        .map(activitySet =>
+                            // Update the name of each activity set, only needed for Fused Stance.
+                            activityName$(activitySet.name)
+                                .pipe(
+                                    map(name => ({ ...activitySet, name })),
+                                ),
+                        ),
+                )),
+                map(activitySets => activitySets.sort((a, b) => sortAlphaNum(a.name, b.name))),
+            );
     }
 
 }

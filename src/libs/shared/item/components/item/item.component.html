@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="itemTraits() as traits">
+<ng-container *ngIf="itemTraits$() | async as traits">
     <div
         class="newrow left-aligned tags"
         *ngIf="traits.length"
@@ -8,6 +8,7 @@
             *ngFor="let trait of traits; trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
+            [creatureType]="creature.type"
         >
         </app-trait>
     </div>
@@ -68,7 +69,7 @@
                         *ngFor="let weapon of doublingRingsOptions('gold'); trackBy:trackByIndex;"
                         [ngValue]="weapon.id"
                     >
-                        {{weapon.effectiveName()}}
+                        {{weapon.effectiveName$()}}
                     </option>
                 </select>
             </div>
@@ -85,7 +86,7 @@
                         *ngFor="let weapon of doublingRingsOptions('iron'); trackBy:trackByIndex;"
                         [ngValue]="weapon.id"
                     >
-                        {{weapon.effectiveName()}}
+                        {{weapon.effectiveName$()}}
                     </option>
                 </select>
             </div>
@@ -195,7 +196,7 @@
     </div>
 
     <!-- Known activities -->
-    <ng-container *ngFor="let gain of itemRoles.asEquipment?.gainActivities || []; trackBy:trackByIndex;">
+    <ng-container *ngFor="let gain of itemRoles.asEquipment?.gainActivities; trackBy:trackByIndex;">
         <div
             class="list-item left-aligned"
             *ngIf="activityFromName(gain.name) as activity"
@@ -222,7 +223,7 @@
     </ng-container>
 
     <!-- Shown/related activities (Talismans only) -->
-    <ng-container *ngFor="let activityName of itemRoles.asTalisman?.showActivities || []; trackBy:trackByIndex;">
+    <ng-container *ngFor="let activityName of itemRoles.asTalisman?.showActivities; trackBy:trackByIndex;">
         <div
             class="list-item left-aligned"
             *ngIf="activityFromName(activityName) as activity"
@@ -250,7 +251,7 @@
     <!-- Spells that get cast by activating the item (Oils only) -->
     <div
         class="list-item left-aligned"
-        *ngFor="let cast of itemRoles.asOil?.castSpells || []; trackBy:trackByIndex;"
+        *ngFor="let cast of itemRoles.asOil?.castSpells; trackBy:trackByIndex;"
     >
         <div *ngIf="spellFromName(cast.name) as spell">
             <header class="spellHeader">
@@ -271,7 +272,7 @@
     </div>
 
     <!-- Spells that you gain from equipping/investing the item -->
-    <ng-container *ngFor="let choice of itemRoles.asEquipment?.gainSpells || []; trackBy:trackByIndex;">
+    <ng-container *ngFor="let choice of itemRoles.asEquipment?.gainSpells; trackBy:trackByIndex;">
         <div
             class="list-item left-aligned"
             *ngFor="let gain of choice.spells; trackBy:trackByIndex;"
@@ -289,7 +290,7 @@
 
                 <app-spell
                     [spell]=spell
-                    [spellLevel]="gainedSpellLevel(spell, {gain, choice})"
+                    [spellLevel]="(gainedSpellLevel$(spell, {gain, choice}) | async) ?? 1"
                 >
                 </app-spell>
             </div>
@@ -299,7 +300,7 @@
     <!-- Material description -->
     <div
         class="list-item left-aligned"
-        *ngFor="let material of itemRoles.asEquipment?.material || []; trackBy:trackByIndex;"
+        *ngFor="let material of itemRoles.asEquipment?.material; trackBy:trackByIndex;"
     >
         <header class="spellHeader">{{material.name}}</header>
 
@@ -361,10 +362,10 @@
             </header>
 
             <ng-container *ngIf="!itemStore">
-                <ng-container *ngFor="let conditionSet of spellConditions(spell, spellSet.choice.level, spellSet.taken); let conditionSetIndex = index; trackBy:trackByIndex">
+                <ng-container *ngFor="let conditionSet of spellConditions$(spell, spellSet.choice.level, spellSet.taken) | async; let conditionSetIndex = index; trackBy:trackByIndex">
                     <div
                         class="newrow list-item left-aligned"
-                        *ngIf="conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices"
+                        *ngIf="conditionSet.show"
                     >
                         <span>
                             {{conditionSet.condition.name}} effect selection:
@@ -373,7 +374,7 @@
                                 [(ngModel)]="spellSet.taken.effectChoices[conditionSetIndex].choice"
                             >
                                 <option
-                                    *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
+                                    *ngFor="let choice of conditionSet.choices; trackBy:trackByIndex;"
                                     [ngValue]="choice"
                                 >
                                     {{choice}}
@@ -397,7 +398,7 @@
         class="list-item left-aligned"
         *ngFor="let oil of item.oilsApplied; trackBy:trackByIndex;"
     >
-        <header class="spellHeader">{{oil.effectiveName()}}</header>
+        <header class="spellHeader">{{oil.effectiveName$()}}</header>
 
         <app-item
             [creature]="creature"
@@ -410,7 +411,7 @@
     <!-- Poison descriptions -->
     <div
         class="list-item left-aligned"
-        *ngFor="let poison of itemRoles.asWeapon?.poisonsApplied || []; trackBy:trackByIndex;"
+        *ngFor="let poison of itemRoles.asWeapon?.poisonsApplied; trackBy:trackByIndex;"
     >
         <header class="spellHeader">{{poison.name}}</header>
 
@@ -434,7 +435,7 @@
     <!-- Rune descriptions -->
     <div
         class="list-item left-aligned"
-        *ngFor="let rune of itemRoles.asEquipment?.propertyRunes || []; trackBy:trackByIndex;"
+        *ngFor="let rune of itemRoles.asEquipment?.propertyRunes; trackBy:trackByIndex;"
     >
         <header class="spellHeader">{{rune.name}} Rune</header>
 
@@ -505,7 +506,7 @@
     <!-- Aeon stone descriptions -->
     <div
         class="list-item left-aligned"
-        *ngFor="let stone of itemRoles.asWornItem?.aeonStones || []; trackBy:trackByIndex;"
+        *ngFor="let stone of itemRoles.asWornItem?.aeonStones; trackBy:trackByIndex;"
     >
         <header class="spellHeader">{{stone.name}}</header>
 
@@ -520,7 +521,7 @@
     <!-- Talisman cord descriptions -->
     <div
         class="list-item left-aligned lower"
-        *ngFor="let cord of itemRoles.asEquipment?.talismanCords || []; trackBy:trackByIndex;"
+        *ngFor="let cord of itemRoles.asEquipment?.talismanCords; trackBy:trackByIndex;"
     >
         <header class="spellHeader">{{cord.name}}</header>
 
@@ -547,7 +548,7 @@
     <!-- Talisman descriptions and activation -->
     <div
         class="list-item left-aligned"
-        *ngFor="let talisman of itemRoles.asEquipment?.talismans || []; let index = index; trackBy:trackByIndex;"
+        *ngFor="let talisman of itemRoles.asEquipment?.talismans; let index = index; trackBy:trackByIndex;"
     >
         <header class="spellHeader">{{talisman.name}}</header>
 

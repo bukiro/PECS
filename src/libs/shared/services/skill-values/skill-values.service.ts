@@ -10,24 +10,24 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from 'src/libs/shared/definitions/skillLevels';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { SkillsDataService } from '../data/skills-data.service';
 import { BonusDescription } from '../../ui/bonus-list';
 import { signNumber } from '../../util/numberUtils';
-import { addFromEffect } from '../../util/bonusDescriptionUtils';
+import { addBonusDescriptionFromEffect } from '../../util/bonusDescriptionUtils';
+import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
+import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { BonusTypes } from '../../definitions/bonusTypes';
 
 const DCBasis = 10;
 
-export interface CalculatedSkill {
-    level: number;
+export interface SkillLiveValue {
+    skillLevel: number;
     ability: string;
-    baseValue: { result: number; bonuses: Array<BonusDescription>; skillLevel: number; ability: string };
-    absolutes: Array<Effect>;
-    relatives: Array<Effect>;
-    bonuses: boolean;
-    penalties: boolean;
-    value: { result: number; bonuses: Array<BonusDescription> };
+    result: number;
+    bonuses: Array<BonusDescription>;
+    effects: Array<Effect>;
 }
 
 export interface SkillBaseValue {
@@ -46,333 +46,446 @@ export class SkillValuesService {
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillsDataService: SkillsDataService,
-        private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
-    public calculate(
-        skillOrName: Skill | string,
-        creature: Creature,
-        charLevel: number = CreatureService.character.level,
-        isDC = false,
-    ): CalculatedSkill {
-        const skill = this._normalizeSkillOrName(skillOrName, creature);
-
-        const level = this.level(skill, creature, charLevel);
-        const ability = this._modifierAbility(skill, creature);
-        const baseValue = this.baseValue(skill, creature, charLevel, level);
-
-        const result = {
-            level,
-            ability,
-            baseValue,
-            absolutes: this._absolutes(skill, creature, isDC, level, ability),
-            relatives: this._relatives(skill, creature, isDC, level, ability),
-            bonuses: this._showBonuses(skill, creature, isDC, level, ability),
-            penalties: this._showPenalties(skill, creature, isDC, level, ability),
-            value: this._value(skill, creature, charLevel, isDC, baseValue),
-        };
-
-        return result;
-    }
-
-    public canIncreaseSkill(
+    public canIncreaseSkill$(
         skillOrName: Skill | string,
         creature: Character,
         levelNumber: number,
         maxRank = 8,
-    ): boolean {
-        const skill = this._normalizeSkillOrName(skillOrName, creature);
-
-        if (levelNumber >= SkillLevelMinimumCharacterLevels.Legendary) {
-            return (this.level(skill, creature, levelNumber, true) < Math.min(SkillLevels.Legendary, maxRank));
-        } else if (levelNumber >= SkillLevelMinimumCharacterLevels.Master) {
-            return (this.level(skill, creature, levelNumber, true) < Math.min(SkillLevels.Master, maxRank));
-        } else if (levelNumber >= SkillLevelMinimumCharacterLevels.Expert) {
-            return (this.level(skill, creature, levelNumber, true) < Math.min(SkillLevels.Expert, maxRank));
-        } else {
-            return (this.level(skill, creature, levelNumber, true) < Math.min(SkillLevels.Trained, maxRank));
-        }
+    ): Observable<boolean> {
+        return this._normalizeSkillOrName$(skillOrName, creature)
+            .pipe(
+                switchMap(skill => this.level$(skill, creature, levelNumber, { excludeTemporary: true })),
+                map(currentRank => {
+                    if (levelNumber >= SkillLevelMinimumCharacterLevels.Legendary) {
+                        return currentRank < Math.min(SkillLevels.Legendary, maxRank);
+                    } else if (levelNumber >= SkillLevelMinimumCharacterLevels.Master) {
+                        return currentRank < Math.min(SkillLevels.Master, maxRank);
+                    } else if (levelNumber >= SkillLevelMinimumCharacterLevels.Expert) {
+                        return currentRank < Math.min(SkillLevels.Expert, maxRank);
+                    } else {
+                        return currentRank < Math.min(SkillLevels.Trained, maxRank);
+                    }
+                }),
+            );
     }
 
-    public isSkillLegal(
+    public isSkillLegal$(
         skillOrName: Skill | string,
         creature: Character,
         levelNumber: number,
         maxRank = 8,
-    ): boolean {
-        const skill = this._normalizeSkillOrName(skillOrName, creature);
+    ): Observable<boolean> {
+        return this._normalizeSkillOrName$(skillOrName, creature)
+            .pipe(
+                map(skill => {
+                    const rankByIncreasses = creature.skillIncreases(0, levelNumber, skill.name).length * skillLevelBaseStep;
 
-        if (levelNumber >= SkillLevelMinimumCharacterLevels.Legendary) {
-            return (creature.skillIncreases(0, levelNumber, skill.name).length * skillLevelBaseStep <=
-                Math.min(SkillLevels.Legendary, maxRank));
-        } else if (levelNumber >= SkillLevelMinimumCharacterLevels.Master) {
-            return (creature.skillIncreases(0, levelNumber, skill.name).length * skillLevelBaseStep <=
-                Math.min(SkillLevels.Master, maxRank));
-        } else if (levelNumber >= SkillLevelMinimumCharacterLevels.Expert) {
-            return (creature.skillIncreases(0, levelNumber, skill.name).length * skillLevelBaseStep <=
-                Math.min(SkillLevels.Expert, maxRank));
-        } else {
-            return (creature.skillIncreases(0, levelNumber, skill.name).length * skillLevelBaseStep <=
-                Math.min(SkillLevels.Trained, maxRank));
-        }
+                    if (levelNumber >= SkillLevelMinimumCharacterLevels.Legendary) {
+                        return rankByIncreasses <= Math.min(SkillLevels.Legendary, maxRank);
+                    } else if (levelNumber >= SkillLevelMinimumCharacterLevels.Master) {
+                        return rankByIncreasses <= Math.min(SkillLevels.Master, maxRank);
+                    } else if (levelNumber >= SkillLevelMinimumCharacterLevels.Expert) {
+                        return rankByIncreasses <= Math.min(SkillLevels.Expert, maxRank);
+                    } else {
+                        return rankByIncreasses <= Math.min(SkillLevels.Trained, maxRank);
+                    }
+                }),
+            );
     }
 
-    public level(
+    public level$(
         skillOrName: Skill | string,
         creature: Creature,
-        charLevel: number = CreatureService.character.level,
-        excludeTemporary = false,
-    ): number {
-        const skill = this._normalizeSkillOrName(skillOrName, creature);
+        charLevel: number = 0,
+        options?: { excludeTemporary?: boolean },
+    ): Observable<number> {
+        return this._normalizeSkillOrName$(skillOrName, creature)
+            .pipe(
+                switchMap(skill => {
+                    if (creature.isFamiliar()) {
+                        return ['Perception', 'Acrobatics', 'Stealth'].includes(skill.name)
+                            ? of(SkillLevels.Trained)
+                            : of(SkillLevels.Untrained);
+                    } else {
+                        const effectTargetList: Array<string> = [`${ skill.name } Proficiency Level`];
 
-        if (creature.isFamiliar()) {
-            return ['Perception', 'Acrobatics', 'Stealth'].includes(skill.name)
-                ? SkillLevels.Trained
-                : SkillLevels.Untrained;
-        } else {
-            let skillLevel = SkillLevels.Untrained;
-            const relevantSkillList: Array<string> = [skill.name];
+                        switch (skill.type) {
+                            case 'Skill':
+                                effectTargetList.push('All Skill Proficiency Levels');
+                                break;
+                            case 'Save':
+                                effectTargetList.push('All Saving Throw Proficiency Levels');
+                                break;
+                            case 'Weapon Proficiency':
+                                effectTargetList.push('All Weapon Proficiency Levels');
+                                break;
+                            case 'Specific Weapon Proficiency':
+                                effectTargetList.push('All Weapon Proficiency Levels');
+                                break;
+                            case 'Armor Proficiency':
+                                effectTargetList.push('All Armor Proficiency Levels');
+                                break;
+                            default: break;
+                        }
 
-            if (skill.name.includes('Innate') && skill.name.includes('Spell DC')) {
-                relevantSkillList.push('Any Spell DC');
-            }
+                        return combineLatest([
+                            options?.excludeTemporary
+                                ? of([])
+                                : this._creatureEffectsService.absoluteEffectsOnThese$(creature, effectTargetList),
+                            options?.excludeTemporary
+                                ? of([])
+                                : this._creatureEffectsService.relativeEffectsOnThese$(creature, effectTargetList),
+                            this._characterFeatsService.characterFeatsAtLevel$(charLevel)
+                                .pipe(
+                                    map(feats => feats.filter(feat => !!feat.copyProficiency.length)),
+                                ),
+                            (
+                                stringEqualsCaseInsensitive(skill.name, 'Innate', { allowPartialString: true })
+                                && stringEqualsCaseInsensitive(skill.name, 'Spell DC', { allowPartialString: true })
+                            )
+                                ? combineLatest(
+                                    this._skillsDataService.skills(creature.customSkills)
+                                        .filter(creatureSkill =>
+                                            creatureSkill !== skill &&
+                                            creatureSkill.name.includes('Spell DC') &&
+                                            !creatureSkill.name.includes('Innate'),
+                                        )
+                                        .map(creatureSkill => this.level$(creatureSkill, creature, charLevel, options)),
+                                )
+                                : of([]),
+                        ])
+                            .pipe(
+                                map(([absolutes, relatives, copyProficiencyFeats, spellDCLevels]) => {
+                                    let skillLevel = SkillLevels.Untrained;
+                                    const relevantSkillList: Array<string> = [skill.name];
 
-            const effectTargetList: Array<string> = [`${ skill.name } Proficiency Level`];
+                                    if (skill.name.includes('Innate') && skill.name.includes('Spell DC')) {
+                                        relevantSkillList.push('Any Spell DC');
+                                    }
 
-            switch (skill.type) {
-                case 'Skill':
-                    effectTargetList.push('All Skill Proficiency Levels');
-                    break;
-                case 'Save':
-                    effectTargetList.push('All Saving Throw Proficiency Levels');
-                    break;
-                case 'Weapon Proficiency':
-                    effectTargetList.push('All Weapon Proficiency Levels');
-                    break;
-                case 'Specific Weapon Proficiency':
-                    effectTargetList.push('All Weapon Proficiency Levels');
-                    break;
-                case 'Armor Proficiency':
-                    effectTargetList.push('All Armor Proficiency Levels');
-                    break;
-                default: break;
-            }
+                                    if (absolutes.length) {
+                                        //If the skill is set by an effect, we can skip every other calculation.
+                                        absolutes.forEach(effect => {
+                                            skillLevel = effect.setValueNumerical;
+                                        });
+                                    } else {
+                                        let increases: Array<SkillIncrease> = [];
 
-            const absoluteEffects = excludeTemporary ? [] : this._creatureEffectsService.absoluteEffectsOnThese(creature, effectTargetList);
+                                        if (creature.isCharacter()) {
+                                            increases =
+                                                creature.skillIncreases(
+                                                    0,
+                                                    charLevel,
+                                                    skill.name,
+                                                    '',
+                                                    '',
+                                                    undefined,
+                                                    options?.excludeTemporary,
+                                                );
+                                        }
 
-            if (absoluteEffects.length) {
-                //If the skill is set by an effect, we can skip every other calculation.
-                absoluteEffects.forEach(effect => {
-                    skillLevel = parseInt(effect.setValue, 10);
-                });
-            } else {
-                let increases: Array<SkillIncrease> = [];
+                                        if (creature.isAnimalCompanion()) {
+                                            increases =
+                                                creature
+                                                    .skillIncreases(0, charLevel, skill.name, '', '', undefined);
+                                        }
 
-                if (creature.isCharacter()) {
-                    increases =
-                        creature.skillIncreases(0, charLevel, skill.name, '', '', undefined, excludeTemporary);
-                }
+                                        // Add 2 for each increase, but keep them to their max Rank
+                                        increases =
+                                            increases
+                                                .sort((a, b) =>
+                                                    ((a.maxRank || SkillLevels.Legendary) === (b.maxRank || SkillLevels.Legendary))
+                                                        ? 0
+                                                        : (
+                                                            ((a.maxRank || SkillLevels.Legendary) > (b.maxRank || SkillLevels.Legendary))
+                                                                ? 1
+                                                                : -1
+                                                        ),
+                                                );
+                                        increases.forEach(increase => {
+                                            skillLevel =
+                                                Math.min(skillLevel + skillLevelBaseStep, (increase.maxRank || SkillLevels.Legendary));
+                                        });
 
-                if (creature.isAnimalCompanion()) {
-                    increases =
-                        creature
-                            .skillIncreases(0, charLevel, skill.name, '', '', undefined);
-                }
+                                        // If your proficiency in any non-innate spell attack rolls or spell DCs is expert or better,
+                                        // apply the best of these proficiencies to your innate spells, too.
+                                        if (
+                                            stringEqualsCaseInsensitive(skill.name, 'Innate', { allowPartialString: true })
+                                            && stringEqualsCaseInsensitive(skill.name, 'Spell DC', { allowPartialString: true })
+                                        ) {
+                                            skillLevel =
+                                                Math.max(
+                                                    skillLevel,
+                                                    ...spellDCLevels,
+                                                );
+                                        }
 
-                // Add 2 for each increase, but keep them to their max Rank
-                increases =
-                    increases.sort((a, b) => ((a.maxRank || SkillLevels.Legendary) === (b.maxRank || SkillLevels.Legendary))
-                        ? 0
-                        : (((a.maxRank || SkillLevels.Legendary) > (b.maxRank || SkillLevels.Legendary)) ? 1 : -1));
-                increases.forEach(increase => {
-                    skillLevel = Math.min(skillLevel + skillLevelBaseStep, (increase.maxRank || SkillLevels.Legendary));
-                });
+                                        const proficiencyCopies: Array<ProficiencyCopy> = [];
 
-                // If your proficiency in any non-innate spell attack rolls or spell DCs is expert or better,
-                // apply the best of these proficiencies to your innate spells, too.
-                if (skill.name.includes('Innate') && skill.name.includes('Spell DC')) {
-                    const spellDCs =
-                        this._skillsDataService.skills(creature.customSkills)
-                            .filter(creatureSkill =>
-                                creatureSkill !== skill &&
-                                creatureSkill.name.includes('Spell DC') &&
-                                !creatureSkill.name.includes('Innate'),
+                                        // Collect all the available proficiency copy instructions,
+                                        // (i.e. "Whenever you gain a class feature that grants you expert or greater proficiency
+                                        // in a given weapon or weapons, you also gain that proficiency in...").
+                                        // We check whether you meet the minimum proficiency level for the copy
+                                        // by comparing your skillLevel up to this point.
+                                        copyProficiencyFeats
+                                            .forEach(feat => {
+                                                proficiencyCopies.push(...feat.copyProficiency
+                                                    .filter(copy =>
+                                                        (skill.name.toLowerCase() === copy.name.toLowerCase()) &&
+                                                        (copy.minLevel ? skillLevel >= copy.minLevel : true),
+                                                    ),
+                                                );
+                                            });
+
+                                        // If the skill name is "Highest Attack Proficiency",
+                                        // add an extra proficiency copy instruction that should return the
+                                        // highest weapon or unarmed procifiency that you have.
+                                        if (skill.name === 'Highest Attack Proficiency') {
+                                            proficiencyCopies.push(
+                                                Object.assign(
+                                                    new ProficiencyCopy(),
+                                                    { name: 'Highest Attack Proficiency', type: 'Weapon Proficiency', featuresOnly: false },
+                                                ),
+                                            );
+                                        }
+
+                                        //For each proficiency copy instruction, collect the desired skill increases, then keep the highest.
+                                        const copyLevels: Array<number> = [];
+
+                                        proficiencyCopies.forEach(copy => {
+                                            (creature as Character).class.levels
+                                                .filter(level => level.number <= creature.level)
+                                                .forEach(level => {
+                                                    copyLevels.push(...level.skillChoices.filter(choice =>
+                                                        //Use .includes so "Specific Weapon Proficiency" matches "Weapon Proficiency".
+                                                        stringEqualsCaseInsensitive(choice.type, copy.type, { allowPartialString: true })
+                                                        && (copy.featuresOnly ? !choice.source.toLowerCase().includes('feat:') : true),
+                                                    ).map(choice => choice.maxRank));
+                                                });
+                                        });
+                                        skillLevel = Math.max(...copyLevels, skillLevel);
+                                    }
+
+                                    //Add any relative proficiency level bonuses.
+                                    relatives.forEach(effect => {
+                                        if ([
+                                            -SkillLevels.Legendary,
+                                            -SkillLevels.Master,
+                                            -SkillLevels.Expert,
+                                            -SkillLevels.Trained,
+                                            SkillLevels.Trained,
+                                            SkillLevels.Expert,
+                                            SkillLevels.Master,
+                                            SkillLevels.Legendary,
+                                        ].includes(effect.valueNumerical)) {
+                                            skillLevel += effect.valueNumerical;
+                                        }
+                                    });
+                                    skillLevel = Math.max(Math.min(skillLevel, SkillLevels.Legendary), SkillLevels.Untrained);
+
+                                    return skillLevel;
+                                }),
                             );
-
-                    skillLevel =
-                        Math.max(
-                            skillLevel,
-                            ...spellDCs.map(creatureSkill => this.level(creatureSkill, creature, charLevel, excludeTemporary)),
-                        );
-                }
-
-                const proficiencyCopies: Array<ProficiencyCopy> = [];
-
-                // Collect all the available proficiency copy instructions,
-                // (i.e. "Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons,
-                // you also gain that proficiency in...").
-                // We check whether you meet the minimum proficiency level for the copy by comparing your skillLevel up to this point.
-                this._characterFeatsService.characterFeatsAndFeatures()
-                    .filter(feat =>
-                        feat.copyProficiency.length &&
-                        this._creatureFeatsService.creatureHasFeat(feat, { creature }, { charLevel }),
-                    )
-                    .forEach(feat => {
-                        proficiencyCopies.push(...feat.copyProficiency.filter(copy =>
-                            (skill.name.toLowerCase() === copy.name.toLowerCase()) &&
-                            (copy.minLevel ? skillLevel >= copy.minLevel : true),
-                        ));
-                    });
-
-                // If the skill name is "Highest Attack Proficiency",
-                // add an extra proficiency copy instruction that should return the highest weapon or unarmed procifiency that you have.
-                if (skill.name === 'Highest Attack Proficiency') {
-                    proficiencyCopies.push(
-                        Object.assign(
-                            new ProficiencyCopy(),
-                            { name: 'Highest Attack Proficiency', type: 'Weapon Proficiency', featuresOnly: false },
-                        ),
-                    );
-                }
-
-                //For each proficiency copy instruction, collect the desired skill increases, then keep the highest.
-                const copyLevels: Array<number> = [];
-
-                proficiencyCopies.forEach(copy => {
-                    (creature as Character).class.levels.filter(level => level.number <= creature.level).forEach(level => {
-                        copyLevels.push(
-                            ...level.skillChoices.filter(choice =>
-                                //Use .includes so "Specific Weapon Proficiency" matches "Weapon Proficiency".
-                                (choice.type.toLowerCase().includes(copy.type.toLowerCase())) &&
-                                (copy.featuresOnly ? !choice.source.toLowerCase().includes('feat:') : true),
-                            ).map(choice => choice.maxRank));
-                    });
-                });
-                skillLevel = Math.max(...copyLevels, skillLevel);
-            }
-
-            //Add any relative proficiency level bonuses.
-            const relativeEffects = excludeTemporary ? [] : this._creatureEffectsService.relativeEffectsOnThese(creature, effectTargetList);
-
-            relativeEffects.forEach(effect => {
-                if ([
-                    -SkillLevels.Legendary,
-                    -SkillLevels.Master,
-                    -SkillLevels.Expert,
-                    -SkillLevels.Trained,
-                    SkillLevels.Trained,
-                    SkillLevels.Expert,
-                    SkillLevels.Master,
-                    SkillLevels.Legendary,
-                ].includes(parseInt(effect.value, 10))) {
-                    skillLevel += parseInt(effect.value, 10);
-                }
-            });
-            skillLevel = Math.max(Math.min(skillLevel, SkillLevels.Legendary), SkillLevels.Untrained);
-
-            return skillLevel;
-        }
+                    }
+                }),
+            );
     }
 
-    public baseValue(
+    public baseValue$(
         skillOrName: Skill | string,
         creature: Creature,
-        charLevel: number = CreatureService.character.level,
-        skillLevel: number = this.level(skillOrName, (creature as AnimalCompanion | Character), charLevel),
-    ): SkillBaseValue {
-        const skill = this._normalizeSkillOrName(skillOrName, creature);
+        passedCharLevel: number = 0,
+        passedSkillLevel?: number,
+    ): Observable<SkillBaseValue> {
+        return this._normalizeSkillOrName$(skillOrName, creature)
+            .pipe(
+                switchMap(skill => {
+                    if (creature.isFamiliar()) {
+                        //Familiars have special rules:
+                        //- Saves are equal to the character's before applying circumstance or status effects.
+                        //- Perception, Acrobatics and Stealth are equal to the character level plus spellcasting modifier (or Charisma).
+                        //- All others (including attacks) are equal to the character level.
+                        const character = CreatureService.character;
 
-        let result = 0;
-        let bonuses: Array<BonusDescription> = [];
-        let ability = '';
+                        if (stringEqualsCaseInsensitive(skill.type, 'Save')) {
+                            return this.baseValue$(skill, character, passedCharLevel);
+                        } else if (['Perception', 'Acrobatics', 'Stealth'].includes(skill.name)) {
+                            let result = character.level;
+                            const bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
+                            const ability = this._modifierAbility(skill, creature) ?? 'Charisma';
 
-        if (creature.isFamiliar()) {
-            //Familiars have special rules:
-            //- Saves are equal to the character's before applying circumstance or status effects.
-            //- Perception, Acrobatics and Stealth are equal to the character level plus spellcasting modifier (or Charisma).
-            //- All others (including attacks) are equal to the character level.
-            const character = CreatureService.character;
+                            return this._abilityValuesService.mod$(ability, character, passedCharLevel)
+                                .pipe(
+                                    map(characterAbilityMod => {
+                                        if (characterAbilityMod) {
+                                            result += characterAbilityMod.result;
+                                            bonuses.push({
+                                                title: 'Character Spellcasting Ability',
+                                                value: signNumber(characterAbilityMod.result),
+                                            });
+                                        }
 
-            if (['Fortitude', 'Reflex', 'Will'].includes(skill.name)) {
-                const charBaseValue = this.baseValue(skill, character, charLevel);
+                                        return { result, bonuses, ability, skillLevel: 0 };
+                                    }),
+                                );
+                        } else {
+                            const result = character.level;
+                            const bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
 
-                result = charBaseValue.result;
-                bonuses = charBaseValue.bonuses;
-            } else if (['Perception', 'Acrobatics', 'Stealth'].includes(skill.name)) {
-                result = character.level;
-                bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
-                ability = 'Charisma';
-                ability = this._modifierAbility(skill, creature);
+                            return of({ result, bonuses, ability: '', skillLevel: 0 });
+                        }
+                    }
 
-                const abilityMod = this._abilityValuesService.mod(ability, creature, charLevel);
+                    return CharacterFlatteningService.levelOrCurrent$(passedCharLevel)
+                        .pipe(
+                            switchMap(charLevel =>
+                                passedSkillLevel !== undefined
+                                    ? of(passedSkillLevel)
+                                    : creature.isFamiliar()
+                                        ? of(0)
+                                        : this.level$(skillOrName, (creature as AnimalCompanion | Character), charLevel),
+                            ),
+                            map(skillLevel => {
+                                // Add character level if the character is trained or better with the Skill.
+                                // Add half the level if the skill is unlearned and the character has
+                                // the Untrained Improvisation feat(full level from 7 on).
+                                // Gets applied to saves and perception, but they are never untrained.
+                                let charLevelBonus = 0;
 
-                if (abilityMod) {
-                    result += abilityMod.result;
-                    bonuses.push({
-                        title: 'Character Spellcasting Ability',
-                        value: signNumber(abilityMod.result),
-                    });
-                }
-            } else {
-                result = character.level;
-                bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
-            }
-        } else {
-            // Add character level if the character is trained or better with the Skill.
-            // Add half the level if the skill is unlearned and the character has
-            // the Untrained Improvisation feat(full level from 7 on).
-            // Gets applied to saves and perception, but they are never untrained.
-            let charLevelBonus = 0;
+                                const bonuses: Array<BonusDescription> = [];
 
-            if (skillLevel) {
-                charLevelBonus = charLevel;
-                bonuses.push({ title: 'Proficiency Rank', value: `${ skillLevel }` });
-                bonuses.push({ title: 'Character Level', value: signNumber(charLevelBonus) });
-            }
+                                if (skillLevel) {
+                                    charLevelBonus = passedCharLevel;
+                                    bonuses.push({ title: 'Proficiency Rank', value: `${ skillLevel }` });
+                                    bonuses.push({ title: 'Character Level', value: signNumber(charLevelBonus) });
+                                }
 
-            //Add the Ability modifier identified by the skill's ability property
-            let abilityMod = 0;
+                                const ability = this._modifierAbility(skill, creature);
 
-            ability = this._modifierAbility(skill, creature);
+                                const result = charLevelBonus + skillLevel;
 
-            if (ability) {
-                abilityMod = this._abilityValuesService.mod(ability, creature, charLevel).result;
-            }
+                                return { result, bonuses, ability, skillLevel };
+                            }),
+                            switchMap(({ result, bonuses, ability, skillLevel }) =>
+                                ability
+                                    ? this._abilityValuesService.mod$(ability, creature, passedCharLevel)
+                                        .pipe(
+                                            map(abilityMod => ({ result, bonuses, ability, skillLevel, abilityMod })),
+                                        )
+                                    : of({ result, bonuses, ability, skillLevel, abilityMod: undefined }),
+                            ),
+                            map(({ result, bonuses, ability, skillLevel, abilityMod }) => {
+                                if (abilityMod) {
+                                    bonuses.push({ title: `${ ability } Modifier `, value: signNumber(abilityMod.result) });
+                                    result += abilityMod.result;
+                                }
 
-            if (abilityMod) {
-                bonuses.push({ title: `${ ability } Modifier `, value: signNumber(abilityMod) });
-            }
+                                return { result, bonuses, ability, skillLevel };
+                            }),
+                        );
+                }),
+            );
 
-            //Add up all modifiers, the skill proficiency and all active effects and return the sum
-            result = charLevelBonus + skillLevel + abilityMod;
-        }
-
-        return { result, bonuses, skillLevel, ability };
     }
 
-    private _absolutes(skill: Skill, creature: Creature, isDC = false, level = 0, ability = ''): Array<Effect> {
-        const namesList = this._effectNamesList(skill, creature, isDC, level, ability);
+    /**
+     * Calculates the effective bonus of the given Skill right now, with all applied factors.
+     */
+    public liveValue$(
+        skillOrName: Skill | string,
+        creature: Creature,
+        isDC = false,
+    ): Observable<SkillLiveValue> {
+        return combineLatest([
+            CharacterFlatteningService.levelOrCurrent$(),
+            this._normalizeSkillOrName$(skillOrName, creature),
+        ])
+            .pipe(
+                switchMap(([charLevel, skill]) =>
+                    this.level$(skill, creature, charLevel)
+                        .pipe(
+                            switchMap(skillLevel =>
+                                this.baseValue$(skill, creature, charLevel, skillLevel)
+                                    .pipe(
+                                        map(baseValue => ({ skill, skillLevel, baseValue })),
+                                    ),
 
-        return this._creatureEffectsService.absoluteEffectsOnThese(creature, namesList);
-    }
+                            ),
+                        ),
+                ),
+                switchMap(({ skill, skillLevel, baseValue }) => {
+                    const ability = baseValue.ability;
 
-    private _relatives(skill: Skill, creature: Creature, isDC = false, level = 0, ability = ''): Array<Effect> {
-        const namesList = this._effectNamesList(skill, creature, isDC, level, ability);
+                    const effectNamesList = this._effectNamesList(skill, isDC, skillLevel, ability);
 
-        return this._creatureEffectsService.relativeEffectsOnThese(creature, namesList);
-    }
+                    const character = CreatureService.character;
+                    const isFamiliarSavingThrow = creature.isFamiliar() && stringEqualsCaseInsensitive(skill.name, 'Save');
 
-    private _showBonuses(skill: Skill, creature: Creature, isDC = false, level = 0, ability = ''): boolean {
-        const namesList = this._effectNamesList(skill, creature, isDC, level, ability);
+                    return combineLatest([
+                        this._creatureEffectsService.absoluteEffectsOnThese$(creature, effectNamesList),
+                        this._creatureEffectsService.relativeEffectsOnThese$(creature, effectNamesList),
+                        // On Saves, Familiars apply the character's skill value before circumstance and status effects.
+                        // This means that at this point, the base value is that of the character,
+                        // and now we source the remaining types of effects.
+                        (isFamiliarSavingThrow)
+                            ? this._creatureEffectsService.absoluteEffectsOnThese$(character, effectNamesList)
+                            : of([]),
+                        (isFamiliarSavingThrow)
+                            ? this._creatureEffectsService.relativeEffectsOnThese$(character, effectNamesList)
+                                .pipe(
+                                    map(characterRelatives => characterRelatives
+                                        .filter(effect => ![BonusTypes.Circumstance, BonusTypes.Status].includes(effect.type)),
+                                    ),
+                                )
+                            : of([]),
+                    ])
+                        .pipe(
+                            map(([creatureAbsolutes, creatureRelatives, familiarSaveAbsolutes, familiarSaveRelatives]) => {
+                                let result = (isDC ? DCBasis : 0) + baseValue.result;
 
-        return this._creatureEffectsService.doBonusEffectsExistOnThese(creature, namesList);
-    }
+                                let bonuses = isDC
+                                    ? [{ title: 'DC base value', value: '10' }, ...baseValue.bonuses]
+                                    : baseValue.bonuses;
 
-    private _showPenalties(skill: Skill, creature: Creature, isDC = false, level = 0, ability = ''): boolean {
-        const namesList = this._effectNamesList(skill, creature, isDC, level, ability);
+                                //Applying assurance prevents any other bonuses, penalties or modifiers.
+                                let shouldSkipRelativeEffects = false;
 
-        return this._creatureEffectsService.doPenaltyEffectsExistOnThese(creature, namesList);
+                                //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
+                                creatureAbsolutes
+                                    .concat(familiarSaveAbsolutes)
+                                    .forEach(effect => {
+                                        result = effect.setValueNumerical;
+                                        bonuses = addBonusDescriptionFromEffect([], effect);
+
+                                        if (effect.source.includes('Assurance')) {
+                                            shouldSkipRelativeEffects = true;
+                                        }
+                                    });
+
+                                //Get all active relative effects on this and sum them up
+                                if (!shouldSkipRelativeEffects) {
+                                    creatureRelatives
+                                        .concat(familiarSaveRelatives)
+                                        .forEach(effect => {
+                                            result += effect.valueNumerical;
+                                            addBonusDescriptionFromEffect(bonuses, effect);
+                                        });
+                                }
+
+                                const effects = new Array<Effect>()
+                                    .concat(creatureAbsolutes)
+                                    .concat(familiarSaveAbsolutes)
+                                    .concat(shouldSkipRelativeEffects ? [] : creatureRelatives)
+                                    .concat(shouldSkipRelativeEffects ? [] : familiarSaveRelatives);
+
+                                return { ability, skillLevel, result, bonuses, effects };
+                            }),
+                        );
+                }),
+            );
     }
 
     private _modifierAbility(skill: Skill, creature: Creature): string {
@@ -410,7 +523,7 @@ export class SkillValuesService {
         return '';
     }
 
-    private _effectNamesList(skill: Skill, creature: Creature, isDC = false, skillLevel = 0, ability = ''): Array<string> {
+    private _effectNamesList(skill: Skill, isDC = false, skillLevel = 0, ability = ''): Array<string> {
         const levelNames = ['Untrained', 'Untrained', 'Trained', 'Trained', 'Expert', 'Expert', 'Master', 'Master', 'Legendary'];
         const list: Array<string> = [
             skill.name,
@@ -448,78 +561,14 @@ export class SkillValuesService {
         return list;
     }
 
-    /**
-     * Calculates the effective bonus of the given Skill
-     */
-    private _value(
-        skill: Skill,
-        creature: Creature,
-        charLevel: number = CreatureService.character.level,
-        isDC = false,
-        baseValue: SkillBaseValue = this.baseValue(skill, creature, charLevel),
-    ): { result: number; bonuses: Array<BonusDescription> } {
-        let result = 0;
-        let bonuses: Array<BonusDescription> = [];
-
-        result = (isDC ? DCBasis : 0) + baseValue.result;
-
-        bonuses = isDC
-            ? [{ title: 'DC base value', value: '10' }, ...baseValue.bonuses]
-            : baseValue.bonuses;
-
-        const skillLevel = baseValue.skillLevel;
-        const ability = baseValue.ability;
-        //Applying assurance prevents any other bonuses, penalties or modifiers.
-        let shouldSkipRelativeEffects = false;
-
-        //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
-        this._absolutes(skill, creature, isDC, skillLevel, ability).forEach(effect => {
-            result = parseInt(effect.setValue, 10);
-            bonuses = addFromEffect([], effect);
-
-            if (effect.source.includes('Assurance')) {
-                shouldSkipRelativeEffects = true;
-            }
-        });
-
-        const relatives: Array<Effect> = [];
-
-        //Familiars apply the characters skill value (before circumstance and status effects) on saves
-        //We get this by calculating the skill's baseValue and adding effects that aren't circumstance or status effects.
-        if (creature.isFamiliar()) {
-            const character = CreatureService.character;
-
-            if (['Fortitude', 'Reflex', 'Will'].includes(skill.name)) {
-                this._absolutes(skill, character, isDC, baseValue.skillLevel, baseValue.ability)
-                    .forEach(effect => {
-                        baseValue.result = parseInt(effect.setValue, 10);
-                        baseValue.bonuses = addFromEffect([], effect);
-                    });
-                relatives
-                    .push(
-                        ...this._relatives(skill, character, isDC, baseValue.skillLevel, baseValue.ability)
-                            .filter(effect => effect.type !== 'circumstance' && effect.type !== 'status'),
-                    );
-            }
-        }
-
-        //Get all active relative effects on this and sum them up
-        if (!shouldSkipRelativeEffects) {
-            relatives.push(...this._relatives(skill, creature, isDC, baseValue.skillLevel, baseValue.ability));
-            relatives.forEach(effect => {
-                result += parseInt(effect.value, 10);
-                addFromEffect(bonuses, effect);
-            });
-        }
-
-        return { result, bonuses };
-    }
-
-    private _normalizeSkillOrName(skillOrName: Skill | string, creature: Creature): Skill {
+    private _normalizeSkillOrName$(skillOrName: Skill | string, creature: Creature): Observable<Skill> {
         if (typeof skillOrName === 'string') {
-            return this._skillsDataService.skillFromName(skillOrName, creature.customSkills);
+            return creature.customSkills.values$
+                .pipe(
+                    map(customSkills => this._skillsDataService.skillFromName(skillOrName, customSkills)),
+                );
         } else {
-            return skillOrName;
+            return of(skillOrName);
         }
     }
 

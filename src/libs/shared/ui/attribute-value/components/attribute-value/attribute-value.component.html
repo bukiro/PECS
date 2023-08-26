@@ -70,7 +70,7 @@
 
     <!-- Effects icon -->
     <div
-        *ngIf="effectsTarget"
+        *ngIf="customEffectsTarget"
         class="value__icon value__icon--effects"
     >
         <span
@@ -88,8 +88,8 @@
 
         <ng-template #EffectsTemplate>
             <app-object-effects
-                [creature]="effectsTarget.creature"
-                [objectName]="effectsTarget.target"
+                [creature]="customEffectsTarget.creature"
+                [objectName]="customEffectsTarget.target"
             ></app-object-effects>
         </ng-template>
     </div>

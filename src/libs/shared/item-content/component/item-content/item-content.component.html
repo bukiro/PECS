@@ -42,7 +42,7 @@
             </ng-container>
         </span>
 
-        <span *ngIf="acBonusParameters(itemRoles) as acBonusParameters">
+        <span *ngIf="acBonusParameters$(itemRoles) | async as acBonusParameters">
             <strong>AC Bonus</strong>
 
             <span [ngClass]="{'penalty':acBonusParameters.penalty, 'bonus':acBonusParameters.bonus}">
@@ -51,7 +51,7 @@
             </span>
         </span>
 
-        <span *ngIf="dexCapParameters(itemRoles) as dexCapParameters">
+        <span *ngIf="dexCapParameters$(itemRoles) | async as dexCapParameters">
             <strong>Dex Cap</strong>
 
             <span [ngClass]="{'penalty':dexCapParameters.penalty, 'bonus':dexCapParameters.bonus}">
@@ -61,7 +61,7 @@
             </span>
         </span>
 
-        <span *ngIf="skillPenaltyParameters(itemRoles) as skillPenaltyParameters">
+        <span *ngIf="skillPenaltyParameters$(itemRoles) | async as skillPenaltyParameters">
             <strong>Check Penalty</strong>
 
             <span [ngClass]="{'penalty':skillPenaltyParameters.penalty, 'bonus':skillPenaltyParameters.bonus}">{{skillPenaltyParameters.effective}}</span>
@@ -73,7 +73,7 @@
             <span [ngClass]="{'penalty':speedPenaltyParameters.penalty, 'bonus':speedPenaltyParameters.bonus}">{{speedPenaltyParameters.effective}}</span>
         </span>
 
-        <span *ngIf="strengthRequirementParameters(itemRoles) as strenthRequirementParameters">
+        <span *ngIf="strengthRequirementParameters$(itemRoles) | async as strenthRequirementParameters">
             <strong>Strength</strong>
 
             <span [ngClass]="{'penalty':strenthRequirementParameters.penalty, 'bonus':strenthRequirementParameters.bonus}">
@@ -106,13 +106,13 @@
             {{itemRoles.asEquipment?.carryingBulk}}
         </span>
 
-        <span *ngIf="hardnessParameters(itemRoles) as hardnessParameters">
+        <span *ngIf="hardnessParameters$(itemRoles) | async as hardnessParameters">
             <strong>Hardness</strong>
 
             <span [ngClass]="{'penalty':hardnessParameters.penalty, 'bonus':hardnessParameters.bonus}">{{hardnessParameters.effective}}</span>
         </span>
 
-        <span *ngIf="hitpointParameters(itemRoles) as hitpointParameters">
+        <span *ngIf="hitpointParameters$(itemRoles) | async as hitpointParameters">
             <strong>HP</strong>
 
             <strong *ngIf="hitpointParameters.brokenThreshold">(BT)</strong>

@@ -2,7 +2,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class HeldItem extends Equipment {
-    // Worn Items cannot be equipped or unequipped
+    // Held Items cannot be equipped or unequipped
     public readonly equippable = false;
     // Held Items should be type "helditems" to be found in the database
     public readonly type = 'helditems';

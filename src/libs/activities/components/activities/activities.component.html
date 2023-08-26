@@ -57,7 +57,7 @@
         <app-skill
             [skill]=skill
             [isDC]=true
-            *ngFor="let skill of classDCs(); trackBy:trackByIndex;"
+            *ngFor="let skill of classDCs$() | async; trackBy:trackByIndex;"
         >
         </app-skill>
     </div>
@@ -65,7 +65,7 @@
     <div class="vlist">
         <header class="subsectionHeader">Actions and Activities</header>
 
-        <ng-container *ngIf="activityParameters() as allActivityParameters">
+        <ng-container *ngIf="activityParameters$() | async as allActivityParameters">
             <div
                 *ngIf="allActivityParameters.length && { enabled: isTileMode$ | async } as tileMode"
                 [ngClass]="{'icon-list':tileMode.enabled, 'vlist':!tileMode.enabled}"
@@ -118,7 +118,7 @@
                                 type="button"
                                 aria-label="Show activity"
                                 class="newrow left-aligned sublist-toggle"
-                                [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabled}"
+                                [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabledReason}"
                                 (click)="toggleShownActivity(activityParameters.gain.id)"
                             >
                                 <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
@@ -126,7 +126,7 @@
 
                             <div
                                 class="list-item sublist lower"
-                                [ngClass]="{'fancy-list':activityParameters.gain.active, 'inactive-list':activityParameters.disabled}"
+                                [ngClass]="{'fancy-list':activityParameters.gain.active, 'inactive-list':activityParameters.disabledReason}"
                                 *ngIf="shownActivity()===activityParameters.gain.id"
                             >
                                 <ng-container *ngTemplateOutlet="ActivityTemplate"></ng-container>
@@ -140,10 +140,10 @@
                             aria-label="Show activity"
                             [stickyPopover]="ActivityTemplate"
                             triggers="click"
-                            [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabled, 'penalty':!activityParameters.disabled && activityParameters.hostile, 'bonus':!activityParameters.disabled && !activityParameters.hostile}"
+                            [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabledReason, 'penalty':!activityParameters.disabledReason && activityParameters.hostile, 'bonus':!activityParameters.disabledReason && !activityParameters.hostile}"
                         >
                             <app-grid-icon
-                                [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabled, 'penalty':!activityParameters.disabled && activityParameters.hostile, 'bonus':!activityParameters.disabled && !activityParameters.hostile}"
+                                [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabledReason, 'penalty':!activityParameters.disabledReason && activityParameters.hostile, 'bonus':!activityParameters.disabledReason && !activityParameters.hostile}"
                                 [ngbTooltip]="ActivityTitleTemplate"
                                 [title]="activityParameters.name"
                                 [activity]="activityParameters.activity"
@@ -166,7 +166,7 @@
             (showFeatChoiceMessage)="receiveShownFeatChoiceMessage($event.name)"
             (showFeatMessage)="receiveShownFeatMessage($event)"
             [choice]="choice"
-            [levelNumber]="currentCreature.level"
+            [levelNumber]="creature.level"
             [showFeat]="shownItem()"
             [showChoice]="shownFeatChoice()"
         >

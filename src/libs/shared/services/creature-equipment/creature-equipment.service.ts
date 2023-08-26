@@ -7,6 +7,8 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
+import { Observable, map } from 'rxjs';
+import { Weapon } from 'src/app/classes/Weapon';
 
 @Injectable({
     providedIn: 'root',
@@ -18,20 +20,36 @@ export class CreatureEquipmentService {
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
-    public equippedCreatureArmor(creature: Creature): Array<Armor> {
-        return creature.inventories[0].armors.filter(armor => armor.equipped);
+    public equippedCreatureArmor$(creature: Creature): Observable<Array<Armor>> {
+        return creature.inventories[0].equippedArmors$;
     }
 
-    public equippedCreatureBracersOfArmor(creature: Creature): Array<WornItem> {
-        return creature.inventories[0].wornitems.filter(wornItem => wornItem.isBracersOfArmor && wornItem.investedOrEquipped());
+    public equippedCreatureBracersOfArmor$(creature: Creature): Observable<Array<WornItem>> {
+        return creature.inventories[0].activeWornItems$
+            .pipe(
+                map(wornItems => wornItems.filter(wornItem => wornItem.isBracersOfArmor)),
+            );
     }
 
-    public equippedCreatureShield(creature: Creature): Array<Shield> {
-        return creature.inventories[0].shields.filter(shield => shield.equipped && !shield.broken);
+    public equippedCreatureShield$(creature: Creature): Observable<Array<Shield>> {
+        return creature.inventories[0].equippedShields$;
     }
 
-    public investedCreatureEquipment(creature: Creature): Array<Equipment> {
-        return creature.inventories[0]?.allEquipment().filter(item => item.invested && item.traits.includes('Invested')) || [];
+    public equippedCreatureWeapons(creature: Creature): Observable<Array<Weapon>> {
+        return creature.inventories[0].equippedWeapons$;
+    }
+
+    public investedCreatureEquipment$(creature: Creature): Observable<Array<Equipment>> {
+        return creature.inventories[0].allEquipment$()
+            .pipe(
+                map(items =>
+                    items
+                        .filter(item =>
+                            item.invested
+                            && item.traits.includes('Invested'),
+                        ),
+                ),
+            );
     }
 
     public equipItem(

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, combineLatest, map } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 
@@ -11,22 +12,26 @@ export class CreaturePropertiesService {
         private readonly _creatureEffectsService: CreatureEffectsService,
     ) { }
 
-    public effectiveSize(creature: Creature): number {
-        let size: number = creature.baseSize();
+    public effectiveSize$(creature: Creature): Observable<number> {
+        return combineLatest([
+            this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Size'),
+            this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Size'),
+        ])
+            .pipe(
+                map(([absolutes, relatives]) => {
+                    let size: number = creature.baseSize();
 
-        const setSizeEffects = this._creatureEffectsService.absoluteEffectsOnThis(creature, 'Size');
+                    if (absolutes.length) {
+                        size = Math.max(...absolutes.map(effect => effect.setValueNumerical));
+                    }
 
-        if (setSizeEffects.length) {
-            size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue, 10)));
-        }
+                    relatives.forEach(effect => {
+                        size += effect.valueNumerical;
+                    });
 
-        const sizeEffects = this._creatureEffectsService.relativeEffectsOnThis(creature, 'Size');
-
-        sizeEffects.forEach(effect => {
-            size += parseInt(effect.value, 10);
-        });
-
-        return size;
+                    return size;
+                }),
+            );
     }
 
 }

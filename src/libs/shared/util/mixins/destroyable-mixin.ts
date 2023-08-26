@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 import { Constructable } from '../../definitions/interfaces/constructable';
-import { BaseClass } from './base-class';
+import { BaseClass } from '../classes/base-class';
 
 interface Destroyable {
     destroyed$: Subject<true>;
@@ -27,6 +27,7 @@ interface Destroyable {
  * If minimizing is desired as well, consider extending BaseCardComponent instead.
  */
 export function DestroyableMixin<T extends Constructable<BaseClass>>(base: T): Constructable<Destroyable> & T {
+    // These members to be public so they can match the Destroyable interface.
     return class extends base {
         public readonly destroyed$ = new Subject<true>();
 

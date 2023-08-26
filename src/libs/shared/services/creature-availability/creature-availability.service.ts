@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { Store } from '@ngrx/store';
+import { distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
+import { selectAllCharacterFeatsAtLevel } from 'src/libs/store/feats/feats.selectors';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 
 @Injectable({
     providedIn: 'root',
@@ -9,50 +10,30 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 export class CreatureAvailabilityService {
 
     constructor(
-        private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _store$: Store,
     ) { }
 
-    public isCompanionAvailable(charLevel?: number): boolean {
-        const character = CreatureService.character;
-
-        charLevel = charLevel || character.level;
-
-        //Return any feat that grants an animal companion that you own.
-        return this._characterFeatsService.characterFeatsAndFeatures()
-            .some(feat =>
-                feat.gainAnimalCompanion === 'Young' &&
-                this._characterFeatsService.characterHasFeat(feat.name, charLevel),
+    public isCompanionAvailable$(levelNumber?: number): Observable<boolean> {
+        //Return whether any feat that you own grants an animal companion at the given level or the current character level.
+        return CharacterFlatteningService.levelOrCurrent$(levelNumber)
+            .pipe(
+                switchMap(resultantLevelNumber =>
+                    this._store$.select(selectAllCharacterFeatsAtLevel(resultantLevelNumber)),
+                ),
+                map(feats => feats.some(feat => feat.gainAnimalCompanion === 'Young')),
+                distinctUntilChanged(),
             );
     }
 
-    public isFamiliarAvailable(charLevel?: number): boolean {
-        const character = CreatureService.character;
-
-        charLevel = charLevel || character.level;
-
-        //Return any feat that grants an animal companion that you own.
-        return this._characterFeatsService.characterFeatsAndFeatures()
-            .some(feat =>
-                feat.gainFamiliar &&
-                this._characterFeatsService.characterHasFeat(feat.name, charLevel),
+    public isFamiliarAvailable$(levelNumber?: number): Observable<boolean> {
+        //Return whether any feat that you own grants a familiar at the given level or the current character level.
+        return CharacterFlatteningService.levelOrCurrent$(levelNumber)
+            .pipe(
+                switchMap(resultantLevelNumber =>
+                    this._store$.select(selectAllCharacterFeatsAtLevel(resultantLevelNumber)),
+                ),
+                map(feats => feats.some(feat => feat.gainFamiliar)),
+                distinctUntilChanged(),
             );
     }
-
-    public allAvailableCreatures(
-        companionAvailable: boolean = this.isCompanionAvailable(),
-        familiarAvailable: boolean = this.isFamiliarAvailable(),
-    ): Array<Creature> {
-        return (new Array<Creature>(CreatureService.character))
-            .concat(
-                companionAvailable
-                    ? CreatureService.companion
-                    : [],
-            )
-            .concat(
-                familiarAvailable
-                    ? CreatureService.familiar
-                    : [],
-            );
-    }
-
 }

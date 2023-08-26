@@ -1,79 +1,124 @@
 import { Injectable } from '@angular/core';
 import { Deity } from 'src/app/classes/Deity';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { Observable, map, of, shareReplay, switchMap } from 'rxjs';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { propMap$ } from '../../util/observableUtils';
+import { Defaults } from '../../definitions/defaults';
+import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class DeityDomainsService {
 
+    public effectiveMainDomains$: Observable<Array<string>>;
+    public effectiveMainAlternateDomains$: Observable<Array<string>>;
+
     constructor(
         private readonly _characterFeatsService: CharacterFeatsService,
-    ) { }
+        _characterDeitiesService: CharacterDeitiesService,
+    ) {
+        this.effectiveMainDomains$ = _characterDeitiesService.mainCharacterDeity$
+            .pipe(
+                switchMap(deity =>
+                    deity
+                        ? this.effectiveDomains$(deity, true)
+                        : of([]),
+                ),
+                shareReplay(1),
+            );
 
-    public effectiveDomains(deity: Deity): Array<string> {
-        const character = CreatureService.character;
-
-        //Only collect the domains if $domains is empty. When this is done, the result is written into $domains.
-        if (!deity.$domains.length) {
-            deity.$domains = JSON.parse(JSON.stringify(deity.domains));
-
-            if (character.class.deity === deity.name) {
-                // If you have taken the Splinter Faith feat, your domains are replaced.
-                // It's not necessary to filter by level, because Splinter Faith changes domains retroactively.
-                const splinterFaithFeat = this._characterFeatsService.characterFeatsTaken(0, 0, { featName: 'Splinter Faith' })[0];
-
-                if (splinterFaithFeat) {
-                    character.class.filteredFeatData(0, 0, 'Splinter Faith').forEach(data => {
-                        deity.$domains = JSON.parse(JSON.stringify(data.valueAsStringArray('domains') || []));
-                    });
-                }
-            }
-
-            deity.$domains = deity.$domains.sort();
-        }
-
-        return deity.$domains;
+        this.effectiveMainAlternateDomains$ = _characterDeitiesService.mainCharacterDeity$
+            .pipe(
+                switchMap(deity =>
+                    deity
+                        ? this.effectiveAlternateDomains$(deity, true)
+                        : of([]),
+                ),
+                shareReplay(1),
+            );
     }
 
-    public effectiveAlternateDomains(deity: Deity): Array<string> {
-        // Only collect the alternate domains if $alternateDomains is empty.
-        // When this is done, the result is written into $alternateDomains.
-        // Because some deitys don't have alternate domains, also check if $domains is the same as domains
-        // - meaning that the deity's domains are unchanged and having no alternate domains is fine.
-        if (!deity.$alternateDomains.length) {
-            this._recreateAlternateDomains(deity);
-        }
-
-        return deity.$alternateDomains;
+    public effectiveDomains$(deity: Deity, isMainDeity?: boolean): Observable<Array<string>> {
+        return (
+            (isMainDeity !== undefined)
+                ? of(isMainDeity)
+                : propMap$(CharacterFlatteningService.characterClass$, 'deity$')
+                    .pipe(
+                        map(characterDeity => deity.name === characterDeity),
+                    )
+        )
+            .pipe(
+                // If this is the main deity and you have the Splinter Faith feat, the deity's domains are replaced by that of the feat.
+                // You can have the feat at any level as, by definition, it replaces the domains for previous levels as well.
+                switchMap(effectiveIsMainDeity =>
+                    effectiveIsMainDeity
+                        ? this._characterFeatsService.characterHasFeatAtLevel$('Splinter Faith', Defaults.maxCharacterLevel)
+                            .pipe(
+                                switchMap(hasSplinterFaith =>
+                                    hasSplinterFaith
+                                        ? CharacterFlatteningService.characterClass$
+                                            .pipe(
+                                                switchMap(characterClass =>
+                                                    characterClass.filteredFeatData$(0, 0, 'Splinter Faith'),
+                                                ),
+                                                switchMap(featData =>
+                                                    (featData[0])
+                                                        ? featData[0].valueAsStringArray$('domains')
+                                                        : of([]),
+                                                ),
+                                                map(featDomains => new Array<string>(...(featDomains ?? []))),
+                                            )
+                                        : of(deity.domains),
+                                ),
+                            )
+                        : of(deity.domains),
+                ),
+            );
     }
 
-    private _recreateAlternateDomains(deity: Deity): void {
-        deity.$alternateDomains = JSON.parse(JSON.stringify(deity.alternateDomains));
-
-        if (JSON.stringify(deity.$domains) !== JSON.stringify(deity.domains)) {
-            const character = CreatureService.character;
-
-            if (character.class.deity === deity.name) {
-                // If you have taken the Splinter Faith feat, your alternate domains are replaced.
-                // It's not necessary to filter by level, because Splinter Faith changes domains retroactively.
-                const splinterFaithFeat = this._characterFeatsService.characterFeatsTaken(0, 0, { featName: 'Splinter Faith' })[0];
-
-                if (splinterFaithFeat) {
-                    const splinterFaithDomains: Array<string> = new Array<string>()
-                        .concat(
-                            ...character.class.filteredFeatData(0, 0, 'Splinter Faith')
-                                .map(data => data.valueAsStringArray('domains') || []),
-                        );
-
-                    deity.$alternateDomains =
-                        deity.domains.concat(deity.alternateDomains).filter(domain => !splinterFaithDomains.includes(domain));
-                }
-            }
-        }
-
-        deity.$alternateDomains.sort();
+    public effectiveAlternateDomains$(deity: Deity, isMainDeity?: boolean): Observable<Array<string>> {
+        return (
+            (isMainDeity !== undefined)
+                ? of(isMainDeity)
+                : propMap$(CharacterFlatteningService.characterClass$, 'deity$')
+                    .pipe(
+                        map(characterDeity => deity.name === characterDeity),
+                    )
+        )
+            .pipe(
+                // If this is the main deity and you have the Splinter Faith feat, the deity's new alternate domains
+                // are their domains (or alternate domains) that weren't chosen for Splinter Faith.
+                // You can have the feat at any level as, by definition, it replaces the domains for previous levels as well.
+                switchMap(effectiveIsMainDeity =>
+                    effectiveIsMainDeity
+                        ? this._characterFeatsService.characterHasFeatAtLevel$('Splinter Faith', Defaults.maxCharacterLevel)
+                            .pipe(
+                                switchMap(hasSplinterFaith =>
+                                    hasSplinterFaith
+                                        ? CharacterFlatteningService.characterClass$
+                                            .pipe(
+                                                switchMap(characterClass =>
+                                                    characterClass.filteredFeatData$(0, 0, 'Splinter Faith'),
+                                                ),
+                                                switchMap(featData =>
+                                                    (featData[0])
+                                                        ? featData[0].valueAsStringArray$('domains')
+                                                        : of([]),
+                                                ),
+                                                map(featDomains =>
+                                                    deity.domains
+                                                        .concat(deity.alternateDomains)
+                                                        .filter(domain => !(featDomains || []).includes(domain)),
+                                                ),
+                                            )
+                                        : of(deity.alternateDomains),
+                                ),
+                            )
+                        : of(deity.alternateDomains),
+                ),
+            );
     }
 
 }

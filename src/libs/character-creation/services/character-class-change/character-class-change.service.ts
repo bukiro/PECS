@@ -6,9 +6,10 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterAncestryChangeService } from '../character-ancestry-change/character-ancestry-change.service';
 import { CharacterBackgroundChangeService } from '../character-background-change/character-background-change.service';
-import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
+import { Store } from '@ngrx/store';
+import { resetFeats } from 'src/libs/store/feats/feats.actions';
 
 @Injectable({
     providedIn: 'root',
@@ -20,9 +21,9 @@ export class CharacterClassChangeService {
         private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
         private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
         private readonly _itemGrantingService: ItemGrantingService,
-        private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _recastService: RecastService,
         private readonly _psp: ProcessingServiceProvider,
+        private readonly _store$: Store,
     ) { }
 
     public changeClass(newClass?: Class): void {
@@ -41,7 +42,6 @@ export class CharacterClassChangeService {
             character.class = new Class();
         }
 
-        this._characterDeitiesService.clearCharacterDeities();
         this._refreshService.setComponentChanged();
     }
 
@@ -65,6 +65,8 @@ export class CharacterClassChangeService {
                 choice.feats.length = 0;
             });
         });
+
+        this._store$.dispatch(resetFeats());
 
         const classCustomSkillNames = characterClass.customSkills.map(skill => skill.name);
 

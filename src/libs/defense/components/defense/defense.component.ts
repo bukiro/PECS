@@ -1,25 +1,23 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { Armor } from 'src/app/classes/Armor';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Character } from 'src/app/classes/Character';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Talisman } from 'src/app/classes/Talisman';
 import { Shield } from 'src/app/classes/Shield';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, switchMap, takeUntil, tap } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Trait } from 'src/app/classes/Trait';
 import { Skill } from 'src/app/classes/Skill';
-import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { ArmorClassService, CalculatedAC, CoverTypes } from '../../../shared/services/armor-class/armor-class.service';
+import { ArmorClassService, ACForDisplay, CoverTypes } from '../../../shared/services/armor-class/armor-class.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
@@ -29,12 +27,15 @@ import { InputValidationService } from 'src/libs/shared/services/input-validatio
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { deepDistinctUntilChanged, propMap$ } from 'src/libs/shared/util/observableUtils';
+import { Creature } from 'src/app/classes/Creature';
+import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 
 interface ComponentParameters {
-    calculatedAC: CalculatedAC;
-    cover: number;
-    flatFooted: ConditionGain;
-    hidden: ConditionGain;
+    ACSources: ACForDisplay;
+    cover$: Observable<CoverTypes>;
+    flatFooted$: Observable<ConditionGain | undefined>;
+    hidden$: Observable<ConditionGain | undefined>;
 }
 
 @Component({
@@ -43,15 +44,11 @@ interface ComponentParameters {
     styleUrls: ['./defense.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
-
-    @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
+export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements OnDestroy {
 
     public shieldDamage = 0;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
+    public isTileMode$: Observable<boolean>;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -67,75 +64,102 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
     ) {
         super();
 
-        SettingsService.settings$
+        this.isMinimized$ = this.creature$
+            .pipe(
+                switchMap(creature => SettingsService.settings$
+                    .pipe(
+                        switchMap(settings => {
+                            switch (creature.type) {
+                                case CreatureTypes.AnimalCompanion:
+                                    return settings.companionMinimized$;
+                                case CreatureTypes.Familiar:
+                                    return settings.familiarMinimized$;
+                                default:
+                                    return settings.defenseMinimized$;
+                            }
+                        }),
+                    ),
+                ),
+                distinctUntilChanged(),
+                tap(minimized => this._updateMinimized(minimized)),
+                // If the button is hidden, another subscription ensures that the pipe is run.
+                // shareReplay prevents it from running twice if the button is not hidden.
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
+        this.isMinimized$
             .pipe(
                 takeUntil(this._destroyed$),
-                map(settings => {
-                    switch (this.creature) {
-                        case CreatureTypes.AnimalCompanion:
-                            return settings.companionMinimized;
-                        case CreatureTypes.Familiar:
-                            return settings.familiarMinimized;
-                        default:
-                            return settings.defenseMinimized;
-                    }
-                }),
-                distinctUntilChanged(),
             )
-            .subscribe(minimized => {
-                this._updateMinimized({ bySetting: minimized });
-            });
+            .subscribe();
+
+        this.isTileMode$ = propMap$(SettingsService.settings$, 'activitiesTileMode$')
+            .pipe(
+                distinctUntilChanged(),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
     }
 
     @Input()
-    public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._updateMinimized({ forced: forceMinimized ?? false });
+    public set creature(creature: Creature) {
+        this._updateCreature(creature);
     }
 
     public get shouldShowMinimizeButton(): boolean {
-        return !this.forceMinimized && this.creature === CreatureTypes.Character;
+        return this.creature.isCharacter();
     }
 
     private get _character(): Character {
         return CreatureService.character;
     }
 
-    private get _currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
-    }
-
     public toggleMinimized(minimized: boolean): void {
         SettingsService.settings.defenseMinimized = minimized;
     }
 
-    public armorSpecialization(armor: Armor | WornItem): Array<Specialization> {
+    public armorSpecialization$(armor: Armor | WornItem): Observable<Array<Specialization>> {
         if (armor.isArmor()) {
-            return this._armorPropertiesService.armorSpecializations(armor, this._currentCreature);
+            return this.creature$
+                .pipe(
+                    switchMap(creature =>
+                        this._armorPropertiesService.armorSpecializations$(armor, creature),
+                    ),
+                );
+
         }
 
         //No armor specializations for bracers of armor.
-        return [];
+        return of([]);
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
         return InputValidationService.positiveNumbersOnly(event);
     }
 
-    public componentParameters(): ComponentParameters {
-        return {
-            calculatedAC: this.calculatedAC(),
-            cover: this._currentCover(),
-            flatFooted: this._currentFlatFooted(),
-            hidden: this._currentHidden(),
-        };
+    public componentParameters$(): Observable<ComponentParameters> {
+        return this.calculatedAC$()
+            .pipe(
+                map(ACSources => ({
+                    ACSources,
+                    cover$: this._currentCover$(),
+                    flatFooted$: this._currentFlatFooted$(),
+                    hidden$: this._currentHidden$(),
+                })),
+            );
     }
 
-    public calculatedAC(): CalculatedAC {
-        return this._armorClassService.calculate(this._currentCreature);
+    public calculatedAC$(): Observable<ACForDisplay> {
+        return this.creature$
+            .pipe(
+                map(creature =>
+                    this._armorClassService.collectForDisplay(creature),
+                ),
+            );
     }
 
     public onSetCover(cover: number, shield?: Shield): void {
-        this._armorClassService.setCover(this._currentCreature, cover, shield);
+        this._armorClassService.setCover(this.creature, cover, shield);
     }
 
     public onRaiseShield(raised = false, shield: Shield): void {
@@ -150,50 +174,49 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
         }
     }
 
-    public onSetFlatFooted(active: boolean): void {
-        const creature = this._currentCreature;
-        const flatFooted = this._currentFlatFooted();
+    public toggleFlatFooted(currentFlatFooted: ConditionGain | undefined): void {
+        const creature = this.creature;
 
-        if (active) {
-            if (!flatFooted) {
-                const newCondition: ConditionGain =
-                    Object.assign(new ConditionGain(), { name: 'Flat-Footed', source: 'Quick Status', duration: -1, locked: true });
-
-                this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
-            }
+        if (currentFlatFooted) {
+            this._creatureConditionsService.removeCondition(creature, currentFlatFooted, false);
         } else {
-            if (flatFooted) {
-                this._creatureConditionsService.removeCondition(creature, flatFooted, false);
-            }
+            const newCondition: ConditionGain =
+                Object.assign(new ConditionGain(), { name: 'Flat-Footed', source: 'Quick Status', duration: -1, locked: true });
+
+            this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
         this._refreshService.processPreparedChanges();
     }
 
-    public onSetHidden(active: boolean): void {
-        const creature = this._currentCreature;
-        const hidden = this._currentHidden();
+    public toggleHidden(currentHidden: ConditionGain | undefined): void {
+        const creature = this.creature;
 
-        if (active) {
-            if (!hidden) {
-                const newCondition: ConditionGain =
-                    Object.assign(new ConditionGain(), { name: 'Hidden', source: 'Quick Status', duration: -1, locked: true });
-
-                this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
-            }
+        if (currentHidden) {
+            this._creatureConditionsService.removeCondition(creature, currentHidden, false);
         } else {
-            if (hidden) {
-                this._creatureConditionsService.removeCondition(creature, hidden, false);
-            }
+            const newCondition: ConditionGain =
+                Object.assign(new ConditionGain(), { name: 'Hidden', source: 'Quick Status', duration: -1, locked: true });
+
+            this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
         this._refreshService.processPreparedChanges();
     }
 
-    public equippedArmor(): Array<Armor | WornItem> {
-        return new Array<Armor | WornItem>()
-            .concat(this._creatureEquipmentService.equippedCreatureArmor(this._currentCreature))
-            .concat(this._creatureEquipmentService.equippedCreatureBracersOfArmor(this._currentCreature));
+    public equippedArmor$(): Observable<Array<Armor | WornItem>> {
+        return this.creature$
+            .pipe(
+                switchMap(creature => combineLatest([
+                    this._creatureEquipmentService.equippedCreatureArmor$(creature),
+                    this._creatureEquipmentService.equippedCreatureBracersOfArmor$(creature),
+                ])),
+                map(([armor, bracers]) =>
+                    new Array<Armor | WornItem>()
+                        .concat(armor)
+                        .concat(bracers),
+                ),
+            );
     }
 
     public hintShowingRunes(armor: Armor | WornItem): Array<ArmorRune> {
@@ -201,7 +224,7 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
         const runes: Array<ArmorRune> = [];
 
         if (armor.isArmor()) {
-            runes.push(...armor.propertyRunes.filter(rune => rune.hints.length));
+            runes.push(...armor.armorRunes.filter(rune => rune.hints.length));
         }
 
         return runes;
@@ -211,18 +234,27 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
         return hint.heightenedText(hint.desc, this._character.level);
     }
 
-    public equippedShield(): Array<Shield> {
-        return this._creatureEquipmentService.equippedCreatureShield(this._currentCreature);
+    public equippedShield$(): Observable<Array<Shield>> {
+        return this.creature$
+            .pipe(
+                switchMap(creature =>
+                    this._creatureEquipmentService.equippedCreatureShield$(creature),
+                ),
+            );
     }
 
     public onChangeShieldHP(shield: Shield, amount: number): void {
+        if (!this.creature.canEquipItems()) {
+            return;
+        }
+
         shield.damage += amount;
 
-        if (shield.currentHitPoints() < shield.effectiveBrokenThreshold()) {
+        if (shield.currentHitPoints$() < shield.effectiveBrokenThreshold$()) {
             shield.broken = true;
             this._creatureEquipmentService.equipItem(
-                this._currentCreature as Character | AnimalCompanion,
-                this._currentCreature.inventories[0],
+                this.creature,
+                this.creature.inventories[0],
                 shield,
                 false,
                 false,
@@ -233,14 +265,20 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
             shield.broken = false;
         }
 
-        this._refreshService.prepareDetailToChange(this.creature, 'inventory');
-        this._refreshService.prepareDetailToChange(this.creature, 'defense');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'defense');
         this._refreshService.processPreparedChanges();
     }
 
-    public skillsOfType(type: string): Array<Skill> {
-        return this._skillsDataService.skills(this._currentCreature.customSkills, '', { type })
-            .sort((a, b) => sortAlphaNum(a.name, b.name));
+    public skillsOfType$(type: string): Observable<Array<Skill>> {
+        return this.creature$
+            .pipe(
+                map(creature =>
+                    this._skillsDataService
+                        .skills(creature.customSkills, '', { type })
+                        .sort((a, b) => sortAlphaNum(a.name, b.name)),
+                ),
+            );
     }
 
     public traitFromName(traitName: string): Trait {
@@ -252,8 +290,12 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
     }
 
     public onTalismanUse(item: Armor | Shield | WornItem, talisman: Talisman, index: number, preserve = false): void {
-        this._refreshService.prepareDetailToChange(this.creature, 'defense');
-        this._itemActivationService.useConsumable(this._currentCreature as Character | AnimalCompanion, talisman, preserve);
+        if (!this.creature.canEquipItems()) {
+            return;
+        }
+
+        this._refreshService.prepareDetailToChange(this.creature.type, 'defense');
+        this._itemActivationService.useConsumable(this.creature, talisman, preserve);
 
         if (!preserve) {
             item.talismans.splice(index, 1);
@@ -262,124 +304,122 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
         this._refreshService.processPreparedChanges();
     }
 
-    public specialShowOnNames(item?: Armor | Shield | WornItem, savingThrows = false): Array<string> {
-        //Under certain circumstances, some Feats apply to Armnor, Shield or Saving Throws independently of their name.
-        //Return names that get_FeatsShowingOn should run on.
-        const specialNames: Array<string> = [];
+    public specialShowOnNamesShield$(item: Shield): Observable<Array<string>> {
+        //Return names that get_FeatsShowingOn should run on for a shield.
+        return item.effectiveEmblazonArmament$
+            .pipe(
+                deepDistinctUntilChanged(),
+                map(emblazonArmament => {
+                    const specialNames: Array<string> = [];
 
-        if (item?.isShield()) {
-            //Shields with Emblazon Armament get tagged as "Emblazon Armament Shield".
-            if (item.$emblazonArmament) {
-                item.emblazonArmament.forEach(ea => {
-                    if (ea.type === 'emblazonArmament') {
-                        specialNames.push('Emblazon Armament Shield');
+                    //Shields with Emblazon Armament get tagged as "Emblazon Armament Shield".
+                    if (emblazonArmament) {
+                        if (item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonArmament) {
+                            specialNames.push('Emblazon Armament Shield');
+                        }
                     }
-                });
-            }
 
-            //Shields with Emblazon Energy get tagged as "Emblazon Energy Shield <Choice>".
-            if (item.$emblazonEnergy) {
-                item.emblazonArmament.forEach(ea => {
-                    if (ea.type === 'emblazonEnergy') {
-                        specialNames.push(`Emblazon Energy Shield ${ ea.choice }`);
+                    //Shields with Emblazon Energy get tagged as "Emblazon Energy Shield <Choice>".
+                    if (emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy) {
+                        specialNames.push(`Emblazon Energy Shield ${ emblazonArmament.choice }`);
                     }
-                });
-            }
 
-            //Shields with Emblazon Antimagic get tagged as "Emblazon Antimagic Shield".
-            if (item.$emblazonAntimagic) {
-                item.emblazonArmament.forEach(ea => {
-                    if (ea.type === 'emblazonAntimagic') {
+                    //Shields with Emblazon Antimagic get tagged as "Emblazon Antimagic Shield".
+                    if (emblazonArmament?.type === EmblazonArmamentTypes.EmblazonAntimagic) {
                         specialNames.push('Emblazon Antimagic Shield');
                     }
-                });
-            }
-        }
 
-        //Return the same name for Saving Throws if the shield applies.
-        if (savingThrows) {
-            this.equippedShield().forEach(shield => {
-                if (shield.$emblazonEnergy) {
-                    shield.emblazonArmament.filter(ea => ea.type === 'emblazonEnergy').forEach(ea => {
-                        specialNames.push(`Emblazon Energy Shield ${ ea.choice }`);
-                    });
-                }
-
-                if (shield.$emblazonAntimagic) {
-                    shield.emblazonArmament.filter(ea => ea.type === 'emblazonAntimagic').forEach(() => {
-                        specialNames.push('Emblazon Antimagic Shield');
-                    });
-                }
-            });
-        }
-
-        return specialNames;
+                    return specialNames;
+                }),
+            );
     }
 
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['defense', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() === this.creature.toLowerCase() && ['defense', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
+    public specialShowOnNamesSavingThrows$(): Observable<Array<string>> {
+        //Return names that get_FeatsShowingOn should run on for saving throws.
+        return this.equippedShield$()
+            .pipe(
+                switchMap(shields => combineLatest(
+                    shields.map(shield =>
+                        shield.effectiveEmblazonArmament$,
+                    ),
+                )),
+                map(shields => {
+                    const specialNames: Array<string> = [];
+
+                    shields.forEach(emblazonArmament => {
+                        if (emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy) {
+                            specialNames.push(`Emblazon Energy Shield ${ emblazonArmament.choice }`);
+                        }
+
+                        if (emblazonArmament?.type === EmblazonArmamentTypes.EmblazonAntimagic) {
+                            specialNames.push('Emblazon Antimagic Shield');
+                        }
+                    });
+
+                    return specialNames;
+                }),
+            );
     }
 
     public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
         this._destroy();
     }
 
     private _setDefenseChanged(): void {
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
         this._refreshService.processPreparedChanges();
     }
 
-    private _currentCover(): number {
-        const creature = this._currentCreature;
-        const conditions: Array<ConditionGain> =
-            this._creatureConditionsService.currentCreatureConditions(
-                creature,
-                { name: 'Cover', source: 'Quick Status' },
-                { readonly: true },
+    private _currentCover$(): Observable<CoverTypes> {
+        return this.creature$
+            .pipe(
+                map(creature => {
+                    const conditions: Array<ConditionGain> =
+                        this._creatureConditionsService.currentCreatureConditions(
+                            creature,
+                            { name: 'Cover', source: 'Quick Status' },
+                            { readonly: true },
+                        );
+
+                    if (conditions.some(gain => gain.choice === 'Greater')) {
+                        return CoverTypes.GreaterCover;
+                    }
+
+                    if (conditions.some(gain => gain.choice === 'Standard')) {
+                        return CoverTypes.Cover;
+                    }
+
+                    if (conditions.some(gain => gain.choice === 'Lesser')) {
+                        return CoverTypes.LesserCover;
+                    }
+
+                    return CoverTypes.NoCover;
+                }),
             );
-
-        if (conditions.some(gain => gain.choice === 'Greater')) {
-            return CoverTypes.GreaterCover;
-        }
-
-        if (conditions.some(gain => gain.choice === 'Standard')) {
-            return CoverTypes.Cover;
-        }
-
-        if (conditions.some(gain => gain.choice === 'Lesser')) {
-            return CoverTypes.LesserCover;
-        }
-
-        return CoverTypes.NoCover;
     }
 
-    private _currentHidden(): ConditionGain {
-        return this._creatureConditionsService.currentCreatureConditions(
-            this._currentCreature,
-            { name: 'Hidden', source: 'Quick Status' },
-            { readonly: true },
-        )[0];
+    private _currentHidden$(): Observable<ConditionGain | undefined> {
+        return this.creature$
+            .pipe(
+                map(creature => this._creatureConditionsService.currentCreatureConditions(
+                    creature,
+                    { name: 'Hidden', source: 'Quick Status' },
+                    { readonly: true },
+                )[0]),
+            );
     }
 
-    private _currentFlatFooted(): ConditionGain {
-        return this._creatureConditionsService.currentCreatureConditions(
-            this._currentCreature,
-            { name: 'Flat-Footed', source: 'Quick Status' },
-            { readonly: true },
-        )[0];
+    private _currentFlatFooted$(): Observable<ConditionGain | undefined> {
+        return this.creature$
+            .pipe(
+                map(creature =>
+                    this._creatureConditionsService.currentCreatureConditions(
+                        creature,
+                        { name: 'Flat-Footed', source: 'Quick Status' },
+                        { readonly: true },
+                    )[0],
+                ),
+            );
     }
 
 }

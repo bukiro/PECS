@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="componentParameters() as parameters">
+<ng-container *ngIf="componentParameters$() | async as parameters">
     <div
         class="newrow list-item"
         *ngIf="parameters.bloodMagicTrigger && asSpellGain() as spellGain"
@@ -46,7 +46,7 @@
         </span>
     </ng-template>
 
-    <ng-container *ngIf="!isManualMode">
+    <ng-container *ngIf="(isManualMode$ | async) === false">
         <!-- Button to activate on yourself. -->
         <div
             class="newrow"
@@ -89,7 +89,7 @@
                 type="button"
                 aria-label="Activate on the character"
                 class="center-aligned"
-                (click)="onCast(creatureTypesEnum.Character, true)"
+                (click)="onCast(character.type, true)"
                 [disabled]="cannotCast"
                 [ngbTooltip]="parameters.bloodMagicWarningWithTarget"
             >
@@ -100,14 +100,14 @@
         <!-- Button to activate on the Companion. -->
         <div
             class="newrow"
-            *ngIf="canTargetCompanion()"
+            *ngIf="(canTargetCompanion$() | async) as companion"
             [ngbTooltip]="cannotCast"
         >
             <button
                 type="button"
                 aria-label="Activate on the animal companion"
                 class="center-aligned"
-                (click)="onCast(creatureTypesEnum.AnimalCompanion, true)"
+                (click)="onCast(companion.type, true)"
                 [disabled]="cannotCast"
                 [ngbTooltip]="parameters.bloodMagicWarningWithTarget"
             >
@@ -118,14 +118,14 @@
         <!-- Button to activate on the Familiar. -->
         <div
             class="newrow"
-            *ngIf="canTargetFamiliar()"
+            *ngIf="(canTargetFamiliar$() | async) as familiar"
             [ngbTooltip]="cannotCast"
         >
             <button
                 type="button"
                 aria-label="Activate on the familiar"
                 class="center-aligned"
-                (click)="onCast(creatureTypesEnum.Familiar, true)"
+                (click)="onCast(familiar.type, true)"
                 [disabled]="cannotCast"
                 [ngbTooltip]="parameters.bloodMagicWarningWithTarget"
             >
@@ -134,7 +134,7 @@
         </div>
 
         <!-- Button to activate on selected allies. -->
-        <ng-container *ngIf="canTargetAlly(parameters.targetNumber)">
+        <ng-container *ngIf="canTargetAlly(parameters.allowedTargetNumber)">
             <ng-container *ngIf="spellTargets$ | async as targets">
                 <ng-template
                     #SpellTargetModal
@@ -161,18 +161,18 @@
                     </div>
 
                     <div class="modal-body vlist">
-                        <p *ngIf="parameters.targetNumber === 1">
+                        <p *ngIf="parameters.allowedTargetNumber === 1">
                             Select a target for this
                             {{spell ? "spell" : "activity"}}.
                         </p>
 
-                        <p *ngIf="parameters.targetNumber > 1">
-                            Select up to {{parameters.targetNumber}} targets for
+                        <p *ngIf="parameters.allowedTargetNumber > 1">
+                            Select up to {{parameters.allowedTargetNumber}} targets for
                             this
                             {{spell ? "spell" : "activity"}}.
                         </p>
 
-                        <p *ngIf="parameters.targetNumber === -1">
+                        <p *ngIf="parameters.allowedTargetNumber === -1">
                             Select any number of targets for this {{spell ?
                             "spell"
                             :
@@ -181,14 +181,14 @@
 
                         <div
                             class="gridicon-fullsizebox"
-                            *ngIf="parameters.targetNumber === -1 || parameters.targetNumber >= targets.length"
+                            *ngIf="parameters.allowedTargetNumber === -1 || parameters.allowedTargetNumber >= targets.length"
                         >
                             <input
                                 id="spelltargetSelectAll"
                                 class="character-choice"
                                 type="checkbox"
                                 (change)="onSelectAllTargets($event)"
-                                [checked]="areAllTargetsSelected(parameters.targetNumber)"
+                                [checked]="areAllTargetsSelected(parameters.allowedTargetNumber)"
                             >
                             <label
                                 for="spelltargetSelectAll"
@@ -210,7 +210,7 @@
                                         *ngIf="!target.isPlayer || !(spell || activity).cannotTargetCaster"
                                         type="checkbox"
                                         [(ngModel)]="target.selected"
-                                        [disabled]="(target.isPlayer && (spell || activity).cannotTargetCaster) || (areAllTargetsSelected(parameters.targetNumber) && !target.selected)"
+                                        [disabled]="(target.isPlayer && (spell || activity).cannotTargetCaster) || (areAllTargetsSelected(parameters.allowedTargetNumber) && !target.selected)"
                                     >
                                     <input
                                         aria-label="Toggle this spell target"
@@ -322,7 +322,7 @@
     </ng-container>
 
     <!-- Manual mode: Just cast/activate without target. -->
-    <ng-container *ngIf="isManualMode">
+    <ng-container *ngIf="isManualMode$ | async">
         <div
             class="newrow"
             *ngIf="!active"

@@ -2,17 +2,14 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, O
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.service';
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, takeUntil, tap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
-import { Familiar } from 'src/app/classes/Familiar';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { Trait } from 'src/app/classes/Trait';
 import { creatureSizeName } from 'src/libs/shared/util/creatureUtils';
@@ -25,6 +22,16 @@ import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { capitalize, stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { Character } from 'src/app/classes/Character';
+
+interface ClassChoice {
+    name: string;
+    choice: string;
+    subChoice: boolean;
+}
 
 @Component({
     selector: 'app-general',
@@ -34,13 +41,26 @@ import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/bas
 })
 export class GeneralComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
-    @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
+    public creatureTypes = CreatureTypes;
 
-    public creatureTypesEnum = CreatureTypes;
+    public character$: Observable<Character>;
+    public companionSpecies$: Observable<string | undefined>;
+    public companionSpecializations$: Observable<string | undefined>;
+    public creatureSize$: Observable<string>;
+    public domains$: Observable<Array<Domain>>;
+    public tenets$: Observable<Array<string>>;
+    public edicts$: Observable<Array<string>>;
+    public anathemas$: Observable<Array<string>>;
+    public differentWorldsData$: Observable<Array<FeatData> | undefined>;
+    public classChoices$: Observable<Array<ClassChoice>>;
+    public characterTraits$: Observable<Array<Trait>>;
+    public companionTraits$: Observable<Array<Trait>>;
+    public familiarTraits$: Observable<Array<Trait>>;
+    public familiarAbilities$: Observable<Array<{ ability: Feat; traits: Array<Trait> }>>;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+    private readonly _archetypeFeats$: Observable<Array<Feat>>;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -57,266 +77,97 @@ export class GeneralComponent extends TrackByMixin(BaseCardComponent) implements
     ) {
         super();
 
-        SettingsService.settings$
+        this.isMinimized$ = this.creature$
+            .pipe(
+                switchMap(creature => SettingsService.settings$
+                    .pipe(
+                        switchMap(settings => {
+                            switch (creature.type) {
+                                case CreatureTypes.AnimalCompanion:
+                                    return settings.companionMinimized$;
+                                case CreatureTypes.Familiar:
+                                    return settings.familiarMinimized$;
+                                default:
+                                    return settings.generalMinimized$;
+                            }
+                        }),
+                    ),
+                ),
+                distinctUntilChanged(),
+                tap(minimized => this._updateMinimized(minimized)),
+                // If the button is hidden, another subscription ensures that the pipe is run.
+                // shareReplay prevents it from running twice if the button is not hidden.
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
+        this.isMinimized$
             .pipe(
                 takeUntil(this._destroyed$),
-                map(settings => {
-                    switch (this.creature) {
-                        case CreatureTypes.AnimalCompanion:
-                            return settings.companionMinimized;
-                        case CreatureTypes.Familiar:
-                            return settings.familiarMinimized;
-                        default:
-                            return settings.generalMinimized;
-                    }
-                }),
-                distinctUntilChanged(),
             )
-            .subscribe(minimized => {
-                this._updateMinimized({ bySetting: minimized });
-            });
+            .subscribe();
+
+        this._archetypeFeats$ = this._characterFeatsService.characterFeatsAtLevel$()
+            .pipe(
+                map(feats => feats.filter(feat =>
+                    feat.traits.includes('Dedication'),
+                )),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.character$ = CreatureService.character$;
+        this.companionSpecies$ = this._companionSpecies$();
+        this.companionSpecializations$ = this._companionSpecializations$();
+        this.companionTraits$ = this._companionTraits$();
+        this.creatureSize$ = this._creatureSize$();
+        this.domains$ = this._domains$();
+        this.familiarAbilities$ = this._familiarAbilities$();
+        this.familiarTraits$ = this._familiarTraits$();
+        this.tenets$ = this._tenets$();
+        this.edicts$ = this._edicts$();
+        this.anathemas$ = this._anathemas$();
+        this.differentWorldsData$ = this._differentWorldsData$();
+        this.classChoices$ = this._classChoices$();
+        this.characterTraits$ = this._characterTraits$();
     }
 
     @Input()
-    public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._updateMinimized({ forced: forceMinimized ?? false });
+    public set creature(creature: Creature) {
+        this._updateCreature(creature);
     }
 
-    public get shouldShowMinimizeButton(): boolean {
-        return !this.forceMinimized && this.creature === CreatureTypes.Character;
-    }
-
-    public get character(): Character {
-        return CreatureService.character;
-    }
-
-    public get companion(): AnimalCompanion {
-        return CreatureService.companion;
-    }
-
-    public get familiar(): Familiar {
-        return CreatureService.familiar;
-    }
-
-    private get _currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
+    public get shouldShowMinimizeButton$(): Observable<boolean> {
+        return this.creature$
+            .pipe(
+                map(creature => creature.isCharacter()),
+            );
     }
 
     public toggleMinimized(minimized: boolean): void {
         SettingsService.settings.generalMinimized = minimized;
     }
 
+    public incHeroPoints(amount: number): void {
+        CreatureService.character.heroPoints += amount;
+    }
+
     public familiarAbilityFromName(name: string): Feat {
         return this._familiarsDataService.familiarAbilityFromName(name);
-    }
-
-    public companionSpecies(): string | undefined {
-        const companion: AnimalCompanion = this.companion;
-
-        if (companion.level && companion.class.levels.length) {
-            let species: string = companion.class.levels[companion.level].name;
-
-            if (companion.species) {
-                species += ` ${ companion.species }`;
-            } else if (companion.class.ancestry && companion.class.ancestry.name) {
-                species += ` ${ companion.class.ancestry.name }`;
-            }
-
-            return species;
-        }
-    }
-
-    public companionSpecializations(): string | undefined {
-        const companion: AnimalCompanion = this.companion;
-
-        if (companion.level && companion.class.specializations.length) {
-            return companion.class.specializations.filter(spec => spec.level <= this.character.level).map(spec => spec.name)
-                .join(', ');
-        }
-    }
-
-    public incHeroPoints(amount: number): void {
-        this.character.heroPoints += amount;
-    }
-
-    public creatureSize(): string {
-        return creatureSizeName(this._creaturePropertiesService.effectiveSize(this._currentCreature));
-    }
-
-    public domains(): Array<Domain> {
-        const character = this.character;
-        const isArchetypesDeityFocused =
-            this._archetypeFeats().some(feat => this._classesDataService.classFromName(feat.archetype).deityFocused);
-
-        if (character.class.deityFocused || isArchetypesDeityFocused) {
-            const deity = this._characterDeitiesService.currentCharacterDeities()[0];
-
-            if (deity) {
-                const domainFeats = this._characterFeatsService.characterFeatsAndFeatures()
-                    .filter(feat =>
-                        feat.gainDomains?.length &&
-                        this._characterFeatsService.characterHasFeat(feat.name),
-                    );
-                const domains = this._deityDomainsService.effectiveDomains(deity)
-                    .concat(...(domainFeats.map(feat => feat.gainDomains)));
-
-                return domains.map(domain => this._deitiesDataService.domains(domain)[0] || new Domain());
-            } else {
-                return [];
-            }
-        } else {
-            return [];
-        }
-    }
-
-    public tenets(): Array<string> {
-        //Collect tenets from all feats and features you have that include them.
-        return new Array<string>()
-            .concat(...this._characterFeatsService.characterFeatsAndFeatures()
-                .filter(feat => feat.tenets?.length && this._characterFeatsService.characterHasFeat(feat.name))
-                .map(feat => feat.tenets),
-            );
-    }
-
-    public edicts(): Array<string> {
-        const character = this.character;
-        const doArchetypesShowDeityEdicts =
-            this._archetypeFeats().some(feat => this._classesDataService.classFromName(feat.archetype).showDeityEdicts);
-
-        if (character.class.showDeityEdicts || doArchetypesShowDeityEdicts) {
-            //Collect edicts from all deities you have (usually one);
-            const deityEdicts: Array<string> = [];
-
-            this._characterDeitiesService.currentCharacterDeities().forEach(deity => {
-                deityEdicts.push(...deity.edicts.map(edict => edict[0].toUpperCase() + edict.substr(1)));
-            });
-
-            return deityEdicts;
-        } else {
-            return [];
-        }
-    }
-
-    public anathema(): Array<string> {
-        const character = this.character;
-
-        const deityAnathema: Array<string> = [];
-        const doArchetypesShowDeityAnathema =
-            this._archetypeFeats().some(feat => this._classesDataService.classFromName(feat.archetype).showDeityAnathema);
-
-        if (character.class.showDeityAnathema || doArchetypesShowDeityAnathema) {
-            //If your Collect anathema from all deities you have (usually one);
-            this._characterDeitiesService.currentCharacterDeities().forEach(deity => {
-                deityAnathema.push(...deity.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1)));
-            });
-        }
-
-        //Add anathema from all feats and features you have that include them.
-        return character.class.anathema.concat(...this._characterFeatsService.characterFeatsAndFeatures()
-            .filter(feat => feat.anathema?.length && this._characterFeatsService.characterHasFeat(feat.name))
-            .map(feat => feat.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1))))
-            .concat((deityAnathema));
-    }
-
-    public languages(): string {
-        return this.character.class.languages
-            .filter(language => (!language.level || language.level <= this.character.level) && language.name)
-            .map(language => language.name)
-            .concat(this._languagesFromEquipment())
-            .sort()
-            .join(', ');
-    }
-
-    public differentWorldsData(): Array<FeatData> | undefined {
-        const character = this.character;
-
-        if (this._characterFeatsService.characterFeatsTaken(1, character.level, { featName: 'Different Worlds' }).length) {
-            return character.class.filteredFeatData(0, character.level, 'Different Worlds');
-        }
-    }
-
-    public classChoices(): Array<{ name: string; choice: string; subChoice: boolean }> {
-        //Get the basic class choices for your class and all archetypes.
-        // These decisions are feat choices identified by
-        // - being .specialChoice==true
-        // - having exactly one feat
-        // - and having the class name (or the dedication feat name) as its source.
-        const results: Array<{ name: string; choice: string; subChoice: boolean }> = [];
-        const character = this.character;
-        const featChoices: Array<FeatChoice> = [];
-        const className = character.class?.name || '';
-
-        if (className) {
-            results.push({ name: 'Class', choice: className, subChoice: false });
-            character.class.levels.forEach(level => {
-                featChoices.push(...level.featChoices.filter(choice =>
-                    choice.specialChoice &&
-                    !choice.autoSelectIfPossible &&
-                    choice.feats.length === 1 &&
-                    choice.available === 1,
-                ));
-            });
-            //Find specialchoices that have this class as their source.
-            featChoices.filter(choice => choice.source === className).forEach(choice => {
-                let choiceName = choice.feats[0].name;
-
-                if (choiceName.includes(choice.type)) {
-                    choiceName = choiceName.replace(`${ choice.type }: `, '').replace(` ${ choice.type }`, '');
-                }
-
-                results.push({ name: choice.type, choice: choiceName, subChoice: true });
-            });
-            //Archetypes are identified by you having a dedication feat.
-            this._archetypeFeats().forEach(archetype => {
-                results.push({ name: 'Archetype', choice: archetype.archetype, subChoice: false });
-                //Find specialchoices that have this dedication feat as their source.
-                featChoices.filter(choice => choice.source === `Feat: ${ archetype.name }`).forEach(choice => {
-                    const choiceName = choice.feats[0].name;
-
-                    results.push({ name: choice.type, choice: choiceName, subChoice: true });
-                });
-            });
-        }
-
-        return results;
-    }
-
-    public characterTraits(): Array<string> {
-        const character = this.character;
-        let traits: Array<string> = JSON.parse(JSON.stringify(character.class.ancestry.traits));
-
-        //Verdant Metamorphosis adds the Plant trait and removes the Humanoid, Animal or Fungus trait.
-        if (this._characterFeatsService.characterFeatsTaken(1, character.level, { featName: 'Verdant Metamorphosis' }).length) {
-            traits = ['Plant'].concat(traits.filter(trait => !['Humanoid', 'Animal', 'Fungus'].includes(trait)));
-        }
-
-        this._creatureEffectsService.toggledEffectsOnThese(character, ['Character Gain Trait', 'Character Lose Trait'])
-            .filter(effect => effect.title)
-            .forEach(effect => {
-                if (effect.target.toLowerCase().includes('gain trait')) {
-                    traits.push(effect.title);
-                } else if (effect.target.toLowerCase().includes('lose trait')) {
-                    traits = traits.filter(trait => trait !== effect.title);
-                }
-            });
-
-        return traits.sort();
-    }
-
-    public traitFromName(name: string): Trait {
-        return this._traitsDataService.traitFromName(name);
     }
 
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
-                if (['general', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                if (stringsIncludeCaseInsensitive(['general', 'all', this.creature.type], target)) {
                     this._changeDetector.detectChanges();
                 }
             });
         this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature.toLowerCase() === this.creature.toLowerCase() && ['general', 'all'].includes(view.target.toLowerCase())) {
+                if (
+                    stringEqualsCaseInsensitive(view.creature, this.creature.type)
+                    && stringsIncludeCaseInsensitive(['general', 'all'], view.target)
+                ) {
                     this._changeDetector.detectChanges();
                 }
             });
@@ -328,19 +179,320 @@ export class GeneralComponent extends TrackByMixin(BaseCardComponent) implements
         this._destroy();
     }
 
-    private _archetypeFeats(): Array<Feat> {
-        return this._characterFeatsService.characterFeatsAndFeatures()
-            .filter(feat =>
-                feat.traits.includes('Dedication') &&
-                this._characterFeatsService.characterHasFeat(feat.name),
+    //TO-DO: Pretty sure this should be async.
+    public languages(): string {
+        return CreatureService.character.class.languages
+            .filter(language => (!language.level || language.level <= CreatureService.character.level) && language.name)
+            .map(language => language.name)
+            .concat(this._languagesFromEquipment())
+            .sort()
+            .join(', ');
+    }
+
+    private _companionSpecies$(): Observable<string | undefined> {
+        return CreatureService.companion$
+            .pipe(
+                switchMap(companion => combineLatest([
+                    companion.level$,
+                    companion.species$,
+                    propMap$(companion.class$, 'levels', 'values$'),
+                    propMap$(companion.class$, 'ancestry$'),
+                ])
+                    .pipe(
+                        map(([level, species, levels, ancestry]) => {
+                            if (level && levels.length) {
+                                // Start with 'Young', 'Mature' etc.
+                                const parts: Array<string> = [levels[level].name];
+
+                                if (species) {
+                                    // If the species is named, add the species.
+                                    parts.push(species);
+                                } else if (ancestry && ancestry.name) {
+                                    // Otherwise add the type of animal (i.e. the ancestry).
+                                    parts.push(ancestry.name);
+                                }
+
+                                return parts.join(' ');
+                            }
+
+                            return undefined;
+                        }),
+                    ),
+
+                ),
+            );
+    }
+
+    private _companionSpecializations$(): Observable<string | undefined> {
+        return CreatureService.companion$
+            .pipe(
+                switchMap(companion => combineLatest([
+                    CharacterFlatteningService.characterLevel$,
+                    companion.level$,
+                    propMap$(companion.class$, 'specializations', 'values$'),
+                ])
+                    .pipe(
+                        map(([characterLevel, companionLevel, specializations]) => {
+                            if (companionLevel && specializations.length) {
+                                return specializations
+                                    .filter(spec => spec.level <= characterLevel)
+                                    .map(spec => spec.name)
+                                    .join(', ');
+                            }
+
+                            return undefined;
+                        }),
+                    ),
+                ),
+            );
+    }
+
+    private _companionTraits$(): Observable<Array<Trait>> {
+        return propMap$(CreatureService.companion$, 'class$', 'ancestry$')
+            .pipe(
+                map(ancestry => ancestry.traits),
+                map(traits => traits.map(traitName => this._traitsDataService.traitFromName(traitName))),
+            );
+    }
+
+    private _familiarAbilities$(): typeof this.familiarAbilities$ {
+        return CreatureService.familiar$
+            .pipe(
+                map(familiar => familiar.abilities.feats.map(taken => this.familiarAbilityFromName(taken.name))),
+                map(abilities => abilities.map(ability => ({
+                    ability,
+                    traits: ability.traits.map(traitName => this._traitsDataService.traitFromName(traitName)),
+                }))),
+            );
+    }
+
+    private _familiarTraits$(): Observable<Array<Trait>> {
+        return CreatureService.familiar$
+            .pipe(
+                map(familiar => familiar.traits),
+                map(traits => traits.map(traitName => this._traitsDataService.traitFromName(traitName))),
+            );
+    }
+
+    private _creatureSize$(): Observable<string> {
+        return this.creature$
+            .pipe(
+                switchMap(creature =>
+                    this._creaturePropertiesService.effectiveSize$(creature),
+                ),
+                map(size => creatureSizeName(size)),
+            );
+    }
+
+    private _domains$(): Observable<Array<Domain>> {
+        return combineLatest([
+            CharacterFlatteningService.characterClass$,
+            this._archetypeFeats$,
+        ])
+            .pipe(
+                switchMap(([characterClass, archetypeFeats]) =>
+                    // If your class is deity-focused or you have any feat that toggles it,
+                    // collect domains from your deity and all your feats that include them.
+                    (
+                        characterClass.deityFocused
+                        || archetypeFeats.some(feat => this._classesDataService.classFromName(feat.archetype).deityFocused)
+                    )
+                        ? this._deityDomainsService.effectiveMainDomains$
+                        : of(null),
+                ),
+                switchMap(deityDomains =>
+                    deityDomains
+                        ? this._characterFeatsService.characterFeatsAtLevel$()
+                            .pipe(
+                                map(feats =>
+                                    feats
+                                        .filter(feat =>
+                                            feat.gainDomains?.length,
+                                        )
+                                        .map(feat => feat.gainDomains),
+                                ),
+                                map(domainLists => deityDomains.concat(...domainLists)),
+                                map(domains => domains.map(domain => this._deitiesDataService.domains(domain)[0] || new Domain())),
+                            )
+                        : [],
+                ),
+            );
+    }
+
+    private _tenets$(): Observable<Array<string>> {
+        //Collect tenets from all feats and features you have that include them.
+        return this._characterFeatsService.characterFeatsAtLevel$()
+            .pipe(
+                map(feats => feats
+                    .filter(feat => feat.tenets?.length)
+                    .map(feat => feat.tenets),
+                ),
+                map(tenetLists => new Array<string>().concat(...tenetLists)),
+            );
+    }
+
+    private _edicts$(): Observable<Array<string>> {
+        return combineLatest([
+            CharacterFlatteningService.characterClass$,
+            this._archetypeFeats$,
+        ])
+            .pipe(
+                switchMap(([characterClass, archetypeFeats]) =>
+                    // If your class should show edicts or you have any feat that toggles it,
+                    // collect anathema from all your deities.
+                    (
+                        characterClass.showDeityEdicts
+                        || archetypeFeats.some(feat => this._classesDataService.classFromName(feat.archetype).showDeityEdicts)
+                    )
+                        ? this._characterDeitiesService.currentCharacterDeities$()
+                        : of([]),
+                ),
+                map(deities => new Array<string>()
+                    .concat(...deities.map(deity => deity.edicts.map(edict => capitalize(edict))))),
+            );
+    }
+
+    private _anathemas$(): Observable<Array<string>> {
+        return combineLatest([
+            CharacterFlatteningService.characterClass$,
+            this._archetypeFeats$,
+        ])
+            .pipe(
+                switchMap(([characterClass, archetypeFeats]) =>
+                    // If your class should show anathema or you have any feat that toggles it,
+                    // collect anathema from all your deities and all your feats that include them.
+                    (
+                        characterClass.showDeityAnathema
+                        || archetypeFeats.some(feat => this._classesDataService.classFromName(feat.archetype).showDeityAnathema)
+                    )
+                        ? combineLatest([
+                            this._characterDeitiesService.currentCharacterDeities$(),
+                            this._characterFeatsService.characterFeatsAtLevel$()
+                                .pipe(
+                                    map(feats => feats.filter(feat => feat.anathema?.length)),
+                                ),
+                        ])
+                        : of([[], []]),
+                ),
+                map(([deities, feats]) => new Array<string>()
+                    .concat(
+                        ...deities.map(deity => deity.anathema.map(anathema => capitalize(anathema))),
+                        ...feats.map(deity => deity.anathema.map(anathema => capitalize(anathema))),
+                    ),
+                ),
+            );
+    }
+
+    private _differentWorldsData$(): Observable<Array<FeatData> | undefined> {
+        return this._characterFeatsService.characterHasFeatAtLevel$('Different Worlds')
+            .pipe(
+                switchMap(hasDifferentWorlds =>
+                    hasDifferentWorlds
+                        ? combineLatest([
+                            CharacterFlatteningService.characterClass$,
+                            CharacterFlatteningService.characterLevel$,
+                        ])
+                            .pipe(
+                                switchMap(([characterClass, level]) => characterClass.filteredFeatData$(0, level, 'Different Worlds')),
+                            )
+                        : of(undefined),
+                ),
+            );
+    }
+
+    private _classChoices$(): Observable<Array<ClassChoice>> {
+        //Get the basic class choices for your class and all archetypes.
+        // These decisions are feat choices identified by
+        // - having specialChoice set to true
+        // - having exactly one feat
+        // - and having the class name (or the dedication feat name) as its source.
+        return combineLatest([
+            CharacterFlatteningService.characterClass$,
+            CharacterFlatteningService.characterLevel$,
+            this._archetypeFeats$,
+        ])
+            .pipe(
+                map(([characterClass, characterLevel, archetypeFeats]) => {
+                    if (characterClass.name) {
+                        const featChoices: Array<FeatChoice> =
+                            new Array<FeatChoice>()
+                                .concat(...characterClass.levels
+                                    .filter(level => level.number <= characterLevel)
+                                    .map(level =>
+                                        level.featChoices.filter(choice =>
+                                            choice.specialChoice &&
+                                            !choice.autoSelectIfPossible &&
+                                            choice.feats.length === 1 &&
+                                            choice.available === 1,
+                                        ),
+                                    ),
+                                );
+
+                        // Collect specialchoices that have this class as their source.
+                        return featChoices
+                            .filter(choice => choice.source === characterClass.name)
+                            .map(choice => {
+                                let choiceName = choice.feats[0].name;
+
+                                if (choiceName.includes(choice.type)) {
+                                    choiceName = choiceName.replace(`${ choice.type }: `, '').replace(` ${ choice.type }`, '');
+                                }
+
+                                return { name: choice.type, choice: choiceName, subChoice: true };
+                            })
+                            .concat(
+                                // Add dedication feats and specialchoices that have one of these feats as their source.
+                                ...archetypeFeats.map(archetypeFeat =>
+                                    [{ name: 'Archetype', choice: archetypeFeat.archetype, subChoice: false }]
+                                        .concat(
+                                            ...featChoices
+                                                .filter(choice => choice.source === `Feat: ${ archetypeFeat.name }`)
+                                                .map(choice => ({ name: choice.type, choice: choice.feats[0].name, subChoice: true })),
+                                        ),
+                                ),
+                            );
+                    }
+
+                    return [];
+                }),
+            );
+    }
+
+    private _characterTraits$(): Observable<Array<Trait>> {
+        return combineLatest([
+            propMap$(CharacterFlatteningService.characterClass$, 'ancestry$', 'traits', 'values$'),
+            this._characterFeatsService.characterHasFeatAtLevel$('Verdant Metamorphosis'),
+            this._creatureEffectsService.toggledEffectsOnThis$(CreatureService.character, 'Character Gain Trait'),
+            this._creatureEffectsService.toggledEffectsOnThis$(CreatureService.character, 'Character Lose Trait'),
+        ])
+            .pipe(
+                map(([ancestryTraits, hasVerdantMetamorphosis, gainTraitEffects, loseTraitEffects]) => {
+                    let traits = new Array<string>(...ancestryTraits);
+
+                    //Verdant Metamorphosis adds the Plant trait and removes the Humanoid, Animal or Fungus trait.
+                    if (hasVerdantMetamorphosis) {
+                        traits = ['Plant'].concat(traits.filter(trait => !['Humanoid', 'Animal', 'Fungus'].includes(trait)));
+                    }
+
+                    gainTraitEffects.forEach(effect => {
+                        traits.push(effect.title);
+                    });
+
+                    loseTraitEffects.forEach(effect => {
+                        traits = traits.filter(trait => trait !== effect.title);
+                    });
+
+                    return traits.sort();
+                }),
+                map(traits => traits.map(traitName => this._traitsDataService.traitFromName(traitName))),
             );
     }
 
     private _languagesFromEquipment(): Array<string> {
         let languages: Array<string> = [];
-        const hasTooManySlottedAeonStones = this.character.hasTooManySlottedAeonStones();
+        const hasTooManySlottedAeonStones = CreatureService.character.hasTooManySlottedAeonStones();
 
-        this.character.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped()).forEach(wornItem => {
+        CreatureService.character.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped()).forEach(wornItem => {
             languages = languages.concat(wornItem.gainLanguages.filter(language => language.name).map(language => language.name));
 
             if (!hasTooManySlottedAeonStones) {

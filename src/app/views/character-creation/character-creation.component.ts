@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Class } from 'src/app/classes/Class';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
@@ -21,10 +21,8 @@ import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Familiar } from 'src/app/classes/Familiar';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { Spell } from 'src/app/classes/Spell';
-import { Character } from 'src/app/classes/Character';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Activity } from 'src/app/classes/Activity';
@@ -32,7 +30,20 @@ import { Domain } from 'src/app/classes/Domain';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import {
+    BehaviorSubject,
+    combineLatest,
+    debounceTime,
+    distinctUntilChanged,
+    map,
+    Observable,
+    of,
+    shareReplay,
+    Subscription,
+    switchMap,
+    take,
+    tap,
+} from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -48,10 +59,9 @@ import { creatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { abilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { Weapon } from 'src/app/classes/Weapon';
-import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { AbilityBaseValue, AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-companion-ancestry/animal-companion-ancestry.service';
 import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
-import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { CharacterClassChangeService } from 'src/libs/character-creation/services/character-class-change/character-class-change.service';
 import { CharacterAncestryChangeService } from 'src/libs/character-creation/services/character-ancestry-change/character-ancestry-change.service';
 import { CharacterHeritageChangeService } from 'src/libs/character-creation/services/character-heritage-change/character-heritage-change.service';
@@ -66,9 +76,6 @@ import { ClassesDataService } from 'src/libs/shared/services/data/classes-data.s
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
-import { AppStateService } from 'src/libs/shared/services/app-state/app-state.service';
-import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
@@ -83,6 +90,11 @@ import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { Store } from '@ngrx/store';
+import { selectCharacterMenuClosedOnce, selectGmMode } from 'src/libs/store/app/app.selectors';
+import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -94,11 +106,11 @@ type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id:
 })
 export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseCardComponent)) implements OnInit, OnDestroy {
 
+    public character = CreatureService.character;
     public newClass: Class = new Class();
     public adventureBackgrounds = true;
     public regionalBackgrounds = true;
     public deityWordFilter = '';
-    public blankCharacter: Character = new Character();
     public bonusSource = 'Bonus';
     public versionString: string = package_json.version;
     public creatureTypesEnum = CreatureTypes;
@@ -108,9 +120,14 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public activeFeatChoiceContent$: Observable<{ name: string; levelNumber: number; choice: FeatChoice } | undefined>;
     public activeLoreChoiceContent$: Observable<{ name: string; levelNumber: number; choice: LoreChoice } | undefined>;
 
+    public animalCompanion$: Observable<AnimalCompanion>;
+    public familiar$: Observable<Familiar>;
     public isTileMode$: Observable<boolean>;
     public isMenuOpen$: Observable<boolean>;
     public partyNames$: Observable<Array<string>>;
+    public isBlankCharacter$: Observable<boolean>;
+    public closeButtonTitle$: Observable<string>;
+    public isGmMode$: Observable<boolean>;
 
     private _showLevel = 0;
     private _showItem = '';
@@ -139,11 +156,9 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
-        private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _savegamesService: SavegamesService,
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _characterClassChangeService: CharacterClassChangeService,
         private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
@@ -157,18 +172,30 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _characterSavingService: CharacterSavingService,
         private readonly _characterFeatsService: CharacterFeatsService,
-        private readonly _creatureFeatsService: CreatureFeatsService,
-        private readonly _appStateService: AppStateService,
-        private readonly _menuService: MenuService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _animalCompanionService: AnimalCompanionService,
         private readonly _familiarService: FamiliarService,
+        private readonly _store$: Store,
         public modal: NgbActiveModal,
     ) {
         super();
+
+        this.animalCompanion$ = CreatureService.companion$;
+        this.familiar$ = CreatureService.familiar$;
+        this.isBlankCharacter$ = this.character.isBlankCharacter$;
+        this.isGmMode$ = this._store$.select(selectGmMode);
+
+        this.closeButtonTitle$ = this._store$.select(selectCharacterMenuClosedOnce)
+            .pipe(
+                map(closedOnce =>
+                    closedOnce
+                        ? 'Back to Character Sheet'
+                        : 'Go to Character Sheet',
+                ),
+            );
 
         this.activeAbilityChoiceContent$ = this._activeChoiceContent$
             .pipe(
@@ -206,27 +233,29 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 ),
             );
 
-        this.isMenuOpen$ = MenuService.sideMenuState$
+        this.isMenuOpen$ = _store$.select(selectLeftMenu)
             .pipe(
                 map(menuState => menuState === MenuNames.CharacterCreationMenu),
                 distinctUntilChanged(),
+                switchMap(isMenuOpen => isMenuOpen
+                    ? of(isMenuOpen)
+                    : of(isMenuOpen)
+                        .pipe(
+                            debounceTime(Defaults.closingMenuClearDelay),
+                        ),
+                ),
             );
 
-        SettingsService.settings$
+        this.isMinimized$ = propMap$(SettingsService.settings$, 'characterMinimized$')
             .pipe(
-                takeUntil(this._destroyed$),
-                map(settings => settings.characterMinimized),
                 distinctUntilChanged(),
-            )
-            .subscribe(minimized => {
-                this._updateMinimized({ bySetting: minimized });
-            });
+                tap(minimized => this._updateMinimized(minimized)),
+            );
 
-        this.isTileMode$ = SettingsService.settings$
+        this.isTileMode$ = propMap$(SettingsService.settings$, 'characterTileMode$')
             .pipe(
-                map(settings => settings.characterTileMode),
                 distinctUntilChanged(),
-                shareReplay(1),
+                shareReplay({ refCount: true, bufferSize: 1 }),
             );
 
         this.partyNames$ = this._savegamesService.savegames$
@@ -238,37 +267,16 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             );
     }
 
-    @Input()
-    public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._updateMinimized({ forced: forceMinimized ?? false });
-    }
-
-    public get character(): Character {
-        return CreatureService.character;
-    }
-
-    public get isGMMode(): boolean {
-        return SettingsService.isGMMode;
-    }
-
-    public get companion(): AnimalCompanion {
-        return CreatureService.character.class.animalCompanion;
-    }
-
-    public get familiar(): Familiar {
-        return CreatureService.character.class.familiar;
-    }
-
     public toggleMinimized(minimized: boolean): void {
-        SettingsService.settings.characterMinimized = minimized;
+        SettingsService.setSetting(settings => { settings.characterMinimized = minimized; });
     }
 
     public toggleTileMode(isTileMode: boolean): void {
-        SettingsService.settings.characterTileMode = isTileMode;
+        SettingsService.setSetting(settings => { settings.characterTileMode = isTileMode; });
     }
 
     public toggleCharacterMenu(): void {
-        this._menuService.toggleMenu(MenuNames.CharacterCreationMenu);
+        this._store$.dispatch(toggleLeftMenu({ menu: MenuNames.CharacterCreationMenu }));
     }
 
     public toggleShownLevel(levelNumber: number = 0): void {
@@ -394,18 +402,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._characterSavingService.saveCharacter();
     }
 
-    public closeButtonTitle(): string {
-        if (this._appStateService.wasCharacterMenuClosedOnce()) {
-            return 'Back to Character Sheet';
-        } else {
-            return 'Go to Character Sheet';
-        }
-    }
-
-    public isBlankCharacter(): boolean {
-        return this.character.isBlankCharacter();
-    }
-
     public alignments(): Array<string> {
         const deity: Deity | undefined =
             this.character.class?.deity ? this._deitiesDataService.deities(this.character.class.deity)[0] : undefined;
@@ -432,14 +428,15 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public onBaseValueChange(): void {
-        const baseValues = this.character.baseValues;
-
-        if (baseValues.length) {
-            baseValues.length = 0;
+        if (this.character.settings.useIndividualAbilityBaseValues) {
+            this.character.settings.useIndividualAbilityBaseValues = false;
         } else {
-            this.abilities().forEach(ability => {
-                baseValues.push({ name: ability.name, baseValue: Defaults.abilityBaseValue });
-            });
+            this.character.settings.useIndividualAbilityBaseValues = true;
+
+            if (!this.character.baseValues.length) {
+                this.character.baseValues =
+                    this.abilities().map(ability => ({ name: ability.name, baseValue: Defaults.abilityBaseValue }));
+            }
 
             // Remove all Level 1 ability boosts that are now illegal
             if (this.character.class.name) {
@@ -455,8 +452,10 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public onAbilityChange(name: string): void {
+    public onAbilityBaseValueChange(name: string): void {
         this._refreshService.prepareChangesByAbility(CreatureTypes.Character, name);
+
+        this.character.baseValues.triggerOnChange();
     }
 
     public setComponentChanged(target = ''): void {
@@ -513,129 +512,21 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         // If we went up levels, prepare to repeat any onceEffects of Feats that apply inbetween,
         // such as recovering Focus Points for a larger Focus Pool.
         if (newLevel > oldLevel) {
-            this.characterFeatsAndFeatures()
-                .filter(feat =>
-                    feat.onceEffects.length &&
-                    this._creatureFeatsService.creatureHasFeat(
-                        feat,
-                        { creature: character },
-                        { charLevel: newLevel, minLevel: (oldLevel + 1) },
-                        { excludeTemporary: true },
-                    ),
+
+            this._characterFeatsService.characterFeatsTakenWithContext$(oldLevel + 1, newLevel)
+                .pipe(
+                    take(1),
                 )
-                .forEach(feat => {
-                    feat.onceEffects.forEach(effect => {
-                        this._onceEffectsService.prepareOnceEffect(character, effect);
-                    });
+                .subscribe(featSets => {
+                    featSets
+                        .forEach(featSet => {
+                            featSet.feat.onceEffects.forEach(effect => {
+                                this._onceEffectsService.prepareOnceEffect(character, effect);
+                            });
+                        });
                 });
         }
 
-        //Find all the differences between the levels and refresh components accordingly.
-        const lowerLevel = Math.min(oldLevel, newLevel);
-        const higherLevel = Math.max(oldLevel, newLevel);
-
-        character.class.levels.filter(level => level.number >= lowerLevel && level.number <= higherLevel).forEach(level => {
-            level.featChoices.forEach(choice => {
-                if (choice.showOnSheet) {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
-                }
-            });
-        });
-        character.class.levels.forEach(level => {
-            level.featChoices.forEach(choice => {
-                if (choice.showOnCurrentLevel) {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
-                }
-            });
-        });
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'character-sheet');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualspells', 'all');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-
-        if (character.abilityBoosts(lowerLevel, higherLevel).length) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'abilities');
-        }
-
-        character.skillIncreases(lowerLevel, higherLevel).forEach(increase => {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skillchoices');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualSkills', increase.name);
-        });
-        this.characterFeatsAndFeatures()
-            .filter(feat =>
-                this._creatureFeatsService.creatureHasFeat(
-                    feat,
-                    { creature: character },
-                    { charLevel: higherLevel, minLevel: lowerLevel },
-                    { excludeTemporary: true },
-                ),
-            )
-            .forEach(feat => {
-                this._refreshService.prepareChangesByHints(character, feat.hints);
-
-                if (feat.gainAbilityChoice.length) {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'abilities');
-                }
-
-                if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-                }
-
-                if (feat.superType === 'Adopted Ancestry') {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-                } else if (feat.name === 'Different Worlds') {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-                }
-
-                if (feat.senses.length) {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
-                }
-            });
-
-        //Reload spellbook if spells were learned between the levels,
-        if (character.class.learnedSpells().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-            //if spells were taken between the levels,
-        } else if (this._spellsTakenService.takenSpells(lowerLevel, higherLevel).length) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-            //if any spells have a dynamic level dependent on the character level,
-        } else if (this._spellsTakenService.takenSpells(0, Defaults.maxCharacterLevel)
-            .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
-            .some(taken => taken.choice.dynamicLevel.toLowerCase().includes('level'))
-        ) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-            //or if you have the cantrip connection or spell battery familiar ability.
-        } else if (this._creatureAvailabilityService.isFamiliarAvailable()) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
-            this.familiar.abilities.feats.map(gain => this._familiarsDataService.familiarAbilities(gain.name)[0]).filter(feat => feat)
-                .forEach(feat => {
-                    if (feat.name === 'Cantrip Connection') {
-                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-                    }
-
-                    if (feat.name === 'Spell Battery') {
-                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-                    }
-                });
-        }
-
-        if (this._creatureAvailabilityService.isCompanionAvailable()) {
-            this._animalCompanionLevelsService.setLevel(this.companion);
-        }
-
-        if (this._creatureAvailabilityService.isFamiliarAvailable(newLevel)) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'featchoices');
-        }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public onUpdateSkills(): void {
@@ -648,35 +539,36 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public areLanguagesAvailableOnLevel(levelNumber = 0): boolean {
-        const character = this.character;
+    public areLanguagesAvailableOnLevel$(levelNumber = 0): Observable<boolean> {
+        return this._characterFeatsService.characterFeatsTakenAtLevel$(levelNumber)
+            .pipe(
+                map(takenFeats => {
+                    const character = this.character;
 
-        if (character.class.ancestry.name) {
-            if (levelNumber) {
-                // If level is given, check if any new languages have been added on this level.
-                // If not, don't get any languages at this point.
-                let newLanguages = 0;
+                    if (character.class.ancestry.name) {
+                        if (levelNumber) {
+                            // If level is given, check if any new languages have been added on this level.
+                            // If not, don't get any languages at this point.
+                            let newLanguages = 0;
 
-                newLanguages += this.characterFeatsAndFeatures()
-                    .filter(feat =>
-                        (feat.gainLanguages.length || feat.effects.some(effect => effect.affected === 'Max Languages')) &&
-                        this._creatureFeatsService.creatureHasFeat(
-                            feat,
-                            { creature: character },
-                            { charLevel: levelNumber, minLevel: levelNumber },
-                        ),
-                    ).length;
-                newLanguages += character.abilityBoosts(levelNumber, levelNumber, 'Intelligence').length;
+                            newLanguages += takenFeats
+                                .filter(feat =>
+                                    feat.gainLanguages.length
+                                    || feat.effects.some(effect => effect.affected === 'Max Languages'),
+                                ).length;
+                            newLanguages += character.abilityBoosts(levelNumber, levelNumber, 'Intelligence').length;
 
-                if (!newLanguages) {
-                    return false;
-                }
-            }
+                            if (!newLanguages) {
+                                return false;
+                            }
+                        }
 
-            return !!character.class.languages.length;
-        } else {
-            return false;
-        }
+                        return !!character.class.languages.length;
+                    } else {
+                        return false;
+                    }
+                }),
+            );
     }
 
     public availableLanguagesOnLevel(levelNumber: number): number {
@@ -739,51 +631,60 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         return this._abilitiesDataService.abilities(name);
     }
 
-    public abilityBaseValue(
+    public abilityBaseValue$(
         ability: Ability,
         levelNumber: number,
-    ): { result: number; explain: string } {
-        return this._abilityValuesService.baseValue(ability, this.character, levelNumber);
+    ): Observable<AbilityBaseValue> {
+        return this._abilityValuesService.baseValue$(ability, this.character, levelNumber);
     }
 
-    public availableAbilities(choice: AbilityChoice, levelNumber: number): Array<Ability> | undefined {
-        let abilities = this.abilities('');
+    public availableAbilities$(choice: AbilityChoice, levelNumber: number): Observable<Array<Ability>> {
+        return combineLatest([
+            this.character.settings.showOtherOptions$,
+            // If there is a filter, verify how many of the allowed abilities can be boosted.
+            // If not enough are possible, the filter is ignored.
+            combineLatest(
+                choice.filter.map(filterEntry =>
+                    this.cannotBoostAbilityReasons$(this.abilities(filterEntry)[0], levelNumber, choice),
+                ),
+            ),
+        ])
+            .pipe(
+                map(([showOtherOptions, cannotBoostFiltersResults]) => {
+                    let abilities = this.abilities();
 
-        if (choice.filter.length) {
-            //If there is a filter, we need to find out if any of the filtered Abilities can actually be boosted.
-            let cannotBoost = 0;
+                    if (choice.filter.length) {
 
-            choice.filter.forEach(filterEntry => {
-                if (this.cannotBoostAbility(this.abilities(filterEntry)[0], levelNumber, choice).length) {
-                    cannotBoost += 1;
-                }
-            });
+                        const notBoostableFiltersAmount = cannotBoostFiltersResults
+                            .filter(result => result.length)
+                            .length;
 
-            // If any can be boosted, filter the list by the filter
-            // (and show the already selected abilities so you can unselect them if you like).
-            // If none can be boosted, the list just does not get filtered.
-            if (cannotBoost < choice.filter.length) {
-                abilities = abilities
-                    .filter(ability => choice.filter.includes(ability.name) || this._isAbilityBoostedByThisChoice(ability, choice));
-            }
-        }
+                        // If any can be boosted, filter the list by the filter
+                        // and show the already selected abilities so you can unselect them if you like.
+                        // If none can be boosted, the list just does not get filtered.
+                        if (notBoostableFiltersAmount < choice.filter.length) {
+                            abilities = abilities
+                                .filter(ability =>
+                                    choice.filter.includes(ability.name)
+                                    || this._isAbilityBoostedByThisChoice(ability, choice),
+                                );
+                        }
+                    }
 
-        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
-
-        if (abilities.length) {
-            return abilities.filter(ability => (
-                shouldShowOtherOptions ||
-                this._isAbilityBoostedByThisChoice(ability, choice) ||
-                (choice.boosts.length < choice.available - ((this.character.baseValues.length) ? choice.baseValuesLost : 0))
-            ));
-        }
+                    return abilities.filter(ability => (
+                        showOtherOptions ||
+                        this._isAbilityBoostedByThisChoice(ability, choice) ||
+                        (choice.boosts.length < choice.available - ((this.character.baseValues.length) ? choice.baseValuesLost : 0))
+                    ));
+                }),
+            );
     }
 
     public areSomeAbilitiesIllegal(choice: AbilityChoice, levelNumber: number): boolean {
         let anytrue = 0;
 
         choice.boosts.forEach(boost => {
-            if (this.isAbilityIllegal(levelNumber, this.abilities(boost.name)[0])) {
+            if (this.isAbilityIllegal$(levelNumber, this.abilities(boost.name)[0])) {
                 if (!boost.locked) {
                     this._characterBoostAbilityService.boostAbility(boost.name, false, choice, boost.locked);
                     this._refreshService.processPreparedChanges();
@@ -796,72 +697,107 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         return !!anytrue;
     }
 
-    public isAbilityIllegal(levelNumber: number, ability: Ability): boolean {
-        let isAbilityIllegal = false;
+    public isAbilityIllegal$(levelNumber: number, ability: Ability): Observable<boolean> {
         const maxAbilityValueOnFirstLevel = 18;
 
-        if (
-            levelNumber === 1 &&
-            this._abilityValuesService.baseValue(
-                ability,
-                this.character,
-                levelNumber,
-            ).result > maxAbilityValueOnFirstLevel
-        ) {
-            isAbilityIllegal = true;
+        if (levelNumber !== 1) {
+            return of(false);
         }
 
-        return isAbilityIllegal;
+        return this._abilityValuesService.baseValue$(
+            ability,
+            this.character,
+            levelNumber,
+        )
+            .pipe(
+                map(baseValue =>
+                    baseValue.result > maxAbilityValueOnFirstLevel,
+                ),
+            );
     }
 
-    public cannotBoostAbility(ability: Ability, levelNumber: number, choice: AbilityChoice): Array<string> {
-        //Returns a string of reasons why the ability cannot be boosted, or "". Test the length of the return if you need a boolean.
+    public abilityChoiceDisabled$(choice: AbilityChoice, ability: Ability, levelNumber: number, checked: boolean): Observable<boolean> {
+        return combineLatest([
+            this.cannotBoostAbilityReasons$(ability, levelNumber, choice),
+            of(this.maxAbilityBoostsAvailableInChoice(choice)),
+        ])
+
+            .pipe(
+                map(([cannotBoostReasons, maxBoostsAvailable]) =>
+                    !!cannotBoostReasons.length
+                    || (choice.boosts.length === maxBoostsAvailable && !checked),
+                ),
+            );
+    }
+
+    /**
+     * Check for any reasons why the ability cannot be boosted.
+     */
+    public cannotBoostAbilityReasons$(ability: Ability, levelNumber: number, choice: AbilityChoice): Observable<Array<string>> {
+
         //Info only choices that don't grant a boost (like for the key ability for archetypes) don't need to be checked.
-        if (choice.infoOnly) { return []; }
+        if (choice.infoOnly) { return of([]); }
 
-        const reasons: Array<string> = [];
-        const sameBoostsThisLevel =
-            this.abilityBoostsOnLevel(levelNumber, ability.name, choice.type, choice.source)
-                .filter(boost => boost.source === choice.source);
+        return of(this.abilityBoostsOnLevel(levelNumber, ability.name, choice.type, choice.source))
+            .pipe(
+                map(boostsThisLevel =>
+                    boostsThisLevel.filter(boost => boost.source === choice.source),
+                ),
+                switchMap(sameBoostsThisLevel => {
+                    const reasons: Array<string> = [];
 
-        if (sameBoostsThisLevel.length) {
-            // The ability may have been boosted by the same source,
-            // but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
-            // This does not apply to flaws - you can boost a flawed ability.
-            if (sameBoostsThisLevel[0].locked) {
-                const locked = `Fixed boost by ${ sameBoostsThisLevel[0].source }.`;
+                    if (sameBoostsThisLevel.length) {
+                        // The ability may have been boosted by the same source,
+                        // but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
+                        // This does not apply to flaws - you can boost a flawed ability.
+                        if (sameBoostsThisLevel[0].locked) {
+                            const locked = `Fixed boost by ${ sameBoostsThisLevel[0].source }.`;
 
-                reasons.push(locked);
-            } else if (sameBoostsThisLevel[0].sourceId !== choice.id) {
-                //If an ability has been raised by a source of the same name, but not the same id, it cannot be raised again.
-                //This is the case with backgrounds: You get a choice of two abilities, and then a free one.
-                const exclusive = `Boosted by ${ sameBoostsThisLevel[0].source }.`;
+                            reasons.push(locked);
+                        } else if (sameBoostsThisLevel[0].sourceId !== choice.id) {
+                            //If an ability has been raised by a source of the same name, but not the same id, it cannot be raised again.
+                            //This is the case with backgrounds: You get a choice of two abilities, and then a free one.
+                            const exclusive = `Boosted by ${ sameBoostsThisLevel[0].source }.`;
 
-                reasons.push(exclusive);
-            }
-        }
+                            reasons.push(exclusive);
+                        }
+                    }
 
-        //On level 1, boosts are not allowed to raise the ability above 18.
-        //This is only relevant if you haven't boosted the ability on this level yet.
-        //If you have, we don't want to hear that it couldn't be boosted again right away.
-        let cannotBoostHigher = '';
-        const cannotBoostHigherValue = 16;
+                    //On level 1, boosts are not allowed to raise the ability above 18.
+                    //This is only relevant if you haven't boosted the ability on this level yet.
+                    //If you have, we don't want to hear that it couldn't be boosted again right away.
+                    const cannotBoostHigherValue = 16;
 
-        if (
-            choice.type === 'Boost' &&
-            levelNumber === 1 &&
-            this._abilityValuesService.baseValue(
-                ability,
-                this.character,
-                levelNumber,
-            ).result > cannotBoostHigherValue &&
-            !sameBoostsThisLevel.length
-        ) {
-            cannotBoostHigher = 'Cannot boost above 18 on level 1.';
-            reasons.push(cannotBoostHigher);
-        }
+                    if (!(
+                        choice.type === 'Boost'
+                        && levelNumber === 1
+                    )) {
+                        return of(reasons);
+                    }
 
-        return reasons;
+                    return this._abilityValuesService.baseValue$(
+                        ability,
+                        this.character,
+                        levelNumber,
+                    )
+                        .pipe(
+                            map(baseValue =>
+                                baseValue.result > cannotBoostHigherValue
+                                && !sameBoostsThisLevel.length,
+                            ),
+                            map(cannotBoostHigher =>
+                                cannotBoostHigher
+                                    ? reasons
+                                        .concat(
+                                            'Cannot boost above 18 on level 1.',
+                                        )
+                                    : reasons,
+                            ),
+                        );
+                }),
+            );
+
+
     }
 
     public abilityBoostsOnLevel(
@@ -880,7 +816,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
         if (
             hasBeenTaken &&
-            SettingsService.settings.autoCloseChoices &&
+            this.character.settings.autoCloseChoices &&
             choice.boosts.length === choice.available - (
                 this.character.baseValues.length
                     ? choice.baseValuesLost
@@ -920,18 +856,44 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         return creatureSizeName(size);
     }
 
-    public skillBonusFromIntOnLevel(choice: SkillChoice, levelNumber: number): number {
-        //Allow INT more skills if INT has been raised since the last level.
-        if (choice.source === 'Intelligence') {
-            return this._intModifier(levelNumber) - this._intModifier(levelNumber - 1);
-        } else {
-            return 0;
+    public skillBonusFromIntOnLevel$(choice: SkillChoice, levelNumber: number): Observable<number> {
+        if (choice.source !== 'Intelligence') {
+            return of(0);
         }
+
+        //Allow INT more skills if INT has been raised since the last level.
+        return combineLatest([
+            this._intModifier$(levelNumber),
+            this._intModifier$(levelNumber - 1),
+        ])
+            .pipe(
+                map(([levelInt, previousLevelInt]) =>
+                    Math.max(0, levelInt - previousLevelInt),
+                ),
+            );
     }
 
-    public skillChoicesOnLevel(level: ClassLevel): Array<SkillChoice> {
-        return level.skillChoices
-            .filter(choice => !choice.showOnSheet && (choice.available + this.skillBonusFromIntOnLevel(choice, level.number) > 0));
+    public skillChoicesOnLevel$(level: ClassLevel): Observable<Array<SkillChoice>> {
+        return combineLatest(
+            level.skillChoices
+                .filter(choice => !choice.showOnSheet)
+                .map(choice =>
+                    this.skillBonusFromIntOnLevel$(choice, level.number)
+                        .pipe(
+                            map(intBonus =>
+                                (choice.available + intBonus > 0)
+                                    ? choice
+                                    : null,
+                            ),
+                        ),
+                ),
+        )
+            .pipe(
+                map(skillChoices =>
+                    skillChoices.filter((skillChoice): skillChoice is SkillChoice => !!skillChoice),
+                ),
+            );
+
     }
 
     public featChoicesOnLevel(level: ClassLevel, specialChoices?: boolean): Array<FeatChoice> {
@@ -953,7 +915,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices && (choice.increases.length === choice.available - 1)) {
+            if (this.character.settings.autoCloseChoices && (choice.increases.length === choice.available - 1)) {
                 this.toggleShownList();
             }
 
@@ -970,32 +932,52 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public characterFeatsAndFeatures(name = '', type = ''): Array<Feat> {
-        return this._characterFeatsService.characterFeatsAndFeatures(name, type);
+    public characterFeatsAndFeatures$(name = '', type = ''): Observable<Array<Feat>> {
+        return this._characterFeatsService.characterFeats$(name, type);
     }
 
     public activityFromName(name: string): Activity {
         return this._activitiesDataService.activityFromName(name);
     }
 
-    public differentWorldsData(levelNumber: number): Array<FeatData> | undefined {
-        if (this._characterFeatsService.characterHasFeat('Different Worlds', levelNumber)) {
-            return this.character.class.filteredFeatData(levelNumber, levelNumber, 'Different Worlds');
-        }
+    public differentWorldsData$(levelNumber: number): Observable<Array<FeatData> | undefined> {
+        return this._characterFeatsService.characterHasTakenFeatAtLevel$('Different Worlds', levelNumber)
+            .pipe(
+                switchMap(hasFeat =>
+                    hasFeat
+                        ? this.character.class.filteredFeatData$(levelNumber, levelNumber, 'Different Worlds')
+                        : of(),
+                ),
+            );
     }
 
-    public isBlessedBloodAvailable(levelNumber: number): boolean {
-        return this._characterFeatsService.characterHasFeat('Blessed Blood', levelNumber);
+    public isBlessedBloodAvailable$(levelNumber: number): Observable<boolean> {
+        return this._characterFeatsService.characterHasTakenFeatAtLevel$('Blessed Blood', levelNumber);
     }
 
-    public blessedBloodDeitySpells(): Array<Spell> | undefined {
-        const deity = this._characterDeitiesService.currentCharacterDeities()[0];
+    public blessedBloodDeitySpells$(): Observable<Array<Spell> | undefined> {
+        return combineLatest([
+            this.character.settings.showOtherOptions$,
+            this._characterDeitiesService.currentCharacterDeities$(),
+        ])
+            .pipe(
+                map(([showOtherOptions, deities]) => {
+                    const mainDeity = deities[0];
 
-        if (deity) {
-            return deity.clericSpells
-                .map(spell => this._spellFromName(spell.name))
-                .filter(spell => spell && (SettingsService.settings.showOtherOptions ? true : this.isSpellTakenInBlessedBlood(spell)));
-        }
+                    if (mainDeity) {
+                        return mainDeity.clericSpells
+                            .map(spell => this._spellFromName(spell.name))
+                            .filter(spell =>
+                                spell
+                                && (
+                                    showOtherOptions
+                                        ? true
+                                        : this.isSpellTakenInBlessedBlood(spell)
+                                ),
+                            );
+                    }
+                }),
+            );
     }
 
     public blessedBloodSpellsTaken(): number {
@@ -1010,7 +992,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this.character.class.addSpellListSpell(spell.name, 'Feat: Blessed Blood', levelNumber);
         } else {
@@ -1021,16 +1003,21 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public isSplinterFaithAvailable(levelNumber: number): boolean {
-        return this._characterFeatsService.characterHasFeat('Splinter Faith', levelNumber);
+    public isSplinterFaithAvailable$(levelNumber: number): Observable<boolean> {
+        return this._characterFeatsService.characterHasTakenFeatAtLevel$('Splinter Faith', levelNumber);
     }
 
-    public splinterFaithDomains(): Readonly<Array<string>> {
-        return this.character.class.filteredFeatData(0, 0, 'Splinter Faith')[0]?.valueAsStringArray('domains') || [];
+    public splinterFaithDomains$(): Observable<Readonly<Array<string>>> {
+        return this.character.class.filteredFeatData$(0, 0, 'Splinter Faith')
+            .pipe(
+                map(featData =>
+                    featData[0]?.valueAsStringArray('domains') ?? [],
+                ),
+            );
     }
 
     public setSplinterFaithDomains(domains: Array<string>): void {
-        this.character.class.filteredFeatData(0, 0, 'Splinter Faith')[0].setValue('domains', domains);
+        this.character.class.filteredFeatDataSnapshot(0, 0, 'Splinter Faith')[0].setValue('domains', domains);
     }
 
     public splinterFaithAvailableDomains(): Array<{ title: string; type: number; domain: Domain }> {
@@ -1095,52 +1082,40 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public onSplinterFaithDomainTaken(domain: string, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
-        let domains = Array.from(this.splinterFaithDomains());
 
-        if (domains) {
-            if (isChecked) {
-                domains.push(domain);
-
-                const deityName = this.character.class.deity;
-
-                if (deityName) {
-                    const deity = this._deitiesDataService.deities(deityName)[0];
-
-                    if (deity) {
-                        deity.clearTemporaryDomains();
+        this.splinterFaithDomains$()
+            .pipe(
+                take(1),
+                map(allDomains => Array.from(allDomains)),
+            )
+            .subscribe(domains => {
+                if (domains) {
+                    if (isChecked) {
+                        domains.push(domain);
+                    } else {
+                        domains = domains.filter(takenDomain => takenDomain !== domain);
                     }
+
+                    this.setSplinterFaithDomains(domains);
                 }
-            } else {
-                domains = domains.filter(takenDomain => takenDomain !== domain);
-                this.setSplinterFaithDomains(domains);
-
-                const deityName = this.character.class.deity;
-
-                if (deityName) {
-                    const deity = this._deitiesDataService.deities(deityName)[0];
-
-                    if (deity) {
-                        deity.clearTemporaryDomains();
-                    }
-                }
-            }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-            this._refreshService.processPreparedChanges();
-        }
+            });
     }
 
-    public additionalHeritagesAvailable(levelNumber: number): Array<HeritageGain> {
+    public additionalHeritagesAvailable$(levelNumber: number): Observable<Array<HeritageGain>> {
         //Return all heritages you have gained on this specific level.
-        return new Array<HeritageGain>()
-            .concat(
-                ...this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber)
-                    .map(taken => this.characterFeatsAndFeatures(taken.name)[0])
-                    .filter(feat =>
-                        feat &&
-                        feat.gainHeritage.length,
-                    )
-                    .map(feat => feat.gainHeritage),
+        return this._characterFeatsService.characterFeatsTakenAtLevel$(levelNumber)
+            .pipe(
+                map(feats =>
+                    new Array<HeritageGain>()
+                        .concat(
+                            ...feats
+                                .filter(feat =>
+                                    feat &&
+                                    feat.gainHeritage.length,
+                                )
+                                .map(feat => feat.gainHeritage),
+                        ),
+                ),
             );
     }
 
@@ -1159,7 +1134,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterHeritageChangeService.changeHeritage(heritage, index);
         } else {
@@ -1178,7 +1153,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
 
             data.setValue('background', background.name);
             background.loreChoices.forEach(choice => {
@@ -1229,16 +1204,38 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public fuseStanceData(levelNumber: number): Array<FeatData> | undefined {
-        if (this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Fuse Stance' }).length) {
-            return this.character.class.filteredFeatData(levelNumber, levelNumber, 'Fuse Stance');
-        }
+    public fuseStanceData$(
+        levelNumber: number,
+    ): Observable<
+        Readonly<Array<{ featData: FeatData; stances: Readonly<Array<string> | null>; name: Readonly<string | null> }>>
+        | undefined
+        > {
+        return this._characterFeatsService.characterHasTakenFeatAtLevel$('Fuse Stance', levelNumber)
+            .pipe(
+                switchMap(hasFeat =>
+                    hasFeat
+                        ? this.character.class.filteredFeatData$(levelNumber, levelNumber, 'Fuse Stance')
+                            .pipe(
+                                switchMap(featDatas => combineLatest(
+                                    featDatas.map(featData => combineLatest([
+                                        featData.valueAsStringArray$('stances'),
+                                        featData.valueAsString$('name'),
+                                    ])
+                                        .pipe(
+                                            map(([stances, name]) => ({
+                                                featData, stances, name,
+                                            })),
+                                        ),
+                                    )),
+                                ),
+                            )
+                        : of(),
+                ),
+            );
     }
 
-    public fuseStanceChoiceTitle(finished: boolean, fuseStanceData: FeatData): string {
+    public fuseStanceChoiceTitle(finished: boolean, name: Readonly<string | null>, stances: Readonly<Array<string> | null>): string {
         let result = 'Fuse Stance';
-        const name = fuseStanceData.getValue('name');
-        const stances = fuseStanceData.valueAsStringArray('stances');
 
         if (finished && name) {
             result += `: ${ name }${ stances ? ` (${ stances.join(', ') })` : '' }`;
@@ -1247,71 +1244,84 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         return result;
     }
 
-    public fuseStanceAvailableStances(
+    public fuseStanceAvailableStances$(
         levelNumber: number,
         fuseStanceData: FeatData,
-    ): Array<{ activity: Activity; restricted: boolean; reason: string }> {
+    ): Observable<Array<{ activity: Activity; restricted: boolean; reason: string }>> {
         // Return all stances that you own.
         // Since Fuse Stance can't use two stances that only allow one type of attack each,
         // we check if one of the previously selected stances does that,
         // and if so, make a note for each available stance with a restriction that it isn't available.
-        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
-        const unique: Array<string> = [];
-        const availableStances: Array<{ activity: Activity; restricted: boolean; reason: string }> = [];
-        const conditionsWithAttackRestrictions = this._conditionsDataService.conditions()
-            .filter(condition => condition.attackRestrictions.length)
-            .map(condition => condition.name);
-        const activities = this._activitiesDataService.activities().filter(activity => activity.traits.includes('Stance'));
-        const existingStances: Array<Activity> = [];
-        const takenStances = fuseStanceData.valueAsStringArray('stances');
-        const maxStances = 2;
+        return combineLatest([
+            this.character.settings.showOtherOptions$,
+            this._creatureActivitiesService.creatureOwnedActivities$(this.character, levelNumber),
+        ])
+            .pipe(
+                map(([showOtherOptions, ownedActivities]) => {
+                    const unique: Array<string> = [];
+                    const availableStances: Array<{ activity: Activity; restricted: boolean; reason: string }> = [];
+                    const conditionsWithAttackRestrictions = this._conditionsDataService.conditions()
+                        .filter(condition => condition.attackRestrictions.length)
+                        .map(condition => condition.name);
+                    const activities = this._activitiesDataService.activities().filter(activity => activity.traits.includes('Stance'));
+                    const existingStances: Array<Activity> = [];
+                    const takenStances = fuseStanceData.valueAsStringArray('stances');
+                    const maxStances = 2;
 
-        takenStances?.forEach(stance => {
-            const activity = activities.find(example => example.name === stance);
+                    takenStances?.forEach(stance => {
+                        const activity = activities.find(example => example.name === stance);
 
-            if (activity) {
-                existingStances.push(activity);
-            }
-        });
-
-        const areAnyRestrictedStancesFound =
-            existingStances.some(example => example.gainConditions.some(gain => conditionsWithAttackRestrictions.includes(gain.name)));
-
-        this._creatureActivitiesService.creatureOwnedActivities(this.character, levelNumber)
-            .map(activity => activities.find(example => example.name === activity.name))
-            .filter(activity => activity !== undefined && activity.name !== 'Fused Stance')
-            .forEach(activity => {
-                if (activity) {
-                    const isStanceTaken = takenStances?.includes(activity.name);
-
-                    if (
-                        !unique.includes(activity.name) &&
-                        (shouldShowOtherOptions || (takenStances?.length || 0) < maxStances || isStanceTaken)
-                    ) {
-                        const isStanceRestricted =
-                            activity.gainConditions.some(gain => conditionsWithAttackRestrictions.includes(gain.name));
-
-                        if (isStanceRestricted && areAnyRestrictedStancesFound && !isStanceTaken) {
-                            unique.push(activity.name);
-                            availableStances.push({ activity, restricted: isStanceRestricted, reason: 'Incompatible restrictions.' });
-                        } else {
-                            unique.push(activity.name);
-                            availableStances.push({ activity, restricted: isStanceRestricted, reason: '' });
+                        if (activity) {
+                            existingStances.push(activity);
                         }
-                    }
-                }
+                    });
 
-            });
+                    const areAnyRestrictedStancesFound =
+                        existingStances.some(example =>
+                            example.gainConditions.some(gain => conditionsWithAttackRestrictions.includes(gain.name)),
+                        );
 
-        //Remove any taken stance that you don't have anymore at this point.
-        const realStances =
-            takenStances?.filter(existingStance =>
-                availableStances.map(stance => stance.activity.name).includes(existingStance),
-            ) || [];
+                    ownedActivities
+                        .map(activity => activities.find(example => example.name === activity.name))
+                        .filter(activity => activity !== undefined && activity.name !== 'Fused Stance')
+                        .forEach(activity => {
+                            if (activity) {
+                                const isStanceTaken = takenStances?.includes(activity.name);
 
-        fuseStanceData.setValue('stances', realStances);
+                                if (
+                                    !unique.includes(activity.name) &&
+                                    (showOtherOptions || (takenStances?.length || 0) < maxStances || isStanceTaken)
+                                ) {
+                                    const isStanceRestricted =
+                                        activity.gainConditions.some(gain => conditionsWithAttackRestrictions.includes(gain.name));
 
-        return availableStances;
+                                    if (isStanceRestricted && areAnyRestrictedStancesFound && !isStanceTaken) {
+                                        unique.push(activity.name);
+                                        availableStances.push({
+                                            activity,
+                                            restricted: isStanceRestricted,
+                                            reason: 'Incompatible restrictions.',
+                                        });
+                                    } else {
+                                        unique.push(activity.name);
+                                        availableStances.push({ activity, restricted: isStanceRestricted, reason: '' });
+                                    }
+                                }
+                            }
+
+                        });
+
+                    //Remove any taken stance that you don't have anymore at this point.
+                    const realStances =
+                        takenStances?.filter(existingStance =>
+                            availableStances.map(stance => stance.activity.name).includes(existingStance),
+                        ) || [];
+
+                    fuseStanceData.setValue('stances', realStances);
+
+                    return availableStances;
+                }),
+            );
     }
 
     public onFuseStanceNameChange(): void {
@@ -1324,7 +1334,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const stances = Array.from(data.valueAsStringArray('stances') || []);
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices && stances.length === 1 && data.getValue('name')) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices && stances.length === 1 && data.getValue('name')) { this.toggleShownList(); }
 
             stances.push(stance);
             data.setValue('stances', stances);
@@ -1336,59 +1346,73 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public syncretismData(levelNumber: number): Array<FeatData> | undefined {
-        if (this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Syncretism' }).length) {
-            return this.character.class.filteredFeatData(levelNumber, levelNumber, 'Syncretism');
-        }
+    public syncretismData$(levelNumber: number): Observable<Array<{ featData: FeatData; deity: Readonly<string | null> }> | undefined> {
+        return this._characterFeatsService.characterHasTakenFeatAtLevel$('Syncretism', levelNumber)
+            .pipe(
+                switchMap(hasFeat =>
+                    hasFeat
+                        ? this.character.class.filteredFeatData$(levelNumber, levelNumber, 'Syncretism')
+                            .pipe(
+                                switchMap(featDatas => combineLatest(
+                                    featDatas.map(featData =>
+                                        featData.valueAsString$('deity')
+                                            .pipe(
+                                                map(deity => ({ featData, deity })),
+                                            )),
+                                )),
+                            )
+                        : of(),
+                ),
+            );
     }
 
     public onSyncretismDeityChange(data: FeatData, deity: Deity, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
 
             data.setValue('deity', deity.name);
         } else {
             data.setValue('deity', '');
         }
-
-        this._characterDeitiesService.clearCharacterDeities();
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-        this._refreshService.processPreparedChanges();
     }
 
-    public characterFeatsTakenOnLevel(
+    public characterFeatsTakenOnLevel$(
         levelNumber: number,
         typeFilter: 'feature' | 'feat',
-    ): Array<FeatTaken> {
+    ): Observable<Array<FeatTaken>> {
         const character = this.character;
 
-        return this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber, { locked: true, automatic: true })
-            .filter(taken =>
-                (typeFilter === 'feature') === (taken.isFeature(character.class.name)),
+        return this._characterFeatsService.characterFeatsTaken$(levelNumber, levelNumber, { locked: true, automatic: true })
+            .pipe(
+                map(takenSets => takenSets
+                    .filter(taken =>
+                        (typeFilter === 'feature') === (taken.isFeature(character.class.name)),
+                    ),
+                ),
             );
     }
 
-    public availableClasses(): Array<Class> {
-        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
-
-        return this._classesDataService.classes()
-            .filter($class =>
-                shouldShowOtherOptions ||
-                !this.character.class?.name ||
-                $class.name === this.character.class.name,
-            )
-            .sort((a, b) => sortAlphaNum(a.name, b.name));
+    public availableClasses$(): Observable<Array<Class>> {
+        return this.character.settings.showOtherOptions$
+            .pipe(
+                map(showOtherOptions => this._classesDataService.classes()
+                    .filter($class =>
+                        showOtherOptions ||
+                        !this.character.class?.name ||
+                        $class.name === this.character.class.name,
+                    )
+                    .sort((a, b) => sortAlphaNum(a.name, b.name)),
+                ),
+            );
     }
 
     public onClassChange($class: Class, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterClassChangeService.changeClass($class);
         } else {
@@ -1396,23 +1420,25 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         }
     }
 
-    public availableAncestries(): Array<Ancestry> {
-        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
-
-        return this._historyDataService.ancestries()
-            .filter(ancestry =>
-                shouldShowOtherOptions ||
-                !this.character.class.ancestry?.name ||
-                ancestry.name === this.character.class.ancestry.name,
-            )
-            .sort((a, b) => sortAlphaNum(a.name, b.name));
+    public availableAncestries$(): Observable<Array<Ancestry>> {
+        return this.character.settings.showOtherOptions$
+            .pipe(
+                map(showOtherOptions => this._historyDataService.ancestries()
+                    .filter(ancestry =>
+                        showOtherOptions ||
+                        !this.character.class.ancestry?.name ||
+                        ancestry.name === this.character.class.ancestry.name,
+                    )
+                    .sort((a, b) => sortAlphaNum(a.name, b.name)),
+                ),
+            );
     }
 
     public onAncestryChange(ancestry: Ancestry, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterAncestryChangeService.changeAncestry(ancestry);
         } else {
@@ -1423,56 +1449,58 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public availableDeities(name = '', filterForSyncretism = false, charLevel: number = this.character.level): Array<Deity> {
-        const character = this.character;
-        const currentDeities = this._characterDeitiesService.currentCharacterDeities('', charLevel);
-        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
-        const wordFilter = this.deityWordFilter.toLowerCase();
+    public availableDeities$(options?: { filterForSyncretism?: boolean; charLevel?: number }): Observable<Array<Deity>> {
+        return combineLatest([
+            this.character.settings.showOtherOptions$,
+            this.character.alignment$,
+            this._characterDeitiesService.currentCharacterDeities$(options?.charLevel),
+        ])
+            .pipe(
+                map(([showOtherOptions, alignment, currentDeities]) => {
+                    const character = this.character;
+                    const wordFilter = this.deityWordFilter.toLowerCase();
 
-        //Certain classes need to choose a deity allowing their alignment.
-        return this._deitiesDataService.deities(name).filter(deity =>
-            (
-                shouldShowOtherOptions ||
-                (
-                    filterForSyncretism ?
-                        !currentDeities[1] :
-                        !currentDeities[0]
-                ) ||
-                (
-                    filterForSyncretism ?
-                        ([currentDeities[0].name, currentDeities[1].name].includes(deity.name)) :
-                        (deity.name === currentDeities[0].name)
-                )
-            ) &&
-            (
-                !character.class.deityFocused ||
-                (
-                    !this.character.alignment ||
-                    deity.followerAlignments.includes(this.character.alignment)
-                )
-            ) && (
-                !wordFilter || (
-                    deity.name
-                        .concat(
-                            deity.desc,
-                            deity.sourceBook,
-                            ...deity.domains,
-                            ...deity.alternateDomains,
-                            ...deity.favoredWeapon,
-                        )
-                        .toLowerCase()
-                        .includes(wordFilter)
-                )
-            ),
-        )
-            .sort((a, b) => sortAlphaNum(a.name, b.name));
+                    //Certain classes need to choose a deity allowing their alignment.
+                    return this._deitiesDataService.deities().filter(deity =>
+                        (
+                            showOtherOptions ||
+                            (
+                                options?.filterForSyncretism
+                                    ? !currentDeities[1] || currentDeities.some(currentDeity => currentDeity.name = deity.name)
+                                    : !currentDeities[0] || (deity.name === currentDeities[0].name)
+                            )
+                        ) &&
+                        (
+                            !character.class.deityFocused ||
+                            (
+                                !alignment ||
+                                deity.followerAlignments.includes(alignment)
+                            )
+                        ) && (
+                            !wordFilter || (
+                                deity.name
+                                    .concat(
+                                        deity.desc,
+                                        deity.sourceBook,
+                                        ...deity.domains,
+                                        ...deity.alternateDomains,
+                                        ...deity.favoredWeapon,
+                                    )
+                                    .toLowerCase()
+                                    .includes(wordFilter)
+                            )
+                        ),
+                    )
+                        .sort((a, b) => sortAlphaNum(a.name, b.name));
+                }),
+            );
     }
 
     public onDeityChange(deity: Deity, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterDeitiesService.changeDeity(deity);
         } else {
@@ -1482,23 +1510,27 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public availableHeritages(name = '', ancestryName = '', index = -1): Array<Heritage> {
-        let heritage = this.character.class.heritage;
+    public availableHeritages$(name = '', ancestryName = '', index = -1): Observable<Array<Heritage>> {
+        return this.character.settings.showOtherOptions$
+            .pipe(
+                map(showOtherOptions => {
+                    let heritage = this.character.class.heritage;
 
-        if (index !== -1) {
-            heritage = this.character.class.additionalHeritages[index];
-        }
+                    if (index !== -1) {
+                        heritage = this.character.class.additionalHeritages[index];
+                    }
 
-        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
+                    return this._historyDataService.heritages(name, ancestryName)
+                        .filter(availableHeritage =>
+                            showOtherOptions ||
+                            !heritage?.name ||
+                            availableHeritage.name === heritage.name ||
+                            availableHeritage.subTypes?.some(subType => subType.name === heritage.name),
+                        )
+                        .sort((a, b) => sortAlphaNum(a.name, b.name));
+                }),
+            );
 
-        return this._historyDataService.heritages(name, ancestryName)
-            .filter(availableHeritage =>
-                shouldShowOtherOptions ||
-                !heritage?.name ||
-                availableHeritage.name === heritage.name ||
-                availableHeritage.subTypes?.some(subType => subType.name === heritage.name),
-            )
-            .sort((a, b) => sortAlphaNum(a.name, b.name));
     }
 
     public doesCharacterHaveHeritage(name: string): boolean {
@@ -1510,7 +1542,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterHeritageChangeService.changeHeritage(heritage);
         } else {
@@ -1530,22 +1562,26 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             );
     }
 
-    public availableBackgrounds(): Array<Background> {
-        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
-        const takenBackgroundNames: Array<string> =
-            this.character.class.background
-                ? [
-                    this.character.class.background.name,
-                    this.character.class.background.superType,
-                ]
-                : [];
+    public availableBackgrounds$(): Observable<Array<Background>> {
+        return this.character.settings.showOtherOptions$
+            .pipe(
+                map(showOtherOptions => {
+                    const takenBackgroundNames: Array<string> =
+                        this.character.class.background
+                            ? [
+                                this.character.class.background.name,
+                                this.character.class.background.superType,
+                            ]
+                            : [];
 
-        return this.filteredBackgrounds()
-            .filter(background =>
-                shouldShowOtherOptions ||
-                takenBackgroundNames.includes(background.name),
-            )
-            .sort((a, b) => sortAlphaNum(a.name, b.name));
+                    return this.filteredBackgrounds()
+                        .filter(background =>
+                            showOtherOptions ||
+                            takenBackgroundNames.includes(background.name),
+                        )
+                        .sort((a, b) => sortAlphaNum(a.name, b.name));
+                }),
+            );
     }
 
     public subTypesOfBackground(superType: string): Array<Background> {
@@ -1557,7 +1593,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
 
             this._characterBackgroundChangeService.changeBackground(background);
         } else {
@@ -1568,11 +1604,15 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public hasCompanionBecomeAvailableOnLevel(levelNumber: number): boolean {
+    public hasCompanionBecomeAvailableOnLevel$(levelNumber: number): Observable<boolean> {
         //Return whether you have taken a feat this level that granted you an animal companion.
-        return this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber)
-            .map(taken => this.characterFeatsAndFeatures(taken.name)[0])
-            .some(feat => feat && feat.gainAnimalCompanion === 'Young');
+        return this._characterFeatsService.characterFeatsTakenAtLevel$(levelNumber)
+            .pipe(
+                map(takenFeats => takenFeats
+                    .some(feat => feat && feat.gainAnimalCompanion === 'Young'),
+                ),
+            );
+
     }
 
     public onResetCompanion(): void {
@@ -1596,82 +1636,115 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         }
     }
 
-    public availableCompanionTypes(): Array<AnimalCompanionAncestry> {
-        const existingCompanionName = this.companion.class.ancestry.name;
-        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
+    public availableCompanionTypes$(): Observable<Array<AnimalCompanionAncestry>> {
+        return combineLatest(
+            this.character.settings.showOtherOptions$,
+            propMap$(this.animalCompanion$, 'class$', 'ancestry$'),
+        )
+            .pipe(
+                map(([showOtherOptions, companionAncestry]) => {
+                    const existingCompanionAncestryName = companionAncestry.name;
 
-        return this._animalCompanionsDataService.companionTypes()
-            .filter(type => shouldShowOtherOptions || !existingCompanionName || type.name === existingCompanionName)
-            .sort((a, b) => sortAlphaNum(a.name, b.name));
+                    return this._animalCompanionsDataService.companionTypes()
+                        .filter(type => showOtherOptions || !existingCompanionAncestryName || type.name === existingCompanionAncestryName)
+                        .sort((a, b) => sortAlphaNum(a.name, b.name));
+
+                }),
+            );
     }
 
     public onChangeCompanionType(type: AnimalCompanionAncestry, checkedEvent: Event): void {
-        const isChecked = (checkedEvent.target as HTMLInputElement).checked;
-        const companion = this.companion;
+        this.animalCompanion$
+            .pipe(
+                take(1),
+            ).subscribe(companion => {
+                const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
-        if (isChecked) {
-            if (SettingsService.settings.autoCloseChoices && companion.name && companion.species) { this.toggleShownList(); }
+                if (isChecked) {
+                    if (this.character.settings.autoCloseChoices && companion.name && companion.species) { this.toggleShownList(); }
 
-            this._animalCompanionAncestryService.changeAncestry(companion, type);
-        } else {
-            this._animalCompanionAncestryService.changeAncestry(companion, undefined);
-        }
+                    this._animalCompanionAncestryService.changeAncestry(companion, type);
+                } else {
+                    this._animalCompanionAncestryService.changeAncestry(companion, undefined);
+                }
 
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
-        this._refreshService.processPreparedChanges();
+                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
+                this._refreshService.processPreparedChanges();
+            });
     }
 
     public onChangeCompanionSpecialization(spec: AnimalCompanionSpecialization, checkedEvent: Event, levelNumber: number): void {
-        const isChecked = (checkedEvent.target as HTMLInputElement).checked;
-        const available = this.companionSpecializationsAvailable(levelNumber);
-
-        if (isChecked) {
-            if (
-                SettingsService.settings.autoCloseChoices &&
-                this.companion.class.specializations
-                    .filter(takenSpec => takenSpec.level === levelNumber).length === available - 1
-            ) {
-                this.toggleShownList();
-            }
-
-            this._animalCompanionSpecializationsService.addSpecialization(this.companion, spec, levelNumber);
-        } else {
-            this._animalCompanionSpecializationsService.removeSpecialization(this.companion, spec);
-        }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'abilities');
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'skills');
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'attacks');
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'defense');
-        this._refreshService.processPreparedChanges();
-    }
-
-    public companionSpecializationsAvailable(levelNumber: number): number {
-        //Return how many feats you have taken this level that granted you an animal companion specialization.
-        return this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber)
-            .map(taken => this.characterFeatsAndFeatures(taken.name)[0])
-            .filter(feat => feat && feat.gainAnimalCompanion === 'Specialized').length;
-    }
-
-    public availableCompanionSpecializations(levelNumber: number): Array<AnimalCompanionSpecialization> {
-        const existingCompanionSpecs = this.companion.class.specializations;
-        const available = this.companionSpecializationsAvailable(levelNumber);
-        const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
-
-        // Get all specializations that were either taken on this level (so they can be deselected)
-        // or that were not yet taken if the choice is not exhausted.
-        return this._animalCompanionsDataService.companionSpecializations()
-            .filter(type =>
-                shouldShowOtherOptions ||
-                existingCompanionSpecs.some(spec => spec.name === type.name && spec.level === levelNumber) ||
-                (existingCompanionSpecs.filter(spec => spec.level === levelNumber).length < available) &&
-                !existingCompanionSpecs.some(spec => spec.name === type.name),
+        combineLatest([
+            this.animalCompanion$,
+            this.companionSpecializationsAvailable$(levelNumber),
+        ])
+            .pipe(
+                take(1),
             )
-            .sort((a, b) => sortAlphaNum(a.name, b.name));
+            .subscribe(([companion, available]) => {
+                const isChecked = (checkedEvent.target as HTMLInputElement).checked;
+
+                if (isChecked) {
+                    if (
+                        this.character.settings.autoCloseChoices &&
+                        companion.class.specializations
+                            .filter(takenSpec => takenSpec.level === levelNumber).length === available - 1
+                    ) {
+                        this.toggleShownList();
+                    }
+
+                    this._animalCompanionSpecializationsService.addSpecialization(companion, spec, levelNumber);
+                } else {
+                    this._animalCompanionSpecializationsService.removeSpecialization(companion, spec);
+                }
+
+                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'abilities');
+                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'skills');
+                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'attacks');
+                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'defense');
+                this._refreshService.processPreparedChanges();
+            });
     }
 
-    public companionSpecializationsOnLevel(levelNumber: number): Array<string> {
-        return this.companion.class.specializations.filter(spec => spec.level === levelNumber).map(spec => spec.name);
+    public companionSpecializationsAvailable$(levelNumber: number): Observable<number> {
+        //Return how many feats you have taken this level that granted you an animal companion specialization.
+        return this._characterFeatsService.characterFeatsTakenAtLevel$(levelNumber)
+            .pipe(
+                map(takenFeats => takenFeats
+                    .filter(feat => feat && feat.gainAnimalCompanion === 'Specialized').length),
+            );
+    }
+
+    public availableCompanionSpecializations$(levelNumber: number): Observable<Array<AnimalCompanionSpecialization>> {
+        return combineLatest([
+            propMap$(this.animalCompanion$, 'class$', 'specializations', 'values$'),
+            this.companionSpecializationsAvailable$(levelNumber),
+            this.character.settings.showOtherOptions$,
+        ])
+            .pipe(
+                map(([existingSpecializations, available, showOtherOptions]) =>
+                    // Get all specializations that were either taken on this level (so they can be deselected)
+                    // or that were not yet taken if the choice is not exhausted.
+                    this._animalCompanionsDataService.companionSpecializations()
+                        .filter(type =>
+                            showOtherOptions ||
+                            existingSpecializations.some(spec => spec.name === type.name && spec.level === levelNumber) ||
+                            (existingSpecializations.filter(spec => spec.level === levelNumber).length < available) &&
+                            !existingSpecializations.some(spec => spec.name === type.name),
+                        )
+                        .sort((a, b) => sortAlphaNum(a.name, b.name)),
+                ),
+            );
+    }
+
+    public companionSpecializationsOnLevel$(levelNumber: number): Observable<Array<string>> {
+        return propMap$(this.animalCompanion$, 'class$', 'specializations', 'values$')
+            .pipe(
+                map(specializations => specializations
+                    .filter(spec => spec.level === levelNumber)
+                    .map(spec => spec.name),
+                ),
+            );
     }
 
     public companionSpecializationChoiceTitle(available: number, taken: Array<string>): string {
@@ -1686,15 +1759,24 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         return result;
     }
 
-    public hasCompanionTakenThisSpecialization(name: string): boolean {
-        return this.companion.class.specializations.some(spec => spec.name === name);
+    public hasCompanionTakenThisSpecialization$(name: string): Observable<boolean> {
+        return propMap$(this.animalCompanion$, 'class$', 'specializations', 'values$')
+            .pipe(
+                map(specializations => specializations
+                    .some(spec => spec.name === name),
+                ),
+            );
     }
 
-    public isFamiliarAvailableOnLevel(levelNumber: number): boolean {
+    public isFamiliarAvailableOnLevel$(levelNumber: number): Observable<boolean> {
         //Return whether you have taken a feat this level that granted you a familiar.
-        return this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber)
-            .map(taken => this.characterFeatsAndFeatures(taken.name)[0])
-            .some(feat => feat && feat.gainFamiliar);
+        return this._characterFeatsService.characterFeatsTakenAtLevel$(levelNumber)
+            .pipe(
+                map(featsTaken => featsTaken
+                    .some(feat => feat && feat.gainFamiliar),
+                ),
+            );
+
     }
 
     public onResetFamiliar(): void {
@@ -1717,21 +1799,31 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public onFamiliarSpeedChange(checkedEvent: Event): void {
-        const isChecked = (checkedEvent.target as HTMLInputElement).checked;
+        this.familiar$
+            .pipe(
+                map(familiar => {
+                    const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
-        if (isChecked) {
-            this.familiar.speeds[1].name = 'Swim Speed';
-        } else {
-            this.familiar.speeds[1].name = 'Land Speed';
-        }
+                    if (isChecked) {
+                        familiar.speeds[1].name = 'Swim Speed';
+                    } else {
+                        familiar.speeds[1].name = 'Land Speed';
+                    }
 
-        this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'general');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'familiarabilities');
-        this._refreshService.processPreparedChanges();
+                    familiar.speeds.triggerOnChange();
+
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'general');
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'familiarabilities');
+                    this._refreshService.processPreparedChanges();
+                }),
+            );
     }
 
-    public isFamiliarSwimmer(): boolean {
-        return this.familiar.speeds[1].name === 'Swim Speed';
+    public isFamiliarSwimmer$(): Observable<boolean> {
+        return propMap$(this.familiar$, 'speeds', 'values$')
+            .pipe(
+                map(speeds => speeds[1].name === 'Swim Speed'),
+            );
     }
 
     public grantedCompanionAttacks(type: AnimalCompanionAncestry): Array<Weapon> {
@@ -1744,32 +1836,37 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             .filter((weapon): weapon is Weapon => !!weapon);
     }
 
-    public animalCompanionAbilities(type: AnimalCompanionAncestry): Array<{ name: string; modifier: string }> {
-        const abilities: [{ name: string; modifier: string }] = [{ name: '', modifier: '' }];
+    public animalCompanionAbilities$(type: AnimalCompanionAncestry): Observable<Array<{ name: string; modifier: string }>> {
+        return propMap$(this.animalCompanion$, 'class$', 'levels', 'values$')
+            .pipe(
+                map(levels => {
+                    const abilities: [{ name: string; modifier: string }] = [{ name: '', modifier: '' }];
 
-        this._abilitiesDataService.abilities().forEach(ability => {
-            const name = ability.modifierName;
-            let modifier = 0;
-            const classboosts = this.companion.class.levels[1].abilityChoices[0].boosts.filter(boost => boost.name === ability.name);
-            const ancestryboosts = type.abilityChoices[0].boosts.filter(boost => boost.name === ability.name);
+                    this._abilitiesDataService.abilities().forEach(ability => {
+                        const name = ability.modifierName;
+                        let modifier = 0;
+                        const classboosts = levels[1].abilityChoices[0].boosts.filter(boost => boost.name === ability.name);
+                        const ancestryboosts = type.abilityChoices[0].boosts.filter(boost => boost.name === ability.name);
 
-            modifier = ancestryboosts
-                .concat(classboosts)
-                .reduce((prev, current) => {
-                    switch (current.type) {
-                        case 'Boost':
-                            return prev + 1;
-                        case 'Flaw':
-                            return prev - 1;
-                        default:
-                            return 0;
-                    }
-                }, 0);
-            abilities.push({ name, modifier: (modifier > 0 ? '+' : '') + modifier.toString() });
-        });
-        abilities.shift();
+                        modifier = ancestryboosts
+                            .concat(classboosts)
+                            .reduce((prev, current) => {
+                                switch (current.type) {
+                                    case 'Boost':
+                                        return prev + 1;
+                                    case 'Flaw':
+                                        return prev - 1;
+                                    default:
+                                        return 0;
+                                }
+                            }, 0);
+                        abilities.push({ name, modifier: (modifier > 0 ? '+' : '') + modifier.toString() });
+                    });
+                    abilities.shift();
 
-        return abilities;
+                    return abilities;
+                }),
+            );
     }
 
     public addBonusAbilityChoice(level: ClassLevel, type: 'Boost' | 'Flaw'): void {
@@ -1875,16 +1972,16 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         return choice.boosts.some(boost => ['Boost', 'Info'].includes(boost.type) && boost.name === ability.name);
     }
 
-    private _intModifier(levelNumber: number): number {
+    private _intModifier$(levelNumber: number): Observable<number> {
         if (!levelNumber) {
-            return 0;
+            return of(0);
         }
 
         //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
-        const intelligence: number =
-            this._abilityValuesService.baseValue('Intelligence', this.character, levelNumber).result;
-
-        return abilityModFromAbilityValue(intelligence);
+        return this._abilityValuesService.baseValue$('Intelligence', this.character, levelNumber)
+            .pipe(
+                map(intelligence => abilityModFromAbilityValue(intelligence.result)),
+            );
     }
 
     private _featChoicesShownOnCurrentLevel(level: ClassLevel): Array<FeatChoice> {

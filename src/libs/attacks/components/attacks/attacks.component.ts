@@ -19,7 +19,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, takeUntil, tap } from 'rxjs';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Specialization } from 'src/app/classes/Specialization';
@@ -29,9 +29,9 @@ import { Trait } from 'src/app/classes/Trait';
 import { WornItem } from 'src/app/classes/WornItem';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
-import { AttackResult, AttacksService, DamageResult } from '../../services/attacks/attacks.service';
-import { DamageService } from 'src/libs/attacks/services/damage/damage.service';
-import { attackRuneSource } from 'src/libs/attacks/util/attackRuneSource';
+import { AttackResult, AttacksService } from '../../services/attacks/attacks.service';
+import { DamageResult, DamageService } from 'src/libs/attacks/services/damage/damage.service';
+import { attackRuneSource$ } from 'src/libs/attacks/util/attackRuneSource';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
@@ -46,6 +46,11 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { Oil } from 'src/app/classes/Oil';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { Creature } from 'src/app/classes/Creature';
+import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -61,14 +66,12 @@ interface WeaponParameters {
 })
 export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
-    @Input()
-    public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
-
     public onlyAttacks: Array<AttackRestriction> = [];
     public forbiddenAttacks: Array<AttackRestriction> = [];
     public showRestricted = false;
 
     public isInventoryTileMode$: Observable<boolean>;
+    public isManualMode$: Observable<boolean>;
 
     private _showItem = '';
     private _showList = '';
@@ -95,50 +98,54 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
     ) {
         super();
 
-        SettingsService.settings$
+        this.isMinimized$ = this.creature$
             .pipe(
-                takeUntil(this._destroyed$),
-                map(settings => {
-                    switch (this.creature) {
+                switchMap(creature => {
+                    switch (creature.type) {
                         case CreatureTypes.AnimalCompanion:
-                            return settings.companionMinimized;
+                            return propMap$(SettingsService.settings$, 'companionMinimized$');
                         default:
-                            return settings.attacksMinimized;
+                            return propMap$(SettingsService.settings$, 'attacksMinimized$');
                     }
                 }),
                 distinctUntilChanged(),
-            )
-            .subscribe(minimized => {
-                this._updateMinimized({ bySetting: minimized });
-            });
+                tap(minimized => this._updateMinimized(minimized)),
+                // If the button is hidden, another subscription ensures that the pipe is run.
+                // shareReplay prevents it from running twice if the button is not hidden.
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
 
-        this.isInventoryTileMode$ = SettingsService.settings$
+        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
+        this.isMinimized$
             .pipe(
-                map(settings => settings.inventoryTileMode),
+                takeUntil(this._destroyed$),
+            )
+            .subscribe();
+
+        this.isInventoryTileMode$ = propMap$(SettingsService.settings$, 'inventoryTileMode$')
+            .pipe(
                 distinctUntilChanged(),
-                shareReplay(1),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$')
+            .pipe(
+                distinctUntilChanged(),
+                shareReplay({ refCount: true, bufferSize: 1 }),
             );
     }
 
     @Input()
-    public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._updateMinimized({ forced: forceMinimized ?? false });
+    public set creature(creature: Character | AnimalCompanion) {
+        this._updateCreature(creature);
     }
 
     public get shouldShowMinimizeButton(): boolean {
-        return !this.forceMinimized && this.creature === CreatureTypes.Character;
-    }
-
-    public get isManualMode(): boolean {
-        return SettingsService.isManualMode;
+        return this.creature.isCharacter();
     }
 
     private get _character(): Character {
         return CreatureService.character;
-    }
-
-    private get _currentCreature(): Character | AnimalCompanion {
-        return CreatureService.creatureFromType(this.creature) as Character | AnimalCompanion;
     }
 
     public toggleMinimized(minimized: boolean): void {
@@ -172,7 +179,7 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
             hints.push(weapon.criticalHint);
         }
 
-        weapon.material.forEach(material => {
+        weapon.weaponMaterial.forEach(material => {
             if (material.criticalHint) {
                 hints.push(material.criticalHint);
             }
@@ -181,17 +188,17 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
         return hints;
     }
 
-    public criticalSpecialization(weapon: Weapon, range: string): Array<Specialization> {
-        return this._damageService.critSpecialization(weapon, this._currentCreature, range);
+    public criticalSpecialization$(weapon: Weapon, range: string): Observable<Array<Specialization>> {
+        return this._damageService.critSpecialization$(weapon, this.creature, range);
     }
 
     public equippedWeaponsParameters(): Array<WeaponParameters> {
         this._setAttackRestrictions();
 
         return new Array<Weapon>()
-            .concat(this._currentCreature.inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken))
-            .concat(...this._currentCreature.inventories.map(inv => inv.alchemicalbombs))
-            .concat(...this._currentCreature.inventories.map(inv => inv.otherconsumablesbombs))
+            .concat(this.creature.inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken))
+            .concat(...this.creature.inventories.map(inv => inv.alchemicalbombs))
+            .concat(...this.creature.inventories.map(inv => inv.otherconsumablesbombs))
             .sort((a, b) => (a.name === b.name) ? 0 : ((a.name > b.name) ? 1 : -1))
             .sort((a, b) => (a.type === b.type) ? 0 : ((a.type < b.type) ? 1 : -1))
             .map(weapon => ({
@@ -210,8 +217,8 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
     }
 
     public onTalismanUse(weapon: Weapon, talisman: Talisman, index: number, preserve = false): void {
-        this._refreshService.prepareDetailToChange(this.creature, 'attacks');
-        this._itemActivationService.useConsumable(this._currentCreature, talisman, preserve);
+        this._refreshService.prepareDetailToChange(this.creature.type, 'attacks');
+        this._itemActivationService.useConsumable(this.creature, talisman, preserve);
 
         if (!preserve) {
             weapon.talismans.splice(index, 1);
@@ -221,8 +228,8 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
     }
 
     public onPoisonUse(weapon: Weapon, poison: AlchemicalPoison): void {
-        this._refreshService.prepareDetailToChange(this.creature, 'attacks');
-        this._itemActivationService.useConsumable(this._currentCreature, poison);
+        this._refreshService.prepareDetailToChange(this.creature.type, 'attacks');
+        this._itemActivationService.useConsumable(this.creature, poison);
         weapon.poisonsApplied.length = 0;
         this._refreshService.processPreparedChanges();
     }
@@ -235,30 +242,77 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
         ));
     }
 
-    public availableAmmo(type: string): Array<{ item: Ammunition; name: string; inventory: ItemCollection }> {
+    public availableAmmo$(type: string): Observable<Array<{ item: Ammunition; name: string; inventory: ItemCollection }>> {
         //Return all ammo from all inventories that has this type in its group
         //We need the inventory for using up items and the name just for sorting
-        const ammoList: Array<{ item: Ammunition; name: string; inventory: ItemCollection }> = [];
+        return this.creature.inventories.values$
+            .pipe(
+                switchMap(inventories => combineLatest(
+                    inventories
+                        .map(inventory =>
+                            inventory.ammunition.values$
+                                .pipe(
+                                    switchMap(ammunition => combineLatest(
+                                        ammunition
+                                            .filter(ammo => [type, 'Any'].includes(ammo.ammunition))
+                                            .map(ammo =>
+                                                ammo.effectiveName$()
+                                                    .pipe(
+                                                        map(name => ({
+                                                            item: ammo,
+                                                            name,
+                                                            inventory,
+                                                        })),
+                                                    ),
+                                            ),
+                                    ),
 
-        this._currentCreature.inventories.forEach(inv => {
-            inv.ammunition.filter(ammo => [type, 'Any'].includes(ammo.ammunition)).forEach(ammo => {
-                ammoList.push({ item: ammo, name: ammo.effectiveName(), inventory: inv });
-            });
-        });
+                                    ),
+                                ),
+                        ),
 
-        return ammoList.sort((a, b) => sortAlphaNum(a.name, b.name));
+                )),
+                map(ammoLists =>
+                    new Array<{ item: Ammunition; name: string; inventory: ItemCollection }>()
+                        .concat(...ammoLists)
+                        .sort((a, b) => sortAlphaNum(a.name, b.name)),
+                ),
+            );
     }
 
-    public availableSnares(): Array<{ item: Snare; name: string; inventory: ItemCollection }> {
-        const snares: Array<{ item: Snare; name: string; inventory: ItemCollection }> = [];
+    public availableSnares$(): Observable<Array<{ item: Snare; name: string; inventory: ItemCollection }>> {
+        return this.creature.inventories.values$
+            .pipe(
+                switchMap(inventories => combineLatest(
+                    inventories
+                        .map(inventory =>
+                            inventory.snares.values$
+                                .pipe(
+                                    switchMap(snares => combineLatest(
+                                        snares
+                                            .map(snare =>
+                                                snare.effectiveName$()
+                                                    .pipe(
+                                                        map(name => ({
+                                                            item: snare,
+                                                            name,
+                                                            inventory,
+                                                        })),
+                                                    ),
+                                            ),
+                                    ),
 
-        this._currentCreature.inventories.forEach(inv => {
-            inv.snares.forEach(snare => {
-                snares.push({ item: snare, name: snare.effectiveName(), inventory: inv });
-            });
-        });
+                                    ),
+                                ),
+                        ),
 
-        return snares.sort((a, b) => sortAlphaNum(a.name, b.name));
+                )),
+                map(ammoLists =>
+                    new Array<{ item: Snare; name: string; inventory: ItemCollection }>()
+                        .concat(...ammoLists)
+                        .sort((a, b) => sortAlphaNum(a.name, b.name)),
+                ),
+            );
     }
 
     public onConsumableUse(
@@ -292,62 +346,71 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
             }
         }
 
-        this._itemActivationService.useConsumable(this._currentCreature, item as Consumable);
+        this._itemActivationService.useConsumable(this.creature, item as Consumable);
 
         if (item.canStack()) {
-            this._refreshService.prepareDetailToChange(this.creature, 'attacks');
+            this._refreshService.prepareDetailToChange(this.creature.type, 'attacks');
             this._refreshService.processPreparedChanges();
         } else if (inv) {
-            this._inventoryService.dropInventoryItem(this._currentCreature, inv, item, true);
+            this._inventoryService.dropInventoryItem(this.creature, inv, item, true);
         }
     }
 
     public skillsOfType(type: string): Array<Skill> {
-        return this._skillsDataService.skills(this._currentCreature.customSkills, '', { type });
+        return this._skillsDataService.skills(this.creature.customSkills, '', { type });
     }
 
     public traitFromName(traitName: string): Trait {
         return this._traitsDataService.traitFromName(traitName);
     }
 
-    public hintShowingRunes(weapon: Weapon, range: string): Array<WeaponRune> {
+    public hintShowingRunes$(weapon: Weapon, range: string): Observable<Array<WeaponRune>> {
         //Return all runes and rune-emulating effects that have a hint to show.
-        const runeSource = attackRuneSource(weapon, this._currentCreature, range);
-
-        return runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length)
-            .concat(
-                weapon.oilsApplied
-                    .filter((oil): oil is Oil & { runeEffect: WeaponRune } =>
-                        !!oil.runeEffect && !!oil.runeEffect.hints.length,
-                    ).map(oil => oil.runeEffect))
-            .concat(
-                runeSource.propertyRunes.bladeAlly ?
-                    runeSource.propertyRunes.bladeAllyRunes.filter(rune => rune.hints.length) :
-                    [],
+        return this.runesOfWeapon$(weapon, range)
+            .pipe(
+                map(weaponRunes =>
+                    weaponRunes.filter(rune => rune.hints.length),
+                ),
             );
     }
 
-    public runesOfWeapon(weapon: Weapon, range: string): Array<WeaponRune> {
+    public runesOfWeapon$(weapon: Weapon, range: string): Observable<Array<WeaponRune>> {
         //Return all runes and rune-emulating oil effects.
-        const runes: Array<WeaponRune> = [];
-        const runeSource = attackRuneSource(weapon, this._currentCreature, range);
-
-        runes.push(...runeSource.propertyRunes.propertyRunes);
-        runes.push(
-            ...weapon.oilsApplied
-                .filter((oil): oil is Oil & { runeEffect: WeaponRune } => !!oil.runeEffect)
-                .map(oil => oil.runeEffect));
-
-        if (runeSource.propertyRunes.bladeAlly) {
-            runes.push(...runeSource.propertyRunes.bladeAllyRunes);
-        }
-
-        return runes;
+        return attackRuneSource$(weapon, this.creature, range)
+            .pipe(
+                switchMap(runeSource => combineLatest([
+                    runeSource.forPropertyRunes.weaponRunes$,
+                    runeSource.forPropertyRunes.bladeAlly$
+                        .pipe(
+                            switchMap(bladeAlly =>
+                                bladeAlly
+                                    ? runeSource.forPropertyRunes.bladeAllyRunes.values$
+                                    : of([]),
+                            ),
+                        ),
+                    // Add runes emulated by Oils
+                    weapon.oilsApplied.values$
+                        .pipe(
+                            map(oilsApplied =>
+                                oilsApplied
+                                    .filter((oil): oil is Oil & { runeEffect: WeaponRune } => !!oil.runeEffect),
+                            ),
+                        ),
+                ])),
+                map(([propertyRunes, bladeAllyRunes, oilsAppliedWithRunes]) =>
+                    new Array<WeaponRune>()
+                        .concat(
+                            propertyRunes,
+                            bladeAllyRunes,
+                            oilsAppliedWithRunes.map(oil => oil.runeEffect),
+                        ),
+                ),
+            );
     }
 
     public applyingHandwrapsOfMightyBlows(weapon: Weapon): WornItem | undefined {
         if (weapon.traits.includes('Unarmed')) {
-            return this._currentCreature.inventories[0].wornitems
+            return this.creature.inventories[0].wornitems
                 .find(wornItem => wornItem.isHandwrapsOfMightyBlows && wornItem.invested);
         } else {
             return undefined;
@@ -358,109 +421,162 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
         return rune.data.find(data => data.name === weapon.group)?.value as string || undefined;
     }
 
-    public specialShowOnNames(weapon: Weapon, range: string): Array<string> {
+    public specialShowOnNames$(weapon: Weapon, range: string): Observable<Array<string>> {
         //Under certain circumstances, some Feats apply to Weapons independently of their name.
-        //Return names that get_FeatsShowingOn should run on.
+        //Return a list of names that those feats apply to.
+        const namesSources: Array<Observable<Array<string | null>>> = [];
         const specialNames: Array<string> = [];
 
         //Monks with Monastic Weaponry can apply Unarmed effects to Monk weapons.
         if (
             weapon.traits.includes('Monk') &&
-            this.creature === CreatureTypes.Character &&
-            this._characterFeatsService.characterFeatsTaken(0, this._character.level, { featName: 'Monastic Weaponry' })
+            this.creature.isCharacter()
         ) {
-            specialNames.push('Unarmed Attacks');
+            namesSources.push(
+                this._characterFeatsService.characterHasFeatAtLevel$('Monastic Weaponry')
+                    .pipe(
+                        map(hasFeat =>
+                            hasFeat
+                                ? ['Unarmed Attacks']
+                                : [],
+                        ),
+                    ),
+            );
         }
 
         //Deity's favored weapons get tagged as "Favored Weapon".
-        if (this._weaponPropertiesService.isFavoredWeapon(weapon, this._character)) {
-            specialNames.push('Favored Weapon');
-        }
+        namesSources.push(
+            this._weaponPropertiesService.isFavoredWeapon$(weapon, this._character)
+                .pipe(
+                    map(isFavoredWeapon =>
+                        isFavoredWeapon
+                            ? ['Favored Weapon']
+                            : [],
+                    ),
+                ),
+        );
 
         //Weapons with Emblazon Armament get tagged as "Emblazon Armament Weapon".
-        if (weapon.$emblazonArmament) {
-            weapon.emblazonArmament.forEach(ea => {
-                if (ea.type === 'emblazonArmament') {
-                    specialNames.push('Emblazon Armament Weapon');
-                }
-            });
-        }
+        namesSources.push(
+            weapon.effectiveEmblazonArmament$
+                .pipe(
+                    map(emblazonArmament =>
+                        emblazonArmament?.type === EmblazonArmamentTypes.EmblazonArmament
+                            ? ['Emblazon Armament Weapon']
+                            : [],
+                    ),
+                ),
+        );
 
         //Weapons with Emblazon Energy get tagged as "Emblazon Energy Weapon <Choice>".
-        if (weapon.$emblazonEnergy) {
-            weapon.emblazonArmament.forEach(ea => {
-                if (ea.type === 'emblazonEnergy') {
-                    specialNames.push(`Emblazon Energy Weapon ${ ea.choice }`);
-                }
-            });
-        }
+        namesSources.push(
+            weapon.effectiveEmblazonArmament$
+                .pipe(
+                    map(emblazonArmament =>
+                        emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy
+                            ? [`Emblazon Energy Weapon ${ emblazonArmament.choice }`]
+                            : [],
+                    ),
+                ),
+        );
 
         //Weapons with Emblazon Antimagic get tagged as "Emblazon Antimagic Weapon".
-        if (weapon.$emblazonAntimagic) {
-            weapon.emblazonArmament.forEach(ea => {
-                if (ea.type === 'emblazonAntimagic') {
-                    specialNames.push('Emblazon Antimagic Weapon');
-                }
-            });
-        }
+        namesSources.push(
+            weapon.effectiveEmblazonArmament$
+                .pipe(
+                    map(emblazonArmament =>
+                        emblazonArmament?.type === EmblazonArmamentTypes.EmblazonAntimagic
+                            ? ['Emblazon Antimagic Weapon']
+                            : [],
+                    ),
+                ),
+        );
 
-        const creature = this._currentCreature;
+        namesSources.push(
+            this._weaponPropertiesService.effectiveProficiency$(weapon, { creature: this.creature })
+                .pipe(
+                    map(proficiency => [proficiency]),
+                ),
+        );
 
-        specialNames.push(this._weaponPropertiesService.effectiveProficiency(weapon, { creature, charLevel: creature.level }));
-        specialNames.push(...weapon.$traits);
+        namesSources.push(
+            weapon.effectiveTraits$,
+        );
+
         specialNames.push(range);
         specialNames.push(weapon.weaponBase);
 
-        return specialNames;
-    }
-
-    public attacksOfWeapon(weapon: Weapon): Array<AttackResult> {
-        return new Array<AttackResult>()
-            .concat(
-                weapon.melee
-                    ? [this._attacksService.attack(weapon, this._currentCreature, 'melee')]
-                    : [],
-            )
-            .concat(
-                (weapon.ranged || weapon.traits.find(trait => trait.includes('Thrown')))
-                    ? [this._attacksService.attack(weapon, this._currentCreature, 'ranged')]
-                    : [],
+        return combineLatest(namesSources)
+            .pipe(
+                map(namesLists => namesLists.map(list => list.filter((name): name is string => !!name))),
+                map(namesLists =>
+                    new Array<string>()
+                        .concat(...namesLists)
+                        .concat(specialNames),
+                ),
             );
     }
 
-    public damageOfWeapon(weapon: Weapon, range: string): DamageResult {
-        return this._damageService.damage(weapon, this._currentCreature, range);
+    public attacksOfWeapon$(weapon: Weapon): Observable<Array<AttackResult>> {
+        return combineLatest([
+            weapon.melee
+                ? this._attacksService.attack$(weapon, this.creature, 'melee')
+                : of(undefined),
+            (weapon.ranged || weapon.traits.find(trait => trait.includes('Thrown')))
+                ? this._attacksService.attack$(weapon, this.creature, 'ranged')
+                : of(undefined),
+        ])
+            .pipe(
+                map(results =>
+                    results.filter((result): result is AttackResult => !!result),
+                ),
+            );
     }
 
-    public isFlurryAllowed(): boolean {
-        const creature = this._currentCreature;
-        const character = this._character;
+    public damageOfWeapon$(weapon: Weapon, range: 'ranged' | 'melee'): Observable<DamageResult> {
+        return this._damageService.damage$(weapon, this.creature, range);
+    }
 
-        const hasCondition = (name: string): boolean => (
-            !!this._creatureConditionsService.currentCreatureConditions(creature, { name }, { readonly: true }).length
+    public isFlurryAllowed$(): Observable<boolean> {
+        const creature = this.creature;
+        const character = CreatureService.character;
+
+        //TO-DO: Shouldn't it be the character that has Hunt Prey active?
+        const hasCondition = (conditionCreature: Creature, name: string): boolean => (
+            !!this._creatureConditionsService.currentCreatureConditions(conditionCreature, { name }, { readonly: true }).length
         );
 
-        if (
-            creature === character ||
-            (
-                creature.isAnimalCompanion() &&
-                this._characterFeatsService.characterHasFeat('Animal Companion (Ranger)')
-            )
-        ) {
-            return (
-                (
-                    this._characterFeatsService.characterHasFeat('Flurry') &&
-                    hasCondition('Hunt Prey')
-                ) ||
-                hasCondition('Hunt Prey: Flurry')
-            );
-        } else {
-            return hasCondition('Hunt Prey: Flurry');
+        if (hasCondition(creature, 'Hunt Prey: Flurry')) {
+            return of(true);
         }
+
+        if (creature.isCharacter()) {
+            if (hasCondition(creature, 'Hunt Prey')) {
+                return this._characterFeatsService.characterHasFeatAtLevel$('Flurry');
+            }
+        }
+
+        if (creature.isAnimalCompanion()) {
+            if (hasCondition(character, 'Hunt Prey')) {
+                return combineLatest([
+                    this._characterFeatsService.characterHasFeatAtLevel$('Flurry'),
+                    this._characterFeatsService.characterHasFeatAtLevel$('Animal Companion (Ranger)'),
+                ])
+                    .pipe(
+                        map(([hasFlurry, hasRangerCompanion]) => !!hasFlurry && !!hasRangerCompanion),
+                    );
+            }
+
+            if (hasCondition(creature, 'Hunt Prey: Flurry')) {
+                return this._characterFeatsService.characterHasFeatAtLevel$('Animal Companion (Ranger)');
+            }
+        }
+
+        return of(false);
     }
 
     public multipleAttackPenalty(): string {
-        const creature = this._currentCreature;
+        const creature = this.creature;
         const conditions: Array<ConditionGain> =
             this._creatureConditionsService
                 .currentCreatureConditions(creature, {}, { readonly: true })
@@ -491,7 +607,7 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
     }
 
     public setMultipleAttackPenalty(mapValue: '1' | '2' | '3' | '2f' | '3f'): void {
-        const creature = this._currentCreature;
+        const creature = this.creature;
         const conditions: Array<ConditionGain> =
             this._creatureConditionsService
                 .currentCreatureConditions(creature, {}, { readonly: true })
@@ -568,7 +684,7 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
     }
 
     public rangePenalty(): string {
-        const creature = this._currentCreature;
+        const creature = this.creature;
         const conditions: Array<ConditionGain> =
             this._creatureConditionsService
                 .currentCreatureConditions(creature, {}, { readonly: true })
@@ -589,7 +705,7 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
     }
 
     public setRangePenalty(rap: '1' | '2' | '3' | '4' | '5' | '6'): void {
-        const creature = this._currentCreature;
+        const creature = this.creature;
         const conditions: Array<ConditionGain> =
             this._creatureConditionsService
                 .currentCreatureConditions(creature, {}, { readonly: true })
@@ -668,40 +784,48 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
         this._refreshService.processPreparedChanges();
     }
 
-    public favoredWeapons(): Array<string> {
-        const creature = this._currentCreature;
-
-        if (creature.isCharacter() && creature.class?.deity && creature.class.deityFocused) {
-            const deity = this._characterDeitiesService.currentCharacterDeities()[0];
-            const favoredWeapons: Array<string> = [];
-
-            if (deity && deity.favoredWeapon.length) {
-                favoredWeapons.push(...deity.favoredWeapon);
-            }
-
-            if (this._characterFeatsService.characterFeatsTaken(1, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length) {
-                favoredWeapons.push(
-                    ...this._characterDeitiesService.currentCharacterDeities('syncretism')[0]?.favoredWeapon ||
-                    [],
-                );
-            }
-
-            return favoredWeapons;
+    public favoredWeapons$(): Observable<Array<string>> {
+        if (!this.creature.isCharacter()) {
+            return of([]);
         }
 
-        return [];
+        return CharacterFlatteningService.characterClass$
+            .pipe(
+                switchMap(characterClass =>
+                    characterClass.deityFocused
+                        ? combineLatest([
+                            this._characterDeitiesService.mainCharacterDeity$,
+                            this._characterFeatsService.characterHasFeatAtLevel$('Favored Weapon (Syncretism)')
+                                .pipe(
+                                    switchMap(hasFavoredWeaponSyncretism =>
+                                        hasFavoredWeaponSyncretism
+                                            ? this._characterDeitiesService.syncretismDeity$()
+                                            : of(null),
+                                    ),
+                                ),
+                        ])
+                        : of([]),
+
+                ),
+                map(deities =>
+                    new Array<string>()
+                        .concat(...deities.map(deity => deity?.favoredWeapon ?? [])),
+                ),
+            );
     }
 
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
-                if (['attacks', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                if (stringsIncludeCaseInsensitive(['attacks', 'all', this.creature.type], target)) {
                     this._changeDetector.detectChanges();
                 }
             });
         this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature.toLowerCase() === this.creature.toLowerCase() && ['attacks', 'all'].includes(view.target.toLowerCase())) {
+                if (
+                    stringEqualsCaseInsensitive(view.creature, this.creature.type)
+                    && stringsIncludeCaseInsensitive(['attacks', 'all'], view.target)) {
                     this._changeDetector.detectChanges();
                 }
             });
@@ -717,7 +841,7 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
         const onlyAttacks: Array<AttackRestriction> = [];
         const forbiddenAttacks: Array<AttackRestriction> = [];
 
-        this._creatureConditionsService.currentCreatureConditions(this._currentCreature).filter(gain => gain.apply)
+        this._creatureConditionsService.currentCreatureConditions(this.creature).filter(gain => gain.apply)
             .forEach(gain => {
                 const condition = this._conditionsDataService.conditionFromName(gain.name);
 
@@ -744,7 +868,7 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
     }
 
     private _onEquipmentChange(item: Equipment): void {
-        this._refreshService.prepareChangesByItem(this._currentCreature, item);
+        this._refreshService.prepareChangesByItem(this.creature, item);
         this._refreshService.processPreparedChanges();
     }
 
@@ -753,7 +877,7 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
     }
 
     private _isWeaponAllowed(weapon: Weapon): boolean {
-        const creature = this._currentCreature;
+        const creature = this.creature;
 
         const doesListMatchWeapon =
             (list: Array<AttackRestriction>): boolean =>
@@ -763,7 +887,7 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
                     } else if (restriction.special) {
                         switch (restriction.special) {
                             case 'Favored Weapon':
-                                return this._weaponPropertiesService.isFavoredWeapon(weapon, creature);
+                                return this._weaponPropertiesService.isFavoredWeapon$(weapon, creature);
                             default: break;
                         }
                     }

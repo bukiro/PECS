@@ -3,9 +3,9 @@ import { BonusDescription } from '../ui/bonus-list';
 import { signNumber } from './numberUtils';
 import { capitalize } from './stringUtils';
 
-export const addFromEffect = (bonuses: Array<BonusDescription>, effect: Effect): Array<BonusDescription> => {
-    const setValue = effect.setValue ? parseInt(effect.setValue, 10) : undefined;
-    const value = (!setValue && effect.value) ? parseInt(effect.value, 10) : undefined;
+export const addBonusDescriptionFromEffect = (bonuses: Array<BonusDescription>, effect: Effect, valueDescription: string = ''): Array<BonusDescription> => {
+    const setValue = effect.setValue ? effect.setValueNumerical : undefined;
+    const value = (!setValue && effect.value) ? effect.valueNumerical : undefined;
     const isAbsolute = !!effect.setValue;
     const isPenalty = !!effect.value && effect.penalty;
     const isBonus = !!effect.value && !effect.penalty;
@@ -14,6 +14,9 @@ export const addFromEffect = (bonuses: Array<BonusDescription>, effect: Effect):
         : undefined;
     const title = effect.source;
 
+    // Instead of '+1', some effects should display, for example, 'Multiplier +1';
+    if (valueDescription) { valueDescription += ' '; }
+
     bonuses.push({
         title,
         type,
@@ -21,9 +24,9 @@ export const addFromEffect = (bonuses: Array<BonusDescription>, effect: Effect):
         isPenalty,
         isBonus,
         value: setValue !== undefined
-            ? `${ setValue }`
+            ? `${ valueDescription }${ setValue }`
             : value !== undefined
-                ? signNumber(value)
+                ? `${ valueDescription }${ signNumber(value) }`
                 : '',
     });
 

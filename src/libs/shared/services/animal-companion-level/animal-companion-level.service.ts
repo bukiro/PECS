@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
+import { combineLatest, map } from 'rxjs';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
@@ -7,6 +7,8 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { CreatureService } from '../creature/creature.service';
+import { deepDistinctUntilChanged } from '../../util/observableUtils';
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +20,9 @@ export class AnimalCompanionLevelsService {
         private readonly _refreshService: RefreshService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _typeService: TypeService,
-    ) { }
+    ) {
+        this._updateAnimalCompanionLevel();
+    }
 
     public restoreLevelsFromSave(classObject: AnimalCompanionClass): AnimalCompanionClass {
         if (classObject.levels) {
@@ -59,9 +63,12 @@ export class AnimalCompanionLevelsService {
         }
     }
 
-    public setLevel(companion: AnimalCompanion): void {
-        // Get all taken feats at this character level that grow the animal companion,
-        // then set the companion level to the highest option (or 1).
+    //TO-DO: Check if this runs everytime it should.
+    /**
+     * Keeps track of all taken feats at the current character level that grow the animal companion,
+     * then sets the companion level to the highest option (or 1).
+     */
+    private _updateAnimalCompanionLevel(): void {
         // Level 3 is a placeholder, and all levels after that are advanced options.
         // When you take a feat with gainAnimalCompanion other than "Young", "Mature" or "Specialized",
         // level 3 gets replaced with that level.
@@ -69,51 +76,64 @@ export class AnimalCompanionLevelsService {
         const youngLevel = 1;
         const matureLevel = 2;
         const advancedLevel = 3;
-        let advancedOption = '';
 
-        companion.level = Math.min(
-            advancedLevel,
-            Math.max(
-                1,
-                ...this._characterFeatsService.characterFeatsAndFeatures()
-                    .filter(feat =>
-                        feat.gainAnimalCompanion &&
-                        this._characterFeatsService.characterHasFeat(feat.name),
-                    )
-                    .map(feat => {
-                        switch (feat.gainAnimalCompanion) {
-                            case 'Young':
-                                return youngLevel;
-                            case 'Mature':
-                                return matureLevel;
-                            default:
-                                advancedOption = feat.gainAnimalCompanion;
+        combineLatest([
+            CreatureService.companion$,
+            this._characterFeatsService.characterFeatsAtLevel$()
+                .pipe(
+                    map(characterFeats =>
+                        characterFeats.filter(feat =>
+                            feat.gainAnimalCompanion,
+                        ),
+                    ),
+                    deepDistinctUntilChanged(),
+                ),
+        ])
+            .subscribe(([companion, companionGainingFeats]) => {
+                let advancedOption = '';
 
-                                return advancedLevel;
-                        }
-                    }),
-            ));
+                companion.level = Math.min(
+                    advancedLevel,
+                    Math.max(
+                        1,
+                        ...companionGainingFeats
+                            .map(feat => {
+                                switch (feat.gainAnimalCompanion) {
+                                    case 'Young':
+                                        return youngLevel;
+                                    case 'Mature':
+                                        return matureLevel;
+                                    default:
+                                        advancedOption = feat.gainAnimalCompanion;
 
-        if (
-            advancedOption &&
-            (companion.class.levels[advancedLevel]?.name !== advancedOption)
-        ) {
-            companion.class.levels[advancedLevel] =
-                Object.assign(
-                    new AnimalCompanionLevel(),
-                    companion.class.levels.find(level => level.name === advancedOption),
-                ).recast();
-            companion.class.levels[advancedLevel].number = advancedLevel;
-        } else if (
-            !advancedOption &&
-            (companion.class.levels[advancedLevel]?.name !== 'Placeholder')
-        ) {
-            companion.class.levels[advancedLevel] = new AnimalCompanionLevel();
-            companion.class.levels[advancedLevel].number = advancedLevel;
-            companion.class.levels[advancedLevel].name = 'Placeholder';
-        }
+                                        return advancedLevel;
+                                }
+                            }),
+                    ));
 
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
+                if (
+                    advancedOption &&
+                    (companion.class.levels[advancedLevel]?.name !== advancedOption)
+                ) {
+                    companion.class.levels[advancedLevel] =
+                        Object.assign(
+                            new AnimalCompanionLevel(),
+                            companion.class.levels.find(level => level.name === advancedOption),
+                        ).recast();
+                    companion.class.levels[advancedLevel].number = advancedLevel;
+                } else if (
+                    !advancedOption &&
+                    (companion.class.levels[advancedLevel]?.name !== 'Placeholder')
+                ) {
+                    companion.class.levels[advancedLevel] = new AnimalCompanionLevel();
+                    companion.class.levels[advancedLevel].number = advancedLevel;
+                    companion.class.levels[advancedLevel].name = 'Placeholder';
+                }
+
+                companion.class.levels.triggerOnChange();
+
+                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
+            });
     }
 
 }

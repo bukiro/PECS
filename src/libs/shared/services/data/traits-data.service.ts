@@ -3,6 +3,8 @@ import { Trait } from 'src/app/classes/Trait';
 import * as json_traits from 'src/assets/json/traits';
 import { Creature } from 'src/app/classes/Creature';
 import { DataLoadingService } from './data-loading.service';
+import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { BehaviorSubject, Observable, combineLatest, map, of, switchMap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -10,7 +12,7 @@ import { DataLoadingService } from './data-loading.service';
 export class TraitsDataService {
 
     private _traits: Array<Trait> = [];
-    private _initialized = false;
+    private readonly _initialized$ = new BehaviorSubject(false);
     private readonly _traitsMap = new Map<string, Trait>();
 
     constructor(
@@ -18,7 +20,7 @@ export class TraitsDataService {
     ) { }
 
     public get stillLoading(): boolean {
-        return !this._initialized;
+        return !this._initialized$.value;
     }
 
     public traitFromName(name: string): Trait {
@@ -58,31 +60,48 @@ export class TraitsDataService {
         return [this._replacementTrait()];
     }
 
-    public traitsShowingHintsOnThis(creature: Creature, name: string): Array<Trait> {
-        if (!this.stillLoading) {
-            // Return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory.
-            // Uses the itemsWithThisTrait() method of Trait that returns any equipment that has this trait.
-            return this._traits.filter(trait =>
-                trait.hints.some(hint =>
-                    hint.showon.split(',').some(showon =>
-                        showon.trim().toLowerCase() === name.toLowerCase() ||
-                        showon.trim().toLowerCase() === (`${ creature.type }:${ name }`).toLowerCase() ||
-                        (
-                            name.toLowerCase().includes('lore') &&
-                            showon.trim().toLowerCase() === 'lore'
-                        ),
-                    ),
-                )
-                && !!trait.itemsWithThisTrait(creature).length,
+    public traitsShowingHintsOnThis$(creature: Creature, name: string): Observable<Array<{ trait: Trait; itemNames: Array<string> }>> {
+        return this._initialized$
+            .pipe(
+                switchMap(stillLoading => {
+                    if (stillLoading) {
+                        return of([]);
+                    } else {
+                        // Find all traits that are set to 'showon' this named object.
+                        const nameMatchingTraits = this.traits().filter(trait =>
+                            trait.hints.some(hint =>
+                                hint.showon.split(',').some(showon =>
+                                    showon.trim().toLowerCase() === name.toLowerCase() ||
+                                    showon.trim().toLowerCase() === (`${ creature.type }:${ name }`).toLowerCase() ||
+                                    (
+                                        name.toLowerCase().includes('lore') &&
+                                        showon.trim().toLowerCase() === 'lore'
+                                    ),
+                                ),
+                            ),
+                        );
+
+                        // Return all those traits that are on any equipped equipment in your inventory
+                        // Uses the itemsWithThisTrait$() method of Trait that returns any equipment that has this trait.
+                        return combineLatest(
+                            nameMatchingTraits.map(trait =>
+                                trait.itemNamesWithThisTrait$(creature)
+                                    .pipe(
+                                        map((itemNames: Array<string>) => ({ trait, itemNames })),
+                                    ),
+                            ),
+                        )
+                            .pipe(
+                                map(traits => traits.filter(trait => !!trait.itemNames.length)),
+                            );
+                    }
+                }),
             );
-        } else {
-            return [];
-        }
     }
 
     public initialize(): void {
         this._traits = this._dataLoadingService.loadRecastable(
-            json_traits,
+            json_traits as ImportedJsonFileList<Trait>,
             'traits',
             'name',
             Trait,
@@ -91,7 +110,7 @@ export class TraitsDataService {
         this._traits.forEach(trait => {
             this._traitsMap.set(trait.name.toLowerCase(), trait);
         });
-        this._initialized = true;
+        this._initialized$.next(true);
     }
 
     public reset(): void {

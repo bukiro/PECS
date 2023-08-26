@@ -27,7 +27,6 @@ export class DisplayService {
         return DisplayService._isMobileDistinct$;
     }
 
-
     public static setMobile(): void {
         DisplayService._isMobile$.next(window.innerWidth <= Defaults.mobileBreakpointPx);
     }

@@ -48,7 +48,7 @@
             <ng-container *ngFor="let inv of inventoriesOrCleanItems(); trackBy:trackByIndex;">
                 <ng-container *ngIf="availableTalismans(inv) as availableTalismans">
                     <optgroup
-                        label="{{itemStore ? 'Available talismans' : inventoryName(inv)}}"
+                        [label]="itemStore ? 'Available talismans' : inventoryName$(inv) | async"
                         *ngIf="availableTalismans.length"
                     >
                         <ng-container *ngFor="let talisman of availableTalismans; trackBy:trackByIndex;">

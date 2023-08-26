@@ -1,0 +1,37 @@
+<ng-container *ngIf="checkMessagesAutomatically; else ManualCheckTemplate">
+    <app-button
+        *ngIf="messages$ | async as messages"
+        class="messages-button"
+        [label]="messages.length > 1 ? 'Select messages to apply' : 'No messages available'"
+        [disabled]="!messages.length"
+        (clicked)="showMessagesDialog(messages)"
+        showLabel
+        compact
+    >
+        <ng-container [ngTemplateOutlet]="IconTemplate"></ng-container>
+
+        <div
+            class="messages-button__badge"
+            *ngIf="messages.length"
+        >
+            {{messages.length}}
+        </div>
+    </app-button>
+</ng-container>
+
+<ng-template #ManualCheckTemplate>
+    <app-button
+        *ngIf="{ set: hasPartyName } as partyName"
+        [label]="partyName.set ? 'Check for new messages' : 'You can only receive messages in a party.'"
+        [disabled]="!partyName.set || (checkingMessages$ | async) || false"
+        (clicked)="checkMessages()"
+        showLabel
+        compact
+    >
+        <app-loading-spinner *ngIf="checkingMessages$ | async; else IconTemplate"></app-loading-spinner>
+    </app-button>
+</ng-template>
+
+<ng-template #IconTemplate>
+    <i class="ra ra-player-thunder-struck messages-button__content"></i>
+</ng-template>

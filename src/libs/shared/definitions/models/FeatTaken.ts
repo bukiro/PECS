@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export class FeatTaken {
     public name = '';
     public source = '';
@@ -5,6 +7,7 @@ export class FeatTaken {
     public automatic = false;
     public sourceId = '';
     public countAsFeat = '';
+    public id = uuidv4();
 
     public recast(): FeatTaken {
         return this;

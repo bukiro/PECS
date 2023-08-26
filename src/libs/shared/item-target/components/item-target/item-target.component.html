@@ -43,11 +43,11 @@
                 This item has additional parts with a total bulk of {{containedBulkString(item)}}.
                 <div class="newrow left-aligned">
                     <input
-                        id="including"
+                        id="excludingParts"
                         type="checkbox"
-                        [(ngModel)]="excluding"
+                        [(ngModel)]="isExcludingParts"
                     >
-                    <label for="including">
+                    <label for="excludingParts">
                         <strong>Move without parts (local only)</strong>
                     </label>
                 </div>
@@ -118,7 +118,7 @@
                             ></i>
                         </ng-container>
 
-                        <strong>{{targetName(target)}}</strong>
+                        <strong>{{targetName$(target) | async}}</strong>
 
                         <span>{{containerBulk(target)}}</span>
                     </span>

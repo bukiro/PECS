@@ -2,7 +2,7 @@
 <div class="list-item newrow">
     <header class="subsectionHeader">Emblazon Armament</header>
 
-    <ng-container *ngIf="componentParameters() as componentParameters">
+    <ng-container *ngIf="componentParameters$() | async as componentParameters">
         <ng-container *ngIf="componentParameters.isEmblazonArmamentAvailable">
             <ng-template #EmblazonArmamentTemplate>
                 <p [innerHtml]="effectDescription(componentParameters.hasEmblazonDivinity)"></p>
@@ -27,7 +27,7 @@
                         id="{{item.id}}emblazonArmament"
                         type="checkbox"
                         [(ngModel)]="emblazonArmamentActivated"
-                        (ngModelChange)="onChange(emblazonArmament, componentParameters.hasEmblazonDivinity)"
+                        (ngModelChange)="onChange(emblazonArmamentTypes.EmblazonArmament, componentParameters.hasEmblazonDivinity)"
                         [disabled]="!!componentParameters.emblazonArmamentDisabledReason"
                     >
                     <label for="{{item.id}}emblazonArmament">
@@ -42,9 +42,9 @@
 
                     <span
                         class="lower"
-                        *ngIf="relatedDeity(emblazonArmament)"
+                        *ngIf="relatedDeity(emblazonArmamentTypes.EmblazonArmament)"
                     >
-                        Symbol of {{relatedDeity(emblazonArmament)}} ({{relatedAlignment(emblazonArmament)}})
+                        Symbol of {{relatedDeity(emblazonArmamentTypes.EmblazonArmament)}} ({{relatedAlignment(emblazonArmamentTypes.EmblazonArmament)}})
                     </span>
                 </span>
             </div>
@@ -79,7 +79,7 @@
                         id="{{item.id}}emblazonEnergy"
                         type="checkbox"
                         [(ngModel)]="emblazonEnergyActivated"
-                        (ngModelChange)="onChange(emblazonEnergy, componentParameters.hasEmblazonDivinity)"
+                        (ngModelChange)="onChange(emblazonArmamentTypes.EmblazonEnergy, componentParameters.hasEmblazonDivinity)"
                         [disabled]="!!componentParameters.emblazonEnergyDisabledReason"
                     >
                     <label for="{{item.id}}emblazonEnergy">
@@ -90,7 +90,7 @@
                     <select
                         aria-label="Select option for emblazon energy"
                         [(ngModel)]="emblazonEnergyChoice"
-                        [disabled]="componentParameters.emblazonEnergyDisabledReason || !!item.emblazonArmament.length"
+                        [disabled]="componentParameters.emblazonEnergyDisabledReason || !!item.emblazonArmament"
                     >
                         <option *ngFor="let option of emblazonEnergyChoices; trackBy:trackByIndex">{{option}}</option>
                     </select>
@@ -102,9 +102,9 @@
 
                     <span
                         class="lower"
-                        *ngIf="relatedDeity(emblazonEnergy)"
+                        *ngIf="relatedDeity(emblazonArmamentTypes.EmblazonEnergy)"
                     >
-                        Symbol of {{relatedDeity(emblazonEnergy)}} ({{relatedAlignment(emblazonEnergy)}})
+                        Symbol of {{relatedDeity(emblazonArmamentTypes.EmblazonEnergy)}} ({{relatedAlignment(emblazonArmamentTypes.EmblazonEnergy)}})
                     </span>
                 </span>
             </div>
@@ -137,7 +137,7 @@
                         id="{{item.id}}emblazonAntimagic"
                         type="checkbox"
                         [(ngModel)]="emblazonAntimagicActivated"
-                        (ngModelChange)="onChange(emblazonAntimagic, componentParameters.hasEmblazonDivinity)"
+                        (ngModelChange)="onChange(emblazonArmamentTypes.EmblazonAntimagic, componentParameters.hasEmblazonDivinity)"
                         [disabled]="componentParameters.emblazonAntimagicDisabledReason !== ''"
                     >
                     <label for="{{item.id}}emblazonAntimagic">
@@ -152,9 +152,9 @@
 
                     <span
                         class="lower"
-                        *ngIf="relatedDeity(emblazonAntimagic)"
+                        *ngIf="relatedDeity(emblazonArmamentTypes.EmblazonAntimagic)"
                     >
-                        Symbol of {{relatedDeity(emblazonAntimagic)}} ({{relatedAlignment(emblazonAntimagic)}})
+                        Symbol of {{relatedDeity(emblazonArmamentTypes.EmblazonAntimagic)}} ({{relatedAlignment(emblazonArmamentTypes.EmblazonAntimagic)}})
                     </span>
                 </span>
             </div>

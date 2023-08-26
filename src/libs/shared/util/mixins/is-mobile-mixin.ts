@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Constructable } from '../../definitions/interfaces/constructable';
 import { DisplayService } from '../../services/display/display.service';
-import { BaseClass } from './base-class';
+import { BaseClass } from '../classes/base-class';
 
 interface IsMobile {
     isMobile$: Observable<boolean>;

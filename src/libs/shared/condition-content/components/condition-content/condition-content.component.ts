@@ -3,9 +3,11 @@ import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { Creature } from 'src/app/classes/Creature';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 
 @Component({
     selector: 'app-condition-content',
@@ -22,7 +24,7 @@ export class ConditionContentComponent extends TrackByMixin(BaseClass) implement
     @Input()
     public showItem = '';
     @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
+    public creature: Creature = CreatureService.character;
     @Input()
     public fullDisplay = false;
     @Output()
@@ -59,13 +61,16 @@ export class ConditionContentComponent extends TrackByMixin(BaseClass) implement
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
-                if (target === 'effects' || target === 'all' || target === this.creature) {
+                if (stringsIncludeCaseInsensitive(['effects', 'all', this.creature.type], target)) {
                     this._changeDetector.detectChanges();
                 }
             });
         this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature === this.creature && ['effects', 'all'].includes(view.target)) {
+                if (
+                    stringEqualsCaseInsensitive(view.creature, this.creature.type)
+                    && stringsIncludeCaseInsensitive(['effects', 'all'], view.target)
+                ) {
                     this._changeDetector.detectChanges();
                 }
             });

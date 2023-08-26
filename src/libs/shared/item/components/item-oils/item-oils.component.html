@@ -16,7 +16,7 @@
                     *ngFor="let oilSet of availableOils; trackBy:trackByIndex;"
                     [ngValue]="oilSet"
                 >
-                    {{oilSet.oil.amount !== 1 ? oilSet.oil.amount + " " : ""}}{{oilSet.oil.effectiveName()}}
+                    {{oilSet.oil.amount !== 1 ? oilSet.oil.amount + " " : ""}}{{oilSet.oil.effectiveName$()}}
                 </option>
             </select>
         </div>
@@ -32,7 +32,7 @@
                 *ngFor="let oil of item.oilsApplied; let index = index; trackBy:trackByIndex;"
             >
                 <span>
-                    {{oil.effectiveName()}} ({{durationDescription(oil.duration)}})
+                    {{oil.effectiveName$()}} ({{durationDescription(oil.duration)}})
                 </span>
 
                 <button

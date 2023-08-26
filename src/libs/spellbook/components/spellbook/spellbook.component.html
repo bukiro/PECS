@@ -1,7 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="corner-button-tray">
     <app-minimize-button
-        *ngIf="!forceMinimized"
         [ngModel]="(isMinimized$ | async) ?? false"
         (ngModelChange)="toggleMinimized($event)"
     ></app-minimize-button>
@@ -19,7 +18,7 @@
     <header class="sectionHeader box-header">Spells</header>
 
     <app-tags
-        [creature]="creatureTypesEnum.Character"
+        [creature]="character"
         [objectName]="'Spellbook'"
         [showTraits]=true
         [showFeats]=true
@@ -32,7 +31,7 @@
     <button
         type="button"
         class="minimized-hide center-aligned list-item"
-        *ngIf="doesCharacterHaveSpells()"
+        *ngIf="hasAnySpells$ | async"
         (click)="toggleSpellsMenu()"
     >
         Prepare Spells
@@ -41,7 +40,7 @@
     <ng-template #SpellAttacksEffectsPopoverContent>
         <div class="minimized-hide newrow">
             <app-object-effects
-                [creature]="creatureTypesEnum.Character"
+                [creature]="character"
                 [objectName]="'Spell Attack Rolls'"
             >
             </app-object-effects>
@@ -49,14 +48,14 @@
 
         <div class="minimized-hide newrow">
             <app-object-effects
-                [creature]="creatureTypesEnum.Character"
+                [creature]="character"
                 [objectName]="'Spell DCs'"
             >
             </app-object-effects>
         </div>
     </ng-template>
 
-    <ng-container *ngFor="let skill of spellDCs(); let index = index; trackBy:trackByIndex;">
+    <ng-container *ngFor="let skill of spellDCs$() | async; let index = index; trackBy:trackByIndex;">
         <header
             class="sectionHeader minimized-hide"
             *ngIf="index === 0"
@@ -87,7 +86,7 @@
     </ng-container>
 
     <app-tags
-        [creature]="creatureTypesEnum.Character"
+        [creature]="character"
         [objectName]="'Spell DC'"
         [showTraits]=true
         [showFeats]=true
@@ -97,8 +96,8 @@
         [showEffects]=true
     ></app-tags>
 
-    <ng-container *ngIf="componentParameters() as componentParameters">
-        <ng-container *ngFor="let spellCastingParameters of spellCastingParameters(); trackBy:trackByIndex;">
+    <ng-container *ngIf="(componentParameters$() | async) as componentParameters">
+        <ng-container *ngFor="let spellCastingParameters of (spellCastingParameters$() | async); trackBy:trackByIndex;">
             <header class="sectionHeader">
                 {{(spellCastingParameters.casting.className + (spellCastingParameters.casting.castingType !=
                     "Innate"
@@ -197,7 +196,7 @@
                 </div>
             </header>
 
-            <ng-container *ngFor="let spellCastingLevelParameters of spellCastingLevelParameters(spellCastingParameters, componentParameters); trackBy:trackByIndex;">
+            <ng-container *ngFor="let spellCastingLevelParameters of (spellCastingLevelParameters$(spellCastingParameters, componentParameters) | async); trackBy:trackByIndex;">
                 <div
                     class="list-item newrow"
                     style="background-color:transparent"
@@ -217,7 +216,7 @@
                                 / {{spellCastingLevelParameters.maxSpellSlots}}
                         </strong>
 
-                        <ng-container *ngIf="isManualMode">
+                        <ng-container *ngIf="isManualMode$ | async">
                             <button
                                 type="button"
                                 (click)="onManualIncSpellSlots(spellCastingParameters.casting, spellCastingLevelParameters.level, -1)"
@@ -257,7 +256,7 @@
                                 {{componentParameters.focusPoints.now}}
                             </div>
 
-                            <ng-container *ngIf="isManualMode">
+                            <ng-container *ngIf="isManualMode$ | async">
                                 <button
                                     type="button"
                                     (click)="onManualIncFocusPoints(-1, componentParameters.focusPoints.max)"
@@ -291,7 +290,7 @@
                     </button>
 
                     <app-tags
-                        [creature]="creatureTypesEnum.Character"
+                        [creature]="character"
                         [objectName]="'Focus'"
                         [showTraits]=true
                         [showFeats]=true
@@ -338,7 +337,7 @@
                     [ngClass]="{'icon-list':tileMode.enabled, 'list-item':!tileMode.enabled}"
                     *ngIf="spellCastingLevelParameters.spellTakenList.length && { enabled: isTileMode$ | async } as tileMode"
                 >
-                    <ng-container *ngFor="let spellParameters of spellParameters(spellCastingLevelParameters, spellCastingParameters); let spellIndex = index; trackBy:trackByIndex;">
+                    <ng-container *ngFor="let spellParameters of (spellParameters$(spellCastingLevelParameters, spellCastingParameters) | async); let spellIndex = index; trackBy:trackByIndex;">
                         <ng-template #SpellTitleTemplate>
                             <span *ngIf="!tileMode.enabled">
                                 <i
@@ -447,7 +446,7 @@
 
                             <app-spell-target
                                 class="newrow vlist"
-                                [creature]="creatureTypesEnum.Character"
+                                [creature]="character"
                                 [spell]="spellParameters.spell"
                                 [gain]="spellParameters.gain"
                                 [phrase]="'Cast' + (spellParameters.maxCharges ? ' (' + (spellParameters.maxCharges - spellParameters.usedCharges) + ' of ' + spellParameters.maxCharges + ' charges)' : '')"
@@ -507,7 +506,7 @@
                                     <span class="center-aligned">
                                         Reprepare
                                         <app-action-icons
-                                            *ngIf="!isManualMode"
+                                            *ngIf="(isManualMode$ | async) === false"
                                             [actionString]="'10 minutes'"
                                         >
                                         </app-action-icons>
@@ -517,7 +516,7 @@
 
                             <div
                                 class="newrow"
-                                *ngIf="isManualMode && spellParameters.gain.activeCooldown"
+                                *ngIf="spellParameters.gain.activeCooldown && (isManualMode$ | async)"
                             >
                                 <!-- End cooldown button in manual mode -->
                                 <button
@@ -531,7 +530,7 @@
 
                             <div
                                 class="newrow"
-                                *ngIf="isManualMode && spellParameters.gain.chargesUsed"
+                                *ngIf="spellParameters.gain.chargesUsed && (isManualMode$ | async)"
                             >
                                 <!-- Restore charges button in manual mode -->
                                 <button
@@ -588,10 +587,10 @@
                                 </button>
                             </div>
 
-                            <ng-container *ngFor="let conditionSet of spellConditions(spellParameters.spell, spellParameters.effectiveSpellLevel, spellParameters.gain); let conditionSetIndex = index; trackBy:trackByIndex">
+                            <ng-container *ngFor="let conditionSet of spellConditions$(spellParameters.spell, spellParameters.effectiveSpellLevel, spellParameters.gain) | async; let conditionSetIndex = index; trackBy:trackByIndex">
                                 <div
                                     class="newrow list-item left-aligned"
-                                    *ngIf="conditionSet.condition && conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices"
+                                    *ngIf="conditionSet.show"
                                 >
                                     <span>
                                         {{conditionSet.condition.name}} effect selection:
@@ -600,7 +599,7 @@
                                             [(ngModel)]="spellParameters.gain.effectChoices[conditionSetIndex].choice"
                                         >
                                             <option
-                                                *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
+                                                *ngFor="let choice of conditionSet.choices; trackBy:trackByIndex;"
                                                 [ngValue]="choice"
                                             >
                                                 {{choice}}

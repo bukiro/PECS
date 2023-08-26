@@ -41,11 +41,14 @@ export class PlayerMessage {
     public ttl = Defaults.playerMessageTTL;
 
     public recast(recastFns: RecastFns): PlayerMessage {
+        //Cut off the time zone.
+        this.time = this.time.split('(')[0].trim();
+
         this.gainCondition = this.gainCondition.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
         this.offeredItem = this.offeredItem.map(obj => recastFns.item(obj).recast(recastFns));
         this.includedItems = this.includedItems.map(obj => recastFns.item(obj).recast(recastFns));
         this.includedInventories =
-            this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(recastFns));
+        this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(recastFns));
 
         return this;
     }

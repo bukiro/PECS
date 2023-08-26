@@ -6,6 +6,7 @@ import { ObjectEffectsModule } from '../shared/object-effects/object-effects.mod
 import { AbilitiesComponent } from './components/abilities/abilities.component';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from '../shared/ui/button/button.module';
+import { AttributeValueModule } from '../shared/ui/attribute-value/attribute-value.module';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { ButtonModule } from '../shared/ui/button/button.module';
         TagsModule,
         ObjectEffectsModule,
         ButtonModule,
+        AttributeValueModule,
     ],
     declarations: [
         AbilitiesComponent,

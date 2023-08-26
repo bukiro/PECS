@@ -18,5 +18,6 @@ export const Defaults = {
     waitForServiceDelay: 100,
     maxInvestedItems: 10,
     maxInvestedAeonStones: 1,
+    closingMenuClearDelay: 500,
     updateURL: 'http://api.github.com/repos/bukiro/PECS/releases/latest',
 };

@@ -1,0 +1,26 @@
+@import 'utilities';
+
+:host {
+    @include flex-column-left;
+
+    width: 100%;
+
+    gap: $spacing-s;
+
+    position: relative;
+
+    .header {
+        @include flex-row-center;
+        @include flex-center-cross-axis;
+        @include text-large;
+    }
+
+    .corner-button-tray {
+        @include corner-button-tray-right;
+
+        app-button {
+            height: 2rem;
+            width: 2rem;
+        }
+    }
+}

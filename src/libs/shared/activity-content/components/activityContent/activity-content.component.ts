@@ -1,15 +1,13 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, map, of } from 'rxjs';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Character } from 'src/app/classes/Character';
 import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { Trait } from 'src/app/classes/Trait';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
@@ -18,9 +16,12 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
+import { Creature } from 'src/app/classes/Creature';
+import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 
 @Component({
     selector: 'app-activity-content',
@@ -31,7 +32,7 @@ import { DurationsService } from 'src/libs/shared/time/services/durations/durati
 export class ActivityContentComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
+    public creature: Creature = CreatureService.character;
     @Input()
     public activity!: Activity | ItemActivity;
     @Input()
@@ -42,6 +43,8 @@ export class ActivityContentComponent extends TrackByMixin(BaseClass) implements
     public cooldown = 0;
     @Input()
     public maxCharges = 0;
+
+    public readonly isManualMode$ = SettingsService.settings.manualMode$;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -55,16 +58,9 @@ export class ActivityContentComponent extends TrackByMixin(BaseClass) implements
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _durationsService: DurationsService,
+        private readonly _spellPropertiesService: SpellPropertiesService,
     ) {
         super();
-    }
-
-    public get isManualMode(): boolean {
-        return SettingsService.isManualMode;
-    }
-
-    private get _character(): Character {
-        return CreatureService.character;
     }
 
     public traitFromName(traitName: string): Trait {
@@ -93,69 +89,49 @@ export class ActivityContentComponent extends TrackByMixin(BaseClass) implements
         return this.activity.castSpells;
     }
 
-    public spellConditions(spellCast: SpellCast, spellCastIndex: number): Array<{ gain: ConditionGain; condition: Condition }> {
-        // For all conditions that are included with this spell on this level,
-        // create an effectChoice on the gain at the index of this spellCast and set it to the default choice, if any.
-        // Add the name for later copyChoiceFrom actions.
-        const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
+    //TO-DO: Verify that this mutates the spellEffectChoices properly (and generally works).
+    public spellConditions$(
+        spellCast: SpellCast,
+        spellCastIndex: number,
+    ): Observable<Array<{ conditionGain: ConditionGain; condition: Condition; choices: Array<string>; show: boolean }>> {
         const gain = this.gain;
 
-        //Setup the spellEffectChoice collection for this SpellCast.
         if (gain) {
-            while (!gain.spellEffectChoices.length || gain.spellEffectChoices.length < spellCastIndex - 1) {
-                gain.spellEffectChoices.push([]);
-            }
-
             const spell = this._spellsDataService.spellFromName(spellCast.name);
 
-            spell.heightenedConditions(spellCast.level)
-                .map(conditionGain => ({
-                    gain: conditionGain,
-                    condition: this._conditionsDataService.conditionFromName(conditionGain.name),
-                }))
-                .forEach((conditionSet, index) => {
-                    //Create the temporary list of currently available choices.
-                    this._conditionPropertiesService.cacheEffectiveChoices(conditionSet.condition, spellCast.level);
-                    //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
-                    conditionSets.push(conditionSet);
+            if (spell) {
+                return this._spellPropertiesService.spellConditionsForComponent$(
+                    spell,
+                    spellCast.level,
+                    gain.spellEffectChoices[spellCastIndex],
+                )
+                    .pipe(
+                        map(conditionSets =>
+                            conditionSets.map(conditionSet => ({
+                                ...conditionSet,
+                                show: conditionSet.show
+                                    && !spellCast.hideChoices.includes(conditionSet.condition.name),
+                            })),
+                        ),
+                    );
 
-                    // Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices,
-                    // insert or replace that choice on the gain.
-                    while (!gain.spellEffectChoices[spellCastIndex].length || gain.spellEffectChoices[spellCastIndex].length < index - 1) {
-                        gain.spellEffectChoices[spellCastIndex].push(
-                            { condition: conditionSet.condition.name, choice: conditionSet.condition.choice },
-                        );
-                    }
-
-                    if (!conditionSet.condition.$choices.includes(gain.spellEffectChoices[spellCastIndex]?.[index]?.choice)) {
-                        gain.spellEffectChoices[spellCastIndex][index] =
-                            { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
-                    }
-                });
+            }
         }
 
-        return conditionSets;
+        return of([]);
     }
 
     public heightenedDescription(): string {
-        return this.activity.heightenedText(this.activity.desc, this.gain?.heightened || this._character.level);
+        return this.activity.heightenedText(this.activity.desc, this.gain?.heightened || CreatureService.character.level);
     }
 
-    public spellLevelFromBaseLevel(spell: Spell, baseLevel: number): number {
-        let levelNumber = baseLevel;
-
-        if ((!levelNumber && (spell.traits.includes('Cantrip'))) || levelNumber === -1) {
-            levelNumber = this._character.maxSpellLevel();
-        }
-
-        levelNumber = Math.max(levelNumber, (spell.levelreq || 0));
-
-        return levelNumber;
+    public spellLevelFromBaseLevel$(spell: Spell, baseLevel: number): Observable<number> {
+        return this._spellPropertiesService.spellLevelFromBaseLevel$(spell, baseLevel);
     }
 
     public onEffectChoiceChange(): void {
-        this._refreshService.prepareDetailToChange(this.creature, 'inventory');
-        this._refreshService.prepareDetailToChange(this.creature, 'activities');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'activities');
         this._refreshService.processPreparedChanges();
     }
 
@@ -175,15 +151,15 @@ export class ActivityContentComponent extends TrackByMixin(BaseClass) implements
     private _subscribeToChanges(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
-                if (['activities', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                if (stringsIncludeCaseInsensitive(['activities', 'all', this.creature.type], target)) {
                     this._changeDetector.detectChanges();
                 }
             });
         this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
                 if (
-                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
-                    ['activities', 'all'].includes(view.target.toLowerCase())
+                    stringEqualsCaseInsensitive(view.creature, this.creature.type) &&
+                    stringsIncludeCaseInsensitive(['activities', 'all'], view.target)
                 ) {
                     this._changeDetector.detectChanges();
                 }

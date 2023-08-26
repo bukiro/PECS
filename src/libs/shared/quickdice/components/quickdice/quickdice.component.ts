@@ -3,10 +3,11 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { Creature } from 'src/app/classes/Creature';
+import { Observable, map, of, take, zip } from 'rxjs';
 
 @Component({
     selector: 'app-quickdice',
@@ -35,7 +36,7 @@ export class QuickdiceComponent implements OnChanges {
     public casting?: SpellCasting;
 
     @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
+    public creature: Creature = CreatureService.character;
 
     @Input()
     public ghost?: string | boolean | undefined;
@@ -43,7 +44,7 @@ export class QuickdiceComponent implements OnChanges {
     @Input()
     public noOutline: string | boolean | undefined;
 
-    public description = '';
+    public description$?: Observable<string>;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -69,21 +70,30 @@ export class QuickdiceComponent implements OnChanges {
 
                 this._integrationsService.sendRollToFoundry(this.creature, formula, []);
             } else if (this.diceString) {
-                let diceString = this.diceString.split('\n').join(' ');
+                const diceString = this.diceString.split('\n').join(' ');
 
-                diceString = this._cleanDiceString(diceString);
+                this._cleanDiceString$(diceString)
+                    .pipe(
+                        take(1),
+                    )
+                    .subscribe(cleanDiceString => {
+                        const formulaParts: Array<string> = [];
 
-                const formulaParts: Array<string> = [];
-
-                // For an existing diceString, we need to make sure there is no flavor text included.
-                // Only #d#, #, + or - are kept and sent to Foundry.
-                diceString.split(' ').map(part => part.trim())
-                    .forEach(dicePart => {
-                        if (dicePart.match('^[0-9]+d[0-9]+$') || dicePart === '+' || dicePart === '-' || dicePart.match('^[0-9]+$')) {
-                            formulaParts.push(dicePart);
-                        }
+                        // For an existing diceString, we need to make sure there is no flavor text included.
+                        // Only #d#, #, + or - are kept and sent to Foundry.
+                        cleanDiceString.split(' ').map(part => part.trim())
+                            .forEach(dicePart => {
+                                if (
+                                    dicePart.match('^[0-9]+d[0-9]+$')
+                                    || dicePart === '+'
+                                    || dicePart === '-'
+                                    || dicePart.match('^[0-9]+$')
+                                ) {
+                                    formulaParts.push(dicePart);
+                                }
+                            });
+                        this._integrationsService.sendRollToFoundry(this.creature, formulaParts.join(' '), []);
                     });
-                this._integrationsService.sendRollToFoundry(this.creature, formulaParts.join(' '), []);
             }
         } else {
             if (this.diceNum && this.diceSize) {
@@ -95,55 +105,64 @@ export class QuickdiceComponent implements OnChanges {
                     (this.type ? ` ${ this._expandDamageTypes(this.type) }` : ''),
                 );
             } else if (this.diceString) {
-                let diceString = this.diceString.split('\n').join(' ');
+                const diceString = this.diceString.split('\n').join(' ');
 
-                diceString = this._cleanDiceString(diceString);
+                this._cleanDiceString$(diceString)
+                    .pipe(
+                        take(1),
+                    )
+                    .subscribe(cleanDiceString => {
+                        const diceRolls: Array<{ diceNum: number; diceSize: number; bonus: number; type: string }> = [];
+                        let index = 0;
+                        let arithmetic = '';
 
-                const diceRolls: Array<{ diceNum: number; diceSize: number; bonus: number; type: string }> = [];
-                let index = 0;
-                let arithmetic = '';
+                        cleanDiceString.trim().split(' ')
+                            .map(part => part.trim())
+                            .forEach(dicePart => {
+                                if (dicePart.match('^[0-9]+d[0-9]+$')) {
+                                    if (
+                                        !diceRolls.length
+                                        || diceRolls[index].diceNum
+                                        || diceRolls[index].diceSize
+                                        || diceRolls[index].type
+                                    ) {
+                                        index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
+                                    }
 
-                diceString.trim().split(' ')
-                    .map(part => part.trim())
-                    .forEach(dicePart => {
-                        if (dicePart.match('^[0-9]+d[0-9]+$')) {
-                            if (!diceRolls.length || diceRolls[index].diceNum || diceRolls[index].diceSize || diceRolls[index].type) {
-                                index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
-                            }
+                                    diceRolls[index].diceNum = parseInt(dicePart.split('d')[0], 10);
+                                    diceRolls[index].diceSize = parseInt(dicePart.split('d')[1], 10);
+                                } else if (dicePart === '+' || dicePart === '-') {
+                                    arithmetic = dicePart;
+                                } else if (dicePart.match('^[0-9]+$')) {
+                                    //Bonuses accumulate on the current roll until a type is given.
+                                    //That means that 5 + 1d6 + 5 Fire + 5 Force will create two rolls: (1d6 + 10) Fire and 5 Force.
+                                    //If no roll exists yet, create one.
+                                    if (!diceRolls.length || diceRolls[index].type) {
+                                        index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
+                                    }
 
-                            diceRolls[index].diceNum = parseInt(dicePart.split('d')[0], 10);
-                            diceRolls[index].diceSize = parseInt(dicePart.split('d')[1], 10);
-                        } else if (dicePart === '+' || dicePart === '-') {
-                            arithmetic = dicePart;
-                        } else if (dicePart.match('^[0-9]+$')) {
-                            //Bonuses accumulate on the current roll until a type is given.
-                            //That means that 5 + 1d6 + 5 Fire + 5 Force will create two rolls: (1d6 + 10) Fire and 5 Force.
-                            //If no roll exists yet, create one.
-                            if (!diceRolls.length || diceRolls[index].type) {
-                                index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
-                            }
-
-                            if (arithmetic) {
-                                diceRolls[index].bonus += parseInt(arithmetic + dicePart, 10);
-                                arithmetic = '';
-                            } else {
-                                diceRolls[index].bonus = parseInt(dicePart, 10);
-                            }
-                        } else {
-                            if (diceRolls[index]) {
-                                diceRolls[index].type += ` ${ dicePart }`;
-                            }
-                        }
+                                    if (arithmetic) {
+                                        diceRolls[index].bonus += parseInt(arithmetic + dicePart, 10);
+                                        arithmetic = '';
+                                    } else {
+                                        diceRolls[index].bonus = parseInt(dicePart, 10);
+                                    }
+                                } else {
+                                    if (diceRolls[index]) {
+                                        diceRolls[index].type += ` ${ dicePart }`;
+                                    }
+                                }
+                            });
+                        diceRolls.forEach((diceRoll, rollIndex) => {
+                            this._diceService.roll(
+                                diceRoll.diceNum,
+                                diceRoll.diceSize,
+                                diceRoll.bonus,
+                                rollIndex === 0,
+                                diceRoll.type,
+                            );
+                        });
                     });
-                diceRolls.forEach((diceRoll, rollIndex) => {
-                    this._diceService.roll(
-                        diceRoll.diceNum,
-                        diceRoll.diceSize,
-                        diceRoll.bonus,
-                        rollIndex === 0,
-                        diceRoll.type,
-                    );
-                });
             }
         }
 
@@ -151,16 +170,14 @@ export class QuickdiceComponent implements OnChanges {
     }
 
     public ngOnChanges(): void {
-        this.description = this._description();
+        this.description$ = this._description$();
     }
 
-    private _description(): string {
+    private _description$(): Observable<string> {
         if (this.diceString) {
-            let diceString = this.diceString.split('\n').join(' ');
+            const diceString = this.diceString.split('\n').join(' ');
 
-            diceString = this._cleanDiceString(diceString);
-
-            return diceString;
+            return this._cleanDiceString$(diceString);
         } else if (this.diceNum && this.diceSize) {
             let description = `${ this.diceNum }d${ this.diceSize }`;
 
@@ -176,9 +193,9 @@ export class QuickdiceComponent implements OnChanges {
                 description += ` ${ this._expandDamageTypes(this.type) }`;
             }
 
-            return description;
+            return of(description);
         } else {
-            return '';
+            return of('');
         }
     }
 
@@ -188,14 +205,13 @@ export class QuickdiceComponent implements OnChanges {
             SettingsService.settings.foundryVTTRollDirectly;
     }
 
-    private _cleanDiceString(diceString: string): string {
+    private _cleanDiceString$(diceString: string): Observable<string> {
         let cleanedUpDiceString = this._spaceArithmeticSymbols(diceString);
 
         cleanedUpDiceString = this._expandDamageTypes(cleanedUpDiceString);
         cleanedUpDiceString = this._replaceModifiers(cleanedUpDiceString);
-        cleanedUpDiceString = this._replaceAbilityModifiers(cleanedUpDiceString);
 
-        return cleanedUpDiceString;
+        return this._replaceAbilityModifiers$(cleanedUpDiceString);
     }
 
     private _spaceArithmeticSymbols(text: string): string {
@@ -224,57 +240,64 @@ export class QuickdiceComponent implements OnChanges {
         }
     }
 
-    private _replaceAbilityModifiers(diceString: string): string {
+    private _replaceAbilityModifiers$(diceString: string): Observable<string> {
         if (diceString.toLowerCase().includes('mod')) {
             //If any ability modifiers are named in this dicestring, replace them with the real modifier.
-            return diceString.split(' ').map(part => {
-                if (part.toLowerCase().includes('mod')) {
-                    let abilityName = '';
+            return zip([
+                diceString.split(' ').map(part => {
+                    if (part.toLowerCase().includes('mod')) {
+                        let abilityName = '';
 
-                    switch (part.toLowerCase()) {
-                        case 'strmod':
-                            abilityName = 'Strength';
-                            break;
-                        case 'dexmod':
-                            abilityName = 'Dexterity';
-                            break;
-                        case 'conmod':
-                            abilityName = 'Constitution';
-                            break;
-                        case 'intmod':
-                            abilityName = 'Intelligence';
-                            break;
-                        case 'wismod':
-                            abilityName = 'Wisdom';
-                            break;
-                        case 'chamod':
-                            abilityName = 'Charisma';
-                            break;
-                        case 'spellmod':
-                            abilityName = this.casting?.ability || 'Charisma';
-                            break;
-                        default:
-                            return part;
-                    }
+                        switch (part.toLowerCase()) {
+                            case 'strmod':
+                                abilityName = 'Strength';
+                                break;
+                            case 'dexmod':
+                                abilityName = 'Dexterity';
+                                break;
+                            case 'conmod':
+                                abilityName = 'Constitution';
+                                break;
+                            case 'intmod':
+                                abilityName = 'Intelligence';
+                                break;
+                            case 'wismod':
+                                abilityName = 'Wisdom';
+                                break;
+                            case 'chamod':
+                                abilityName = 'Charisma';
+                                break;
+                            case 'spellmod':
+                                abilityName = this.casting?.ability || 'Charisma';
+                                break;
+                            default:
+                                return part;
+                        }
 
-                    if (abilityName) {
-                        const character = CreatureService.character;
+                        if (abilityName) {
+                            const character = CreatureService.character;
 
-                        return this._abilityValuesService.mod(
-                            abilityName,
-                            character,
-                            character.level,
-                        ).result.toString();
+                            return this._abilityValuesService.mod$(
+                                abilityName,
+                                character,
+                                character.level,
+                            )
+                                .pipe(
+                                    map(modifier => modifier.result.toString()),
+                                );
+                        } else {
+                            return of('0');
+                        }
                     } else {
-                        return '0';
+                        return of(part);
                     }
-                } else {
-                    return part;
-                }
-            })
-                .join(' ');
+                }),
+            ])
+                .pipe(
+                    map(parts => parts.join(' ')),
+                );
         } else {
-            return diceString;
+            return of(diceString);
         }
     }
 

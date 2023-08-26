@@ -28,7 +28,7 @@
         <ng-container *ngFor="let inv of inventories(); trackBy:trackByIndex;">
             <ng-container *ngIf="availableTalismanCords(inv) as availableTalismanCords">
                 <optgroup
-                    label="{{inventoryName(inv)}}"
+                    [label]="inventoryName$(inv) | async"
                     *ngIf="availableTalismanCords.length"
                 >
                     <option

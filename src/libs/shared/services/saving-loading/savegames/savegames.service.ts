@@ -5,7 +5,10 @@ import { Savegame } from 'src/app/classes/Savegame';
 import { BehaviorSubject, distinctUntilChanged, finalize, Observable, tap } from 'rxjs';
 import { ConfigService } from '../../config/config.service';
 import { ApiStatusKey } from 'src/libs/shared/definitions/apiStatusKey';
-import { ApiStatus } from 'src/libs/shared/definitions/interfaces/api-status';
+import { Store } from '@ngrx/store';
+import { selectConfigStatus } from 'src/libs/store/status/status.selectors';
+import { setSavegamesStatus } from 'src/libs/store/status/status.actions';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 type DatabaseCharacter = Partial<Character> & { _id: string; id: string };
 
@@ -13,8 +16,6 @@ type DatabaseCharacter = Partial<Character> & { _id: string; id: string };
     providedIn: 'root',
 })
 export class SavegamesService {
-
-    public static savegamesStatus$ = new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing });
 
     public savegames$ = new BehaviorSubject<Array<Savegame>>([]);
 
@@ -24,13 +25,15 @@ export class SavegamesService {
     constructor(
         private readonly _http: HttpClient,
         private readonly _configService: ConfigService,
+        private readonly _toastService: ToastService,
+        private readonly _store$: Store,
     ) {
-        ConfigService.configStatus$
+        _store$.select(selectConfigStatus)
             .pipe(
                 distinctUntilChanged(),
             )
-            .subscribe(apiStatus => {
-                if (apiStatus.key === ApiStatusKey.Ready) {
+            .subscribe(config => {
+                if (config.key === ApiStatusKey.Ready) {
                     this.reset();
                 }
             });
@@ -41,7 +44,7 @@ export class SavegamesService {
     }
 
     public reset(): void {
-        new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing, message: 'Loading characters...' });
+        this._store$.dispatch(setSavegamesStatus({ status: { key: ApiStatusKey.Initializing, message: 'Loading characters...' } }));
 
         this._savegames = [];
 
@@ -50,17 +53,19 @@ export class SavegamesService {
                 tap({
                     next: (characters: Array<DatabaseCharacter>) => {
                         this._savegames = this._parseCharacters(characters);
-                        SavegamesService.savegamesStatus$.next({ key: ApiStatusKey.Ready });
+                        this._store$.dispatch(setSavegamesStatus({ status: { key: ApiStatusKey.Ready } }));
                     },
                     error: error => {
                         if (error.status === HttpStatusCode.Unauthorized) {
-                            this._configService.logout('Your login is no longer valid.');
+                            this._toastService.show('Your login is no longer valid.');
                         } else {
                             console.error(`Error loading characters from database: ${ error.message }`);
-                            SavegamesService.savegamesStatus$.next({
-                                key: ApiStatusKey.Failed,
-                                message: 'Characters could not be loaded.',
-                            });
+                            this._store$.dispatch(setSavegamesStatus({
+                                status: {
+                                    key: ApiStatusKey.Failed,
+                                    message: 'Characters could not be loaded.',
+                                },
+                            }));
                         }
                     },
                 }),
@@ -124,11 +129,13 @@ export class SavegamesService {
                     parsedSavegame.heritage = savegame.class.heritage.name || '';
                 }
 
+                // Checking the class is a shortcut to indicate whether the animal companion is initialized or a placeholder.
                 if (savegame.class.animalCompanion?.class) {
                     parsedSavegame.companionName = savegame.class.animalCompanion.name || savegame.class.animalCompanion.type;
                     parsedSavegame.companionId = savegame.class.animalCompanion.id;
                 }
 
+                // Checking the originClass is a shortcut to indicate whether the familiar is initialized or a placeholder.
                 if (savegame.class.familiar?.originClass) {
                     parsedSavegame.familiarName = savegame.class.familiar.name || savegame.class.familiar.type;
                     parsedSavegame.familiarId = savegame.class.familiar.id;

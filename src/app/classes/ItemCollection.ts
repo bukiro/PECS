@@ -27,38 +27,44 @@ import { Wand } from 'src/app/classes/Wand';
 import { Rune } from 'src/app/classes/Rune';
 import { MaterialItem } from './MaterialItem';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { BehaviorSubject, Observable, map, combineLatest } from 'rxjs';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 
 export class ItemCollection {
+    /** These are all the keys of the item lists in this ItemCollection.
+     * They are used to verify that itemsOfType(key) can and should return an item list.
+     */
+    private static readonly _itemListsKeys: Array<string> = [
+        'adventuringgear',
+        'alchemicalbombs',
+        'alchemicalelixirs',
+        'alchemicalpoisons',
+        'alchemicaltools',
+        'ammunition',
+        'armorrunes',
+        'armors',
+        'helditems',
+        'materialitems',
+        'oils',
+        'otherconsumables',
+        'otherconsumablesbombs',
+        'potions',
+        'scrolls',
+        'shields',
+        'snares',
+        'talismans',
+        'wands',
+        'weaponrunes',
+        'weapons',
+        'wornitems',
+    ];
+
     //This is the amount of bulk that can be ignored when weighing this inventory.
     public bulkReduction = 0;
     public id = uuidv4();
-    //Has this inventory been changed since initialization?
-    public touched = false;
     //If an item grants an inventory, this is the item's ID.
     public itemId = '';
-    public adventuringgear: Array<AdventuringGear> = [];
-    public alchemicalbombs: Array<AlchemicalBomb> = [];
-    public alchemicalelixirs: Array<AlchemicalElixir> = [];
-    public alchemicalpoisons: Array<AlchemicalPoison> = [];
-    public alchemicaltools: Array<AlchemicalTool> = [];
-    public ammunition: Array<Ammunition> = [];
-    public armorrunes: Array<ArmorRune> = [];
-    public armors: Array<Armor> = [];
-    public helditems: Array<HeldItem> = [];
-    public materialitems: Array<MaterialItem> = [];
-    public oils: Array<Oil> = [];
-    public otherconsumables: Array<OtherConsumable> = [];
-    public otherconsumablesbombs: Array<OtherConsumableBomb> = [];
-    public otheritems: Array<OtherItem> = [];
-    public potions: Array<Potion> = [];
-    public scrolls: Array<Scroll> = [];
-    public shields: Array<Shield> = [];
-    public snares: Array<Snare> = [];
-    public talismans: Array<Talisman> = [];
-    public wands: Array<Wand> = [];
-    public weaponrunes: Array<WeaponRune> = [];
-    public weapons: Array<Weapon> = [];
-    public wornitems: Array<WornItem> = [];
+
     public readonly names: Array<{ name: string; key: keyof ItemCollection }> = [
         { name: 'Weapons', key: 'weapons' },
         { name: 'Armors', key: 'armors' },
@@ -83,34 +89,285 @@ export class ItemCollection {
         { name: 'Wands', key: 'wands' },
         { name: 'Materials', key: 'materialitems' },
     ];
-    public readonly keys: Array<string> = [
-        'adventuringgear',
-        'alchemicalbombs',
-        'alchemicalelixirs',
-        'alchemicalpoisons',
-        'alchemicaltools',
-        'ammunition',
-        'armorrunes',
-        'armors',
-        'helditems',
-        'materialitems',
-        'oils',
-        'otherconsumables',
-        'otherconsumablesbombs',
-        'potions',
-        'scrolls',
-        'shields',
-        'snares',
-        'talismans',
-        'wands',
-        'weaponrunes',
-        'weapons',
-        'wornitems',
-    ];
+
+    public touched$: BehaviorSubject<boolean>;
+
+    public equippedAdventuringGear$: Observable<Array<AdventuringGear>>;
+    public equippedArmors$: Observable<Array<Armor>>;
+    public equippedShields$: Observable<Array<Shield>>;
+    public equippedWeapons$: Observable<Array<Weapon>>;
+    public activeWornItems$: Observable<Array<WornItem>>;
+    public activeEquipment$: Observable<Array<Equipment>>;
+    public equippedEquipment$: Observable<Array<Equipment>>;
+
+    private readonly _adventuringgear: OnChangeArray<AdventuringGear> = new OnChangeArray();
+    private readonly _alchemicalbombs: OnChangeArray<AlchemicalBomb> = new OnChangeArray();
+    private readonly _alchemicalelixirs: OnChangeArray<AlchemicalElixir> = new OnChangeArray();
+    private readonly _alchemicalpoisons: OnChangeArray<AlchemicalPoison> = new OnChangeArray();
+    private readonly _alchemicaltools: OnChangeArray<AlchemicalTool> = new OnChangeArray();
+    private readonly _ammunition: OnChangeArray<Ammunition> = new OnChangeArray();
+    private readonly _armorrunes: OnChangeArray<ArmorRune> = new OnChangeArray();
+    private readonly _armors: OnChangeArray<Armor> = new OnChangeArray();
+    private readonly _helditems: OnChangeArray<HeldItem> = new OnChangeArray();
+    private readonly _materialitems: OnChangeArray<MaterialItem> = new OnChangeArray();
+    private readonly _oils: OnChangeArray<Oil> = new OnChangeArray();
+    private readonly _otherconsumables: OnChangeArray<OtherConsumable> = new OnChangeArray();
+    private readonly _scrolls: OnChangeArray<Scroll> = new OnChangeArray();
+    private readonly _shields: OnChangeArray<Shield> = new OnChangeArray();
+    private readonly _snares: OnChangeArray<Snare> = new OnChangeArray();
+    private readonly _talismans: OnChangeArray<Talisman> = new OnChangeArray();
+    private readonly _wands: OnChangeArray<Wand> = new OnChangeArray();
+    private readonly _weaponrunes: OnChangeArray<WeaponRune> = new OnChangeArray();
+    private readonly _weapons: OnChangeArray<Weapon> = new OnChangeArray();
+    private readonly _wornitems: OnChangeArray<WornItem> = new OnChangeArray();
+    private readonly _otherconsumablesbombs: OnChangeArray<OtherConsumableBomb> = new OnChangeArray();
+    private readonly _otheritems: OnChangeArray<OtherItem> = new OnChangeArray();
+    private readonly _potions: OnChangeArray<Potion> = new OnChangeArray();
+
+    //Has this inventory been changed since initialization?
+    private _touched = false;
+
     constructor(
         /** You cannot add any items to an inventory that would break its bulk limit. */
-        public bulkLimit: number = 0,
-    ) { }
+        public bulkLimit = 0,
+    ) {
+        this.touched$ = new BehaviorSubject(this._touched);
+
+        this.equippedAdventuringGear$ =
+            this.adventuringgear.values$
+                .pipe(
+                    map(items => items.filter(item => item.equipped === item.equippable)),
+                );
+
+        this.equippedArmors$ =
+            this.armors.values$
+                .pipe(
+                    map(items => items.filter(item => item.equipped === item.equippable)),
+                );
+
+        this.equippedShields$ =
+            this.shields.values$
+                .pipe(
+                    map(items => items.filter(item => (item.equipped === item.equippable) && !item.broken)),
+                );
+
+        this.equippedWeapons$ =
+            this.weapons.values$
+                .pipe(
+                    map(items => items.filter(item => (item.equipped === item.equippable) && !item.broken)),
+                );
+
+        this.activeWornItems$ =
+            this.wornitems.values$
+                .pipe(
+                    map(items => items.filter(item => item.investedOrEquipped())),
+                );
+
+        this.activeEquipment$ =
+            this.allEquipment$()
+                .pipe(
+                    map(items => items.filter(item => item.investedOrEquipped())),
+                );
+
+        this.equippedEquipment$ =
+            this.allEquipment$()
+                .pipe(
+                    map(items => items.filter(item => (item.equipped === item.equippable))),
+                );
+    }
+
+    public get adventuringgear(): OnChangeArray<AdventuringGear> {
+        return this._adventuringgear;
+    }
+
+    public set adventuringgear(value: Array<AdventuringGear>) {
+        this._adventuringgear.setValues(...value);
+    }
+
+    public get alchemicalbombs(): OnChangeArray<AlchemicalBomb> {
+        return this._alchemicalbombs;
+    }
+
+    public set alchemicalbombs(value: Array<AlchemicalBomb>) {
+        this._alchemicalbombs.setValues(...value);
+    }
+
+    public get alchemicalelixirs(): OnChangeArray<AlchemicalElixir> {
+        return this._alchemicalelixirs;
+    }
+
+    public set alchemicalelixirs(value: Array<AlchemicalElixir>) {
+        this._alchemicalelixirs.setValues(...value);
+    }
+
+    public get alchemicalpoisons(): OnChangeArray<AlchemicalPoison> {
+        return this._alchemicalpoisons;
+    }
+
+    public set alchemicalpoisons(value: Array<AlchemicalPoison>) {
+        this._alchemicalpoisons.setValues(...value);
+    }
+
+    public get alchemicaltools(): OnChangeArray<AlchemicalTool> {
+        return this._alchemicaltools;
+    }
+
+    public set alchemicaltools(value: Array<AlchemicalTool>) {
+        this._alchemicaltools.setValues(...value);
+    }
+
+    public get ammunition(): OnChangeArray<Ammunition> {
+        return this._ammunition;
+    }
+
+    public set ammunition(value: Array<Ammunition>) {
+        this._ammunition.setValues(...value);
+    }
+
+    public get armorrunes(): OnChangeArray<ArmorRune> {
+        return this._armorrunes;
+    }
+
+    public set armorrunes(value: Array<ArmorRune>) {
+        this._armorrunes.setValues(...value);
+    }
+
+    public get armors(): OnChangeArray<Armor> {
+        return this._armors;
+    }
+
+    public set armors(value: Array<Armor>) {
+        this._armors.setValues(...value);
+    }
+
+    public get helditems(): OnChangeArray<HeldItem> {
+        return this._helditems;
+    }
+
+    public set helditems(value: Array<HeldItem>) {
+        this._helditems.setValues(...value);
+    }
+
+    public get materialitems(): OnChangeArray<MaterialItem> {
+        return this._materialitems;
+    }
+
+    public set materialitems(value: Array<MaterialItem>) {
+        this._materialitems.setValues(...value);
+    }
+
+    public get oils(): OnChangeArray<Oil> {
+        return this._oils;
+    }
+
+    public set oils(value: Array<Oil>) {
+        this._oils.setValues(...value);
+    }
+
+    public get otherconsumables(): OnChangeArray<OtherConsumable> {
+        return this._otherconsumables;
+    }
+
+    public set otherconsumables(value: Array<OtherConsumable>) {
+        this._otherconsumables.setValues(...value);
+    }
+
+    public get otherconsumablesbombs(): OnChangeArray<OtherConsumableBomb> {
+        return this._otherconsumablesbombs;
+    }
+
+    public set otherconsumablesbombs(value: Array<OtherConsumableBomb>) {
+        this._otherconsumablesbombs.setValues(...value);
+    }
+
+    public get otheritems(): OnChangeArray<OtherItem> {
+        return this._otheritems;
+    }
+
+    public set otheritems(value: Array<OtherItem>) {
+        this._otheritems.setValues(...value);
+    }
+
+    public get potions(): OnChangeArray<Potion> {
+        return this._potions;
+    }
+
+    public set potions(value: Array<Potion>) {
+        this._potions.setValues(...value);
+    }
+
+    public get scrolls(): OnChangeArray<Scroll> {
+        return this._scrolls;
+    }
+
+    public set scrolls(value: Array<Scroll>) {
+        this._scrolls.setValues(...value);
+    }
+
+    public get shields(): OnChangeArray<Shield> {
+        return this._shields;
+    }
+
+    public set shields(value: Array<Shield>) {
+        this._shields.setValues(...value);
+    }
+
+    public get snares(): OnChangeArray<Snare> {
+        return this._snares;
+    }
+
+    public set snares(value: Array<Snare>) {
+        this._snares.setValues(...value);
+    }
+
+    public get talismans(): OnChangeArray<Talisman> {
+        return this._talismans;
+    }
+
+    public set talismans(value: Array<Talisman>) {
+        this._talismans.setValues(...value);
+    }
+
+    public get wands(): OnChangeArray<Wand> {
+        return this._wands;
+    }
+
+    public set wands(value: Array<Wand>) {
+        this._wands.setValues(...value);
+    }
+
+    public get weaponrunes(): OnChangeArray<WeaponRune> {
+        return this._weaponrunes;
+    }
+
+    public set weaponrunes(value: Array<WeaponRune>) {
+        this._weaponrunes.setValues(...value);
+    }
+
+    public get weapons(): OnChangeArray<Weapon> {
+        return this._weapons;
+    }
+
+    public set weapons(value: Array<Weapon>) {
+        this._weapons.setValues(...value);
+    }
+
+    public get wornitems(): OnChangeArray<WornItem> {
+        return this._wornitems;
+    }
+
+    public set wornitems(value: Array<WornItem>) {
+        this._wornitems.setValues(...value);
+    }
+
+    public get touched(): boolean {
+        return this._touched;
+    }
+
+    public set touched(value: boolean) {
+        this._touched = value;
+        this.touched$.next(this._touched);
+    }
 
     public recast(recastFns: RecastFns): ItemCollection {
         this.adventuringgear =
@@ -253,6 +510,26 @@ export class ItemCollection {
             );
     }
 
+    public allEquipment$(): Observable<Array<Equipment>> {
+        return combineLatest([
+            this.adventuringgear.values$,
+            this.alchemicalbombs.values$,
+            this.armors.values$,
+            this.helditems.values$,
+            this.otherconsumablesbombs.values$,
+            this.shields.values$,
+            this.wands.values$,
+            this.weapons.values$,
+            this.wornitems.values$,
+        ])
+            .pipe(
+                map(equipments =>
+                    new Array<Equipment>()
+                        .concat(...equipments),
+                ),
+            );
+    }
+
     public allConsumables(): Array<Consumable> {
         return new Array<Consumable>()
             .concat(
@@ -269,6 +546,28 @@ export class ItemCollection {
             );
     }
 
+    public allConsumables$(): Observable<Array<Consumable>> {
+        return combineLatest([
+            this.alchemicalelixirs,
+            this.alchemicalpoisons,
+            this.alchemicaltools,
+            this.ammunition,
+            this.oils,
+            this.otherconsumables,
+            this.potions,
+            this.scrolls,
+            this.snares,
+            this.talismans,
+        ])
+            .pipe(
+                map(consumables =>
+                    new Array<Consumable>()
+                        .concat(...consumables),
+                ),
+            );
+
+    }
+
     public allRunes(): Array<Rune> {
         return new Array<Rune>()
             .concat(
@@ -277,11 +576,28 @@ export class ItemCollection {
             );
     }
 
+    public allRunes$(): Observable<Array<Rune>> {
+        return combineLatest([
+            this.armorrunes.values$,
+            this.weaponrunes.values$,
+        ])
+            .pipe(
+                map(runes =>
+                    new Array<Rune>()
+                        .concat(...runes),
+                ),
+            );
+    }
+
     public allOther(): Array<Item> {
         return new Array<Item>()
             .concat(
                 this.materialitems,
             );
+    }
+
+    public allOther$(): Observable<Array<Item>> {
+        return this.materialitems.values$;
     }
 
     public allItems(): Array<Item> {
@@ -294,43 +610,64 @@ export class ItemCollection {
             );
     }
 
-    public itemsOfType<T extends Item>(type: string): Array<T> {
-        const isKey = (key: string): key is keyof ItemCollection => this.keys.includes(key);
+    public allItems$(): Observable<Array<Item>> {
+        return combineLatest([
+            this.allConsumables$(),
+            this.allEquipment$(),
+            this.allRunes$(),
+            this.allOther$(),
+        ])
+            .pipe(
+                map(items =>
+                    new Array<Item>()
+                        .concat(...items),
+                ),
+            );
+    }
 
-        if (isKey(type)) {
-            return this[type] as Array<T>;
+    public itemsOfType<T extends Item>(type: string): OnChangeArray<T> {
+        if (this._isItemType(type)) {
+            return this[type] as unknown as OnChangeArray<T>;
         }
 
-        return [];
+        return new OnChangeArray<T>();
     }
 
     public removeItem(item: Item): void {
         if (this._isItemType(item.type)) {
-            (this[item.type] as Array<Item>) = (this[item.type] as Array<Item>).filter(invItem => invItem !== item);
+            const itemList = this[item.type] as OnChangeArray<Item>;
+
+            itemList.setValues(...itemList.filter(invItem => invItem !== item));
         }
     }
 
     public addItem(item: Item): number | undefined {
         if (this._isItemType(item.type)) {
-            return (this[item.type] as Array<Item>).push(item);
+            const itemList = this[item.type] as OnChangeArray<Item>;
+
+            return itemList.push(item);
         }
     }
 
     public getItemById<T extends Item>(type: string, id: string): T | undefined {
         if (this._isItemType(type)) {
-            return (this[type] as Array<T>).find(item => item.id === id);
+            const itemList = this[type] as unknown as OnChangeArray<T>;
+
+            return itemList.find(item => item.id === id);
         }
     }
 
     public getItemByRefId<T extends Item>(type: string, refId: string): T | undefined {
         if (this._isItemType(type)) {
-            return (this[type] as Array<T>).find(item => item.refId === refId);
+            const itemList = this[type] as unknown as OnChangeArray<T>;
+
+            return itemList.find(item => item.refId === refId);
         }
     }
 
     public totalBulk(rounded = true, reduced = false): number {
-        //All bulk gets calculated at *10 to avoid rounding issues with decimals,
-        //Then returned at /10
+        // All bulk gets calculated at *10 to avoid rounding issues with decimals,
+        // Then returned at /10
         const decimal = 10;
         let sum = 0;
 
@@ -396,6 +733,6 @@ export class ItemCollection {
     }
 
     private _isItemType(type: string): type is keyof ItemCollection {
-        return this.keys.includes(type);
+        return ItemCollection._itemListsKeys.includes(type);
     }
 }

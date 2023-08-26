@@ -2,6 +2,7 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { Scroll } from 'src/app/classes/Scroll';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 
 const defaultSpellbookCantripSlots = 10;
 const defaultSpellbookFirstLevelSlots = 5;
@@ -19,7 +20,6 @@ export class SpellCasting {
     public tradition: SpellTraditions | '' = '';
     public traditionAvailable = 0;
     public traditionFilter: Array<SpellTraditions> = [];
-    public spellChoices: Array<SpellChoice> = [];
     public spellBookOnly = false;
     /**
      * SpellSlotsUsed is for spontaneous casters and counts the spells cast on each spell level, where the index is the spell level.
@@ -55,16 +55,42 @@ export class SpellCasting {
         defaultSpellbookOtherLevelsSlots,
         defaultSpellbookOtherLevelsSlots,
     ];
+    public source = '';
+
+    private readonly _bondedItemCharges = new OnChangeArray<number>(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    private readonly _scrollSavant = new OnChangeArray<Scroll>();
+    private readonly _spellChoices = new OnChangeArray<SpellChoice>();
+
+    constructor(public castingType: SpellCastingTypes) {
+    }
+
+    public get bondedItemCharges(): OnChangeArray<number> {
+        return this._bondedItemCharges;
+    }
+
     /**
      * BondedItemCharges is for Wizards and contains charges to restore a used spell.
      * The index is the spell level, and 0 is for all spell levels.
      * Universalists get 1 for each level per rest, and all other schools get 1 for all. These are added at Rest.
      */
-    public bondedItemCharges: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    public source = '';
-    public scrollSavant: Array<Scroll> = [];
+    public set bondedItemCharges(value: Array<number>) {
+        this._bondedItemCharges.setValues(...value);
+    }
 
-    constructor(public castingType: SpellCastingTypes) {
+    public get scrollSavant(): OnChangeArray<Scroll> {
+        return this._scrollSavant;
+    }
+
+    public set scrollSavant(value: Array<Scroll>) {
+        this._scrollSavant.setValues(...value);
+    }
+
+    public get spellChoices(): OnChangeArray<SpellChoice> {
+        return this._spellChoices;
+    }
+
+    public set spellChoices(value: Array<SpellChoice>) {
+        this._spellChoices.setValues(...value);
     }
 
     public recast(): SpellCasting {

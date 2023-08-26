@@ -202,18 +202,17 @@
 
             <div
                 class="newrow"
-                *ngIf="canSendRollsToFoundryVTT()"
+                *ngIf="canSendRollsToFoundryVTT$() | async"
             >
                 <span class="hlist center-aligned">
                     <strong>Send roll to Foundry VTT:</strong>
 
-                    <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackByIndex">
+                    <ng-container *ngFor="let creature of allAvailableCreatures$() | async; trackBy:trackByIndex">
                         <button
-                            *ngIf="creatureFromType(creatureType) as creature"
                             aria-label="Send to Foundry VTT"
                             type="button"
                             [ngbTooltip]="'Send as ' + (creature.name || creature.type) + '.'"
-                            (click)="sendRollToFoundry(creatureType)"
+                            (click)="sendRollToFoundry(creature)"
                         >
                             <i
                                 class="ra ra-player"
@@ -286,30 +285,33 @@
                 </button>
             </div>
             <header class="sectionHeader">Health Operations</header>
-            <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackByIndex">
+            <ng-container *ngFor="let creature of allAvailableCreatures$() | async; trackBy:trackByIndex">
                 <div
                     class="newrow center-aligned"
-                    *ngIf="creatureFromType(creatureType) as creature"
                 >
+                    <ng-template #CreatureIconTemplate>
+                        <i
+                            class="ra ra-player desktop-hide"
+                            *ngIf="creature.isCharacter()"
+                        ></i>
+                        <i
+                            class="ra ra-wolf-howl desktop-hide"
+                            *ngIf="creature.isAnimalCompanion()"
+                        ></i>
+                        <i
+                            class="ra ra-raven desktop-hide"
+                            *ngIf="creature.isFamiliar()"
+                        ></i>
+                    </ng-template>
+
                     <button
                         type="button"
                         class="center-aligned"
                         (click)="onHeal(creature)"
                     >
-                        <span class="mobile-hide">Heal {{creature.name || creatureType}}</span>
+                        <span class="mobile-hide">Heal {{creature.name || creature.type}}</span>
                         <i class="ra ra-health desktop-hide"></i>
-                        <i
-                            class="ra ra-player desktop-hide"
-                            *ngIf="creatureType==='Character'"
-                        ></i>
-                        <i
-                            class="ra ra-wolf-howl desktop-hide"
-                            *ngIf="creatureType==='Companion'"
-                        ></i>
-                        <i
-                            class="ra ra-raven desktop-hide"
-                            *ngIf="creatureType==='Familiar'"
-                        ></i>
+                        <ng-container [ngTemplateOutlet]="CreatureIconTemplate"></ng-container>
                     </button>
 
                     <button
@@ -318,21 +320,10 @@
                         (click)="onTakeDamage(creature)"
                     >
                         <span class="mobile-hide">
-                            Damage {{creature.name || creatureType}}
+                            Damage {{creature.name || creature.type}}
                         </span>
                         <i class="ra ra-axe-swing desktop-hide"></i>
-                        <i
-                            class="ra ra-player desktop-hide"
-                            *ngIf="creatureType==='Character'"
-                        ></i>
-                        <i
-                            class="ra ra-wolf-howl desktop-hide"
-                            *ngIf="creatureType==='Companion'"
-                        ></i>
-                        <i
-                            class="ra ra-raven desktop-hide"
-                            *ngIf="creatureType==='Familiar'"
-                        ></i>
+                        <ng-container [ngTemplateOutlet]="CreatureIconTemplate"></ng-container>
                     </button>
 
                     <button
@@ -341,21 +332,10 @@
                         (click)="setTempHP(creature)"
                     >
                         <span class="mobile-hide">
-                            Set as Temp HP for {{creature.name || creatureType}}
+                            Set as Temp HP for {{creature.name || creature.type}}
                         </span>
                         <i class="ra ra-health-increase desktop-hide"></i>
-                        <i
-                            class="ra ra-player desktop-hide"
-                            *ngIf="creatureType==='Character'"
-                        ></i>
-                        <i
-                            class="ra ra-wolf-howl desktop-hide"
-                            *ngIf="creatureType==='Companion'"
-                        ></i>
-                        <i
-                            class="ra ra-raven desktop-hide"
-                            *ngIf="creatureType==='Familiar'"
-                        ></i>
+                        <ng-container [ngTemplateOutlet]="CreatureIconTemplate"></ng-container>
                     </button>
                 </div>
             </ng-container>

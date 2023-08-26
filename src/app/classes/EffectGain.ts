@@ -1,3 +1,5 @@
+import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+
 export class EffectGain {
     public affected = '';
     /**
@@ -23,7 +25,7 @@ export class EffectGain {
      * or otherwise shown if they match a certain list of effects that should always show.
      */
     public show?: boolean;
-    public type = '';
+    public type: BonusTypes = BonusTypes.Untyped;
     public duration = 0;
     public maxDuration = 0;
     /** source and sourceId are copied from conditions and used to track temporary HP. */
@@ -40,6 +42,10 @@ export class EffectGain {
      * It can be calculated like the value, and use the value for its calculations, but should result in a string.
      */
     public title = '';
+
+    public static from(partial: Partial<EffectGain>): EffectGain {
+        return Object.assign<EffectGain, Partial<EffectGain>>(new EffectGain(), partial).recast();
+    }
 
     public recast(): EffectGain {
         return this;

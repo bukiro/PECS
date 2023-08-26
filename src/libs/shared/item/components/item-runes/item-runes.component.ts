@@ -24,8 +24,9 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { Observable, map, of } from 'rxjs';
 
 interface RuneItemType {
     armor: boolean;
@@ -142,8 +143,8 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
         }
     }
 
-    public inventoryName(inv: ItemCollection): string {
-        return this._inventoryPropertiesService.effectiveName(inv, this._character);
+    public inventoryName$(inv: ItemCollection): Observable<string> {
+        return this._inventoryPropertiesService.effectiveName$(inv, this._character);
     }
 
     public availablePotencyRunes(runeItemType: RuneItemType): Array<PotencyRuneSet> {
@@ -172,19 +173,17 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
 
     public propertyRunesSlots(): Array<number> {
         const indexes: Array<number> = [];
+
         //For each rune with the Saggorak trait, provide one less field.
-        const saggorak = this.item.propertyRunes.filter(rune => rune.traits.includes('Saggorak')).length;
+        const saggorakReduction =
+            this.item.propertyRunes
+                .filter(rune => rune.traits.includes('Saggorak'))
+                .length;
 
-        for (let index = 0; index < this.item.potencyRune - saggorak; index++) {
+        const extraRune = this.item.potencyRune === BasicRuneLevels.Third && this.item.material?.[0]?.extraRune || 0;
+
+        for (let index = 0; index < this.item.potencyRune + extraRune - saggorakReduction; index++) {
             indexes.push(index);
-        }
-
-        const extraRune = this.item.material?.[0]?.extraRune || 0;
-
-        if (this.item.potencyRune === BasicRuneLevels.Third && extraRune) {
-            for (let index = 0; index < extraRune; index++) {
-                indexes.push(indexes.length);
-            }
         }
 
         return indexes;
@@ -215,16 +214,20 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
         return allRunes;
     }
 
-    public availablePropertyRunes(index: number, inv: ItemCollection, runeItemType: RuneItemType): Array<PropertyRuneSet> {
+    public availablePropertyRunes$(
+        index: number,
+        inv: ItemCollection,
+        runeItemType: RuneItemType,
+    ): Observable<Array<PropertyRuneSet>> {
         if (runeItemType.armor) {
-            return this._availableArmorPropertyRunes(index, inv);
+            return this._availableArmorPropertyRunes$(index, inv);
         }
 
         if (runeItemType.weapon) {
-            return this._availableWeaponPropertyRunes(index, inv);
+            return of(this._availableWeaponPropertyRunes(index, inv));
         }
 
-        return [];
+        return of([]);
     }
 
     public onSelectPotencyRune(previousRune: number, runeItemType: RuneItemType): void {
@@ -247,7 +250,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
         }
     }
 
-    public onSelectPropertyRune(index: number, runeItemType: RuneItemType): void {
+    public onSelectPropertyRune(index: number): void {
         const item = this.item;
         const rune = this.newPropertyRune[index].rune;
         const inv = this.newPropertyRune[index].inv;
@@ -266,8 +269,14 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
             // Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
             if (rune) {
                 // Add a copy of the rune to the item
-                const newLength =
-                    item.propertyRunes.push(rune.clone(this._recastService.recastOnlyFns));
+                let newLength = 0;
+
+                if (item.isArmor()) {
+                    newLength = item.propertyRunes.push(rune.clone(this._recastService.recastOnlyFns) as ArmorRune);
+                } else if (item.isWeapon() || item.isWornItem()) {
+                    newLength = item.propertyRunes.push(rune.clone(this._recastService.recastOnlyFns) as WeaponRune);
+                }
+
                 const newRune = item.propertyRunes[newLength - 1];
 
                 newRune.amount = 1;
@@ -284,20 +293,9 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                         this._characterLoreService.addRuneLore(item.propertyRunes[newLength - 1]);
                     }
                 }
-
-                this._prepareChanges(rune);
-
-            }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-
-            if (runeItemType.weapon) {
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
             }
 
             this._setPropertyRuneNames();
-            this._refreshService.processPreparedChanges();
-            this._updateItem();
         }
     }
 
@@ -441,7 +439,10 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
             .sort((a, b) => a.secondary - b.secondary);
     }
 
-    private _availableWeaponPropertyRunes(index: number, inv: ItemCollection): Array<WeaponPropertyRuneSet> {
+    private _availableWeaponPropertyRunes(
+        index: number,
+        inv: ItemCollection,
+    ): Array<WeaponPropertyRuneSet> {
         let weapon: Weapon | WornItem;
         let runeRequirementWeapon: Weapon;
 
@@ -480,6 +481,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                 rune.disabled = true;
             }
         });
+
         allRunes = allRunes.filter(runeSet => runeSet.rune && !runeSet.rune?.potency && !runeSet.rune?.striking);
         // Filter all runes whose requirements are not met.
         // eslint-disable-next-line complexity
@@ -512,7 +514,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                 ) && (
                     // Show runes that require a range if the weapon has a value for that range.
                     runeSet.rune.rangereq ?
-                        (runeRequirementWeapon?.[runeSet.rune.rangereq as keyof Equipment] || 0) > 0
+                        (runeRequirementWeapon?.[runeSet.rune.rangereq] || 0) > 0
                         : true
                 ) && (
                     // Show runes that require a damage type if the weapon's dmgType contains either of the letters in the requirement.
@@ -531,10 +533,10 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                     // or if one is available and this slot is taken (so you can replace the rune in this slot).
                     runeSet.rune.traits.includes('Saggorak') ?
                         (
-                            weapon.freePropertyRunes > 1 ||
+                            weapon.freePropertyRunesOfItem() > 1 ||
                             (
                                 weapon.propertyRunes[index] &&
-                                weapon.freePropertyRunes === 1
+                                weapon.freePropertyRunesOfItem() === 1
                             ) ||
                             (
                                 weapon.propertyRunes[index] &&
@@ -559,85 +561,94 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
             ));
     }
 
-    private _availableArmorPropertyRunes(index: number, inv: ItemCollection): Array<ArmorPropertyRuneSet> {
+    private _availableArmorPropertyRunes$(
+        index: number,
+        inv: ItemCollection,
+    ): Observable<Array<ArmorPropertyRuneSet>> {
         const armor: Armor = this.item as Armor;
-        let allRunes: Array<ArmorPropertyRuneSet> = [];
 
-        // Add all runes either from the item store or from the inventories.
-        if (this.itemStore) {
-            inv.armorrunes.forEach(rune => {
-                allRunes.push({ rune, inv });
-            });
-        } else {
-            inv.armorrunes.forEach(rune => {
-                allRunes.push({ rune, inv });
-            });
-        }
+        return armor.effectiveProficiencyWithoutEffects$()
+            .pipe(
+                map(effectiveArmorProficiency => {
+                    let allRunes: Array<ArmorPropertyRuneSet> = [];
 
-        // Set all runes to disabled that have the same name as any that is already equipped.
-        allRunes.forEach((rune: PropertyRuneSet) => {
-            if (
-                rune.rune &&
-                armor.propertyRunes
-                    .map(propertyRune => propertyRune.name)
-                    .includes(rune.rune.name)
-            ) {
-                rune.disabled = true;
-            }
-        });
-        allRunes = allRunes.filter((rune: ArmorPropertyRuneSet) => rune.rune && !rune.rune.potency && !rune.rune.resilient);
-        // Filter all runes whose requirements are not met.
-        allRunes.forEach((rune: ArmorPropertyRuneSet, $index) => {
-            if (
-                rune.rune &&
-                (
-                    // Don't show runes that the item material doesn't support.
-                    this.item.material?.[0]?.runeLimit ?
-                        this.item.material[0].runeLimit >= rune.rune.level
-                        : true
-                ) && (
-                    // Show runes that require a proficiency if the armor has that proficiency.
-                    rune.rune.profreq.length ?
-                        rune.rune.profreq.includes(armor.effectiveProficiencyWithoutEffects())
-                        : true
-                ) && (
-                    // Show runes that require a nonmetallic armor if the armor is one.
-                    // Identifying nonmetallic armors is unclear in the rules, so we exclude Chain,
-                    // Composite and Plate armors as well as armors with the word "metal" in their description.
-                    rune.rune.nonmetallic ?
-                        !['Chain', 'Composite', 'Plate'].includes(armor.group) && !armor.desc.includes('metal')
-                        : true
-                ) && (
-                    // Show Saggorak runes only if there are 2 rune slots available,
-                    // or if one is available and this slot is taken (so you can replace the rune in this slot).
-                    rune.rune.traits.includes('Saggorak') ?
-                        (
-                            armor.freePropertyRunes > 1 ||
+                    // Add all runes either from the item store or from the inventories.
+                    if (this.itemStore) {
+                        inv.armorrunes.forEach(rune => {
+                            allRunes.push({ rune, inv });
+                        });
+                    } else {
+                        inv.armorrunes.forEach(rune => {
+                            allRunes.push({ rune, inv });
+                        });
+                    }
+
+                    // Set all runes to disabled that have the same name as any that is already equipped.
+                    allRunes.forEach((rune: PropertyRuneSet) => {
+                        if (
+                            rune.rune &&
+                            armor.propertyRunes
+                                .map(propertyRune => propertyRune.name)
+                                .includes(rune.rune.name)
+                        ) {
+                            rune.disabled = true;
+                        }
+                    });
+                    allRunes = allRunes.filter((rune: ArmorPropertyRuneSet) => rune.rune && !rune.rune.potency && !rune.rune.resilient);
+                    // Filter all runes whose requirements are not met.
+                    allRunes.forEach((rune: ArmorPropertyRuneSet, $index) => {
+                        if (
+                            rune.rune &&
                             (
-                                armor.propertyRunes[index] &&
-                                armor.freePropertyRunes === 1
-                            ) ||
-                            (
-                                armor.propertyRunes[index] &&
-                                $index === 1
+                                // Don't show runes that the item material doesn't support.
+                                this.item.material?.[0]?.runeLimit ?
+                                    this.item.material[0].runeLimit >= rune.rune.level
+                                    : true
+                            ) && (
+                                // Show runes that require a proficiency if the armor has that proficiency.
+                                rune.rune.profreq.length ?
+                                    rune.rune.profreq.includes(effectiveArmorProficiency)
+                                    : true
+                            ) && (
+                                // Show runes that require a nonmetallic armor if the armor is one.
+                                // Identifying nonmetallic armors is unclear in the rules, so we exclude Chain,
+                                // Composite and Plate armors as well as armors with the word "metal" in their description.
+                                rune.rune.nonmetallic ?
+                                    !['Chain', 'Composite', 'Plate'].includes(armor.group) && !armor.desc.includes('metal')
+                                    : true
+                            ) && (
+                                // Show Saggorak runes only if there are 2 rune slots available,
+                                // or if one is available and this slot is taken (so you can replace the rune in this slot).
+                                rune.rune.traits.includes('Saggorak') ?
+                                    (
+                                        armor.freePropertyRunesOfItem() > 1 ||
+                                        (
+                                            armor.propertyRunes[index] &&
+                                            armor.freePropertyRunesOfItem() === 1
+                                        ) ||
+                                        (
+                                            armor.propertyRunes[index] &&
+                                            $index === 1
+                                        )
+                                    )
+                                    : true
                             )
-                        )
-                        : true
-                )
-            ) {
-                rune.disabled = false;
-            } else {
-                rune.disabled = true;
-            }
-        });
+                        ) {
+                            rune.disabled = false;
+                        } else {
+                            rune.disabled = true;
+                        }
+                    });
 
-        const twoDigits = 2;
+                    const twoDigits = 2;
 
-        return allRunes
-            .sort((a, b) => sortAlphaNum(
-                (a.rune?.level.toString() || '').padStart(twoDigits, '0') + a.rune?.name,
-                (b.rune?.level.toString() || '').padStart(twoDigits, '0') + b.rune?.name,
-            ));
+                    return allRunes
+                        .sort((a, b) => sortAlphaNum(
+                            (a.rune?.level.toString() || '').padStart(twoDigits, '0') + a.rune?.name,
+                            (b.rune?.level.toString() || '').padStart(twoDigits, '0') + b.rune?.name,
+                        ));
+                }),
+            );
     }
 
     private _onSelectFundamentalWeaponRune(runeType: 'potency' | 'striking', previousRune: number): void {
@@ -687,7 +698,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                 }
 
                 //As long as there are more property Runes assigned than allowed, throw out the last property rune
-                while (weapon.freePropertyRunes < 0) {
+                while (weapon.freePropertyRunesOfItem() < 0) {
                     if (!this.itemStore) {
                         this._returnPropertyRuneToInventory(weapon.propertyRunes.length - 1);
                     }
@@ -732,15 +743,6 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                 break;
             default: return;
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, this.item.id);
-
-        if (this.item.equipped) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-        }
-
-        this._refreshService.processPreparedChanges();
-        this._updateItem();
     }
 
     private _onSelectFundamentalArmorRune(runeType: 'potency' | 'resilient', previousRune: number): void {
@@ -790,7 +792,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                 }
 
                 //As long as there are more property Runes assigned than allowed, throw out the last property rune
-                while (armor.freePropertyRunes < 0) {
+                while (armor.freePropertyRunesOfItem() < 0) {
                     if (!this.itemStore) {
                         this._returnPropertyRuneToInventory(armor.propertyRunes.length - 1);
                     }
@@ -835,13 +837,6 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                 break;
             default: return;
         }
-
-        if (this.item.equipped) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-        }
-
-        this._refreshService.processPreparedChanges();
-        this._updateItem();
     }
 
     private _returnRuneToInventory(rune: Rune): void {
@@ -854,11 +849,6 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
         );
     }
 
-    private _updateItem(): void {
-        this.item.runesChanged$?.next(true);
-        this._refreshService.setComponentChanged(this.item.id);
-    }
-
     private _cleanItems(): ItemCollection {
         return this._itemsDataService.cleanItems();
     }
@@ -866,7 +856,6 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
     private _returnPropertyRuneToInventory(index: number): void {
         const oldRune: Rune = this.item.propertyRunes[index];
 
-        this._prepareChanges(oldRune);
         // Deactivate any active toggled activities of the removed rune.
         oldRune.activities
             .filter(activity => activity.toggle && activity.active)
@@ -887,19 +876,10 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
         if (oldRune.loreChoices.length) {
             this._characterLoreService.removeRuneLore(oldRune);
         }
-
-        this._updateItem();
     }
 
     private _priceText(price: number): string {
         return priceTextFromCopper(price);
-    }
-
-    private _prepareChanges(rune: Rune): void {
-        this._refreshService.prepareChangesByItem(
-            this._character,
-            rune,
-        );
     }
 
     private _setPropertyRuneNames(): void {

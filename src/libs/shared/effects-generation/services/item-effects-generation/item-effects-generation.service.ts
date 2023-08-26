@@ -6,8 +6,9 @@ import { Rune } from 'src/app/classes/Rune';
 import { Specialization } from 'src/app/classes/Specialization';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
-import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
+import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { deepDistinctUntilChanged } from 'src/libs/shared/util/observableUtils';
 
 @Injectable({
     providedIn: 'root',
@@ -16,16 +17,12 @@ export class ItemEffectsGenerationService {
 
     constructor(
         private readonly _armorPropertiesService: ArmorPropertiesService,
-        private readonly _creatureEquipmentService: CreatureEquipmentService,
     ) { }
 
-    public collectEffectItems(
+    public collectEffectItems$(
         creature: Creature,
-    ): { objects: Array<Equipment | Specialization | Rune>; hintSets: Array<HintEffectsObject> } {
+    ): Observable<{ objects: Array<Equipment | Specialization | Rune>; hintSets: Array<HintEffectsObject> }> {
         //Collect items and item specializations that may have effects, and their hints, and return them in two lists.
-
-        let objects: Array<Equipment | Specialization | Rune> = [];
-        let hintSets: Array<HintEffectsObject> = [];
 
         const doItemEffectsApply = (item: Equipment): boolean => (
             item.investedOrEquipped() &&
@@ -33,45 +30,133 @@ export class ItemEffectsGenerationService {
             !item.broken
         );
 
-        creature.inventories.forEach(inventory => {
-            inventory.allEquipment().filter(item =>
-                doItemEffectsApply(item),
-            )
-                .forEach((item: Equipment) => {
-                    objects = objects.concat(this._effectsGenerationObjects(item, { creature }));
-                    hintSets = hintSets.concat(item.effectsGenerationHints());
-                });
-        });
+        return creature.inventories.values$
+            .pipe(
+                switchMap(inventories =>
+                    combineLatest(
+                        inventories.map(inventory =>
+                            combineLatest(
+                                inventory.allEquipment()
+                                    .filter(item =>
+                                        doItemEffectsApply(item),
+                                    )
+                                    .map(item =>
+                                        combineLatest([
+                                            this._effectsGenerationObjects$(item, { creature }),
+                                            item.effectsGenerationHints$(),
+                                        ])
+                                            .pipe(
+                                                map(([objects, hintSets]) => ({
+                                                    objects,
+                                                    hintSets,
+                                                })),
+                                            ),
+                                    ),
+                            ),
+                        ),
+                    ),
+                ),
+                map(effectItemsLists => {
+                    let objects =
+                        new Array<Equipment | Specialization | Rune>()
+                            .concat(
+                                ...effectItemsLists
+                                    .map(lists =>
+                                        new Array<Equipment | Specialization | Rune>()
+                                            .concat(
+                                                ...lists
+                                                    .map(list =>
+                                                        Array<Equipment | Specialization | Rune>()
+                                                            .concat(list.objects),
+                                                    ),
+                                            ),
+                                    ),
+                            );
 
-        //If too many wayfinders are invested with slotted aeon stones, all aeon stone effects are ignored.
-        if (creature.isCharacter() && creature.hasTooManySlottedAeonStones()) {
-            objects = objects.filter(object => !(object instanceof WornItem && object.isSlottedAeonStone));
-            hintSets = hintSets.filter(set => !(set.parentItem && set.parentItem instanceof WornItem && set.parentItem.isSlottedAeonStone));
-        }
+                    let hintSets =
+                        new Array<HintEffectsObject>()
+                            .concat(
+                                ...effectItemsLists
+                                    .map(lists =>
+                                        new Array<HintEffectsObject>()
+                                            .concat(
+                                                ...lists
+                                                    .map(list =>
+                                                        Array<HintEffectsObject>()
+                                                            .concat(list.hintSets),
+                                                    ),
+                                            ),
+                                    ),
+                            );
 
-        return { objects, hintSets };
+                    //If too many wayfinders are invested with slotted aeon stones, all aeon stone effects are ignored.
+                    if (creature.isCharacter() && creature.hasTooManySlottedAeonStones()) {
+                        objects =
+                            objects.filter(object =>
+                                !(
+                                    object instanceof WornItem
+                                    && object.isSlottedAeonStone
+                                ),
+                            );
+                        hintSets =
+                            hintSets.filter(set =>
+                                !(
+                                    set.parentItem
+                                    && set.parentItem instanceof WornItem
+                                    && set.parentItem.isSlottedAeonStone
+                                ),
+                            );
+                    }
+
+                    return { objects, hintSets };
+                }),
+                deepDistinctUntilChanged(),
+            );
+
+
     }
 
-    private _effectsGenerationObjects(item: Equipment, context: { creature: Creature }): Array<Equipment | Specialization | Rune> {
+    private _effectsGenerationObjects$(
+        item: Equipment,
+        context: { creature: Creature },
+    ): Observable<Array<Equipment | Specialization | Rune>> {
         if (item.isArmor()) {
-            return this._armorEffectsGenerationObjects(item, context);
+            return this._armorEffectsGenerationObjects$(item, context);
         } else if (item.isWornItem()) {
-            return this._wornItemEffectsGenerationObjects(item);
+            return this._wornItemEffectsGenerationObjects$(item);
         } else {
-            return [item];
+            return of([item]);
         }
     }
 
-    private _armorEffectsGenerationObjects(armor: Armor, context: { creature: Creature }): Array<Equipment | Specialization | Rune> {
-        return new Array<Equipment | Specialization | Rune>()
-            .concat(armor)
-            .concat(...this._armorPropertiesService.armorSpecializations(armor, context.creature))
-            .concat(armor.propertyRunes);
+    private _armorEffectsGenerationObjects$(
+        armor: Armor,
+        context: { creature: Creature },
+    ): Observable<Array<Equipment | Specialization | Rune>> {
+        return combineLatest([
+            this._armorPropertiesService.armorSpecializations$(armor, context.creature),
+            armor.propertyRunes.values$,
+        ])
+            .pipe(
+                map(([specializations, propertyRunes]) =>
+                    new Array<Equipment | Specialization | Rune>()
+                        .concat([armor])
+                        .concat(...specializations)
+                        .concat(propertyRunes),
+                ),
+                deepDistinctUntilChanged(),
+            );
     }
 
-    private _wornItemEffectsGenerationObjects(wornItem: WornItem): Array<Equipment> {
-        return [wornItem]
-            .concat(...wornItem.aeonStones);
+    private _wornItemEffectsGenerationObjects$(wornItem: WornItem): Observable<Array<Equipment>> {
+        return wornItem.aeonStones.values$
+            .pipe(
+                map(aeonStones =>
+                    [wornItem]
+                        .concat(aeonStones),
+                ),
+                deepDistinctUntilChanged(),
+            );
     }
 
 }

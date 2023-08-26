@@ -11,8 +11,9 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { FeatRequirementsService } from 'src/libs/character-creation/services/feat-requirement/featRequirements.service';
 import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequirements';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { BehaviorSubject, Observable, map, of, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-feat',
@@ -23,14 +24,19 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 export class FeatComponent extends TrackByMixin(BaseClass) {
 
     @Input()
-    public feat!: Feat;
-    @Input()
     public choice?: FeatChoice;
     @Input()
     public levelNumber!: number;
     @Input()
     public featLevel?: number;
+
     public spellLevelFromCharLevel = spellLevelFromCharLevel;
+
+    public readonly feat$: BehaviorSubject<Feat | undefined>;
+
+    public featRequirements$: Observable<Array<FeatRequirements.FeatRequirementResult>>;
+
+    private readonly _featChoiceRequirementResults$: BehaviorSubject<Array<FeatRequirements.FeatRequirementResult> | undefined>;
 
     constructor(
         private readonly _spellsDataService: SpellsDataService,
@@ -39,69 +45,29 @@ export class FeatComponent extends TrackByMixin(BaseClass) {
         private readonly _featRequirementsService: FeatRequirementsService,
     ) {
         super();
+
+        this._featChoiceRequirementResults$ = new BehaviorSubject<Array<FeatRequirements.FeatRequirementResult> | undefined>(undefined);
+        this.feat$ = new BehaviorSubject<Feat | undefined>(undefined);
+
+        this.featRequirements$ =
+            this.feat$
+                .pipe(
+                    switchMap(feat =>
+                        feat
+                            ? this._featRequirements$(feat)
+                            : of([]),
+                    ),
+                );
     }
 
-    public featRequirements(choice: FeatChoice | undefined, feat: Feat): Array<FeatRequirements.FeatRequirementResult> {
-        const ignoreRequirementsList: Array<string> =
-            this._featRequirementsService.createIgnoreRequirementList(feat, this.levelNumber, choice);
-        const result: Array<FeatRequirements.FeatRequirementResult> = [];
+    @Input()
+    public set feat(value: Feat | undefined) {
+        this.feat$.next(value);
+    }
 
-        if (feat.levelreq) {
-            result.push(this._featRequirementsService.meetsLevelReq(feat, this.featLevel));
-            result[result.length - 1].ignored = ignoreRequirementsList.includes('levelreq');
-        }
-
-        if (feat.abilityreq.length) {
-            this._featRequirementsService.meetsAbilityReq(feat, this.levelNumber).forEach(req => {
-                result.push({ met: true, desc: ', ' });
-                result.push(req);
-                result[result.length - 1].ignored = ignoreRequirementsList.includes('abilityreq');
-            });
-        }
-
-        if (feat.skillreq.length) {
-            this._featRequirementsService.meetsSkillReq(feat, this.levelNumber).forEach((req, index) => {
-                if (index === 0) {
-                    result.push({ met: true, desc: ', ' });
-                } else {
-                    result.push({ met: true, desc: ' or ' });
-                }
-
-                result.push(req);
-                result[result.length - 1].ignored = ignoreRequirementsList.includes('skillreq');
-            });
-        }
-
-        if (feat.featreq.length) {
-            this._featRequirementsService.meetsFeatReq(feat, this.levelNumber).forEach(req => {
-                result.push({ met: true, desc: ', ' });
-                result.push(req);
-                result[result.length - 1].ignored = ignoreRequirementsList.includes('featreq');
-            });
-        }
-
-        if (feat.heritagereq) {
-            this._featRequirementsService.meetsHeritageReq(feat, this.levelNumber).forEach(req => {
-                result.push({ met: true, desc: ', ' });
-                result.push(req);
-                result[result.length - 1].ignored = ignoreRequirementsList.includes('heritagereq');
-            });
-        }
-
-        if (feat.complexreqdesc) {
-            result.push({ met: true, desc: ', ' });
-            result.push(this._featRequirementsService.meetsComplexReq(
-                feat.complexreq,
-                { feat, desc: feat.complexreqdesc },
-                { charLevel: this.levelNumber },
-            ));
-        }
-
-        if (result.length > 1 && result[0].desc === ', ') {
-            result.shift();
-        }
-
-        return result;
+    @Input()
+    public set featChoiceRequirementResults(value: Array<FeatRequirements.FeatRequirementResult> | undefined) {
+        this._featChoiceRequirementResults$.next(value);
     }
 
     public activityFromName(name: string): Activity {
@@ -124,6 +90,48 @@ export class FeatComponent extends TrackByMixin(BaseClass) {
         } else {
             return Math.max(choice.level, spell.levelreq);
         }
+    }
+
+    /**
+     * List the requirements of the given feat.
+     * Each requirement brings information on whether it is met, ignored or skipped.
+     * Between each requirement in the list is a blank requirement with description ', ',
+     * which helps display them better in the template.
+     *
+     * If requirement results are passed from the parent, they are used here.
+     * If not, the requirements are listed, but each of them is set to be skipped.
+     * A feat without an evaluating parent does not need its requirements to be validated.
+     *
+     * @param feat
+     * @returns
+     */
+    private _featRequirements$(feat: Feat): Observable<Array<FeatRequirements.FeatRequirementResult>> {
+        const interpolationResult = { met: true, desc: ', ' };
+
+        return this._featChoiceRequirementResults$
+            .pipe(
+                switchMap(featChoiceRequirementResults =>
+                    // If requirement results are passed from the parent, use them.
+                    // If not, query the results, but set all to be skipped. They should not be evaluated outside a feat choice.
+                    featChoiceRequirementResults
+                        ? of(featChoiceRequirementResults)
+                        : this._featRequirementsService.canChoose$(
+                            feat,
+                            { choiceLevel: this.featLevel, charLevel: this.levelNumber },
+                            { displayOnly: true },
+                        )
+                            .pipe(
+                                map(result => result.results),
+                            ),
+                ),
+                map(results => results.reduce(
+                    (previous, current, index) =>
+                        index
+                            ? previous.concat(interpolationResult, current)
+                            : [current],
+                    new Array<FeatRequirements.FeatRequirementResult>(),
+                )),
+            );
     }
 
 }

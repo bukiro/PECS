@@ -1,195 +1,183 @@
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Character } from 'src/app/classes/Character';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FeatsDataService } from '../data/feats-data.service';
 import { FeatTaken } from '../../definitions/models/FeatTaken';
+import { Store } from '@ngrx/store';
+import { distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
+import {
+    selectAllCharacterFeats,
+    selectAllCharacterFeatsAtLevel,
+    selectAllCharacterFeatsTaken,
+    selectAllCharacterFeatsTakenAtLevel,
+    selectCharacterHasFeatAtLevel,
+    selectCharacterHasTakenFeatAtLevel,
+} from 'src/libs/store/feats/feats.selectors';
+import { addFeatAtLevel, removeFeatAtLevel } from 'src/libs/store/feats/feats.actions';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
+import { deepDistinctUntilChanged } from '../../util/observableUtils';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CharacterFeatsService {
-    private readonly _$characterFeats = new Map<string, Feat>();
-    private readonly _$characterFeatsTaken: Array<{ level: number; gain: FeatTaken }> = [];
 
     constructor(
         private readonly _featsDataService: FeatsDataService,
+        private readonly _store$: Store,
     ) { }
 
     public buildCharacterFeats(character: Character): void {
         // Add all feats that the character has taken to $characterFeats (feat for quick retrieval)
         // and $characterFeatsTaken (gain with level).
-        this._$characterFeats.clear();
-        this._$characterFeatsTaken.length = 0;
         character.class.levels.forEach(level => {
             level.featChoices.forEach(choice => {
                 choice.feats.forEach(takenFeat => {
                     this.addCharacterFeat(
-                        this._featsDataService.featOrFeatureFromName([], takenFeat.name),
+                        this._featsDataService.featOrFeatureFromName(character.customFeats, takenFeat.name),
                         takenFeat,
                         level.number,
+                        choice.showOnSheet,
                     );
                 });
             });
         });
     }
 
-    public characterFeatsAndFeatures(
+    public characterFeats$(
         name = '',
         type = '',
-        includeSubTypes = false,
-        includeCountAs = false,
-    ): Array<Feat> {
-        const customFeats = CreatureService.character.customFeats;
+        options: { includeSubTypes?: boolean; includeCountAs?: boolean } = {},
+    ): Observable<Array<Feat>> {
+        return this._store$.select(selectAllCharacterFeats)
+            .pipe(
+                deepDistinctUntilChanged(),
+                map(allFeats => {
+                    // If a name is given and other filters are disabled,
+                    // we can just get the feat or feature from the map.
+                    if (name && !options.includeSubTypes && !options.includeCountAs) {
+                        // For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
+                        const alternatives = name.toLowerCase().split(' or ');
 
-        // If a name is given and includeSubTypes and includeCountAs are false,
-        // we can get the feat or feature from the customFeats or the map more quickly.
-        if (name && !includeSubTypes && !includeCountAs) {
-            const customFeat = customFeats.find(feat => feat.name.toLowerCase() === name.toLowerCase());
+                        return alternatives
+                            .map(alternative => allFeats.get(alternative.toLowerCase()))
+                            .filter((feat): feat is Feat => !!feat);
+                    }
 
-            if (customFeat) {
-                return [customFeat];
-            } else {
-                const feat = this._$characterFeats.get(name.toLowerCase());
-
-                if (feat) {
-                    return [feat];
-                } else {
-                    return [];
-                }
-            }
-        }
-
-        return this._featsDataService.filterFeats(
-            customFeats.concat(Array.from(this._$characterFeats.values())),
-            name,
-            type,
-            includeSubTypes,
-            includeCountAs,
-        );
+                    return this._featsDataService.filterFeats(
+                        Array.from(allFeats.values()),
+                        name,
+                        type,
+                        options,
+                    );
+                }),
+            );
     }
 
-    public characterFeatsTakenWithLevel(
-        minLevel = 0,
-        maxLevel = 0,
-        name = '',
-        source = '',
-        sourceId = '',
-        locked?: boolean,
-        includeCountAs?: boolean,
-        automatic?: boolean,
-    ): Array<{ level: number; gain: FeatTaken }> {
-        return this._$characterFeatsTaken.filter(taken =>
-            (!minLevel || (taken.level >= minLevel)) &&
-            (!maxLevel || (taken.level <= maxLevel)) &&
-            (
-                !name ||
-                (includeCountAs && (taken.gain.countAsFeat?.toLowerCase() === name.toLowerCase() || false)) ||
-                (taken.gain.name.toLowerCase() === name.toLowerCase())
-            ) &&
-            (!source || (taken.gain.source.toLowerCase() === source.toLowerCase())) &&
-            (!sourceId || (taken.gain.sourceId === sourceId)) &&
-            ((locked === undefined && automatic === undefined) || (taken.gain.locked === locked) || (taken.gain.automatic === automatic)),
-        );
-    }
-
-    public characterFeatsTaken(
+    public characterFeatsTakenWithContext$(
         minLevelNumber = 0,
         maxLevelNumber?: number,
         filter: { featName?: string; source?: string; sourceId?: string; locked?: boolean; automatic?: boolean } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
-    ): Array<FeatTaken> {
+    ): Observable<Array<{ levelNumber: number; gain: FeatTaken; feat: Feat }>> {
+        return this._store$.select(selectAllCharacterFeatsTaken)
+            .pipe(
+                deepDistinctUntilChanged(),
+                map(allFeatsTaken => allFeatsTaken
+                    .filter(taken =>
+                        (!minLevelNumber || (taken.levelNumber >= minLevelNumber))
+                        && (!maxLevelNumber || (taken.levelNumber <= maxLevelNumber))
+                        && (
+                            !filter.featName
+                            || (options.includeCountAs && stringEqualsCaseInsensitive(taken.gain.countAsFeat, filter.featName))
+                            || stringEqualsCaseInsensitive(taken.gain.name, filter.featName)
+                        )
+                        && (!options.excludeTemporary || !taken.temporary)
+                        && (!filter.source || stringEqualsCaseInsensitive(taken.gain.source, filter.source))
+                        && (!filter.sourceId || (taken.gain.sourceId === filter.sourceId))
+                        && ((filter.locked === undefined) || (taken.gain.locked === filter.locked))
+                        && ((filter.automatic === undefined) || (taken.gain.automatic === filter.automatic)),
+                    ),
+                ),
+            );
+    }
+
+    public characterFeatsTaken$(
+        minLevelNumber = 0,
+        maxLevelNumber?: number,
+        filter: { featName?: string; source?: string; sourceId?: string; locked?: boolean; automatic?: boolean } = {},
+        options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
+    ): Observable<Array<FeatTaken>> {
         filter = {
             locked: undefined,
             automatic: undefined,
             ...filter,
         };
 
-        const character = CreatureService.character;
-
-        maxLevelNumber = maxLevelNumber || character.level;
-
-        // If the feat choice is not needed (i.e. if excludeTemporary is not given),
-        // we can get the taken feats quicker from the featsService.
-        // CharacterService.get_CharacterFeatsTaken should be preferred over Character.takenFeats for this reason.
-        if (!options.excludeTemporary) {
-            return this.characterFeatsTakenWithLevel(
-                minLevelNumber,
-                maxLevelNumber,
-                filter.featName,
-                filter.source,
-                filter.sourceId,
-                filter.locked,
-                options.includeCountAs,
-                filter.automatic,
-            ).map(taken => taken.gain);
-        } else {
-            return character.takenFeats(
-                minLevelNumber,
-                maxLevelNumber,
-                filter.featName,
-                filter.source,
-                filter.sourceId,
-                filter.locked,
-                options.excludeTemporary,
-                options.includeCountAs,
-                filter.automatic,
+        return CharacterFlatteningService.levelOrCurrent$(maxLevelNumber)
+            .pipe(
+                switchMap(targetLevelNumber => this.characterFeatsTakenWithContext$(
+                    minLevelNumber,
+                    targetLevelNumber,
+                    filter,
+                    options,
+                )),
+                map(allTaken => allTaken.map(taken => taken.gain)),
             );
-        }
     }
 
-    public addCharacterFeat(feat: Feat, gain: FeatTaken, level: number): void {
-        const character = CreatureService.character;
-
-        //Add the feat to $characterFeats, unless it is among the custom feats.
-        const customFeats = character.customFeats;
-
-        if (!customFeats.some(takenFeat => takenFeat.name.toLowerCase() === feat.name.toLowerCase())) {
-            if (feat?.name && !this._$characterFeats.has(feat.name)) {
-                this._$characterFeats.set(feat.name.toLowerCase(), feat);
-            }
-        }
-
-        this._$characterFeatsTaken.push({ level, gain });
+    public addCharacterFeat(feat: Feat, gain: FeatTaken, levelNumber: number, temporary: boolean): void {
+        this._store$.dispatch(addFeatAtLevel({ feat, gain, levelNumber, temporary }));
     }
 
-    public removeCharacterFeat(feat: Feat, gain: FeatTaken, level: number): void {
-        //Remove one instance of the feat from the taken character feats list.
-        let takenFeat = this._$characterFeatsTaken
-            .find(taken => taken.level === level && JSON.stringify(taken.gain) === JSON.stringify(gain));
-
-        //If no exact same gain can be found, find one with the same name instead.
-        if (!takenFeat) {
-            takenFeat = this._$characterFeatsTaken
-                .find(taken => taken.level === level && taken.gain.name === gain.name);
-        }
-
-        if (takenFeat) {
-            const a = this._$characterFeatsTaken;
-
-            a.splice(a.indexOf(takenFeat), 1);
-
-            //Remove a feat from the character feats only if it is no longer taken by the character on any level.
-            if (!this.characterFeatsTaken(0, 0, { featName: feat.name }).length) {
-                if (this._$characterFeats.has(feat.name)) {
-                    this._$characterFeats.delete(feat.name);
-                }
-            }
-        }
+    public removeCharacterFeat(gain: FeatTaken, levelNumber: number): void {
+        this._store$.dispatch(removeFeatAtLevel({ gain, levelNumber }));
     }
 
-    public reset(): void {
-        //Clear the character feats whenever a character is loaded.
-        this._$characterFeats.clear();
-        this._$characterFeatsTaken.length = 0;
+    /**
+     * List all feats that the character has at this level, including those taken at lower levels.
+     */
+    public characterFeatsAtLevel$(levelNumber?: number): Observable<Array<Feat>> {
+        return CharacterFlatteningService.levelOrCurrent$(levelNumber)
+            .pipe(
+                switchMap(level => this._store$.select(selectAllCharacterFeatsAtLevel(level))),
+                deepDistinctUntilChanged(),
+            );
     }
 
-    public characterHasFeat(name: string, levelNumber?: number): boolean {
-        const character = CreatureService.character;
+    /**
+     * List all feats that the character has taken at this exact level, not including those taken at lower levels.
+     */
+    public characterFeatsTakenAtLevel$(levelNumber?: number): Observable<Array<Feat>> {
+        return CharacterFlatteningService.levelOrCurrent$(levelNumber)
+            .pipe(
+                switchMap(level => this._store$.select(selectAllCharacterFeatsTakenAtLevel(level))),
+                deepDistinctUntilChanged(),
+            );
+    }
 
-        levelNumber = levelNumber || character.level;
+    /**
+     * Tell whether the character has a feat by the given name at the given level, including those taken at lower levels.
+     * If allowCountAs is true, also count those feats that have the given name in their countAsFeat field.
+     */
+    public characterHasFeatAtLevel$(name: string, levelNumber?: number, options?: { allowCountAs?: boolean }): Observable<boolean> {
+        return CharacterFlatteningService.levelOrCurrent$(levelNumber)
+            .pipe(
+                switchMap(level => this._store$.select(selectCharacterHasFeatAtLevel(name, level, options))),
+                distinctUntilChanged(),
+            );
+    }
 
-        return !!this.characterFeatsTaken(0, levelNumber, { featName: name }, { includeCountAs: true }).length;
+    /**
+     * Tell whether the character has taken a feat by the given name at the exact given level, not including those taken at lower levels.
+     */
+    public characterHasTakenFeatAtLevel$(name: string, levelNumber?: number): Observable<boolean> {
+        return CharacterFlatteningService.levelOrCurrent$(levelNumber)
+            .pipe(
+                switchMap(level => this._store$.select(selectCharacterHasTakenFeatAtLevel(name, level))),
+                distinctUntilChanged(),
+            );
     }
 
 }

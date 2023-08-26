@@ -4,6 +4,8 @@ import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Hint } from 'src/app/classes/Hint';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { ArmorRune } from './ArmorRune';
+import { WeaponRune } from './WeaponRune';
 
 export abstract class Rune extends Item {
     public activities: Array<ItemActivity> = [];
@@ -15,7 +17,7 @@ export abstract class Rune extends Item {
      */
     public hints: Array<Hint> = [];
     public effects: Array<EffectGain> = [];
-    //Only one rune trains a lore skill while equipped and requires this to be set.
+    // Certain runes train a lore skill while equipped and require this to be set.
     public loreChoices: Array<LoreChoice> = [];
     public potency = 0;
     public traits: Array<string> = [];
@@ -25,6 +27,12 @@ export abstract class Rune extends Item {
     public get secondary(): number {
         return 0;
     }
+
+    public isRune(): this is Rune { return true; }
+
+    public isArmorRune(): this is ArmorRune { return false; }
+
+    public isWeaponRune(): this is WeaponRune { return false; }
 
     public hasActivities(): this is Rune { return true; }
 
@@ -38,8 +46,6 @@ export abstract class Rune extends Item {
 
         return this;
     }
-
-    public isRune(): this is Rune { return true; }
 
     public canStack(): boolean {
         //Additionally to the usual considerations, runes can't stack if they add any activities.

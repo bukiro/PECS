@@ -1,174 +1,179 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="calculatedSkill() as calculatedSkill">
-    <div
-        class="list-item"
-        [ngClass]="{'minimized-hide':(calculatedSkill.value.result === 0)}"
-        *ngIf="isMinimized ? (calculatedSkill.value.result !== 0) : !(calculatedSkill.value.result === 0 && creature === 'Companion')"
-    >
-
-        <div class="skill">
-            <app-skill-proficiency
-                class="skill__level"
-                [skillLevel]="skillProficiencyLevel()"
-            >
-            </app-skill-proficiency>
-
-            <app-attribute-value
-                class="skill__value"
-                [title]="displayName(skill)"
-                [sublines]="[calculatedSkill.ability]"
-                [effectsTarget]="((skill.name.includes(' DC') === isDC)) && showValue ? { creature: creature, target: skill.name } : undefined"
-                [value]="showValue ? calculatedSkill.value.result : undefined"
-                [bonuses]="calculatedSkill.value.bonuses"
-                [quickdiceTemplate]="showValue ? QuickdiceTemplate : undefined"
-                [showNotesIcon]="true"
-                [(showNotes)]="skillNotes(skill).showNotes"
-            >
-            </app-attribute-value>
-        </div>
-
-        <ng-template #QuickdiceTemplate>
-            <app-quickdice
-                [creature]="creature"
-                *ngIf="!isDC"
-                [diceNum]="1"
-                [diceSize]="20"
-                [bonus]="calculatedSkill.value.result"
-                [type]="'('+displayName(skill)+')'"
-                ghost
-                noOutline
-            >
-            </app-quickdice>
-        </ng-template>
-
-        <app-tags
-            *ngIf="showValue"
-            [creature]="creature"
-            [objectName]=skill.name
-            [showTraits]=true
-            [showFeats]=true
-            [showItems]=true
-            [showActivities]=true
-            [showConditions]=true
-            [specialEffects]="calculatedSkill.absolutes.concat(calculatedSkill.relatives)"
-        >
-        </app-tags>
-
+<ng-container *ngIf="skill && creature">
+    <ng-container *ngIf="skillValue$ | async as calculatedSkill">
         <div
-            class="fullwidth"
-            [ngbCollapse]="!skillNotes.showNotes"
-            *ngIf="skillNotes(skill) as skillNotes"
+            class="list-item"
+            [ngClass]="{'minimized-hide':(calculatedSkill.result === 0)}"
         >
-            <div class="minimized-hide newrow">
-                <span>
-                    <strong>Notes</strong>
 
-                    <input
-                        aria-label="Skill notes input"
-                        id="{{skill.name}}Notes"
-                        type="textarea"
-                        class="fullwidth"
-                        [(ngModel)]="skillNotes.notes"
-                    >
-                </span>
+            <div class="skill">
+                <app-skill-proficiency
+                    class="skill__level"
+                    [skillLevel]="calculatedSkill.skillLevel"
+                >
+                </app-skill-proficiency>
+
+                <app-attribute-value
+                    class="skill__value"
+                    [title]="displayName(skill)"
+                    [sublines]="[calculatedSkill.ability]"
+                    [customEffectsTarget]="((skill.name.includes(' DC') === isDC)) && showValue ? { creature: creature, target: skill.name } : undefined"
+                    [value]="showValue ? calculatedSkill.result : undefined"
+                    [bonuses]="calculatedSkill.bonuses"
+                    [quickdiceTemplate]="showValue ? QuickdiceTemplate : undefined"
+                    [showNotesIcon]="true"
+                    [(showNotes)]="skillNotes(skill).showNotes"
+                >
+                </app-attribute-value>
             </div>
-        </div>
 
-        <div
-            class="fullwidth"
-            *ngIf="relatedActivityGains.length"
-            [ngClass]="{'icon-list':isTileMode, 'vlist':!isTileMode}"
-        >
-            <ng-container *ngFor="let activityParameters of relatedActivityParameters(); let activityIndex = index; trackBy:trackByIndex;">
-                <ng-template #ActivityTitleTemplate>
-                    <span *ngIf="!isTileMode">
-                        <i
-                            class="value bi-patch-plus bonus"
-                            *ngIf="!activityParameters.activity.isHostile()"
-                            [ngbTooltip]="'Beneficial activity'"
-                        ></i>
+            <ng-template #QuickdiceTemplate>
+                <app-quickdice
+                    [creature]="creature"
+                    *ngIf="!isDC"
+                    [diceNum]="1"
+                    [diceSize]="20"
+                    [bonus]="calculatedSkill.result"
+                    [type]="'('+displayName(skill)+')'"
+                    ghost
+                    noOutline
+                >
+                </app-quickdice>
+            </ng-template>
 
-                        <i
-                            class="value bi-patch-minus-fill penalty"
-                            *ngIf="activityParameters.activity.isHostile()"
-                            [ngbTooltip]="'Hostile activity'"
-                        ></i>
+            <app-tags
+                *ngIf="showValue"
+                [creature]="creature"
+                [objectName]=skill.name
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [specialEffects]="calculatedSkill.effects"
+            >
+            </app-tags>
+
+            <div
+                class="fullwidth"
+                [ngbCollapse]="!skillNotes.showNotes"
+                *ngIf="skillNotes(skill) as skillNotes"
+            >
+                <div class="minimized-hide newrow">
+                    <span>
+                        <strong>Notes</strong>
+
+                        <input
+                            aria-label="Skill notes input"
+                            id="{{skill.name}}Notes"
+                            type="textarea"
+                            class="fullwidth"
+                            [(ngModel)]="skillNotes.notes"
+                        >
                     </span>
+                </div>
+            </div>
 
-                    <span *ngIf="activityParameters.activity.name === 'Fused Stance'">{{fuseStanceName()}}</span>
+            <div
+                class="fullwidth"
+                *ngIf="relatedActivityGains.length"
+                [ngClass]="{'icon-list':isTileMode, 'vlist':!isTileMode}"
+            >
+                <ng-container *ngFor="let activityParameters of relatedActivityParameters$() | async; let activityIndex = index; trackBy:trackByIndex;">
+                    <ng-template #ActivityTitleTemplate>
+                        <span *ngIf="!isTileMode">
+                            <i
+                                class="value bi-patch-plus bonus"
+                                *ngIf="!activityParameters.activity.isHostile()"
+                                [ngbTooltip]="'Beneficial activity'"
+                            ></i>
 
-                    <span *ngIf="activityParameters.activity.name !== 'Fused Stance'">{{activityParameters.activity.name}}</span>
+                            <i
+                                class="value bi-patch-minus-fill penalty"
+                                *ngIf="activityParameters.activity.isHostile()"
+                                [ngbTooltip]="'Hostile activity'"
+                            ></i>
+                        </span>
 
-                    <app-action-icons
-                        *ngIf="activityParameters.activity.actions"
-                        [actionString]="activityParameters.activity.actions"
-                    >
-                    </app-action-icons>
-                    {{activityParameters.activity.activationType || ""}}
-                </ng-template>
+                        <span *ngIf="activityParameters.activity.name === 'Fused Stance'">
+                            {{
+                                activityParameters.activity.name === 'Fused Stance'
+                                ? (fusedStanceName$ | async)
+                                : activityParameters.activity.name
+                            }}
+                        </span>
 
-                <ng-template #ActivityTemplate>
-                    <header
-                        class="spellHeader"
-                        *ngIf="isTileMode"
-                    >
-                        <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
-                    </header>
+                        <app-action-icons
+                            *ngIf="activityParameters.activity.actions"
+                            [actionString]="activityParameters.activity.actions"
+                        >
+                        </app-action-icons>
+                        {{activityParameters.activity.activationType || ""}}
+                    </ng-template>
 
-                    <app-activity
-                        [creature]="creature"
-                        [activity]="activityParameters.activity"
-                        [gain]="activityParameters.gain"
-                        [allowActivate]="true"
-                    >
-                    </app-activity>
-                </ng-template>
+                    <ng-template #ActivityTemplate>
+                        <header
+                            class="spellHeader"
+                            *ngIf="isTileMode"
+                        >
+                            <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
+                        </header>
 
-                <ng-container *ngIf="!isTileMode">
-                    <div
-                        class="list-item"
-                        *ngFor="let activityID of [skill.name+activityIndex]; trackBy:trackByIndex;"
-                    >
+                        <app-activity
+                            [creature]="creature"
+                            [activity]="activityParameters.activity"
+                            [gain]="activityParameters.gain"
+                            [allowActivate]="true"
+                        >
+                        </app-activity>
+                    </ng-template>
+
+                    <ng-container *ngIf="!isTileMode">
+                        <div
+                            class="list-item"
+                            *ngFor="let activityID of [skill.name+activityIndex]; trackBy:trackByIndex;"
+                        >
+                            <button
+                                type="button"
+                                aria-label="Show activity"
+                                class="newrow left-aligned sublist-toggle"
+                                [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.cannotActivate}"
+                                (click)="toggleShownAction(activityID)"
+                            >
+                                <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
+                            </button>
+
+                            <div
+                                class="list-item sublist lower"
+                                [ngClass]="{'fancy-list':activityParameters.gain.active, 'inactive-list':activityParameters.cannotActivate}"
+                                *ngIf="shownAction()===activityID"
+                            >
+                                <ng-container *ngTemplateOutlet="ActivityTemplate"></ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="isTileMode">
                         <button
                             type="button"
                             aria-label="Show activity"
-                            class="newrow left-aligned sublist-toggle"
-                            [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.cannotActivate}"
-                            (click)="toggleShownAction(activityID)"
-                        >
-                            <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
-                        </button>
-
-                        <div
-                            class="list-item sublist lower"
-                            [ngClass]="{'fancy-list':activityParameters.gain.active, 'inactive-list':activityParameters.cannotActivate}"
-                            *ngIf="shownAction()===activityID"
-                        >
-                            <ng-container *ngTemplateOutlet="ActivityTemplate"></ng-container>
-                        </div>
-                    </div>
-                </ng-container>
-
-                <ng-container *ngIf="isTileMode">
-                    <button
-                        type="button"
-                        aria-label="Show activity"
-                        [stickyPopover]="ActivityTemplate"
-                        triggers="click"
-                        [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.cannotActivate, 'penalty':!activityParameters.cannotActivate && activityParameters.activity.isHostile, 'bonus':!activityParameters.cannotActivate && !activityParameters.activity.isHostile}"
-                    >
-                        <app-grid-icon
+                            [stickyPopover]="ActivityTemplate"
+                            triggers="click"
                             [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.cannotActivate, 'penalty':!activityParameters.cannotActivate && activityParameters.activity.isHostile, 'bonus':!activityParameters.cannotActivate && !activityParameters.activity.isHostile}"
-                            [ngbTooltip]="ActivityTitleTemplate"
-                            [title]="activityParameters.activity.name === 'Fused Stance' ? fuseStanceName() : activityParameters.activity.name"
-                            [activity]="activityParameters.activity"
-                            [activityGain]="activityParameters.gain"
-                            [updateId]="activityParameters.gain.id"
                         >
-                        </app-grid-icon>
-                    </button>
+                            <app-grid-icon
+                                [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.cannotActivate, 'penalty':!activityParameters.cannotActivate && activityParameters.activity.isHostile, 'bonus':!activityParameters.cannotActivate && !activityParameters.activity.isHostile}"
+                                [ngbTooltip]="ActivityTitleTemplate"
+                                [title]="activityParameters.activity.name === 'Fused Stance' ? ((fusedStanceName$ | async) ?? 'Fused Stance')  : activityParameters.activity.name"
+                                [activity]="activityParameters.activity"
+                                [activityGain]="activityParameters.gain"
+                                [updateId]="activityParameters.gain.id"
+                            >
+                            </app-grid-icon>
+                        </button>
+                    </ng-container>
                 </ng-container>
-            </ng-container>
+            </div>
         </div>
-    </div>
+    </ng-container>
 </ng-container>

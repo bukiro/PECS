@@ -21,10 +21,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { map, noop, Observable, Subscription } from 'rxjs';
-import { Character } from 'src/app/classes/Character';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Familiar } from 'src/app/classes/Familiar';
+import { combineLatest, map, noop, Observable, of, Subscription, switchMap } from 'rxjs';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
@@ -33,15 +30,20 @@ import { DurationsService } from 'src/libs/shared/time/services/durations/durati
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { Creature } from 'src/app/classes/Creature';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
+import { Familiar } from 'src/app/classes/Familiar';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;
     shouldBloodMagicApply: boolean;
     canActivate: boolean;
     canActivateWithoutTarget: boolean;
-    targetNumber: number;
+    allowedTargetNumber: number;
     target: string;
     bloodMagicWarningWithTarget: string;
     bloodMagicWarningWithoutTarget: string;
@@ -57,7 +59,7 @@ interface ComponentParameters {
 export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
     @Input()
-    public creature!: CreatureTypes;
+    public creature?: Creature;
     @Input()
     public spell!: Spell;
     @Input()
@@ -98,9 +100,12 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
         options: { expend?: boolean };
     }>();
 
-    public creatureTypesEnum = CreatureTypes;
+    public character = CreatureService.character;
+
+    public creatureTypes = CreatureTypes;
 
     public spellTargets$: Observable<Array<SpellTarget>>;
+    public isManualMode$: Observable<boolean>;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -108,17 +113,20 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
-        private readonly _conditionsDataService: ConditionsDataService,
         private readonly _savegamesService: SavegamesService,
+        private readonly _conditionsDataService: ConditionsDataService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _modalService: NgbModal,
         private readonly _durationsService: DurationsService,
+        private readonly _creatureService: CreatureService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
     ) {
         super();
 
         this.spellTargets$ = this._createSpellTargetObservable$();
+
+        this.isManualMode$ = SettingsService.settings.manualMode$;
     }
 
     public get action(): Activity | Spell {
@@ -133,35 +141,11 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
         return this.parentActivityGain?.active || this.gain.active;
     }
 
-    public get character(): Character {
-        return CreatureService.character;
-    }
-
-    public get companion(): AnimalCompanion {
-        return CreatureService.companion;
-    }
-
-    public get familiar(): Familiar {
-        return CreatureService.familiar;
-    }
-
-    public get isManualMode(): boolean {
-        return SettingsService.isManualMode;
-    }
-
     private get _target(): string {
         return this.spellCast?.target ||
             (this.parentActivityGain instanceof ItemActivity ? this.parentActivityGain.target : false) ||
             this.action.target ||
             'self';
-    }
-
-    private get _isCompanionAvailable(): boolean {
-        return this._creatureAvailabilityService.isCompanionAvailable();
-    }
-
-    private get _isFamiliarAvailable(): boolean {
-        return this._creatureAvailabilityService.isFamiliarAvailable();
     }
 
     private get _isGainActive(): boolean {
@@ -172,49 +156,52 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
         this.castMessage.emit({ target, activated, options });
     }
 
-    public componentParameters(): ComponentParameters {
-        const bloodMagicTrigger = this._bloodMagicTrigger();
-        const canActivate = this._canActivate();
-        const canActivateWithoutTarget = this._canActivate(true);
-        const targetNumber =
-            this.action
-                ? this._activityPropertiesService.allowedTargetNumber(this.action, this.effectiveSpellLevel)
-                : 0;
+    public componentParameters$(): Observable<ComponentParameters> {
+        return combineLatest([
+            this._canActivate$(),
+            this._canActivate$({ withoutTarget: true }),
+            this._activityPropertiesService.allowedTargetNumber$(this.action, this.effectiveSpellLevel),
+        ])
+            .pipe(
+                map(([canActivate, canActivateWithoutTarget, allowedTargetNumber]) => {
+                    const bloodMagicTrigger = this._bloodMagicTrigger();
 
-        const target = this._target;
-        const shouldBloodMagicApply = !!bloodMagicTrigger && !this.asSpellGain()?.ignoreBloodMagicTrigger;
-        const bloodMagicWarningWithTarget =
-            shouldBloodMagicApply
-                ? `Casting this spell will trigger ${ bloodMagicTrigger }.`
-                : (
-                    canActivate
-                        ? ''
-                        : `The ${ this.spell ? 'spell' : 'activity' } has no automatic effects.`
-                );
-        const bloodMagicWarningWithoutTarget =
-            shouldBloodMagicApply
-                ? `Casting this spell will trigger ${ bloodMagicTrigger }.`
-                : (
-                    canActivateWithoutTarget
-                        ? `${ this.spell ? 'Cast' : 'Activate' } with no specific target.`
-                        : `The ${ this.spell ? 'spell' : 'activity' } has no automatic effects.`
-                );
-        const bloodMagicWarningManualMode =
-            shouldBloodMagicApply
-                ? (`Casting this spell will trigger ${ bloodMagicTrigger }.`)
-                : '';
+                    const target = this._target;
+                    const shouldBloodMagicApply = !!bloodMagicTrigger && !this.asSpellGain()?.ignoreBloodMagicTrigger;
+                    const bloodMagicWarningWithTarget =
+                        shouldBloodMagicApply
+                            ? `Casting this spell will trigger ${ bloodMagicTrigger }.`
+                            : (
+                                canActivate
+                                    ? ''
+                                    : `The ${ this.spell ? 'spell' : 'activity' } has no automatic effects.`
+                            );
+                    const bloodMagicWarningWithoutTarget =
+                        shouldBloodMagicApply
+                            ? `Casting this spell will trigger ${ bloodMagicTrigger }.`
+                            : (
+                                canActivateWithoutTarget
+                                    ? `${ this.spell ? 'Cast' : 'Activate' } with no specific target.`
+                                    : `The ${ this.spell ? 'spell' : 'activity' } has no automatic effects.`
+                            );
+                    const bloodMagicWarningManualMode =
+                        shouldBloodMagicApply
+                            ? (`Casting this spell will trigger ${ bloodMagicTrigger }.`)
+                            : '';
 
-        return {
-            bloodMagicTrigger,
-            shouldBloodMagicApply,
-            canActivate,
-            canActivateWithoutTarget,
-            targetNumber,
-            target,
-            bloodMagicWarningWithTarget,
-            bloodMagicWarningWithoutTarget,
-            bloodMagicWarningManualMode,
-        };
+                    return {
+                        bloodMagicTrigger,
+                        shouldBloodMagicApply,
+                        canActivate,
+                        canActivateWithoutTarget,
+                        allowedTargetNumber,
+                        target,
+                        bloodMagicWarningWithTarget,
+                        bloodMagicWarningWithoutTarget,
+                        bloodMagicWarningManualMode,
+                    };
+                }),
+            );
     }
 
     public asSpellGain(): SpellGain | undefined {
@@ -233,30 +220,46 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
     public canTargetCharacter(): boolean {
         return (
             !this._isGainActive &&
-            this.creature !== CreatureTypes.Character &&
+            !this.creature?.isCharacter() &&
             this._canTargetList(['ally']) &&
             !this._isHostile(true)
         );
     }
 
-    public canTargetCompanion(): boolean {
-        return (
-            !this._isGainActive &&
-            this.creature !== CreatureTypes.AnimalCompanion &&
-            this._canTargetList(['companion']) &&
-            this._isCompanionAvailable &&
-            !this._isHostile(true)
-        );
+    public canTargetCompanion$(): Observable<AnimalCompanion | null> {
+        return this._creatureAvailabilityService.isCompanionAvailable$()
+            .pipe(
+                map(isCompanionAvailable => (
+                    !this._isGainActive &&
+                    !this.creature?.isAnimalCompanion() &&
+                    this._canTargetList(['companion']) &&
+                    isCompanionAvailable &&
+                    !this._isHostile(true)
+                )),
+                switchMap(canTarget =>
+                    canTarget
+                        ? CreatureService.companion$
+                        : of(null),
+                ),
+            );
     }
 
-    public canTargetFamiliar(): boolean {
-        return (
-            !this._isGainActive &&
-            this.creature !== CreatureTypes.Familiar &&
-            this._canTargetList(['familiar']) &&
-            this._isFamiliarAvailable &&
-            !this._isHostile(true)
-        );
+    public canTargetFamiliar$(): Observable<Familiar | null> {
+        return this._creatureAvailabilityService.isFamiliarAvailable$()
+            .pipe(
+                map(isFamiliarAvailable => (
+                    !this._isGainActive &&
+                    !this.creature?.isFamiliar() &&
+                    this._canTargetList(['familiar']) &&
+                    isFamiliarAvailable &&
+                    !this._isHostile(true)
+                )),
+                switchMap(canTarget =>
+                    canTarget
+                        ? CreatureService.familiar$
+                        : of(null),
+                ),
+            );
     }
 
     public canTargetAlly(targetNumber: number): boolean {
@@ -335,7 +338,7 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
                     target === 'activities' ||
                     target === 'spellbook' ||
                     target === 'all' ||
-                    target.toLowerCase() === this.creature.toLowerCase()
+                    stringEqualsCaseInsensitive(target, this.creature?.type)
                 ) {
                     this._changeDetector.detectChanges();
                 }
@@ -343,8 +346,8 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
         this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
                 if (
-                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
-                    ['activities', 'spellbook', 'all'].includes(view.target.toLowerCase())
+                    stringEqualsCaseInsensitive(view.creature, this.creature?.type)
+                    && ['activities', 'spellbook', 'all'].includes(view.target.toLowerCase())
                 ) {
                     this._changeDetector.detectChanges();
                 }
@@ -357,9 +360,12 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
     }
 
     private _createSpellTargetObservable$(): Observable<Array<SpellTarget>> {
-        return this._savegamesService.savegames$
+        return combineLatest([
+            this._creatureService.allAvailableCreatures$(),
+            this._savegamesService.savegames$,
+        ])
             .pipe(
-                map(savegames => {
+                map(([creatures, savegames]) => {
                     //Collect all possible targets for a spell/activity (allies only).
                     //Hostile spells and activities don't get targets.
                     if (this.action.isHostile(true)) {
@@ -367,9 +373,9 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
                     }
 
                     const newTargets = new Array<SpellTarget>();
-                    const character = this.character;
+                    const character = CreatureService.character;
 
-                    this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
+                    creatures.forEach(creature => {
                         newTargets.push(
                             Object.assign(
                                 new SpellTarget(),
@@ -474,56 +480,64 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
         }
     }
 
-    private _canActivate(noTarget = false): boolean {
+    private _canActivate$(options?: { withoutTarget?: boolean }): Observable<boolean> {
         //Return whether this spell or activity
         // - causes any blood magic effect or
         // - causes any target conditions and has a target or
         // - causes any caster conditions and caster conditions are not disabled in general,
         //   or any of the caster conditions are not disabled.
         // - in case of an activity, adds items or onceeffects (which are independent of the target)
-        let gainConditions: Array<ConditionGain> = [];
+        return combineLatest([
+            propMap$(SettingsService.settings$, 'noHostileCasterConditions$'),
+            propMap$(SettingsService.settings$, 'noFriendlyCasterConditions$'),
+        ])
+            .pipe(
+                map(([noHostileCasterConditions, noFriendlyCasterConditions]) => {
+                    let gainConditions: Array<ConditionGain> = [];
 
-        if (this.spell) {
-            gainConditions = this.spell.heightenedConditions(this.effectiveSpellLevel);
-        } else if (this.activity) {
-            gainConditions = this.activity.gainConditions;
-        }
+                    if (this.spell) {
+                        gainConditions = this.spell.heightenedConditions(this.effectiveSpellLevel);
+                    } else if (this.activity) {
+                        gainConditions = this.activity.gainConditions;
+                    }
 
-        return (
-            !!this._bloodMagicTrigger().length ||
-            (
-                !noTarget &&
-                gainConditions.some(gain => gain.targetFilter !== 'caster')
-            ) ||
-            (
-                this.activity &&
-                (
-                    this.activity.traits.includes('Stance') ||
-                    !!this.activity.gainItems.length ||
-                    !!this.activity.onceEffects.length
-                )
-            ) ||
-            (
-                gainConditions.some(gain => gain.targetFilter === 'caster') &&
-                (
-                    (
-                        this.action.isHostile() ?
-                            !SettingsService.settings.noHostileCasterConditions :
-                            !SettingsService.settings.noFriendlyCasterConditions
-                    ) ||
-                    (
-                        this._conditionsDataService.conditions()
-                            .filter(condition =>
-                                gainConditions.some(gain => gain.name === condition.name && gain.targetFilter === 'caster'),
+                    return (
+                        !!this._bloodMagicTrigger().length ||
+                        (
+                            !options?.withoutTarget &&
+                            gainConditions.some(gain => gain.targetFilter !== 'caster')
+                        ) ||
+                        (
+                            this.activity &&
+                            (
+                                this.activity.traits.includes('Stance') ||
+                                !!this.activity.gainItems.length ||
+                                !!this.activity.onceEffects.length
                             )
-                            .some(condition =>
-                                condition.hasEffects() ||
-                                condition.isChangeable(),
+                        ) ||
+                        (
+                            gainConditions.some(gain => gain.targetFilter === 'caster') &&
+                            (
+                                (
+                                    this.action.isHostile()
+                                        ? !noHostileCasterConditions
+                                        : !noFriendlyCasterConditions
+                                ) ||
+                                (
+                                    this._conditionsDataService.conditions()
+                                        .filter(condition =>
+                                            gainConditions.some(gain => gain.name === condition.name && gain.targetFilter === 'caster'),
+                                        )
+                                        .some(condition =>
+                                            condition.hasEffects() ||
+                                            condition.isChangeable(),
+                                        )
+                                )
                             )
-                    )
-                )
-            )
-        );
+                        )
+                    );
+                }),
+            );
     }
 
     private _canCasterNotBeTargeted(): boolean {

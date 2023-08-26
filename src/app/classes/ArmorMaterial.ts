@@ -14,4 +14,8 @@ export class ArmorMaterial extends Material {
     public clone(): ArmorMaterial {
         return Object.assign<ArmorMaterial, ArmorMaterial>(new ArmorMaterial(), JSON.parse(JSON.stringify(this))).recast();
     }
+
+    public isArmorMaterial(): this is ArmorMaterial {
+        return true;
+    }
 }

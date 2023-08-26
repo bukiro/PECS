@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="itemTraits() as traits">
+<ng-container *ngIf="itemTraits$() | async as traits">
     <div
         class="newrow left-aligned tags"
         *ngIf="traits.length"
@@ -57,7 +57,7 @@
                 [activity]=activity
                 [gain]=activity
                 [allowActivate]="false"
-                [cooldown]="activityCooldown(activity)"
+                [cooldown]="(activityCooldown$(activity) | async) ?? activity.cooldown"
             >
             </app-activity-content>
         </div>

@@ -1,4 +1,5 @@
 <div
+    *ngIf="familiar$ | async as familiar"
     id="familiarabilities-height"
     class="attributeBox"
 >
@@ -6,7 +7,7 @@
 
     <app-feat-choice
         class="newrow"
-        [creature]="creatureTypesEnum.Familiar"
+        [creature]="familiar"
         [choice]="familiar.abilities"
         [levelNumber]="character.level"
         [showTitle]="true"

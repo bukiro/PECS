@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { SettingsService } from '../settings/settings.service';
+import { Creature } from 'src/app/classes/Creature';
 
 /**
  * Attempt to match the relevant properties of a Foundry VTT Roll object.
@@ -26,7 +26,7 @@ export class FoundryVTTIntegrationService {
     ) { }
 
     public sendRollToFoundry(
-        creature: CreatureTypes,
+        creature: Creature,
         diceString = '',
         diceResults: Array<DiceResult> = [],
     ): void {
@@ -45,13 +45,12 @@ export class FoundryVTTIntegrationService {
 
                 const foundryVTTTimeout = SettingsService.settings.foundryVTTTimeout;
                 //Open the foundry URL in a small window, then close it after the configured timeout.
-                const roller = CreatureService.creatureFromType(creature);
                 let alias = '';
 
-                if (creature === CreatureTypes.Character) {
-                    alias = roller.name || '';
+                if (creature.isCharacter()) {
+                    alias = creature.name || '';
                 } else {
-                    alias = roller.name || `${ roller.type } of ${ CreatureService.character.name }`;
+                    alias = creature.name || `${ creature.type } of ${ CreatureService.character.name }`;
                 }
 
                 let foundryWindow: Window | null;

@@ -10,8 +10,9 @@ import { DurationsService } from 'src/libs/shared/time/services/durations/durati
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { Observable } from 'rxjs';
 
 interface AeonStoneSet {
     aeonStone: WornItem;
@@ -66,8 +67,8 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
         }
     }
 
-    public inventoryName(inventory: ItemCollection): string {
-        return this._inventoryPropertiesService.effectiveName(inventory, this._character);
+    public inventoryName$(inventory: ItemCollection): Observable<string> {
+        return this._inventoryPropertiesService.effectiveName$(inventory, this._character);
     }
 
     public initialAeonStones(index: number): Array<AeonStoneSet> {

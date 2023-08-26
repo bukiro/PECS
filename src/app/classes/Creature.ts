@@ -13,6 +13,10 @@ import { Character } from './Character';
 import { AbilityBoost } from './AbilityBoost';
 import { SkillIncrease } from './SkillIncrease';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { BehaviorSubject, Observable, combineLatest, map, switchMap } from 'rxjs';
+import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
+import { Alignments } from 'src/libs/shared/definitions/alignments';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 
 export interface SkillNotes {
     name: string;
@@ -21,21 +25,97 @@ export interface SkillNotes {
 }
 
 export abstract class Creature {
-    public name = '';
-    public alignment = 'Neutral';
     public id = uuidv4();
     public type: CreatureTypes = CreatureTypes.Character;
-    public typeId = 0;
-    public level = 1;
-    public customSkills: Array<Skill> = [];
+    public typeId: CreatureTypeIds = CreatureTypeIds.Character;
     public health: Health = new Health();
     public conditions: Array<ConditionGain> = [];
     public effects: Array<EffectGain> = [];
     public ignoredEffects: Array<Effect> = [];
-    public inventories: Array<ItemCollection> = [new ItemCollection()];
-    public speeds: Array<Speed> = [new Speed('Speed'), new Speed('Land Speed')];
     public notes = '';
     public skillNotes: Array<SkillNotes> = [];
+
+    public readonly alignment$: BehaviorSubject<Alignments>;
+    public readonly level$: BehaviorSubject<number>;
+    public readonly name$: BehaviorSubject<string>;
+
+    protected _customSkills: OnChangeArray<Skill> = new OnChangeArray<Skill>();
+    protected readonly _inventoriesTouched$: Observable<boolean>;
+
+    private _alignment: Alignments = Alignments.N;
+    private readonly _inventories = new OnChangeArray(new ItemCollection());
+    private _level = 1;
+    private _name = '';
+    private readonly _speeds = new OnChangeArray<Speed>(
+        new Speed('Speed'),
+        new Speed('Land Speed'),
+    );
+
+    constructor() {
+        this.alignment$ = new BehaviorSubject(this._alignment);
+        this.level$ = new BehaviorSubject(this._level);
+        this.name$ = new BehaviorSubject(this._name);
+
+        this._inventoriesTouched$ = this.inventories.values$
+            .pipe(
+                switchMap(inventories => combineLatest(
+                    inventories.map(inventory => inventory.touched$),
+                )),
+                map(allTouched => allTouched.includes(true)),
+            );
+    }
+
+    public get alignment(): Alignments {
+        return this._alignment;
+    }
+
+    public set alignment(value: Alignments) {
+        this._alignment = value;
+        this.alignment$.next(this._alignment);
+    }
+
+    public get customSkills(): OnChangeArray<Skill> {
+        return this._customSkills;
+    }
+
+    public set customSkills(value: Array<Skill>) {
+        this._customSkills.setValues(...value);
+    }
+
+    public get inventories(): OnChangeArray<ItemCollection> {
+        return this._inventories;
+    }
+
+    public set inventories(value: Array<ItemCollection>) {
+        this._inventories.setValues(...value);
+    }
+
+    public get name(): string {
+        return this._name;
+    }
+
+    public set name(value: string) {
+        this._name = value;
+        this.name$.next(this._name);
+    }
+
+    public get level(): number {
+        return this._level;
+    }
+
+    public set level(value: number) {
+        this._level = value;
+        this.level$.next(this._level);
+    }
+
+    public get speeds(): OnChangeArray<Speed> {
+        return this._speeds;
+    }
+
+    public set speeds(value: Array<Speed>) {
+        this._speeds.setValues(...value);
+    }
+
     public get requiresConForHP(): boolean { return false; }
 
     public recast(recastFns: RecastFns): Creature {
@@ -58,6 +138,10 @@ export abstract class Creature {
     }
 
     public isFamiliar(): this is Familiar {
+        return false;
+    }
+
+    public canEquipItems(): this is AnimalCompanion | Character {
         return false;
     }
 

@@ -10,6 +10,9 @@ import { HintEffectsObject } from '../../effects-generation/definitions/interfac
 import { sortAlphaNum } from '../../util/sortUtils';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { TraitsDataService } from '../data/traits-data.service';
+import { Observable, combineLatest, map } from 'rxjs';
+import { deepDistinctUntilChanged } from '../../util/observableUtils';
+import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types';
 
 @Injectable({
     providedIn: 'root',
@@ -21,7 +24,13 @@ export class CreatureActivitiesService {
         private readonly _traitsDataService: TraitsDataService,
     ) { }
 
-    public creatureOwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): Array<ActivityGain> {
+    //TO-DO: This will not update properly until every source is made async.
+    public creatureOwnedActivities$(
+        creature: Creature,
+        levelNumber: number = creature.level,
+        all = false,
+    ): Observable<Array<ActivityGain | ItemActivity>> {
+        const activitySources$: Array<Observable<Array<ActivityGain | ItemActivity>>> = [];
         const activities: Array<ActivityGain | ItemActivity> = [];
 
         if (creature.isCharacter()) {
@@ -50,12 +59,36 @@ export class CreatureActivitiesService {
                 inv.allEquipment().forEach(item => {
                     //Get external activity gains from items.
                     if (item.gainActivities.length) {
-                        if (item instanceof Shield && item.emblazonArmament?.length) {
+                        if (item instanceof Shield && item.emblazonArmament) {
                             //Only get Emblazon Armament activities if the blessing applies.
-                            activities.push(...item.gainActivities.filter(gain =>
-                                (item.$emblazonEnergy ? true : gain.source !== 'Emblazon Energy') &&
-                                (item.$emblazonAntimagic ? true : gain.source !== 'Emblazon Antimagic'),
-                            ));
+                            activitySources$.push(
+                                combineLatest(
+                                    item.gainActivities.map(gain =>
+                                        item.effectiveEmblazonArmament$
+                                            .pipe(
+                                                map(emblazonArmament =>
+                                                    (
+                                                        gain.source !== 'Emblazon Energy'
+                                                        || emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy
+                                                    )
+                                                    && (
+                                                        gain.source !== 'Emblazon Antimagic'
+                                                        || emblazonArmament?.type === EmblazonArmamentTypes.EmblazonAntimagic
+                                                    ),
+                                                ),
+                                                map(blessingApplies =>
+                                                    blessingApplies
+                                                        ? gain
+                                                        : null,
+                                                ),
+                                            ),
+
+                                    ),
+                                )
+                                    .pipe(
+                                        map(gains => gains.filter((gain): gain is ActivityGain => !!gain)),
+                                    ),
+                            );
                         } else {
                             activities.push(...item.gainActivities);
                         }
@@ -67,9 +100,11 @@ export class CreatureActivitiesService {
 
                     //Get activities from runes.
                     if (item.propertyRunes) {
-                        item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
-                            activities.push(...rune.activities);
-                        });
+                        item.propertyRunes
+                            .filter(rune => rune.activities.length)
+                            .forEach(rune => {
+                                activities.push(...rune.activities);
+                            });
                     }
 
                     //Get activities from runes.
@@ -127,9 +162,11 @@ export class CreatureActivitiesService {
 
                     //Get activities from runes.
                     if (item.propertyRunes) {
-                        item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
-                            activities.push(...rune.activities);
-                        });
+                        item.propertyRunes
+                            .filter(rune => rune.activities.length)
+                            .forEach(rune => {
+                                activities.push(...rune.activities);
+                            });
                     }
 
                     //Get activities from blade ally runes.
@@ -162,21 +199,34 @@ export class CreatureActivitiesService {
                 });
         }
 
-        return activities
-            .sort((a, b) => sortAlphaNum(a.name, b.name));
+        return combineLatest(activitySources$)
+            .pipe(
+                map(asyncActivities =>
+                    new Array<ActivityGain | ItemActivity>()
+                        .concat(...asyncActivities)
+                        .concat(activities)
+                        .sort((a, b) => sortAlphaNum(a.name, b.name)),
+                ),
+            );
     }
 
-    public collectActivityEffectHints(creature: Creature): Array<HintEffectsObject> {
-        const hintSets: Array<HintEffectsObject> = [];
-
-        this.creatureOwnedActivities(creature, creature.level, true).filter(activity => activity.active)
-            .forEach(gain => {
-                gain.originalActivity.hints?.forEach(hint => {
-                    hintSets.push({ hint, objectName: gain.name });
-                });
-            });
-
-        return hintSets;
+    public collectActivityEffectHints$(creature: Creature): Observable<Array<HintEffectsObject>> {
+        return this.creatureOwnedActivities$(creature, creature.level, true)
+            .pipe(
+                deepDistinctUntilChanged(),
+                map(activities =>
+                    activities
+                        .filter(activity => activity.active)
+                        .map(gain =>
+                            gain.originalActivity.hints
+                                ?.map(hint => ({ hint, objectName: gain.name })) ?? [],
+                        ),
+                ),
+                map(hintLists =>
+                    new Array<HintEffectsObject>()
+                        .concat(...hintLists),
+                ),
+            );
     }
 
 }

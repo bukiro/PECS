@@ -19,7 +19,7 @@
                     [ngValue]="poisonSet"
                 >
                     {{poisonSet.poison.amount !== 1 ? poisonSet.poison.amount : ''}}
-                    {{poisonSet.poison.effectiveName()}}
+                    {{poisonSet.poison.effectiveName$()}}
                 </option>
             </select>
         </div>
@@ -34,7 +34,7 @@
                 class="newrow"
                 *ngFor="let poison of item.poisonsApplied; let index = index; trackBy:trackByIndex;"
             >
-                <span>{{poison.effectiveName()}}</span>
+                <span>{{poison.effectiveName$()}}</span>
 
                 <button
                     type="button"

@@ -1,4 +1,3 @@
-<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="corner-button-tray">
     <app-minimize-button
         *ngIf="shouldShowMinimizeButton"
@@ -13,99 +12,50 @@
 >
     <header class="sectionHeader box-header">Abilities</header>
 
-    <ng-template #FullSizeTemplate>
+    <ng-container *ngFor="let ability of abilityValues$ | async; trackBy:trackByIndex;">
+
+        <div class="list-item minimized-hide">
+            <app-attribute-value
+                [title]="ability.ability.name"
+                [customEffectsTarget]="{ creature: creature, target: ability.ability.name }"
+                [value]="ability.value.result"
+                [bonuses]="ability.value.bonuses"
+            ></app-attribute-value>
+
+            <app-tags
+                *ngIf="(isMinimized$ | async) === false"
+                [creature]="creature"
+                [objectName]="ability.ability.name"
+                [showTraits]="true"
+                [showFeats]="true"
+                [showItems]="true"
+                [showActivities]="true"
+                [showConditions]="true"
+                [showEffects]="true"
+            ></app-tags>
+        </div>
+
         <div
             class="list-item"
-            *ngFor="let ability of abilities(); trackBy:trackByIndex;"
+            [ngClass]="{'minimized-hide':(ability.mod.result === 0)}"
         >
-            <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
-                <ng-template #EffectsPopoverContent>
-                    <div class="minimized-hide newrow">
-                        <app-object-effects
-                            [creature]="creature"
-                            [objectName]="ability.name"
-                        ></app-object-effects>
-                    </div>
-                </ng-template>
+            <app-attribute-value
+                [title]="ability.ability.name + ' Modifier'"
+                [customEffectsTarget]="{ creature: creature, target: ability.ability.name + ' Modifier' }"
+                [value]="ability.mod.result"
+                [bonuses]="ability.mod.bonuses"
+            ></app-attribute-value>
 
-                <div class="newrow">
-                    <span class="hlist">
-                        <span
-                            class="minimized-hide"
-                            [ngbPopover]="EffectsPopoverContent"
-                            #EffectsPopover="ngbPopover"
-                            triggers="click"
-                        >
-                            <i
-                                [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''"
-                                class='bi-lightning-charge'
-                            ></i>
-                        </span>
-
-                        <strong>{{ability.name}}</strong>
-                    </span>
-
-                    <span>
-                        <div
-                            class="value"
-                            [ngbPopover]="calculatedAbility.value.explain"
-                            [ngClass]="{'penalty':calculatedAbility.penalties, 'bonus':calculatedAbility.bonuses, 'absolute':calculatedAbility.absolutes}"
-                        >
-                            {{calculatedAbility.value.result}}
-                        </div>
-                    </span>
-
-                    <strong>Modifier</strong>
-
-                    <span>
-                        <div
-                            class="value"
-                            [ngbPopover]="calculatedAbility.mod.explain"
-                            [ngClass]="{'penalty':calculatedAbility.modpenalties, 'bonus':calculatedAbility.modbonuses, 'absolute':calculatedAbility.modabsolutes}"
-                        >
-                            {{calculatedAbility.mod.result}}
-                        </div>
-                    </span>
-                </div>
-
-                <app-tags
-                    class="newrow tags"
-                    [creature]="creature"
-                    [objectName]=ability.name
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [showEffects]=true
-                >
-                </app-tags>
-            </ng-container>
-        </div>
-    </ng-template>
-
-    <ng-container *ngIf="isMinimized$ | async; else FullSizeTemplate">
-        <div
-            class="list-item newrow"
-            *ngFor="let subset of [1,2]; trackBy:trackByIndex;"
-        >
-            <span
-                class="hlist"
-                [ngClass]="{'left-aligned':index === 0, 'center-aligned':index === 1, 'right-aligned':index === 2}"
-                *ngFor="let ability of abilities(subset); let index = index; trackBy:trackByIndex;"
-            >
-                <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
-                    <strong>{{ability.modifierName}}</strong>
-
-                    <div
-                        class="value"
-                        [ngbPopover]="calculatedAbility.mod.explain"
-                        [ngClass]="{'penalty':calculatedAbility.modpenalties, 'bonus':calculatedAbility.modbonuses, 'absolute':calculatedAbility.modabsolutes}"
-                    >
-                        {{calculatedAbility.mod.result}}
-                    </div>
-                </ng-container>
-            </span>
+            <app-tags
+                [creature]="creature"
+                [objectName]="ability.ability.name + ' Modifier'"
+                [showTraits]="true"
+                [showFeats]="true"
+                [showItems]="true"
+                [showActivities]="true"
+                [showConditions]="true"
+                [showEffects]="true"
+            ></app-tags>
         </div>
     </ng-container>
 </div>

@@ -1,14 +1,23 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, Subscription, takeUntil } from 'rxjs';
-import { Character } from 'src/app/classes/Character';
+import {
+    BehaviorSubject,
+    combineLatest,
+    distinctUntilChanged,
+    map,
+    Observable,
+    of,
+    shareReplay,
+    Subscription,
+    switchMap,
+    takeUntil,
+    tap,
+} from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
-import { Health } from 'src/app/classes/Health';
 import { CalculatedHealth, HealthService } from 'src/libs/shared/services/health/health.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { TimeBlockingService } from 'src/libs/shared/time/services/time-blocking/time-blocking.service';
@@ -17,6 +26,9 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 
 @Component({
     selector: 'app-health',
@@ -26,16 +38,16 @@ import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/bas
 })
 export class HealthComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
-    @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
-
-    public damageSliderMax = 1;
-
     public damage = 0;
     public nonlethal?: boolean;
     public setTempHP = 0;
     public selectedTempHP?: { amount: number; source: string; sourceId: string };
 
+    public readonly isManualMode$: Observable<boolean>;
+
+    private _forceMinimized = false;
+
+    private readonly _isForcedMinimized$ = new BehaviorSubject<boolean>(false);
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
 
@@ -51,45 +63,59 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
     ) {
         super();
 
-        SettingsService.settings$
+        this.isMinimized$ =
+            combineLatest([
+                this.creature$
+                    .pipe(
+                        switchMap(creature => SettingsService.settings$
+                            .pipe(
+                                switchMap(settings => {
+                                    switch (creature.type) {
+                                        case CreatureTypes.AnimalCompanion:
+                                            return settings.companionMinimized$;
+                                        case CreatureTypes.Familiar:
+                                            return settings.familiarMinimized$;
+                                        default:
+                                            return settings.healthMinimized$;
+                                    }
+                                }),
+                            ),
+                        ),
+                    ),
+                this._isForcedMinimized$,
+            ])
+                .pipe(
+                    map(([forced, bySetting]) => forced || bySetting),
+                    distinctUntilChanged(),
+                    tap(minimized => this._updateMinimized(minimized)),
+                    // If the button is hidden, another subscription ensures that the pipe is run.
+                    // shareReplay prevents it from running twice if the button is not hidden.
+                    shareReplay({ refCount: true, bufferSize: 1 }),
+                );
+
+        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
+        this.isMinimized$
             .pipe(
                 takeUntil(this._destroyed$),
-                map(settings => {
-                    switch (this.creature) {
-                        case CreatureTypes.AnimalCompanion:
-                            return settings.companionMinimized;
-                        case CreatureTypes.Familiar:
-                            return settings.familiarMinimized;
-                        default:
-                            return settings.healthMinimized;
-                    }
-                }),
-                distinctUntilChanged(),
             )
-            .subscribe(minimized => {
-                this._updateMinimized({ bySetting: minimized });
-            });
+            .subscribe();
+
+        this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$');
+    }
+
+    @Input()
+    public set creature(creature: Creature) {
+        this._updateCreature(creature);
     }
 
     @Input()
     public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._updateMinimized({ forced: forceMinimized ?? false });
+        this._forceMinimized = !!forceMinimized;
+        this._isForcedMinimized$.next(this._forceMinimized);
     }
 
     public get shouldShowMinimizeButton(): boolean {
-        return !this.forceMinimized && this.creature === CreatureTypes.Character;
-    }
-
-    public get character(): Character {
-        return CreatureService.character;
-    }
-
-    public get isManualMode(): boolean {
-        return SettingsService.isManualMode;
-    }
-
-    private get _currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
+        return !this._forceMinimized && this.creature.isCharacter();
     }
 
     public toggleMinimized(minimized: boolean): void {
@@ -100,8 +126,8 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
         return Math.abs(number);
     }
 
-    public waitingDescription(duration: number): string | undefined {
-        return this._timeBlockingService.waitingDescription(
+    public waitingDescription$(duration: number): Observable<string | undefined> {
+        return this._timeBlockingService.waitingDescription$(
             duration,
             { includeResting: true },
         );
@@ -115,39 +141,22 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
         this._timeService.rest();
     }
 
-    public creatureHealth(): Health {
-        return this._currentCreature.health;
-    }
-
     public calculatedHealth(): CalculatedHealth {
-        const calculatedHealth = this._healthService.calculate(this.creatureHealth(), this._currentCreature);
-
-        //Don't do anything about your dying status in manual mode.
-        if (!SettingsService.isManualMode) {
-            if (calculatedHealth.dying >= calculatedHealth.maxDying) {
-                if (
-                    this._creatureConditionsService
-                        .currentCreatureConditions(this._currentCreature, { name: 'Doomed' })
-                        .length
-                ) {
-                    this._die('Doomed');
-                } else {
-                    this._die('Dying value too high');
-                }
-            }
-        }
-
-        this.damageSliderMax = (calculatedHealth.maxHP.result + (this.creatureHealth().temporaryHP[0]?.amount || 0)) || 1;
+        const calculatedHealth = this._healthService.calculate(this.creature);
 
         return calculatedHealth;
     }
 
+    public damageSliderMax(maxHP: number): number {
+        return (maxHP + (this.creature.health.temporaryHP[0]?.amount || 0)) || 1;
+    }
+
     public incManualDying(amount: number): void {
-        this.creatureHealth().manualDying += amount;
+        this.creature.health.manualDying += amount;
     }
 
     public incManualWounded(amount: number): void {
-        this.creatureHealth().manualWounded += amount;
+        this.creature.health.manualWounded += amount;
     }
 
     public onDyingSave(success: boolean, maxDying: number): void {
@@ -156,90 +165,94 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
             //Conditions with Value 0 get cleaned up in the conditions Service
             //Wounded is added automatically when Dying is removed
             this._creatureConditionsService
-                .currentCreatureConditions(this._currentCreature, { name: 'Dying' })
+                .currentCreatureConditions(this.creature, { name: 'Dying' })
                 .forEach(gain => {
                     gain.value = Math.max(gain.value - 1, 0);
                 });
         } else {
             this._creatureConditionsService
-                .currentCreatureConditions(this._currentCreature, { name: 'Dying' })
+                .currentCreatureConditions(this.creature, { name: 'Dying' })
                 .forEach(gain => {
                     gain.value = Math.min(gain.value + 1, maxDying);
                 });
 
-            if (this._healthService.dying(this._currentCreature) >= maxDying) {
+            if (this._healthService.dying(this.creature) >= maxDying) {
                 this._die('Failed Dying Save');
             }
         }
 
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
         this._refreshService.processPreparedChanges();
     }
 
     public onHeroPointRecover(): void {
         this._creatureConditionsService
-            .currentCreatureConditions(this._currentCreature, { name: 'Dying' })
+            .currentCreatureConditions(this.creature, { name: 'Dying' })
             .forEach(gain => {
-                this._creatureConditionsService.removeCondition(this._currentCreature, gain, false, false, false);
+                this._creatureConditionsService.removeCondition(this.creature, gain, false, false, false);
             });
-        this.character.heroPoints = 0;
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
-        this._refreshService.prepareDetailToChange(this.creature, 'general');
+        CreatureService.character.heroPoints = 0;
+        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'general');
         this._refreshService.processPreparedChanges();
     }
 
     public onHealWounded(): void {
         this._creatureConditionsService
-            .currentCreatureConditions(this._currentCreature, { name: 'Wounded' })
+            .currentCreatureConditions(this.creature, { name: 'Wounded' })
             .forEach(gain => {
-                this._creatureConditionsService.removeCondition(this._currentCreature, gain, false);
+                this._creatureConditionsService.removeCondition(this.creature, gain, false);
             });
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
         this._refreshService.processPreparedChanges();
     }
 
-    public isNumbToDeathAvailable(): boolean {
-        if (this._currentCreature.isCharacter()) {
-            return !!this._characterFeatsService.characterHasFeat('Numb to Death');
+    public isNumbToDeathAvailable$(): Observable<boolean> {
+        if (this.creature.isCharacter()) {
+            return this._characterFeatsService.characterHasFeatAtLevel$('Numb to Death');
         } else {
-            return false;
+            return of(false);
         }
     }
 
     public onHealDamage(dying: number): void {
-        this._healthService.heal(this.creatureHealth(), this._currentCreature, this.damage, true, true, dying);
-        this._refreshService.prepareDetailToChange(this.creature, 'health');
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._healthService.heal$(this.creature, this.damage, true, true, dying);
+        this._refreshService.prepareDetailToChange(this.creature.type, 'health');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
         this._refreshService.processPreparedChanges();
     }
 
     public onActivateNumbToDeath(dying: number): void {
-        this._healthService.heal(this.creatureHealth(), this._currentCreature, this.character.level, true, false, dying);
-        this._refreshService.prepareDetailToChange(this.creature, 'health');
+        this._healthService.heal$(this.creature, CreatureService.character.level, true, false, dying);
+        this._refreshService.prepareDetailToChange(this.creature.type, 'health');
         this._refreshService.processPreparedChanges();
     }
 
     public onTakeDamage(wounded: number, dying: number): void {
-        this._healthService.takeDamage(this.creatureHealth(), this._currentCreature, this.damage, this.nonlethal, wounded, dying);
-        this._refreshService.prepareDetailToChange(this.creature, 'health');
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
-        this._refreshService.processPreparedChanges();
+        this._healthService
+            .takeDamage$(this.creature, this.damage, this.nonlethal, wounded, dying)
+            .subscribe(() => {
+                this._refreshService.prepareDetailToChange(this.creature.type, 'health');
+                this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
+                this._refreshService.processPreparedChanges();
+            });
+
     }
 
     public onSetTemporaryHP(amount: number): void {
-        this.creatureHealth().temporaryHP[0] = { amount, source: 'Manual', sourceId: '' };
-        this.creatureHealth().temporaryHP.length = 1;
-        this._refreshService.prepareDetailToChange(this.creature, 'health');
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.creature.health.temporaryHP[0] = { amount, source: 'Manual', sourceId: '' };
+        this.creature.health.temporaryHP.length = 1;
+        this._refreshService.prepareDetailToChange(this.creature.type, 'health');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
         this._refreshService.processPreparedChanges();
     }
 
     public onSelectTemporaryHPSet(tempSet?: { amount: number; source: string; sourceId: string }): void {
         if (tempSet) {
-            this.creatureHealth().temporaryHP[0] = tempSet;
-            this.creatureHealth().temporaryHP.length = 1;
-            this._refreshService.prepareDetailToChange(this.creature, 'health');
-            this._refreshService.prepareDetailToChange(this.creature, 'effects');
+            this.creature.health.temporaryHP[0] = tempSet;
+            this.creature.health.temporaryHP.length = 1;
+            this._refreshService.prepareDetailToChange(this.creature.type, 'health');
+            this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
             //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
@@ -247,86 +260,110 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
         }
     }
 
-    public resistances(): Array<{ target: string; value: number; source: string }> {
-        //There should be no absolutes in resistances. If there are, they will be treated as relatives here.
-        const effects = this._creatureEffectsService.effects(this.creature).all.filter(effect =>
-            effect.creature === this._currentCreature.id && (effect.target.toLowerCase().includes('resistance') ||
-                effect.target.toLowerCase().includes('hardness')) && effect.apply && !effect.ignored);
-        const resistances: Array<{ target: string; value: number; source: string }> = [];
+    public resistances$(): Observable<Array<{ target: string; value: number; source: string }>> {
+        return combineLatest([
+            this._creatureEffectsService.effectsOnThis$(this.creature, 'resistance', { allowPartialString: true }),
+            this._creatureEffectsService.effectsOnThis$(this.creature, 'hardness', { allowPartialString: true }),
+        ])
+            .pipe(
+                map(([resistanceEffects, hardnessEffects]) => {
+                    //There should be no absolutes in resistances. If there are, they will be treated as relatives here.
+                    const resistances: Array<{ target: string; value: number; source: string }> = [];
 
-        //Build a list of all resistances other than "Resistances" and add up their respective value.
-        effects.filter(effect => effect.target.toLowerCase() !== 'resistances').forEach(effect => {
-            const value = parseInt(effect.value, 10) || parseInt(effect.setValue, 10);
-            const resistance = resistances.find(res => res.target === effect.target);
+                    //Build a list of all resistances other than "Resistances" and add up their respective value.
+                    resistanceEffects
+                        .concat(hardnessEffects)
+                        .filter(effect => !stringEqualsCaseInsensitive(effect.target, 'resistances'))
+                        .forEach(effect => {
+                            const value = effect.valueNumerical || effect.setValueNumerical || 0;
+                            const resistance = resistances.find(res => res.target === effect.target);
 
-            if (resistance) {
-                resistance.value += value;
-                resistance.source += `\n${ effect.source }: ${ value }`;
-            } else {
-                resistances.push({ target: effect.target, value, source: `${ effect.source }: ${ value }` });
-            }
-        });
-        //Globally apply any effects on "Resistances".
-        effects.filter(effect => effect.target.toLowerCase() === 'resistances').forEach(effect => {
-            const value = parseInt(effect.value, 10) || parseInt(effect.setValue, 10);
+                            if (resistance) {
+                                resistance.value += value;
+                                resistance.source += `\n${ effect.source }: ${ value }`;
+                            } else {
+                                resistances.push({ target: effect.target, value, source: `${ effect.source }: ${ value }` });
+                            }
+                        });
+                    //Globally apply any effects on "Resistances".
+                    resistanceEffects
+                        .filter(effect => effect.target.toLowerCase() === 'resistances')
+                        .forEach(effect => {
+                            const value = effect.valueNumerical || effect.setValueNumerical || 0;
 
-            resistances.forEach(resistance => {
-                resistance.value += value;
-                resistance.source += `\n${ effect.source }: ${ value }`;
-            });
-        });
-        resistances.forEach((res: { target: string; value: number; source: string }) => {
-            if (res.value < 0) {
-                res.target = res.target.toLowerCase().replace('resistance', 'weakness');
-            }
+                            resistances.forEach(resistance => {
+                                resistance.value += value;
+                                resistance.source += `\n${ effect.source }: ${ value }`;
+                            });
+                        });
 
-            res.target = res.target.split(' ').map(word => word[0].toUpperCase() + word.substr(1).toLowerCase())
-                .join(' ');
-        });
+                    resistances.forEach((res: { target: string; value: number; source: string }) => {
+                        if (res.value < 0) {
+                            res.target = res.target.toLowerCase().replace('resistance', 'weakness');
+                        }
 
-        return resistances;
+                        res.target = res.target.split(' ').map(word => word[0].toUpperCase() + word.substr(1).toLowerCase())
+                            .join(' ');
+                    });
+
+                    return resistances;
+                }),
+            );
     }
 
-    public immunities(): Array<{ target: string; source: string }> {
-        const effects = this._creatureEffectsService.effects(this.creature).all.filter(effect =>
-            effect.creature === this._currentCreature.id && (effect.target.toLowerCase().includes('immunity')));
-        const immunities: Array<{ target: string; source: string }> = [];
+    public immunities$(): Observable<Array<{ target: string; source: string }>> {
+        return this._creatureEffectsService.effectsOnThis$(this.creature, 'immunity', { allowPartialString: true })
+            .pipe(
+                map(immunityEffects => {
+                    const immunities: Array<{ target: string; source: string }> = [];
 
-        effects.forEach(effect => {
-            if (!immunities.some(immunity => immunity.target === effect.target)) {
-                immunities.push({ target: effect.target, source: effect.source });
-            }
-        });
-        immunities.forEach(immunity => {
-            immunity.target = immunity.target.split(' ').map(word => word[0].toUpperCase() + word.substring(1).toLowerCase())
-                .join(' ');
-        });
+                    immunityEffects.forEach(effect => {
+                        if (!immunities.some(immunity => immunity.target === effect.target)) {
+                            immunities.push({ target: effect.target, source: effect.source });
+                        }
+                    });
 
-        return immunities;
+                    immunities.forEach(immunity => {
+                        immunity.target = immunity.target.split(' ').map(word => word[0].toUpperCase() + word.substring(1).toLowerCase())
+                            .join(' ');
+                    });
+
+                    return immunities;
+                }),
+            );
     }
 
-    public doAbsoluteEffectsExistOnThis(name: string): boolean {
-        return !!this._creatureEffectsService.absoluteEffectsOnThis(this._currentCreature, name).length;
+    //TO-DO: This should come as part of the respective value instead of separately.
+    public doAbsoluteEffectsExistOnThis$(name: string): Observable<boolean> {
+        return this._creatureEffectsService.absoluteEffectsOnThis$(this.creature, name)
+            .pipe(
+                map(absolutes => !!absolutes.length),
+            );
     }
 
-    public doBonusEffectsExistOnThis(name: string): boolean {
-        return this._creatureEffectsService.doBonusEffectsExistOnThis(this._currentCreature, name);
+    //TO-DO: This should come as part of the respective value instead of separately.
+    public doBonusEffectsExistOnThis$(name: string): Observable<boolean> {
+        return this._creatureEffectsService.doBonusEffectsExistOnThis$(this.creature, name);
     }
 
-    public doPenaltyEffectsExistOnThis(name: string): boolean {
-        return this._creatureEffectsService.doPenaltyEffectsExistOnThis(this._currentCreature, name);
+    //TO-DO: This should come as part of the respective value instead of separately.
+    public doPenaltyEffectsExistOnThis$(name: string): Observable<boolean> {
+        return this._creatureEffectsService.doPenaltyEffectsExistOnThis$(this.creature, name);
     }
 
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
-                if (['health', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                if (stringsIncludeCaseInsensitive(['health', 'all', this.creature.type], target)) {
                     this._changeDetector.detectChanges();
                 }
             });
         this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature.toLowerCase() === this.creature.toLowerCase() && ['health', 'all'].includes(view.target.toLowerCase())) {
+                if (
+                    stringEqualsCaseInsensitive(view.creature, this.creature.type)
+                    && stringsIncludeCaseInsensitive(['health', 'all'], view.target)
+                ) {
                     this._changeDetector.detectChanges();
                 }
             });
@@ -341,19 +378,19 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
     private _die(reason: string): void {
         if (
             !this._creatureConditionsService
-                .currentCreatureConditions(this._currentCreature, { name: 'Dead' })
+                .currentCreatureConditions(this.creature, { name: 'Dead' })
                 .length
         ) {
             this._creatureConditionsService.addCondition(
-                this._currentCreature,
+                this.creature,
                 Object.assign(new ConditionGain(), { name: 'Dead', source: reason }),
                 {},
                 { noReload: true },
             );
             this._creatureConditionsService
-                .currentCreatureConditions(this._currentCreature, { name: 'Doomed' }, { readonly: true })
+                .currentCreatureConditions(this.creature, { name: 'Doomed' }, { readonly: true })
                 .forEach(gain => {
-                    this._creatureConditionsService.removeCondition(this._currentCreature, gain, false);
+                    this._creatureConditionsService.removeCondition(this.creature, gain, false);
                 });
         }
     }

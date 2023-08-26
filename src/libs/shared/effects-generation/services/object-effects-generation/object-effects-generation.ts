@@ -10,6 +10,8 @@ import { Item } from 'src/app/classes/Item';
 import { Material } from 'src/app/classes/Material';
 import { WornItem } from 'src/app/classes/WornItem';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { deepDistinctUntilChangedWithoutID } from 'src/libs/shared/util/observableUtils';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -36,11 +38,11 @@ export class ObjectEffectsGenerationService {
         private readonly _evaluationService: EvaluationService,
     ) { }
 
-    public effectsFromEffectObject(
+    public effectsFromEffectObject$(
         object: EffectObject,
         context: EffectContext,
         options: EffectOptions = {},
-    ): Array<Effect> {
+    ): Observable<Array<Effect>> {
         context = {
             object,
             ...context,
@@ -51,161 +53,163 @@ export class ObjectEffectsGenerationService {
             ...options,
         };
 
-        //If an object has a simple instruction in effects, such as "affected":"Athletics" and "value":"+2", turn it into an Effect here,
+        //If an object has effects instructions, such as { affected: "Athletics", value: "+2" }, turn it into an Effect here,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
-        //Formulas are allowed, such as "Character.level / 2".
-        //Try to get the type, too - if no type is given, set it to untyped.
-        //Return an array of Effect objects
-        const objectEffects: Array<Effect> = [];
+        // Formulas are allowed, such as "Character.level / 2".
+        // Try to get the type, too - if no type is given, set it to untyped.
+        // Normally, effects are penalties if the value is negative, but there are exceptions (like in Bulk).
+        // An effect with a setValue instead of a value is an absolute effect instead of a penalty or bonus.
+
         //Get the object name unless a name is enforced.
         let source: string = options.name ? options.name : (object.effectiveName ? object.effectiveName() : object.name) || '';
 
         //EffectGains come with values that contain a statement.
         //This statement is evaluated by the EvaluationService and then validated here in order to build a working Effect.
-        object.effects
-            .filter(effectGain =>
-                effectGain.resonant
-                    ? (object instanceof WornItem && object.isSlottedAeonStone)
-                    : true,
-            ).forEach((effectGain: EffectGain) => {
-                let shouldShowEffect: boolean | undefined = effectGain.show;
-                let type: string = BonusTypes.Untyped;
-                let isPenalty = false;
+        return combineLatest(
+            object.effects
+                .filter(effectGain =>
+                    effectGain.resonant
+                        ? (object instanceof WornItem && object.isSlottedAeonStone)
+                        : true,
+                )
+                .map(effectGain => {
+                    let shouldShowEffect: boolean | undefined = effectGain.show;
+                    let type = BonusTypes.Untyped;
+                    let isPenalty = false;
 
-                let isToggledEffect: boolean = effectGain.toggle;
+                    if (object === context.creature) {
+                        source = effectGain.source || 'Custom Effect';
+                    }
 
-                if (object === context.creature) {
-                    source = effectGain.source || 'Custom Effect';
-                }
+                    if (effectGain.type) {
+                        type = effectGain.type;
+                    }
 
-                if (effectGain.type) {
-                    type = effectGain.type;
-                }
-
-                const { setValue, value, valueNumber } =
-                    this._determineEffectValue(effectGain, source, context, options);
-
-                if (setValue) {
-                    isPenalty = false;
-                } else {
-                    //Negative values are penalties unless Bulk is affected.
-                    isPenalty = (valueNumber < 0) === (effectGain.affected !== 'Bulk');
-                }
-
-                if (effectGain.conditionalToggle) {
-                    try {
-                        isToggledEffect =
-                            !!this._evaluationService.valueFromFormula(
+                    return combineLatest([
+                        this._determineEffectValue$(effectGain, source, context, options),
+                        effectGain.conditionalToggle
+                            ? this._evaluationService.valueFromFormula$(
                                 effectGain.conditionalToggle,
                                 { ...context, effect: effectGain, effectSourceName: source },
                                 options,
-                            );
-                    } catch (error) {
-                        isToggledEffect = false;
-                    }
-                }
+                            )
+                                .pipe(
+                                    map(toggleResult => !!toggleResult),
+                                )
+                            : of(effectGain.toggle),
+                    ])
+                        .pipe(
+                            switchMap(([{ setValue, value, numericalValue }, isToggledEffect]) =>
+                                this._determineEffectTitle$(effectGain, { value, setValue }, { ...context, source }, options)
+                                    .pipe(
+                                        map(effectTitle => {
+                                            if (setValue) {
+                                                isPenalty = false;
+                                            } else {
+                                                //Negative values are penalties unless Bulk is affected.
+                                                isPenalty = (numericalValue < 0) === (effectGain.affected !== 'Bulk');
+                                            }
 
-                //Hide all relative effects that come from feats, so we don't see green effects permanently after taking a feat.
-                const shouldHideEffect = (
-                    shouldShowEffect === undefined &&
-                    object instanceof Feat
-                );
+                                            // Hide all relative effects that come from feats,
+                                            // so we don't see green effects permanently after taking a feat.
+                                            const shouldHideEffect = (
+                                                shouldShowEffect === undefined &&
+                                                object instanceof Feat
+                                            );
 
-                if (shouldHideEffect) {
-                    shouldShowEffect = false;
-                }
+                                            if (shouldHideEffect) {
+                                                shouldShowEffect = false;
+                                            }
 
-                if (source === 'Custom Effect') {
-                    shouldShowEffect = true;
-                }
+                                            if (source === 'Custom Effect') {
+                                                shouldShowEffect = true;
+                                            }
 
-                const { targetCreature, targetValue } = this._determineEffectTarget(effectGain, context);
+                                            const { targetCreature, targetValue } = this._determineEffectTarget(effectGain, context);
 
-                const sourceId = this._determineEffectSource(context);
+                                            const sourceId = this._determineEffectSource(context);
 
-                const title = this._determineEffectTitle(effectGain, { value, setValue }, { ...context, source }, options);
+                                            // Effects that have neither a value nor a toggle don't get created.
+                                            const isFunctionalEffect = (
+                                                isToggledEffect ||
+                                                !!setValue ||
+                                                parseInt(value, 10) !== 0
+                                            );
 
-                //Effects that have neither a value nor a toggle don't get created.
-                const isFunctionalEffect = (
-                    isToggledEffect ||
-                    !!setValue ||
-                    parseInt(value, 10) !== 0
-                );
-
-                if (isFunctionalEffect) {
-                    objectEffects.push(
-                        Object.assign(
-                            new Effect(value),
-                            {
-                                creature: targetCreature,
-                                type,
-                                target: targetValue,
-                                setValue,
-                                toggle: isToggledEffect,
-                                title,
-                                source,
-                                penalty: isPenalty,
-                                show: shouldShowEffect,
-                                duration: effectGain.duration,
-                                maxDuration: effectGain.maxDuration,
-                                cumulative: effectGain.cumulative,
-                                sourceId,
-                            },
-                        ),
-                    );
-                }
-            });
-
-        return objectEffects;
+                                            return isFunctionalEffect
+                                                ? Effect.from({
+                                                    value,
+                                                    creature: targetCreature,
+                                                    type,
+                                                    target: targetValue,
+                                                    setValue,
+                                                    toggled: !!isToggledEffect,
+                                                    title: effectTitle,
+                                                    source,
+                                                    penalty: isPenalty,
+                                                    displayed: shouldShowEffect,
+                                                    duration: effectGain.duration,
+                                                    maxDuration: effectGain.maxDuration,
+                                                    cumulative: effectGain.cumulative,
+                                                    sourceId,
+                                                })
+                                                : null;
+                                        }),
+                                    ),
+                            ),
+                        );
+                }),
+        )
+            .pipe(
+                map(effects =>
+                    effects.filter((effect): effect is Effect => !!effect),
+                ),
+                deepDistinctUntilChangedWithoutID(),
+            );
     }
 
-    private _determineEffectValue(
+    private _determineEffectValue$(
         effectGain: EffectGain,
         source: string,
         context: EffectContext,
         options: EffectOptions,
-    ): { value: string; setValue: string; valueNumber: number } {
-        let valueNumber = 0;
-        let value = '';
-        let setValue = '';
+    ): Observable<{ value: string; setValue: string; numericalValue: number }> {
+        return this._evaluationService.valueFromFormula$(
+            effectGain.setValue,
+            { ...context, effect: effectGain, effectSourceName: source },
+            options,
+        )
+            .pipe(
+                switchMap(setValueResult =>
+                    setValueResult !== null
+                        ? of({
+                            value: '0',
+                            numericalValue: 0,
+                            setValue: setValueResult.toString(),
+                        })
+                        : this._evaluationService.valueFromFormula$(
+                            effectGain.value,
+                            { ...context, effect: effectGain, effectSourceName: source },
+                            options,
+                        )
+                            .pipe(
+                                map(valueResult =>
+                                    (valueResult && !isNaN(Number(valueResult)) && Number(valueResult) !== Infinity)
+                                        ? {
+                                            value: valueResult.toString(),
+                                            numericalValue: Number(valueResult),
+                                            setValue: '',
+                                        }
+                                        : {
+                                            value: '',
+                                            numericalValue: 0,
+                                            setValue: '',
+                                        },
+                                ),
+                            ),
 
-        try {
-            valueNumber = this._evaluationService.valueFromFormula(
-                effectGain.value,
-                { ...context, effect: effectGain, effectSourceName: source },
-                options,
-            ) as number;
-
-            if (!isNaN(Number(valueNumber)) && Number(valueNumber) !== Infinity) {
-                valueNumber = Number(valueNumber);
-                value = valueNumber.toString();
-            }
-        } catch (error) {
-            valueNumber = 0;
-            value = '0';
-        }
-
-        if (effectGain.setValue) {
-            try {
-                const evalResult = this._evaluationService.valueFromFormula(
-                    effectGain.setValue,
-                    { ...context, effect: effectGain, effectSourceName: source },
-                    options,
-                );
-
-                setValue = (evalResult !== null)
-                    ? evalResult.toString()
-                    : '';
-            } catch (error) {
-                setValue = '';
-            }
-        }
-
-        if (setValue) {
-            value = '0';
-        }
-
-        return { value, setValue, valueNumber };
+                ),
+            );
     }
 
     private _determineEffectSource(
@@ -240,45 +244,41 @@ export class ObjectEffectsGenerationService {
         }
 
         if (effectGain.affected.includes('Companion:')) {
-            targetCreature = CreatureService.companion?.id || '';
+            targetCreature = CreatureService.character.class.animalCompanion?.id || '';
             targetValue = effectGain.affected.replace('Companion:', '');
         }
 
         if (effectGain.affected.includes('Familiar:')) {
-            targetCreature = CreatureService.familiar?.id || '';
+            targetCreature = CreatureService.character.class.familiar?.id || '';
             targetValue = effectGain.affected.replace('Familiar:', '');
         }
 
         return { targetCreature, targetValue };
     }
 
-    private _determineEffectTitle(
+    private _determineEffectTitle$(
         effectGain: EffectGain,
         values: { value: string; setValue: string },
         context: EffectContext & { source: string },
         options: EffectOptions,
-    ): string {
-        let title = '';
-
+    ): Observable<string> {
         if (effectGain.title) {
-            try {
-                //We insert value and setValue here (if needed) because they will not be available in the evaluation.
-                const testTitle =
-                    effectGain.title
-                        .replace(/(^|[^\w])value($|[^\w])/g, `$1${ values.value }$2`)
-                        .replace(/(^|[^\w])setValue($|[^\w])/g, `$1${ values.setValue }$2`);
+            const testTitle =
+                effectGain.title
+                    .replace(/(^|[^\w])value($|[^\w])/g, `$1${ values.value }$2`)
+                    .replace(/(^|[^\w])setValue($|[^\w])/g, `$1${ values.setValue }$2`);
 
-                title = this._evaluationService.valueFromFormula(
-                    testTitle,
-                    { ...context, effect: effectGain, effectSourceName: context.source },
-                    options,
-                )?.toString() || '';
-            } catch (error) {
-                title = '';
-            }
+            return this._evaluationService.valueFromFormula$(
+                testTitle,
+                { ...context, effect: effectGain, effectSourceName: context.source },
+                options,
+            )
+                .pipe(
+                    map(title => title?.toString() ?? ''),
+                );
         }
 
-        return title;
+        return of('');
     }
 
 }

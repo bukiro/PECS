@@ -1,37 +1,40 @@
 import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
-import { Effect } from 'src/app/classes/Effect';
+import { AbsoluteEffect, Effect, RelativeEffect } from 'src/app/classes/Effect';
 import { Weapon } from 'src/app/classes/Weapon';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { signNumber } from 'src/libs/shared/util/numberUtils';
 import { skillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
-import { attackRuneSource } from '../../util/attackRuneSource';
+import { RuneSourceSet, attackRuneSource$ } from '../../util/attackRuneSource';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
+import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonusDescriptionUtils';
 
 export interface AttackResult {
-    range: string;
-    attackResult: number;
-    explain: string;
+    range: 'ranged' | 'melee';
+    result: number;
+    bonuses: Array<BonusDescription>;
     effects: Array<Effect>;
-    penalties: Array<Effect>;
-    bonuses: Array<Effect>;
-    absolutes: Array<Effect>;
 }
-export interface DamageResult {
-    damageResult: string;
-    explain: string;
-    penalties: Array<Effect>;
-    bonuses: Array<Effect>;
-    absolutes: Array<Effect>;
+
+export interface IntermediateMethodContext {
+    weapon: Weapon;
+    creature: Character | AnimalCompanion;
+    range: 'ranged' | 'melee';
+    prof: string;
+    traits: Array<string>;
+    runeSource: RuneSourceSet;
+    isFavoredWeapon: boolean;
 }
 
 @Injectable({
@@ -43,300 +46,380 @@ export class AttacksService {
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
-        private readonly _itemTraitsService: ItemTraitsService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
-    public attack(
+    /**
+     * Calculates the attack bonus for a melee or ranged attack with weapon weapon.
+     *
+     * @param weapon
+     * @param creature
+     * @param range
+     * @returns A set of range, attack bonus, bonus descriptions and effects.
+     */
+    public attack$(
         weapon: Weapon,
         creature: Character | AnimalCompanion,
-        range: string,
-    ): AttackResult {
-        //Calculates the attack bonus for a melee or ranged attack with weapon weapon.
-        let explain = '';
-        const charLevel = CreatureService.character.level;
-        const str = this._abilityValuesService.mod('Strength', creature).result;
-        const dex = this._abilityValuesService.mod('Dexterity', creature).result;
-        const runeSource = attackRuneSource(weapon, creature, range);
-        const skillLevel = this._weaponPropertiesService.profLevel(weapon, creature, runeSource.propertyRunes);
-
-        this._itemTraitsService.cacheItemEffectiveTraits(weapon, { creature });
-
-        const traits = weapon.$traits;
-
-        if (skillLevel) {
-            explain += `\nProficiency: ${ skillLevel }`;
-        }
-
-        //Add character level if the character is trained or better with either the weapon category or the weapon itself
-        const charLevelBonus = ((skillLevel > 0) ? charLevel : 0);
-
-        if (charLevelBonus) {
-            explain += `\nCharacter Level: +${ charLevelBonus }`;
-        }
-
-        const penalties: Array<Effect> = [];
-        const bonuses: Array<Effect> = [];
-        const absolutes: Array<Effect> = [];
-        //Calculate dexterity and strength penalties for the decision on which to use. They are not immediately applied.
-        //The Clumsy condition affects all Dexterity attacks.
-        const dexEffects =
-            this._creatureEffectsService.relativeEffectsOnThese(
-                creature,
-                ['Dexterity-based Checks and DCs', 'Dexterity-based Attack Rolls'],
-            );
-        const dexPenalty: Array<Effect> = [];
-        let dexPenaltySum = 0;
-
-        dexEffects.forEach(effect => {
-            dexPenalty.push(
-                Object.assign(
-                    new Effect(),
-                    { value: parseInt(effect.value, 10), setValue: '', source: effect.source, penalty: true },
+        range: 'ranged' | 'melee',
+    ): Observable<AttackResult> {
+        return combineLatest([
+            CharacterFlatteningService.characterLevel$,
+            combineLatest([
+                this._weaponPropertiesService.effectiveProficiency$(weapon, { creature }),
+                attackRuneSource$(weapon, creature, range),
+            ])
+                .pipe(
+                    switchMap(([prof, runeSource]) =>
+                        this._weaponPropertiesService.profLevel$(
+                            weapon,
+                            creature,
+                            runeSource.forPropertyRunes,
+                            { preparedProficiency: prof },
+                        )
+                            .pipe(
+                                map(skillLevel => ({ prof, runeSource, skillLevel })),
+                            ),
+                    ),
                 ),
-            );
-            dexPenaltySum += parseInt(effect.value, 10);
-        });
-
-        //The Enfeebled condition affects all Strength attacks
-        const strEffects =
-            this._creatureEffectsService.relativeEffectsOnThese(
-                creature,
-                ['Strength-based Checks and DCs', 'Strength-based Attack Rolls'],
-            );
-        const strPenalty: Array<Effect> = [];
-        let strPenaltySum = 0;
-
-        strEffects.forEach(effect => {
-            strPenalty.push(
-                Object.assign(
-                    new Effect(),
-                    { value: parseInt(effect.value, 10), setValue: '', source: effect.source, penalty: true },
-                ),
-            );
-            strPenaltySum += parseInt(effect.value, 10);
-        });
-
-        let isDexUsed = false;
-        let isStrUsed = false;
-        //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
-        let abilityMod = 0;
-
-        if (range === 'ranged') {
-            if (traits.includes('Brutal')) {
-                abilityMod = str;
-                explain += `\nStrength Modifier (Brutal): ${ signNumber(abilityMod) }`;
-                isStrUsed = true;
-
-            } else {
-                abilityMod = dex;
-                explain += `\nDexterity Modifier: ${ signNumber(abilityMod) }`;
-                isDexUsed = true;
-            }
-        } else {
-            if (traits.includes('Finesse') && dex + dexPenaltySum > str + strPenaltySum) {
-                abilityMod = dex;
-                explain += `\nDexterity Modifier (Finesse): ${ signNumber(abilityMod) }`;
-                isDexUsed = true;
-            } else if (weapon.dexterityBased) {
-                abilityMod = dex;
-                explain += `\nDexterity Modifier (Dexterity-based): ${ signNumber(abilityMod) }`;
-                isDexUsed = true;
-            } else {
-                abilityMod = str;
-                explain += `\nStrength Modifier: ${ signNumber(abilityMod) }`;
-                isStrUsed = true;
-            }
-        }
-
-        //Add up all modifiers before effects and item bonus
-        let attackResult = charLevelBonus + skillLevel + abilityMod;
-        let abilityName = '';
-
-        if (isStrUsed) {
-            abilityName = 'Strength';
-        }
-
-        if (isDexUsed) {
-            abilityName = 'Dexterity';
-        }
-
-        const prof = this._weaponPropertiesService.effectiveProficiency(weapon, { creature, charLevel });
-        //Create names list for effects
-        const effectsListAttackRolls =
-            attackEffectPhrases(
-                weapon,
-                'Attack Rolls',
-                prof,
-                range,
-                traits,
-                this._weaponPropertiesService.isFavoredWeapon(weapon, creature),
-            )
-                .concat([
-                    weapon.name,
-                    'Attack Rolls',
-                    'All Checks and DCs',
-                    //"Strength-based Checks and DCs", "Dexterity-based Checks and DCs"
-                    `${ abilityName }-based Checks and DCs`,
-                    //"Strength-based Attack Rolls", "Dexterity-based Attack Rolls"
-                    `${ abilityName }-based Attack Rolls`,
-                    //"Untrained Attack Rolls", "Expert Attack Rolls"
-                    `${ skillLevelName(skillLevel) } Attack Rolls`,
-                ]);
-        //For any activated traits of weapon weapon, check if any effects on Attack apply. These need to be evaluated in the Trait class.
-        const traitEffects: Array<Effect> = [];
-
-        weapon.activatedTraitsActivations().forEach(activation => {
-            const realTrait = this._traitsDataService.traits(activation.trait)[0];
-
-            traitEffects.push(...realTrait.objectBoundEffects(activation, ['Attack']));
-        });
-        //Add absolute effects
-        this._creatureEffectsService.reduceEffectsByType(
-            traitEffects
-                .filter(effect => effect.setValue)
-                .concat(this._creatureEffectsService.absoluteEffectsOnThese(creature, effectsListAttackRolls)),
-            { absolutes: true },
-        )
-            .forEach(effect => {
-                if (effect.show) {
-                    absolutes.push(
-                        Object.assign(
-                            new Effect(),
-                            { value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type },
-                        ),
-                    );
-                }
-
-                attackResult = parseInt(effect.setValue, 10);
-                explain = `${ effect.source }: ${ effect.setValue }`;
-            });
-
-        let effectsSum = 0;
-        //Add relative effects, including potency bonus and shoddy penalty
-        //Generate potency bonus
-        const potencyRune: number = runeSource.fundamentalRunes.effectivePotency();
-        const calculatedEffects: Array<Effect> = [];
-
-        if (potencyRune) {
-            let source = 'Potency';
-
-            //If you're getting the potency because of another item (like Doubling Rings), name it here
-            if (runeSource.reason) {
-                source = `Potency (${ runeSource.reason.effectiveName() })`;
-            }
-
-            calculatedEffects.push(
-                Object.assign(
-                    new Effect(potencyRune.toString()),
-                    { creature: creature.type, type: 'item', target: weapon.name, source, apply: true, show: false },
-                ),
-            );
-        }
-
-        if (runeSource.fundamentalRunes.battleforged) {
-            let source = 'Battleforged';
-
-            //If you're getting the battleforged bonus because of another item (like Handwraps of Mighty Blows), name it here
-            if (runeSource.reason) {
-                source = `Battleforged (${ runeSource.reason.effectiveName() })`;
-            }
-
-            calculatedEffects.push(
-                Object.assign(
-                    new Effect('+1'),
-                    { creature: creature.type, type: 'item', target: weapon.name, source, apply: true, show: false },
-                ),
-            );
-        }
-
-        //Powerful Fist ignores the nonlethal penalty on unarmed attacks.
-        let hasPowerfulFist = false;
-
-        if (weapon.prof === WeaponProficiencies.Unarmed) {
-            const character = CreatureService.character;
-
-            if (this._characterFeatsService.characterFeatsTaken(0, character.level, { featName: 'Powerful Fist' }).length) {
-                hasPowerfulFist = true;
-            }
-        }
-
-        //Shoddy items have a -2 item penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if ((weapon.$shoddy === ShoddyPenalties.NotShoddy) && weapon.shoddy) {
-            explain += '\nShoddy (canceled by Junk Tinker): -0';
-        } else if (weapon.$shoddy) {
-            calculatedEffects.push(
-                Object.assign(
-                    new Effect(`${ ShoddyPenalties.Shoddy }`),
-                    {
-                        creature: creature.type,
-                        type: 'item',
-                        target: weapon.name,
-                        source: 'Shoddy',
-                        penalty: true,
-                        apply: true,
-                        show: false,
+            this._weaponPropertiesService.isFavoredWeapon$(weapon, creature),
+            weapon.effectiveTraits$,
+        ])
+            .pipe(
+                map(([charLevel, { prof, runeSource, skillLevel }, isFavoredWeapon, traits]) => ({
+                    charLevel,
+                    skillLevel,
+                    context: {
+                        weapon,
+                        creature,
+                        range,
+                        prof,
+                        traits,
+                        runeSource,
+                        isFavoredWeapon,
                     },
+                })),
+                switchMap(({ charLevel, skillLevel, context }) =>
+                    this._attackBonusEffectFromAbility$(context)
+                        .pipe(
+                            switchMap(abilityEffect => {
+                                // For any activated traits of weapon weapon, check if any effects on Attack apply.
+                                const traitEffects: Array<Effect> = [];
+
+                                weapon.activatedTraitsActivations().forEach(activation => {
+                                    const realTrait = this._traitsDataService.traits(activation.trait)[0];
+
+                                    traitEffects.push(...realTrait.objectBoundEffects(activation, ['Attack']));
+                                });
+
+                                // Create a list of all target names under which an effect may affect this attack.
+                                const effectsListAttackRolls =
+                                    attackEffectPhrases(
+                                        'Attack Rolls',
+                                        context,
+                                    )
+                                        .concat([
+                                            weapon.name,
+                                            'Attack Rolls',
+                                            'All Checks and DCs',
+                                            ...(
+                                                abilityEffect?.ability
+                                                    ? [
+                                                        //"Strength-based Checks and DCs", "Dexterity-based Checks and DCs"
+                                                        `${ abilityEffect.ability }-based Checks and DCs`,
+                                                        //"Strength-based Attack Rolls", "Dexterity-based Attack Rolls"
+                                                        `${ abilityEffect.ability }-based Attack Rolls`,
+                                                    ]
+                                                    : []
+                                            ),
+                                            //"Untrained Attack Rolls", "Expert Attack Rolls"
+                                            `${ skillLevelName(skillLevel) } Attack Rolls`,
+                                        ]);
+
+                                return combineLatest([
+                                    this._creatureEffectsService.absoluteEffectsOnThese$(creature, effectsListAttackRolls),
+                                    this._creatureEffectsService.relativeEffectsOnThese$(creature, effectsListAttackRolls),
+                                    this._attackBonusEffectFromPotencyRune$(context),
+                                    this._attackBonusEffectFromBattleForged$(context),
+                                    this._attackPenaltyEffectFromShoddy$(context),
+                                    (context.prof === WeaponProficiencies.Unarmed && context.creature.isCharacter())
+                                        ? this._characterFeatsService.characterHasFeatAtLevel$('Powerful Fist')
+                                        : of(false),
+                                ])
+                                    .pipe(
+                                        map(([
+                                            absolutes,
+                                            relatives,
+                                            potencyEffect,
+                                            battleForgedEffect,
+                                            shoddyEffect,
+                                            powerfulFistApplies,
+                                        ]) => {
+                                            const bonuses = new Array<BonusDescription>();
+
+                                            // If the creature is trained or better with the weapon,
+                                            // add the skill level bonus and the character level.
+                                            if (skillLevel >= SkillLevels.Trained) {
+                                                bonuses.push({ value: skillLevel.toString(), title: skillLevelName(skillLevel) });
+                                                bonuses.push({ value: charLevel.toString(), title: 'Character Level' });
+                                            }
+
+                                            let result =
+                                                (skillLevel >= SkillLevels.Trained)
+                                                    ? skillLevel + charLevel
+                                                    : 0;
+
+                                            const reducedAbsolutes = this._creatureEffectsService.reduceAbsolutes(
+                                                traitEffects.filter((effect): effect is AbsoluteEffect => effect.isAbsoluteEffect())
+                                                    .concat(absolutes),
+                                            );
+
+                                            reducedAbsolutes.forEach(effect => {
+                                                result = effect.setValueNumerical;
+                                                addBonusDescriptionFromEffect(bonuses, effect);
+                                            });
+
+                                            const reducedRelatives = this._creatureEffectsService.reduceRelativesByType(
+                                                new Array<RelativeEffect>()
+                                                    .concat(
+                                                        ...(abilityEffect ? [abilityEffect.effect] : []),
+                                                        ...(potencyEffect ? [potencyEffect] : []),
+                                                        ...(battleForgedEffect ? [battleForgedEffect] : []),
+                                                        ...(shoddyEffect?.effect ? [shoddyEffect.effect] : []),
+                                                        ...traitEffects
+                                                            .filter((effect): effect is RelativeEffect => effect.isRelativeEffect()),
+                                                        ...relatives,
+                                                    ),
+                                                { hasAbsolutes: !!reducedAbsolutes.length },
+                                            );
+
+                                            reducedRelatives
+                                                .forEach(effect => {
+                                                    // A character with Powerful Fist ignores the nonlethal penalty on unarmed attacks.
+                                                    if (powerfulFistApplies && effect.source === 'conditional, Nonlethal') {
+                                                        bonuses.push({ value: '-0', title: 'Nonlethal (cancelled by Powerful Fist)' });
+                                                    } else {
+                                                        result += effect.valueNumerical;
+                                                        addBonusDescriptionFromEffect(bonuses, effect);
+                                                    }
+                                                });
+
+                                            // If the shoddy penalty was cancelled, add this information to the bonus descriptions.
+                                            if (shoddyEffect?.cancelled) {
+                                                bonuses.push({ value: '-0', title: 'Shoddy (cancelled by Junk Tinker)' });
+                                            }
+
+                                            const effects = new Array<Effect>()
+                                                .concat(
+                                                    reducedAbsolutes,
+                                                    reducedRelatives,
+                                                );
+
+                                            return { result, bonuses, effects, range };
+                                        }),
+                                    );
+
+                            }),
+                        ),
                 ),
             );
-        }
+    }
 
-        // Because of the Potency and Shoddy Effects, we need to filter the types a second time,
-        // even though get_RelativesOnThese comes pre-filtered.
-        this._creatureEffectsService.reduceEffectsByType(
-            calculatedEffects
-                .concat(
-                    traitEffects.filter(effect => effect.value !== '0'),
-                    this._creatureEffectsService.relativeEffectsOnThese(creature, effectsListAttackRolls),
-                ),
-        )
-            .forEach(effect => {
-                //Powerful Fist ignores the nonlethal penalty on unarmed attacks.
-                if (hasPowerfulFist && effect.source === 'conditional, Nonlethal') {
-                    explain += '\nNonlethal (cancelled by Powerful Fist)';
-                } else {
-                    if (effect.show) {
-                        if (parseInt(effect.value, 10) < 0) {
-                            penalties.push(
-                                Object.assign(
-                                    new Effect(effect.value),
-                                    {
-                                        target: effect.target,
-                                        source: effect.source,
-                                        penalty: true,
-                                        type: effect.type,
-                                        apply: false,
-                                        show: false,
-                                    },
-                                ),
-                            );
+    /**
+     * Creates an effect that adds an ability modifier bonus to Attack if one applies.
+     * Determines whether to use dexterity or strength.
+     *
+     * @param context Previously determined parameters passed from the parent.
+     * @returns
+     */
+    private _attackBonusEffectFromAbility$(
+        context: IntermediateMethodContext,
+    ): Observable<{ effect: RelativeEffect; ability: 'Dexterity' | 'Strength' } | undefined> {
+        return combineLatest([
+            this._abilityValuesService.mod$('Dexterity', context.creature),
+            this._abilityValuesService.mod$('Strength', context.creature),
+            this._creatureEffectsService.relativeEffectsOnThese$(
+                context.creature,
+                ['Dexterity-based Checks and DCs', 'Dexterity-based Attack Rolls'],
+            ),
+            this._creatureEffectsService.relativeEffectsOnThese$(
+                context.creature,
+                ['Strength-based Checks and DCs', 'Strength-based Attack Rolls'],
+            ),
+        ])
+            .pipe(
+                map(([{ result: dex }, { result: str }, dexEffects, strEffects]) => {
+                    // Bonuses and penalties to the resulting ability may make another ability more attractive later in the process.
+                    // We include these bonuses and penalties here for comparison, without applying them to the resulting effect.
+                    const dexCompareValue =
+                        dexEffects.reduce(
+                            (previous, current) => previous + current.valueNumerical,
+                            dex,
+                        );
+                    const strCompareValue =
+                        strEffects.reduce(
+                            (previous, current) => previous + current.valueNumerical,
+                            str,
+                        );
+
+                    let result: { value: number; ability: 'Dexterity' | 'Strength'; reason: string } | undefined;
+
+                    // Check if the weapon has any traits that affect its Ability bonus to attack,
+                    // such as Finesse or Brutal, and run those calculations.
+                    if (context.range === 'ranged') {
+                        if (context.traits.includes('Brutal')) {
+                            result = { value: str, ability: 'Strength', reason: 'Brutal' };
                         } else {
-                            bonuses.push(
-                                Object.assign(
-                                    new Effect(effect.value),
-                                    {
-                                        target: effect.target,
-                                        source: effect.source,
-                                        penalty: false,
-                                        type: effect.type,
-                                        apply: true,
-                                        show: false,
-                                    },
-                                ),
-                            );
+                            result = { value: dex, ability: 'Dexterity', reason: '' };
                         }
                     }
 
-                    effectsSum += parseInt(effect.value, 10);
-                    explain += `\n${ effect.source }: ${ parseInt(effect.value, 10) >= 0 ? '+' : '' }${ parseInt(effect.value, 10) }`;
-                }
-            });
-        //Add up all modifiers and return the attack bonus for weapon attack
-        attackResult += effectsSum;
-        explain = explain.trim();
+                    if (context.range === 'melee') {
+                        if (context.traits.includes('Finesse') && dexCompareValue > strCompareValue) {
+                            result = { value: dex, ability: 'Dexterity', reason: 'Finesse' };
+                        } else if (context.weapon.dexterityBased) {
+                            result = { value: dex, ability: 'Dexterity', reason: 'Dexterity-based weapon' };
+                        } else {
+                            result = { value: str, ability: 'Strength', reason: '' };
+                        }
+                    }
 
-        return { range, attackResult, explain, effects: penalties.concat(bonuses).concat(absolutes), penalties, bonuses, absolutes };
+                    // If an ability was determined, create an effect that will be applied to the damage bonus later.
+                    if (result) {
+                        let source =
+                            result.ability === 'Dexterity'
+                                ? 'Dexterity Modifier'
+                                : 'Strength Modifier';
+
+                        if (result.reason) {
+                            source += ` (${ result.reason })`;
+                        }
+
+                        return {
+                            ability: result.ability,
+                            effect: Effect.from({
+                                value: result.value.toString(),
+                                creature: context.creature.type,
+                                type: BonusTypes.Untyped,
+                                target: context.weapon.name,
+                                source,
+                                applied: true,
+                                displayed: false,
+                            }),
+                        };
+                    }
+                }),
+            );
+    }
+
+    /**
+     * Creates an effect that adds an ability modifier bonus to Attack if one applies.
+     * Determines whether to use dexterity or strength.
+     *
+     * @param context Previously determined parameters passed from the parent.
+     * @returns
+     */
+    private _attackBonusEffectFromPotencyRune$(
+        context: IntermediateMethodContext,
+    ): Observable<RelativeEffect | undefined> {
+        return combineLatest([
+            context.runeSource.forFundamentalRunes.effectivePotency$(),
+            context.runeSource.reason?.effectiveName$() ?? of(''),
+        ])
+            .pipe(
+                map(([potencyRune, reasonName]) => {
+                    if (potencyRune) {
+                        //If you're getting the potency because of another item (like Doubling Rings), name it here
+                        const source =
+                            (reasonName)
+                                ? `Potency (${ reasonName })`
+                                : 'Potency';
+
+                        return Effect.from({
+                            value: potencyRune.toString(),
+                            creature: context.creature.type,
+                            type: BonusTypes.Item,
+                            target: context.weapon.name,
+                            source,
+                            applied: true,
+                            displayed: false,
+                        });
+                    }
+                }),
+            );
+    }
+
+    /**
+     * Creates an effect that adds a bonus to Attack if battleforged applies.
+     * Battleforged can add a +1 bonus to Attack on a weapon.
+     *
+     * @param context Previously determined parameters passed from the parent.
+     * @returns
+     */
+    private _attackBonusEffectFromBattleForged$(
+        context: IntermediateMethodContext,
+    ): Observable<RelativeEffect | undefined> {
+        return combineLatest([
+            context.runeSource.forFundamentalRunes.battleforged$,
+            context.runeSource.reason?.effectiveName$() ?? of(''),
+        ])
+            .pipe(
+                map(([isBattleForged, reasonName]) => {
+                    if (isBattleForged) {
+                        let source = 'Battleforged';
+
+                        //If you're getting the battleforged bonus because of another item (like Handwraps of Mighty Blows), name it here.
+                        if (reasonName) {
+                            source = `Battleforged (${ reasonName })`;
+                        }
+
+                        return Effect.from({
+                            value: '+1',
+                            creature: context.creature.type,
+                            type: BonusTypes.Item,
+                            target: context.weapon.name,
+                            source,
+                            applied: true,
+                            displayed: false,
+                        });
+                    }
+                }),
+            );
+    }
+
+    /**
+     * Creates an effect that adds a penalty to Attack if shoddy applies.
+     * Shoddy items have a -2 item penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
+     * The latter is not implemented.
+     *
+     * @param context Previously determined parameters passed from the parent.
+     * @returns
+     */
+    private _attackPenaltyEffectFromShoddy$(
+        context: IntermediateMethodContext,
+    ): Observable<{ effect?: RelativeEffect; cancelled?: boolean } | undefined> {
+        return context.weapon.effectiveShoddy$
+            .pipe(
+                map(effectiveShoddy => {
+                    if ((effectiveShoddy === ShoddyPenalties.NotShoddy) && context.weapon.shoddy) {
+                        return { cancelled: true };
+                    } else if (context.weapon.effectiveShoddy$) {
+                        return {
+                            effect:
+                                Effect.from({
+                                    value: `${ ShoddyPenalties.Shoddy }`,
+                                    creature: context.creature.type,
+                                    type: BonusTypes.Item,
+                                    target: context.weapon.name,
+                                    source: 'Shoddy',
+                                    penalty: true,
+                                    applied: true,
+                                    displayed: false,
+                                }),
+                        };
+                    }
+                }),
+            );
     }
 
 }

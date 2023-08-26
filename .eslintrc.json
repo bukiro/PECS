@@ -17,7 +17,8 @@
             "extends": [
                 "@team23/eslint-config-team23-standard",
                 "@team23/eslint-config-team23-ts",
-                "@team23/eslint-config-team23-angular"
+                "@team23/eslint-config-team23-angular",
+                "@team23/eslint-config-team23-ngrx"
             ],
             "parser": "@typescript-eslint/parser",
             "plugins": [

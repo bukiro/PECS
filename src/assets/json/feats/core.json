@@ -28506,7 +28506,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Arcane Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 4,
                 "className": "Wizard",
@@ -28516,7 +28516,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Arcane Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 6,
                 "className": "Wizard",
@@ -28526,7 +28526,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Arcane Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 8,
                 "className": "Wizard",
@@ -28642,7 +28642,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Arcane Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 12,
                 "className": "Wizard",
@@ -28652,7 +28652,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Arcane Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 14,
                 "className": "Wizard",
@@ -28662,7 +28662,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Arcane Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 16,
                 "className": "Wizard",
@@ -28738,7 +28738,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Arcane Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 18,
                 "className": "Wizard",
@@ -28748,7 +28748,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Arcane Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 20,
                 "className": "Wizard",
@@ -31682,7 +31682,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Occult Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 4,
                 "className": "Bard",
@@ -31692,7 +31692,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Occult Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 6,
                 "className": "Bard",
@@ -31702,7 +31702,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Occult Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 8,
                 "className": "Bard",
@@ -31898,7 +31898,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Occult Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 12,
                 "className": "Bard",
@@ -31908,7 +31908,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Occult Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 14,
                 "className": "Bard",
@@ -31918,7 +31918,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Occult Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 16,
                 "className": "Bard",
@@ -31978,7 +31978,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Occult Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 18,
                 "className": "Bard",
@@ -31988,7 +31988,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Occult Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 20,
                 "className": "Bard",
@@ -40403,7 +40403,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Primal Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 4,
                 "className": "Druid",
@@ -40413,7 +40413,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Primal Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 6,
                 "className": "Druid",
@@ -40423,7 +40423,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Primal Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 8,
                 "className": "Druid",
@@ -40730,7 +40730,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Primal Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 12,
                 "className": "Druid",
@@ -40740,7 +40740,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Primal Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 14,
                 "className": "Druid",
@@ -40750,7 +40750,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Primal Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 16,
                 "className": "Druid",
@@ -40798,7 +40798,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Primal Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 18,
                 "className": "Druid",
@@ -40808,7 +40808,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Primal Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 20,
                 "className": "Druid",
@@ -43264,7 +43264,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Bloodline Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 4,
                 "className": "Sorcerer",
@@ -43274,7 +43274,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Bloodline Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 6,
                 "className": "Sorcerer",
@@ -43284,7 +43284,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Bloodline Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 8,
                 "className": "Sorcerer",
@@ -43525,7 +43525,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Bloodline Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 12,
                 "className": "Sorcerer",
@@ -43535,7 +43535,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Bloodline Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 14,
                 "className": "Sorcerer",
@@ -43545,7 +43545,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Bloodline Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 16,
                 "className": "Sorcerer",
@@ -43745,7 +43745,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Bloodline Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 18,
                 "className": "Sorcerer",
@@ -43755,7 +43755,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Bloodline Breadth') ? 1 : 0), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 20,
                 "className": "Sorcerer",
@@ -51908,7 +51908,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Divine Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 4,
                 "className": "Cleric",
@@ -51918,7 +51918,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Divine Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 6,
                 "className": "Cleric",
@@ -51928,7 +51928,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Divine Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 8,
                 "className": "Cleric",
@@ -52039,7 +52039,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Divine Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 12,
                 "className": "Cleric",
@@ -52049,7 +52049,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Divine Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 14,
                 "className": "Cleric",
@@ -52059,7 +52059,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + (Has_Feat('Divine Breadth') ? 1 : 0), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 16,
                 "className": "Cleric",

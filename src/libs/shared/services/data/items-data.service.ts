@@ -140,11 +140,11 @@ export class ItemsDataService {
 
         //Oils need to load after WeaponRunes, because they have to copy some of them.
         this._cleanItems.oils =
-            this._loadItemType(json_oils, Oil);
+            this._loadItemType(json_oils as ImportedJsonFileList<Oil>, Oil);
         this._typeService.registerItemCasting(Oil);
 
         this._cleanItems.adventuringgear =
-            this._loadItemType(json_adventuringgear, AdventuringGear);
+            this._loadItemType(json_adventuringgear as ImportedJsonFileList<AdventuringGear>, AdventuringGear);
         this._typeService.registerItemCasting(AdventuringGear);
 
         this._cleanItems.alchemicalbombs =
@@ -168,7 +168,7 @@ export class ItemsDataService {
         this._typeService.registerItemCasting(Ammunition);
 
         this._cleanItems.armors =
-            this._loadItemType(json_armors, Armor);
+            this._loadItemType(json_armors as ImportedJsonFileList<Armor>, Armor);
         this._typeService.registerItemCasting(Armor);
 
         this._cleanItems.helditems =

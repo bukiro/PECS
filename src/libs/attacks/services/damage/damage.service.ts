@@ -1,16 +1,12 @@
 /* eslint-disable complexity */
-//TO-DO: partition the damage function into small steps
 import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
-import { Effect } from 'src/app/classes/Effect';
-import { Oil } from 'src/app/classes/Oil';
+import { AbsoluteEffect, Effect, RelativeEffect } from 'src/app/classes/Effect';
 import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { Weapon } from 'src/app/classes/Weapon';
-import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';
@@ -19,10 +15,36 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { skillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
-import { attackRuneSource } from '../../util/attackRuneSource';
-import { DamageResult } from '../attacks/attacks.service';
+import { RuneSourceSet, attackRuneSource$ } from '../../util/attackRuneSource';
 import { ItemSpecializationsDataService } from 'src/libs/shared/services/data/item-specializations-data.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
+import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
+import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonusDescriptionUtils';
+import { strikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
+import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { ExtraDamageService } from './extra-damage.service';
+
+
+export type DamageResult = IntermediateResult<string>;
+
+export interface IntermediateResult<T> {
+    result: T;
+    bonuses: Array<BonusDescription>;
+    effects: Array<Effect>;
+}
+
+export interface IntermediateMethodContext {
+    weapon: Weapon;
+    creature: Character | AnimalCompanion;
+    range: 'ranged' | 'melee';
+    prof: string;
+    traits: Array<string>;
+    runeSource: RuneSourceSet;
+    isFavoredWeapon: boolean;
+}
 
 @Injectable({
     providedIn: 'root',
@@ -33,10 +55,10 @@ export class DamageService {
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
-        private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _itemSpecializationsDataService: ItemSpecializationsDataService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _extraDamageService: ExtraDamageService,
     ) { }
 
     /**
@@ -46,759 +68,928 @@ export class DamageService {
      *
      * A weapon with no dice and no extra damage returns a damage of "0".
      */
-    public damage(
+    public damage$(
         weapon: Weapon,
         creature: Character | AnimalCompanion,
-        range: string,
-    ): DamageResult {
+        range: 'ranged' | 'melee',
+    ): Observable<DamageResult> {
         if (!weapon.dicenum && !weapon.dicesize && !weapon.extraDamage) {
-            return { damageResult: '0', explain: '', penalties: [], bonuses: [], absolutes: [] };
+            return of({ result: '0', bonuses: [], effects: [] });
         }
 
-        let diceExplain = `Base dice: ${ weapon.dicenum ? `${ weapon.dicenum }d` : '' }${ weapon.dicesize }`;
-        let bonusExplain = '';
-        const str = this._abilityValuesService.mod('Strength', creature).result;
-        const dex = this._abilityValuesService.mod('Dexterity', creature).result;
-        const penalties: Array<Effect> = [];
-        const bonuses: Array<Effect> = [];
-        const absolutes: Array<Effect> = [];
-        const prof = this._weaponPropertiesService.effectiveProficiency(weapon, { creature });
-        const traits = weapon.$traits;
-        //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
-        //We set runeSource to the respective item and use it whenever runes are concerned.
-        const runeSource = attackRuneSource(weapon, creature, range);
-        const isFavoredWeapon = this._weaponPropertiesService.isFavoredWeapon(weapon, creature);
-        const effectPhrases = (phrase: string): Array<string> =>
-            attackEffectPhrases(weapon, phrase, prof, range, traits, isFavoredWeapon)
-                .concat([
-                    `Damage ${ phrase }`,
-                ]);
+        return combineLatest([
+            this._weaponPropertiesService.effectiveProficiency$(weapon, { creature }),
+            attackRuneSource$(weapon, creature, range),
+            this._weaponPropertiesService.isFavoredWeapon$(weapon, creature),
+            weapon.effectiveTraits$,
+        ])
+            .pipe(
+                map(([prof, runeSource, isFavoredWeapon, traits]) => ({
+                    weapon,
+                    creature,
+                    range,
+                    prof,
+                    traits,
+                    runeSource,
+                    isFavoredWeapon,
+                })),
+                switchMap(context => combineLatest([
+                    this._diceNumber$(context),
+                    this._diceSize$(context),
+                    this._extraDamageService.extraDamage$(context),
+                ])
+                    .pipe(
+                        switchMap(([diceNum, diceSize, extraDamage]) =>
+                            this._damageBonus$({ ...context, diceNum: diceNum.result })
+                                .pipe(
+                                    map(damageBonus => {
+                                        const bonuses: Array<BonusDescription> = [
+                                            weapon.dicenum
+                                                ? {
+                                                    title: 'Base dice',
+                                                    value: `${ weapon.dicenum }d${ weapon.dicesize }`,
+                                                }
+                                                : {
+                                                    title: 'Base damage',
+                                                    value: `${ weapon.dicesize }`,
+                                                },
+                                            ...diceNum.bonuses,
+                                            ...diceSize.bonuses,
+                                            ...damageBonus.bonuses,
+                                            ...extraDamage.bonuses,
+                                        ];
+
+                                        const effects: Array<Effect> = [
+                                            ...diceNum.effects,
+                                            ...diceSize.effects,
+                                            ...damageBonus.effects,
+                                        ];
+
+                                        // Get the basic "#d#" string from the weapon's dice values,
+                                        // unless dicenum is 0 or null.
+                                        // In that case, add the damage to the damage bonus and ignore the #d# string.
+                                        const dmgBonus =
+                                            (diceNum.result ? 0 : diceSize.result)
+                                            + damageBonus.result;
+
+                                        const diceString =
+                                            diceNum.result
+                                                ? `${ diceNum.result }d${ diceSize.result }`
+                                                // If the damage bonus is negative, add a non-null string to subtract it from.
+                                                : (dmgBonus < 0 ? ' ' : '');
+
+                                        // The dice and the bonus for a readable damage output.
+                                        const result = [
+                                            [
+                                                [
+                                                    diceString,
+                                                    dmgBonus < 0
+                                                        ? (-dmgBonus)
+                                                        : dmgBonus,
+                                                ]
+                                                    .filter(part => !!part)
+                                                    .join(dmgBonus < 0 ? ' - ' : ' + '),
+                                                this._damageType(context),
+                                            ]
+                                                .join(' ')
+                                                .trim(),
+                                            ...extraDamage.result,
+                                        ]
+                                            .join('\n');
+
+                                        return { result, bonuses, effects };
+                                    }),
+
+                                ),
+                        ),
+                    ),
+                ),
+            );
+    }
+
+    public critSpecialization$(weapon: Weapon, creature: Creature, range: string): Observable<Array<Specialization>> {
+        if (!(creature.isCharacter() && weapon.group)) {
+            return of([]);
+        }
+
+        return combineLatest([
+            combineLatest([
+                this._weaponPropertiesService.effectiveProficiency$(weapon, { creature }),
+                attackRuneSource$(weapon, creature, range),
+            ])
+                .pipe(
+                    switchMap(([prof, runeSource]) =>
+                        this._weaponPropertiesService.profLevel$(
+                            weapon,
+                            creature,
+                            runeSource.forPropertyRunes,
+                            { preparedProficiency: prof },
+                        )
+                            .pipe(
+                                map(skillLevel => ({ prof, skillLevel })),
+                            ),
+                    ),
+                ),
+            this._characterFeatsService.characterFeatsAtLevel$(),
+            creature.level$,
+            weapon.bladeAlly$,
+            weapon.effectiveTraits$,
+            this._weaponPropertiesService.isFavoredWeapon$(weapon, creature),
+        ])
+            .pipe(
+                switchMap(([{ prof, skillLevel }, characterFeats, characterLevel, hasBladeAlly, traits, isFavoredWeapon]) =>
+                    combineLatest(
+                        characterFeats
+                            .filter(feat =>
+                                feat.gainSpecialization.length,
+                            )
+                            .map(feat => combineLatest(
+                                feat.gainSpecialization
+                                    .filter(spec =>
+                                        (!spec.minLevel || characterLevel >= spec.minLevel)
+                                        && (!spec.bladeAlly || hasBladeAlly)
+                                        && (!spec.favoredWeapon || isFavoredWeapon)
+                                        && (!spec.group || (weapon.group && spec.group.includes(weapon.group)))
+                                        && (!spec.range || (range && spec.range.includes(range)))
+                                        && (
+                                            !spec.name
+                                            || (
+                                                (weapon.name && spec.name.includes(weapon.name))
+                                                || (weapon.weaponBase && spec.name.includes(weapon.weaponBase))
+                                            )
+                                        )
+                                        && (!spec.trait || traits.some(trait => spec.trait.includes(trait)))
+                                        && (!spec.proficiency || (prof && spec.proficiency.includes(prof)))
+                                        && (!spec.skillLevel || skillLevel >= spec.skillLevel),
+                                    )
+                                    .map(spec =>
+                                        spec.featreq
+                                            ? this._characterFeatsService.characterHasFeatAtLevel$(spec.featreq)
+                                                .pipe(
+                                                    map(hasFeat => hasFeat ? spec : null),
+                                                )
+                                            : of(spec),
+                                    ),
+                            )
+                                .pipe(
+                                    map(specializationGains =>
+                                        specializationGains.filter((spec): spec is SpecializationGain => !!spec),
+                                    ),
+                                ),
+
+                            ),
+                    ),
+                ),
+                map(specializationGains => {
+                    const specializations: Array<Specialization> = [];
+
+                    new Array<SpecializationGain>()
+                        .concat(...specializationGains)
+                        .forEach(gainedSpec => {
+                            const specs: Array<Specialization> =
+                                this._itemSpecializationsDataService.specializations(weapon.group)
+                                    .map(spec => spec.clone());
+
+                            specs.forEach(spec => {
+                                if (gainedSpec.condition) {
+                                    spec.desc = `(${ gainedSpec.condition }) ${ spec.desc }`;
+                                }
+
+                                if (!specializations.some(existingspec => existingspec.desc === spec.desc)) {
+                                    specializations.push(spec);
+                                }
+                            });
+                        });
+
+                    return specializations;
+                }),
+            );
+    }
+
+    private _diceNumber$(context: IntermediateMethodContext): Observable<IntermediateResult<number>> {
         //Determine the dice Number - Dice Number Multiplier first, then Dice Number (Striking included)
-        let dicenum = weapon.dicenum;
+        if (!context.weapon.dicenum) {
+            return of({ result: 0, bonuses: [], effects: [] });
+        }
 
-        if (dicenum) {
-            let dicenumMultiplier = 1;
-            const effectPhrasesDiceNumberMult = effectPhrases('Dice Number Multiplier');
+        return combineLatest([
+            this._diceNumberMultiplier$(context),
+            context.runeSource.forFundamentalRunes.effectiveStriking$(),
+            // Diamond Fists adds the forceful trait to your unarmed attacks,
+            // but if it already has the trait, it gains one damage die.
+            // For this purpose, compare the weapon's original traits instead of the effective traits.
+            (context.prof === WeaponProficiencies.Unarmed && stringsIncludeCaseInsensitive(context.weapon.traits, 'Forceful'))
+                ? this._characterFeatsService.characterHasFeatAtLevel$('Diamond Fists')
+                : of(false),
+            context.runeSource.reason?.effectiveName$() ?? of(''),
+        ])
+            .pipe(
+                switchMap(([diceNumMultiplier, strikingValue, diamondFistsApplies, runeReasonName]) => {
+                    const diceNum = context.weapon.dicenum * diceNumMultiplier.result;
+                    const effectPhrasesDiceNumber = attackEffectPhrases('Dice Number', context);
+                    const calculatedAbsoluteDiceNumEffects: Array<AbsoluteEffect> = [];
+                    const calculatedRelativeDiceNumEffects: Array<RelativeEffect> = [];
 
-            this._creatureEffectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
-                dicenumMultiplier = parseInt(effect.setValue, 10);
-                diceExplain += `\n${ effect.source }: Dice number multiplier ${ dicenumMultiplier }`;
-            });
-            this._creatureEffectsService.relativeEffectsOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
-                dicenumMultiplier += parseInt(effect.value, 10);
-                diceExplain +=
-                    `\n${ effect.source }: Dice number multiplier ${ parseInt(effect.value, 10) >= 0 ? '+' : '' }`
-                    + `${ parseInt(effect.value, 10) }`;
-            });
-            dicenum *= dicenumMultiplier;
+                    //Add the striking rune or oil of potency effect of the runeSource.
+                    //Only apply and explain Striking if it's actually better than your multiplied dice number.
+                    if (strikingValue + 1 > diceNum) {
+                        let source = strikingTitleFromLevel(strikingValue);
 
-            const calculatedAbsoluteDiceNumEffects: Array<Effect> = [];
-            const effectPhrasesDiceNumber = effectPhrases('Dice Number');
+                        //If you're getting the striking effect because of another item (like Doubling Rings), name it here
+                        if (runeReasonName) {
+                            source += ` (${ runeReasonName })`;
+                        }
 
-            //Add the striking rune or oil of potency effect of the runeSource.
-            //Only apply and explain Striking if it's actually better than your multiplied dice number.
-            if (runeSource.fundamentalRunes.effectiveStriking() + 1 > dicenum) {
-                let source = runeSource.fundamentalRunes.strikingTitle(runeSource.fundamentalRunes.effectiveStriking());
-
-                //If you're getting the striking effect because of another item (like Doubling Rings), name it here
-                if (runeSource.reason) {
-                    source += ` (${ runeSource.reason.effectiveName() })`;
-                }
-
-                calculatedAbsoluteDiceNumEffects.push(
-                    Object.assign(
-                        new Effect(),
-                        {
-                            creature: creature.type,
-                            type: 'untyped',
-                            target: `${ weapon.name } Dice Number`,
-                            setValue: (1 + runeSource.fundamentalRunes.effectiveStriking()).toString(),
+                        const effect = Effect.from({
+                            creature: context.creature.type,
+                            type: BonusTypes.Untyped,
+                            target: `${ context.weapon.name } Dice Number`,
+                            setValue: (strikingValue + 1).toString(),
                             source,
-                            apply: true,
-                            show: false,
-                        },
-                    ),
-                );
-            }
+                            applied: true,
+                            displayed: false,
+                        });
 
-            // For any activated traits of this weapon, check if any effects on Dice Number apply.
-            // These need to be calculated in the effects service.
-            const traitEffects: Array<Effect> = [];
-
-            weapon.activatedTraitsActivations().forEach(activation => {
-                const realTrait = this._traitsDataService.traits(activation.trait)[0];
-
-                traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Number']));
-            });
-            this._creatureEffectsService.reduceEffectsByType(
-                calculatedAbsoluteDiceNumEffects
-                    .concat(
-                        traitEffects.filter(effect => effect.setValue),
-                        this._creatureEffectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceNumber),
-                    ),
-                { absolutes: true },
-            )
-                .forEach(effect => {
-                    dicenum = parseInt(effect.setValue, 10);
-                    diceExplain += `\n${ effect.source }: Dice number ${ dicenum }`;
-                });
-
-            const calculatedRelativeDiceNumEffects: Array<Effect> = [];
-
-            //Diamond Fists adds the forceful trait to your unarmed attacks, but if one already has the trait, it gains one damage die.
-            if (weapon.prof === WeaponProficiencies.Unarmed) {
-                const character = CreatureService.character;
-
-                if (
-                    this._characterFeatsService.characterFeatsTaken(0, character.level, { featName: 'Diamond Fists' }).length &&
-                    weapon.traits.includes('Forceful')
-                ) {
-                    calculatedRelativeDiceNumEffects.push(
-                        Object.assign(
-                            new Effect('+1'),
-                            {
-                                creature: creature.type,
-                                type: 'untyped',
-                                target: `${ weapon.name } Dice Number`,
-                                source: 'Diamond Fists',
-                                apply: true,
-                                show: false,
-                            },
-                        ),
-                    );
-                }
-            }
-
-            this._creatureEffectsService.reduceEffectsByType(
-                calculatedRelativeDiceNumEffects
-                    .concat(traitEffects.filter(effect => effect.value !== '0'))
-                    .concat(this._creatureEffectsService.relativeEffectsOnThese(creature, effectPhrasesDiceNumber)),
-            )
-                .forEach(effect => {
-                    dicenum += parseInt(effect.value, 10);
-                    diceExplain +=
-                        `\n${ effect.source }: Dice number ${ parseInt(effect.value, 10) >= 0 ? '+' : '' }${ parseInt(effect.value, 10) }`;
-                });
-        }
-
-        //Determine the dice size.
-        let dicesize = weapon.dicesize;
-
-        if (dicesize) {
-            const calculatedAbsoluteDiceSizeEffects: Array<Effect> = [];
-
-            // Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage
-            // or simple weapons as long as they are their deity's favored weapon.
-            if (
-                (
-                    (
-                        dicesize === DiceSizes.D4 &&
-                        weapon.prof === WeaponProficiencies.Unarmed
-                    ) ||
-                    weapon.prof === WeaponProficiencies.Simple
-                ) &&
-                this._characterFeatsService.characterHasFeat('Deific Weapon')
-            ) {
-                if (this._weaponPropertiesService.isFavoredWeapon(weapon, creature)) {
-                    const newDicesize = Math.max(Math.min(dicesize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
-
-                    if (newDicesize > dicesize) {
-                        calculatedAbsoluteDiceSizeEffects.push(
-                            Object.assign(
-                                new Effect(),
-                                {
-                                    creature: creature.type,
-                                    type: 'untyped',
-                                    target: `${ weapon.name } Dice Size`,
-                                    setValue: newDicesize.toString(),
-                                    source: 'Deific Weapon',
-                                    apply: true,
-                                    show: false,
-                                },
-                            ),
-                        );
-                    }
-                }
-            }
-
-            // Clerics get increased dice size via Deadly Simplicity for unarmed attacks with less than d6 damage
-            // or simple weapons as long as they are their deity's favored weapon.
-            if (
-                (
-                    (
-                        dicesize < DiceSizes.D6 &&
-                        weapon.prof === WeaponProficiencies.Unarmed
-                    ) ||
-                    weapon.prof === WeaponProficiencies.Simple
-                ) &&
-                this._characterFeatsService.characterHasFeat('Deadly Simplicity')
-            ) {
-                if (this._weaponPropertiesService.isFavoredWeapon(weapon, creature)) {
-                    let newDicesize = Math.max(Math.min(dicesize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
-
-                    if (dicesize < DiceSizes.D6 && weapon.prof === WeaponProficiencies.Unarmed) {
-                        newDicesize = DiceSizes.D6;
-                    }
-
-                    if (newDicesize > dicesize) {
-                        calculatedAbsoluteDiceSizeEffects.push(
-                            Object.assign(
-                                new Effect(),
-                                {
-                                    creature: creature.type,
-                                    type: 'untyped',
-                                    target: `${ weapon.name } Dice Size`,
-                                    setValue: newDicesize.toString(),
-                                    source: 'Deadly Simplicity',
-                                    apply: true,
-                                    show: false,
-                                },
-                            ),
-                        );
-                    }
-                }
-            }
-
-            // For any activated traits of this weapon, check if any effects on Dice Size apply.
-            // These need to be calculated in the effects service.
-            const traitEffects: Array<Effect> = [];
-
-            weapon.activatedTraitsActivations().forEach(activation => {
-                const realTrait = this._traitsDataService.traits(activation.trait)[0];
-
-                traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Size']));
-            });
-
-            //Apply dice size effects.
-            const effectPhrasesDiceSize = effectPhrases('Dice Size');
-
-            this._creatureEffectsService.reduceEffectsByType(
-                calculatedAbsoluteDiceSizeEffects
-                    .concat(traitEffects.filter(effect => effect.setValue))
-                    .concat(this._creatureEffectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceSize)),
-                { absolutes: true })
-                .forEach(effect => {
-                    dicesize = parseInt(effect.setValue, 10);
-                    diceExplain += `\n${ effect.source }: Dice size d${ dicesize }`;
-                });
-            this._creatureEffectsService.reduceEffectsByType(
-                traitEffects.filter(effect => effect.value !== '0')
-                    .concat(this._creatureEffectsService.relativeEffectsOnThese(creature, effectPhrasesDiceSize)),
-            )
-                .forEach(effect => {
-                    dicesize += parseInt(effect.value, 10);
-                    //Don't raise dice size over 12.
-                    dicesize = Math.min(DiceSizes.D12, dicesize);
-                    diceExplain += `\n${ effect.source }: Dice size d${ dicesize }`;
-                });
-        }
-
-        // Get the basic "#d#" string from the weapon's dice values,
-        // unless dicenum is 0 or null (for instance some weapons deal exactly 1 base damage, which is represented by 0d1).
-        // In that case, add the damage to the damage bonus and ignore the #d# string.
-        let baseDice = '';
-        let dmgBonus = 0;
-
-        if (dicenum) {
-            baseDice = `${ dicenum }d${ dicesize }`;
-        } else {
-            if (dicesize) {
-                dmgBonus += dicesize;
-            }
-        }
-
-        //Decide whether this weapon uses strength or dexterity (modifier, bonuses and penalties).
-        const calculatedDamageEffects: Array<Effect> = [];
-        let isStrUsed = false;
-        let isDexUsed = false;
-        let abilityReason = '';
-
-        //Weapons with the Splash trait do not add your Strength modifier (and presumably not your Dexterity modifier, either).
-        if (!traits.includes('Splash')) {
-            let abilityMod = 0;
-
-            //First, calculate dexterity and strength penalties to see which would be more beneficial. They are not immediately applied.
-            //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
-            if (range === 'ranged') {
-                if (traits.includes('Propulsive')) {
-                    const half = .5;
-
-                    if (str > 0) {
-                        abilityMod = Math.floor(str * half);
-                        abilityReason = 'Propulsive';
-                        isStrUsed = true;
-                    } else if (str < 0) {
-                        abilityMod = str;
-                        abilityReason = 'Propulsive';
-                        isStrUsed = true;
-                    }
-                } else if (traits.some(trait => trait.includes('Thrown'))) {
-                    abilityMod = str;
-                    abilityReason += 'Thrown';
-                    isStrUsed = true;
-                }
-            } else {
-                //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
-                if (traits.includes('Finesse') &&
-                    creature.isCharacter() &&
-                    this._characterFeatsService.characterFeatsTaken(1, creature.level, { featName: 'Thief Racket' }).length) {
-                    //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
-                    //The Enfeebled condition affects all Strength damage
-                    const strEffects = this._creatureEffectsService.relativeEffectsOnThis(creature, 'Strength-based Checks and DCs');
-                    let strPenaltySum = 0;
-
-                    strEffects.forEach(effect => {
-                        strPenaltySum += parseInt(effect.value, 10);
-                    });
-
-                    //The Clumsy condition affects all Dexterity damage
-                    const dexEffects = this._creatureEffectsService.relativeEffectsOnThis(creature, 'Dexterity-based Checks and DCs');
-                    let dexPenaltySum = 0;
-
-                    dexEffects.forEach(effect => {
-                        dexPenaltySum += parseInt(effect.value, 10);
-                    });
-
-                    if ((dex + dexPenaltySum) > (str + strPenaltySum)) {
-                        abilityMod = dex;
-                        abilityReason += 'Thief';
-                        isDexUsed = true;
-                    } else {
-                        abilityMod = str;
-                        isStrUsed = true;
-                    }
-                } else {
-                    abilityMod = str;
-                    isStrUsed = true;
-                }
-            }
-
-            if (abilityMod) {
-                let abilitySource = '';
-
-                if (isStrUsed) {
-                    abilitySource = 'Strength Modifier';
-                }
-
-                if (isDexUsed) {
-                    abilitySource = 'Dexterity Modifier';
-                }
-
-                if (abilityReason) {
-                    abilitySource += ` (${ abilityReason })`;
-                }
-
-                calculatedDamageEffects.push(
-                    Object.assign(
-                        new Effect(abilityMod.toString()),
-                        {
-                            creature: creature.type,
-                            type: 'untyped',
-                            target: `${ weapon.name } Damage`,
-                            source: abilitySource,
-                            apply: true,
-                            show: false,
-                        },
-                    ),
-                );
-            }
-        }
-
-        //Mature and Specialized Companions add extra Damage to their attacks.
-        if (creature.isAnimalCompanion()) {
-            creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
-                if (level.extraDamage) {
-                    let companionSource = '';
-                    let companionMod: number = level.extraDamage;
-
-                    companionSource = `${ level.name } Animal Companion`;
-
-                    if (creature.class.specializations.length) {
-                        const double = 2;
-
-                        companionMod *= double;
-                        companionSource = 'Specialized Animal Companion';
-                    }
-
-                    calculatedDamageEffects.push(
-                        Object.assign(
-                            new Effect(companionMod.toString()),
-                            {
-                                creature: creature.type,
-                                type: 'untyped',
-                                target: `${ weapon.name } Damage`,
-                                source: companionSource,
-                                apply: true,
-                                show: false,
-                            },
-                        ),
-                    );
-                }
-            });
-        }
-
-        //Emblazon Armament on a weapon adds a +1 status bonus to damage rolls if the deity matches.
-        if (creature.isCharacter()) {
-            if (weapon.$emblazonArmament) {
-                weapon.emblazonArmament
-                    .filter(ea => ea.type === 'emblazonArmament')
-                    .forEach(() => {
-                        calculatedDamageEffects.push(
-                            Object.assign(
-                                new Effect('+1'),
-                                {
-                                    creature: creature.type,
-                                    type: 'status',
-                                    target: `${ weapon.name } Damage`,
-                                    source: 'Emblazon Armament',
-                                    apply: true,
-                                    show: false,
-                                },
-                            ),
-                        );
-                    });
-            }
-        }
-
-        const profLevel = this._weaponPropertiesService.profLevel(weapon, creature, runeSource.propertyRunes);
-        const effectPhrasesDamage =
-            effectPhrases('Damage')
-                .concat(effectPhrases('Damage Rolls'));
-        const agile = traits.includes('Agile') ? 'Agile' : 'Non-Agile';
-
-        //"Agile/Non-Agile Large Melee Weapon Damage"
-        if (weapon.large) {
-            effectPhrasesDamage.push(
-                `${ agile } Large ${ range } Weapon Damage`,
-                `${ agile } Large ${ range } Weapon Damage Rolls`,
-            );
-        }
-
-        //"Agile/Non-Agile Melee Damage"
-        effectPhrasesDamage.push(
-            `${ agile } ${ range } Damage`,
-            `${ agile } ${ range } Damage Rolls`,
-        );
-
-        if ((range === 'ranged') && weapon.traits.some(trait => trait.includes('Thrown'))) {
-            //"Agile/Non-Agile Thrown Large Weapon Damage"
-            if (weapon.large) {
-                effectPhrasesDamage.push(
-                    `${ agile } Thrown Large Weapon Damage`,
-                    `${ agile } Thrown Large Weapon Damage Rolls`,
-                );
-            }
-
-            //"Agile/Non-Agile Thrown Weapon Damage"
-            effectPhrasesDamage.push(
-                `${ agile } Thrown Weapon Damage`,
-                `${ agile } Thrown Weapon Damage Rolls`,
-            );
-        }
-
-        this._creatureEffectsService.absoluteEffectsOnThese(creature, effectPhrasesDamage)
-            .forEach(effect => {
-                if (effect.show) {
-                    absolutes.push(
-                        Object.assign(
-                            new Effect(),
-                            { value: 0, setValue: effect.setValue, source: effect.source, penalty: false },
-                        ),
-                    );
-                }
-
-                dmgBonus = parseInt(effect.setValue, 10);
-                bonusExplain = `\n${ effect.source }: Bonus damage ${ parseInt(effect.setValue, 10) }`;
-            });
-
-        if (!this._creatureEffectsService.effectsOnThis(creature, `Ignore Bonus Damage on ${ weapon.name }`).length) {
-            let effectBonus = 0;
-            let abilityName = '';
-
-            if (isStrUsed) {
-                abilityName = 'Strength';
-            }
-
-            if (isDexUsed) {
-                abilityName = 'Dexterity';
-            }
-
-            //"Strength-based Checks and DCs"
-            effectPhrasesDamage.push(`${ abilityName }-based Checks and DCs`);
-
-            //Proficiency-based damage
-            const profLevelName = skillLevelName(profLevel) || '';
-
-            if (profLevelName) {
-                effectPhrasesDamage.push(
-                    `${ profLevelName } Proficiency Attack Damage`,
-                    `${ profLevelName } Proficiency Attack Damage Rolls`,
-                    `Trained Proficiency ${ weapon.name } Damage`,
-                    `Trained Proficiency ${ weapon.name } Damage Rolls`,
-                );
-            }
-
-            // Pre-create Effects based on "Damage per Die" effects.
-            // For any activated traits of this weapon, check if any effects on Dice Size apply.
-            // These need to be calculated in the effects service.
-            const traitEffects: Array<Effect> = [];
-
-            weapon.activatedTraitsActivations().forEach(activation => {
-                const realTrait = this._traitsDataService.traits(activation.trait)[0];
-
-                traitEffects.push(...realTrait.objectBoundEffects(activation, ['Damage per Die']));
-            });
-
-            const perDieList: Array<string> = [];
-
-            if (weapon.prof === 'Unarmed Attacks') {
-                perDieList.push('Unarmed Damage per Die');
-            } else {
-                perDieList.push('Weapon Damage per Die');
-            }
-
-            traits.forEach(trait => {
-                if (trait.includes(' ft')) {
-                    perDieList.push(`${ trait.split(' ')[0] } Damage per Die`);
-                } else {
-                    perDieList.push(`${ trait } Damage per Die`);
-                }
-            });
-            // All "...Damage per Die" effects are converted to just "...Damage" (by multiplying with the dice number)
-            // and then re-processed with the rest of the damage effects.
-            traitEffects.filter(effect => effect.value !== '0')
-                .concat(this._creatureEffectsService.relativeEffectsOnThese(creature, perDieList))
-                .forEach(effect => {
-                    const effectValue = parseInt(effect.value, 10) * dicenum;
-                    const newEffect = effect.clone();
-
-                    newEffect.target = newEffect.target.replace(' per Die', '');
-                    newEffect.value = effectValue.toString();
-                    calculatedDamageEffects.push(newEffect);
-                });
-            //Now collect and apply the type-filtered effects on this weapon's damage, including the pregenerated ones.
-            this._creatureEffectsService.reduceEffectsByType(
-                calculatedDamageEffects
-                    .concat(this._creatureEffectsService.relativeEffectsOnThese(creature, effectPhrasesDamage)),
-            )
-                .forEach(effect => {
-                    if (effect.show) {
-                        if (parseInt(effect.value, 10) < 0) {
-                            penalties.push(
-                                Object.assign(
-                                    new Effect(),
-                                    { value: parseInt(effect.value, 10), setValue: '', source: effect.source, penalty: true },
-                                ),
-                            );
-                        } else {
-                            bonuses.push(
-                                Object.assign(
-                                    new Effect(),
-                                    { value: parseInt(effect.value, 10), setValue: '', source: effect.source, penalty: false },
-                                ),
-                            );
+                        if (effect.isAbsoluteEffect()) {
+                            calculatedAbsoluteDiceNumEffects.push(effect);
                         }
                     }
 
-                    effectBonus += parseInt(effect.value, 10);
-                    bonusExplain +=
-                        `\n${ effect.source }: Damage ${ parseInt(effect.value, 10) >= 0 ? '+' : '' }${ parseInt(effect.value, 10) }`;
-                });
-            dmgBonus += effectBonus;
-        }
-
-        //Concatenate the strings for a readable damage output
-        let dmgResult = baseDice;
-
-        if (dmgBonus > 0) {
-            if (baseDice) {
-                dmgResult += ' + ';
-            }
-
-            dmgResult += dmgBonus;
-        } else if (dmgBonus < 0) {
-            if (baseDice) {
-                dmgResult += ' - ';
-            }
-
-            dmgResult += (dmgBonus * -1);
-        }
-
-        let dmgType = weapon.dmgType;
-
-        if (dmgType) {
-            // If any versatile traits have been added to the weapon's original traits,
-            // also add the additional damage type to its damage type.
-            traits.filter(trait => trait.toLowerCase().includes('versatile') && !weapon.traits.includes(trait)).forEach(trait => {
-                const type = trait.split(' ')[1];
-
-                if (type) {
-                    dmgType += `/${ type }`;
-                }
-            });
-            dmgResult += ` ${ dmgType }`;
-        }
-
-        dmgResult +=
-            ` ${ this._effectiveExtraDamage(weapon, creature, range, prof, traits) }`;
-
-        const explain = (`${ diceExplain.trim() }\n${ bonusExplain.trim() }`).trim();
-
-        return { damageResult: dmgResult, explain, penalties, bonuses, absolutes };
-    }
-
-    public critSpecialization(weapon: Weapon, creature: Creature, range: string): Array<Specialization> {
-        const SpecializationGains: Array<SpecializationGain> = [];
-        const specializations: Array<Specialization> = [];
-        const prof = this._weaponPropertiesService.effectiveProficiency(weapon, { creature: (creature as AnimalCompanion | Character) });
-
-        if (creature.isCharacter() && weapon.group) {
-            const runeSource = attackRuneSource(weapon, creature, range);
-            const skillLevel = this._weaponPropertiesService.profLevel(weapon, creature, runeSource.propertyRunes);
-
-            this._characterFeatsService.characterFeatsAndFeatures()
-                .filter(feat =>
-                    feat.gainSpecialization.length &&
-                    this._characterFeatsService.characterHasFeat(feat.name),
-                )
-                .forEach(feat => {
-                    SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
-                        (!spec.minLevel || creature.level >= spec.minLevel) &&
-                        (!spec.bladeAlly || (weapon.bladeAlly || runeSource.propertyRunes.bladeAlly)) &&
-                        (!spec.favoredWeapon || this._weaponPropertiesService.isFavoredWeapon(weapon, creature)) &&
-                        (!spec.group || (weapon.group && spec.group.includes(weapon.group))) &&
-                        (!spec.range || (range && spec.range.includes(range))) &&
-                        (
-                            !spec.name ||
-                            (
-                                (weapon.name && spec.name.includes(weapon.name)) ||
-                                (weapon.weaponBase && spec.name.includes(weapon.weaponBase))
-                            )
-                        ) &&
-                        (!spec.trait || weapon.traits.some(trait => spec.trait.includes(trait))) &&
-                        (!spec.proficiency || (prof && spec.proficiency.includes(prof))) &&
-                        (!spec.skillLevel || skillLevel >= spec.skillLevel) &&
-                        (
-                            !spec.featreq ||
-                            this._characterFeatsService.characterHasFeat(spec.featreq)
-                        ),
-                    ));
-                });
-            SpecializationGains.forEach(critSpec => {
-                const specs: Array<Specialization> =
-                    this._itemSpecializationsDataService.specializations(weapon.group)
-                        .map(spec => Object.assign(new Specialization(), spec).recast());
-
-                specs.forEach(spec => {
-                    if (critSpec.condition) {
-                        spec.desc = `(${ critSpec.condition }) ${ spec.desc }`;
+                    if (diamondFistsApplies) {
+                        calculatedRelativeDiceNumEffects.push(
+                            Effect.from({
+                                value: '+1',
+                                creature: context.creature.type,
+                                type: BonusTypes.Untyped,
+                                target: `${ context.weapon.name } Dice Number`,
+                                source: 'Diamond Fists',
+                                applied: true,
+                                displayed: false,
+                            }),
+                        );
                     }
 
-                    if (!specializations.some(existingspec => JSON.stringify(existingspec) === JSON.stringify(spec))) {
-                        specializations.push(spec);
-                    }
-                });
-            });
-        }
+                    // For any activated traits of this weapon, check if any effects on Dice Number apply.
+                    // These need to be calculated in the effects service.
+                    const traitEffects: Array<Effect> = [];
 
-        return specializations;
-    }
+                    context.weapon.activatedTraitsActivations()
+                        .forEach(activation => {
+                            const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
-    private _effectiveExtraDamage(
-        weapon: Weapon,
-        creature: Character | AnimalCompanion,
-        range: string,
-        prof: string,
-        traits: Array<string>,
-    ): string {
-        let extraDamage = '';
-
-        if (weapon.extraDamage) {
-            extraDamage += `\n${ weapon.extraDamage }`;
-        }
-
-        const runeSource = attackRuneSource(weapon, creature, range);
-
-        runeSource.propertyRunes.propertyRunes
-            .filter(weaponRune => weaponRune.extraDamage)
-            .forEach(weaponRune => {
-                extraDamage += `\n${ weaponRune.extraDamage }`;
-            });
-        weapon.oilsApplied
-            .filter((oil: Oil) => oil.runeEffect && oil.runeEffect.extraDamage)
-            .forEach((oil: Oil) => {
-                extraDamage += `\n${ oil.runeEffect?.extraDamage }`;
-            });
-
-        if (runeSource.propertyRunes.bladeAlly) {
-            runeSource.propertyRunes.bladeAllyRunes
-                .filter(weaponRune => weaponRune.extraDamage)
-                .forEach(weaponRune => {
-                    extraDamage += `\n${ weaponRune.extraDamage }`;
-                });
-        }
-
-        //Emblazon Energy on a weapon adds 1d4 damage of the chosen type if the deity matches.
-        if (creature.isCharacter()) {
-            if (weapon.$emblazonEnergy) {
-                weapon.emblazonArmament.filter(ea => ea.type === 'emblazonEnergy').forEach(ea => {
-                    let eaDmg = '+1d4 ';
-                    const type = ea.choice;
-
-                    creature.class.spellCasting.find(casting => casting.source === 'Domain Spells')?.spellChoices.forEach(choice => {
-                        choice.spells.forEach(spell => {
-                            if (this._spellsDataService.spellFromName(spell.name)?.traits.includes(type)) {
-                                eaDmg = '+1d6 ';
-                            }
+                            traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Number']));
                         });
-                    });
-                    extraDamage += `\n${ eaDmg }${ type }`;
-                });
-            }
-        }
 
-        //Add any damage from effects. These effects must be toggle and have the damage as a string in their title.
-        const effectPhrasesExtraDamage =
-            attackEffectPhrases(
-                weapon,
-                'Extra Damage',
-                prof,
-                range,
-                traits,
-                this._weaponPropertiesService.isFavoredWeapon(weapon, creature),
+                    // Apply global effects and effects added in this method.
+                    return combineLatest([
+                        this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectPhrasesDiceNumber),
+                        this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDiceNumber),
+                    ])
+                        .pipe(
+                            map(([absolutes, relatives]) => {
+                                const effectBonuses = new Array<BonusDescription>();
+                                let result = diceNum;
+
+                                const reducedAbsolutes =
+                                    this._creatureEffectsService.reduceAbsolutes(
+                                        calculatedAbsoluteDiceNumEffects
+                                            .concat(
+                                                traitEffects.filter((effect): effect is AbsoluteEffect => effect.isAbsoluteEffect()),
+                                                absolutes,
+                                            ),
+                                    );
+
+                                reducedAbsolutes
+                                    .forEach(effect => {
+                                        result = effect.setValueNumerical;
+                                        addBonusDescriptionFromEffect(effectBonuses, effect, 'Dice number');
+                                    });
+
+                                const reducedRelatives =
+                                    this._creatureEffectsService.reduceRelativesByType(
+                                        calculatedRelativeDiceNumEffects
+                                            .concat(
+                                                traitEffects.filter((effect): effect is RelativeEffect => effect.isRelativeEffect()),
+                                                relatives,
+                                            ),
+                                        { hasAbsolutes: !!reducedAbsolutes.length },
+                                    );
+
+                                reducedRelatives.forEach(effect => {
+                                    result += effect.valueNumerical;
+                                    addBonusDescriptionFromEffect(effectBonuses, effect, 'Dice number');
+                                });
+
+                                const bonuses =
+                                    diceNumMultiplier.bonuses
+                                        .concat(effectBonuses);
+
+                                const effects =
+                                    diceNumMultiplier.effects
+                                        .concat(
+                                            absolutes,
+                                            relatives,
+                                        );
+
+                                return { result, bonuses, effects };
+                            }),
+                        );
+                }),
             );
-        const agile = traits.includes('Agile') ? 'Agile' : 'Non-Agile';
+    }
 
-        //"Agile/Non-Agile Large Melee Weapon Extra Damage"
-        if (weapon.large) {
-            effectPhrasesExtraDamage.push(`${ agile } Large ${ range } Weapon Extra Damage`);
+    private _diceNumberMultiplier$(context: IntermediateMethodContext): Observable<IntermediateResult<number>> {
+        const effectPhrasesDiceNumberMult =
+            attackEffectPhrases(
+                'Dice Number Multiplier',
+                context,
+            );
+
+        return combineLatest([
+            this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectPhrasesDiceNumberMult),
+            this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDiceNumberMult),
+        ])
+            .pipe(
+                map(([absolutes, relatives]) => {
+                    let result = 1;
+                    const bonuses = new Array<BonusDescription>();
+
+                    absolutes
+                        .forEach(effect => {
+                            result = effect.setValueNumerical;
+                            addBonusDescriptionFromEffect(bonuses, effect, 'Dice number multiplier');
+                        });
+                    relatives
+                        .forEach(effect => {
+                            result += effect.valueNumerical;
+                            addBonusDescriptionFromEffect(bonuses, effect, 'Dice number multiplier');
+                        });
+
+                    const effects =
+                        new Array<Effect>()
+                            .concat(
+                                absolutes,
+                                relatives,
+                            );
+
+                    return { result, bonuses, effects };
+                }),
+            );
+    }
+
+    private _diceSize$(context: IntermediateMethodContext): Observable<IntermediateResult<number>> {
+        if (!context.weapon.dicesize) {
+            return of({ result: 0, bonuses: [], effects: [] });
         }
 
-        //"Agile/Non-Agile Melee Extra Damage"
-        effectPhrasesExtraDamage.push(`${ agile } ${ range } Extra Damage`);
+        const isDeificWeaponCandidate =
+            context.isFavoredWeapon
+            && (
+                (
+                    context.weapon.dicesize === DiceSizes.D4
+                    && context.prof === WeaponProficiencies.Unarmed
+                )
+                || context.prof === WeaponProficiencies.Simple
+            );
 
-        if ((range === 'ranged') && weapon.traits.some(trait => trait.includes('Thrown'))) {
-            //"Agile/Non-Agile Thrown Large Weapon ExtraDamage"
-            if (weapon.large) {
-                effectPhrasesExtraDamage.push(
-                    `${ agile } Thrown Large Weapon Extra Damage`,
-                );
+        const isDeadlySimplicityCandidate =
+            context.isFavoredWeapon
+            && (
+                (
+                    context.weapon.dicesize < DiceSizes.D6
+                    && context.prof === WeaponProficiencies.Unarmed
+                )
+                || context.prof === WeaponProficiencies.Simple
+            );
+
+        return combineLatest([
+            // Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage
+            // or simple weapons as long as they are their deity's favored weapon.
+            isDeificWeaponCandidate
+                ? this._characterFeatsService.characterHasFeatAtLevel$('Deific Weapon')
+                : of(false),
+            // Clerics get increased dice size via Deadly Simplicity for unarmed attacks with less than d6 damage
+            // or simple weapons as long as they are their deity's favored weapon.
+            isDeadlySimplicityCandidate
+                ? this._characterFeatsService.characterHasFeatAtLevel$('Deadly Simplicity')
+                : of(false),
+        ])
+            .pipe(
+                switchMap(([deificWeaponApplies, deadlySimplicityApplies]) => {
+                    const effectPhrasesDiceSize = attackEffectPhrases('Dice Size', context);
+                    const calculatedAbsoluteDiceSizeEffects: Array<AbsoluteEffect> = [];
+                    const weaponDiceSize = context.weapon.dicesize;
+
+                    if (deificWeaponApplies) {
+                        const newDicesize = Math.max(Math.min(weaponDiceSize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
+
+                        if (newDicesize > weaponDiceSize) {
+                            const effect = Effect.from({
+                                creature: context.creature.type,
+                                type: BonusTypes.Untyped,
+                                target: `${ context.weapon.name } Dice Size`,
+                                setValue: newDicesize.toString(),
+                                source: 'Deific Weapon',
+                                applied: true,
+                                displayed: false,
+                            });
+
+                            if (effect.isAbsoluteEffect()) {
+                                calculatedAbsoluteDiceSizeEffects.push(effect);
+                            }
+                        }
+                    }
+
+                    if (deadlySimplicityApplies) {
+                        const newDicesize: DiceSizes =
+                            (weaponDiceSize < DiceSizes.D6 && context.prof === WeaponProficiencies.Unarmed)
+                                ? DiceSizes.D6
+                                : Math.max(Math.min(weaponDiceSize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
+
+                        if (newDicesize > weaponDiceSize) {
+                            const effect = Effect.from({
+                                creature: context.creature.type,
+                                type: BonusTypes.Untyped,
+                                target: `${ context.weapon.name } Dice Size`,
+                                setValue: newDicesize.toString(),
+                                source: 'Deadly Simplicity',
+                                applied: true,
+                                displayed: false,
+                            });
+
+                            if (effect.isAbsoluteEffect()) {
+                                calculatedAbsoluteDiceSizeEffects.push(effect);
+                            }
+                        }
+                    }
+
+                    // For any activated traits of this weapon, check if any effects on Dice Size apply.
+                    // These need to be calculated in the effects service.
+                    const traitEffects: Array<Effect> = [];
+
+                    context.weapon.activatedTraitsActivations().forEach(activation => {
+                        const realTrait = this._traitsDataService.traits(activation.trait)[0];
+
+                        traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Size']));
+                    });
+
+                    // Apply global effects and effects added in this method.
+                    return combineLatest([
+                        this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectPhrasesDiceSize),
+                        this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDiceSize),
+                    ])
+                        .pipe(
+                            map(([absolutes, relatives]) => {
+                                let result = weaponDiceSize;
+                                const bonuses = new Array<BonusDescription>();
+
+                                const reducedAbsolutes =
+                                    this._creatureEffectsService.reduceAbsolutes(
+                                        calculatedAbsoluteDiceSizeEffects
+                                            .concat(
+                                                traitEffects.filter((effect): effect is AbsoluteEffect => effect.isAbsoluteEffect()),
+                                                absolutes,
+                                            ),
+                                    );
+
+                                reducedAbsolutes.forEach(effect => {
+                                    result = effect.setValueNumerical;
+                                    addBonusDescriptionFromEffect(bonuses, effect, 'Dice size');
+                                });
+
+                                const reducedRelatives =
+                                    this._creatureEffectsService.reduceRelativesByType(
+                                        traitEffects
+                                            .filter((effect): effect is RelativeEffect => effect.isRelativeEffect())
+                                            .concat(relatives),
+                                        { hasAbsolutes: !!reducedAbsolutes.length },
+                                    );
+
+                                reducedRelatives
+                                    .forEach(effect => {
+                                        result += effect.valueNumerical;
+                                        //Don't raise dice size over 12.
+                                        result = Math.min(DiceSizes.D12, result);
+                                        addBonusDescriptionFromEffect(bonuses, effect, 'Dice size');
+                                    });
+
+                                const effects =
+                                    new Array<Effect>()
+                                        .concat(
+                                            absolutes,
+                                            relatives,
+                                        );
+
+                                return { result, bonuses, effects };
+                            }),
+                        );
+                }),
+            );
+    }
+
+    private _damageBonus$(context: IntermediateMethodContext & { diceNum: number }): Observable<IntermediateResult<number>> {
+        return combineLatest([
+            this._creatureEffectsService.effectsOnThis$(context.creature, `Ignore Bonus Damage on ${ context.weapon.name }`)
+                .pipe(
+                    switchMap(shouldIgnoreBonusDamageEffects =>
+                        (
+                            // If any effects exist that ignore bonus damage on this weapon, no relative effects need to be determined.
+                            shouldIgnoreBonusDamageEffects.length
+                                ? combineLatest([
+                                    of(undefined), of([]), of(undefined), of([]),
+                                ])
+                                : combineLatest([
+                                    this._damageBonusEffectFromAbility$(context),
+                                    this._damageBonusEffectsFromAnimalCompanionSpecialization$(context),
+                                    this._damageBonusEffectFromEmblazonArmament$(context),
+                                    this._damagePerDieEffects$(context),
+                                ])
+                        )
+                            .pipe(
+                                map(relativeEffects => ({
+                                    shouldIgnoreRelativeEffects: shouldIgnoreBonusDamageEffects.length,
+                                    relativeEffects,
+                                })),
+                            ),
+                    ),
+                ),
+            this._weaponPropertiesService.profLevel$(
+                context.weapon,
+                context.creature,
+                context.runeSource.forPropertyRunes,
+                { preparedProficiency: context.prof },
+            ),
+            context.weapon.large$,
+        ])
+            .pipe(
+                switchMap(([
+                    {
+                        shouldIgnoreRelativeEffects,
+                        relativeEffects: [
+                            abilityEffect,
+                            companionEffects,
+                            emblazonArmamentEffect,
+                            damagePerDieEffects,
+                        ],
+                    },
+                    profLevel,
+                    isLargeWeapon,
+                ]) => {
+                    // Build a long list of effect targets to check for effects that may influence the bonus damage.
+
+                    // "Damage" and "Damage Rolls"
+                    const effectPhrasesDamage =
+                        attackEffectPhrases('Damage', context)
+                            .concat(
+                                attackEffectPhrases('Damage Rolls', context),
+                            );
+                    const agile = context.traits.includes('Agile') ? 'Agile' : 'Non-Agile';
+
+                    //"Agile/Non-Agile Large Melee Weapon Damage"
+                    if (isLargeWeapon) {
+                        effectPhrasesDamage.push(
+                            `${ agile } Large ${ context.range } Weapon Damage`,
+                            `${ agile } Large ${ context.range } Weapon Damage Rolls`,
+                        );
+                    }
+
+                    //"Agile/Non-Agile Melee Damage"
+                    effectPhrasesDamage.push(
+                        `${ agile } ${ context.range } Damage`,
+                        `${ agile } ${ context.range } Damage Rolls`,
+                    );
+
+                    // Thrown weapon attacks
+                    if ((context.range === 'ranged') && context.traits.some(trait => trait.includes('Thrown'))) {
+                        //"Agile/Non-Agile Thrown Large Weapon Damage"
+                        if (isLargeWeapon) {
+                            effectPhrasesDamage.push(
+                                `${ agile } Thrown Large Weapon Damage`,
+                                `${ agile } Thrown Large Weapon Damage Rolls`,
+                            );
+                        }
+
+                        //"Agile/Non-Agile Thrown Weapon Damage"
+                        effectPhrasesDamage.push(
+                            `${ agile } Thrown Weapon Damage`,
+                            `${ agile } Thrown Weapon Damage Rolls`,
+                        );
+                    }
+
+                    if (abilityEffect) {
+                        //"Strength-based Checks and DCs"
+                        effectPhrasesDamage.push(`${ abilityEffect.ability }-based Checks and DCs`);
+                    }
+
+                    //Proficiency-based damage
+                    const profLevelName = skillLevelName(profLevel) || '';
+
+                    if (profLevelName) {
+                        effectPhrasesDamage.push(
+                            `${ profLevelName } Proficiency Attack Damage`,
+                            `${ profLevelName } Proficiency Attack Damage Rolls`,
+                            `Trained Proficiency ${ context.weapon.name } Damage`,
+                            `Trained Proficiency ${ context.weapon.name } Damage Rolls`,
+                        );
+                    }
+
+                    // Absolute effects are always applied.
+                    // Relative effects are applied unless an effect says not to.
+                    return combineLatest([
+                        this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectPhrasesDamage),
+                        shouldIgnoreRelativeEffects
+                            ? of([])
+                            : this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDamage),
+                    ])
+                        .pipe(
+                            map(([absolutes, relatives]) => {
+                                let result = 0;
+                                const bonuses = new Array<BonusDescription>();
+
+                                absolutes
+                                    .forEach(effect => {
+                                        result = effect.setValueNumerical;
+                                        addBonusDescriptionFromEffect(bonuses, effect, 'Bonus damage');
+                                    });
+
+                                const allRelatives =
+                                    this._creatureEffectsService.reduceRelativesByType(
+                                        new Array<RelativeEffect>()
+                                            .concat(
+                                                abilityEffect?.effect ? [abilityEffect?.effect] : [],
+                                                companionEffects,
+                                                emblazonArmamentEffect ? [emblazonArmamentEffect] : [],
+                                                damagePerDieEffects,
+                                                relatives,
+                                            ),
+                                    );
+
+                                allRelatives
+                                    .forEach(effect => {
+                                        result += effect.valueNumerical;
+                                        addBonusDescriptionFromEffect(bonuses, effect, 'Bonus Damage');
+                                    });
+
+                                const effects: Array<Effect> = [
+                                    ...absolutes,
+                                    ...allRelatives,
+                                ];
+
+                                return { result, bonuses, effects };
+                            }),
+                        );
+                }),
+            );
+    }
+
+    /**
+     * Creates an effect that adds an ability modifier bonus to Damage if one applies.
+     * Determines whether to use dexterity or strength.
+     *
+     * @param context Previously determined parameters passed from the parent.
+     * @returns
+     */
+    private _damageBonusEffectFromAbility$(
+        context: IntermediateMethodContext,
+    ): Observable<{ effect: RelativeEffect; ability: 'Dexterity' | 'Strength' } | undefined> {
+        //Weapons with the Splash trait do not add your Strength modifier (and presumably not your Dexterity modifier, either).
+        if (context.traits.includes('Splash')) {
+            return of(undefined);
+        }
+
+        const isThiefCandidate =
+            context.range === 'melee'
+            && context.traits.includes('Finesse')
+            && context.creature.isCharacter();
+
+        return combineLatest([
+            this._abilityValuesService.mod$('Dexterity', context.creature),
+            this._abilityValuesService.mod$('Strength', context.creature),
+            this._creatureEffectsService.relativeEffectsOnThis$(context.creature, 'Dexterity-based Checks and DCs'),
+            this._creatureEffectsService.relativeEffectsOnThis$(context.creature, 'Strength-based Checks and DCs'),
+            //If the melee weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
+            isThiefCandidate
+                ? this._characterFeatsService.characterHasFeatAtLevel$('Thief Racket')
+                : of(false),
+        ])
+            .pipe(
+                map(([{ result: dex }, { result: str }, dexEffects, strEffects, thiefApplies]) => {
+                    // Bonuses and penalties to the resulting ability may make another ability more attractive later in the process.
+                    // We include these bonuses and penalties here for comparison, without applying them to the resulting effect.
+                    const dexCompareValue =
+                        dexEffects.reduce(
+                            (previous, current) => previous + current.valueNumerical,
+                            dex,
+                        );
+                    const strCompareValue =
+                        strEffects.reduce(
+                            (previous, current) => previous + current.valueNumerical,
+                            str,
+                        );
+
+                    let result: { value: number; ability: 'Dexterity' | 'Strength'; reason: string } | undefined;
+
+                    // Check if the ranged Weapon has any traits that affect its damage Bonus,
+                    // such as Thrown or Propulsive, and run those calculations.
+                    if (context.range === 'ranged') {
+                        if (context.traits.includes('Propulsive')) {
+                            const half = .5;
+
+                            if (str > 0) {
+                                result = { value: Math.floor(str * half), ability: 'Strength', reason: 'Propulsive' };
+                            } else if (str < 0) {
+                                result = { value: str, ability: 'Strength', reason: 'Propulsive' };
+                            }
+                        } else if (context.traits.some(trait => trait.includes('Thrown'))) {
+                            result = { value: str, ability: 'Strength', reason: 'Thrown' };
+                        }
+                    }
+
+                    if (context.range === 'melee') {
+                        // If the weapon is Finesse and you have the Thief Racket,
+                        // you can apply your Dexterity modifier to damage if it is higher.
+                        if (thiefApplies && dexCompareValue > strCompareValue) {
+                            if (dexCompareValue > strCompareValue) {
+                                result = { value: dex, ability: 'Dexterity', reason: 'Thief' };
+                            } else {
+                                result = { value: str, ability: 'Strength', reason: '' };
+                            }
+                        }
+
+                        result = { value: str, ability: 'Strength', reason: '' };
+                    }
+
+                    // If an ability was determined, create an effect that will be applied to the damage bonus later.
+                    if (result) {
+                        let source =
+                            result.ability === 'Dexterity'
+                                ? 'Dexterity Modifier'
+                                : 'Strength Modifier';
+
+                        if (result.reason) {
+                            source += ` (${ result.reason })`;
+                        }
+
+                        return {
+                            ability: result.ability,
+                            effect: Effect.from({
+                                value: result.value.toString(),
+                                creature: context.creature.type,
+                                type: BonusTypes.Untyped,
+                                target: `${ context.weapon.name } Damage`,
+                                source,
+                                applied: true,
+                                displayed: false,
+                            }),
+                        };
+                    }
+                }),
+            );
+    }
+
+    /**
+     * Create effects that raise the attack's damage due to the creature being a mature or specialized animal companion.
+     *
+     * @param context Previously determined parameters passed from the parent.
+     * @returns
+     */
+    private _damageBonusEffectsFromAnimalCompanionSpecialization$(context: IntermediateMethodContext): Observable<Array<RelativeEffect>> {
+        return context.creature.isAnimalCompanion()
+            ? combineLatest([
+                context.creature.level$,
+                context.creature.class.levels.values$,
+                context.creature.class.specializations.values$,
+            ])
+                .pipe(
+                    map(([creatureLevel, levels, specializations]) =>
+                        levels
+                            .filter(level => level.number <= creatureLevel && level.extraDamage)
+                            .map(level => {
+                                let companionSource = `${ level.name } Animal Companion`;
+                                let companionMod: number = level.extraDamage;
+
+                                if (specializations.length) {
+                                    const double = 2;
+
+                                    companionMod *= double;
+                                    companionSource = 'Specialized Animal Companion';
+                                }
+
+                                return Effect.from({
+                                    value: companionMod.toString(),
+                                    creature: context.creature.type,
+                                    type: BonusTypes.Untyped,
+                                    target: `${ context.weapon.name } Damage`,
+                                    source: companionSource,
+                                    applied: true,
+                                    displayed: false,
+                                });
+                            }),
+                    ),
+                )
+            : of([]);
+    }
+
+    /**
+     * Create an effect if Emblazon Armament applies on the attack.
+     * Emblazon Armament on a weapon adds a +1 status bonus to damage rolls if it applies.
+     *
+     * @param context Previously determined parameters passed from the parent.
+     * @returns
+     */
+    private _damageBonusEffectFromEmblazonArmament$(context: IntermediateMethodContext): Observable<RelativeEffect | undefined> {
+        return context.creature.isCharacter()
+            ? context.weapon.effectiveEmblazonArmament$
+                .pipe(
+                    map(emblazonArmament =>
+                        (emblazonArmament?.type === EmblazonArmamentTypes.EmblazonArmament)
+                            ? Effect.from({
+                                value: '+1',
+                                creature: context.creature.type,
+                                type: BonusTypes.Status,
+                                target: `${ context.weapon.name } Damage`,
+                                source: 'Emblazon Armament',
+                                applied: true,
+                                displayed: false,
+                            })
+                            : undefined,
+                    ),
+                )
+            : of(undefined);
+    }
+
+    private _damageType(context: IntermediateMethodContext): string {
+        return [
+            context.weapon.dmgType,
+            // Any effective versatile trait that is not among the weapon's original traits
+            // may add the additional damage type extracted from the trait.
+            ...context.traits
+                .filter(trait =>
+                    stringEqualsCaseInsensitive(trait, 'versatile', { allowPartialString: true })
+                    && !stringsIncludeCaseInsensitive(context.weapon.traits, trait),
+                )
+                .map(trait =>
+                    trait.split(' ')[1],
+                ),
+        ]
+            .filter(type => !!type)
+            .join('/');
+    }
+
+    /**
+     * Generate and collect effects that add bonus damage per damage die.
+     * These can come from activated traits or from global effects.
+     *
+     * @param context
+     */
+    private _damagePerDieEffects$(context: IntermediateMethodContext & { diceNum: number }): Observable<Array<RelativeEffect>> {
+        // For any activated traits of this weapon, check if any effects on Damage per Die apply.
+        const traitEffects: Array<Effect> = [];
+
+        context.weapon.activatedTraitsActivations().forEach(activation => {
+            const realTrait = this._traitsDataService.traits(activation.trait)[0];
+
+            traitEffects.push(...realTrait.objectBoundEffects(activation, ['Damage per Die']));
+        });
+
+        const effectPhrasesDamagePerDie: Array<string> = [];
+
+        if (context.prof === 'Unarmed Attacks') {
+            effectPhrasesDamagePerDie.push('Unarmed Damage per Die');
+        } else {
+            effectPhrasesDamagePerDie.push('Weapon Damage per Die');
+        }
+
+        context.traits.forEach(trait => {
+            // Reduce traits like "Thrown 20 ft." to "Thrown".
+            //TO-DO: May cause trouble in the future if a trait has multiple words and a range, like "Ranged Trip 30 ft."
+            if (trait.includes(' ft')) {
+                effectPhrasesDamagePerDie.push(`${ trait.split(' ')[0] } Damage per Die`);
+            } else {
+                effectPhrasesDamagePerDie.push(`${ trait } Damage per Die`);
             }
+        });
 
-            //"Agile/Non-Agile Thrown Weapon Damage"
-            effectPhrasesExtraDamage.push(`${ agile } Thrown Weapon Extra Damage`);
-        }
+        return this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDamagePerDie)
+            .pipe(
+                map(relatives =>
+                    // All "...Damage per Die" effects are converted to just "...Damage"
+                    // (by multiplying with the dice number)
+                    // and then re-processed with the rest of the damage effects.
+                    traitEffects
+                        .filter((effect): effect is RelativeEffect => effect.isRelativeEffect())
+                        .concat(relatives)
+                        .map(effect => {
+                            const effectValue = effect.valueNumerical * context.diceNum;
+                            const newEffect = effect.clone();
 
-        this._creatureEffectsService.toggledEffectsOnThese(creature, effectPhrasesExtraDamage).filter(effect => effect.title)
-            .forEach(effect => {
-                extraDamage += `\n${ !['+', '-'].includes(effect.title.substr(0, 1)) ? '+' : '' }${ effect.title }`;
-            });
-        extraDamage = extraDamage.split('+').map(part => part.trim())
-            .join(' + ');
-        extraDamage = extraDamage.split('-').map(part => part.trim())
-            .join(' - ');
+                            newEffect.target = newEffect.target.replace(' per Die', '');
+                            newEffect.value = effectValue.toString();
 
-        return extraDamage;
+                            return newEffect as RelativeEffect;
+                        }),
+                ),
+            );
     }
 
 }

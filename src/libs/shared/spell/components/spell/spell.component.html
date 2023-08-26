@@ -20,7 +20,6 @@
         </app-trait>
 
         <app-tags
-            [creature]="creatureTypesEnum.Character"
             [objectName]="spell.name"
             [showTraits]=true
             [showFeats]=true
@@ -35,14 +34,14 @@
     <app-spell-content
         class="vlist fullwidth"
         [spell]="spell"
-        [spellLevel]="spellLevelFromBaseLevel(spell, spellLevel)"
+        [spellLevel]="(spellLevelFromBaseLevel$(spell, spellLevel) | async) ?? spellLevel"
         [casting]="casting"
     >
     </app-spell-content>
 
     <div
         class="newrow left-aligned"
-        *ngFor="let feat of characterFeatsShowingHintsOnThis(spell.name); trackBy:trackByIndex;"
+        *ngFor="let feat of characterFeatsShowingHintsOnThis$(spell.name) | async; trackBy:trackByIndex;"
     >
         <header class="spellHeader">{{feat.name}}</header>
 

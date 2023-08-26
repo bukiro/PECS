@@ -5,15 +5,18 @@ import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, Observable, Subscription } from 'rxjs';
+import { combineLatest, debounceTime, distinctUntilChanged, map, Observable, of, Subscription, switchMap } from 'rxjs';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
-import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { Store } from '@ngrx/store';
+import { selectTopMenu } from 'src/libs/store/menu/menu.selectors';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { toggleTopMenu } from 'src/libs/store/menu/menu.actions';
 
 const defaultDiceNum = 5;
 
@@ -39,15 +42,23 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
         private readonly _diceService: DiceService,
         private readonly _integrationsService: FoundryVTTIntegrationService,
         private readonly _healthService: HealthService,
-        private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _creatureService: CreatureService,
+        private readonly _store$: Store,
     ) {
         super();
 
-        this.isMenuOpen$ = MenuService.topMenuState$
+        this.isMenuOpen$ = _store$.select(selectTopMenu)
             .pipe(
                 map(menuState => menuState === MenuNames.DiceMenu),
                 distinctUntilChanged(),
+                switchMap(isMenuOpen => isMenuOpen
+                    ? of(isMenuOpen)
+                    : of(isMenuOpen)
+                        .pipe(
+                            debounceTime(Defaults.closingMenuClearDelay),
+                        ),
+                ),
             );
     }
 
@@ -60,11 +71,17 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
     }
 
     public toggleDiceMenu(): void {
-        this._menuService.toggleMenu(MenuNames.DiceMenu);
+        this._store$.dispatch(toggleTopMenu({ menu: MenuNames.DiceMenu }));
     }
 
-    public canSendRollsToFoundryVTT(): boolean {
-        return SettingsService.settings.foundryVTTSendRolls && !!SettingsService.settings.foundryVTTUrl;
+    public canSendRollsToFoundryVTT$(): Observable<boolean> {
+        return combineLatest([
+            SettingsService.settings.foundryVTTSendRolls$,
+            SettingsService.settings.foundryVTTUrl$,
+        ])
+            .pipe(
+                map(([sendRolls, url]) => sendRolls && !!url),
+            );
     }
 
     public roll(amount: number, size: number): void {
@@ -77,33 +94,26 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
         return bonus > 0 ? `+ ${ bonus }` : `- ${ bonus * -1 }`;
     }
 
-    public creatureFromType(creatureType: CreatureTypes): Creature | undefined {
-        if (creatureType === CreatureTypes.AnimalCompanion) {
-            return this._creatureAvailabilityService.isCompanionAvailable() ? CreatureService.creatureFromType(creatureType) : undefined;
-        }
-
-        if (creatureType === CreatureTypes.Familiar) {
-            return this._creatureAvailabilityService.isFamiliarAvailable() ? CreatureService.creatureFromType(creatureType) : undefined;
-        }
-
-        return CreatureService.creatureFromType(creatureType);
+    public allAvailableCreatures$(): Observable<Array<Creature>> {
+        return this._creatureService.allAvailableCreatures$();
     }
 
     public onHeal(creature: Creature): void {
         const amount = this.totalDiceSum();
         const dying = this._healthService.dying(creature);
 
-        this._healthService.heal(creature.health, creature, amount, true, true, dying);
-        this._refreshHealth(creature.type);
+        this._healthService.heal$(creature, amount, true, true, dying)
+            .subscribe(() => { this._refreshHealth(creature.type); });
     }
 
     public onTakeDamage(creature: Creature): void {
         const amount = this.totalDiceSum();
         const wounded = this._healthService.wounded(creature);
-        const dying = this._healthService.wounded(creature);
+        const dying = this._healthService.dying(creature);
 
-        this._healthService.takeDamage(creature.health, creature, amount, false, wounded, dying);
-        this._refreshHealth(creature.type);
+        this._healthService
+            .takeDamage$(creature, amount, false, wounded, dying)
+            .subscribe(() => { this._refreshHealth(creature.type); });
     }
 
     public setTempHP(creature: Creature): void {
@@ -123,8 +133,8 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
             .reduce((a, b) => a + this.diceResultSum(b), 0);
     }
 
-    public sendRollToFoundry(creatureType: CreatureTypes): void {
-        this._integrationsService.sendRollToFoundry(creatureType, '', this.diceResults);
+    public sendRollToFoundry(creature: Creature): void {
+        this._integrationsService.sendRollToFoundry(creature, '', this.diceResults);
     }
 
     public unselectAll(): void {

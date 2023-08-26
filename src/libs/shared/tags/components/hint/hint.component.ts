@@ -17,12 +17,14 @@ import { Oil } from 'src/app/classes/Oil';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Condition } from 'src/app/classes/Condition';
 import { Creature } from 'src/app/classes/Creature';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trait } from 'src/app/classes/Trait';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { Observable, map, of } from 'rxjs';
+import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
+import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/emblazon-armament-set';
 
 type HintObject =
     Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string; hints: Array<Hint> };
@@ -36,7 +38,7 @@ type HintObject =
 export class HintComponent extends TrackByMixin(BaseClass) {
 
     @Input()
-    public creature: CreatureTypes = CreatureTypes.Character;
+    public creature: Creature = CreatureService.character;
     @Input()
     public object?: HintObject;
     @Input()
@@ -63,60 +65,64 @@ export class HintComponent extends TrackByMixin(BaseClass) {
         return CreatureService.character;
     }
 
-    private get _currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
-    }
-
-    public hints(): Array<Hint> {
+    public hints$(): Observable<Array<Hint>> {
         if (this.noFilter) {
-            return (this.object instanceof ConditionSet ? this.object.condition.hints : (this.object?.hints || []));
+            return of(this.object instanceof ConditionSet ? this.object.condition.hints : (this.object?.hints || []));
         }
 
         const isSlottedAeonStone = this.object instanceof WornItem && this.object.isSlottedAeonStone;
-        const isEmblazonArmamentShield = (this.object instanceof Shield && this.object.emblazonArmament.length) ? this.object : null;
 
-        return (this.object instanceof ConditionSet ? this.object.condition.hints : (this.object?.hints || []))
-            .filter((hint: Hint) =>
-                (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
-                (
-                    this.object instanceof ConditionSet ?
-                        (
+        return (
+            (this.object instanceof Shield)
+                ? this.object.effectiveEmblazonArmament$
+                : of<EmblazonArmamentSet | undefined>(undefined)
+        )
+            .pipe(
+                map(emblazonArmament =>
+                    (this.object instanceof ConditionSet ? this.object.condition.hints : (this.object?.hints || []))
+                        .filter((hint: Hint) =>
+                            (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                             (
-                                hint.conditionChoiceFilter.length ?
-                                    (!this.object.gain.choice && hint.conditionChoiceFilter.includes('-')) ||
-                                    (hint.conditionChoiceFilter.includes(this.object.gain.choice)) :
+                                this.object instanceof ConditionSet ?
+                                    (
+                                        (
+                                            hint.conditionChoiceFilter.length ?
+                                                (!this.object.gain.choice && hint.conditionChoiceFilter.includes('-')) ||
+                                                (hint.conditionChoiceFilter.includes(this.object.gain.choice)) :
+                                                true
+                                        )
+                                    ) :
                                     true
-                            )
-                        ) :
-                        true
-                ) &&
-                (hint.resonant ? isSlottedAeonStone : true),
-            )
-            .filter((hint: Hint) =>
-                hint.showon.split(',')
-                    .some(showon =>
-                        showon.trim().toLowerCase() === this.objectName.toLowerCase() ||
-                        showon.trim().toLowerCase() === (`${ this.creature }:${ this.objectName }`).toLowerCase() ||
-                        (
-                            this.objectName.toLowerCase().includes('lore') &&
-                            showon.trim().toLowerCase() === 'lore'
-                        ) ||
-                        (
-                            //Show Emblazon Energy or Emblazon Antimagic Shield Block hint on Shield Block if the shield's blessing applies.
-                            isEmblazonArmamentShield &&
-                            (
-                                (
-                                    isEmblazonArmamentShield.$emblazonEnergy &&
-                                    this.objectName === 'Shield Block' &&
-                                    showon === 'Emblazon Energy Shield Block'
-                                ) || (
-                                    isEmblazonArmamentShield.$emblazonAntimagic &&
-                                    this.objectName === 'Shield Block' &&
-                                    showon === 'Emblazon Antimagic Shield Block'
-                                )
-                            )
-                        ),
-                    ),
+                            ) &&
+                            (hint.resonant ? isSlottedAeonStone : true),
+                        )
+                        .filter((hint: Hint) =>
+                            hint.showon.split(',')
+                                .some(showon =>
+                                    showon.trim().toLowerCase() === this.objectName.toLowerCase() ||
+                                    showon.trim().toLowerCase() === (`${ this.creature }:${ this.objectName }`).toLowerCase() ||
+                                    (
+                                        this.objectName.toLowerCase().includes('lore') &&
+                                        showon.trim().toLowerCase() === 'lore'
+                                    ) ||
+                                    (
+                                        // Show Emblazon Energy or Emblazon Antimagic Shield Block hint on Shield Block
+                                        // if the shield's blessing applies.
+                                        (this.object instanceof Shield) &&
+                                        (
+                                            (
+                                                emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy &&
+                                                this.objectName === 'Shield Block' &&
+                                                showon === 'Emblazon Energy Shield Block'
+                                            ) || (
+                                                emblazonArmament?.type === EmblazonArmamentTypes.EmblazonAntimagic &&
+                                                this.objectName === 'Shield Block' &&
+                                                showon === 'Emblazon Antimagic Shield Block'
+                                            )
+                                        )
+                                    ),
+                                ),
+                        )),
             );
     }
 
@@ -142,7 +148,7 @@ export class HintComponent extends TrackByMixin(BaseClass) {
     }
 
     public onActivateEffect(): void {
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
         this._refreshService.processPreparedChanges();
     }
 
@@ -224,10 +230,8 @@ export class HintComponent extends TrackByMixin(BaseClass) {
         }
     }
 
-    public activityCooldown(activity: Activity): number {
-        this._activityPropertiesService.cacheEffectiveCooldown(activity, { creature: this._currentCreature });
-
-        return activity.$cooldown;
+    public activityCooldown$(activity: Activity): Observable<number> {
+        return this._activityPropertiesService.effectiveCooldown$(activity, { creature: this.creature });
     }
 
     private _heightenedHintDescription(hint: Hint): string {

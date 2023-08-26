@@ -8,6 +8,10 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LogoModule } from '../shared/ui/logo/logo.module';
 import { ButtonModule } from '../shared/ui/button/button.module';
 import { LoadingSpinnerModule } from '../shared/ui/loading-spinner/loading-spinner.module';
+import { DialogModule } from '../shared/dialog/dialog.module';
+import { NewMessagesComponent } from './components/new-messages/new-messages.component';
+import { MessagesDialogComponent } from './components/messages-dialog/messages-dialog.component';
+import { InputModule } from '../shared/ui/input/input.module';
 
 @NgModule({
     imports: [
@@ -21,8 +25,12 @@ import { LoadingSpinnerModule } from '../shared/ui/loading-spinner/loading-spinn
         LogoModule,
         ButtonModule,
         LoadingSpinnerModule,
+        DialogModule,
+        InputModule,
     ],
     declarations: [
+        NewMessagesComponent,
+        MessagesDialogComponent,
         TopBarComponent,
     ],
     exports: [

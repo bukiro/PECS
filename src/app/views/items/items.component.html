@@ -75,7 +75,7 @@
 
                 <div
                     class="list-item newrow"
-                    *ngIf="otherCreaturesAvailable() as otherCreaturesAvailable"
+                    *ngIf="otherCreaturesAvailable$() | async as otherCreaturesAvailable"
                 >
                     <button
                         type="button"
@@ -130,7 +130,7 @@
                             type="button"
                             (click)="toggleSelectedPurpose('scrollsavant')"
                             [ngClass]="{'fancy-button':selectedPurpose()==='scrollsavant'}"
-                            *ngIf="characterHasFeat('Scroll Savant')"
+                            *ngIf="characterHasFeat$('Scroll Savant')"
                         >
                             Scroll Savant
                         </button>
@@ -165,7 +165,7 @@
                     </app-tags>
 
                     <ng-container *ngIf="items() as items">
-                        <ng-container *ngIf="availableForLearningParameters() as availableForLearningParameters">
+                        <ng-container *ngIf="availableForLearningParameters$() | async as availableForLearningParameters">
                             <ng-container *ngFor="let creatureType of (shownCreature()===creatureTypesEnum.Character ? [creatureTypesEnum.Character,creatureTypesEnum.AnimalCompanion] : [creatureTypesEnum.AnimalCompanion,creatureTypesEnum.Character]);trackBy:trackByIndex">
                                 <header
                                     class="sectionHeader"
@@ -209,10 +209,10 @@
                                 <!-- End available formulas -->
                                 <!-- Scroll Savant -->
                                 <ng-container *ngIf="selectedPurpose()==='scrollsavant' && creatureType === creatureTypesEnum.Character">
-                                    <ng-container *ngIf="scrollSavantSpellCasting() as casting">
+                                    <ng-container *ngIf="scrollSavantSpellCasting$() | async as casting">
                                         <div
                                             class="list-item"
-                                            *ngIf="scrollSavantDescription() as scrollSavantDescription"
+                                            *ngIf="scrollSavantDescription$() | async as scrollSavantDescription"
                                         >
                                             <ng-container *ngFor="let desc of scrollSavantDescription.split('\n\n'); trackBy:trackByIndex;">
                                                 <app-description
@@ -240,7 +240,7 @@
                                             class="list-item"
                                             *ngIf="casting.scrollSavant.length"
                                         >
-                                            <ng-container *ngFor="let scroll of scrollSavantScrolls(casting); trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let scroll of scrollSavantScrolls$() | async; trackBy:trackByIndex;">
                                                 <div
                                                     class="list-item"
                                                     *ngFor="let inventoryID of ['scrollsavant'+scroll.id]; trackBy:trackByIndex;"
@@ -250,7 +250,7 @@
                                                         class="newrow sublist-toggle fancy-button"
                                                         (click)="toggleShownItem(inventoryID)"
                                                     >
-                                                        <span>{{scroll.effectiveName()}}</span>
+                                                        <span>{{scroll.effectiveName$() | async}}</span>
 
                                                         <span style="flex-basis:auto;flex-grow:0;">
                                                             {{(scroll.level) ? "Level "+scroll.level : "&nbsp;"}}
@@ -264,7 +264,7 @@
                                                         <button
                                                             type="button"
                                                             class="newrow center-aligned"
-                                                            (click)="unprepareScroll(scroll, casting)"
+                                                            (click)="unprepareScrollSavant(scroll)"
                                                         >
                                                             Deselect from daily creation
                                                         </button>
@@ -286,7 +286,7 @@
                                 <ng-container *ngIf="selectedPurpose()!=='createcustomitem' || shownCreature()!==creatureTypesEnum.Character">
                                     <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
                                         <ng-container *ngIf="creatureType+(index*1000+1000) as listID">
-                                            <ng-container *ngFor="let visibleItems of [visibleItems(items[itemSet.key], creatureType)]; trackBy:trackByIndex;">
+                                            <ng-container *ngIf="visibleItems$(items, itemSet.key, creatureType) | async as visibleItems">
                                                 <button
                                                     type="button"
                                                     class="list-item"
@@ -322,7 +322,7 @@
                                                         </header>
                                                     </div>
 
-                                                    <ng-container *ngFor="let itemParameters of visibleItemParameters(visibleItems); let itemIndex = index; trackBy:trackByIndex;">
+                                                    <ng-container *ngFor="let itemParameters of visibleItemParameters$(visibleItems) | async; let itemIndex = index; trackBy:trackByIndex;">
                                                         <ng-container *ngIf="isItemShown(visibleItems, itemIndex, range)">
                                                             <ng-template #ItemTitleTemplate>
                                                                 <span>
@@ -337,15 +337,14 @@
                                                                         *ngIf="!tileMode.enabled && itemParameters.canUse === true"
                                                                         [ngbTooltip]="'You are trained with this item.'"
                                                                     ></i>
-                                                                    {{itemParameters.item.effectiveName()}}
+                                                                    {{itemParameters.item.effectiveName$() | async}}
                                                                 </span>
 
                                                                 <span style="flex-basis:auto;flex-grow:0;">
                                                                     <span *ngIf="itemParameters.item.level">{{"Level "+itemParameters.item.level}}</span>
 
                                                                     <span *ngIf="itemParameters.asArmor">
-                                                                        {{itemParameters.asArmor.title({itemStore:
-                                                                        true})}}
+                                                                        {{itemParameters.asArmor.title$({itemStore: true}) | async}}
                                                                     </span>
 
                                                                     <span *ngIf="itemParameters.asWeapon">{{itemParameters.asWeapon.title()}}</span>
@@ -354,7 +353,7 @@
 
                                                             <ng-template #ItemTooltipTemplate>
                                                                 <span>
-                                                                    {{itemParameters.item.effectiveName({itemStore:true})}}
+                                                                    {{itemParameters.item.effectiveName$({itemStore:true}) | async}}
                                                                 </span>
 
                                                                 <span *ngIf="itemParameters.item.level">|</span>
@@ -364,7 +363,7 @@
                                                                 <span *ngIf="itemParameters.asArmor || itemParameters.asWeapon">|</span>
 
                                                                 <span *ngIf="itemParameters.asArmor">
-                                                                    {{itemParameters.asArmor.title({itemStore: true})}}
+                                                                    {{itemParameters.asArmor.title$({itemStore: true}) | async}}
                                                                 </span>
 
                                                                 <span *ngIf="itemParameters.asWeapon">{{itemParameters.asWeapon.title()}}</span>
@@ -391,7 +390,7 @@
                                                                     <button
                                                                         type="button"
                                                                         class="newrow center-aligned"
-                                                                        (click)="grantItem(creature, itemParameters.item)"
+                                                                        (click)="grantItem(itemParameters.item)"
                                                                     >
                                                                         Gift {{
                                                                             (itemParameters.stack && itemParameters.stack > 1)
@@ -402,7 +401,7 @@
 
                                                                     <button
                                                                         class="newrow center-aligned"
-                                                                        (click)="grantItem(creature, itemParameters.item, true)"
+                                                                        (click)="grantItem(itemParameters.item, true)"
                                                                         [disabled]="!itemParameters.item.tradeable || !characterHasFunds(effectivePrice)"
                                                                         *ngIf="itemSet.name !== 'Snares' && effectivePrice(itemParameters.item) as effectivePrice"
                                                                     >
@@ -434,13 +433,13 @@
                                                                     ></app-item-talismans>
                                                                 </ng-container>
 
-                                                                <ng-container *ngIf="selectedPurpose()==='scrollsavant' && shownCreature()===creatureTypesEnum.Character">
+                                                                <ng-container *ngIf="selectedPurpose()==='scrollsavant' && shownCreature()===creatureTypesEnum.Character && (scrollSavantSpellDCLevel$() | async) as available">
                                                                     <button
                                                                         type="button"
                                                                         class="newrow center-aligned"
-                                                                        *ngIf="scrollSavantSpellCasting() as scrollSavantCasting"
-                                                                        (click)="prepareScroll(itemParameters.item)"
-                                                                        [disabled]="(scrollSavantCasting?.scrollSavant?.length || 0) >= scrollSavantSpellDCLevel() / 2"
+                                                                        *ngIf="scrollSavantSpellCasting$() | async as scrollSavantCasting"
+                                                                        (click)="prepareScrollSavantScroll(itemParameters.item)"
+                                                                        [disabled]="(scrollSavantCasting?.scrollSavant?.length || 0) >= available / 2"
                                                                     >
                                                                         Select scroll for daily creation
                                                                     </button>
@@ -639,7 +638,7 @@
                                                 class="newrow center-aligned"
                                                 (click)="copyItemForCustomItem(item)"
                                             >
-                                                {{item.effectiveName()}}
+                                                {{item.effectiveName$() | async}}
                                             </button>
                                         </div>
 
@@ -654,7 +653,7 @@
                                                 class="newrow center-aligned"
                                                 (click)="copyItemForCustomItem(item)"
                                             >
-                                                {{item.effectiveName()}}
+                                                {{item.effectiveName$() | async}}
                                             </button>
                                         </div>
                                     </div>
@@ -704,7 +703,7 @@
                                     <button
                                         type="button"
                                         class="newrow center-aligned"
-                                        (click)="grantCustomItem(creature)"
+                                        (click)="grantCustomItem()"
                                     >
                                         Get this item
                                     </button>
@@ -718,7 +717,7 @@
             <div class="character-sheet-column mobile-hide">
                 <div
                     class="list-item newrow"
-                    *ngIf="otherCreaturesAvailable() as otherCreaturesAvailable"
+                    *ngIf="otherCreaturesAvailable$() | async as otherCreaturesAvailable"
                 >
                     <button
                         type="button"

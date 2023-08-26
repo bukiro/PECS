@@ -29,9 +29,8 @@ export class ItemActivationProcessingService {
         creature: Creature,
         item: Consumable,
     ): void {
-
         //Consumables don't do anything in manual mode, except be used up.
-        if (!SettingsService.isManualMode) {
+        if (!SettingsService.settings.manualMode) {
 
             //One time effects
             if (item.onceEffects) {
@@ -71,13 +70,11 @@ export class ItemActivationProcessingService {
                     this._itemGrantingService.grantGrantedItem(
                         gainItem,
                         creature,
-                        { sourceName: item.effectiveName(), grantingItem: item },
+                        { sourceName: item.effectiveNameSnapshot(), grantingItem: item },
                     );
                 });
             }
-
         }
-
     }
 
 }

@@ -4,7 +4,7 @@ import hints from 'src/assets/json/about/hints.json';
 import changelog from 'src/assets/json/about/changelog.json';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 interface ChangeLog {

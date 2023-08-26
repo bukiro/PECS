@@ -18,13 +18,13 @@ export class CustomEffectsTimeService {
             gain.duration -= turns;
 
             if (gain.duration <= 0) {
-                gain.type = 'DELETE';
+                gain.affected = 'DELETE';
             }
 
             this._refreshService.prepareDetailToChange(creature.type, 'effects');
         });
         //Remove all effects that were marked for removal.
-        creature.effects = creature.effects.filter(gain => gain.type !== 'DELETE');
+        creature.effects = creature.effects.filter(gain => gain.affected !== 'DELETE');
     }
 
 }

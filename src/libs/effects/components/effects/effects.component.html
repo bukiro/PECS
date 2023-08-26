@@ -4,7 +4,7 @@
     class="attributeBox"
     [ngClass]="{'snug':!fullDisplay}"
 >
-    <ng-container *ngIf="componentParameters() as componentParameters">
+    <ng-container *ngIf="componentParameters$() | async as componentParameters">
         <ng-template
             #conditionTemplate
             let-conditionGain="conditionGain"

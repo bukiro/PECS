@@ -8,16 +8,49 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 import { SkillIncrease } from './SkillIncrease';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { BehaviorSubject } from 'rxjs';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 
 export class AnimalCompanion extends Creature {
-    public class: AnimalCompanionClass = new AnimalCompanionClass();
-    public customSkills: Array<Skill> = [
-        new Skill('', 'Light Barding', 'Armor Proficiency'),
-        new Skill('', 'Heavy Barding', 'Armor Proficiency'),
-    ];
-    public species = '';
+
     public type: CreatureTypes = CreatureTypes.AnimalCompanion;
     public readonly typeId = 1;
+
+    public readonly class$: BehaviorSubject<AnimalCompanionClass>;
+    public readonly species$: BehaviorSubject<string>;
+
+    protected _customSkills = new OnChangeArray<Skill>(
+        new Skill('', 'Light Barding', 'Armor Proficiency'),
+        new Skill('', 'Heavy Barding', 'Armor Proficiency'),
+    );
+
+    private _class: AnimalCompanionClass = new AnimalCompanionClass();
+    private _species = '';
+
+    constructor() {
+        super();
+
+        this.class$ = new BehaviorSubject(this._class);
+        this.species$ = new BehaviorSubject(this._species);
+    }
+
+    public get class(): AnimalCompanionClass {
+        return this._class;
+    }
+
+    public set class(value: AnimalCompanionClass) {
+        this._class = value;
+        this.class$.next(this._class);
+    }
+
+    public get species(): string {
+        return this._species;
+    }
+
+    public set species(value) {
+        this._species = value;
+        this.species$.next(this._species);
+    }
 
     public get requiresConForHP(): boolean { return true; }
 
@@ -35,6 +68,10 @@ export class AnimalCompanion extends Creature {
     }
 
     public isAnimalCompanion(): this is AnimalCompanion {
+        return true;
+    }
+
+    public canEquipItems(): this is AnimalCompanion {
         return true;
     }
 

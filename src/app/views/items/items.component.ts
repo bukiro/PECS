@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
@@ -14,12 +14,21 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Potion } from 'src/app/classes/Potion';
 import { Ammunition } from 'src/app/classes/Ammunition';
 import { Scroll } from 'src/app/classes/Scroll';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { distinctUntilChanged, map, Observable, shareReplay, Subscription } from 'rxjs';
-import { Creature } from 'src/app/classes/Creature';
+import {
+    combineLatest,
+    debounceTime,
+    distinctUntilChanged,
+    map,
+    Observable,
+    of,
+    shareReplay,
+    Subscription,
+    switchMap,
+    takeUntil,
+} from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -27,9 +36,6 @@ import { Character } from 'src/app/classes/Character';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { copperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { ItemProperty } from 'src/app/classes/ItemProperty';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
@@ -41,17 +47,23 @@ import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { ItemPropertiesDataService } from 'src/libs/shared/services/data/item-properties-data.service';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
-import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
-import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { Store } from '@ngrx/store';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { selectItemsMenuTarget, selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { ScrollSavantService } from 'src/libs/shared/services/spell-savant/spell-savant.service';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/creature-component/base-creature-element.component';
+import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { SpellCasting } from 'src/app/classes/SpellCasting';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -84,11 +96,10 @@ interface AvailableForLearningParameters {
     styleUrls: ['./items.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class ItemsComponent extends TrackByMixin(DestroyableMixin(BaseCreatureElementComponent)) implements OnDestroy {
 
     public wordFilter = '';
     public sorting: SortingOption = 'sortLevel';
-    public creature: CreatureTypes = CreatureTypes.Character;
     public range = 0;
 
     public creatureTypesEnum = CreatureTypes;
@@ -103,8 +114,8 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
     private _showItem = '';
     private _purpose: PurposeOption = 'items';
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
+    private readonly _changeSubscription?: Subscription;
+    private readonly _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -118,28 +129,64 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         private readonly _itemPriceService: ItemPriceService,
-        private readonly _menuService: MenuService,
         private readonly _inventoryService: InventoryService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _currencyService: CurrencyService,
-        private readonly _skillsDataService: SkillsDataService,
         private readonly _recastService: RecastService,
+        private readonly _scrollSavantService: ScrollSavantService,
+        private readonly _store$: Store,
     ) {
         super();
 
-        this.isTileMode$ = SettingsService.settings$
+        this.isTileMode$ = propMap$(SettingsService.settings$, 'itemsTileMode$')
             .pipe(
-                map(settings => settings.itemsTileMode),
                 distinctUntilChanged(),
-                shareReplay(1),
+                shareReplay({ refCount: true, bufferSize: 1 }),
             );
 
-        this.isMenuOpen$ = MenuService.sideMenuState$
+        this.isMenuOpen$ = _store$.select(selectLeftMenu)
             .pipe(
-                map(menuState => menuState === MenuNames.ItemsMenu),
+                map(menu => menu === MenuNames.ItemsMenu),
                 distinctUntilChanged(),
+                switchMap(isMenuOpen => isMenuOpen
+                    ? of(isMenuOpen)
+                    : of(isMenuOpen)
+                        .pipe(
+                            debounceTime(Defaults.closingMenuClearDelay),
+                        ),
+                ),
             );
+
+        // If the items menu target changes, change the current creature accordingly.
+        _store$.select(selectItemsMenuTarget)
+            .pipe(
+                takeUntil(this.destroyed$),
+                distinctUntilChanged(),
+                switchMap(target => CreatureService.creatureFromType$(target)),
+            )
+            .subscribe(creature => {
+                this._updateCreature(creature);
+            });
+
+        // If you lose access to the current creature, switch to the Character.
+        combineLatest([
+            this.creature$,
+            this._creatureAvailabilityService.isCompanionAvailable$(),
+            this._creatureAvailabilityService.isFamiliarAvailable$(),
+        ])
+            .pipe(
+                takeUntil(this.destroyed$),
+            )
+            .subscribe(([creature, isCompanionAvailable, isFamiliarAvailable]) => {
+                if (creature.isAnimalCompanion() && !isCompanionAvailable) {
+                    this.toggleShownCreature(CreatureTypes.Character);
+                }
+
+                if (creature.isFamiliar() && !isFamiliarAvailable) {
+                    this.toggleShownCreature(CreatureTypes.Character);
+                }
+            });
     }
 
     private get _character(): Character {
@@ -192,12 +239,11 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
     }
 
     public toggleShownCreature(type: CreatureTypes): void {
-        this.creature = type;
-        this._menuService.setItemsMenuTarget(this.creature);
+        this._store$.dispatch(setItemsMenuTarget({ target: type }));
     }
 
     public shownCreature(): CreatureTypes {
-        return this.creature;
+        return this.creature.type;
     }
 
     public toggleShownSorting(type: SortingOption): void {
@@ -219,27 +265,21 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
         );
     }
 
-    public otherCreaturesAvailable(): { companion: boolean; familiar: boolean } | undefined {
-        this.creature = MenuService.itemsMenuTarget$.value;
-
-        const isCompanionAvailable = this._creatureAvailabilityService.isCompanionAvailable();
-
-        if (this.creature === CreatureTypes.AnimalCompanion && !isCompanionAvailable) {
-            this._menuService.setItemsMenuTarget(CreatureTypes.Character);
-        }
-
-        const isFamiliarAvailable = this._creatureAvailabilityService.isFamiliarAvailable();
-
-        if (this.creature === CreatureTypes.Familiar && !isFamiliarAvailable) {
-            this._menuService.setItemsMenuTarget(CreatureTypes.Character);
-        }
-
-        if (isCompanionAvailable || isFamiliarAvailable) {
-            return {
-                companion: isCompanionAvailable,
-                familiar: isFamiliarAvailable,
-            };
-        }
+    public otherCreaturesAvailable$(): Observable<{ companion: boolean; familiar: boolean } | undefined> {
+        return combineLatest([
+            this._creatureAvailabilityService.isCompanionAvailable$(),
+            this._creatureAvailabilityService.isFamiliarAvailable$(),
+        ])
+            .pipe(
+                map(([isCompanionAvailable, isFamiliarAvailable]) =>
+                    (isCompanionAvailable || isFamiliarAvailable)
+                        ? {
+                            companion: isCompanionAvailable,
+                            familiar: isFamiliarAvailable,
+                        }
+                        : undefined,
+                ),
+            );
     }
 
     public closeFilterIfTooShort(): void {
@@ -257,30 +297,39 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
     }
 
     public toggleItemsMenu(): void {
-        this._menuService.toggleMenu(MenuNames.ItemsMenu);
+        this._store$.dispatch(toggleLeftMenu({ menu: MenuNames.ItemsMenu }));
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
         return InputValidationService.positiveNumbersOnly(event);
     }
 
-    public visibleItemParameters(itemList: Array<Item>): Array<ItemParameters> {
+    public visibleItemParameters$(itemList: Array<Item>): Observable<Array<ItemParameters>> {
         const character = this._character;
 
-        return itemList.map(item => {
-            const itemRoles = this._itemRolesService.getItemRoles(item);
-            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)
-                ? this._equipmentPropertiesService.effectiveProficiency(
-                    (itemRoles.asArmor || itemRoles.asWeapon) as Equipment,
-                    { creature: character, charLevel: character.level },
-                ) || ''
-                : '';
+        return combineLatest(
+            itemList.map(item => {
+                const itemRoles = this._itemRolesService.getItemRoles(item);
 
-            return {
-                ...itemRoles,
-                canUse: this._canUseItem(itemRoles, proficiency),
-            };
-        });
+                return (
+                    (itemRoles.asArmor || itemRoles.asWeapon)
+                        ? this._equipmentPropertiesService.effectiveProficiency$(
+                            (itemRoles.asArmor || itemRoles.asWeapon) as Equipment,
+                            { creature: character, charLevel: character.level },
+                        )
+                        : of('')
+                )
+                    .pipe(
+                        switchMap(proficiency =>
+                            this._canUseItem$(itemRoles, proficiency),
+                        ),
+                        map(canUse => ({
+                            ...itemRoles,
+                            canUse,
+                        })),
+                    );
+            }),
+        );
     }
 
     public itemAsMaterialChangeable(item: Item): Armor | Shield | Weapon | undefined {
@@ -337,52 +386,65 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
             .sort((a: Equipment | Consumable, b: Equipment | Consumable) => sortAlphaNum(a.name + a.id, b.name + b.id));
     }
 
-    public visibleItems<T extends Item>(items: ItemCollection[keyof ItemCollection], creatureType = ''): Array<T> {
-        let casting: SpellCasting | undefined;
+    public visibleItems$<T extends Item>(items: ItemCollection, type: keyof ItemCollection, creatureType = ''): Observable<Array<T>> {
         const character = this._character;
-
-        if (this._purpose === 'scrollsavant') {
-            casting = this.scrollSavantSpellCasting();
-        }
-
         const twoDigits = 2;
 
-        return (items as Array<T>)
-            .filter(item =>
-                (
-                    //Show companion items in the companion list and not in the character list.
-                    ((creatureType === CreatureTypes.Character) === !item.traits.includes('Companion'))
-                ) &&
-                !item.hide &&
-                (
-                    !this.wordFilter || (
-                        item.name
-                            .concat(item.desc)
-                            .concat(item.sourceBook)
-                            .toLowerCase()
-                            .includes(this.wordFilter.toLowerCase()) ||
-                        item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
-                    )
-                ) &&
-                (this._purpose === 'formulas' ? item.craftable : true) &&
-                (
-                    this._purpose === 'scrollsavant' ?
-                        (
-                            creatureType === CreatureTypes.Character &&
-                            item.isScroll() &&
-                            item.storedSpells[0]?.level <= character.maxSpellLevel(character.level) - scrollSavantMaxLevelDifference &&
-                            casting && !casting.scrollSavant.find(scroll => scroll.refId === item.id)
+        return combineLatest([
+            character.maxSpellLevel$,
+            (
+                this._purpose === 'scrollsavant'
+                    ? this._scrollSavantService.scrollSavantSpellCasting$
+                        .pipe(
+                            switchMap(casting =>
+                                casting
+                                    ? casting.scrollSavant.values$
+                                    : of([]),
+                            ),
                         )
-                        : true
+                    : of([])
+            ),
+        ])
+            .pipe(
+                map(([maxSpellLevel, scrollSavant]) =>
+                    items.itemsOfType<T>(type)
+                        .filter(item =>
+                            (
+                                //Show companion items in the companion list and not in the character list.
+                                ((creatureType === CreatureTypes.Character) === !item.traits.includes('Companion'))
+                            ) &&
+                            !item.hide &&
+                            (
+                                !this.wordFilter || (
+                                    item.name
+                                        .concat(item.desc)
+                                        .concat(item.sourceBook)
+                                        .toLowerCase()
+                                        .includes(this.wordFilter.toLowerCase()) ||
+                                    item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
+                                )
+                            ) &&
+                            (this._purpose === 'formulas' ? item.craftable : true) &&
+                            (
+                                this._purpose === 'scrollsavant' ?
+                                    (
+                                        creatureType === CreatureTypes.Character &&
+                                        item.isScroll() &&
+                                        item.storedSpells[0]?.level <= maxSpellLevel - scrollSavantMaxLevelDifference &&
+                                        !scrollSavant.find(scroll => scroll.refId === item.id)
+                                    )
+                                    : true
+                            ),
+                        )
+                        .sort((a, b) => sortAlphaNum(
+                            a[this.sorting].padStart(twoDigits, '0') + a.name,
+                            b[this.sorting].padStart(twoDigits, '0') + b.name,
+                        )),
                 ),
-            )
-            .sort((a, b) => sortAlphaNum(
-                a[this.sorting].padStart(twoDigits, '0') + a.name,
-                b[this.sorting].padStart(twoDigits, '0') + b.name,
-            ));
+            );
     }
 
-    public grantItem(creature: CreatureTypes, item: Item, pay = false): void {
+    public grantItem(item: Item, pay = false): void {
         const price = this.effectivePrice(item);
 
         if (pay && price) {
@@ -395,11 +457,9 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
             amount = item.stack;
         }
 
-        const target: Creature = CreatureService.creatureFromType(creature);
-
         this._inventoryService.grantInventoryItem(
             item,
-            { creature: target, inventory: target.inventories[0], amount },
+            { creature: this.creature, inventory: this.creature.inventories[0], amount },
             { resetRunes: false },
         );
     }
@@ -487,7 +547,7 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
         this.toggleShownItem();
     }
 
-    public grantCustomItem(creature: CreatureTypes): void {
+    public grantCustomItem(): void {
         if (this.newItem != null) {
             this.newItem.id = '';
 
@@ -504,7 +564,7 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
             // Completely restore the item in order to restore any data that
             // doesn't match up anymore after you arbitrarily change attributes.
             this.newItem.recast(this._recastService.restoreFns);
-            this.grantItem(creature, this.newItem);
+            this.grantItem(this.newItem);
         }
     }
 
@@ -535,8 +595,8 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
         }
     }
 
-    public characterHasFeat(name: string): boolean {
-        return this._characterFeatsService.characterHasFeat(name);
+    public characterHasFeat$(name: string): Observable<boolean> {
+        return this._characterFeatsService.characterHasFeatAtLevel$(name);
     }
 
     public availableLearningOptions(availableForLearningParameters: AvailableForLearningParameters): string {
@@ -591,208 +651,196 @@ export class ItemsComponent extends TrackByMixin(BaseClass) implements OnInit, O
         }
     }
 
-    public availableForLearningParameters(): AvailableForLearningParameters {
+    public availableForLearningParameters$(): Observable<AvailableForLearningParameters> {
+        const character = this._character;
         const defaultAvailable = 4;
 
         const alchemicalCrafting =
-            this.characterHasFeat('Alchemical Crafting')
-                ? {
-                    alchemicalCraftingAvailable: defaultAvailable,
-                    alchemicalCraftingLearned: this.learnedFormulas('', 'alchemicalcrafting').length,
-                }
-                : {
-                    alchemicalCraftingAvailable: 0,
-                    alchemicalCraftingLearned: 0,
-                };
+            this.characterHasFeat$('Alchemical Crafting')
+                .pipe(
+                    map(hasAlchemicalCrafting =>
+                        hasAlchemicalCrafting
+                            ? {
+                                alchemicalCraftingAvailable: defaultAvailable,
+                                alchemicalCraftingLearned: this.learnedFormulas('', 'alchemicalcrafting').length,
+                            }
+                            : {
+                                alchemicalCraftingAvailable: 0,
+                                alchemicalCraftingLearned: 0,
+                            },
+                    ),
+                );
 
         const magicalCrafting =
-            this.characterHasFeat('Magical Crafting')
-                ? {
-                    magicalCraftingAvailable: defaultAvailable,
-                    magicalCraftingLearned: this.learnedFormulas('', 'magicalcrafting').length,
-                }
-                : {
-                    magicalCraftingAvailable: 0,
-                    magicalCraftingLearned: 0,
-                };
+            this.characterHasFeat$('Magical Crafting')
+                .pipe(
+                    map(hasMagicalCrafting =>
+                        hasMagicalCrafting
+                            ? {
+                                magicalCraftingAvailable: defaultAvailable,
+                                magicalCraftingLearned: this.learnedFormulas('', 'magicalcrafting').length,
+                            }
+                            : {
+                                magicalCraftingAvailable: 0,
+                                magicalCraftingLearned: 0,
+                            },
+                    ),
+                );
 
         const snareCrafting =
-            this.characterHasFeat('Snare Crafting')
-                ? {
-                    snareCraftingAvailable: defaultAvailable,
-                    snareCraftingLearned: this.learnedFormulas('', 'snarecrafting').length,
-                }
-                : {
-                    snareCraftingAvailable: 0,
-                    snareCraftingLearned: 0,
-                };
+            this.characterHasFeat$('Snare Crafting')
+                .pipe(
+                    map(hasSnareCrafting =>
+                        hasSnareCrafting
+                            ? {
+                                snareCraftingAvailable: defaultAvailable,
+                                snareCraftingLearned: this.learnedFormulas('', 'snarecrafting').length,
+                            }
+                            : {
+                                snareCraftingAvailable: 0,
+                                snareCraftingLearned: 0,
+                            },
+                    ),
+                );
 
-        let snareSpecialist = { snareSpecialistAvailable: 0, snareSpecialistLearned: 0 };
 
-        if (this.characterHasFeat('Snare Specialist')) {
-            const character = this._character;
-            const additionalAvailablePerSkillLevel = 3;
-            const snareSpecialistLearned = this.learnedFormulas('', 'snarespecialist').length;
-            let snareSpecialistAvailable = 0;
+        return this.characterHasFeat$('Snare Specialist')
+            .pipe(
+                map(hasSnareSpecialist =>
+                    hasSnareSpecialist
+                        ? this._skillValuesService.level$('Crafting', character, character.level)
+                            .pipe(
+                                map(craftingSkillLevel => {
+                                    const additionalAvailablePerSkillLevel = 3;
+                                    const snareSpecialistLearned = this.learnedFormulas('', 'snarespecialist').length;
+                                    let snareSpecialistAvailable = 0;
 
-            const craftingSkillLevel =
-                this._skillValuesService.level('Crafting', character, character.level) || 0;
+                                    if (craftingSkillLevel >= SkillLevels.Expert) {
+                                        snareSpecialistAvailable += additionalAvailablePerSkillLevel;
+                                    }
 
-            if (craftingSkillLevel >= SkillLevels.Expert) {
-                snareSpecialistAvailable += additionalAvailablePerSkillLevel;
-            }
+                                    if (craftingSkillLevel >= SkillLevels.Master) {
+                                        snareSpecialistAvailable += additionalAvailablePerSkillLevel;
+                                    }
 
-            if (craftingSkillLevel >= SkillLevels.Master) {
-                snareSpecialistAvailable += additionalAvailablePerSkillLevel;
-            }
+                                    if (craftingSkillLevel >= SkillLevels.Legendary) {
+                                        snareSpecialistAvailable += additionalAvailablePerSkillLevel;
+                                    }
 
-            if (craftingSkillLevel >= SkillLevels.Legendary) {
-                snareSpecialistAvailable += additionalAvailablePerSkillLevel;
-            }
-
-            snareSpecialist = {
-                snareSpecialistAvailable,
-                snareSpecialistLearned,
-            };
-        }
-
-        return {
-            ...alchemicalCrafting,
-            ...magicalCrafting,
-            ...snareCrafting,
-            ...snareSpecialist,
-        };
-    }
-
-    public scrollSavantSpellCasting(): SpellCasting | undefined {
-        return this._character.class.spellCasting
-            .find(casting =>
-                casting.castingType === SpellCastingTypes.Prepared &&
-                casting.className === 'Wizard' &&
-                casting.tradition === SpellTraditions.Arcane,
+                                    return {
+                                        snareSpecialistAvailable,
+                                        snareSpecialistLearned,
+                                    };
+                                }),
+                            )
+                        : of({ snareSpecialistAvailable: 0, snareSpecialistLearned: 0 }),
+                ),
+                switchMap(snareSpecialist =>
+                    combineLatest([
+                        alchemicalCrafting,
+                        magicalCrafting,
+                        snareCrafting,
+                        snareSpecialist,
+                    ]),
+                ),
+                map(([
+                    alchemicalCraftingResult,
+                    magicalCraftingResult,
+                    snareCraftingResult,
+                    snareSpecialistResult,
+                ]) => ({
+                    ...alchemicalCraftingResult,
+                    ...magicalCraftingResult,
+                    ...snareCraftingResult,
+                    ...snareSpecialistResult,
+                })),
             );
     }
 
-    public scrollSavantScrolls(casting: SpellCasting): Array<Scroll> {
-        return casting.scrollSavant
-            .sort((a, b) => sortAlphaNum(a.name, b.name));
-    }
-
-    public scrollSavantSpellDCLevel(): number {
-        const character = this._character;
-
-        return Math.max(...this._skillsDataService.skills(character.customSkills)
-            .filter(skill => skill.name.includes('Arcane Spell DC'))
-            .map(skill => this._skillValuesService.level(skill, character, character.level)), 0);
-    }
-
-    public scrollSavantDescription(): string | undefined {
-        const casting = this.scrollSavantSpellCasting();
+    public scrollSavantDescription$(): Observable<string | undefined> {
         const character = this._character;
         const half = .5;
 
-        if (casting) {
-            let result = '';
+        return combineLatest([
+            this._scrollSavantService.scrollSavantSpellCasting$,
+            this.characterHasFeat$('Scroll Savant'),
+        ])
+            .pipe(
+                switchMap(([casting, hasScrollSavant]) =>
+                    (casting && hasScrollSavant)
+                        ? combineLatest([
+                            this._scrollSavantService.scrollSavantSpellDCLevel$,
+                            character.maxSpellLevel$,
+                        ])
+                            .pipe(
+                                map(([spellDCLevel, maxSpellLevel]) => {
+                                    const available = spellDCLevel * half;
+                                    const prepared = casting.scrollSavant.length;
 
-            if (this.characterHasFeat('Scroll Savant')) {
-                const available = this.scrollSavantSpellDCLevel() * half;
-
-                //Remove all prepared scrolls that are of a higher level than allowed.
-                casting.scrollSavant
-                    .filter(scroll => scroll.storedSpells[0].level > character.maxSpellLevel())
-                    .forEach(scroll => {
-                        scroll.amount = 0;
-                    });
-                casting.scrollSavant = casting.scrollSavant.filter(scroll => scroll.amount);
-
-                while (casting.scrollSavant.length > available) {
-                    casting.scrollSavant.pop();
-                }
-
-                const prepared: number = casting.scrollSavant.length;
-
-                if (available) {
-                    result =
-                        `You can currently prepare ${ available - prepared } of ${ available } temporary scrolls of different `
-                        + 'spell levels up to level '
-                        + `${ character.maxSpellLevel() - scrollSavantMaxLevelDifference }.`;
-                }
-            }
-
-            return result;
-        }
-    }
-
-    public prepareScroll(scroll: Item): void {
-        const casting = this.scrollSavantSpellCasting();
-        const tempInv = new ItemCollection();
-        const newScroll =
-            this._inventoryService.grantInventoryItem(
-                scroll,
-                { creature: CreatureService.character, inventory: tempInv, amount: 1 },
-                { resetRunes: false, changeAfter: false, equipAfter: false },
+                                    if (available) {
+                                        return `You can currently prepare ${ available - prepared } `
+                                            + `of ${ available } temporary scrolls of different `
+                                            + 'spell levels up to level '
+                                            + `${ maxSpellLevel - scrollSavantMaxLevelDifference }.`;
+                                    }
+                                }),
+                            )
+                        : of(undefined),
+                ),
             );
-
-        newScroll.expiration = TimePeriods.UntilRest;
-        newScroll.price = 0;
-        newScroll.storedSpells.forEach(spell => {
-            spell.spellBookOnly = true;
-            spell.spells.length = 0;
-        });
-
-        if (casting) {
-            casting.scrollSavant.push(Object.assign(new Scroll(), newScroll));
-        }
     }
 
-    public unprepareScroll(scroll: Item, casting: SpellCasting): void {
-        casting.scrollSavant = casting.scrollSavant.filter(oldScroll => oldScroll !== scroll);
+    public scrollSavantSpellCasting$(): Observable<SpellCasting | undefined> {
+        return this._scrollSavantService.scrollSavantSpellCasting$;
     }
 
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['items', 'all'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (['items', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
+    public scrollSavantScrolls$(): Observable<Array<Scroll>> {
+        return this._scrollSavantService.scrollSavantScrolls$;
+    }
+
+    public scrollSavantSpellDCLevel$(): Observable<number> {
+        return this._scrollSavantService.scrollSavantSpellDCLevel$;
+    }
+
+    public prepareScrollSavantScroll(scroll: Item): void {
+        this._scrollSavantService.prepareScroll(scroll);
+    }
+
+    public unprepareScrollSavant(scroll: Item): void {
+        this._scrollSavantService.unprepareScroll(scroll);
     }
 
     public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
+        this.destroy();
     }
 
-    private _canUseItem(itemRoles: ItemRoles, proficiency: string): boolean | undefined {
+    private _canUseItem$(itemRoles: ItemRoles, proficiency: string): Observable<boolean | undefined> {
         const character = this._character;
 
         if (itemRoles.asWeapon) {
             return this._weaponPropertiesService
-                .profLevel(
+                .profLevel$(
                     itemRoles.asWeapon,
                     character,
                     itemRoles.asWeapon,
-                    character.level,
                     { preparedProficiency: proficiency },
-                ) > 0;
+                )
+                .pipe(
+                    map(skillLevel => skillLevel > 0),
+                );
         }
 
         if (itemRoles.asArmor) {
-            return this._armorPropertiesService.profLevel(
+            return this._armorPropertiesService.profLevel$(
                 itemRoles.asArmor,
                 character,
-                character.level,
-                { itemStore: true },
-            ) > 0;
+            )
+                .pipe(
+                    map(skillLevel => skillLevel > 0),
+                );
         }
 
-        return undefined;
+        return of(undefined);
     }
 
     private _changeCash(multiplier: 1 | -1 = 1, sum = 0, changeafter = false): void {

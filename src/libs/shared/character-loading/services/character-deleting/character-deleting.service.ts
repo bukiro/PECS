@@ -26,7 +26,7 @@ export class CharacterDeletingService {
                 },
                 error: error => {
                     if (error.status === HttpStatusCode.Unauthorized) {
-                        this._configService.logout(
+                        this._toastService.show(
                             'Your login is no longer valid. The character could not be deleted. Please try again after logging in.',
                         );
                     } else {

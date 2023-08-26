@@ -460,19 +460,25 @@ fs.readFile(__dirname + '/config.json', 'utf8', function (err, data) {
             }
         })
 
-        //Deletes all messages that are older than 10 minutes. The messages are timestamped with the above time to avoid issues arising from time differences.
+        // This functionality is run internally now. Just return a success message.
         app.get('/cleanupMessages', cors(), function (req, res) {
             if (verify_Login(req.headers['x-access-token'])) {
-                var tenMinutesOld = new Date();
-                tenMinutesOld.setMinutes(tenMinutesOld.getMinutes() - 10);
-                const messagesToDelete = messageStore.filter(message => message.timeStamp < tenMinutesOld.getTime());
-                const result = { result: { n: messagesToDelete.length, ok: 1 }, deletedCount: messagesToDelete.length };
-                messageStore = messageStore.filter(message => message.timeStamp >= tenMinutesOld.getTime());
-                res.send(result);
+                res.send({ result: { n: 0, ok: 1 }, deletedCount: 0 });
             } else {
                 res.status(401).json({ message: 'Unauthorized Access' })
             }
         })
+
+        // Every minute, deletes all messages that are older than 10 minutes.
+        // The messages are timestamped with the above time to avoid issues arising from time differences.
+        setInterval(
+            () => {
+                var tenMinutesOld = new Date();
+                tenMinutesOld.setMinutes(tenMinutesOld.getMinutes() - 10);
+                messageStore = messageStore.filter(message => message.timeStamp >= tenMinutesOld.getTime());
+            },
+            60000,
+        )
 
         //Host PECS from the src directory after the gets and posts have been configured.
         dataDir = __dirname + "/src";

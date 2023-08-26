@@ -7,6 +7,7 @@ import { AbilityBoost } from './AbilityBoost';
 import { SkillIncrease } from './SkillIncrease';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 
 export class Familiar extends Creature {
     public readonly type = CreatureTypes.Familiar;
@@ -17,13 +18,16 @@ export class Familiar extends Creature {
         source: 'Familiar',
         type: 'Familiar',
     });
-    public customSkills: Array<Skill> = [
-        new Skill('', 'Attack Rolls', 'Familiar Proficiency'),
-    ];
+
     public originClass = '';
     public senses: Array<string> = ['Low-Light Vision'];
     public species = '';
     public traits: Array<string> = ['Minion'];
+
+    protected _customSkills = new OnChangeArray(
+        new Skill('', 'Attack Rolls', 'Familiar Proficiency'),
+    );
+
     public get requiresConForHP(): boolean { return false; }
 
     public recast(recastFns: RecastFns): Familiar {

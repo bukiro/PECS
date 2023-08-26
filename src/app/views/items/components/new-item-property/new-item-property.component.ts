@@ -39,7 +39,7 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { Activity } from 'src/app/classes/Activity';
 import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
@@ -131,7 +131,7 @@ export class NewItemPropertyComponent<T extends Item | object> extends TrackByMi
         if (this.propertyKey === 'value' && this.propertyData.parent === 'effects') {
             if (value && value !== '0') {
                 const validationResult =
-                    this._evaluationService.valueFromFormula(
+                    this._evaluationService.valueFromFormula$(
                         value,
                         { creature: this._character },
                     )?.toString() || '0';
@@ -154,7 +154,7 @@ export class NewItemPropertyComponent<T extends Item | object> extends TrackByMi
         } else if (this.propertyKey === 'setValue' && this.propertyData.parent === 'effects') {
             if (value && value !== '0') {
                 const validationResult =
-                    this._evaluationService.valueFromFormula(
+                    this._evaluationService.valueFromFormula$(
                         value,
                         { creature: this._character },
                     )?.toString() || null;
@@ -176,7 +176,7 @@ export class NewItemPropertyComponent<T extends Item | object> extends TrackByMi
         } else if (this.propertyKey === 'value' && this.propertyData.parent === 'onceEffects') {
             if (value && value !== '0') {
                 const validationResult =
-                    this._evaluationService.valueFromFormula(
+                    this._evaluationService.valueFromFormula$(
                         value,
                         { creature: this._character },
                     )?.toString() || '0';

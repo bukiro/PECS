@@ -97,10 +97,10 @@
                 </div>
 
                 <div class="fullsize-scroll-box vlist">
-                    <ng-container *ngIf="componentParameters() as componentParameters">
+                    <ng-container *ngIf="componentParameters$() | async as componentParameters">
                         <div
                             class="list-item"
-                            *ngIf="availableForLearningDescription(componentParameters.wizardCasting, componentParameters.bardCasting, componentParameters.sorcererCasting) as availableForLearningDescription"
+                            *ngIf="availableForLearningDescription$(componentParameters.wizardCasting, componentParameters.bardCasting, componentParameters.sorcererCasting) | async as availableForLearningDescription"
                         >
                             <app-description
                                 class="newrow"
@@ -199,7 +199,7 @@
                                                     [disabled]
                                                     *ngIf="isSpellLearned(spell.name) as learned"
                                                 >
-                                                    Unlearn {{learnedSpellSource(learned.source)}}
+                                                    Unlearn {{learnedSpellSource$(learned.source) | async}}
                                                 </button>
 
                                                 <ng-container *ngIf="componentParameters.wizardCasting as wizardCasting">

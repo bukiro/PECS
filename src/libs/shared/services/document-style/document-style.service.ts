@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { SettingsService } from '../settings/settings.service';
+import { propMap$ } from '../../util/observableUtils';
 
 const accentChangingDebounce = 10;
 
@@ -11,19 +12,17 @@ const accentChangingDebounce = 10;
 export class DocumentStyleService {
 
     constructor() {
-        SettingsService.settings$
+        propMap$(SettingsService.settings$, 'accent$')
             .pipe(
-                map(settings => settings.accent),
-                debounceTime(accentChangingDebounce),
                 distinctUntilChanged(),
+                debounceTime(accentChangingDebounce),
             )
             .subscribe(accent => {
                 this._setAccent(accent);
             });
 
-        SettingsService.settings$
+        propMap$(SettingsService.settings$, 'darkmode$')
             .pipe(
-                map(settings => settings.darkmode),
                 distinctUntilChanged(),
             )
             .subscribe(darkmode => {

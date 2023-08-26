@@ -5,32 +5,36 @@ import { RefreshService } from '../refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { DeitiesDataService } from '../data/deities-data.service';
-
-interface CharacterDeitySet {
-    deity: Deity;
-    source: string;
-    level: number;
-}
+import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { propMap$ } from '../../util/observableUtils';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CharacterDeitiesService {
 
-    //The character's deity or deities get loaded into $characterDeities whenever it is queried and empty.
-    private readonly _$characterDeities: Array<CharacterDeitySet> = [];
+    public mainCharacterDeity$: Observable<Deity | null>;
 
     constructor(
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _characterFeatsService: CharacterFeatsService,
-    ) { }
+    ) {
+        this.mainCharacterDeity$ = propMap$(CharacterFlatteningService.characterClass$, 'deity$')
+            .pipe(
+                map(deityName =>
+                    deityName
+                        ? this._deitiesDataService.deityFromName(deityName)
+                        : null,
+                ),
+            );
+    }
 
     public changeDeity(deity: Deity): void {
         const character = CreatureService.character;
 
         character.class.deity = deity.name;
-        this.clearCharacterDeities();
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells', 'clear');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
@@ -38,50 +42,49 @@ export class CharacterDeitiesService {
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
     }
 
-    public currentCharacterDeities(
-        source = '',
+    public syncretismDeity$(levelNumber?: number): Observable<Deity | null> {
+        return combineLatest([
+            CharacterFlatteningService.levelOrCurrent$(levelNumber),
+            this._characterFeatsService.characterHasFeatAtLevel$('Syncretism', levelNumber),
+        ])
+            .pipe(
+                switchMap(([atLevel, hasSyncretism]) =>
+                    hasSyncretism
+                        ? CharacterFlatteningService.characterClass$
+                            .pipe(
+                                switchMap(characterClass => characterClass.filteredFeatData$(0, 0, 'Syncretism')),
+                                switchMap(featData =>
+                                    (featData[0].level && featData[0].level <= atLevel)
+                                        ? featData[0].valueAsString$('deity')
+                                        : of(null),
+                                ),
+                                map(deityName =>
+                                    deityName
+                                        ? this._deitiesDataService.deityFromName(deityName)
+                                        : null,
+                                ),
+                            )
+                        : of(null),
+                ),
+            );
+    }
+
+    public currentCharacterDeities$(
         levelNumber?: number,
-    ): Array<Deity> {
-        const character = CreatureService.character;
-
-        const safeLevelNumber = levelNumber || character.level;
-
-        if (!this._$characterDeities.length && character.class.deity) {
-            //Recreate the character deities list from the main deity and the Syncretism feat data.
-            const mainDeity = this._deitiesDataService.deityFromName(character.class.deity);
-
-            if (mainDeity) {
-                this._$characterDeities.push({ deity: mainDeity, source: 'main', level: 1 });
-
-                const hasSyncretismFeat = this._characterFeatsService.characterHasFeat('Syncretism', safeLevelNumber);
-
-                if (hasSyncretismFeat) {
-                    const data = character.class.filteredFeatData(0, 0, 'Syncretism')[0];
-                    const syncretismDeity = data.valueAsString('deity');
-
-                    if (syncretismDeity) {
-                        const syncretismLevelNumber = data.level;
-                        const secondDeity = this._deitiesDataService.deityFromName(syncretismDeity);
-
-                        if (secondDeity) {
-                            this._$characterDeities.push({ deity: secondDeity, source: 'syncretism', level: syncretismLevelNumber });
-                        }
-                    }
-                }
-            }
-        }
-
-        return this._$characterDeities
-            .filter(deitySet => deitySet.level <= safeLevelNumber && (!source || deitySet.source === source))
-            .map(deitySet => deitySet.deity);
-    }
-
-    public clearCharacterDeities(): void {
-        this._$characterDeities.length = 0;
-    }
-
-    public reset(): void {
-        this.clearCharacterDeities();
+    ): Observable<Array<Deity>> {
+        return this.mainCharacterDeity$
+            .pipe(
+                switchMap(mainDeity =>
+                    // Only return other deities if you have a main deity.
+                    mainDeity
+                        ? this.syncretismDeity$(levelNumber)
+                            .pipe(
+                                map(syncretismDeity => ([mainDeity, syncretismDeity])),
+                            )
+                        : of([]),
+                ),
+                map(deities => deities.filter((deity): deity is Deity => !!deity)),
+            );
     }
 
 }

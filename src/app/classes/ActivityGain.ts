@@ -5,11 +5,9 @@ import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { Activity } from './Activity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export class ActivityGain {
-    public active = false;
-    public activeCooldown = 0;
-    public chargesUsed = 0;
     /**
      * If you use a charge of an activity on an item, and it has a sharedChargesID,
      * all activities on the same item with the same sharedChargesID will also use a charge.
@@ -53,10 +51,56 @@ export class ActivityGain {
     public id = uuidv4();
     public data: Array<{ name: string; value: string }> = [];
     public $originalActivity?: Activity;
+
+    public readonly active$: BehaviorSubject<boolean>;
+    public readonly chargesUsed$: BehaviorSubject<number>;
+    public readonly innerActiveCooldown$: BehaviorSubject<number>;
+    /**
+     * activeCooldownByCreature$ is a map of calculated cooldown observables matched to creatures,
+     * depending on the original activity's effective cooldown,
+     * created by the ActivityGainPropertiesService so that it can be subscribed to without passing parameters.
+     */
+    public readonly activeCooldownByCreature$ = new Map<string, Observable<number>>();
+
+    private _active = false;
+    private _activeCooldown = 0;
+    private _chargesUsed = 0;
+
     constructor(
         originalActivity: Activity | undefined,
     ) {
         this.$originalActivity = originalActivity;
+
+        this.active$ = new BehaviorSubject(this._active);
+        this.innerActiveCooldown$ = new BehaviorSubject(this._activeCooldown);
+        this.chargesUsed$ = new BehaviorSubject(this._chargesUsed);
+    }
+
+    public get active(): boolean {
+        return this._active;
+    }
+
+    public set active(value: boolean) {
+        this._active = value;
+        this.active$.next(this._active);
+    }
+
+    public get activeCooldown(): number {
+        return this._activeCooldown;
+    }
+
+    public set activeCooldown(value: number) {
+        this._activeCooldown = value;
+        this.innerActiveCooldown$.next(this._activeCooldown);
+    }
+
+    public get chargesUsed(): number {
+        return this._chargesUsed;
+    }
+
+    public set chargesUsed(value: number) {
+        this._chargesUsed = value;
+        this.chargesUsed$.next(this._chargesUsed);
     }
 
     public get originalActivity(): Activity {
@@ -86,7 +130,15 @@ export class ActivityGain {
         return Object.assign<ActivityGain, ActivityGain>(
             new ActivityGain(this.$originalActivity),
             JSON.parse(JSON.stringify(this)),
-        ).recast(recastFns);
+        )
+            .recast(recastFns)
+            .clearTemporaryValues();
+    }
+
+    public clearTemporaryValues(): ActivityGain {
+        this.activeCooldownByCreature$.clear();
+
+        return this;
     }
 
     public isOwnActivity(): this is Activity {

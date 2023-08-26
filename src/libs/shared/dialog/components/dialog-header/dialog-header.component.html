@@ -1,0 +1,15 @@
+<div class="corner-button-tray">
+    <app-button
+        #CloseButton
+        class="close-button"
+        label="Close dialog"
+        (clicked)="close?.()"
+        compact
+    >
+        <i class="bi-x-lg"></i>
+    </app-button>
+</div>
+
+<div class="header">
+    <div>{{title}}</div>
+</div>

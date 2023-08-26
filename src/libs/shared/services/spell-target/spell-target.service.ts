@@ -29,10 +29,10 @@ export class SpellTargetService {
                 targets.push(CreatureService.character);
                 break;
             case CreatureTypes.AnimalCompanion:
-                targets.push(CreatureService.companion);
+                targets.push(CreatureService.character.class.animalCompanion);
                 break;
             case CreatureTypes.Familiar:
-                targets.push(CreatureService.familiar);
+                targets.push(CreatureService.character.class.familiar);
                 break;
             case 'Selected':
                 if (context.gain) {

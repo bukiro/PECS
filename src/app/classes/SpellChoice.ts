@@ -1,6 +1,7 @@
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { v4 as uuidv4 } from 'uuid';
 
 export class SpellChoice {
@@ -72,7 +73,6 @@ export class SpellChoice {
     public singleTarget = false;
     /** Only allow spells from your spellbook. */
     public spellBookOnly = false;
-    public spells: Array<SpellGain> = [];
     /**
      * Spell Blending is for Wizards and tracks spell blending choices for this spell choice. It contains three numbers.
      * The numbers are:
@@ -103,6 +103,16 @@ export class SpellChoice {
      * If target is set to "Enemies", you can only choose spells with no target property (so it's likely not beneficial).
      */
     public target = '';
+
+    private readonly _spells = new OnChangeArray<SpellGain>();
+
+    public get spells(): OnChangeArray<SpellGain> {
+        return this._spells;
+    }
+
+    public set spells(value: Array<SpellGain>) {
+        this._spells.setValues(...value);
+    }
 
     public recast(): SpellChoice {
         this.spells = this.spells.map(obj => Object.assign(new SpellGain(), obj).recast());

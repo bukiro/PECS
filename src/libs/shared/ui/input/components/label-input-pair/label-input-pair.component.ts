@@ -30,6 +30,9 @@ export class LabelInputPairComponent extends BaseValueAccessorComponent<string |
     public label?: string;
 
     @Input()
+    public sublines?: Array<string>;
+
+    @Input()
     public hint?: string;
 
     @Input()
@@ -40,5 +43,7 @@ export class LabelInputPairComponent extends BaseValueAccessorComponent<string |
     public focus(): void {
         this.input?.focus();
     }
+
+    public trackByIndex(index: number): number { return index; }
 
 }

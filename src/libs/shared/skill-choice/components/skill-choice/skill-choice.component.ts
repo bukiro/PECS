@@ -3,7 +3,7 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Skill } from 'src/app/classes/Skill';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { combineLatest, map, Observable, of, Subscription, switchMap } from 'rxjs';
 import { skillLevelName } from 'src/libs/shared/util/skillUtils';
 import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { Character } from 'src/app/classes/Character';
@@ -14,9 +14,10 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { CharacterSkillIncreaseService } from 'src/libs/character-creation/services/character-skill-increase/character-skill-increase.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 
 interface SkillChoiceParameters {
     listId: string;
@@ -31,6 +32,7 @@ interface SkillParameters {
     skillLevel: number;
     checked: boolean;
     disabled: boolean;
+    cannotIncreaseReasons: Array<string>;
 }
 
 @Component({
@@ -108,64 +110,81 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         return skillLevelName(skillLevel, { shortForm });
     }
 
-    public skillChoiceParameters(): SkillChoiceParameters {
+    public skillChoiceParameters$(): Observable<SkillChoiceParameters> {
         this._removeIllegalIncreases();
 
         const listId = this.choice.id;
-        const allowedIncreases = this._allowedIncreasesAmount();
-        const buttonTitle = this._buttonTitle(allowedIncreases);
-        const isCleared = this.choice.increases.length === allowedIncreases;
 
-        return {
-            listId,
-            allowedIncreases,
-            buttonTitle,
-            cleared: isCleared,
-        };
+        return this._allowedIncreasesAmount$()
+            .pipe(
+                map(allowedIncreases => {
+                    const buttonTitle = this._buttonTitle(allowedIncreases);
+                    const isCleared = this.choice.increases.length === allowedIncreases;
+
+                    return {
+                        listId,
+                        allowedIncreases,
+                        buttonTitle,
+                        cleared: isCleared,
+                    };
+                }),
+            );
     }
 
-    public availableSkillsParameters(
+    public availableSkillsParameters$(
         choice: SkillChoice,
         levelNumber: number,
         allowedIncreases: number,
-    ): Array<SkillParameters> | undefined {
+    ): Observable<Array<SkillParameters>> {
         const character = this.character;
 
-        return this._availableSkills(choice, levelNumber, allowedIncreases)
-            ?.map(skill => {
-                const isIncreasedByThisChoice = this._skillIncreasedByThisChoice(skill, choice);
-                const skillLevel = this._skillValuesService.level(skill, character, this.levelNumber, true);
-                const shouldBeChecked = isIncreasedByThisChoice || (skillLevel >= choice.maxRank);
-                const shouldBeDisabled =
-                    !!this._skillLockedByThisChoice(skill, choice) ||
-                    (
-                        (
-                            (choice.increases.length >= allowedIncreases) ||
-                            !!this.cannotIncreaseSkill(skill, levelNumber, choice).length
-                        ) && !isIncreasedByThisChoice
-                    );
+        return this._availableSkills$(choice, levelNumber, allowedIncreases)
+            .pipe(
+                switchMap(skills => combineLatest(
+                    skills.map(skill => combineLatest([
+                        this._skillValuesService.level$(skill, character, this.levelNumber, { excludeTemporary: true }),
+                        this.cannotIncreaseSkill$(skill, levelNumber, choice),
+                    ])
+                        .pipe(
+                            map(([skillLevel, cannotIncreaseReasons]) => {
+                                const isIncreasedByThisChoice = this._skillIncreasedByThisChoice(skill, choice);
+                                const shouldBeChecked = isIncreasedByThisChoice || (skillLevel >= choice.maxRank);
+                                const shouldBeDisabled =
+                                    !!this._skillLockedByThisChoice(skill, choice)
+                                    || (
+                                        (
+                                            (choice.increases.length >= allowedIncreases)
+                                            || !!cannotIncreaseReasons.length
+                                        )
+                                        && !isIncreasedByThisChoice
+                                    );
 
-                return {
-                    skill,
-                    increased: isIncreasedByThisChoice,
-                    skillLevel,
-                    checked: shouldBeChecked,
-                    disabled: shouldBeDisabled,
-                };
-            });
+                                return {
+                                    skill,
+                                    increased: isIncreasedByThisChoice,
+                                    skillLevel,
+                                    checked: shouldBeChecked,
+                                    disabled: shouldBeDisabled,
+                                    cannotIncreaseReasons,
+                                };
+                            }),
+                        ),
+                    )),
+                ),
+            );
     }
 
     public skillTooHigh(skill: Skill): boolean {
         const character = this.character;
 
-        return !this._skillValuesService.isSkillLegal(skill, character, this.levelNumber) ||
+        return !this._skillValuesService.isSkillLegal$(skill, character, this.levelNumber) ||
             (
-                !this._skillValuesService.isSkillLegal(skill, character, this.levelNumber, this.choice.maxRank) &&
+                !this._skillValuesService.isSkillLegal$(skill, character, this.levelNumber, this.choice.maxRank) &&
                 this._skillIncreasedByThisChoice(skill, this.choice)
             );
     }
 
-    public cannotIncreaseSkill(skill: Skill, levelNumber: number, choice: SkillChoice): Array<string> {
+    public cannotIncreaseSkill$(skill: Skill, levelNumber: number, choice: SkillChoice): Observable<Array<string>> {
         //Returns a string of reasons why the skill cannot be increased, or []. Test the length of the return if you need a boolean.
         const maxRank: number = choice.maxRank;
         const reasons: Array<string> = [];
@@ -212,42 +231,50 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             }
         }
 
-        //Check if this skill cannot be raised higher at this level, or if this method only allows a certain rank
-        // (e.g. for Feats that TRAIN a skill)
-        //This is only relevant if you haven't raised the skill on this level yet.
-        //If you have, we don't want to hear that it couldn't be raised again right away
-        let cannotIncreaseHigher = '';
-
-        //You can never raise a skill higher than Legendary (8)
-        if (
-            this._skillValuesService.level(skill, this.character, levelNumber, true) === SkillLevels.Legendary &&
-            !this._skillIncreasedByThisChoice(skill, choice)
-        ) {
-            cannotIncreaseHigher = 'Cannot increase any higher.';
-            reasons.push(cannotIncreaseHigher);
-        } else if (
-            !this._skillValuesService.canIncreaseSkill(skill, this.character, levelNumber, maxRank) &&
-            !this._skillIncreasedByThisChoice(skill, choice)
-        ) {
-            if (!this._skillValuesService.canIncreaseSkill(skill, this.character, levelNumber)) {
-                cannotIncreaseHigher = 'Highest rank at this level.';
-            } else {
-                if (choice.maxRank === SkillLevels.Trained) {
-                    cannotIncreaseHigher = 'Already trained.';
-                } else {
-                    cannotIncreaseHigher = 'Highest rank for this increase.';
-                }
-            }
-
-            reasons.push(cannotIncreaseHigher);
-        }
-
         //You can never raise Bardic Lore
         if (skill.name === 'Lore: Bardic') {
             reasons.push('Cannot increase with skill training.');
         }
 
-        return reasons;
+        return combineLatest([
+            this._skillValuesService.level$(skill, this.character, levelNumber, { excludeTemporary: true }),
+            this._skillValuesService.canIncreaseSkill$(skill, this.character, levelNumber, maxRank),
+            this._skillValuesService.canIncreaseSkill$(skill, this.character, levelNumber),
+        ])
+            .pipe(
+                map(([skillLevel, canIncreaseWithMaxRank, canIncreaseAtLevel]) => {
+                    // Skip these checks if the skill was increased by this choice. It shouldn't become illegal right after taking it.
+                    if (!this._skillIncreasedByThisChoice(skill, choice)) {
+                        //Check if this skill cannot be raised higher at this level, or if this method only allows a certain rank
+                        // (e.g. for Feats that TRAIN a skill)
+                        //This is only relevant if you haven't raised the skill on this level yet.
+                        //If you have, we don't want to hear that it couldn't be raised again right away
+                        let cannotIncreaseHigher = '';
+
+                        //You can never raise a skill higher than Legendary (8)
+                        if (
+                            skillLevel === SkillLevels.Legendary
+                        ) {
+                            cannotIncreaseHigher = 'Cannot increase any higher.';
+                        } else if (!canIncreaseAtLevel) {
+                            cannotIncreaseHigher = 'Highest rank at this level.';
+                        } else if (!canIncreaseWithMaxRank) {
+                            if (choice.maxRank === SkillLevels.Trained) {
+                                cannotIncreaseHigher = 'Already trained.';
+                            } else {
+                                cannotIncreaseHigher = 'Highest rank for this increase.';
+                            }
+                        }
+
+                        if (cannotIncreaseHigher) {
+                            return reasons.concat(cannotIncreaseHigher);
+                        }
+                    }
+
+                    return reasons;
+                }),
+            );
+
     }
 
     public onSkillIncrease(skillName: string, event: Event, choice: SkillChoice, locked = false, maxAvailable: number): void {
@@ -298,13 +325,20 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         this._viewChangeSubscription?.unsubscribe();
     }
 
-    private _skills(name = '', filter: { type?: string; locked?: boolean } = {}): Array<Skill> {
+    private _skills$(
+        name = '',
+        filter?: { type?: string; locked?: boolean },
+        options?: { noSubstitutions?: boolean },
+    ): Observable<Array<Skill>> {
         filter = {
             type: '',
             locked: undefined, ...filter,
         };
 
-        return this._skillsDataService.skills(this.character.customSkills, name, filter);
+        return CreatureService.character.customSkills.values$
+            .pipe(
+                map(customSkills => this._skillsDataService.skills(customSkills, name, filter, options)),
+            );
     }
 
     private _buttonTitle(allowedIncreases: number): string {
@@ -329,32 +363,39 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         return title;
     }
 
-    private _intelligenceModifier(levelNumber: number): number {
+    private _intelligenceModifier$(levelNumber: number): Observable<number> {
         if (levelNumber <= 0) {
-            return 0;
+            return of(0);
         }
 
-        //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
-        const intelligence: number =
-            this._abilityValuesService.baseValue('Intelligence', this.character, levelNumber).result;
-        const INT: number = abilityModFromAbilityValue(intelligence);
-
-        return INT;
+        return this._abilityValuesService.baseValue$('Intelligence', this.character, levelNumber)
+            .pipe(
+                map(intelligence => abilityModFromAbilityValue(intelligence.result)),
+            );
     }
 
-    private _intelligenceBonusToAllowedIncreases(): number {
+    private _intelligenceBonusToAllowedIncreases$(): Observable<number> {
         //Allow INT more skills if INT has been raised since the last level.
         const levelNumber = parseInt(this.choice.id.split('-')[0], 10);
 
         if (this.choice.source === 'Intelligence') {
-            return this._intelligenceModifier(levelNumber) - this._intelligenceModifier(levelNumber - 1);
+            return combineLatest([
+                this._intelligenceModifier$(levelNumber),
+                this._intelligenceModifier$(levelNumber - 1),
+            ])
+                .pipe(
+                    map(([intNow, intPrev]) => Math.max(0, intNow - intPrev)),
+                );
         } else {
-            return 0;
+            return of(0);
         }
     }
 
-    private _allowedIncreasesAmount(): number {
-        return this.choice.available + this._intelligenceBonusToAllowedIncreases();
+    private _allowedIncreasesAmount$(): Observable<number> {
+        return this._intelligenceBonusToAllowedIncreases$()
+            .pipe(
+                map(intBonus => intBonus + this.choice.available),
+            );
     }
 
     private _removeIllegalIncreases(): void {
@@ -368,7 +409,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                 levelNumber = this.character.level;
             }
 
-            if (!this._skillValuesService.isSkillLegal(increase.name, this.character, levelNumber, this.choice.maxRank)) {
+            if (!this._skillValuesService.isSkillLegal$(increase.name, this.character, levelNumber, this.choice.maxRank)) {
                 if (!increase.locked) {
                     this._characterSkillIncreaseService.increaseSkill(increase.name, false, this.choice, increase.locked);
                     this._refreshService.processPreparedChanges();
@@ -381,46 +422,83 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         this.areAnyIncreasesIllegal = areAnyLockedIncreasesIllegal;
     }
 
-    private _availableSkills(choice: SkillChoice, levelNumber: number, maxAvailable: number): Array<Skill> | undefined {
-        let skills = this._skills('', { type: choice.type, locked: false });
-
-        if (choice.filter.length) {
-            //Only filter the choice if enough of the filtered skills can be raised.
-            if (
-                choice.filter
-                    .map(skillName => this._skills(skillName)[0])
-                    .filter(skill => skill && !this.cannotIncreaseSkill(skill, levelNumber, choice).length)
-                    .length >= maxAvailable
-            ) {
-                skills = skills.filter(skill => choice.filter.includes(skill.name));
-            }
-        }
-
-        if (choice.minRank) {
-            const character = this.character;
-
-            skills = skills.filter(skill =>
-                this._skillValuesService.level(skill, character, levelNumber) >= choice.minRank,
-            );
-        }
-
-        if (skills.length) {
-            const shouldShowOtherOptions = SettingsService.settings.showOtherOptions;
-
-            return skills
-                .filter(skill => (
-                    this._skillIncreasedByThisChoice(skill, choice) ||
-                    (
-                        (
-                            shouldShowOtherOptions ||
-                            choice.increases.length < maxAvailable
-                        ) &&
-                        //Don't show unavailable skills if this choice is visible on the character sheet.
-                        (choice.showOnSheet ? !this.cannotIncreaseSkill(skill, levelNumber, choice).length : true)
+    private _availableSkills$(choice: SkillChoice, levelNumber: number, maxAvailable: number): Observable<Array<Skill>> {
+        return combineLatest([
+            this._skills$('', { type: choice.type, locked: false }),
+            SettingsService.settings.showOtherOptions$,
+        ])
+            .pipe(
+                switchMap(([skills, showOtherOptions]) =>
+                    combineLatest(skills.map(skill =>
+                        // If the choice has a minRank, only keep those skills with that rank or higher.
+                        choice.minRank
+                            ? this._skillValuesService.level$(skill, CreatureService.character, levelNumber)
+                                .pipe(
+                                    map(skillLevel =>
+                                        (skillLevel >= choice.minRank)
+                                            ? skill
+                                            : undefined,
+                                    ),
+                                )
+                            : of(skill),
+                    ))
+                        .pipe(
+                            map(allowedSkills => ({ allowedSkills, showOtherOptions })),
+                        ),
+                ),
+                map(({ allowedSkills, showOtherOptions }) => ({
+                    skills: allowedSkills.filter((skill): skill is Skill => !!skill),
+                    showOtherOptions,
+                })),
+                switchMap(({ skills, showOtherOptions }) =>
+                    // For each skill, fetch whether it can be increased in this choice.
+                    combineLatest(skills
+                        .map(skill => this.cannotIncreaseSkill$(skill, levelNumber, choice)
+                            .pipe(
+                                map(cannotIncreaseReasons => ({ skill, cannotIncreaseReasons })),
+                            )),
                     )
-                ))
-                .sort((a, b) => sortAlphaNum(a.name, b.name));
-        }
+                        .pipe(
+                            map(skillSets => ({ skillSets, showOtherOptions })),
+                        ),
+                ),
+                map(({ skillSets, showOtherOptions }) => {
+                    // If the choice has a filter, verify that the filtered skills that can be raised are
+                    // at least as many as the available number.
+                    // If that is the case, continue with only the filtered skills.
+                    // If not, allow all skills. Pathfinder generally allows you to train any skill if the one you are
+                    // supposed to take is already trained.
+                    if (choice.filter.length) {
+                        const filteredSkillSets = skillSets
+                            .filter(skillSet => stringsIncludeCaseInsensitive(choice.filter, skillSet.skill.name));
+
+                        if (
+                            filteredSkillSets
+                                .filter(skillSet => !skillSet.cannotIncreaseReasons.length)
+                                .length >= maxAvailable
+                        ) {
+                            return ({ skillSets: filteredSkillSets, showOtherOptions });
+                        }
+                    }
+
+                    return ({ skillSets, showOtherOptions });
+                }),
+                map(({ skillSets, showOtherOptions }) => skillSets
+                    .filter(skillSet => (
+                        this._skillIncreasedByThisChoice(skillSet.skill, choice) ||
+                        (
+                            (
+                                showOtherOptions ||
+                                choice.increases.length < maxAvailable
+                            ) &&
+                            //Don't show unavailable skills if this choice is visible on the character sheet.
+                            (choice.showOnSheet ? !skillSet.cannotIncreaseReasons.length : true)
+                        )
+                    ))
+                    .map(skillSet => skillSet.skill)
+                    .sort((a, b) => sortAlphaNum(a.name, b.name)),
+                ),
+            );
     }
 
     private _skillIncreasedByThisChoice(skill: Skill, choice: SkillChoice): boolean {

@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngIf="conditionGain">
-    <ng-container *ngIf="conditionChoices(conditionGain, condition) as choices">
+    <ng-container *ngIf="conditionChoices$(conditionGain, condition) | async as choices">
         <div class="newrow">
             <div style="flex-grow:10">
                 <span>
@@ -579,7 +579,7 @@
     [fullDisplay]="fullDisplay"
 ></app-condition-content>
 
-<ng-container *ngIf="conditionActivitiesParameters() as conditionActivitiesParameters">
+<ng-container *ngIf="conditionActivitiesParameters$() | async as conditionActivitiesParameters">
     <div
         class="fullwidth icon-list"
         *ngIf="conditionActivitiesParameters.length"

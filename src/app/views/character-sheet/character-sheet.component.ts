@@ -1,15 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, Observable, shareReplay, takeUntil } from 'rxjs';
-import { MenuService } from 'src/libs/shared/services/menu/menu.service';
+import { map, Observable } from 'rxjs';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { selectLeftMenu, selectTopMenu } from 'src/libs/store/menu/menu.selectors';
+import { Store } from '@ngrx/store';
 
 const slideInOutTrigger = trigger('slideInOut', [
     state('in', style({
@@ -53,86 +52,49 @@ const slideInOutVertical = trigger('slideInOutVert', [
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterSheetComponent extends DestroyableMixin(IsMobileMixin(TrackByMixin(BaseClass))) implements OnInit, OnDestroy {
+export class CharacterSheetComponent extends IsMobileMixin(TrackByMixin(BaseClass)) {
 
-    public menuNames = MenuNames;
+    public readonly menuNames = MenuNames;
 
-    public isAnimalCompanionAvailable$ = new BehaviorSubject<boolean>(false);
-    public isFamiliarAvailable$ = new BehaviorSubject<boolean>(false);
-    public attacksAndSpellsOrder$ = new BehaviorSubject<Record<string, number>>({});
-    public sideMenuState$: Observable<MenuNames | null>;
-    public topMenuState$: Observable<MenuNames | null>;
+    public readonly isAnimalCompanionAvailable$: Observable<boolean>;
+    public readonly isFamiliarAvailable$: Observable<boolean>;
+    public readonly attacksAndSpellsOrder$: Observable<Record<string, number>>;
+    public readonly sideMenuState$: Observable<MenuNames | null>;
+    public readonly topMenuState$: Observable<MenuNames | null>;
 
     constructor(
-        private readonly _refreshService: RefreshService,
-        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        _creatureAvailabilityService: CreatureAvailabilityService,
+        _store$: Store,
     ) {
         super();
 
+        this.isAnimalCompanionAvailable$ = _creatureAvailabilityService.isCompanionAvailable$();
+
+        this.isFamiliarAvailable$ = _creatureAvailabilityService.isFamiliarAvailable$();
+
         this.sideMenuState$ =
-            MenuService.sideMenuState$
-                .pipe(
-                    shareReplay(1),
-                );
+            _store$.select(selectLeftMenu);
 
         this.topMenuState$ =
-            MenuService.topMenuState$
-                .pipe(
-                    shareReplay(1),
-                );
-    }
+            _store$.select(selectTopMenu);
 
-    public ngOnInit(): void {
-        this._subscribeToChanges();
-    }
-
-    public ngOnDestroy(): void {
-        this.destroy();
-    }
-
-    private _attacksAndSpellsOrder(): Record<string, number> {
         //Returns whether the fightingStyle (attacks or spells) should be first or second for this class (0 or 1).
         //This checks whether you have a primary spellcasting for your class from level 1, and if so, spells should be first.
-        if (CreatureService.character.class.defaultSpellcasting()?.charLevelAvailable === 1) {
-            return {
-                spells: 0,
-                attacks: 1,
-            };
-        } else {
-            return {
-                attacks: 0,
-                spells: 1,
-            };
-        }
-    }
-
-    private _updateValues(): void {
-        this.isAnimalCompanionAvailable$.next(this._creatureAvailabilityService.isCompanionAvailable());
-        this.isFamiliarAvailable$.next(this._creatureAvailabilityService.isFamiliarAvailable());
-        this.attacksAndSpellsOrder$.next(this._attacksAndSpellsOrder());
-    }
-
-    private _subscribeToChanges(): void {
-
-        this._refreshService.componentChanged$
+        this.attacksAndSpellsOrder$ = CreatureService.character.class.defaultSpellcasting$()
             .pipe(
-                takeUntil(this.destroyed$),
-            )
-            .subscribe(target => {
-                if (['character-sheet', 'all', 'character'].includes(target.toLowerCase())) {
-                    this._updateValues();
-                }
-            });
-
-        this._refreshService.detailChanged$
-            .pipe(
-                takeUntil(this.destroyed$),
-            )
-            .subscribe(view => {
-                if (view.creature.toLowerCase() === 'character' && ['character-sheet', 'all'].includes(view.target.toLowerCase())) {
-                    this._updateValues();
-                }
-            });
+                map(casting => {
+                    if (casting?.charLevelAvailable === 1) {
+                        return {
+                            spells: 0,
+                            attacks: 1,
+                        };
+                    } else {
+                        return {
+                            attacks: 0,
+                            spells: 1,
+                        };
+                    }
+                }),
+            );
     }
-
 }

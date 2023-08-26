@@ -1,3 +1,4 @@
+import { Observable, of } from 'rxjs';
 import { Weapon } from 'src/app/classes/Weapon';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
@@ -30,8 +31,12 @@ export class AlchemicalBomb extends Weapon {
 
     public isAlchemicalBomb(): this is AlchemicalBomb { return true; }
 
-    public effectiveName(): string {
-        return this.displayName || this.name;
+    public effectiveName$(): Observable<string> {
+        return of(this.effectiveNameSnapshot());
+    }
+
+    public effectiveNameSnapshot(): string {
+        return this.displayName ?? this.name;
     }
 
     public canStack(): boolean {

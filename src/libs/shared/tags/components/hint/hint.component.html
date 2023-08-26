@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngFor="let hint of hints(); trackBy:trackByIndex;">
+<ng-container *ngFor="let hint of hints$() | async; trackBy:trackByIndex;">
     <ng-container *ngIf="hintSource(hint) as source">
         <ng-template #SimpleHintContent>
             <ng-container *ngFor="let text of hintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
@@ -89,7 +89,7 @@
                         [creature]="creature"
                         [allowActivate]="false"
                         [activity]="activity"
-                        [cooldown]="activityCooldown(activity)"
+                        [cooldown]="(activityCooldown$(activity) | async) ?? activity.cooldown"
                     >
                     </app-activity-content>
                 </ng-container>

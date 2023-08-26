@@ -12,4 +12,8 @@ export class WeaponMaterial extends Material {
     public clone(): WeaponMaterial {
         return Object.assign<WeaponMaterial, WeaponMaterial>(new WeaponMaterial(), JSON.parse(JSON.stringify(this))).recast();
     }
+
+    public isWeaponMaterial(): this is WeaponMaterial {
+        return true;
+    }
 }

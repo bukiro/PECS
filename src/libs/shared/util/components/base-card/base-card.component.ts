@@ -1,23 +1,25 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { BaseCreatureElementComponent } from '../creature-component/base-creature-element.component';
 
 /**
  * A component that has all the variables to
  * - toggle being minimized with a toggle function (toggle function not included)
  * - force being minimized with the forceMinimized attribute
  * - send a destroyed emission to end subscriptions
+ * - update pipes with a new input creature
  *
  * To toggle being minimized, it is recommended to use an Observable that sets
  * `this._isMinimizedBySetting` and then calls `this._updateMinimized()`.
  * A toggle function should cause the Observable to emit the new value.
  */
 @Component({
-    selector: 'app-base-card-element',
+    selector: 'app-base-card',
     template: '',
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaseCardComponent {
+export class BaseCardComponent extends BaseCreatureElementComponent {
 
     /**
      * This should not be touched other than by `this.updateMinimized()`.
@@ -27,27 +29,16 @@ export class BaseCardComponent {
 
     /**
      * This can be read asynchronously in the template to reactively update dependent elements.
+     * It should be initialized in the component and listen to the appropriate settings value and/or other factors.
+     *
+     * this._updateMinimized() should be called in a tap or in a subscribe on this.
      */
-    public readonly isMinimized$ = new BehaviorSubject<boolean>(false);
+    public isMinimized$?: Observable<boolean>;
 
     /**
      * Observable pipes can use `takeUntil(this._destroyed$)` to unsubscribe when it emits.
      */
     protected readonly _destroyed$ = new Subject<true>();
-
-    /**
-     * This should not be touched other than by `this._updateMinimized()`;
-     */
-    private _isMinimizedBySetting = false;
-
-    /**
-     * This should not be touched other than by `this.forceMinimized()`.
-     */
-    private _isForcedMinimized = false;
-
-    public get forceMinimized(): boolean | undefined {
-        return this._isForcedMinimized;
-    }
 
     /**
      * This should be called depending on the settings.
@@ -58,27 +49,19 @@ export class BaseCardComponent {
      *
      * ```ts
      *
-     * SettingsService.settings$
-     *     .pipe(
-     *         map(settings => settings.timeMinimized),
-     *         distinctUntilChanged(),
-     *     )
+     * combineLatest(
+     *     SettingsService.settings$
+     *         .pipe(
+     *             switchMap(settings => settings.timeMinimized$),
+     *         ),
+     *     this.isForcedMinimized$
      *     .subscribe(minimized => {
      *         this._updateMinimized({ bySetting: minimized });
      *     });
      * ```
      */
-    protected _updateMinimized(minimized: { forced?: boolean; bySetting?: boolean } = {}): void {
-        if (minimized.bySetting !== undefined) {
-            this._isMinimizedBySetting = minimized.bySetting;
-        }
-
-        if (minimized.forced !== undefined) {
-            this._isForcedMinimized = minimized.forced;
-        }
-
-        this._isMinimized = this._isMinimizedBySetting || this._isForcedMinimized;
-        this.isMinimized$.next(this._isMinimized);
+    protected _updateMinimized(minimized: boolean): void {
+        this._isMinimized = minimized;
     }
 
     protected _destroy(): void {

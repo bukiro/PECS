@@ -79,7 +79,7 @@
                     <app-cash></app-cash>
 
                     <ng-container *ngIf="craftingItems() as items">
-                        <ng-container *ngIf="snareSpecialistParameters(items) as snareSpecialistParameters">
+                        <ng-container *ngIf="snareSpecialistParameters$(items) | async as snareSpecialistParameters">
                             <header class="sectionHeader">Snare Specialist</header>
 
                             <div class="list-item">
@@ -110,7 +110,7 @@
                                                 *ngIf="tileMode.enabled"
                                             >
                                                 {{snareParameters.preparedAmount}}
-                                                {{snareParameters.snare.effectiveName()}}
+                                                {{snareParameters.snare.effectiveName$() | async}}
                                             </header>
 
                                             <span>
@@ -155,7 +155,7 @@
                                                 >
                                                     <span>
                                                         {{snareParameters.preparedAmount}}
-                                                        {{snareParameters.snare.effectiveName()}}
+                                                        {{snareParameters.snare.effectiveName$() | async}}
                                                     </span>
 
                                                     <span>
@@ -185,8 +185,9 @@
                                                 (click)="toggleShownItem()"
                                             >
                                                 <app-grid-icon
+                                                    *ngIf="snareParameters.snare.effectiveName$({itemStore:true}) | async as snareName"
                                                     [ngClass]="{'fancy-button':snareParameters.preparedAmount}"
-                                                    [ngbTooltip]="(snareParameters.preparedAmount ? snareParameters.preparedAmount + ' ' : '') + snareParameters.snare.effectiveName({itemStore:true}) + (snareParameters.snare.level ? ' (Level ' + snareParameters.snare.level + ')' : '')"
+                                                    [ngbTooltip]="(snareParameters.preparedAmount ? snareParameters.preparedAmount + ' ' : '') + snareName + (snareParameters.snare.level ? ' (Level ' + snareParameters.snare.level + ')' : '')"
                                                     [subTitle]="snareParameters.preparedAmount.toString()"
                                                     [title]="snareParameters.snare.gridIconTitle()"
                                                     [detail]="(snareParameters.snare.traits.includes('Rare') ? 'R' : (snareParameters.snare.traits.includes('Uncommon') ? 'U' : (snareParameters.snare.traits.includes('Unique') ? 'Q' : ''))) + (snareParameters.snare.level || '')"
@@ -203,7 +204,6 @@
                         <header class="sectionHeader">Craft Items</header>
 
                         <app-tags
-                            [creature]="creature"
                             [objectName]="'Crafting'"
                             [showTraits]=true
                             [showFeats]=true
@@ -262,7 +262,7 @@
                                             </header>
                                         </div>
 
-                                        <ng-container *ngFor="let itemParameters of visibleItemParameters(visibleItems); let itemIndex = index; trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let itemParameters of visibleItemParameters$(visibleItems) | async; let itemIndex = index; trackBy:trackByIndex;">
                                             <ng-container *ngIf="isItemShown(visibleItems, itemIndex, range)">
                                                 <ng-template #ItemTitleTemplate>
                                                     <span>
@@ -279,14 +279,14 @@
                                                             [ngbTooltip]="'You are trained with this item.'"
                                                         >
                                                         </i>
-                                                        {{itemParameters.item.effectiveName()}}
+                                                        {{itemParameters.item.effectiveName$() | async}}
                                                     </span>
 
                                                     <span style="flex-basis:auto;flex-grow:0;">
                                                         <span *ngIf="itemParameters.item.level">{{"Level "+itemParameters.item.level}}</span>
 
                                                         <span *ngIf="itemParameters.asArmor">
-                                                            {{itemParameters.asArmor.title({itemStore: true})}}
+                                                            {{itemParameters.asArmor.title$({itemStore: true}) | async}}
                                                         </span>
 
                                                         <span *ngIf="itemParameters.asWeapon">{{itemParameters.asWeapon.title()}}</span>
@@ -295,7 +295,7 @@
 
                                                 <ng-template #ItemTooltipTemplate>
                                                     <span>
-                                                        {{itemParameters.item.effectiveName({itemStore:true})}}
+                                                        {{itemParameters.item.effectiveName$({itemStore:true}) | async}}
                                                     </span>
 
                                                     <span *ngIf="itemParameters.item.level">|</span>
@@ -305,7 +305,7 @@
                                                     <span *ngIf="itemParameters.asArmor || itemParameters.asWeapon">|</span>
 
                                                     <span *ngIf="itemParameters.asArmor">
-                                                        {{itemParameters.asArmor.title({itemStore: true})}}
+                                                        {{itemParameters.asArmor.title$({itemStore: true}) | async}}
                                                     </span>
 
                                                     <span *ngIf="itemParameters.asWeapon">{{itemParameters.asWeapon.title()}}</span>
@@ -323,7 +323,7 @@
                                                         <div
                                                             class="newrow"
                                                             [ngbTooltip]="cannotCraftReason.join('\n')"
-                                                            *ngIf="cannotCraftReason(itemParameters.item) as cannotCraftReason"
+                                                            *ngIf="cannotCraftReason$(itemParameters.item) | async as cannotCraftReason"
                                                         >
                                                             <button
                                                                 type="button"

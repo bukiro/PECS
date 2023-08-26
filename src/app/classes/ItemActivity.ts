@@ -3,15 +3,13 @@ import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { v4 as uuidv4 } from 'uuid';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 /**
  * ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
  * It can only extend one class, so any change to ActivityGain needs to be repeated here.
  */
 export class ItemActivity extends Activity {
-    public active = false;
-    public activeCooldown = 0;
-    public chargesUsed = 0;
     /**
      * If you use a charge of an activity, and it has a sharedChargesID,
      * all activities on the same item with the same sharedChargesID will also use a charge.
@@ -64,6 +62,56 @@ export class ItemActivity extends Activity {
     //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
     public id = uuidv4();
     public data: Array<{ name: string; value: string }> = [];
+
+    public readonly active$: BehaviorSubject<boolean>;
+    public readonly chargesUsed$: BehaviorSubject<number>;
+    public readonly innerActiveCooldown$: BehaviorSubject<number>;
+    /**
+     * activeCooldownByCreature$ is a map of calculated cooldown observables matched to creatures,
+     * depending on the original activity's effective cooldown,
+     * created by the ActivityGainPropertiesService so that it can be subscribed to without passing parameters.
+     */
+    public readonly activeCooldownByCreature$ = new Map<string, Observable<number>>();
+
+    private _active = false;
+    private _activeCooldown = 0;
+    private _chargesUsed = 0;
+
+    constructor() {
+        super();
+
+        this.active$ = new BehaviorSubject(this._active);
+        this.innerActiveCooldown$ = new BehaviorSubject(this._activeCooldown);
+        this.chargesUsed$ = new BehaviorSubject(this._chargesUsed);
+    }
+
+    public get active(): boolean {
+        return this._active;
+    }
+
+    public set active(value: boolean) {
+        this._active = value;
+        this.active$.next(this._active);
+    }
+
+    public get activeCooldown(): number {
+        return this._activeCooldown;
+    }
+
+    public set activeCooldown(value: number) {
+        this._activeCooldown = value;
+        this.innerActiveCooldown$.next(this._activeCooldown);
+    }
+
+    public get chargesUsed(): number {
+        return this._chargesUsed;
+    }
+
+    public set chargesUsed(value: number) {
+        this._chargesUsed = value;
+        this.chargesUsed$.next(this._chargesUsed);
+    }
+
     public get originalActivity(): Activity {
         return this;
     }
@@ -76,7 +124,17 @@ export class ItemActivity extends Activity {
     }
 
     public clone(recastFns: RecastFns): ItemActivity {
-        return Object.assign<ItemActivity, ItemActivity>(new ItemActivity(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Object.assign<ItemActivity, ItemActivity>(new ItemActivity(), JSON.parse(JSON.stringify(this)))
+            .recast(recastFns)
+            .clearTemporaryValues();
+    }
+
+    public clearTemporaryValues(): ItemActivity {
+        super.clearTemporaryValues();
+
+        this.activeCooldownByCreature$.clear();
+
+        return this;
     }
 
     public isOwnActivity(): this is Activity {

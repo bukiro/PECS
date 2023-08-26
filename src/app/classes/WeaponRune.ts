@@ -28,6 +28,10 @@ export class WeaponRune extends Rune {
         return this.striking;
     }
 
+    public isWeaponRune(): this is WeaponRune {
+        return true;
+    }
+
     public recast(recastFns: RecastFns): WeaponRune {
         super.recast(recastFns);
 

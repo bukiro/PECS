@@ -2,6 +2,7 @@ import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { TypeService } from './type.service';
+import { recastFnsforTesting } from '../../definitions/interfaces/recastFns';
 
 describe('TypeService', () => {
 
@@ -56,7 +57,7 @@ describe('TypeService', () => {
 
             const mergedFeat = service.mergeObject(feat1, feat2);
 
-            mergedFeat.recast();
+            mergedFeat.recast(recastFnsforTesting);
 
             expect(mergedFeat.traits).toEqual(feat2.traits);
             expect(mergedFeat.gainConditions.length).toEqual(Math.max(feat1.gainConditions.length, feat2.gainConditions.length));

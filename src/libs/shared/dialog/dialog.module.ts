@@ -4,6 +4,9 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { ButtonModule } from '../ui/button/button.module';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { LogoModule } from '../ui/logo/logo.module';
+import { DialogComponent } from './components/dialog/dialog.component';
+import { DialogHeaderComponent } from './components/dialog-header/dialog-header.component';
+import { DialogFooterComponent } from './components/dialog-footer/dialog-footer.component';
 
 @NgModule({
     imports: [
@@ -15,9 +18,14 @@ import { LogoModule } from '../ui/logo/logo.module';
         LogoModule,
     ],
     declarations: [
+        DialogHeaderComponent,
+        DialogFooterComponent,
+        DialogComponent,
         ConfirmationDialogComponent,
     ],
     exports: [
+        DialogHeaderComponent,
+        DialogFooterComponent,
         NgbModalModule,
     ],
 })

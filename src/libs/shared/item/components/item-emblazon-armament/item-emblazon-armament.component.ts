@@ -11,12 +11,11 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-
-const emblazonArmament = 'emblazonArmament';
-const emblazonEnergy = 'emblazonEnergy';
-const emblazonAntimagic = 'emblazonAntimagic';
+import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { Observable, combineLatest, map, of, take } from 'rxjs';
+import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 
 interface ComponentParameters {
     hasEmblazonDivinity: boolean;
@@ -45,9 +44,7 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
     public emblazonEnergyChoices: Array<string> = ['Acid', 'Cold', 'Electricity', 'Fire', 'Sonic'];
     public emblazonAntimagicActivated?: boolean;
 
-    public emblazonArmament = emblazonArmament;
-    public emblazonEnergy = emblazonEnergy;
-    public emblazonAntimagic = emblazonAntimagic;
+    public emblazonArmamentTypes = EmblazonArmamentTypes;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -62,29 +59,41 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
         return CreatureService.character;
     }
 
-    public componentParameters(): ComponentParameters {
-        const hasEmblazonDivinity = this._characterHasEmblazonDivinity();
-        const isEmblazonArmamentAvailable = this._isOptionAvailable(emblazonArmament);
-        const isEmblazonEnergyAvailable = this._isOptionAvailable(emblazonEnergy);
-        const isEmblazonAntimagicAvailable = this._isOptionAvailable(emblazonAntimagic);
-
-        return {
-            hasEmblazonDivinity,
-            isEmblazonArmamentAvailable,
-            isEmblazonEnergyAvailable,
-            isEmblazonAntimagicAvailable,
-            emblazonArmamentDisabledReason: this._optionDisabledReason(emblazonArmament, hasEmblazonDivinity),
-            emblazonEnergyDisabledReason: this._optionDisabledReason(emblazonEnergy, hasEmblazonDivinity),
-            emblazonAntimagicDisabledReason: this._optionDisabledReason(emblazonAntimagic, hasEmblazonDivinity),
-        };
+    public componentParameters$(): Observable<ComponentParameters> {
+        return combineLatest([
+            this._characterHasEmblazonDivinity$(),
+            this._isOptionAvailable$(EmblazonArmamentTypes.EmblazonArmament),
+            this._isOptionAvailable$(EmblazonArmamentTypes.EmblazonEnergy),
+            this._isOptionAvailable$(EmblazonArmamentTypes.EmblazonAntimagic),
+        ])
+            .pipe(
+                map(([
+                    hasEmblazonDivinity,
+                    isEmblazonArmamentAvailable,
+                    isEmblazonEnergyAvailable,
+                    isEmblazonAntimagicAvailable,
+                ]) => ({
+                    hasEmblazonDivinity,
+                    isEmblazonArmamentAvailable,
+                    isEmblazonEnergyAvailable,
+                    isEmblazonAntimagicAvailable,
+                    emblazonArmamentDisabledReason:
+                        this._optionDisabledReason(EmblazonArmamentTypes.EmblazonArmament, hasEmblazonDivinity),
+                    emblazonEnergyDisabledReason:
+                        this._optionDisabledReason(EmblazonArmamentTypes.EmblazonEnergy, hasEmblazonDivinity),
+                    emblazonAntimagicDisabledReason:
+                        this._optionDisabledReason(EmblazonArmamentTypes.EmblazonAntimagic, hasEmblazonDivinity),
+                })),
+            );
     }
 
     public effectDescription(emblazonDivinity: boolean): string {
-        const foreignEA = this.item.emblazonArmament.find(ea => ea.source !== this._character.id);
-        const hasValidEmblazonDivinity = foreignEA ? foreignEA.emblazonDivinity : emblazonDivinity;
+        const currentEA = this.item.emblazonArmament;
+        const isForeignEA = currentEA && currentEA.source !== this._character.id;
+        const hasValidEmblazonDivinity = isForeignEA ? currentEA.emblazonDivinity : emblazonDivinity;
         let desc = '';
 
-        if (foreignEA) {
+        if (isForeignEA) {
             desc += 'This item is a religious symbol of the signified deity and can be used as a divine focus while emblazoned, '
                 + 'and it gains another benefit determined by the type of item. <var>';
         } else {
@@ -121,252 +130,263 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
         return desc;
     }
 
-    public onChange(type: string, emblazonDivinity: boolean): void {
+    public onChange(type: EmblazonArmamentTypes, emblazonDivinity: boolean): void {
         const coreHint: Hint = new Hint();
         const character = this._character;
 
         coreHint.replaceTitle = 'Emblazon Armament';
         coreHint.replaceSource = [{ source: 'Emblazon Armament', type: 'feat' }];
 
-        switch (type) {
-            case emblazonArmament:
-                if (this.emblazonArmamentActivated) {
-                    const deity = this._characterDeitiesService.currentCharacterDeities()[0];
+        this._characterDeitiesService.currentCharacterDeities$()
+            .pipe(
+                take(1),
+            )
+            .subscribe(deities => {
+                switch (type) {
+                    case EmblazonArmamentTypes.EmblazonArmament:
+                        if (this.emblazonArmamentActivated) {
+                            const deity = deities[0];
 
-                    this.item.emblazonArmament = [{
-                        type,
-                        choice: '',
-                        deity: deity.name,
-                        alignment: deity.alignment,
-                        emblazonDivinity,
-                        source: character.id,
-                    }];
+                            this.item.emblazonArmament = {
+                                type,
+                                choice: '',
+                                deity: deity.name,
+                                alignment: deity.alignment,
+                                emblazonDivinity,
+                                source: character.id,
+                            };
 
-                    if (this.item instanceof Shield) {
-                        coreHint.desc = 'The shield is a religious symbol of the deity whose symbol it bears '
-                            + 'and can be used as a divine focus while emblazoned.';
-                        coreHint.showon = 'Emblazon Armament Shield';
-                        this.item.hints.push(coreHint);
-                    } else if (this.item instanceof Weapon) {
-                        coreHint.desc = 'The weapon is a religious symbol of the deity whose symbol it bears '
-                            + 'and can be used as a divine focus while emblazoned.';
-                        coreHint.showon = 'Emblazon Armament Weapon';
-                        this.item.hints.push(coreHint);
-                    }
-                } else {
-                    this.item.emblazonArmament = [];
-                    this.item.hints = this.item.hints.filter(hint => !hint.showon.includes('Emblazon Armament'));
+                            if (this.item instanceof Shield) {
+                                coreHint.desc = 'The shield is a religious symbol of the deity whose symbol it bears '
+                                    + 'and can be used as a divine focus while emblazoned.';
+                                coreHint.showon = 'Emblazon Armament Shield';
+                                this.item.hints.push(coreHint);
+                            } else if (this.item instanceof Weapon) {
+                                coreHint.desc = 'The weapon is a religious symbol of the deity whose symbol it bears '
+                                    + 'and can be used as a divine focus while emblazoned.';
+                                coreHint.showon = 'Emblazon Armament Weapon';
+                                this.item.hints.push(coreHint);
+                            }
+                        } else {
+                            this.item.emblazonArmament = undefined;
+                            this.item.hints = this.item.hints.filter(hint => !hint.showon.includes('Emblazon Armament'));
+                        }
+
+                        break;
+                    case EmblazonArmamentTypes.EmblazonEnergy:
+                        if (this.emblazonEnergyActivated) {
+                            const deity = deities[0];
+
+                            this.item.emblazonArmament = {
+                                type,
+                                choice: this.emblazonEnergyChoice,
+                                deity: deity.name,
+                                alignment: deity.alignment,
+                                emblazonDivinity,
+                                source: character.id,
+                            };
+
+                            if (this.item instanceof Shield) {
+                                const newActivityGain: ActivityGain =
+                                    new ActivityGain(this._activitiesDataService.activityFromName('Shield Block'));
+
+                                newActivityGain.name = 'Shield Block';
+                                newActivityGain.source = 'Emblazon Energy';
+                                this.item.gainActivities.push(newActivityGain);
+
+                                coreHint.showon = 'Emblazon Energy Shield';
+                                this.item.hints.push(coreHint);
+
+                                const firstHint: Hint = new Hint();
+
+                                firstHint.desc = `You can use Shield Block against ${ this.emblazonEnergyChoice } damage. `
+                                    + 'If you don\'t normally have Shield Block, you can only use it for this purpose.';
+                                firstHint.showon = 'Emblazon Energy Shield Block';
+                                firstHint.replaceTitle = `Emblazon Energy: ${ this.emblazonEnergyChoice }`;
+                                firstHint.replaceSource = [{ source: 'Emblazon Energy', type: 'feat' }];
+                                this.item.hints.push(firstHint);
+
+                                const secondHint: Hint = new Hint();
+
+                                secondHint.desc = 'The shield is a religious symbol of the deity whose symbol it bears '
+                                    + 'and can be used as a divine focus while emblazoned.\n\n'
+                                    + `You gain the shield's circumstance bonus to saving throws against ${ this.emblazonEnergyChoice } `
+                                    + 'damage and can use Shield Block against damage of that type.\n\n'
+                                    + `The shield gains resistance to ${ this.emblazonEnergyChoice } damage equal to half your level `
+                                    + `if you have a domain spell with the ${ this.emblazonEnergyChoice } trait.`;
+                                secondHint.showon = `Emblazon Energy Shield ${ this.emblazonEnergyChoice }`;
+
+                                secondHint.effects.push(EffectGain.from({
+                                    affected: 'Saving Throws',
+                                    type: BonusTypes.Circumstance,
+                                    value: 'parentItem?.get_ACBonus().toString() || 0',
+                                    source: 'Emblazon Energy',
+                                }));
+
+                                secondHint.effects.push(EffectGain.from({
+                                    affected: 'Saving Throws',
+                                    type: BonusTypes.Item,
+                                    value: '(parentItem?.raised && parentItem?._shoddy) ? \'-2\' : \'0\'',
+                                    source: 'Emblazon Energy (shoddy shield)',
+                                }));
+
+                                secondHint.replaceTitle = `Emblazon Energy: ${ this.emblazonEnergyChoice }`;
+                                secondHint.replaceSource = [{ source: 'Emblazon Energy', type: 'feat' }];
+                                this.item.hints.push(secondHint);
+                            } else if (this.item instanceof Weapon) {
+                                coreHint.desc = 'The weapon is a religious symbol of the deity whose symbol it bears '
+                                    + 'and can be used as a divine focus while emblazoned.';
+                                coreHint.showon = 'Emblazon Energy Weapon';
+                                this.item.hints.push(coreHint);
+                            }
+                        } else {
+                            this.item.emblazonArmament = undefined;
+                            this.item.gainActivities = this.item.gainActivities.filter(gain => gain.source !== 'Emblazon Energy');
+                            this.item.hints = this.item.hints.filter(hint => !hint.showon.includes('Emblazon Energy'));
+                        }
+
+                        break;
+                    case EmblazonArmamentTypes.EmblazonAntimagic:
+                        if (this.emblazonAntimagicActivated) {
+                            const deity = deities[0];
+
+                            this.item.emblazonArmament = {
+                                type,
+                                choice: this.emblazonEnergyChoice,
+                                deity: deity.name,
+                                alignment: deity.alignment,
+                                emblazonDivinity,
+                                source: character.id,
+                            };
+
+                            if (this.item instanceof Shield) {
+                                const newActivityGain: ActivityGain =
+                                    new ActivityGain(this._activitiesDataService.activityFromName('Shield Block'));
+
+                                newActivityGain.name = 'Shield Block';
+                                newActivityGain.source = 'Emblazon Antimagic';
+                                this.item.gainActivities.push(newActivityGain);
+
+                                const firstHint: Hint = new Hint();
+
+                                firstHint.desc = 'You can use Shield Block against damage from your enemies\' spells. '
+                                    + 'If you don\'t normally have Shield Block, you can only use it for this purpose.';
+                                firstHint.showon = 'Emblazon Antimagic Shield Block';
+                                firstHint.replaceTitle = 'Emblazon Antimagic';
+                                firstHint.replaceSource = [{ source: 'Emblazon Antimagic', type: 'feat' }];
+                                this.item.hints.push(firstHint);
+
+                                const secondHint: Hint = new Hint();
+
+                                secondHint.desc = 'The shield is a religious symbol of the deity whose symbol it bears '
+                                    + 'and can be used as a divine focus while emblazoned.\n\n'
+                                    + 'When you have the shield raised, you gain the shield\'s circumstance bonus '
+                                    + 'to saving throws against magic, and you can use Shield Block '
+                                    + 'against damage from your enemies\' spells.';
+                                secondHint.showon = 'Emblazon Antimagic Shield';
+
+                                secondHint.effects.push(EffectGain.from({
+                                    affected: 'Saving Throws',
+                                    type: BonusTypes.Circumstance,
+                                    value: 'parentItem?.raised ? (parentItem.get_ACBonus()).toString() : \'0\'',
+                                    source: 'Emblazon Antimagic',
+                                }));
+
+                                secondHint.effects.push(EffectGain.from({
+                                    affected: 'Saving Throws',
+                                    type: BonusTypes.Item,
+                                    value: '(parentItem?.raised && parentItem?._shoddy) ? \'-2\' : \'0\'',
+                                    source: 'Emblazon Antimagic (shoddy shield)',
+                                }));
+                                secondHint.replaceTitle = 'Emblazon Antimagic';
+                                secondHint.replaceSource = [{ source: 'Emblazon Antimagic', type: 'feat' }];
+                                this.item.hints.push(secondHint);
+                            } else if (this.item instanceof Weapon) {
+                                const firstHint: Hint = new Hint();
+
+                                firstHint.desc = 'The weapon is a religious symbol of the deity whose symbol it bears '
+                                    + 'and can be used as a divine focus while emblazoned.\n\n'
+                                    + 'When you critically hit with the weapon, you can attempt to counteract a spell on your target, '
+                                    + 'using half your level, rounded up, as the counteract level. If you attempt to do so, '
+                                    + 'the emblazoned symbol immediately disappears.\n\n'
+                                    + '(This does not happen automatically. You can remove the symbol in the inventory.)';
+                                firstHint.showon = 'Emblazon Antimagic Weapon';
+                                firstHint.replaceTitle = 'Emblazon Antimagic';
+                                firstHint.replaceSource = [{ source: 'Emblazon Antimagic', type: 'feat' }];
+                                this.item.hints.push(firstHint);
+                            }
+                        } else {
+                            this.item.emblazonArmament = undefined;
+                            this.item.gainActivities = this.item.gainActivities.filter(gain => gain.source !== 'Emblazon Antimagic');
+                            this.item.hints = this.item.hints.filter(hint => !hint.showon.includes('Emblazon Antimagic'));
+                        }
+
+                        break;
+                    default: break;
                 }
 
-                break;
-            case emblazonEnergy:
-                if (this.emblazonEnergyActivated) {
-                    const deity = this._characterDeitiesService.currentCharacterDeities()[0];
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
 
-                    this.item.emblazonArmament = [{
-                        type,
-                        choice: this.emblazonEnergyChoice,
-                        deity: deity.name,
-                        alignment: deity.alignment,
-                        emblazonDivinity,
-                        source: character.id,
-                    }];
-
-                    if (this.item instanceof Shield) {
-                        const newActivityGain: ActivityGain =
-                            new ActivityGain(this._activitiesDataService.activityFromName('Shield Block'));
-
-                        newActivityGain.name = 'Shield Block';
-                        newActivityGain.source = 'Emblazon Energy';
-                        this.item.gainActivities.push(newActivityGain);
-
-                        coreHint.showon = 'Emblazon Energy Shield';
-                        this.item.hints.push(coreHint);
-
-                        const firstHint: Hint = new Hint();
-
-                        firstHint.desc = `You can use Shield Block against ${ this.emblazonEnergyChoice } damage. `
-                            + 'If you don\'t normally have Shield Block, you can only use it for this purpose.';
-                        firstHint.showon = 'Emblazon Energy Shield Block';
-                        firstHint.replaceTitle = `Emblazon Energy: ${ this.emblazonEnergyChoice }`;
-                        firstHint.replaceSource = [{ source: 'Emblazon Energy', type: 'feat' }];
-                        this.item.hints.push(firstHint);
-
-                        const secondHint: Hint = new Hint();
-
-                        secondHint.desc = 'The shield is a religious symbol of the deity whose symbol it bears '
-                            + 'and can be used as a divine focus while emblazoned.\n\n'
-                            + `You gain the shield's circumstance bonus to saving throws against ${ this.emblazonEnergyChoice } `
-                            + 'damage and can use Shield Block against damage of that type.\n\n'
-                            + `The shield gains resistance to ${ this.emblazonEnergyChoice } damage equal to half your level `
-                            + `if you have a domain spell with the ${ this.emblazonEnergyChoice } trait.`;
-                        secondHint.showon = `Emblazon Energy Shield ${ this.emblazonEnergyChoice }`;
-
-                        const secondHintEffect: EffectGain = new EffectGain();
-
-                        secondHintEffect.affected = 'Saving Throws';
-                        secondHintEffect.type = 'circumstance';
-                        secondHintEffect.value = 'parentItem?.get_ACBonus().toString() || 0';
-                        secondHintEffect.source = 'Emblazon Energy';
-                        secondHint.effects.push(secondHintEffect);
-
-                        const secondHintSecondEffect: EffectGain = new EffectGain();
-
-                        secondHintSecondEffect.affected = 'Saving Throws';
-                        secondHintSecondEffect.type = 'item';
-                        secondHintSecondEffect.value = '(parentItem?.raised && parentItem?._shoddy) ? \'-2\' : \'0\'';
-                        secondHintSecondEffect.source = 'Emblazon Energy (shoddy shield)';
-                        secondHint.effects.push(secondHintSecondEffect);
-                        secondHint.replaceTitle = `Emblazon Energy: ${ this.emblazonEnergyChoice }`;
-                        secondHint.replaceSource = [{ source: 'Emblazon Energy', type: 'feat' }];
-                        this.item.hints.push(secondHint);
-                    } else if (this.item instanceof Weapon) {
-                        coreHint.desc = 'The weapon is a religious symbol of the deity whose symbol it bears '
-                            + 'and can be used as a divine focus while emblazoned.';
-                        coreHint.showon = 'Emblazon Energy Weapon';
-                        this.item.hints.push(coreHint);
-                    }
+                if (this.item instanceof Weapon) {
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
                 } else {
-                    this.item.emblazonArmament = [];
-                    this.item.gainActivities = this.item.gainActivities.filter(gain => gain.source !== 'Emblazon Energy');
-                    this.item.hints = this.item.hints.filter(hint => !hint.showon.includes('Emblazon Energy'));
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
                 }
 
-                break;
-            case emblazonAntimagic:
-                if (this.emblazonAntimagicActivated) {
-                    const deity = this._characterDeitiesService.currentCharacterDeities()[0];
-
-                    this.item.emblazonArmament = [{
-                        type,
-                        choice: this.emblazonEnergyChoice,
-                        deity: deity.name,
-                        alignment: deity.alignment,
-                        emblazonDivinity,
-                        source: character.id,
-                    }];
-
-                    if (this.item instanceof Shield) {
-                        const newActivityGain: ActivityGain =
-                            new ActivityGain(this._activitiesDataService.activityFromName('Shield Block'));
-
-                        newActivityGain.name = 'Shield Block';
-                        newActivityGain.source = 'Emblazon Antimagic';
-                        this.item.gainActivities.push(newActivityGain);
-
-                        const firstHint: Hint = new Hint();
-
-                        firstHint.desc = 'You can use Shield Block against damage from your enemies\' spells. '
-                            + 'If you don\'t normally have Shield Block, you can only use it for this purpose.';
-                        firstHint.showon = 'Emblazon Antimagic Shield Block';
-                        firstHint.replaceTitle = 'Emblazon Antimagic';
-                        firstHint.replaceSource = [{ source: 'Emblazon Antimagic', type: 'feat' }];
-                        this.item.hints.push(firstHint);
-
-                        const secondHint: Hint = new Hint();
-
-                        secondHint.desc = 'The shield is a religious symbol of the deity whose symbol it bears '
-                            + 'and can be used as a divine focus while emblazoned.\n\n'
-                            + 'When you have the shield raised, you gain the shield\'s circumstance bonus '
-                            + 'to saving throws against magic, and you can use Shield Block against damage from your enemies\' spells.';
-                        secondHint.showon = 'Emblazon Antimagic Shield';
-
-                        const secondHintEffect: EffectGain = new EffectGain();
-
-                        secondHintEffect.affected = 'Saving Throws';
-                        secondHintEffect.type = 'circumstance';
-                        secondHintEffect.value = 'parentItem?.raised ? (parentItem.get_ACBonus()).toString() : \'0\'';
-                        secondHintEffect.source = 'Emblazon Antimagic';
-                        secondHint.effects.push(secondHintEffect);
-
-                        const secondHintSecondEffect: EffectGain = new EffectGain();
-
-                        secondHintSecondEffect.affected = 'Saving Throws';
-                        secondHintSecondEffect.type = 'item';
-                        secondHintSecondEffect.value = '(parentItem?.raised && parentItem?._shoddy) ? \'-2\' : \'0\'';
-                        secondHintSecondEffect.source = 'Emblazon Antimagic (shoddy shield)';
-                        secondHint.effects.push(secondHintSecondEffect);
-                        secondHint.replaceTitle = 'Emblazon Antimagic';
-                        secondHint.replaceSource = [{ source: 'Emblazon Antimagic', type: 'feat' }];
-                        this.item.hints.push(secondHint);
-                    } else if (this.item instanceof Weapon) {
-                        const firstHint: Hint = new Hint();
-
-                        firstHint.desc = 'The weapon is a religious symbol of the deity whose symbol it bears '
-                            + 'and can be used as a divine focus while emblazoned.\n\n'
-                            + 'When you critically hit with the weapon, you can attempt to counteract a spell on your target, '
-                            + 'using half your level, rounded up, as the counteract level. If you attempt to do so, '
-                            + 'the emblazoned symbol immediately disappears.\n\n'
-                            + '(This does not happen automatically. You can remove the symbol in the inventory.)';
-                        firstHint.showon = 'Emblazon Antimagic Weapon';
-                        firstHint.replaceTitle = 'Emblazon Antimagic';
-                        firstHint.replaceSource = [{ source: 'Emblazon Antimagic', type: 'feat' }];
-                        this.item.hints.push(firstHint);
-                    }
-                } else {
-                    this.item.emblazonArmament = [];
-                    this.item.gainActivities = this.item.gainActivities.filter(gain => gain.source !== 'Emblazon Antimagic');
-                    this.item.hints = this.item.hints.filter(hint => !hint.showon.includes('Emblazon Antimagic'));
-                }
-
-                break;
-            default: break;
-        }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-
-        if (this.item instanceof Weapon) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-        } else {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-        }
-
-        this._refreshService.processPreparedChanges();
+                this._refreshService.processPreparedChanges();
+            });
     }
 
-    public relatedDeity(type: string): string {
-        return this.item.emblazonArmament.find(ea => ea.type === type)?.deity || '';
+    public relatedDeity(type: EmblazonArmamentTypes): string {
+        return this.item.emblazonArmament?.type === type
+            ? this.item.emblazonArmament.deity
+            : '';
     }
 
-    public relatedAlignment(type: string): string {
-        return this.item.emblazonArmament.find(ea => ea.type === type)?.alignment || '';
+    public relatedAlignment(type: EmblazonArmamentTypes): string {
+        return this.item.emblazonArmament?.type === type
+            ? this.item.emblazonArmament.alignment
+            : '';
     }
 
     public ngOnInit(): void {
-        this.emblazonArmamentActivated = this.item.emblazonArmament.some(ea => ea.type === emblazonArmament);
-        this.emblazonEnergyActivated = this.item.emblazonArmament.some(ea => ea.type === emblazonEnergy);
-        this.emblazonEnergyChoice = this.item.emblazonArmament.find(ea => ea.type === emblazonEnergy)?.choice || 'Acid';
-        this.emblazonAntimagicActivated = this.item.emblazonArmament.some(ea => ea.type === emblazonAntimagic);
+        this.emblazonArmamentActivated = this.item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonArmament;
+        this.emblazonEnergyActivated = this.item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy;
+        this.emblazonEnergyChoice = this.item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy
+            ? this.item.emblazonArmament.choice
+            : 'Acid';
+        this.emblazonAntimagicActivated = this.item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonAntimagic;
     }
 
-    private _characterHasEmblazonDivinity(): boolean {
-        return this._characterFeatsService.characterHasFeat('Emblazon Divinity');
+    private _characterHasEmblazonDivinity$(): Observable<boolean> {
+        return this._characterFeatsService.characterHasFeatAtLevel$('Emblazon Divinity');
     }
 
-    private _isOptionAvailable(type: string): boolean {
-        if (this.item.emblazonArmament.some(ea => ea.type === type)) {
-            return true;
+    private _isOptionAvailable$(type: EmblazonArmamentTypes): Observable<boolean> {
+        if (this.item.emblazonArmament?.type === type) {
+            return of(true);
         } else {
             switch (type) {
-                case emblazonArmament:
-                    return this._characterFeatsService.characterHasFeat('Emblazon Armament');
-                case emblazonEnergy:
-                    return this._characterFeatsService.characterHasFeat('Emblazon Energy');
-                case emblazonAntimagic:
-                    return this._characterFeatsService.characterHasFeat('Emblazon Antimagic');
-                default: return false;
+                case EmblazonArmamentTypes.EmblazonArmament:
+                    return this._characterFeatsService.characterHasFeatAtLevel$('Emblazon Armament');
+                case EmblazonArmamentTypes.EmblazonEnergy:
+                    return this._characterFeatsService.characterHasFeatAtLevel$('Emblazon Energy');
+                case EmblazonArmamentTypes.EmblazonAntimagic:
+                    return this._characterFeatsService.characterHasFeatAtLevel$('Emblazon Antimagic');
+                default:
+                    return of(false);
             }
         }
     }
 
-    private _optionDisabledReason(type: string, emblazonDivinity: boolean): string {
+    private _optionDisabledReason(type: EmblazonArmamentTypes, emblazonDivinity: boolean): string {
         const character = this._character;
         const limitWithEmblazonDivinity = 4;
         const normalLimit = 1;
 
-        if (!this.item.emblazonArmament.some(ea => ea.type === type)) {
+        if (this.item.emblazonArmament?.type !== type) {
             if (!character.class.deity) {
                 return 'You are not following a deity.';
             }
@@ -376,11 +396,11 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
             character.inventories.forEach(inv => {
                 itemsEmblazonedAmount +=
                     inv.weapons
-                        .filter(weapon => weapon !== this.item && weapon.emblazonArmament.some(ea => ea.source === character.id))
+                        .filter(weapon => weapon !== this.item && weapon.emblazonArmament?.source === character.id)
                         .length;
                 itemsEmblazonedAmount +=
                     inv.shields
-                        .filter(shield => shield !== this.item && shield.emblazonArmament.some(ea => ea.source === character.id))
+                        .filter(shield => shield !== this.item && shield.emblazonArmament?.source === character.id)
                         .length;
             });
 
@@ -392,7 +412,7 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
                 return 'Another item is already emblazoned with your deity\'s symbol.';
             }
 
-            if (this.item.emblazonArmament.some(ea => ea.type !== type)) {
+            if (this.item.emblazonArmament?.type !== type) {
                 return 'This item is already bearing a different symbol.';
             }
         }

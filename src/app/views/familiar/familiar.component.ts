@@ -1,17 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
-import { distinctUntilChanged, map, Observable, Subscription, takeUntil } from 'rxjs';
-import { Character } from 'src/app/classes/Character';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { distinctUntilChanged, map, Observable, Subscription, switchMap, combineLatest, tap, of, debounceTime, takeUntil } from 'rxjs';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { MenuService } from 'src/libs/shared/services/menu/menu.service';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
+import { Store } from '@ngrx/store';
+import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 
 @Component({
     selector: 'app-familiar',
@@ -21,63 +21,52 @@ import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 })
 export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implements OnInit, OnDestroy {
 
-    public creatureTypesEnum = CreatureTypes;
+    public readonly character = CreatureService.character;
 
-    public isMenuOpen$: Observable<boolean>;
+    public readonly isMenuOpen$: Observable<boolean>;
+    public readonly familiar$: Observable<Familiar>;
 
     private _showMode = '';
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
 
     constructor(
+        private readonly _store$: Store,
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
         private readonly _creatureEffectsService: CreatureEffectsService,
-        private readonly _menuService: MenuService,
-        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
         super();
 
-        SettingsService.settings$
-            .pipe(
-                takeUntil(this._destroyed$),
-                map(settings => settings.familiarMinimized),
-                distinctUntilChanged(),
-            )
-            .subscribe(minimized => {
-                this._updateMinimized({ bySetting: minimized });
-            });
+        this.familiar$ = CreatureService.familiar$;
 
-        this.isMenuOpen$ = MenuService.sideMenuState$
+        this.isMinimized$ =
+            SettingsService.settings$
+                .pipe(
+                    switchMap(settings => settings.familiarMinimized$),
+                    tap(minimized => this._updateMinimized(minimized)),
+                );
+
+        this.isMenuOpen$ = _store$.select(selectLeftMenu)
             .pipe(
-                map(menuState => menuState === MenuNames.FamiliarMenu),
+                map(menu => menu === MenuNames.FamiliarMenu),
                 distinctUntilChanged(),
+                switchMap(isMenuOpen => isMenuOpen
+                    ? of(isMenuOpen)
+                    : of(isMenuOpen)
+                        .pipe(
+                            debounceTime(Defaults.closingMenuClearDelay),
+                        ),
+                ),
             );
     }
 
-    @Input()
-    public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._updateMinimized({ forced: forceMinimized ?? false });
-    }
-
-    public get character(): Character {
-        return CreatureService.character;
-    }
-
-    public get isFamiliarAvailable(): boolean {
-        return this._creatureAvailabilityService.isFamiliarAvailable();
-    }
-
-    public get familiar(): Familiar {
-        return CreatureService.familiar;
-    }
-
     public toggleMinimized(minimized: boolean): void {
-        SettingsService.settings.familiarMinimized = minimized;
+        SettingsService.setSetting(settings => { settings.familiarMinimized = minimized; });
     }
 
     public toggleFamiliarMenu(): void {
-        this._menuService.toggleMenu(MenuNames.FamiliarMenu);
+        this._store$.dispatch(toggleLeftMenu({ menu: MenuNames.FamiliarMenu }));
     }
 
     public toggleShownMode(type: string): void {
@@ -88,28 +77,44 @@ export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implemen
         return this._showMode;
     }
 
-    public areFamiliarAbilitiesFinished(): boolean {
-        const choice = this.familiar.abilities;
-        let available = choice.available;
+    public areFamiliarAbilitiesFinished$(): Observable<boolean> {
+        return combineLatest([
+            this.familiar$,
+            this._creatureEffectsService.absoluteEffectsOnThis$(this.character, 'Familiar Abilities'),
+            this._creatureEffectsService.relativeEffectsOnThis$(this.character, 'Familiar Abilities'),
+        ])
+            .pipe(
+                map(([familiar, absolutes, relatives]) => {
+                    const choice = familiar.abilities;
+                    let available = choice.available;
 
-        this._creatureEffectsService.absoluteEffectsOnThis(this.character, 'Familiar Abilities').forEach(effect => {
-            available = parseInt(effect.setValue, 10);
-        });
-        this._creatureEffectsService.relativeEffectsOnThis(this.character, 'Familiar Abilities').forEach(effect => {
-            available += parseInt(effect.value, 10);
-        });
+                    absolutes.forEach(effect => {
+                        available = effect.setValueNumerical;
+                    });
+                    relatives.forEach(effect => {
+                        available += effect.valueNumerical;
+                    });
 
-        return choice.feats.length >= available;
+                    return choice.feats.length >= available;
+                }),
+            );
+
     }
 
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
+            .pipe(
+                takeUntil(this._destroyed$),
+            )
             .subscribe(target => {
                 if (['familiar', 'all'].includes(target.toLowerCase())) {
                     this._changeDetector.detectChanges();
                 }
             });
         this._viewChangeSubscription = this._refreshService.detailChanged$
+            .pipe(
+                takeUntil(this._destroyed$),
+            )
             .subscribe(view => {
                 if (view.creature.toLowerCase() === 'familiar' && ['familiar', 'all'].includes(view.target.toLowerCase())) {
                     this._changeDetector.detectChanges();

@@ -18,6 +18,7 @@ import { Wand } from '../../../../app/classes/Wand';
 import { Weapon } from '../../../../app/classes/Weapon';
 import { WeaponRune } from '../../../../app/classes/WeaponRune';
 import { WornItem } from '../../../../app/classes/WornItem';
+import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types';
 
 @Injectable({
     providedIn: 'root',
@@ -172,17 +173,19 @@ export class ItemRolesService {
     }
 
     private _itemHasEmblazonArmament(item: Item): boolean {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type === 'emblazonArmament');
+        return (item instanceof Weapon || item instanceof Shield)
+            && item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonArmament;
     }
 
     private _itemEmblazonEnergyChoice(item: Item): string | undefined {
         return (item instanceof Weapon || item instanceof Shield)
-            ? item.emblazonArmament.find(ea => ea.type === 'emblazonEnergy')?.choice
+            ? item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy ? item.emblazonArmament.choice : undefined
             : undefined;
     }
 
     private _itemHasEmblazonAntimagic(item: Item): boolean {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type === 'emblazonAntimagic');
+        return (item instanceof Weapon || item instanceof Shield)
+            && item.emblazonArmament?.type === EmblazonArmamentTypes.EmblazonAntimagic;
     }
 
     private _itemStack(item: Item): number {

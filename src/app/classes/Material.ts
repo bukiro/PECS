@@ -1,4 +1,8 @@
+import { Observable, of } from 'rxjs';
 import { Hint } from './Hint';
+import { ArmorMaterial } from './ArmorMaterial';
+import { ShieldMaterial } from './ShieldMaterial';
+import { WeaponMaterial } from './WeaponMaterial';
 
 const defaultCraftingRequirement = 4;
 
@@ -30,8 +34,24 @@ export class Material {
         return Object.assign<Material, Material>(new Material(), JSON.parse(JSON.stringify(this))).recast();
     }
 
+    public isArmorMaterial(): this is ArmorMaterial {
+        return false;
+    }
+
+    public isShieldMaterial(): this is ShieldMaterial {
+        return false;
+    }
+
+    public isWeaponMaterial(): this is WeaponMaterial {
+        return false;
+    }
+
     public hasHints(): this is Material {
         return true;
+    }
+
+    public effectiveName$(): Observable<string> {
+        return of(this.effectiveName());
     }
 
     public effectiveName(): string {

@@ -27,9 +27,10 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { FamiliarsDataService } from '../data/familiars-data.service';
 import { SkillsDataService } from '../data/skills-data.service';
 import { FeatTaken } from '../../definitions/models/FeatTaken';
+import { Observable, combineLatest, map, of } from 'rxjs';
+import { ItemActivity } from 'src/app/classes/ItemActivity';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -55,7 +56,6 @@ interface FormulaOptions {
 export class EvaluationService {
 
     constructor(
-        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _healthService: HealthService,
@@ -70,29 +70,133 @@ export class EvaluationService {
         private readonly _skillsDataService: SkillsDataService,
     ) { }
 
-    public valueFromFormula(
+    //TO-DO: Turn this into an async function that doesn't use eval. Something like the complex feat requirements system.
+    /**
+     * Evaluate formulas from json strings that are used for effects and condition prerequisites.
+     * These formulas are written out javascript functions that use specific values and functions defined here.
+     * The formulas must always result in a number, string or null, and can't be async.
+     */
+    // eslint-disable-next-line complexity
+    public valueFromFormula$(
         formula: string,
         context: FormulaContext,
         options: FormulaOptions = {},
-    ): number | string | null {
+    ): Observable<number | string | null> {
         options = {
             name: '',
             pretendCharacterLevel: 0, ...options,
         };
 
-        //This function takes a formula, then evaluates that formula using the variables and functions listed here.
+        const hasFeat$ = (creatureType: string, name: string): Observable<boolean> => {
+            if (creatureType === CreatureTypes.Familiar) {
+                return this._creatureFeatsService.creatureHasFeat$(name, { creature: Familiar }, { charLevel: Level })
+                    .pipe(
+                        map(amount => !!amount),
+                    );
+            } else if (creatureType === CreatureTypes.Character) {
+                return this._characterFeatsService.characterHasFeatAtLevel$(name, Level, { allowCountAs: true });
+            } else {
+                return of(false);
+            }
+        };
+
+        const featsTaken$ = (creatureType: string): Observable<Array<FeatTaken>> => {
+            if (creatureType === 'Familiar') {
+                return of(Familiar.abilities.feats);
+            } else if (creatureType === CreatureTypes.Character) {
+                return this._characterFeatsService.characterFeatsTaken$(1, Level);
+            } else {
+                return of([]);
+            }
+        };
+
+        // While this still uses eval, it can't be reactive. As a workaround, we need to prepare the results beforehand.
+        const ownedActivitiesRegex = /Owned_Activities\('(.+?)'\)/gm;
+        let shouldPrepareActivities = false;
+        const hasFeatRegex = /Has_Feat\('(.+?),[ ]*(.+?)'\)/gm;
+        const hasFeatNames: Array<{ creature: string; featName: string }> = [];
+        const featsTakenRegex = /Feats_Taken\('(.+?)'\)/gm;
+        const featsTakenCreatures: Array<string> = [];
+        const speedRegex = /Speed\('(.+?)'\)/gm;
+        const speedNames: Array<string> = [];
+        const skillValueRegex = /Skill\('(.+?)'\)/gm;
+        const skillValueNames: Array<string> = [];
+        const skillLevelRegex = /Skill_Level\('(.+?)'\)/gm;
+        const skillLevelNames: Array<string> = [];
+        const abilityValueRegex = /Ability\('(.+?)'\)/gm;
+        const abilityValueNames: Array<string> = [];
+        const abilityModRegex = /Modifier\('(.+?)'\)/gm;
+        const abilityModNames: Array<string> = [];
+        const deityRegex = /Deity\(\)/gm;
+        let shouldPrepareDeity = false;
+        const deitiesRegex = /Deity\(\)/gm;
+        let shouldPrepareDeities = false;
+        const sizeRegex = /Size\(\)/gm;
+        let shouldPrepareSize = false;
+        const SpellcastingModifierRegex = /SpellcastingModifier\(\)/gm;
+        let shouldPrepareSpellcastingModifier = false;
+
+        ownedActivitiesRegex.exec(formula)?.forEach(() => {
+            shouldPrepareActivities = true;
+        });
+
+        hasFeatRegex.exec(formula)?.forEach(match => {
+            hasFeatNames.push({ creature: match[1], featName: match[1 + 1] });
+        });
+
+        featsTakenRegex.exec(formula)?.forEach(match => {
+            featsTakenCreatures.push(match[1]);
+        });
+
+        speedRegex.exec(formula)?.forEach(match => {
+            speedNames.push(match[1]);
+        });
+
+        skillValueRegex.exec(formula)?.forEach(match => {
+            skillValueNames.push(match[1]);
+        });
+
+        skillLevelRegex.exec(formula)?.forEach(match => {
+            skillLevelNames.push(match[1]);
+        });
+
+        abilityValueRegex.exec(formula)?.forEach(match => {
+            abilityValueNames.push(match[1]);
+        });
+
+        abilityModRegex.exec(formula)?.forEach(match => {
+            abilityModNames.push(match[1]);
+        });
+
+        SpellcastingModifierRegex.exec(formula)?.forEach(() => {
+            shouldPrepareSpellcastingModifier = true;
+        });
+
+        deityRegex.exec(formula)?.forEach(() => {
+            shouldPrepareDeity = true;
+        });
+
+        deitiesRegex.exec(formula)?.forEach(() => {
+            shouldPrepareDeities = true;
+        });
+
+        sizeRegex.exec(formula)?.forEach(() => {
+            shouldPrepareSize = true;
+        });
+
         //Define some values that may be relevant for effect values
         /* eslint-disable @typescript-eslint/no-unused-vars */
         const Creature = context.creature;
         const Character = CreatureService.character;
-        const Companion = CreatureService.companion;
-        const Familiar = CreatureService.familiar;
-        const object = context.object;
-        const effect = context.effect;
-        const parentItem = context.parentItem;
+        const Companion = CreatureService.character.class.animalCompanion;
+        const Familiar = CreatureService.character.class.familiar;
         // Using pretendCharacterLevel helps determine what the formula's result
         // would be on a certain character level other than the current.
         const Level: number = options.pretendCharacterLevel || Character.level;
+
+        const object = context.object;
+        const effect = context.effect;
+        const parentItem = context.parentItem;
         //Some values specific to conditions for effect values
         let Duration: number | undefined = (object as Partial<ConditionGain>)?.duration || undefined;
         let Value: number | undefined = (object as Partial<ConditionGain>)?.value || undefined;
@@ -101,9 +205,10 @@ export class EvaluationService {
         let SpellCastingAbility: string | undefined = (object as Partial<ConditionGain>)?.spellCastingAbility || undefined;
         const SpellSource: string | undefined = (object as Partial<ConditionGain>)?.spellSource || undefined;
         const ItemChoice: string | undefined = (parentItem instanceof Equipment) ? parentItem?.choice || undefined : undefined;
-        //Hint effects of conditions pass their conditionGain for these values.
-        //Conditions pass their own gain as parentConditionGain for effects.
-        //Conditions that are caused by conditions also pass the original conditionGain for the evaluation of their activationPrerequisite.
+        // Hint effects of conditions pass their conditionGain for these values.
+        // Conditions pass their own gain as parentConditionGain for effects.
+        // Conditions that are caused by conditions also pass the original conditionGain
+        // for the evaluation of their activationPrerequisite.
         const parentConditionGain = context.parentConditionGain;
 
         if (parentConditionGain) {
@@ -128,186 +233,253 @@ export class EvaluationService {
             }
         }
 
-        //Some Functions for effect values
-        /* eslint-disable @typescript-eslint/naming-convention */
-        const Temporary_HP = (source = '', sourceId = ''): number => {
-            if (sourceId) {
-                return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.sourceId === sourceId)?.amount || 0;
-            } else if (source) {
-                return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.source === source)?.amount || 0;
-            } else {
-                return Creature.health.temporaryHP[0].amount;
-            }
-        };
-        const Current_HP = (): number => (
-            this._healthService.currentHP(Creature.health, Creature).result
-        );
-        const Max_HP = (): number => (
-            this._healthService.maxHP(Creature).result
-        );
-        const Ability = (name: string): number => {
-            if (Creature === Familiar) {
-                return 0;
-            } else {
-                return this._abilityValuesService.value(name, Creature).result;
-            }
-        };
+        return combineLatest([
+            this._healthService.currentHP$(Creature),
+            this._healthService.maxHP$(Creature),
+            shouldPrepareActivities
+                ? this._creatureActivitiesService.creatureOwnedActivities$(Creature)
+                : of([]),
+            combineLatest(
+                hasFeatNames
+                    .map(requiredFeat => hasFeat$(requiredFeat.creature, requiredFeat.featName)
+                        .pipe(
+                            map(hasFeat => hasFeat ? requiredFeat : { creature: '', featName: '' }),
+                        )),
+            ),
+            combineLatest(
+                speedNames
+                    .map(speedName =>
+                        //This tests if you have a certain speed, either from your ancestry or from absolute effects.
+                        // Bonuses and penalties are ignored, since you shouldn't get a bonus to a speed you don't have.
+                        Creature.speeds.some(speed => speed.name === speedName)
+                            ? of(speedName)
+                            : this._creatureEffectsService.absoluteEffectsOnThis$(Creature, speedName)
+                                .pipe(
+                                    map(effects => effects.some(absoluteEffect =>
+                                        !context.effectSourceName
+                                        || absoluteEffect.source !== context.effectSourceName,
+                                    )),
+                                    map(hasSpeed => hasSpeed ? speedName : ''),
+                                ),
+                    ),
 
-        const Modifier = (name: string): number => {
-            if (Creature === Familiar) {
-                return 0;
-            } else {
-                return this._abilityValuesService.mod(name, Creature).result;
-            }
-        };
-        const BaseSize = (): number => (
-            Creature.baseSize()
-        );
-        const Size = (asNumber = false): string | number => (
-            asNumber
-                ? this._creaturePropertiesService.effectiveSize(Creature)
-                : creatureSizeName(this._creaturePropertiesService.effectiveSize(Creature))
-        );
-        const Skill = (name: string): number => (
-            this._skillValuesService.baseValue(name, Creature, Level).result
-        );
-        const Skill_Level = (name: string): number => {
-            if (Creature === Familiar) {
-                return 0;
-            } else {
-                return this._skillValuesService.level(name, Creature, Level);
-            }
-        };
-        const Skills_Of_Type = (name: string): Array<SkillModel> => (
-            this._skillsDataService.skills(Creature.customSkills, '', { type: name })
-        );
-        const Has_Speed = (name: string): boolean => (
-            //This tests if you have a certain speed, either from your ancestry or from absolute effects.
-            // Bonuses and penalties are ignored, since you shouldn't get a bonus to a speed you don't have.
-            Creature.speeds.some(speed => speed.name === name) ||
-            this._creatureEffectsService.absoluteEffectsOnThis(Creature, name)
-                .some(absoluteEffect => !context.effectSourceName || absoluteEffect.source !== context.effectSourceName)
-        );
-        const Speed = (name: string): number => (
-            this._speedValuesService.value(this._testSpeed(name), Creature).result || 0
-        );
-        const Has_Condition = (name: string): boolean => (
-            !!this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true }).length
-        );
-        const Owned_Conditions = (name: string): Array<ConditionGain> => (
-            this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true })
-        );
-        const Owned_Activities = (name: string): Array<ActivityGain> => (
-            this._creatureActivitiesService.creatureOwnedActivities(Creature).filter(gain => gain.name === name)
-        );
-        const Armor = (): ArmorModel | undefined => {
-            if (Creature === Familiar) {
-                return undefined;
-            } else {
-                return Creature.inventories[0].armors.find(armor => armor.equipped);
-            }
-        };
-        const Shield = (): ShieldModel | undefined => {
-            if (Creature === Familiar) {
-                return undefined;
-            } else {
-                return Creature.inventories[0].shields.find(shield => shield.equipped);
-            }
-        };
-        const Weapons = (): Array<Weapon> | undefined => {
-            if (Creature === Familiar) {
-                return undefined;
-            } else {
-                return Creature.inventories[0].weapons.filter(weapon => weapon.equipped);
-            }
-        };
-        const WornItems = (): Array<WornItem> | undefined => {
-            if (Creature === Familiar) {
-                return undefined;
-            } else {
-                return Creature.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped());
-            }
-        };
-        const Has_Feat = (creatureType: string, name: string): number => {
-            if (creatureType === 'Familiar') {
-                return this._familiarsDataService.familiarAbilities(name)
-                    .filter(feat => this._creatureFeatsService.creatureHasFeat(feat, { creature: Familiar }, { charLevel: Level })).length;
-            } else if (creatureType === CreatureTypes.Character) {
-                return this._characterFeatsService.characterFeatsTaken(1, Level, { featName: name }).length;
-            } else {
-                return 0;
-            }
-        };
-        const Feats_Taken = (creatureType: string): Array<FeatTaken> => {
-            if (creatureType === 'Familiar') {
-                return Familiar.abilities.feats
-                    .filter(featTaken => {
-                        const feat = this._familiarsDataService.familiarAbilities(featTaken.name)[0];
+            ),
+            combineLatest(
+                speedNames
+                    .map(speedName =>
+                        this._speedValuesService.value$(this._testSpeed(speedName), Creature)
+                            .pipe(
+                                map(speed => ({ name: speedName, value: speed.result })),
+                            ),
+                    ),
 
-                        return feat && this._creatureFeatsService.creatureHasFeat(feat, { creature: Familiar }, { charLevel: Level });
-                    });
-            } else if (creatureType === CreatureTypes.Character) {
-                return this._characterFeatsService.characterFeatsTaken(1, Level);
-            } else {
-                return [];
-            }
-        };
-        const SpellcastingModifier = (): number => {
-            if (SpellCastingAbility) {
-                return this._abilityValuesService.mod(SpellCastingAbility, Character, Level).result;
-            } else {
-                return 0;
-            }
-        };
-        const Has_Heritage = (name: string): boolean => {
-            const allHeritages: Array<string> = Character.class?.heritage ?
-                [
-                    Character.class.heritage.name.toLowerCase(),
-                    Character.class.heritage.superType.toLowerCase(),
-                ].concat(
-                    ...Character.class.additionalHeritages
-                        .map(heritage =>
-                            [
-                                heritage.name.toLowerCase(),
-                                heritage.superType.toLowerCase(),
-                            ],
+            ),
+            combineLatest(
+                featsTakenCreatures
+                    .map(creature => featsTaken$(creature)
+                        .pipe(
+                            map(feats => ({ creature, feats })),
                         ),
-                ) :
-                [];
+                    ),
+            ),
+            combineLatest(
+                skillValueNames
+                    .map(skillName =>
+                        // Skill value comparisons use the base value, i.e. before effects.
+                        // This prevents an effect from flipflopping if it changes the skill value and therefore its own value,
+                        // and it seems closer to the intention - that is, I think that
+                        // "Athletics modifier of x, unless your own Athletics modifier is higher"
+                        // probably refers to the modifier before at least circumstance and status effects.
+                        //TO-DO: item effects should probably still apply? But then we need to guard against flipflopping effects.
+                        this._skillValuesService.baseValue$(skillName, Creature, Level)
+                            .pipe(
+                                map(value => ({ skill: skillName, value })),
+                            ),
+                    ),
+            ),
+            combineLatest(
+                skillLevelNames
+                    .map(skillName => (Creature === Familiar)
+                        ? of({ skill: skillName, value: 0 })
+                        : this._skillValuesService.level$(skillName, Creature, Level)
+                            .pipe(
+                                map(value => ({ skill: skillName, value })),
+                            ),
+                    ),
+            ),
+            combineLatest(
+                abilityValueNames
+                    .map(abilityName => (Creature === Familiar)
+                        ? of({ ability: abilityName, value: { result: 0 } })
+                        : this._abilityValuesService.value$(abilityName, Creature, Level)
+                            .pipe(
+                                map(value => ({ ability: abilityName, value })),
+                            ),
+                    ),
+            ),
+            combineLatest(
+                abilityModNames
+                    .map(abilityName => (Creature === Familiar)
+                        ? of({ ability: abilityName, value: { result: 0 } })
+                        : this._abilityValuesService.mod$(abilityName, Creature, Level)
+                            .pipe(
+                                map(value => ({ ability: abilityName, value })),
+                            ),
+                    ),
+            ),
+            shouldPrepareDeity
+                ? this._characterDeitiesService.mainCharacterDeity$
+                : of(null),
+            shouldPrepareDeities
+                ? this._characterDeitiesService.currentCharacterDeities$(Level)
+                : of([]),
+            shouldPrepareSize
+                ? this._creaturePropertiesService.effectiveSize$(Creature)
+                : of(0),
+            (shouldPrepareSpellcastingModifier && SpellCastingAbility)
+                ? this._abilityValuesService.mod$(SpellCastingAbility, Character, Level)
+                : of({ result: 0 }),
+        ])
+            .pipe(
+                map(([
+                    currentHP,
+                    maxHP,
+                    ownedActivities,
+                    takenFeatNames,
+                    availableSpeedNames,
+                    speedValues,
+                    featsTaken,
+                    skillValues,
+                    skillLevels,
+                    abilityValues,
+                    abilityMods,
+                    deity,
+                    deities,
+                    size,
+                    spellcastingModifier,
+                ]) => {
+                    //Some Functions for effect values
+                    /* eslint-disable @typescript-eslint/naming-convention */
+                    const Temporary_HP = (source = '', sourceId = ''): number => {
+                        if (sourceId) {
+                            return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.sourceId === sourceId)?.amount || 0;
+                        } else if (source) {
+                            return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.source === source)?.amount || 0;
+                        } else {
+                            return Creature.health.temporaryHP[0].amount;
+                        }
+                    };
+                    const Current_HP = (): number => currentHP.result;
+                    const Max_HP = (): number => maxHP.result;
+                    const Ability = (name: string): number =>
+                        abilityValues.find(abilityValue => abilityValue.ability === name)?.value.result ?? 0;
+                    const Modifier = (name: string): number =>
+                        abilityMods.find(abilityMod => abilityMod.ability === name)?.value.result ?? 0;
+                    const BaseSize = (): number => (
+                        Creature.baseSize()
+                    );
+                    const Size = (asNumber = false): string | number => (
+                        asNumber
+                            ? size
+                            : creatureSizeName(size)
+                    );
+                    const Skill = (name: string): number =>
+                        skillValues.find(skillValue => skillValue.skill === name)?.value.result ?? 0;
+                    const Skill_Level = (name: string): number =>
+                        skillLevels.find(skillLevel => skillLevel.skill === name)?.value ?? 0;
+                    const Skills_Of_Type = (name: string): Array<SkillModel> => (
+                        this._skillsDataService.skills(Creature.customSkills, '', { type: name })
+                    );
+                    const Has_Speed = (name: string): boolean => availableSpeedNames.includes(name);
+                    const Speed = (name: string): number => speedValues.find(speedValue => speedValue.name === name)?.value ?? 0;
+                    const Has_Condition = (name: string): boolean => (
+                        !!this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true }).length
+                    );
+                    const Owned_Conditions = (name: string): Array<ConditionGain> => (
+                        this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true })
+                    );
+                    const Owned_Activities = (name: string): Array<ActivityGain | ItemActivity> =>
+                        ownedActivities.filter(gain => gain.name === name);
+                    const Armor = (): ArmorModel | undefined => {
+                        if (Creature === Familiar) {
+                            return undefined;
+                        } else {
+                            return Creature.inventories[0].armors.find(armor => armor.equipped);
+                        }
+                    };
+                    const Shield = (): ShieldModel | undefined => {
+                        if (Creature === Familiar) {
+                            return undefined;
+                        } else {
+                            return Creature.inventories[0].shields.find(shield => shield.equipped);
+                        }
+                    };
+                    const Weapons = (): Array<Weapon> | undefined => {
+                        if (Creature === Familiar) {
+                            return undefined;
+                        } else {
+                            return Creature.inventories[0].weapons.filter(weapon => weapon.equipped);
+                        }
+                    };
+                    const WornItems = (): Array<WornItem> | undefined => {
+                        if (Creature === Familiar) {
+                            return undefined;
+                        } else {
+                            return Creature.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped());
+                        }
+                    };
+                    const Has_Feat = (creatureType: string, name: string): boolean =>
+                        takenFeatNames.some(taken => taken.creature === creatureType && taken.featName === name);
+                    const Feats_Taken = (creatureType: string): Array<FeatTaken> =>
+                        featsTaken.find(taken => taken.creature === creatureType)?.feats ?? [];
+                    const SpellcastingModifier = (): number => spellcastingModifier.result;
+                    const Has_Heritage = (name: string): boolean => {
+                        const allHeritages: Array<string> = Character.class?.heritage ?
+                            [
+                                Character.class.heritage.name.toLowerCase(),
+                                Character.class.heritage.superType.toLowerCase(),
+                            ].concat(
+                                ...Character.class.additionalHeritages
+                                    .map(heritage =>
+                                        [
+                                            heritage.name.toLowerCase(),
+                                            heritage.superType.toLowerCase(),
+                                        ],
+                                    ),
+                            ) :
+                            [];
 
-            return allHeritages.includes(name);
-        };
-        const Deities = (): Array<DeityModel> => (
-            this._characterDeitiesService.currentCharacterDeities()
-        );
-        const Deity = (): DeityModel => (
-            this._characterDeitiesService.currentCharacterDeities()[0]
-        );
-        /* eslint-enable @typescript-eslint/no-unused-vars */
-        /* eslint-enable @typescript-eslint/naming-convention */
-        //This function is to avoid evaluating a string like "01" as a base-8 number.
-        const cleanupLeadingZeroes = (text: string): string => {
-            let cleanedText = text;
+                        return allHeritages.includes(name);
+                    };
+                    const Deities = (): Array<DeityModel> => deities;
+                    const Deity = (): DeityModel => deity ?? new DeityModel();
+                    /* eslint-enable @typescript-eslint/no-unused-vars */
+                    /* eslint-enable @typescript-eslint/naming-convention */
+                    //This function is to avoid evaluating a string like "01" as a base-8 number.
+                    const cleanupLeadingZeroes = (text: string): string => {
+                        let cleanedText = text;
 
-            while (cleanedText[0] === '0' && cleanedText !== '0') {
-                cleanedText = cleanedText.substring(1);
-            }
+                        while (cleanedText[0] === '0' && cleanedText !== '0') {
+                            cleanedText = cleanedText.substring(1);
+                        }
 
-            return cleanedText;
-        };
+                        return cleanedText;
+                    };
 
-        try {
-            // eslint-disable-next-line no-eval
-            const result: number | string | null | undefined = eval(cleanupLeadingZeroes(formula));
+                    try {
+                        // eslint-disable-next-line no-eval
+                        const result: number | string | null | undefined = eval(cleanupLeadingZeroes(formula));
 
-            if (typeof result === 'string' || typeof result === 'number') {
-                return result;
-            } else {
-                return null;
-            }
-        } catch (error) {
-            return null;
-        }
+                        if (typeof result === 'string' || typeof result === 'number') {
+                            return result;
+                        } else {
+                            return null;
+                        }
+                    } catch (error) {
+                        return null;
+                    }
+                }),
+            );
 
     }
 

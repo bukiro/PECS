@@ -10,6 +10,7 @@ import { ConditionDuration } from 'src/app/classes/ConditionDuration';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { Observable } from 'rxjs';
 
 interface ConditionEnd {
     name: string;
@@ -88,8 +89,6 @@ export class Condition {
     public notes = '';
     /** List choices you can make for this condition. The first choice must never have a featreq. */
     public choices: Array<ConditionChoice> = [];
-    /** _choices is a temporary value that stores the filtered name list produced by get_Choices(); */
-    public $choices: Array<string> = [];
     /** This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition. */
     public choice = '';
     /** All instances of an unlimited condition are shown in the conditions area. Limited conditions only show one instance. */
@@ -98,6 +97,20 @@ export class Condition {
     public overrideConditions: Array<ConditionOverride> = [];
     /** Paused conditions don't tick. If you want to stop -and- hide a condition, you need to override it as well. */
     public pauseConditions: Array<ConditionOverride> = [];
+
+    public effectiveChoicesBySpellLevel$ = new Map<number, Observable<Array<string>>>();
+
+    constructor() {
+        //Initially, if this.choice is not one of the available choices, set it to the first.
+        if (
+            this.choices.length
+            && !this.choices
+                .map(choice => choice.name)
+                .includes(this.choice)
+        ) {
+            this.choice = this.choices[0].name;
+        }
+    }
 
     public recast(recastFns: RecastFns): Condition {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
@@ -141,7 +154,15 @@ export class Condition {
     }
 
     public clone(recastFns: RecastFns): Condition {
-        return Object.assign<Condition, Condition>(new Condition(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Object.assign<Condition, Condition>(new Condition(), JSON.parse(JSON.stringify(this)))
+            .recast(recastFns)
+            .clearTemporaryValues();
+    }
+
+    public clearTemporaryValues(): Condition {
+        this.effectiveChoicesBySpellLevel$.clear();
+
+        return this;
     }
 
     public conditionOverrides(gain?: ConditionGain): Array<ConditionOverride> {

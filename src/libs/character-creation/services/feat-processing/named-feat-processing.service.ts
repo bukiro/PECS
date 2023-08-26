@@ -3,12 +3,12 @@ import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { FeatProcessingContext } from './feat-processing.service';
+import { Observable, of, switchMap, take, tap, zip } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +18,6 @@ export class NamedFeatProcessingService {
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _characterLoreService: CharacterLoreService,
-        private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
@@ -33,12 +32,6 @@ export class NamedFeatProcessingService {
         this._processDifferentWorlds(feat, taken, context);
 
         this._processBlessedBlood(feat, taken);
-
-        this._processCantripConnection(feat, taken);
-
-        this._processSpellBattery(feat, taken);
-
-        this._processWizardSchools(feat, taken);
 
         this._processSpellBlending(feat, context);
 
@@ -58,9 +51,15 @@ export class NamedFeatProcessingService {
 
         this._processSpellMastery(feat, context);
 
-        this._processSplinterFaith(feat, context);
-
-        this._processSyncretism(feat, context);
+        zip([
+            this._processWizardSchools$(feat, taken),
+            this._processCantripConnection$(feat, taken),
+            this._processSpellBattery$(feat, taken),
+        ])
+            .pipe(
+                take(1),
+            )
+            .subscribe();
     }
 
     private _processBargainHunter(feat: Feat, taken: boolean, context: FeatProcessingContext): void {
@@ -114,13 +113,15 @@ export class NamedFeatProcessingService {
         }
     }
 
-    private _processCantripConnection(feat: Feat, taken: boolean): void {
+    private _processCantripConnection$(feat: Feat, taken: boolean): Observable<void> {
         //Cantrip Connection
         if (feat.name === 'Cantrip Connection') {
             const character = CreatureService.character;
+            const familiar = character.class.familiar;
 
             const spellCasting = character.class.spellCasting
-                .find(casting => casting.className === CreatureService.familiar.originClass && casting.castingType !== 'Focus');
+                .find(casting =>
+                    casting.className === familiar.originClass && casting.castingType !== 'Focus');
 
             if (taken) {
                 if (spellCasting) {
@@ -132,43 +133,40 @@ export class NamedFeatProcessingService {
                     newSpellChoice.castingType = spellCasting.castingType;
                     newSpellChoice.source = `Feat: ${ feat.name }`;
 
-                    const familiarLevel = this._characterFeatsService.characterFeatsAndFeatures()
-                        .filter(characterFeat =>
-                            characterFeat.gainFamiliar,
-                        )
-                        .map(characterFeat => character.class.levels
-                            .find(classLevel => classLevel.featChoices
-                                .some(featChoice => featChoice.feats
-                                    .some(featTaken => featTaken.name === characterFeat.name),
-                                ),
-                            ),
-                        )[0];
+                    return this._characterFeatsService.characterFeatsTakenWithContext$()
+                        .pipe(
+                            tap(featsTaken => {
+                                const familiarFeatTaken = featsTaken.find(featTaken => featTaken.feat.gainFamiliar);
 
-                    if (familiarLevel) {
-                        character.class.addSpellChoice(familiarLevel.number, newSpellChoice);
-                    }
-
+                                if (familiarFeatTaken) {
+                                    character.class.addSpellChoice(familiarFeatTaken.levelNumber, newSpellChoice);
+                                }
+                            }),
+                            switchMap(() => of()),
+                        );
                 }
             } else {
-                const oldSpellChoice = spellCasting?.spellChoices.find(spellChoice => spellChoice.source === `Feat: ${ feat.name }`);
+                const oldSpellChoice =
+                    spellCasting?.spellChoices.find(spellChoice => spellChoice.source === `Feat: ${ feat.name }`);
 
                 if (oldSpellChoice) {
                     character.class.removeSpellChoice(oldSpellChoice);
                 }
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
         }
+
+        return of();
     }
 
-    private _processSpellBattery(feat: Feat, taken: boolean): void {
+    private _processSpellBattery$(feat: Feat, taken: boolean): Observable<void> {
         //Spell Battery
         if (feat.name === 'Spell Battery') {
             const character = CreatureService.character;
+            const familiar = character.class.familiar;
 
             const spellCasting = character.class.spellCasting
-                .find(casting => casting.className === CreatureService.familiar.originClass && casting.castingType !== 'Focus');
+                .find(casting =>
+                    casting.className === familiar.originClass && casting.castingType !== 'Focus');
 
             if (taken) {
                 if (spellCasting) {
@@ -180,54 +178,57 @@ export class NamedFeatProcessingService {
                     newSpellChoice.castingType = spellCasting.castingType;
                     newSpellChoice.source = `Feat: ${ feat.name }`;
 
-                    const familiarLevel = this._characterFeatsService.characterFeatsAndFeatures()
-                        .filter(characterFeat =>
-                            characterFeat.gainFamiliar,
-                        )
-                        .map(characterFeat => character.class.levels
-                            .find(classLevel => classLevel.featChoices
-                                .some(featChoice => featChoice.feats
-                                    .some(featTaken => featTaken.name === characterFeat.name),
-                                ),
-                            ),
-                        )[0];
+                    return this._characterFeatsService.characterFeatsTakenWithContext$()
+                        .pipe(
+                            tap(featsTaken => {
+                                const familiarFeatTaken = featsTaken.find(featTaken => featTaken.feat.gainFamiliar);
 
-                    if (familiarLevel) {
-                        character.class.addSpellChoice(familiarLevel.number, newSpellChoice);
-                    }
+                                if (familiarFeatTaken) {
+                                    character.class.addSpellChoice(familiarFeatTaken.levelNumber, newSpellChoice);
+                                }
+                            }),
+                            switchMap(() => of()),
+                        );
                 }
             } else {
-                const oldSpellChoice = spellCasting?.spellChoices.find(spellChoice => spellChoice.source === `Feat: ${ feat.name }`);
+                const oldSpellChoice =
+                    spellCasting?.spellChoices.find(spellChoice => spellChoice.source === `Feat: ${ feat.name }`);
 
                 if (oldSpellChoice) {
                     character.class.removeSpellChoice(oldSpellChoice);
                 }
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
         }
+
+        return of();
     }
 
-    private _processWizardSchools(feat: Feat, taken: boolean): void {
+    private _processWizardSchools$(feat: Feat, taken: boolean): Observable<void> {
         //Reset bonded item charges when selecting or deselecting Wizard schools.
         if (['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School',
             'Illusion School', 'Necromancy School', 'Transmutation School', 'Universalist Wizard'].includes(feat.name)) {
             const character = CreatureService.character;
 
             if (taken) {
-                character.class.spellCasting
-                    .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')
-                    .forEach(casting => {
-                        const superiorBond =
-                            this._characterFeatsService.characterHasFeat('Superior Bond') ? 1 : 0;
+                return this._characterFeatsService.characterHasFeatAtLevel$('Superior Bond')
+                    .pipe(
+                        tap(hasSuperiorBond => {
+                            character.class.spellCasting
+                                .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')
+                                .forEach(casting => {
+                                    const superiorBondBonus = hasSuperiorBond ? 1 : 0;
 
-                        if (feat.name === 'Universalist Wizard') {
-                            casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-                        } else {
-                            casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        }
-                    });
+                                    if (feat.name === 'Universalist Wizard') {
+                                        casting.bondedItemCharges = [superiorBondBonus, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+                                    } else {
+                                        casting.bondedItemCharges = [1 + superiorBondBonus, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                                    }
+                                });
+                        }),
+                        switchMap(() => of()),
+                    );
+
+
             } else {
                 character.class.spellCasting
                     .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')
@@ -238,6 +239,8 @@ export class NamedFeatProcessingService {
                     character.class.spellBook.filter(learned => learned.source !== 'school');
             }
         }
+
+        return of();
     }
 
     private _processSpellBlending(feat: Feat, context: FeatProcessingContext): void {
@@ -405,24 +408,6 @@ export class NamedFeatProcessingService {
             });
             this._refreshService.prepareDetailToChange(context.creature.type, 'spells');
             this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
-        }
-    }
-
-    private _processSplinterFaith(feat: Feat, context: FeatProcessingContext): void {
-        //Splinter Faith changes your domains and needs to clear out the runtime variables and update general.
-        if (feat.name === 'Splinter Faith') {
-            this._characterDeitiesService.currentCharacterDeities().forEach(deity => {
-                deity.clearTemporaryDomains();
-            });
-            this._refreshService.prepareDetailToChange(context.creature.type, 'general');
-        }
-    }
-
-    private _processSyncretism(feat: Feat, context: FeatProcessingContext): void {
-        //Syncretism changes your deities and needs to clear out the runtime variables and update general.
-        if (feat.name === 'Syncretism') {
-            this._characterDeitiesService.clearCharacterDeities();
-            this._refreshService.prepareDetailToChange(context.creature.type, 'general');
         }
     }
 

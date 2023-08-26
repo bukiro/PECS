@@ -1,3 +1,4 @@
+import { Observable, of } from 'rxjs';
 import { Consumable } from 'src/app/classes/Consumable';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
@@ -17,7 +18,11 @@ export class Scroll extends Consumable {
 
     public isScroll(): this is Scroll { return true; }
 
-    public effectiveName(): string {
+    public effectiveName$(): Observable<string> {
+        return of(this.effectiveNameSnapshot());
+    }
+
+    public effectiveNameSnapshot(): string {
         if (this.displayName) {
             return this.displayName;
         } else if (this.storedSpells.length && this.storedSpells[0].spells.length) {

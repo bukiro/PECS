@@ -9,6 +9,7 @@
 <div
     id="familiar-height"
     class="itembox vlist"
+    *ngIf="isMenuOpen$ | async"
 >
     <button
         type="button"
@@ -20,12 +21,12 @@
 
     <div
         class="familiar-box"
-        *ngIf="character.class && isFamiliarAvailable && (isMenuOpen$ | async)"
+        *ngIf="familiar$ | async as familiar"
     >
         <!-- Desktop-only view -->
         <ng-template #DesktopViewTemplate>
             <app-effects
-                [creature]="creatureTypesEnum.Familiar"
+                [creature]="familiar"
                 id="Familiar-effects"
                 class="character-sheet-app character-sheet-row mobile-hide"
             >
@@ -34,7 +35,7 @@
             <div class="character-sheet-column-container mobile-hide">
                 <div class="character-sheet-column">
                     <app-general
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         id="Familiar-general"
                         class="character-sheet-app"
                     ></app-general>
@@ -46,14 +47,14 @@
                     </app-familiar-abilities>
 
                     <app-health
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         id="Familiar-health"
                         class="character-sheet-app"
                     >
                     </app-health>
 
                     <app-skills
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         id="Familiar-skills"
                         class="character-sheet-app"
                     >
@@ -62,13 +63,13 @@
 
                 <div class="character-sheet-column">
                     <app-defense
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         id="Familiar-defense"
                         class="character-sheet-app"
                     ></app-defense>
 
                     <app-inventory
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         id="Familiar-inventory"
                         class="character-sheet-app"
                     ></app-inventory>
@@ -146,7 +147,7 @@
                     <app-general
                         id="Character-general"
                         class="character-sheet-app"
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         *ngIf="!shownMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(shownMode())"
                     >
                     </app-general>
@@ -161,7 +162,7 @@
                     <app-health
                         id="Character-health"
                         class="character-sheet-app"
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         [forceMinimized]="shownMode() === 'Downtime'"
                         *ngIf="shownMode()==='Health'"
                     >
@@ -170,7 +171,7 @@
                     <app-defense
                         id="Character-defense"
                         class="character-sheet-app"
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         *ngIf="shownMode()==='Defense'"
                     >
                     </app-defense>
@@ -178,7 +179,7 @@
                     <app-skills
                         id="Character-skills"
                         class="character-sheet-app"
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         *ngIf="shownMode()==='Skills'"
                     >
                     </app-skills>
@@ -186,7 +187,7 @@
                     <app-activities
                         id="Character-activities"
                         class="character-sheet-app"
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         *ngIf="shownMode()==='Actions'"
                     >
                     </app-activities>
@@ -194,7 +195,7 @@
                     <app-effects
                         id="Character-effects"
                         class="character-sheet-app"
-                        [creature]="creatureTypesEnum.Familiar"
+                        [creature]="familiar"
                         [fullDisplay]="true"
                         *ngIf="shownMode()==='ConditionsEffects'"
                     >

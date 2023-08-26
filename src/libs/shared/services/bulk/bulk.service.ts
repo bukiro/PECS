@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
-import { Effect } from 'src/app/classes/Effect';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureSizes } from '../../definitions/creatureSizes';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CreaturePropertiesService } from '../creature-properties/creature-properties.service';
 import { InventoryPropertiesService } from '../inventory-properties/inventory-properties.service';
+import { BonusDescription } from '../../ui/bonus-list';
+import { Observable, combineLatest, map, take, tap, zip } from 'rxjs';
+import { addBonusDescriptionFromEffect } from '../../util/bonusDescriptionUtils';
 
-export interface CalculatedBulk {
-    maxabsolutes: Array<Effect>;
-    maxbonuses: boolean;
-    maxpenalties: boolean;
-    max: { value: number; explain: string };
-    currentabsolutes: Array<Effect>;
-    currentbonuses: boolean;
-    currentpenalties: boolean;
-    current: { value: number; explain: string };
-    encumberedabsolutes: Array<Effect>;
-    encumberedbonuses: boolean;
-    encumberedpenalties: boolean;
-    encumbered: { value: number; explain: string };
+export interface BulkLiveValue {
+    result: number;
+    bonuses: Array<BonusDescription>;
 }
 
-const defaultEncumberedLimitBase = 5;
-const defaultBulkLimitBase = 10;
+enum SizeMultipliers {
+    Tiny = .5,
+    Medium = 1,
+    Large = 2,
+    Huge = 4,
+    Gargantuan = 8,
+}
 
 @Injectable({
     providedIn: 'root',
@@ -37,168 +34,142 @@ export class BulkService {
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
     ) { }
 
-    public calculate(creature: Creature): CalculatedBulk {
-        const maxabsolutes = this._absolutes(creature, 'Max Bulk');
-        const currentabsolutes = this._absolutes(creature, 'Bulk');
-        const encumberedabsolutes = this._absolutes(creature, 'Encumbered Limit');
+    public currentValue$(creature: Creature): Observable<BulkLiveValue> {
+        return combineLatest([
+            creature.inventories.values$,
+            this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Bulk'),
+            this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Bulk'),
+        ])
+            .pipe(
+                map(([inventories, absolutes, relatives]) => {
+                    let result = 0;
+                    let bonuses: Array<BonusDescription> = [];
 
-        const result = {
-            maxabsolutes,
-            maxbonuses: this._bonuses(creature, 'Max Bulk'),
-            maxpenalties: this._penalties(creature, 'Max Bulk'),
-            max: this._max(creature, maxabsolutes),
-            currentabsolutes,
-            currentbonuses: this._bonuses(creature, 'Bulk'),
-            currentpenalties: this._penalties(creature, 'Bulk'),
-            current: this._current(creature, currentabsolutes),
-            encumberedabsolutes: currentabsolutes,
-            encumberedbonuses: this._bonuses(creature, 'Encumbered Limit'),
-            encumberedpenalties: this._penalties(creature, 'Encumbered Limit'),
-            encumbered: this._encumbered(creature, encumberedabsolutes),
-        };
+                    // If absolute effects exist, the bulk is set to the effect value.
+                    // Otherwise, it is calculated from the inventories' bulk.
+                    if (absolutes.length) {
+                        absolutes
+                            .forEach(effect => {
+                                result = effect.setValueNumerical;
+                                bonuses = addBonusDescriptionFromEffect([], effect);
+                            });
+                    } else {
+                        zip(
+                            inventories
+                                .map(inventory =>
+                                    this._inventoryPropertiesService.effectiveName$(inventory, creature)
+                                        .pipe(
+                                            tap(title => {
+                                                // All bulk gets calculated at *10 to avoid rounding issues with decimals,
+                                                // Then returned at /10
+                                                const decimal = 10;
 
-        return result;
+                                                // TO-DO: totalBulk needs to become reactive.
+                                                const bulk = Math.floor(Math.max(0, inventory.totalBulk(false, true)) * decimal) / decimal;
+
+                                                result += bulk;
+                                                bonuses.push({
+                                                    title,
+                                                    value: `${ bulk }`,
+                                                });
+                                            }),
+                                        ),
+                                ),
+                        )
+                            .pipe(
+                                take(1),
+                            )
+                            .subscribe();
+
+                    }
+
+                    relatives
+                        .forEach(effect => {
+                            result += effect.valueNumerical;
+                            bonuses = addBonusDescriptionFromEffect(bonuses, effect);
+                        });
+
+                    result = Math.floor(Math.max(0, result));
+
+                    return { result, bonuses };
+                }),
+            );
     }
 
-    private _absolutes(creature: Creature, name: string): Array<Effect> {
-        return this._creatureEffectsService.absoluteEffectsOnThis(creature, name);
+    public encumberedLimit$(creature: Creature): Observable<BulkLiveValue> {
+        const defaultEncumberedBaseLimit = 5;
+        const effectTarget = 'Encumbered Limit';
+
+        return this._bulkLimit$(creature, defaultEncumberedBaseLimit, effectTarget);
     }
 
-    private _relatives(creature: Creature, name: string): Array<Effect> {
-        return this._creatureEffectsService.relativeEffectsOnThis(creature, name);
+    public maxLimit$(creature: Creature): Observable<BulkLiveValue> {
+        const defaultBulkLimitBase = 10;
+        const effectTarget = 'Max Bulk';
+
+        return this._bulkLimit$(creature, defaultBulkLimitBase, effectTarget);
     }
 
-    private _bonuses(creature: Creature, name: string): boolean {
-        return this._creatureEffectsService.doBonusEffectsExistOnThis(creature, name);
-    }
+    private _bulkLimit$(creature: Creature, baseLimit: number, effectTarget: string): Observable<BulkLiveValue> {
+        return combineLatest([
+            this._creatureEffectsService.absoluteEffectsOnThis$(creature, effectTarget),
+            this._creatureEffectsService.relativeEffectsOnThis$(creature, effectTarget),
+            this._creaturePropertiesService.effectiveSize$(creature),
+            this._abilityValuesService.mod$('Strength', creature),
+        ])
+            .pipe(
+                map(([absolutes, relatives, creatureSize, strengthModifier]) => {
+                    // Start with the basic bulk.
+                    let result = baseLimit;
+                    let bonuses: Array<BonusDescription> = [{ title: 'Base Limit', value: `${ baseLimit }` }];
 
-    private _penalties(creature: Creature, name: string): boolean {
-        return this._creatureEffectsService.doPenaltyEffectsExistOnThis(creature, name);
-    }
+                    if (strengthModifier.result !== 0) {
+                        result += strengthModifier.result;
+                        bonuses.push({ title: 'Strength Modifier', value: `${ strengthModifier.result }` });
+                    }
 
-    private _current(
-        creature: Creature,
-        absolutes: Array<Effect> = this._absolutes(creature, 'Bulk'),
-    ): { value: number; explain: string } {
-        const inventories = creature.inventories;
-        const result: { value: number; explain: string } = { value: 0, explain: '' };
+                    // Replace everything with the last applicable absolute effect, if any exist.
+                    absolutes
+                        .forEach(effect => {
+                            result = effect.setValueNumerical;
+                            bonuses = addBonusDescriptionFromEffect([], effect);
+                        });
 
-        inventories.forEach(inventory => {
-            const decimal = 10;
-            //To avoid decimal issues, the bulk is rounded to one decimal.
-            const bulk = Math.floor(Math.max(0, inventory.totalBulk(false, true)) * decimal) / decimal;
+                    // Add all relative effects.
+                    relatives
+                        .forEach(effect => {
+                            result += effect.valueNumerical;
+                            bonuses = addBonusDescriptionFromEffect(bonuses, effect);
+                        });
 
-            result.value += bulk;
-            result.explain += `\n${ this._inventoryPropertiesService.effectiveName(inventory, creature) }: ${ bulk }`;
-        });
-        absolutes.forEach(effect => {
-            result.value = parseInt(effect.setValue, 10);
-            result.explain = `${ effect.source }: ${ effect.setValue }`;
-        });
-        this._relatives(creature, 'Bulk').forEach(effect => {
-            result.value += parseInt(effect.value, 10);
-            result.explain += `${ effect.source }: ${ effect.value }`;
-        });
-        result.value = Math.floor(Math.max(0, result.value));
-        result.explain = result.explain.trim();
+                    // Apply a multiplier for the creature's size.
+                    let sizeMultiplier = 0;
 
-        return result;
-    }
+                    switch (creatureSize) {
+                        case CreatureSizes.Tiny:
+                            sizeMultiplier = SizeMultipliers.Tiny;
+                            break;
+                        case CreatureSizes.Large:
+                            sizeMultiplier = SizeMultipliers.Large;
+                            break;
+                        case CreatureSizes.Huge:
+                            sizeMultiplier = SizeMultipliers.Huge;
+                            break;
+                        case CreatureSizes.Gargantuan:
+                            sizeMultiplier = SizeMultipliers.Gargantuan;
+                            break;
+                        default:
+                            sizeMultiplier = SizeMultipliers.Medium;
+                    }
 
-    private _encumbered(
-        creature: Creature,
-        absolutes: Array<Effect> = this._absolutes(creature, 'Encumbered Limit'),
-    ): { value: number; explain: string } {
-        //Gets the basic bulk and adds all effects
-        const result: { value: number; explain: string } = {
-            value: defaultEncumberedLimitBase,
-            explain: `Base limit: ${ defaultEncumberedLimitBase }`,
-        };
+                    if (sizeMultiplier !== SizeMultipliers.Medium) {
+                        result = Math.floor(result * sizeMultiplier);
+                        bonuses.push({ title: 'Size Multiplier', value: `${ sizeMultiplier }` });
+                    }
 
-        const str = this._abilityValuesService.mod('Strength', creature).result;
-
-        if (str !== 0) {
-            result.value += str;
-            result.explain += `\nStrength Modifier: ${ str }`;
-        }
-
-        absolutes.forEach(effect => {
-            result.value = parseInt(effect.setValue, 10);
-            result.explain = `${ effect.source }: ${ effect.setValue }`;
-        });
-        this._relatives(creature, 'Encumbered Limit').forEach(effect => {
-            result.value += parseInt(effect.value, 10);
-            result.explain += `\n${ effect.source }: ${ effect.value }`;
-        });
-        result.explain = result.explain.trim();
-
-        return result;
-    }
-
-    private _max(
-        creature: Creature,
-        absolutes: Array<Effect> = this._absolutes(creature, 'Max Bulk'),
-    ): { value: number; explain: string } {
-        //Gets the basic bulk and adds all effects
-        const result: { value: number; explain: string } =
-            { value: defaultBulkLimitBase, explain: `Base limit: ${ defaultBulkLimitBase }` };
-
-        if (absolutes.length) {
-            absolutes.forEach(effect => {
-                result.value = parseInt(effect.setValue, 10);
-                result.explain = `${ effect.source }: ${ effect.setValue }`;
-            });
-        } else {
-            const str =
-                creature.isFamiliar()
-                    ? 0
-                    : this._abilityValuesService.mod('Strength', creature).result;
-
-            if (str !== 0) {
-                result.value += str;
-                result.explain += `\nStrength Modifier: ${ str }`;
-            }
-
-            const size = this._creaturePropertiesService.effectiveSize(creature);
-            let sizeMultiplier = 0;
-
-            enum SizeMultipliers {
-                Tiny = .5,
-                Medium = 1,
-                Large = 2,
-                Huge = 4,
-                Gargantuan = 8,
-            }
-
-            switch (size) {
-                case CreatureSizes.Tiny:
-                    sizeMultiplier = SizeMultipliers.Tiny;
-                    break;
-                case CreatureSizes.Large:
-                    sizeMultiplier = SizeMultipliers.Large;
-                    break;
-                case CreatureSizes.Huge:
-                    sizeMultiplier = SizeMultipliers.Huge;
-                    break;
-                case CreatureSizes.Gargantuan:
-                    sizeMultiplier = SizeMultipliers.Gargantuan;
-                    break;
-                default:
-                    sizeMultiplier = SizeMultipliers.Medium;
-            }
-
-            if (sizeMultiplier !== SizeMultipliers.Medium) {
-                result.value = Math.floor(result.value * sizeMultiplier);
-                result.explain += `\nSize Multiplier: ${ sizeMultiplier }`;
-            }
-        }
-
-        this._relatives(creature, 'Max Bulk').forEach(effect => {
-            result.value += parseInt(effect.value, 10);
-            result.explain += `\n${ effect.source }: ${ effect.value }`;
-        });
-
-        return result;
+                    return { result, bonuses };
+                }),
+            );
     }
 
 }

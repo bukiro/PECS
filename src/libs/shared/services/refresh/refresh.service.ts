@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, combineLatest, of, map, take } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -89,27 +89,42 @@ export class RefreshService {
     public prepareChangesByHints(creature: Creature, hints: Array<Hint> = []): void {
         if (!this._creatureActivitiesService) { console.error('CreatureActivitiesService missing in RefreshService!'); }
 
-        const affectedActivities = (targetName: string): boolean =>
-            this._creatureActivitiesService?.creatureOwnedActivities(creature, creature.level)
-                .some(activity => targetName.includes(activity.name))
-            || false;
+        const areActivitiesAffected$ = (targetName: string): Observable<boolean> =>
+            (
+                this._creatureActivitiesService?.creatureOwnedActivities$(creature, creature.level)
+                ?? of([])
+            )
+                .pipe(
+                    map(activities => activities.some(activity => targetName.includes(activity.name))),
+                );
 
-        hints.forEach(hint => {
-            //Update the tags for every element that is named here.
-            hint.showon.split(',').forEach(subtarget => {
-                this.prepareDetailToChange(creature.type, 'tags', subtarget.trim());
+        combineLatest(
+            hints.map(hint => areActivitiesAffected$(hint.showon)
+                .pipe(
+                    map(areActivitiesAffected => ({ hint, areActivitiesAffected })),
+                )),
+        )
+            .pipe(
+                take(1),
+            )
+            .subscribe(hintSets => {
+                hintSets.forEach(hintSet => {
+                    //Update the tags for every element that is named here.
+                    hintSet.hint.showon.split(',').forEach(subtarget => {
+                        this.prepareDetailToChange(creature.type, 'tags', subtarget.trim());
+                    });
+
+                    //If any activities are named, also update the activities area.
+                    if (hintSet.areActivitiesAffected) {
+                        this.prepareDetailToChange(creature.type, 'activities');
+                    }
+
+                    if (hintSet.hint.effects.length) {
+                        this.prepareDetailToChange(creature.type, 'effects');
+                    }
+                });
+                this.prepareDetailToChange(creature.type, 'character-sheet');
             });
-
-            //If any activities are named, also update the activities area.
-            if (affectedActivities(hint.showon)) {
-                this.prepareDetailToChange(creature.type, 'activities');
-            }
-
-            if (hint.effects.length) {
-                this.prepareDetailToChange(creature.type, 'effects');
-            }
-        });
-        this.prepareDetailToChange(creature.type, 'character-sheet');
     }
 
     public prepareChangesByAbility(creatureType: CreatureTypes, ability: string): void {

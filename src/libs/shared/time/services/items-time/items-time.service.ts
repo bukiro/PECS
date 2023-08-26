@@ -9,10 +9,10 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
+import { take, zip } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +24,6 @@ export class ItemsTimeService {
         private readonly _refreshService: RefreshService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _characterFeatsService: CharacterFeatsService,
-        private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _inventoryService: InventoryService,
     ) { }
 
@@ -40,78 +39,88 @@ export class ItemsTimeService {
             //Grant items that are granted by other items on rest.
             inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped())
                 .forEach(item => {
+
                     item.gainItems.filter(gain => gain.on === 'rest').forEach(gainItem => {
                         this._itemGrantingService.grantGrantedItem(
                             gainItem,
                             creature,
-                            { sourceName: item.effectiveName(), grantingItem: item },
+                            { sourceName: item.effectiveNameSnapshot(), grantingItem: item },
                         );
                     });
                 });
         });
 
         if (creature.isCharacter()) {
-            //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
-            if (this._characterFeatsService.characterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
-                creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
-                    casting.scrollSavant.forEach(scroll => {
-                        this._inventoryService.grantInventoryItem(
-                            scroll,
-                            { creature, inventory: creature.inventories[0] },
-                            { resetRunes: false, changeAfter: false, equipAfter: false },
-                        );
-                    });
-                });
-            }
-
-            //If you have Battleforger, all your battleforged items are reset.
-            if (this._characterFeatsService.characterHasFeat('Battleforger')) {
-                let shouldAttacksRefresh = false;
-                let shouldDefenseRefresh = false;
-
-                creature.inventories.forEach(inv => {
-                    inv.weapons.forEach(weapon => {
-                        if (weapon.battleforged) {
-                            shouldAttacksRefresh = true;
-                        }
-
-                        weapon.battleforged = false;
-                    });
-                    inv.armors.forEach(armor => {
-                        if (armor.battleforged) {
-                            shouldDefenseRefresh = true;
-                        }
-
-                        armor.battleforged = false;
-                    });
-                    inv.wornitems.forEach(wornitem => {
-                        if (wornitem.battleforged) {
-                            shouldAttacksRefresh = true;
-                        }
-
-                        wornitem.battleforged = false;
-                    });
-                });
-
-                if (shouldAttacksRefresh) {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-                }
-
-                if (shouldDefenseRefresh) {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-                }
-            }
-
-            //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
-            this._characterFeatsService.characterFeatsAndFeatures()
-                .filter(feat =>
-                    feat.gainItems.some(gain => gain.on === 'rest') &&
-                    this._creatureFeatsService.creatureHasFeat(feat, { creature }),
+            zip([
+                this._characterFeatsService.characterHasFeatAtLevel$('Scroll Savant'),
+                this._characterFeatsService.characterHasFeatAtLevel$('Battleforger'),
+                this._characterFeatsService.characterFeatsAtLevel$(),
+            ])
+                .pipe(
+                    take(1),
                 )
-                .forEach(feat => {
-                    feat.gainItems.filter(gain => gain.on === 'rest').forEach(gainItem => {
-                        this._itemGrantingService.grantGrantedItem(gainItem, creature, { sourceName: feat.name });
-                    });
+                .subscribe(([hasScrollSavant, hasBattleforger, allFeats]) => {
+                    //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
+                    if (hasScrollSavant) {
+                        creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
+                            casting.scrollSavant.forEach(scroll => {
+                                this._inventoryService.grantInventoryItem(
+                                    scroll,
+                                    { creature, inventory: creature.inventories[0] },
+                                    { resetRunes: false, changeAfter: false, equipAfter: false },
+                                );
+                            });
+                        });
+                    }
+
+                    //If you have Battleforger, all your battleforged items are reset.
+                    if (hasBattleforger) {
+                        let shouldAttacksRefresh = false;
+                        let shouldDefenseRefresh = false;
+
+                        creature.inventories.forEach(inv => {
+                            inv.weapons.forEach(weapon => {
+                                if (weapon.battleforged) {
+                                    shouldAttacksRefresh = true;
+                                }
+
+                                weapon.battleforged = false;
+                            });
+                            inv.armors.forEach(armor => {
+                                if (armor.battleforged) {
+                                    shouldDefenseRefresh = true;
+                                }
+
+                                armor.battleforged = false;
+                            });
+                            inv.wornitems.forEach(wornitem => {
+                                if (wornitem.battleforged) {
+                                    shouldAttacksRefresh = true;
+                                }
+
+                                wornitem.battleforged = false;
+                            });
+                        });
+
+                        if (shouldAttacksRefresh) {
+                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
+                        }
+
+                        if (shouldDefenseRefresh) {
+                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
+                        }
+                    }
+
+                    //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
+                    allFeats
+                        .filter(feat =>
+                            feat.gainItems.some(gain => gain.on === 'rest'),
+                        )
+                        .forEach(feat => {
+                            feat.gainItems.filter(gain => gain.on === 'rest').forEach(gainItem => {
+                                this._itemGrantingService.grantGrantedItem(gainItem, creature, { sourceName: feat.name });
+                            });
+                        });
                 });
         }
     }

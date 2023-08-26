@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
-import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
+import { CreatureService } from '../creature/creature.service';
 import { SavegamesService } from '../saving-loading/savegames/savegames.service';
 
 @Injectable({
@@ -10,12 +11,15 @@ import { SavegamesService } from '../saving-loading/savegames/savegames.service'
 export class MessagePropertiesService {
 
     constructor(
-        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _creatureService: CreatureService,
         private readonly _savegamesService: SavegamesService,
     ) { }
 
-    public creatureFromMessage(message: PlayerMessage): Creature | undefined {
-        return this._creatureAvailabilityService.allAvailableCreatures().find(creature => creature.id === message.targetId);
+    public messageTargetCreature$(message: PlayerMessage): Observable<Creature | undefined> {
+        return this._creatureService.allAvailableCreatures$()
+            .pipe(
+                map(creatures => creatures.find(creature => creature.id === message.targetId)),
+            );
     }
 
     public messageSenderName(message: PlayerMessage): string {

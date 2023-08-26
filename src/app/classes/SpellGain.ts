@@ -12,7 +12,7 @@ export class SpellGain {
     public borrowed = false;
     /**
      * Copied from SpellCast, these choices can override the spell condition choices.
-     * This applies only if the choice exists on the condition.
+     * This applies only if the choice exists on the condition, and ignores any choice prerequisites.
      */
     public overrideChoices: Array<{ condition: string; choice: string }> = [];
     /** In order to select a choice from the spell before casting it, the choice is saved here for each condition. */

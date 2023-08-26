@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { StickyPopoverModule } from '../shared/sticky-popover/sticky-popover.module';
 import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
 import { ButtonModule } from '../shared/ui/button/button.module';
+import { AttributeValueModule } from '../shared/ui/attribute-value/attribute-value.module';
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { ButtonModule } from '../shared/ui/button/button.module';
         StickyPopoverModule,
         GridIconModule,
         ButtonModule,
+        AttributeValueModule,
     ],
     declarations: [
         InventoryComponent,

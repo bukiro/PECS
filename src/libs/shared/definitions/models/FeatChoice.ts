@@ -1,10 +1,10 @@
 
+import { OnChangeArray } from '../../util/classes/on-change-array';
 import { FeatIgnoreRequirements } from './featIgnoreRequirements';
 import { FeatTaken } from './FeatTaken';
 
 export class FeatChoice {
     public available = 0;
-    public feats: Array<FeatTaken> = [];
     public filter: Array<string> = [];
     public id = '';
     /**
@@ -63,6 +63,17 @@ export class FeatChoice {
     public ignoreRequirements: Array<FeatIgnoreRequirements.FeatIgnoreRequirement> = [];
     public type = '';
     public bonus = false;
+
+    private readonly _feats = new OnChangeArray<FeatTaken>();
+
+    public get feats(): OnChangeArray<FeatTaken> {
+        return this._feats;
+    }
+
+    public set feats(value: Array<FeatTaken>) {
+        this._feats.setValues(...value);
+    }
+
 
     public recast(): FeatChoice {
         this.feats = this.feats.map(obj => Object.assign(new FeatTaken(), obj).recast());

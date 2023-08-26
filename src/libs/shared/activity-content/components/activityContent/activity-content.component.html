@@ -210,10 +210,10 @@
         </header>
 
         <ng-container *ngIf="gain && allowActivate">
-            <ng-container *ngFor="let conditionSet of spellConditions(cast, spellCastIndex); let conditionSetIndex = index; trackBy:trackByIndex">
+            <ng-container *ngFor="let conditionSet of spellConditions$(cast, spellCastIndex) | async; let conditionSetIndex = index; trackBy:trackByIndex">
                 <div
                     class="newrow list-item left-aligned"
-                    *ngIf="!cast.hideChoices.includes(conditionSet.condition.name) && conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices"
+                    *ngIf="conditionSet.show"
                 >
                     <span>
                         {{conditionSet.condition.name}} effect selection:
@@ -223,7 +223,7 @@
                             (ngModelChange)="onEffectChoiceChange()"
                         >
                             <option
-                                *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
+                                *ngFor="let choice of conditionSet.choices; trackBy:trackByIndex;"
                                 [ngValue]="choice"
                             >
                                 {{choice}}
@@ -254,7 +254,7 @@
         <app-spell-content
             class="vlist fullwidth"
             [spell]="spell"
-            [spellLevel]="spellLevelFromBaseLevel(spell, cast.level)"
+            [spellLevel]="(spellLevelFromBaseLevel$(spell, cast.level) | async) ?? 1"
         >
         </app-spell-content>
     </ng-container>
@@ -295,7 +295,7 @@
         <app-spell-content
             class="vlist fullwidth"
             [spell]="shownSpell"
-            [spellLevel]="spellLevelFromBaseLevel(shownSpell, shownSpellSet.level)"
+            [spellLevel]="(spellLevelFromBaseLevel$(shownSpell, shownSpellSet.level) | async) ?? 1"
         >
         </app-spell-content>
     </ng-container>

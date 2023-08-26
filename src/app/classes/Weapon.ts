@@ -8,16 +8,9 @@ import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { strikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
-import { BehaviorSubject } from 'rxjs';
-
-interface EmblazonArmamentSet {
-    type: string;
-    choice: string;
-    deity: string;
-    alignment: string;
-    emblazonDivinity: boolean;
-    source: string;
-}
+import { BehaviorSubject, Observable, map } from 'rxjs';
+import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/emblazon-armament-set';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 
 export class Weapon extends Equipment {
     //Weapons should be type "weapons" to be found in the database
@@ -42,11 +35,8 @@ export class Weapon extends Equipment {
     public hands: string | number = '';
     /** Melee range in ft: 5 or 10 for weapons with Reach trait. */
     public melee = 0;
-    /** Store any poisons applied to this item. There should be only one poison at a time. */
-    public poisonsApplied: Array<AlchemicalPoison> = [];
     /**
      * What proficiency is used? "Simple Weapons", "Unarmed Attacks", etc.?
-     * Use get_Proficiency() to get the proficiency for numbers and effects.
      */
     public prof: WeaponProficiencies = WeaponProficiencies.Simple;
     /**
@@ -58,33 +48,99 @@ export class Weapon extends Equipment {
     public reload = '';
     /** What kind of weapon is this based on? Needed for weapon proficiencies for specific magical items. */
     public weaponBase = '';
-    /** Giant Instinct Barbarians can wield larger weapons. */
-    public large = false;
-    /** A Champion with the Divine Ally: Blade Ally Feat can designate one weapon or handwraps as his blade ally. */
-    public bladeAlly = false;
-    /** A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune. */
-    public battleforged = false;
-    /**
-     * A Cleric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
-     * Subsequent feats can change options and restrictions of the functionality.
-     */
-    public emblazonArmament: Array<EmblazonArmamentSet> = [];
-    public $emblazonArmament = false;
-    public $emblazonEnergy = false;
-    public $emblazonAntimagic = false;
     /** Dexterity-based melee attacks force you to use dexterity for your attack modifier. */
     public dexterityBased = false;
     /** If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency. */
     public useHighestAttackProficiency = false;
-    public propertyRunes: Array<WeaponRune> = [];
-    public material: Array<WeaponMaterial> = [];
-    public $traits: Array<string> = [];
     /** Shoddy weapons take a -2 penalty to attacks. */
-    public $shoddy: ShoddyPenalties = ShoddyPenalties.NotShoddy;
+    public effectiveShoddy$ = new BehaviorSubject<ShoddyPenalties>(ShoddyPenalties.NotShoddy);
 
-    public runesChanged$ = new BehaviorSubject<true>(true);
+    //TO-DO: This should be a true observable and update when it has reason to.
+    // I'm not sure how, because it relies on the deity service.
+    public effectiveEmblazonArmament$ = new BehaviorSubject<EmblazonArmamentSet | undefined>(undefined);
+
+    public readonly battleforged$: BehaviorSubject<boolean>;
+    public readonly bladeAlly$: BehaviorSubject<boolean>;
+    public readonly emblazonArmament$: BehaviorSubject<EmblazonArmamentSet | undefined>;
+    public readonly large$: BehaviorSubject<boolean>;
+    public readonly weaponMaterial$: Observable<Array<WeaponMaterial>>;
+    public readonly weaponRunes$: Observable<Array<WeaponRune>>;
 
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = strikingTitleFromLevel;
+
+    private _battleforged = false;
+    private _bladeAlly = false;
+    private readonly _poisonsApplied = new OnChangeArray<AlchemicalPoison>();
+    private _emblazonArmament?: EmblazonArmamentSet | undefined = undefined;
+    private _large = false;
+
+    constructor() {
+        super();
+
+        this.battleforged$ = new BehaviorSubject(this._battleforged);
+        this.bladeAlly$ = new BehaviorSubject(this._bladeAlly);
+        this.emblazonArmament$ = new BehaviorSubject(this._emblazonArmament);
+        this.large$ = new BehaviorSubject(this._large);
+        this.weaponMaterial$ = this.material.values$
+            .pipe(
+                map(materials => materials.filter((material): material is WeaponMaterial => material.isWeaponMaterial())),
+            );
+        this.weaponRunes$ = this.propertyRunes.values$
+            .pipe(
+                map(runes => runes.filter((rune): rune is WeaponRune => rune.isWeaponRune())),
+            );
+    }
+
+    public get battleforged(): boolean {
+        return this._battleforged;
+    }
+
+    /** A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune. */
+    public set battleforged(value: boolean) {
+        this._battleforged = value;
+        this.battleforged$.next(this._battleforged);
+    }
+
+    public get bladeAlly(): boolean {
+        return this._bladeAlly;
+    }
+
+    /** A Champion with the Divine Ally: Blade Ally Feat can designate one weapon or handwraps as his blade ally. */
+    public set bladeAlly(value) {
+        this._bladeAlly = value;
+        this.bladeAlly$.next(this._bladeAlly);
+    }
+
+    public get emblazonArmament(): EmblazonArmamentSet | undefined {
+        return this._emblazonArmament;
+    }
+
+    /**
+     * A Cleric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
+     * Subsequent feats can change options and restrictions of the functionality.
+     */
+    public set emblazonArmament(value: EmblazonArmamentSet | undefined) {
+        this._emblazonArmament = value;
+        this.emblazonArmament$.next(this._emblazonArmament);
+    }
+
+    public get poisonsApplied(): OnChangeArray<AlchemicalPoison> {
+        return this._poisonsApplied;
+    }
+
+    /** Store any poisons applied to this item. There should be only one poison at a time. */
+    public set poisonsApplied(value: Array<AlchemicalPoison>) {
+        this._poisonsApplied.setValues(...value);
+    }
+
+    public get large(): boolean {
+        return this._large;
+    }
+
+    /** Giant Instinct Barbarians can wield larger weapons. */
+    public set large(value: boolean) {
+        this._large = value;
+    }
 
     public get secondaryRune(): BasicRuneLevels {
         return this.strikingRune;
@@ -92,6 +148,14 @@ export class Weapon extends Equipment {
 
     public set secondaryRune(value: BasicRuneLevels) {
         this.strikingRune = value;
+    }
+
+    public get weaponRunes(): Array<WeaponRune> {
+        return this.propertyRunes.filter((rune): rune is WeaponRune => rune.isWeaponRune());
+    }
+
+    public get weaponMaterial(): Array<WeaponMaterial> {
+        return this.material.filter((material): material is WeaponMaterial => material.isWeaponMaterial());
     }
 
     public recast(recastFns: RecastFns): Weapon {
@@ -123,8 +187,11 @@ export class Weapon extends Equipment {
         return currentProficiency !== this.prof;
     }
 
-    protected _secondaryRuneName(): string {
-        return this.secondaryRuneTitleFunction(this.effectiveStriking());
+    protected _secondaryRuneName$(): Observable<string> {
+        return this.effectiveStriking$()
+            .pipe(
+                map(striking => this.secondaryRuneTitleFunction(striking)),
+            );
     }
 
     protected _bladeAllyName(): Array<string> {

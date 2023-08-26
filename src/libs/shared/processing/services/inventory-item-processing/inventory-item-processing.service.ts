@@ -162,7 +162,7 @@ export class InventoryItemProcessingService {
                     this._itemGrantingService.grantGrantedItem(
                         gainItem,
                         creature,
-                        { sourceName: item.effectiveName(), grantingItem: item },
+                        { sourceName: item.effectiveNameSnapshot(), grantingItem: item },
                     );
                 });
         }
@@ -310,35 +310,41 @@ export class InventoryItemProcessingService {
             item.potencyRune = item.strikingRune = item.resilientRune = item.propertyRunes.length = 0;
         }
 
-        item.propertyRunes.filter(rune => rune.loreChoices?.length).forEach(rune => {
-            this._characterLoreService.addRuneLore(rune);
-        });
+        item.propertyRunes
+            .filter(rune => rune.loreChoices?.length)
+            .forEach(rune => {
+                this._characterLoreService.addRuneLore(rune);
+            });
 
         if (!skipGainedInventories) {
             //Add all Inventories that you get from this item.
             if (item.gainInventory) {
                 item.gainInventory.forEach(gain => {
-                    const newLength = creature.inventories.push(new ItemCollection());
-                    const newInventory = creature.inventories[newLength - 1];
-
-                    newInventory.itemId = item.id;
-                    newInventory.bulkLimit = gain.bulkLimit;
-                    newInventory.bulkReduction = gain.bulkReduction;
+                    creature.inventories.push(
+                        Object.assign<ItemCollection, Partial<ItemCollection>>(
+                            new ItemCollection(),
+                            {
+                                itemId: item.id,
+                                bulkLimit: gain.bulkLimit,
+                                bulkReduction: gain.bulkReduction,
+                            },
+                        ),
+                    );
                 });
             }
         }
 
-        if (!skipGrantedItems) {
-            //Add all Items that you get from being granted this one
-            if (item.gainItems.length) {
-                item.gainItems.filter(gainItem => gainItem.on === 'grant' && gainItem.amount > 0).forEach(gainItem => {
+        if (!skipGrantedItems && item.gainItems.length) {
+            // Add all Items that you get from being granted this one.
+            item.gainItems
+                .filter(gainItem => gainItem.on === 'grant' && gainItem.amount > 0)
+                .forEach(gainItem => {
                     this._itemGrantingService.grantGrantedItem(
                         gainItem,
                         creature,
-                        { sourceName: item.effectiveName(), grantingItem: item },
+                        { sourceName: item.effectiveNameSnapshot(), grantingItem: item },
                     );
                 });
-            }
         }
     }
 
@@ -358,9 +364,11 @@ export class InventoryItemProcessingService {
             this._creatureConditionsService.removeGainedItemConditions(creature, item);
         }
 
-        item.propertyRunes.filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
-            this._characterLoreService.removeRuneLore(rune);
-        });
+        item.propertyRunes
+            .filter(rune => rune.loreChoices.length)
+            .forEach(rune => {
+                this._characterLoreService.removeRuneLore(rune);
+            });
 
         item.gainActivities.forEach(gain => {
             if (gain.active) {
@@ -414,7 +422,7 @@ export class InventoryItemProcessingService {
 
         if (found) {
             this._toastService.show(
-                `${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.effectiveName() }</strong> `
+                `${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.effectiveNameSnapshot() }</strong> `
                 + 'before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.',
             );
         }

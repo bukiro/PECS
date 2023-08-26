@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
 import { default as package_json } from 'package.json';
 import { BehaviorSubject, catchError, filter, map, Observable, of, switchMap } from 'rxjs';
-import { ApiStatus } from '../../definitions/interfaces/api-status';
 import { ApiStatusKey } from '../../definitions/apiStatusKey';
 import { Defaults } from '../../definitions/defaults';
+import { Store } from '@ngrx/store';
+import { selectConfigStatus } from 'src/libs/store/status/status.selectors';
+import { setConfigStatus } from 'src/libs/store/status/status.actions';
 
 interface LoginToken {
     token: string | false;
@@ -16,23 +18,23 @@ interface LoginToken {
 })
 export class ConfigService {
 
-    public static configStatus$ = new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.Initializing, message: 'Initializing...' });
-
     public updateVersionAvailable$ = new BehaviorSubject<string>('');
+    public isReady$: Observable<boolean>;
 
     private _dataServiceURL?: string;
     private _xAccessToken = 'testtoken';
 
     constructor(
         private readonly _httpClient: HttpClient,
+        private readonly _store$: Store,
     ) {
+        this.isReady$ = _store$.select(selectConfigStatus)
+            .pipe(
+                map(status => status.key === ApiStatusKey.Ready),
+            );
+
         this._checkForUpdate();
-
         this._initialize();
-    }
-
-    public get isReady(): boolean {
-        return ConfigService.configStatus$.value.key === ApiStatusKey.Ready;
     }
 
     public get xAccessToken(): string {
@@ -45,9 +47,9 @@ export class ConfigService {
 
     public login(password = ''): void {
         if (password) {
-            ConfigService.configStatus$.next({ key: ApiStatusKey.LoggingIn, message: 'Logging in...' });
+            this._store$.dispatch(setConfigStatus({ status: { key: ApiStatusKey.LoggingIn, message: 'Logging in...' } }));
         } else {
-            ConfigService.configStatus$.next({ key: ApiStatusKey.LoggingIn, message: 'Connecting...' });
+            this._store$.dispatch(setConfigStatus({ status: { key: ApiStatusKey.LoggingIn, message: 'Connecting...' } }));
         }
 
         // Try logging in. Return values are:
@@ -59,30 +61,34 @@ export class ConfigService {
                 next: result => {
                     if (result.token !== false) {
                         this._xAccessToken = result.token;
-                        ConfigService.configStatus$.next({ key: ApiStatusKey.Ready });
+                        this._store$.dispatch(setConfigStatus({ status: { key: ApiStatusKey.Ready } }));
                     } else {
                         if (password) {
-                            ConfigService.configStatus$.next({ key: ApiStatusKey.NotLoggedIn, message: 'The password is incorrect.' });
+                            this._store$.dispatch(setConfigStatus({
+                                status: { key: ApiStatusKey.NotLoggedIn, message: 'The password is incorrect.' },
+                            }));
                         } else {
                             // Login with no password should only happen in the initial connection test.
                             // This result means a password is required.
-                            ConfigService.configStatus$.next({ key: ApiStatusKey.NotLoggedIn });
+                            this._store$.dispatch(setConfigStatus({ status: { key: ApiStatusKey.NotLoggedIn } }));
                         }
                     }
                 }, error: error => {
                     console.error(`Error logging in: ${ error.message }`);
 
-                    ConfigService.configStatus$.next({
-                        key: ApiStatusKey.Failed,
-                        message: 'The configured database is not available.',
-                        retryFn: this.login.bind(this),
-                    });
+                    this._store$.dispatch(setConfigStatus({
+                        status: {
+                            key: ApiStatusKey.Failed,
+                            message: 'The configured database is not available.',
+                            retryFn: this.login.bind(this),
+                        },
+                    }));
                 },
             });
     }
 
     public logout(notification = ''): void {
-        ConfigService.configStatus$.next({ key: ApiStatusKey.NotLoggedIn, message: notification });
+        this._store$.dispatch(setConfigStatus({ status: { key: ApiStatusKey.NotLoggedIn, message: notification } }));
     }
 
     private _initialize(): void {
@@ -122,13 +128,15 @@ export class ConfigService {
                     } else if (error.message.includes('failure during parsing')) {
                         console.error('A bad config file was found. See assets/config.json.example for more information.');
 
-                        ConfigService.configStatus$.next({
-                            key: ApiStatusKey.Failed,
-                            message:
-                                'A bad config file was found.\n'
-                                + 'PECS cannot be started.\n'
-                                + 'See assets/config.json.example for more information.',
-                        });
+                        this._store$.dispatch(setConfigStatus({
+                            status: {
+                                key: ApiStatusKey.Failed,
+                                message:
+                                    'A bad config file was found.\n'
+                                    + 'PECS cannot be started.\n'
+                                    + 'See assets/config.json.example for more information.',
+                            },
+                        }));
 
                         throw (error);
                     }

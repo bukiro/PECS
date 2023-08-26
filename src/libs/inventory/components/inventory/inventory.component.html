@@ -15,6 +15,7 @@
 <div
     id="{{creature}}-inventory-height"
     class="attributeBox"
+    *ngIf="creature$ | async as creature"
 >
     <header class="sectionHeader box-header">Inventory</header>
 
@@ -22,21 +23,21 @@
         type="button"
         class="minimized-hide list-item center-aligned"
         *ngIf="!itemStore"
-        (click)="setItemsMenuTarget(creature); toggleItemsMenu()"
+        (click)="setItemsMenuTarget(creature.type); toggleItemsMenu()"
     >
         Get Items
     </button>
 
     <header
         class="subsectionHeader"
-        *ngIf="creature==='Character'"
+        *ngIf="creature.isCharacter()"
     >
         Currency
     </header>
 
     <div
         class="list-item"
-        *ngIf="creature==='Character' && character.cash as cash"
+        *ngIf="creature.isCharacter() && character.cash as cash"
     >
         <strong>Platinum</strong>
 
@@ -66,136 +67,67 @@
 
     <header class="subsectionHeader">Bulk</header>
 
-    <ng-container *ngIf="calculatedCreatureBulk() as calculatedBulk">
-        <div class="list-item">
-            <div class="newrow">
-                <strong>Bulk</strong>
+    <ng-container *ngIf="currentBulk$ | async as currentBulk">
+        <app-attribute-value
+            [title]="'Bulk'"
+            [customEffectsTarget]="{ creature: creature, target: 'Bulk' }"
+            [value]="currentBulk.result"
+            [bonuses]="currentBulk.bonuses"
+        ></app-attribute-value>
 
-                <span>
-                    <div
-                        class="value"
-                        [ngbPopover]="calculatedBulk.current.explain"
-                        [ngClass]="{'penalty':calculatedBulk.currentpenalties, 'bonus':calculatedBulk.currentbonuses, 'absolute':calculatedBulk.currentabsolutes.length}"
-                    >
-                        {{calculatedBulk.current.value}}
-                    </div>
-                </span>
-            </div>
-
-            <app-tags
-                [creature]="creature"
-                [objectName]="'Bulk'"
-                [showTraits]=true
-                [showFeats]=true
-                [showItems]=true
-                [showActivities]=true
-                [showConditions]=true
-                [showEffects]=true
-            ></app-tags>
-        </div>
-
-        <ng-template #EncumbranceLimitEffectsPopoverContent>
-            <div class="minimized-hide newrow">
-                <app-object-effects
-                    [creature]="creature"
-                    [objectName]="'Encumbered Limit'"
-                ></app-object-effects>
-            </div>
-        </ng-template>
-
-        <div class="minimized-hide list-item">
-            <div class="newrow">
-                <span class="hlist">
-                    <span
-                        class="minimized-hide"
-                        [ngbPopover]="EncumbranceLimitEffectsPopoverContent"
-                        #EncumbranceLimitEffectsPopover="ngbPopover"
-                        triggers="click"
-                    >
-                        <i
-                            [ngbTooltip]="!EncumbranceLimitEffectsPopover.isOpen() ? 'Edit effects' : ''"
-                            class='bi-lightning-charge'
-                        ></i>
-                    </span>
-
-                    <strong>Encumbrance Limit</strong>
-                </span>
-
-                <span>
-                    <div
-                        class="value"
-                        [ngbPopover]="calculatedBulk.encumbered.explain"
-                        [ngClass]="{'penalty':calculatedBulk.encumberedpenalties, 'bonus':calculatedBulk.encumberedbonuses, 'absolute':calculatedBulk.encumberedabsolutes.length}"
-                    >
-                        {{calculatedBulk.encumbered.value}}
-                    </div>
-                </span>
-            </div>
-
-            <app-tags
-                [creature]="creature"
-                [objectName]="'Encumbered Limit'"
-                [showTraits]=true
-                [showFeats]=true
-                [showItems]=true
-                [showActivities]=true
-                [showConditions]=true
-                [showEffects]=true
-            ></app-tags>
-        </div>
-
-        <ng-template #MaxBulkEffectsPopoverContent>
-            <div class="minimized-hide newrow">
-                <app-object-effects
-                    [creature]="creature"
-                    [objectName]="'Max Bulk'"
-                ></app-object-effects>
-            </div>
-        </ng-template>
-
-        <div class="minimized-hide list-item">
-            <div class="newrow">
-                <span class="hlist">
-                    <span
-                        class="minimized-hide"
-                        [ngbPopover]="MaxBulkEffectsPopoverContent"
-                        #MaxBulkEffectsPopover="ngbPopover"
-                        triggers="click"
-                    >
-                        <i
-                            [ngbTooltip]="!MaxBulkEffectsPopover.isOpen() ? 'Edit effects' : ''"
-                            class='bi-lightning-charge'
-                        ></i>
-                    </span>
-
-                    <strong>Maximum Bulk</strong>
-                </span>
-
-                <span>
-                    <div
-                        class="value"
-                        [ngbPopover]="calculatedBulk.max.explain"
-                        [ngClass]="{'penalty':calculatedBulk.maxpenalties, 'bonus':calculatedBulk.maxbonuses, 'absolute':calculatedBulk.maxabsolutes.length}"
-                    >
-                        {{calculatedBulk.max.value}}
-                    </div>
-                </span>
-            </div>
-
-            <app-tags
-                [creature]="creature"
-                [objectName]="'Max Bulk'"
-                [showTraits]=true
-                [showFeats]=true
-                [showItems]=true
-                [showActivities]=true
-                [showConditions]=true
-                [showEffects]=true
-            ></app-tags>
-        </div>
+        <app-tags
+            [creature]="creature"
+            [objectName]="'Bulk'"
+            [showTraits]=true
+            [showFeats]=true
+            [showItems]=true
+            [showActivities]=true
+            [showConditions]=true
+            [showEffects]=true
+        ></app-tags>
     </ng-container>
 
-    <ng-container *ngIf="quickCraftingParameters() as quickCraftingParameters">
+    <ng-container *ngIf="encumberedLimit$ | async as encumberedLimit">
+        <app-attribute-value
+            [title]="'Encumbered Limit'"
+            [customEffectsTarget]="{ creature: creature, target: 'Encumbered Limit' }"
+            [value]="encumberedLimit.result"
+            [bonuses]="encumberedLimit.bonuses"
+        ></app-attribute-value>
+
+        <app-tags
+            [creature]="creature"
+            [objectName]="'Encumbered Limit'"
+            [showTraits]=true
+            [showFeats]=true
+            [showItems]=true
+            [showActivities]=true
+            [showConditions]=true
+            [showEffects]=true
+        ></app-tags>
+    </ng-container>
+
+    <ng-container *ngIf="maxBulk$ | async as maxBulk">
+        <app-attribute-value
+            [title]="'Max Bulk'"
+            [customEffectsTarget]="{ creature: creature, target: 'Max Bulk' }"
+            [value]="maxBulk.result"
+            [bonuses]="maxBulk.bonuses"
+        ></app-attribute-value>
+
+        <app-tags
+            [creature]="creature"
+            [objectName]="'Max Bulk'"
+            [showTraits]=true
+            [showFeats]=true
+            [showItems]=true
+            [showActivities]=true
+            [showConditions]=true
+            [showEffects]=true
+        ></app-tags>
+    </ng-container>
+
+    <ng-container *ngIf="quickCraftingParameters$() | async as quickCraftingParameters">
         <header class="sectionHeader minimized-hide box-header">Quick Crafting</header>
 
         <app-tags
@@ -212,7 +144,7 @@
         <button
             type="button"
             class="list-item"
-            *ngIf="quickCraftingParameters.snareSpecialist"
+            *ngIf="quickCraftingParameters.hasSnareSpecialist"
             (click)="toggleShownList('snarespecialist')"
         >
             <header class="sectionHeader">Snare Specialist</header>
@@ -239,7 +171,7 @@
                     >
                         <span>
                             {{preparedItem.learned.snareSpecialistAvailable}}
-                                {{preparedItem.item.effectiveName()}}
+                                {{preparedItem.item.effectiveName$()}}
                         </span>
 
                         <span>
@@ -254,7 +186,7 @@
                     >
                         <div
                             [ngbTooltip]="cannotCraftReason.join('\n')"
-                            *ngIf="cannotCraftReason(preparedItem.item, preparedItem.learned, 'snarespecialist') as cannotCraftReason"
+                            *ngIf="cannotCraftReason$(preparedItem.item, preparedItem.learned, 'snarespecialist') | async as cannotCraftReason"
                         >
                             <button
                                 type="button"
@@ -264,7 +196,7 @@
                             >
                                 <span>
                                     Deploy Snare
-                                    <app-action-icons [actionString]="snareSpecialistActions(preparedItem.item)"></app-action-icons>
+                                    <app-action-icons [actionString]="(snareSpecialistActions$(preparedItem.item) | async) ?? ''"></app-action-icons>
                                 </span>
                             </button>
                         </div>
@@ -292,51 +224,26 @@
         [showEffects]=true
     ></app-tags>
 
-    <ng-template #MaxInvestedEffectsPopoverContent>
-        <div class="minimized-hide newrow">
-            <app-object-effects
-                [creature]="creature"
-                [objectName]="'Max Invested'"
-            ></app-object-effects>
-        </div>
-    </ng-template>
+    <div
+        class="minimized-hide"
+        *ngIf="currentInvested$ | async as currentInvested"
+    >
+        <app-attribute-value
+            [title]="'Invested'"
+            [value]="currentInvested"
+        ></app-attribute-value>
+    </div>
 
     <div
-        class="minimized-hide list-item"
-        *ngIf="investedParameters() as investedParameters"
+        class="minimized-hide"
+        *ngIf="maxInvested$ | async as maxInvested"
     >
-        <strong>Invested</strong>
-
-        <div
-            class="value"
-            [ngClass]="{'problem':(investedParameters.current > investedParameters.max)}"
-        >
-            {{investedParameters.current}}
-        </div>
-
-        <span class="hlist">
-            <span
-                class="minimized-hide"
-                [ngbPopover]="MaxInvestedEffectsPopoverContent"
-                #MaxInvestedEffectsPopover="ngbPopover"
-                triggers="click"
-            >
-                <i
-                    [ngbTooltip]="!MaxInvestedEffectsPopover.isOpen() ? 'Edit effects' : ''"
-                    class='bi-lightning-charge'
-                ></i>
-            </span>
-
-            <strong>Max Invested</strong>
-        </span>
-
-        <div
-            class="value right-aligned"
-            [ngbPopover]="investedParameters.explain"
-            [ngClass]="{'penalty':investedParameters.penalties, 'bonus':investedParameters.bonuses, 'absolute':investedParameters.absolutes}"
-        >
-            {{investedParameters.max}}
-        </div>
+        <app-attribute-value
+            [title]="'Max Invested'"
+            [customEffectsTarget]="{ creature: creature, target: 'Max Invested' }"
+            [value]="maxInvested.result"
+            [bonuses]="maxInvested.bonuses"
+        ></app-attribute-value>
 
         <app-tags
             [creature]="creature"
@@ -347,6 +254,7 @@
             [showActivities]=true
             [showConditions]=true
             [showEffects]=true
+            [specialEffects]="maxInvested.effects"
         ></app-tags>
     </div>
 
@@ -354,7 +262,7 @@
         class="vlist"
         cdkDropListGroup
     >
-        <ng-container *ngFor="let inventory of currentCreature.inventories; let inventoryIndex = index; trackBy:trackByIndex;">
+        <ng-container *ngFor="let inventory of creature.inventories; let inventoryIndex = index; trackBy:trackByIndex;">
             <div
                 class="list-item"
                 [ngClass]="{'minimized-hide':inventoryIndex > 1}"
@@ -363,8 +271,8 @@
                     class="sectionHeader minimized-hide newrow"
                     *ngIf="inventory.bulkLimit"
                 >
-                    {{inventoryName(inventory)}}
-                        {{inventoryBulkDescription(inventory)}}
+                    {{inventoryName$(inventory) | async}}
+                    {{inventoryBulkDescription(inventory)}}
                 </header>
 
                 <div
@@ -394,7 +302,7 @@
                             *ngIf="itemList.length && { enabled: isTileMode$ | async } as tileMode"
                             [ngStyle]="{'min-height': tileMode.enabled ? null : '2em'}"
                         >
-                            <ng-container *ngFor="let itemParameters of itemParameters(itemList); trackBy:trackByObjectId;">
+                            <ng-container *ngFor="let itemParameters of itemParameters$(itemList) | async; trackBy:trackByObjectId;">
 
                                 <ng-template #ItemIconsTemplate>
                                     <span
@@ -488,7 +396,7 @@
                                         {{ ( itemParameters.item.amount !== undefined &&
                                             itemParameters.item.amount !== 1 ) ? itemParameters.item.amount+" " : ""
                                             }}
-                                            {{itemParameters.item.effectiveName()}}
+                                            {{itemParameters.item.effectiveName$()}}
                                         <span
                                             class="lower"
                                             *ngIf="itemParameters.containedItemsAmount"
@@ -511,7 +419,7 @@
                                     <ng-container *ngTemplateOutlet="ItemIconsTemplate"></ng-container>
                                     {{(itemParameters.item.amount !== undefined && itemParameters.item.amount
                                         !== 1) ? itemParameters.item.amount+" " :
-                                        ""}} {{itemParameters.item.effectiveName()}}
+                                        ""}} {{itemParameters.item.effectiveName$()}}
                                     <span
                                         class="lower"
                                         *ngIf="itemParameters.containedItemsAmount"
@@ -534,7 +442,9 @@
                                         class="newrow left-aligned"
                                         *ngIf="itemParameters.asArmor"
                                     >
-                                        <span [ngClass]="{'absolute': itemParameters.asArmor.hasProficiencyChanged(itemParameters.proficiency)}">{{itemParameters.asArmor.title()}}</span>
+                                        <span [ngClass]="{'absolute': itemParameters.asArmor.hasProficiencyChanged(itemParameters.proficiency)}">
+                                            {{ itemParameters.asArmor.title$() | async }}
+                                        </span>
 
                                         <span *ngIf="itemParameters.asArmor.hasProficiencyChanged(itemParameters.proficiency)">
                                             (normally {{itemParameters.asArmor.prof}})
@@ -592,7 +502,7 @@
                                             type="button"
                                             class="newrow center-aligned"
                                             [disabled]="!itemParameters.asConsumable.amount"
-                                            (click)="onUseConsumable(itemParameters.asConsumable, creature, inventory)"
+                                            (click)="onUseConsumable(itemParameters.asConsumable, creature.type, inventory)"
                                             *ngIf="itemParameters.item.amount !== undefined && (itemParameters.asGenericConsumable || itemParameters.asDrinkableConsumable)?.actions"
                                         >
                                             <span>
@@ -611,7 +521,7 @@
                                             <button
                                                 type="button"
                                                 class="newrow center-aligned"
-                                                *ngIf="!isManualMode && isCompanionAvailable()"
+                                                *ngIf="(isManualMode$ | async) === false && (isAnimalCompanionAvailable$ | async)"
                                                 [disabled]="!itemParameters.asDrinkableConsumable.amount"
                                                 (click)="onUseConsumable(itemParameters.asDrinkableConsumable, creatureTypesEnum.AnimalCompanion, inventory)"
                                             >
@@ -626,7 +536,7 @@
                                             <button
                                                 type="button"
                                                 class="newrow center-aligned"
-                                                *ngIf="!isManualMode && isFamiliarAvailable()"
+                                                *ngIf="(isManualMode$ | async) === false && (isFamiliarAvailable$ | async)"
                                                 [disabled]="!itemParameters.item.amount"
                                                 (click)="onUseConsumable(itemParameters.asDrinkableConsumable, creatureTypesEnum.Familiar, inventory)"
                                             >
@@ -798,43 +708,47 @@
 
                                     <!-- Upper row of buttons -->
                                     <div class="newrow">
-                                        <ng-container *ngIf="itemParameters.asEquipment && investedParameters() as investedParameters">
-                                            <span *ngIf="canEquipItem(itemParameters.item, inventoryIndex)">
-                                                <button
-                                                    type="button"
-                                                    *ngIf="!itemParameters.asEquipment.equipped"
-                                                    (click)="onEquipItem(itemParameters.asEquipment, inventory, true)"
-                                                >
-                                                    Equip
-                                                </button>
+                                        <ng-container *ngIf="itemParameters.asEquipment">
+                                            <ng-container *ngIf="maxInvested$ | async as maxInvested">
+                                                <ng-container *ngIf="currentInvested$ | async as currentInvested">
+                                                    <span *ngIf="canEquipItem(itemParameters.item, inventoryIndex)">
+                                                        <button
+                                                            type="button"
+                                                            *ngIf="!itemParameters.asEquipment.equipped"
+                                                            (click)="onEquipItem(itemParameters.asEquipment, inventory, true)"
+                                                        >
+                                                            Equip
+                                                        </button>
 
-                                                <button
-                                                    type="button"
-                                                    *ngIf="itemParameters.asEquipment.equipped"
-                                                    (click)="onEquipItem(itemParameters.asEquipment, inventory, false)"
-                                                >
-                                                    Unequip
-                                                </button>
-                                            </span>
+                                                        <button
+                                                            type="button"
+                                                            *ngIf="itemParameters.asEquipment.equipped"
+                                                            (click)="onEquipItem(itemParameters.asEquipment, inventory, false)"
+                                                        >
+                                                            Unequip
+                                                        </button>
+                                                    </span>
 
-                                            <span *ngIf="canInvestItem(itemParameters.item, inventoryIndex)">
-                                                <button
-                                                    type="button"
-                                                    *ngIf="!itemParameters.asEquipment.invested"
-                                                    (click)="onInvestItem(itemParameters.asEquipment, inventory, true)"
-                                                    [disabled]="investedParameters.current >= investedParameters.max && !itemParameters.asEquipment.invested"
-                                                >
-                                                    Invest
-                                                </button>
+                                                    <span *ngIf="canInvestItem(itemParameters.item, inventoryIndex)">
+                                                        <button
+                                                            type="button"
+                                                            *ngIf="!itemParameters.asEquipment.invested"
+                                                            (click)="onInvestItem(itemParameters.asEquipment, inventory, true)"
+                                                            [disabled]="currentInvested >= maxInvested.result && !itemParameters.asEquipment.invested"
+                                                        >
+                                                            Invest
+                                                        </button>
 
-                                                <button
-                                                    type="button"
-                                                    *ngIf="itemParameters.asEquipment.invested"
-                                                    (click)="onInvestItem(itemParameters.asEquipment, inventory, false)"
-                                                >
-                                                    Uninvest
-                                                </button>
-                                            </span>
+                                                        <button
+                                                            type="button"
+                                                            *ngIf="itemParameters.asEquipment.invested"
+                                                            (click)="onInvestItem(itemParameters.asEquipment, inventory, false)"
+                                                        >
+                                                            Uninvest
+                                                        </button>
+                                                    </span>
+                                                </ng-container>
+                                            </ng-container>
                                         </ng-container>
 
                                         <span
@@ -1170,7 +1084,7 @@
 
                                         <div
                                             class="list-item newrow"
-                                            *ngIf="itemParameters.asWeapon && (isLargeWeaponAllowed(itemParameters.item) || itemParameters.asWeapon?.large)"
+                                            *ngIf="itemParameters.asWeapon && (itemParameters.asWeapon?.large || (isLargeWeaponAllowed$(itemParameters.item) | async))"
                                         >
                                             <span>
                                                 <input
@@ -1206,7 +1120,7 @@
 
                                         <div
                                             class="list-item newrow"
-                                            *ngIf="itemParameters.asBladeAllyChangeable && (itemParameters.asBladeAllyChangeable?.bladeAlly || isBladeAllyAllowed(itemParameters.item)) && { used: isBladeAllyUsed() } as bladeAllyStatus"
+                                            *ngIf="itemParameters.asBladeAllyChangeable && (itemParameters.asBladeAllyChangeable?.bladeAlly || (isBladeAllyAllowed$(itemParameters.item) | async)) && { used: isBladeAllyUsed() } as bladeAllyStatus"
                                         >
                                             <div class="newrow">
                                                 <span [ngbPopover]="(!itemParameters.asBladeAllyChangeable.bladeAlly && bladeAllyStatus.used) ? 'Another item is already designated as your blade ally.' : ''">
@@ -1254,13 +1168,13 @@
                                         <app-item-emblazon-armament
                                             class="fullwidth"
                                             [item]=itemParameters.asEmblazonArmamentChangeable
-                                            *ngIf="itemParameters.asEmblazonArmamentChangeable && (itemParameters.asEmblazonArmamentChangeable?.emblazonArmament?.length || isEmblazonArmamentAllowed(itemParameters.item))"
+                                            *ngIf="itemParameters.asEmblazonArmamentChangeable && (itemParameters.asEmblazonArmamentChangeable?.emblazonArmament || (isEmblazonArmamentAllowed$(itemParameters.item) | async))"
                                         >
                                         </app-item-emblazon-armament>
 
                                         <div
                                             class="list-item newrow"
-                                            *ngIf="itemParameters.asBattleforgedChangeable && (itemParameters.asBattleforgedChangeable?.battleforged || isBattleforgedAllowed(itemParameters.item))"
+                                            *ngIf="itemParameters.asBattleforgedChangeable && (itemParameters.asBattleforgedChangeable?.battleforged || (isBattleforgedAllowed$(itemParameters.item) | async))"
                                         >
                                             <span>
                                                 <input
@@ -1346,19 +1260,19 @@
                                                 <strong>HP</strong>
 
                                                 <div class="value">
-                                                    {{itemParameters.asShield.currentHitPoints()}}
+                                                    {{itemParameters.asShield.currentHitPoints$() | async}}
                                                 </div>
 
                                                 <strong>Max HP</strong>
 
                                                 <div class="value">
-                                                    {{itemParameters.asShield.effectiveMaxHP()}}
+                                                    {{itemParameters.asShield.effectiveMaxHP$() | async}}
                                                 </div>
 
                                                 <strong>BT</strong>
 
                                                 <div class="value">
-                                                    {{itemParameters.asShield.effectiveBrokenThreshold()}}
+                                                    {{itemParameters.asShield.effectiveBrokenThreshold$() | async}}
                                                 </div>
                                             </div>
 
@@ -1374,7 +1288,7 @@
                                                             class="slider"
                                                             type="range"
                                                             min="0"
-                                                            max="{{itemParameters.asShield.effectiveMaxHP()}}"
+                                                            max="{{itemParameters.asShield.effectiveMaxHP$() | async}}"
                                                             [(ngModel)]="shieldDamage"
                                                         >
                                                     </div>
@@ -1402,7 +1316,7 @@
                                                         [(ngModel)]="shieldDamage"
                                                         maxLength="3"
                                                         min="0"
-                                                        max="{{itemParameters.asShield.effectiveMaxHP()}}"
+                                                        max="{{itemParameters.asShield.effectiveMaxHP$() | async}}"
                                                         (keypress)="positiveNumbersOnly($event)"
                                                     >
                                                 </span>
@@ -1425,7 +1339,7 @@
                                         [creature]="creature"
                                         [item]=itemParameters.item
                                         [allowActivate]="itemParameters.item.investedOrEquipped()"
-                                        [armoredSkirt]="itemParameters.asArmor?.armoredSkirt(currentCreature)"
+                                        [armoredSkirt]="itemParameters.asArmor?.armoredSkirt(creature)"
                                     >
                                     </app-item>
                                 </ng-template>

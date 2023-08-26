@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="iconValue() as iconValueResult">
+<ng-container *ngIf="iconValue$() | async as iconValueResult">
     <ng-container *ngIf="iconValueResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate"></ng-container>
 
     <ng-template #InnerHtmlDivTemplate>
@@ -35,7 +35,7 @@
     </ng-template>
 </ng-container>
 
-<ng-container *ngIf="iconSuperTitle() as iconSuperTitleResult">
+<ng-container *ngIf="iconSuperTitle$() | async as iconSuperTitleResult">
     <span
         class="iconSuperTitle disable-text-selection"
         *ngIf="iconSuperTitleResult"

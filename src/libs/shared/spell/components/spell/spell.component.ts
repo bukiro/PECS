@@ -1,16 +1,16 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Trait } from 'src/app/classes/Trait';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 
 @Component({
     selector: 'app-spell',
@@ -39,6 +39,7 @@ export class SpellComponent extends TrackByMixin(BaseClass) implements OnInit, O
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _hintShowingObjectsService: HintShowingObjectsService,
+        private readonly _spellPropertiesService: SpellPropertiesService,
     ) {
         super();
     }
@@ -47,20 +48,12 @@ export class SpellComponent extends TrackByMixin(BaseClass) implements OnInit, O
         return this._traitsDataService.traitFromName(name);
     }
 
-    public characterFeatsShowingHintsOnThis(spellName: string): Array<Feat> {
-        return this._hintShowingObjectsService.characterFeatsShowingHintsOnThis(spellName);
+    public characterFeatsShowingHintsOnThis$(spellName: string): Observable<Array<Feat>> {
+        return this._hintShowingObjectsService.characterFeatsShowingHintsOnThis$(spellName);
     }
 
-    public spellLevelFromBaseLevel(spell: Spell, baseLevel: number): number {
-        let levelNumber = baseLevel;
-
-        if ((!levelNumber && (spell.traits.includes('Cantrip'))) || levelNumber === -1) {
-            levelNumber = CreatureService.character.maxSpellLevel();
-        }
-
-        levelNumber = Math.max(levelNumber, (spell.levelreq || 0));
-
-        return levelNumber;
+    public spellLevelFromBaseLevel$(spell: Spell, baseLevel: number): Observable<number> {
+        return this._spellPropertiesService.spellLevelFromBaseLevel$(spell, baseLevel);
     }
 
     public ngOnInit(): void {

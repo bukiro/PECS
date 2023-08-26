@@ -14,6 +14,7 @@ import { RecastService } from '../recast/recast.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
+import { Observable, map, of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -76,7 +77,7 @@ export class CreatureConditionsService {
             }
 
             const shouldActivate =
-                this._activationPrerequisiteMet(creature, gain, context) &&
+                this._activationPrerequisiteMet$(creature, gain, context) &&
                 !this._shouldDenyCondition(creature, gain);
 
             if (!shouldActivate) {
@@ -537,34 +538,40 @@ export class CreatureConditionsService {
         });
     }
 
-    private _activationPrerequisiteMet(
+    private _activationPrerequisiteMet$(
         creature: Creature,
         conditionGain: ConditionGain,
         context: { parentItem?: Item; parentConditionGain?: ConditionGain },
-    ): boolean {
+    ): Observable<boolean> {
         //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
         if (conditionGain.activationPrerequisite) {
             if (!this._evaluationService) { console.error('EvaluationService missing in CreatureConditionsService!'); }
 
-            const activationValue =
-                this._evaluationService?.valueFromFormula(
+            return (
+                this._evaluationService?.valueFromFormula$(
                     conditionGain.activationPrerequisite,
                     { creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain },
-                );
+                ) ?? of(null)
+            )
+                .pipe(
+                    map(activationValue => {
+                        if (
+                            !activationValue ||
+                            activationValue === '0' ||
+                            (
+                                typeof activationValue === 'string' &&
+                                !parseInt(activationValue, 10)
+                            )
+                        ) {
+                            return false;
+                        }
 
-            if (
-                !activationValue ||
-                activationValue === '0' ||
-                (
-                    typeof activationValue === 'string' &&
-                    !parseInt(activationValue, 10)
-                )
-            ) {
-                return false;
-            }
+                        return true;
+                    }),
+                );
         }
 
-        return true;
+        return of(true);
     }
 
     private _shouldDenyCondition(creature: Creature, conditionGain: ConditionGain): boolean {

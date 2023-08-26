@@ -1,20 +1,26 @@
 //TO-DO: Resolve private properties either not matching JSON import or not having an underscore
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { BehaviorSubject, Observable, map } from 'rxjs';
+
 type FeatDataValue = string | number | boolean | Array<string> | Array<number> | null;
 
 export class FeatData {
-    private data: { [key: string]: FeatDataValue } = {};
+    private data: Record<string, FeatDataValue> = {};
+
+    private readonly data$: BehaviorSubject<Record<string, FeatDataValue>>;
 
     constructor(
         public level: number,
         public featName: string,
         public sourceId: string,
-        data?: { [key: string]: FeatDataValue },
+        data?: Record<string, FeatDataValue>,
     ) {
         if (data) {
             this.data = data;
         }
+
+        this.data$ = new BehaviorSubject(this.data);
     }
 
     public recast(): FeatData {
@@ -31,6 +37,7 @@ export class FeatData {
         const value = input instanceof Event ? (input.target as HTMLInputElement).value : input;
 
         this.data[key] = value;
+        this.data$.next(this.data);
     }
 
     public getValue(key: string): Readonly<FeatDataValue> {
@@ -63,5 +70,59 @@ export class FeatData {
         } else {
             return null;
         }
+    }
+
+    public getValue$(key: string): Observable<Readonly<FeatDataValue>> {
+        return this.data$
+            .pipe(
+                map(data => data[key]),
+            );
+    }
+
+    public valueAsString$(key: string): Observable<Readonly<string | null>> {
+        return this.data$
+            .pipe(
+                map(data => typeof data[key] === 'string' ? data[key] as string : null),
+            );
+    }
+
+    public valueAsNumber$(key: string): Observable<Readonly<number | null>> {
+        return this.data$
+            .pipe(
+                map(data => typeof data[key] === 'number' ? data[key] as number : null),
+            );
+    }
+
+    public valueAsBoolean$(key: string): Observable<Readonly<boolean | null>> {
+        return this.data$
+            .pipe(
+                map(data => typeof data[key] === 'boolean' ? data[key] as boolean : null),
+            );
+    }
+
+    public valueAsStringArray$(key: string): Observable<ReadonlyArray<string> | null> {
+        return this.data$
+            .pipe(
+                map(data => {
+                    if (data[key] && Array.isArray(data[key])) {
+                        return data[key] as Array<string>;
+                    } else {
+                        return null;
+                    }
+                }),
+            );
+    }
+
+    public valueAsNumberArray$(key: string): Observable<ReadonlyArray<number> | null> {
+        return this.data$
+            .pipe(
+                map(data => {
+                    if (data[key] && Array.isArray(data[key])) {
+                        return data[key] as Array<number>;
+                    } else {
+                        return null;
+                    }
+                }),
+            );
     }
 }

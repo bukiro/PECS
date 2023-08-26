@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Defaults } from '../../definitions/defaults';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
-import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
-import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { ItemsDataService } from '../data/items-data.service';
 import { ItemMaterialsDataService } from '../data/item-materials-data.service';
 import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';
@@ -14,7 +12,7 @@ import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionProcessingService } from 'src/libs/shared/processing/services/condition-processing/condition-processing.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { EquipmentConditionsService } from 'src/libs/shared/effects-generation/services/equipment-conditions/equipment-conditions.service';
+import { EquipmentConditionsService } from 'src/libs/shared/services/equipment-conditions/equipment-conditions.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { MessageProcessingService } from 'src/libs/shared/processing/services/message-processing/message-processing.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
@@ -47,6 +45,13 @@ import { ApiStatusKey } from '../../definitions/apiStatusKey';
 import { filter, take } from 'rxjs';
 import { DocumentStyleService } from '../document-style/document-style.service';
 import { ConfigService } from '../config/config.service';
+import { Store } from '@ngrx/store';
+import { selectDataStatus } from 'src/libs/store/status/status.selectors';
+import { setDataStatus } from 'src/libs/store/status/status.actions';
+import { closeAllMenus } from 'src/libs/store/menu/menu.actions';
+import { AnimalCompanionLevelsService } from '../animal-companion-level/animal-companion-level.service';
+import { EquipmentPropertiesService } from '../equipment-properties/equipment-properties.service';
+import { ItemTraitsService } from '../item-traits/item-traits.service';
 
 @Injectable({
     providedIn: 'root',
@@ -74,8 +79,6 @@ export class AppInitService {
         private readonly _customEffectPropertiesService: EffectPropertiesDataService,
         private readonly _effectsGenerationService: EffectsGenerationService,
         private readonly _effectsPropertiesDataService: EffectPropertiesDataService,
-        private readonly _characterDeitiesService: CharacterDeitiesService,
-        private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _itemInitializationService: ItemInitializationService,
         private readonly _refreshService: RefreshService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
@@ -84,6 +87,7 @@ export class AppInitService {
         private readonly _conditionProcessingService: ConditionProcessingService,
         private readonly _messageProcessingService: MessageProcessingService,
         private readonly _equipmentConditionsService: EquipmentConditionsService,
+        private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _evaluationService: EvaluationService,
         private readonly _inventoryService: InventoryService,
@@ -95,10 +99,13 @@ export class AppInitService {
         private readonly _featProcessingService: FeatProcessingService,
         private readonly _processingServiceProvider: ProcessingServiceProvider,
         private readonly _itemActivationProcessingService: ItemActivationProcessingService,
+        private readonly _itemTraitsService: ItemTraitsService,
+        private readonly _store$: Store,
         //Initialize these services simply by injecting them.
         _configService: ConfigService,
         _extensionsService: DataService,
         _documentStyleService: DocumentStyleService,
+        _animalCompanionLevelsService: AnimalCompanionLevelsService,
 
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
@@ -131,7 +138,7 @@ export class AppInitService {
             this._spellProcessingService,
         );
 
-        DataService.dataStatus$
+        this._store$.select(selectDataStatus)
             .pipe(
                 filter(dataStatus => dataStatus.key !== ApiStatusKey.Initializing),
                 take(1),
@@ -161,13 +168,14 @@ export class AppInitService {
                 this._spellsDataService.initialize();
                 this._traitsDataService.initialize();
 
-                DataService.dataStatus$.next({ key: ApiStatusKey.Ready });
+                this._store$.dispatch(setDataStatus({ status: { key: ApiStatusKey.Ready } }));
 
                 // Initialize other services.
 
-                this._messagesService.initialize();
                 this._customEffectPropertiesService.initialize();
                 this._effectsGenerationService.initialize();
+                this._equipmentPropertiesService.initialize();
+                this._itemTraitsService.initialize();
 
                 // Pass some services to other services that shouldn't have them in their dependency injection.
                 this._refreshService.initialize(this._creatureActivitiesService);
@@ -184,15 +192,14 @@ export class AppInitService {
     }
 
     public reset(): void {
+        this._store$.dispatch(closeAllMenus());
         this._traitsDataService.reset();
         this._activitiesDataService.reset();
         this._featsDataService.reset();
-        this._characterFeatsService.reset();
         this._conditionsDataService.reset();
         this._skillsDataService.reset();
         this._itemsDataService.reset();
         this._itemSpecializationsDataService.reset();
-        this._characterDeitiesService.reset();
         this._animalCompanionsDataService.reset();
         this._familiarsDataService.reset();
         this._messagesService.reset();

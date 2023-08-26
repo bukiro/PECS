@@ -64,7 +64,7 @@ export class CharacterSavingService {
                     this._savegamesService.reset();
                 }, error: error => {
                     if (error.status === HttpStatusCode.Unauthorized) {
-                        this._configService.logout(
+                        this._toastService.show(
                             'Your login is no longer valid. The character could not be saved. '
                             + 'Please try saving the character again after logging in.',
                         );
@@ -130,8 +130,6 @@ export class CharacterSavingService {
                 }
             }
         }
-
-        savegame.GMMode = false;
 
         // Then go through the whole thing again and compare every object to its Class's default,
         // deleting everything that has the same value as the default.

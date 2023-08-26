@@ -53,7 +53,9 @@ export class ItemPriceService {
                 }
             });
 
-            price += equipment.propertyRunes.reduce((prev, next) => prev + next.price, 0);
+            equipment.propertyRunes.forEach(rune => {
+                price += rune.price;
+            });
 
             equipment.material.forEach(mat => {
                 price += mat.price;

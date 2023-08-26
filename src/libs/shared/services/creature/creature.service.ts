@@ -3,50 +3,82 @@ import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SettingsService } from '../settings/settings.service';
-import { BehaviorSubject } from 'rxjs';
-import { ApiStatus } from '../../definitions/interfaces/api-status';
+import { BehaviorSubject, combineLatest, map, Observable, of, switchMap } from 'rxjs';
 import { ApiStatusKey } from '../../definitions/apiStatusKey';
+import { Store } from '@ngrx/store';
+import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
+import { Creature } from 'src/app/classes/Creature';
+import { setCharacterStatus } from 'src/libs/store/status/status.actions';
+import { resetCharacter } from 'src/libs/store/character/character.actions';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CreatureService {
 
-    public static characterStatus$ = new BehaviorSubject<ApiStatus>({ key: ApiStatusKey.NoCharacter });
+    public static character$: BehaviorSubject<Character>;
+    public static companion$: Observable<AnimalCompanion>;
+    public static familiar$: Observable<Familiar>;
 
-    private static _character: Character = new Character();
+    constructor(
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _store$: Store,
+    ) {
+        CreatureService.character$ = new BehaviorSubject<Character>(new Character());
+        CreatureService.companion$ = CreatureService.character$
+            .pipe(
+                switchMap(character => character.class$),
+                switchMap(characterClass => characterClass.animalCompanion$),
+            );
+        CreatureService.familiar$ = CreatureService.character$
+            .pipe(
+                switchMap(character => character.class$),
+                switchMap(characterClass => characterClass.familiar$),
+            );
+    }
 
     public static get character(): Character {
-        return this._character;
+        return CreatureService.character$.getValue();
     }
 
-    public static get companion(): AnimalCompanion {
-        return this.character.class?.animalCompanion || new AnimalCompanion();
-    }
-
-    public static get familiar(): Familiar {
-        return this.character.class?.familiar || new Familiar();
-    }
-
-    public static creatureFromType(type: CreatureTypes): Character | AnimalCompanion | Familiar {
+    public static creatureFromType$(type: CreatureTypes): Observable<Character | AnimalCompanion | Familiar> {
         switch (type) {
             case CreatureTypes.AnimalCompanion:
-                return this.companion;
+                return CreatureService.companion$;
             case CreatureTypes.Familiar:
-                return this.familiar;
+                return CreatureService.familiar$;
             default:
-                return this.character;
+                return CreatureService.character$;
         }
     }
 
-    public static setNewCharacter(newCharacter: Character): void {
-        this._character = newCharacter;
-        SettingsService.updateSettings();
+    public resetCharacter(character: Character, gmMode?: boolean): void {
+        this._store$.dispatch(resetCharacter({ gmMode }));
+
+        CreatureService.character$.next(character);
     }
 
-    public static closeCharacter(): void {
-        this.characterStatus$.next({ key: ApiStatusKey.NoCharacter });
+    public closeCharacter(): void {
+        this._store$.dispatch(setCharacterStatus({ status: { key: ApiStatusKey.NoCharacter } }));
+    }
+
+    public allAvailableCreatures$(levelNumber?: number): Observable<Array<Creature>> {
+        return combineLatest([
+            CreatureService.character$,
+            this._creatureAvailabilityService.isCompanionAvailable$(levelNumber)
+                .pipe(
+                    switchMap(isCompanionAvailable => isCompanionAvailable ? CreatureService.companion$ : of(undefined)),
+                ),
+            this._creatureAvailabilityService.isFamiliarAvailable$(levelNumber)
+                .pipe(
+                    switchMap(isFamiliarAvailable => isFamiliarAvailable ? CreatureService.familiar$ : of(undefined)),
+                ),
+        ])
+            .pipe(
+                map<Array<Creature | undefined>, Array<Creature>>(creatures => creatures
+                    .filter((creature): creature is Creature => creature !== undefined),
+                ),
+            );
     }
 
 }

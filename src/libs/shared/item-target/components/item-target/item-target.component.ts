@@ -11,15 +11,17 @@ import { Character } from 'src/app/classes/Character';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { ItemBulkService } from 'src/libs/shared/services/item-bulk/item-bulk.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { combineLatest, distinctUntilChanged, map, noop, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, distinctUntilChanged, map, noop, Observable, of, switchMap } from 'rxjs';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { Store } from '@ngrx/store';
+import { selectGmMode } from 'src/libs/store/app/app.selectors';
 
 @Component({
-    selector: 'app-item-target',
+    selector: 'app-item-target[creature][item][inventory]',
     templateUrl: './item-target.component.html',
     styleUrls: ['./item-target.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +29,7 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnInit {
 
     @Input()
-    public creature!: CreatureTypes;
+    public creature!: Creature;
     @Input()
     public item!: Item;
     @Input()
@@ -37,9 +39,13 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
 
     public selectedTarget?: ItemCollection | SpellTarget;
     public selectedAmount = 1;
-    public excluding = false;
 
     public itemTargets$: Observable<Array<ItemCollection | SpellTarget>>;
+    public isGmMode$: Observable<boolean>;
+
+    private _isExcludingParts = false;
+
+    private readonly _isExcludingParts$: BehaviorSubject<boolean>;
 
     constructor(
         private readonly _savegamesService: SavegamesService,
@@ -47,12 +53,17 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _modalService: NgbModal,
         private readonly _itemTransferService: ItemTransferService,
-        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _creatureService: CreatureService,
         public modal: NgbActiveModal,
+        private readonly _store$: Store,
     ) {
         super();
 
         this.itemTargets$ = this._createItemTargetsObservable();
+
+        this.isGmMode$ = this._store$.select(selectGmMode);
+
+        this._isExcludingParts$ = new BehaviorSubject(this.isExcludingParts);
     }
 
     public get isItemContainer(): boolean {
@@ -67,8 +78,13 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
         return (this.item.canStack() && this.item.amount > 1);
     }
 
-    private get _currentCreature(): Creature {
-        return CreatureService.creatureFromType(this.creature);
+    public get isExcludingParts(): boolean {
+        return this._isExcludingParts;
+    }
+
+    public set isExcludingParts(value: boolean) {
+        this._isExcludingParts = value;
+        this._isExcludingParts$.next(this._isExcludingParts);
     }
 
     private get _character(): Character {
@@ -76,7 +92,7 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
     }
 
     public onMove(): void {
-        this.moveMessage.emit({ target: this.selectedTarget, amount: this.selectedAmount, including: !this.excluding });
+        this.moveMessage.emit({ target: this.selectedTarget, amount: this.selectedAmount, including: !this.isExcludingParts });
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,7 +119,7 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
         //We have to sum up the items in each inventory, and then sum up those sums.
         //Return a number
         if (this.item.id && (this.item as Equipment).gainInventory?.length) {
-            return this._currentCreature.inventories
+            return this.creature.inventories
                 .filter(inventory =>
                     inventory.itemId === this.item.id,
                 ).map(inventory => inventory.allItems()
@@ -141,7 +157,7 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
     public containedBulkString(item: Item): string {
         const decimal = 10;
 
-        const containedBulk = this._itemBulkService.totalItemBulk(this._currentCreature, item, undefined, true);
+        const containedBulk = this._itemBulkService.totalItemBulk(this.creature, item, undefined, true);
         const fullBulk = Math.floor(containedBulk);
         const lightBulk = (containedBulk * decimal - fullBulk * decimal);
 
@@ -153,7 +169,7 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
     }
 
     public inventoryBulk(): number {
-        return this._currentCreature.inventories.find(inventory => inventory.itemId === this.item.id)?.totalBulk() || 0;
+        return this.creature.inventories.find(inventory => inventory.itemId === this.item.id)?.totalBulk() || 0;
     }
 
     public containerBulk(target: ItemCollection | SpellTarget): string {
@@ -176,11 +192,11 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
         }
     }
 
-    public targetName(target: ItemCollection | SpellTarget): string {
+    public targetName$(target: ItemCollection | SpellTarget): Observable<string> {
         if (target instanceof ItemCollection) {
-            return this._inventoryPropertiesService.effectiveName(target, this._currentCreature);
+            return this._inventoryPropertiesService.effectiveName$(target, this.creature);
         } else {
-            return target.name;
+            return of(target.name);
         }
     }
 
@@ -195,43 +211,62 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
     private _createItemTargetsObservable(): Observable<Array<ItemCollection | SpellTarget>> {
         return combineLatest([
             this._savegamesService.savegames$,
-            SettingsService.settings$
+            propMap$(SettingsService.settings$, 'manualMode$')
                 .pipe(
-                    map(settings => settings.manualMode),
                     distinctUntilChanged(),
                 ),
+            this.isGmMode$
+                .pipe(
+                    distinctUntilChanged(),
+                ),
+            this._isExcludingParts$,
         ])
             .pipe(
-                map(([savegames, isManualMode]) => {
+                switchMap(([savegames, isManualMode, isGmMode, isExcludingParts]) =>
+                    (
+                        isExcludingParts
+                            ? of([])
+                            : this._creatureService.allAvailableCreatures$()
+                    )
+                        .pipe(
+                            map(creatures => ({ savegames, isManualMode, isGmMode, isExcludingParts, creatures })),
+                        ),
+                ),
+                map(({ savegames, isManualMode, isGmMode, isExcludingParts, creatures }) => {
                     //Collect all possible targets for the item.
                     //This includes your own inventories, your companions or your allies.
                     const targets: Array<ItemCollection | SpellTarget> = [];
-                    const creature = this._currentCreature;
+                    const creature = this.creature;
                     const character = this._character;
 
                     targets.push(...creature.inventories.filter(inv => inv.itemId !== this.item.id));
 
-                    if (!this.excluding) {
-                        this._creatureAvailabilityService.allAvailableCreatures().filter(otherCreature => otherCreature !== creature)
-                            .forEach(otherCreature => {
-                                targets.push(
-                                    Object.assign(
-                                        new SpellTarget(),
-                                        {
-                                            name: otherCreature.name || otherCreature.type,
-                                            id: otherCreature.id,
-                                            playerId: character.id,
-                                            type: otherCreature.type,
-                                            selected: false,
-                                        },
-                                    ),
-                                );
-                            });
+                    // If a container is moved without its parts, only the creature's inventories can be targets.
+                    if (isExcludingParts) {
+                        return targets;
                     }
+
+                    creatures
+                        .filter(otherCreature => otherCreature !== creature)
+                        .forEach(otherCreature => {
+                            targets.push(
+                                Object.assign(
+                                    new SpellTarget(),
+                                    {
+                                        name: otherCreature.name || otherCreature.type,
+                                        id: otherCreature.id,
+                                        playerId: character.id,
+                                        type: otherCreature.type,
+                                        selected: false,
+                                    },
+                                ),
+                            );
+                        });
+
 
                     //Only allow selecting other players if you are in a party and not in GM or manual mode.
                     //To-Do: Figure out how to make partyName reactive, then query it in the combineLatest
-                    if (character.partyName && !this.excluding && !SettingsService.isGMMode && !isManualMode) {
+                    if (character.partyName && !isGmMode && !isManualMode) {
                         savegames
                             .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
                             .forEach(savegame => {
@@ -273,7 +308,7 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
 
         if (item.gainInventory?.length) {
             hasFoundContainedInventory =
-                this._currentCreature.inventories
+                this.creature.inventories
                     .filter(inv => inv.itemId === item.id)
                     .some(inv =>
                         inv.allEquipment()
@@ -290,10 +325,10 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
     private _cannotFit(target: ItemCollection | SpellTarget): boolean {
         if (target instanceof ItemCollection) {
             return this._itemTransferService.cannotFitItemInContainer(
-                this._currentCreature,
+                this.creature,
                 this.item,
                 target,
-                { including: !this.excluding, amount: this.selectedAmount },
+                { including: !this.isExcludingParts, amount: this.selectedAmount },
             );
         }
 

@@ -1,6 +1,6 @@
 <app-button
     class="button"
-    [label]="'Roll ' + description"
+    [label]="'Roll ' + (description$ | async)"
     showLabel
     [noOutline]="noOutline"
     [ghost]="ghost"

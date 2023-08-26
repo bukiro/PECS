@@ -19,12 +19,6 @@ export class Deity {
     public domains: Array<string> = [];
     public alternateDomains: Array<string> = [];
     public clericSpells: Array<SpellCast> = [];
-    /**
-     * Store current domains here to save resources for the many queries coming from the general component
-     * and the domain initiate feats.
-     */
-    public $domains: Array<string> = [];
-    public $alternateDomains: Array<string> = [];
 
     public recast(): Deity {
         this.clericSpells = this.clericSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
@@ -41,10 +35,5 @@ export class Deity {
             ...this.domains,
             ...this.alternateDomains,
         ]).has(domain);
-    }
-
-    public clearTemporaryDomains(): void {
-        this.$domains.length = 0;
-        this.$alternateDomains.length = 0;
     }
 }

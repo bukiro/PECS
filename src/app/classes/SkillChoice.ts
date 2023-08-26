@@ -1,5 +1,5 @@
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
-import { MaxSkillLevel } from 'src/libs/shared/definitions/skillLevels';
+import { maxSkillLevel } from 'src/libs/shared/definitions/skillLevels';
 
 export class SkillChoice {
     public available = 0;
@@ -27,7 +27,7 @@ export class SkillChoice {
      * maxRank: the highest rank you are allowed to achieve with this choice.
      * This means that only skills are allowed which currently have maxRank-2 !
      */
-    public maxRank = MaxSkillLevel;
+    public maxRank = maxSkillLevel;
     /**
      * If showOnSheet is set, this choice is intended to be made on the character sheet instead of while building the character.
      * This is relevant for feats like Ancestral Longevity.

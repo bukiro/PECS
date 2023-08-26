@@ -9,6 +9,7 @@ import { HealthService } from '../health/health.service';
 import { RefreshService } from '../refresh/refresh.service';
 import { SpellCastingPrerequisitesService } from '../spell-casting-prerequisites/spell-casting-prerequisites.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { take, tap, zip } from 'rxjs';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -69,16 +70,26 @@ export class OnceEffectsService {
         const preparedOnceEffects = this._preparedOnceEffects.slice();
 
         this._preparedOnceEffects.length = 0;
-        preparedOnceEffects.forEach(prepared => {
-            this.processOnceEffect(
-                CreatureService.creatureFromType(prepared.creatureType),
-                prepared.effectGain,
-                prepared.conditionValue,
-                prepared.conditionHeightened,
-                prepared.conditionChoice,
-                prepared.conditionSpellCastingAbility,
-            );
-        });
+
+        zip(preparedOnceEffects.map(prepared =>
+            CreatureService.creatureFromType$(prepared.creatureType)
+                .pipe(
+                    tap(creature => {
+                        this.processOnceEffect(
+                            creature,
+                            prepared.effectGain,
+                            prepared.conditionValue,
+                            prepared.conditionHeightened,
+                            prepared.conditionChoice,
+                            prepared.conditionSpellCastingAbility,
+                        );
+                    }),
+                ),
+        ))
+            .pipe(
+                take(1),
+            )
+            .subscribe();
     }
 
     public processOnceEffect(
@@ -106,7 +117,7 @@ export class OnceEffectsService {
                 if (!this._evaluationService) { console.error('EvaluationService missing in OnceEffectService!'); }
 
                 const validationResult =
-                    this._evaluationService?.valueFromFormula(
+                    this._evaluationService?.valueFromFormula$(
                         effectGain.value,
                         { creature, object: testObject, effect: effectGain },
                     );
@@ -202,29 +213,34 @@ export class OnceEffectsService {
     }
 
     private _changeCharacterFocusPointsWithNotification(value: number): void {
-        const maxFocusPoints = this._spellCastingPrerequisitesService.maxFocusPoints();
-        const character = CreatureService.character;
+        this._spellCastingPrerequisitesService.maxFocusPoints$
+            .pipe(
+                take(1),
+            )
+            .subscribe(maxFocusPoints => {
+                const character = CreatureService.character;
 
-        if (maxFocusPoints === 0) {
-            this._toastService.show('Your focus points were not changed because you don\'t have a focus pool.');
+                if (maxFocusPoints === 0) {
+                    this._toastService.show('Your focus points were not changed because you don\'t have a focus pool.');
 
-            return;
-        }
+                    return;
+                }
 
-        character.class.focusPoints = Math.min(character.class.focusPoints, maxFocusPoints);
-        // We intentionally add the point after we set the limit.
-        // This allows us to gain focus points with feats and raise the current points
-        // before the limit is increased. The focus points are automatically limited in the spellbook component,
-        // where they are displayed, and when casting focus spells.
-        character.class.focusPoints += value;
+                character.class.focusPoints = Math.min(character.class.focusPoints, maxFocusPoints);
+                // We intentionally add the point after we set the limit.
+                // This allows us to gain focus points with feats and raise the current points
+                // before the limit is increased. The focus points are automatically limited in the spellbook component,
+                // where they are displayed, and when casting focus spells.
+                character.class.focusPoints += value;
 
-        if (value >= 0) {
-            this._toastService.show(`You gained ${ value } focus point${ value === 1 ? '' : 's' }.`);
-        } else {
-            this._toastService.show(`You lost ${ value * -1 } focus point${ value === 1 ? '' : 's' }.`);
-        }
+                if (value >= 0) {
+                    this._toastService.show(`You gained ${ value } focus point${ value === 1 ? '' : 's' }.`);
+                } else {
+                    this._toastService.show(`You lost ${ value * -1 } focus point${ value === 1 ? '' : 's' }.`);
+                }
 
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
+            });
     }
 
     private _changeCreatureTemporaryHPWithNotification(
@@ -302,39 +318,43 @@ export class OnceEffectsService {
         const phrases = this._effectRecipientPhrases(creature);
 
         if (value > 0) {
-            const result = this._healthService.heal(creature.health, creature, value, true);
-            let results = '';
+            this._healthService.heal$(creature, value, true)
+                .subscribe(result => {
+                    let results = '';
 
-            if (result.hasRemovedUnconscious) {
-                results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
-            }
+                    if (result.hasRemovedUnconscious) {
+                        results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
+                    }
 
-            if (result.hasRemovedDying) {
-                results = ` This removed ${ phrases.pronounGenitive } Dying condition.`;
-            }
+                    if (result.hasRemovedDying) {
+                        results = ` This removed ${ phrases.pronounGenitive } Dying condition.`;
+                    }
 
-            this._toastService.show(`${ phrases.name } gained ${ value } HP from ${ context.source }.${ results }`);
+                    this._toastService.show(`${ phrases.name } gained ${ value } HP from ${ context.source }.${ results }`);
+
+                    this._refreshService.prepareDetailToChange(creature.type, 'health');
+                    this._refreshService.prepareDetailToChange(creature.type, 'effects');
+                });
         } else if (value < 0) {
-            const result = this._healthService.takeDamage(creature.health, creature, -value, false);
-            let results = '';
+            this._healthService.takeDamage$(creature, -value, false)
+                .subscribe(result => {
+                    let results = '';
 
-            if (result.hasAddedUnconscious) {
-                results = ` ${ phrases.name } ${ phrases.verbIs } now Unconscious.`;
-            }
+                    if (result.hasAddedUnconscious) {
+                        results = ` ${ phrases.name } ${ phrases.verbIs } now Unconscious.`;
+                    }
 
-            if (result.dyingAddedAmount && context.source !== 'Dead') {
-                results = ` ${ phrases.pronounCap } ${ phrases.verbIs } now Dying ${ result.dyingAddedAmount }.`;
-            }
+                    if (result.dyingAddedAmount && context.source !== 'Dead') {
+                        results = ` ${ phrases.pronounCap } ${ phrases.verbIs } now Dying ${ result.dyingAddedAmount }.`;
+                    }
 
-            if (result.hasRemovedUnconscious) {
-                results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
-            }
+                    if (result.hasRemovedUnconscious) {
+                        results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
+                    }
 
-            this._toastService.show(`${ phrases.name } lost ${ value * -1 } HP from ${ context.source }.${ results }`);
+                    this._toastService.show(`${ phrases.name } lost ${ value * -1 } HP from ${ context.source }.${ results }`);
+                });
         }
-
-        this._refreshService.prepareDetailToChange(creature.type, 'health');
-        this._refreshService.prepareDetailToChange(creature.type, 'effects');
     }
 
     private _raiseCharacterShieldWithNotification(value: number): void {

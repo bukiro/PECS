@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Armor } from 'src/app/classes/Armor';
@@ -10,9 +10,10 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
-import { map, Observable } from 'rxjs';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BehaviorSubject, combineLatest, map, Observable, of, switchMap } from 'rxjs';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 
 const materialLevelRequiredForFirstPotency = 5;
 const materialLevelRequiredForSecondPotency = 11;
@@ -47,10 +48,8 @@ interface ArmorMaterialSet {
     styleUrls: ['./item-material-option.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implements OnInit, OnChanges {
+export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implements OnInit {
 
-    @Input()
-    public item!: Armor;
     @Input()
     public craftingStation?: boolean;
     @Input()
@@ -59,7 +58,9 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
     public newMaterial: Array<ArmorMaterialSet> = [];
     public inventories: Array<string> = [];
 
-    public availableMaterials$?: Observable<Array<ArmorMaterialSet>>;
+    public item$: BehaviorSubject<Armor>;
+
+    private _item!: Armor;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -67,6 +68,18 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
         private readonly _skillValuesService: SkillValuesService,
     ) {
         super();
+
+        this.item$ = new BehaviorSubject<Armor>(this._item);
+    }
+
+    public get item(): Armor {
+        return this._item;
+    }
+
+    @Input()
+    public set item(value: Armor) {
+        this._item = value;
+        this.item$.next(this._item);
     }
 
     public get materialOptionApplies(): boolean {
@@ -102,84 +115,98 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
         return allArmorMaterials;
     }
 
-    public availableMaterials(): Array<ArmorMaterialSet> {
-        const allMaterials: Array<ArmorMaterialSet> = this._itemMaterialsDataService.armorMaterials().map(material => ({ material }));
+    public availableMaterials$(): Observable<Array<ArmorMaterialSet>> {
+        return this.item$
+            .pipe(
+                switchMap(item =>
+                    combineLatest([
+                        of(item),
+                        item.runesChanged$,
+                        CreatureService.character$,
+                        CharacterFlatteningService.characterLevel$,
+                    ]),
 
-        //Set all materials to disabled that have the same name as any that is already equipped.
-        allMaterials.forEach(materialSet => {
-            if (this.item.material.length && this.item.material[0].name === materialSet.material.name) {
-                materialSet.disabled = true;
-            }
-        });
-
-        let charLevel = 0;
-        let craftingLevel = 0;
-
-        if (this.craftingStation) {
-            const character = this._character;
-
-            charLevel = character.level;
-            craftingLevel =
-                this._skillValuesService.level('Crafting', character, character.level) || 0;
-        }
-
-        //Disable all materials whose requirements are not met.
-        allMaterials.filter(materialSet => !(
-            (
-                //If you are crafting this item yourself, you must fulfill the crafting skill requirement.
-                this.craftingStation
-                    ? materialSet.material.craftingRequirement <= craftingLevel && materialSet.material.level <= charLevel
-                    : true
-            ) &&
-            (
-                //You can't change to a material that doesn't support the currently equipped runes.
-                materialSet.material.runeLimit ?
+                ),
+                switchMap(([item, _, character, charLevel]) =>
                     (
-                        !this.item.propertyRunes.some(rune => rune.level > materialSet.material.runeLimit) &&
-                        materialSet.material.runeLimit >= (MaterialLevelRequiredForPotency[this.item.potencyRune] || 0) &&
-                        materialSet.material.runeLimit >= (MaterialLevelRequiredForResilient[this.item.resilientRune] || 0)
+                        this.craftingStation
+                            ? this._skillValuesService.level$('Crafting', character)
+                            : of(0)
                     )
-                    : true
-            ) &&
-            (
-                materialSet.material.itemFilter.length
-                    ? (
-                        materialSet.material.itemFilter.includes(this.item.name) ||
-                        materialSet.material.itemFilter.includes(this.item.armorBase)
-                    )
-                    : true
-            )
-        )).forEach(materialSet => {
-            materialSet.disabled = true;
-        });
+                        .pipe(
+                            map(craftingLevel => ({ item, charLevel, craftingLevel })),
+                        ),
+                ),
+                map(({ item, charLevel, craftingLevel }) => {
+                    const allMaterials: Array<ArmorMaterialSet> =
+                        this._itemMaterialsDataService.armorMaterials().map(material => ({ material }));
 
-        // Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material
-        // and don't share the name with another disabled material that comes before it.
-        // This means you can still see a material that you can't take at the moment,
-        // but you don't see duplicates of a material that only apply to other items.
-        const materials = allMaterials.filter((material, index) =>
-            !material.disabled ||
-            (
-                !allMaterials.some(othermaterial =>
-                    !othermaterial.disabled &&
-                    othermaterial !== material &&
-                    othermaterial.material.name === material.material.name,
-                ) &&
-                !allMaterials.slice(0, index).some(othermaterial =>
-                    othermaterial.disabled &&
-                    othermaterial !== material &&
-                    othermaterial.material.name === material.material.name,
-                )
-            ),
-        );
+                    //Set all materials to disabled that have the same name as any that is already equipped.
+                    allMaterials.forEach(materialSet => {
+                        if (item.material.length && item.material[0].name === materialSet.material.name) {
+                            materialSet.disabled = true;
+                        }
+                    });
 
-        const twoDigits = 2;
+                    //Disable all materials whose requirements are not met.
+                    allMaterials.filter(materialSet => !(
+                        (
+                            //If you are crafting this item yourself, you must fulfill the crafting skill requirement.
+                            this.craftingStation
+                                ? materialSet.material.craftingRequirement <= craftingLevel && materialSet.material.level <= charLevel
+                                : true
+                        ) &&
+                        (
+                            //You can't change to a material that doesn't support the currently equipped runes.
+                            materialSet.material.runeLimit ?
+                                (
+                                    !item.propertyRunes.some(rune => rune.level > materialSet.material.runeLimit) &&
+                                    materialSet.material.runeLimit >= (MaterialLevelRequiredForPotency[item.potencyRune] || 0) &&
+                                    materialSet.material.runeLimit >= (MaterialLevelRequiredForResilient[item.resilientRune] || 0)
+                                )
+                                : true
+                        ) &&
+                        (
+                            materialSet.material.itemFilter.length
+                                ? (
+                                    materialSet.material.itemFilter.includes(item.name) ||
+                                    materialSet.material.itemFilter.includes(item.armorBase)
+                                )
+                                : true
+                        )
+                    )).forEach(materialSet => {
+                        materialSet.disabled = true;
+                    });
 
-        return materials
-            .sort((a, b) => sortAlphaNum(
-                a.material.level.toString().padStart(twoDigits, '0') + a.material.name,
-                b.material.level.toString().padStart(twoDigits, '0') + b.material.name,
-            ));
+                    // Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material
+                    // and don't share the name with another disabled material that comes before it.
+                    // This means you can still see a material that you can't take at the moment,
+                    // but you don't see duplicates of a material that only apply to other items.
+                    const materials = allMaterials.filter((material, index) =>
+                        !material.disabled ||
+                        (
+                            !allMaterials.some(othermaterial =>
+                                !othermaterial.disabled &&
+                                othermaterial !== material &&
+                                othermaterial.material.name === material.material.name,
+                            ) &&
+                            !allMaterials.slice(0, index).some(othermaterial =>
+                                othermaterial.disabled &&
+                                othermaterial !== material &&
+                                othermaterial.material.name === material.material.name,
+                            )
+                        ),
+                    );
+
+                    const twoDigits = 2;
+
+                    return materials
+                        .sort((a, b) => sortAlphaNum(
+                            a.material.level.toString().padStart(twoDigits, '0') + a.material.name,
+                            b.material.level.toString().padStart(twoDigits, '0') + b.material.name,
+                        ));
+                }),
+            );
     }
 
     public onSelectMaterial(): void {
@@ -229,25 +256,18 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
         this._setMaterialNames();
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.item) {
-            this.availableMaterials$ = this.item.runesChanged$
-                ?.pipe(
-                    map(() => this.availableMaterials()),
-                );
-        }
-    }
-
     private _priceText(price: number): string {
         return priceTextFromCopper(price);
     }
 
     private _setMaterialNames(): void {
+        const armorMaterial = this.item.armorMaterial;
+
         this.newMaterial =
-            this.item.material
+            armorMaterial
                 ? [
-                    this.item.material[0]
-                        ? { material: this.item.material[0] }
+                    armorMaterial[0]
+                        ? { material: armorMaterial[0] }
                         : { material: new ArmorMaterial() },
                 ]
                 : [

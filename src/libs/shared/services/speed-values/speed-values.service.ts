@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { combineLatest, map, Observable } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
-import { Effect } from 'src/app/classes/Effect';
+import { AbsoluteEffect, Effect, RelativeEffect } from 'src/app/classes/Effect';
 import { Speed } from 'src/app/classes/Speed';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 
@@ -24,104 +25,127 @@ export class SpeedValuesService {
         private readonly _creatureEffectsService: CreatureEffectsService,
     ) { }
 
-    public calculate(speed: Speed, creature: Creature): CalculatedSpeed {
-        return {
-            name: speed.name,
-            value: this.value(speed, creature),
-            showPenalties: this._showPenalties(creature, speed.name, true),
-            showBonuses: this._showBonuses(creature, speed.name, true),
-            absolutes: this._absolutes(creature, speed.name, true),
-            relatives: this._relatives(creature, speed.name, true),
-        };
+    public calculate$(speed: Speed, creature: Creature): Observable<CalculatedSpeed> {
+        return combineLatest([
+            this.value$(speed, creature),
+            this._showPenalties$(creature, speed.name, { includeGeneralSpeed: true }),
+            this._showBonuses$(creature, speed.name, { includeGeneralSpeed: true }),
+            this._absolutes$(creature, speed.name, { includeGeneralSpeed: true }),
+            this._relatives$(creature, speed.name, { includeGeneralSpeed: true }),
+        ])
+            .pipe(
+                map(([value, showPenalties, showBonuses, absolutes, relatives]) => ({
+                    name: speed.name,
+                    value,
+                    showPenalties,
+                    showBonuses,
+                    absolutes,
+                    relatives,
+                })),
+            );
     }
 
-    public value(speed: Speed, creature: Creature): { result: number; explain: string } {
-        //If there is a general speed penalty (or bonus), it applies to all speeds. We apply it to the base speed here so we can still
-        // copy the base speed for effects (e.g. "You gain a climb speed equal to your land speed") and not apply the general penalty twice.
-        const value = this._baseValue(speed, creature);
-        const isNull: boolean = (value.result === 0);
+    public value$(speed: Speed, creature: Creature): Observable<{ result: number; explain: string }> {
+        return combineLatest([
+            this._baseValue$(speed, creature),
+            this._relatives$(creature, 'Speed'),
+        ])
+            .pipe(
+                map(([baseValue, speedEffects]) => {
+                    const value = baseValue;
 
-        if (speed.name !== 'Speed') {
-            this._relatives(creature, 'Speed').forEach(effect => {
-                value.result += parseInt(effect.value, 10);
-                value.explain += `\n${ effect.source }: ${ effect.value }`;
-            });
-        }
+                    const isNull: boolean = (value.result === 0);
 
-        if (!isNull && value.result < minimumLoweredSpeed && speed.name !== 'Speed') {
-            value.result = minimumLoweredSpeed;
-            value.explain += `\nEffects cannot lower a speed below ${ minimumLoweredSpeed }.`;
-        }
+                    // If there is a general speed penalty (or bonus), it applies to all speeds.
+                    // We apply it to the base speed only here so we can still use the base speed for effects that require it
+                    // (e.g. "You gain a climb speed equal to your land speed") and not apply the general penalty twice.
+                    if (speed.name !== 'Speed') {
+                        speedEffects.forEach(effect => {
+                            value.result += effect.valueNumerical;
+                            value.explain += `\n${ effect.source }: ${ effect.value }`;
+                        });
+                    }
 
-        value.explain = value.explain.trim();
+                    if (!isNull && value.result < minimumLoweredSpeed && speed.name !== 'Speed') {
+                        value.result = minimumLoweredSpeed;
+                        value.explain += `\nEffects cannot lower a speed below ${ minimumLoweredSpeed }.`;
+                    }
 
-        return value;
+                    value.explain = value.explain.trim();
+
+                    return value;
+
+                }),
+            );
     }
 
-    private _relatives(creature: Creature, name: string, both = false): Array<Effect> {
-        if (both && name !== 'Speed') {
-            return this._creatureEffectsService.relativeEffectsOnThese(creature, [name, 'Speed']);
-        } else {
-            return this._creatureEffectsService.relativeEffectsOnThis(creature, name);
-        }
-    }
-
-    private _absolutes(creature: Creature, name: string, both = false): Array<Effect> {
-        if (both && name !== 'Speed') {
-            return this._creatureEffectsService.absoluteEffectsOnThese(creature, [name, 'Speed']);
-        } else {
-            return this._creatureEffectsService.absoluteEffectsOnThis(creature, name);
-        }
-    }
-
-    private _showBonuses(creature: Creature, name: string, both = false): boolean {
-        if (both && name !== 'Speed') {
-            return this._creatureEffectsService.doBonusEffectsExistOnThese(creature, [name, 'Speed']);
-        } else {
-            return this._creatureEffectsService.doBonusEffectsExistOnThis(creature, name);
-        }
-    }
-
-    private _showPenalties(creature: Creature, name: string, both = false): boolean {
-        if (both && name !== 'Speed') {
-            return this._creatureEffectsService.doPenaltyEffectsExistOnThese(creature, [name, 'Speed']);
-        } else {
-            return this._creatureEffectsService.doPenaltyEffectsExistOnThis(creature, name);
-        }
-    }
-
-    private _baseValue(speed: Speed, creature: Creature): { result: number; explain: string } {
-        //Gets the basic speed and adds all effects
-
+    private _baseValue$(speed: Speed, creature: Creature): Observable<{ result: number; explain: string }> {
         //Get the base speed from the ancestry.
         const baseValue = creature.baseSpeed(speed.name);
 
-        //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
-        const absolutes = this._absolutes(creature, speed.name).filter(effect => effect.setValue);
+        return combineLatest([
+            this._absolutes$(creature, speed.name),
+            this._relatives$(creature, speed.name),
+        ])
+            .pipe(
+                map(([absolutes, relatives]) => {
+                    //Gets the basic speed and adds all effects
 
-        absolutes.forEach(effect => {
-            baseValue.result = parseInt(effect.setValue, 10);
-            baseValue.explain = `${ effect.source }: ${ effect.setValue }`;
-        });
+                    absolutes.forEach(effect => {
+                        baseValue.result = effect.setValueNumerical;
+                        baseValue.explain = `${ effect.source }: ${ effect.setValue }`;
+                    });
 
-        const isNull: boolean = (baseValue.result === 0);
+                    const isZero: boolean = (baseValue.result === 0);
 
-        const relatives = this._relatives(creature, speed.name);
+                    relatives.forEach(effect => {
+                        baseValue.result += effect.valueNumerical;
+                        baseValue.explain += `\n${ effect.source }: ${ effect.value }`;
+                    });
 
-        relatives.forEach(effect => {
-            baseValue.result += parseInt(effect.value, 10);
-            baseValue.explain += `\n${ effect.source }: ${ effect.value }`;
-        });
+                    //Penalties cannot lower a speed below 5.
+                    if (!isZero && baseValue.result < minimumLoweredSpeed && speed.name !== 'Speed') {
+                        baseValue.result = minimumLoweredSpeed;
+                        baseValue.explain += `\nEffects cannot lower a speed below ${ minimumLoweredSpeed }.`;
+                    }
 
-        //Penalties cannot lower a speed below 5.
-        if (!isNull && baseValue.result < minimumLoweredSpeed && speed.name !== 'Speed') {
-            baseValue.result = minimumLoweredSpeed;
-            baseValue.explain += `\nEffects cannot lower a speed below ${ minimumLoweredSpeed }.`;
+                    baseValue.explain = baseValue.explain.trim();
+
+                    return baseValue;
+                }),
+            );
+    }
+
+    private _relatives$(creature: Creature, name: string, options?: { includeGeneralSpeed?: boolean }): Observable<Array<RelativeEffect>> {
+        if (options?.includeGeneralSpeed) {
+            return this._creatureEffectsService.relativeEffectsOnThese$(creature, [name, 'Speed']);
+        } else {
+            return this._creatureEffectsService.relativeEffectsOnThis$(creature, name);
         }
+    }
 
-        baseValue.explain = baseValue.explain.trim();
+    private _absolutes$(creature: Creature, name: string, options?: { includeGeneralSpeed?: boolean }): Observable<Array<AbsoluteEffect>> {
+        if (options?.includeGeneralSpeed) {
+            return this._creatureEffectsService.absoluteEffectsOnThese$(creature, [name, 'Speed']);
+        } else {
+            return this._creatureEffectsService.absoluteEffectsOnThis$(creature, name);
+        }
+    }
 
-        return baseValue;
+    private _showBonuses$(creature: Creature, name: string, options?: { includeGeneralSpeed?: boolean }): Observable<boolean> {
+        if (options?.includeGeneralSpeed) {
+            return this._creatureEffectsService.doBonusEffectsExistOnThese$(creature, [name, 'Speed']);
+        } else {
+            return this._creatureEffectsService.doBonusEffectsExistOnThis$(creature, name);
+        }
+    }
+
+    private _showPenalties$(creature: Creature, name: string, options?: { includeGeneralSpeed?: boolean }): Observable<boolean> {
+        if (options?.includeGeneralSpeed) {
+            return this._creatureEffectsService.doPenaltyEffectsExistOnThese$(creature, [name, 'Speed']);
+        } else {
+            return this._creatureEffectsService.doPenaltyEffectsExistOnThis$(creature, name);
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HintItemComponent } from './components/hint-item/hint-tem.component';
+import { HintItemComponent } from './components/hint-item/hint-item.component';
 import { HintComponent } from './components/hint/hint.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';

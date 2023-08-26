@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div
-    *ngIf="componentParameters() as componentParameters"
+    *ngIf="componentParameters$() | async as componentParameters"
     class="featchoice-container"
     [ngClass]="{
         'list-item': showTitle && !isTileMode,
@@ -166,7 +166,7 @@
 
             <!-- End Adaptive Adept -->
             <!-- Spell Blending -->
-            <ng-container *ngIf="spellbook && spellBlendingParameters() as spellBlendingParameters">
+            <ng-container *ngIf="spellbook && (spellBlendingParameters$() | async) as spellBlendingParameters">
                 <div class="list-item">
                     <strong>Spell Blending</strong>
 
@@ -474,55 +474,54 @@
 
             <!-- End Occult Evolution -->
             <!-- Crossblooded Evolution -->
-            <ng-container *ngFor="let crossbloodedEvolutionAllowed of [amountOfCrossbloodedEvolutionSlotsAllowed()]; trackBy:trackByIndex">
-                <ng-container *ngIf="crossbloodedEvolutionAllowed">
-                    <div class="list-item">
-                        <strong>
-                            <i class='ra ra-zigzag-leaf'></i>
-                            &nbsp;
+
+            <ng-container *ngIf="amountOfCrossbloodedEvolutionSlotsAllowed$() | async as crossbloodedEvolutionAllowed">
+                <div class="list-item">
+                    <strong>
+                        <i class='ra ra-zigzag-leaf'></i>
+                        &nbsp;
                             Crossblooded Evolution
-                        </strong>
+                    </strong>
 
-                        <div
-                            class="newrow"
-                            *ngIf="isCrossbloodedEvolutionUnlockedForThisLevel(choice.level) && !choice.crossbloodedEvolution"
-                        >
-                            A Crossblooded Evolution spell has already been assigned for this level.
-                        </div>
-
-                        <div
-                            class="newrow"
-                            *ngIf="crossbloodedEvolutionAllowed > 1 && isCrossbloodedEvolutionUnlockedForThisLevel() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution"
-                        >
-                            The total maximum of {{crossbloodedEvolutionAllowed}} Crossblooded Evolution spells has
-                            already been assigned.
-                        </div>
-
-                        <div
-                            class="newrow"
-                            *ngIf="crossbloodedEvolutionAllowed === 1 && isCrossbloodedEvolutionUnlockedForThisLevel() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution"
-                        >
-                            The Crossblooded Evolution spell has already been assigned.
-                        </div>
-
-                        <div
-                            class="newrow gridicon-fullsizebox"
-                            *ngIf="choice.crossbloodedEvolution || (!isCrossbloodedEvolutionUnlockedForThisLevel(choice.level) && isCrossbloodedEvolutionUnlockedForThisLevel() < crossbloodedEvolutionAllowed)"
-                        >
-                            <label>
-                                <input
-                                    class="character-choice"
-                                    type="checkbox"
-                                    [(ngModel)]="choice.crossbloodedEvolution"
-                                    (ngModelChange)="onCrossbloodedEvolutionAssigned()"
-                                >
-                                <strong>
-                                    Allow a spell from another tradition in this choice.
-                                </strong>
-                            </label>
-                        </div>
+                    <div
+                        class="newrow"
+                        *ngIf="isCrossbloodedEvolutionUnlockedForThisLevel(choice.level) && !choice.crossbloodedEvolution"
+                    >
+                        A Crossblooded Evolution spell has already been assigned for this level.
                     </div>
-                </ng-container>
+
+                    <div
+                        class="newrow"
+                        *ngIf="crossbloodedEvolutionAllowed > 1 && isCrossbloodedEvolutionUnlockedForThisLevel() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution"
+                    >
+                        The total maximum of {{crossbloodedEvolutionAllowed}} Crossblooded Evolution spells has
+                            already been assigned.
+                    </div>
+
+                    <div
+                        class="newrow"
+                        *ngIf="crossbloodedEvolutionAllowed === 1 && isCrossbloodedEvolutionUnlockedForThisLevel() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution"
+                    >
+                        The Crossblooded Evolution spell has already been assigned.
+                    </div>
+
+                    <div
+                        class="newrow gridicon-fullsizebox"
+                        *ngIf="choice.crossbloodedEvolution || (!isCrossbloodedEvolutionUnlockedForThisLevel(choice.level) && isCrossbloodedEvolutionUnlockedForThisLevel() < crossbloodedEvolutionAllowed)"
+                    >
+                        <label>
+                            <input
+                                class="character-choice"
+                                type="checkbox"
+                                [(ngModel)]="choice.crossbloodedEvolution"
+                                (ngModelChange)="onCrossbloodedEvolutionAssigned()"
+                            >
+                            <strong>
+                                Allow a spell from another tradition in this choice.
+                            </strong>
+                        </label>
+                    </div>
+                </div>
             </ng-container>
 
             <!-- End Crossblooded Evolution -->

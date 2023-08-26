@@ -1,3 +1,4 @@
+import { Observable, of } from 'rxjs';
 import { Consumable } from 'src/app/classes/Consumable';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
@@ -28,7 +29,11 @@ export class Ammunition extends Consumable {
 
     public isAmmunition(): this is Ammunition { return true; }
 
-    public effectiveName(): string {
+    public effectiveName$(): Observable<string> {
+        return of(this.effectiveNameSnapshot());
+    }
+
+    public effectiveNameSnapshot(): string {
         if (this.displayName) {
             return this.displayName;
         } else if (this.storedSpells[0]?.spells?.length) {

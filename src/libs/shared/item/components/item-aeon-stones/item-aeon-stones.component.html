@@ -32,7 +32,7 @@
         <ng-container *ngFor="let inv of inventories(); trackBy:trackByIndex;">
             <ng-container *ngIf="availableAeonStones(inv) as availableAeonStones">
                 <optgroup
-                    label="{{itemStore ? 'Available stones' : inventoryName(inv)}}"
+                    [label]="itemStore ? 'Available stones' : inventoryName$(inv) | async"
                     *ngIf="availableAeonStones.length"
                 >
                     <option

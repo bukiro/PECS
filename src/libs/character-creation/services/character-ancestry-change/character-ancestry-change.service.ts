@@ -37,8 +37,6 @@ export class CharacterAncestryChangeService {
         } else {
             character.class.ancestry = new Ancestry();
         }
-
-        this._characterLanguagesService.updateLanguageList();
     }
 
     private _processRemovingOldAncestry(): void {

@@ -1,27 +1,30 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { distinctUntilChanged, map, Observable, shareReplay, Subscription, takeUntil } from 'rxjs';
+import { combineLatest, debounceTime, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, tap } from 'rxjs';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
 import { DisplayService } from 'src/libs/shared/services/display/display.service';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { MenuService } from 'src/libs/shared/services/menu/menu.service';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { Store } from '@ngrx/store';
+import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -53,7 +56,6 @@ interface SpellParameters {
 export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCardComponent)) implements OnInit, OnDestroy {
 
     public allowBorrow = false;
-    public creatureTypesEnum = CreatureTypes;
 
     public isTileMode$: Observable<boolean>;
     public isMenuOpen$: Observable<boolean>;
@@ -75,37 +77,34 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
-        private readonly _menuService: MenuService,
+        private readonly _store$: Store,
     ) {
         super();
 
-        SettingsService.settings$
+        this.isMinimized$ = propMap$(SettingsService.settings$, 'spellsMinimized$')
             .pipe(
-                takeUntil(this._destroyed$),
-                map(settings => settings.spellsMinimized),
                 distinctUntilChanged(),
-            )
-            .subscribe(minimized => {
-                this._updateMinimized({ bySetting: minimized });
-            });
-
-        this.isTileMode$ = SettingsService.settings$
-            .pipe(
-                map(settings => settings.spellsTileMode),
-                distinctUntilChanged(),
-                shareReplay(1),
+                tap(minimized => this._updateMinimized(minimized)),
             );
 
-        this.isMenuOpen$ = MenuService.sideMenuState$
+        this.isTileMode$ = propMap$(SettingsService.settings$, 'spellsTileMode$')
             .pipe(
-                map(menuState => menuState === MenuNames.SpellSelectionMenu),
                 distinctUntilChanged(),
+                shareReplay({ refCount: true, bufferSize: 1 }),
             );
-    }
 
-    @Input()
-    public set forceMinimized(forceMinimized: boolean | undefined) {
-        this._updateMinimized({ forced: forceMinimized ?? false });
+        this.isMenuOpen$ = _store$.select(selectLeftMenu)
+            .pipe(
+                map(menu => menu === MenuNames.SpellSelectionMenu),
+                distinctUntilChanged(),
+                switchMap(isMenuOpen => isMenuOpen
+                    ? of(isMenuOpen)
+                    : of(isMenuOpen)
+                        .pipe(
+                            debounceTime(Defaults.closingMenuClearDelay),
+                        ),
+                ),
+            );
     }
 
     public get character(): Character {
@@ -121,7 +120,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
     }
 
     public toggleSpellMenu(): void {
-        this._menuService.toggleMenu(MenuNames.SpellSelectionMenu);
+        this._store$.dispatch(toggleLeftMenu({ menu: MenuNames.SpellSelectionMenu }));
     }
 
     public toggleShownSpell(name: string): void {
@@ -190,54 +189,81 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
         }
     }
 
-    public componentParameters(): ComponentParameters {
-        return {
-            allowSwitchingPreparedSpells: this._canPreparedSpellsBeSwitched(),
-            hasSpellChoices: this._doesCharacterHaveAnySpellChoices(),
-        };
+    public componentParameters$(): Observable<ComponentParameters> {
+        return this._canPreparedSpellsBeSwitched$()
+            .pipe(
+                map(allowSwitchingPreparedSpells => ({
+                    allowSwitchingPreparedSpells,
+                    hasSpellChoices: this._doesCharacterHaveAnySpellChoices(),
+                })),
+            );
     }
 
-    public spellCastingParameters(): Array<SpellCastingParameters> {
-        return this._allSpellCastings()
-            .map(casting => {
-                const equipmentSpells =
-                    this._equipmentSpellsService.filteredGrantedEquipmentSpells(
-                        this.character,
-                        casting,
-                        { cantripAllowed: true, emptyChoiceAllowed: true },
-                    );
-                //Don't list castings that have no spells available.
-                const castingAvailable = (
-                    casting.charLevelAvailable &&
-                    casting.charLevelAvailable <= this.character.level
-                ) || equipmentSpells.length;
+    public spellCastingParameters$(): Observable<Array<SpellCastingParameters>> {
+        return this._allSpellCastings$()
+            .pipe(
+                switchMap(spellCastings =>
+                    combineLatest(
+                        spellCastings
+                            .map(casting => {
+                                const equipmentSpells =
+                                    this._equipmentSpellsService.filteredGrantedEquipmentSpells(
+                                        this.character,
+                                        casting,
+                                        { cantripAllowed: true, emptyChoiceAllowed: true },
+                                    );
+                                //Don't list castings that have no spells available.
+                                const castingAvailable = (
+                                    casting.charLevelAvailable &&
+                                    casting.charLevelAvailable <= this.character.level
+                                ) || equipmentSpells.length;
 
-                return { casting, castingAvailable, equipmentSpells };
-            })
-            .filter(({ castingAvailable }) => !!castingAvailable)
-            .map(({ casting, equipmentSpells }) => ({
-                casting,
-                equipmentSpells,
-                needSpellBook: this._doesCastingNeedSpellbook(casting),
-                maxSpellLevel: this._maxSpellLevelOfCasting(casting, equipmentSpells),
-            }));
+                                return { casting, castingAvailable, equipmentSpells };
+                            })
+                            .filter(({ castingAvailable }) => !!castingAvailable)
+                            .map(({ casting, equipmentSpells }) =>
+                                this._maxSpellLevelOfCasting$(casting, equipmentSpells)
+                                    .pipe(
+                                        map(maxSpellLevel => ({
+                                            casting,
+                                            equipmentSpells,
+                                            needSpellBook: this._doesCastingNeedSpellbook(casting),
+                                            maxSpellLevel,
+                                        }))),
+                            ),
+
+                    ),
+
+                ),
+            );
+
     }
 
-    public spellCastingLevelParameters(spellCastingParameters: SpellCastingParameters): Array<SpellCastingLevelParameters> {
-        return (Object.values(SpellLevels) as Array<number>)
-            .filter(level => level <= spellCastingParameters.maxSpellLevel)
-            .map(level => {
-                const availableSpellChoices = this._availableSpellChoicesAtThisLevel(spellCastingParameters, level);
-                const fixedSpellSets = this._fixedSpellsAtThisLevel(spellCastingParameters, level);
-
-                return { level, availableSpellChoices, fixedSpellSets };
-            })
-            .filter(({ availableSpellChoices, fixedSpellSets }) => (availableSpellChoices.length + fixedSpellSets.length))
-            .map(({ level, availableSpellChoices, fixedSpellSets }) => ({
-                level,
-                availableSpellChoices,
-                fixedSpellSets,
-            }));
+    public spellCastingLevelParameters$(spellCastingParameters: SpellCastingParameters): Observable<Array<SpellCastingLevelParameters>> {
+        return combineLatest(
+            (Object.values(SpellLevels) as Array<number>)
+                .filter(level => level <= spellCastingParameters.maxSpellLevel)
+                .map(level =>
+                    this._fixedSpellsAtThisLevel$(spellCastingParameters, level)
+                        .pipe(
+                            map(fixedSpellSets => ({
+                                level,
+                                availableSpellChoices: this._availableSpellChoicesAtThisLevel(spellCastingParameters, level),
+                                fixedSpellSets,
+                            })),
+                        ),
+                ),
+        )
+            .pipe(
+                map(results =>
+                    results.filter(({ availableSpellChoices, fixedSpellSets }) => (availableSpellChoices.length + fixedSpellSets.length))
+                        .map(({ level, availableSpellChoices, fixedSpellSets }) => ({
+                            level,
+                            availableSpellChoices,
+                            fixedSpellSets,
+                        })),
+                ),
+            );
     }
 
     public fixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): Array<SpellParameters> {
@@ -282,7 +308,10 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
 
     //TO-DO: This method and others are also used in the spellbook. Can they be centralized, e.g. in the SpellCasting class?
     // (Let's try to avoid passing services into the models in the future, though.)
-    private _maxSpellLevelOfCasting(casting: SpellCasting, equipmentSpells: Array<{ choice: SpellChoice; gain: SpellGain }>): number {
+    private _maxSpellLevelOfCasting$(
+        casting: SpellCasting,
+        equipmentSpells: Array<{ choice: SpellChoice; gain: SpellGain }>,
+    ): Observable<number> {
         // Get the available spell level of this casting.
         // This is the highest spell level of the spell choices that are available at your character level.
         // Focus spells are heightened to half your level rounded up.
@@ -291,16 +320,29 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
         const character = this.character;
 
         if (casting.castingType === 'Focus') {
-            return this.character.maxSpellLevel();
+            return this.character.maxSpellLevel$;
         }
 
-        return Math.max(
+        return combineLatest([
             ...equipmentSpells
-                .map(spellSet => spellSet.choice.dynamicLevel ? this._dynamicSpellLevel(spellSet.choice, casting) : spellSet.choice.level),
-            ...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level)
-                .map(spellChoice => spellChoice.dynamicLevel ? this._dynamicSpellLevel(spellChoice, casting) : spellChoice.level),
-            0,
-        );
+                .map(spellSet =>
+                    spellSet.choice.dynamicLevel
+                        ? this._dynamicSpellLevel$(spellSet.choice, casting)
+                        : of(spellSet.choice.level),
+                ),
+            ...casting.spellChoices
+                .filter(spellChoice => spellChoice.charLevelAvailable <= character.level)
+                .map(spellChoice =>
+                    spellChoice.dynamicLevel
+                        ? this._dynamicSpellLevel$(spellChoice, casting)
+                        : of(spellChoice.level),
+                ),
+        ])
+            .pipe(
+                map(result =>
+                    Math.max(0, ...result),
+                ),
+            );
     }
 
     private _doesCharacterHaveAnySpellChoices(): boolean {
@@ -320,11 +362,14 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
         return casting.spellBookOnly || casting.spellChoices.some(choice => choice.spellBookOnly);
     }
 
-    private _canPreparedSpellsBeSwitched(): boolean {
-        return !!this._creatureEffectsService.toggledEffectsOnThis(this.character, 'Allow Switching Prepared Spells').length;
+    private _canPreparedSpellsBeSwitched$(): Observable<boolean> {
+        return this._creatureEffectsService.toggledEffectsOnThis$(this.character, 'Allow Switching Prepared Spells')
+            .pipe(
+                map(switchingAllowEffects => !!switchingAllowEffects.length),
+            );
     }
 
-    private _allSpellCastings(): Array<SpellCasting> {
+    private _allSpellCastings$(): Observable<Array<SpellCasting>> {
         const character = this.character;
 
         enum CastingTypeSort {
@@ -336,35 +381,43 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
 
         // Spread the list into a new array so it doesn't get sorted on the character.
         // This would lead to problems when loading the character.
-        return [...character.class.spellCasting]
-            .sort((a, b) => {
-                if (a.className === 'Innate' && b.className !== 'Innate') {
-                    return -1;
-                }
+        return character.class.spellCasting.values$
+            .pipe(
+                map(spellCasting =>
+                    spellCasting.sort((a, b) => {
+                        if (a.className === 'Innate' && b.className !== 'Innate') {
+                            return -1;
+                        }
 
-                if (a.className !== 'Innate' && b.className === 'Innate') {
-                    return 1;
-                }
+                        if (a.className !== 'Innate' && b.className === 'Innate') {
+                            return 1;
+                        }
 
-                if (a.className === b.className) {
-                    return (
-                        (CastingTypeSort[a.castingType] + a.tradition === CastingTypeSort[b.castingType] + b.tradition) ? 0 :
-                            (
-                                (CastingTypeSort[a.castingType] + a.tradition > CastingTypeSort[b.castingType] + b.tradition) ? 1 : -1
-                            )
-                    );
-                }
+                        if (a.className === b.className) {
+                            return (
+                                (
+                                    CastingTypeSort[a.castingType] + a.tradition === CastingTypeSort[b.castingType] + b.tradition)
+                                    ? 0
+                                    : (
+                                        (CastingTypeSort[a.castingType] + a.tradition > CastingTypeSort[b.castingType] + b.tradition)
+                                            ? 1
+                                            : -1
+                                    )
+                            );
+                        }
 
-                if (a.className > b.className) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            });
+                        if (a.className > b.className) {
+                            return 1;
+                        } else {
+                            return -1;
+                        }
+                    }),
+                ),
+            );
     }
 
-    private _dynamicSpellLevel(choice: SpellChoice, casting: SpellCasting): number {
-        return this._spellsService.dynamicSpellLevel(casting, choice);
+    private _dynamicSpellLevel$(choice: SpellChoice, casting: SpellCasting): Observable<number> {
+        return this._spellsService.dynamicSpellLevel$(casting, choice);
     }
 
     private _resetChoiceArea(): void {
@@ -384,20 +437,20 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
             .filter(choice => choice.charLevelAvailable <= character.level && !choice.showOnSheet)
             .concat(Array.from(new Set(spellCastingParameters.equipmentSpells.map(spellSet => spellSet.choice))))
             .filter(choice =>
-                (choice.dynamicLevel ? this._dynamicSpellLevel(choice, spellCastingParameters.casting) : choice.level) === levelNumber,
+                (choice.dynamicLevel ? this._dynamicSpellLevel$(choice, spellCastingParameters.casting) : choice.level) === levelNumber,
             );
     }
 
-    private _fixedSpellsAtThisLevel(
+    private _fixedSpellsAtThisLevel$(
         spellCastingParameters: SpellCastingParameters,
         levelNumber: number,
-    ): Array<{ choice: SpellChoice; gain: SpellGain }> {
+    ): Observable<Array<{ choice: SpellChoice; gain: SpellGain }>> {
         const character = this.character;
 
         if (levelNumber === -1) {
             if (spellCastingParameters.casting.castingType === 'Focus') {
                 return this._spellsTakenService
-                    .takenSpells(
+                    .takenSpells$(
                         1,
                         character.level,
                         {
@@ -408,35 +461,65 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
                             cantripAllowed: false,
                         },
                     )
-                    .sort((a, b) => sortAlphaNum(a.gain.name, b.gain.name));
+                    .pipe(
+                        map(spellGains =>
+                            spellGains.sort((a, b) => sortAlphaNum(a.gain.name, b.gain.name)),
+                        ),
+                    );
+
             } else {
-                return [];
+                return of([]);
             }
         } else {
-            return this._spellsTakenService
-                .takenSpells(
-                    1,
-                    character.level,
-                    {
-                        spellLevel: levelNumber,
-                        spellCasting: spellCastingParameters.casting,
-                        locked: true,
-                        signatureAllowed: false,
-                        cantripAllowed: true,
-                    },
-                )
-                .concat(...spellCastingParameters.equipmentSpells
-                    .filter(spellSet =>
-                        spellSet.gain &&
-                        spellSet.gain.locked &&
-                        (
-                            spellSet.choice.dynamicLevel
-                                ? this._dynamicSpellLevel(spellSet.choice, spellCastingParameters.casting)
-                                : spellSet.choice.level
-                        ) === levelNumber,
+            return combineLatest([
+                this._spellsTakenService
+                    .takenSpells$(
+                        1,
+                        character.level,
+                        {
+                            spellLevel: levelNumber,
+                            spellCasting: spellCastingParameters.casting,
+                            locked: true,
+                            signatureAllowed: false,
+                            cantripAllowed: true,
+                        },
                     ),
+                combineLatest(
+                    spellCastingParameters.equipmentSpells
+                        .map(spellSet =>
+                            (
+                                spellSet.choice.dynamicLevel
+                                    ? this._dynamicSpellLevel$(spellSet.choice, spellCastingParameters.casting)
+                                    : of(spellSet.choice.level)
+                            )
+                                .pipe(
+                                    map(spellLevel =>
+                                        (
+                                            spellSet.gain
+                                            && spellSet.gain.locked
+                                            && spellLevel === levelNumber
+                                        )
+                                            ? spellSet
+                                            : undefined,
+                                    ),
+                                ),
+                        ),
                 )
-                .sort((a, b) => sortAlphaNum(a.gain.name, b.gain.name));
+                    .pipe(
+                        map(spellSets =>
+                            spellSets
+                                .filter((spellSet): spellSet is { choice: SpellChoice; gain: SpellGain } => !!spellSet),
+                        ),
+                    ),
+            ])
+                .pipe(
+                    map(([characterSpells, equipmentSpells]) =>
+                        characterSpells
+                            .concat(equipmentSpells)
+                            .filter(spellSet => !!spellSet)
+                            .sort((a, b) => sortAlphaNum(a.gain.name, b.gain.name)),
+                    ),
+                );
         }
     }
 

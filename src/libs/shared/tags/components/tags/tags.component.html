@@ -2,23 +2,22 @@
 <ng-container *ngIf="collectAllTags() as allTags">
     <div
         class="minimized-hide newrow left-aligned"
-        *ngIf="allTags.count > 0"
     >
-        <ng-container *ngFor="let traitSet of allTags.traits; trackBy:trackByIndex;">
+        <ng-container *ngFor="let traitSet of traits$ | async; trackBy:trackByIndex;">
             <ng-container *ngFor="let trait of traitSet.traits; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
                     [color]="'trait'"
-                    [object]="trait"
+                    [object]="trait.trait"
                     [objectName]="traitSet.setName"
-                    [sourceBook]="trait.sourceBook"
-                    [description]="trait.name +' ('+ trait.itemsWithThisTrait(currentCreature, true).join(', ') + ')'"
+                    [sourceBook]="trait.trait.sourceBook"
+                    [description]="trait.trait.name +' ('+ trait.itemNamesList + ')'"
                 >
                 </app-hint>
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let featSet of allTags.feats; trackBy:trackByIndex;">
+        <ng-container *ngFor="let featSet of feats$ | async; trackBy:trackByIndex;">
             <ng-container *ngFor="let feat of featSet.feats; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
@@ -31,7 +30,7 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let elementSet of allTags.companionElements; trackBy:trackByIndex;">
+        <ng-container *ngFor="let elementSet of companionElements$ | async; trackBy:trackByIndex;">
             <ng-container *ngFor="let element of elementSet.elements; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
@@ -44,20 +43,20 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let elementSet of allTags.familiarElements; trackBy:trackByIndex;">
-            <ng-container *ngFor="let element of elementSet.elements; trackBy:trackByIndex;">
+        <ng-container *ngFor="let elementSet of familiarElements$ | async; trackBy:trackByIndex;">
+            <ng-container *ngFor="let feat of elementSet.feats; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
                     [color]="'feat'"
-                    [object]="element"
+                    [object]="feat"
                     [objectName]="elementSet.setName"
-                    [description]="element.displayName || element.name"
+                    [description]="feat.displayName || feat.name"
                 >
                 </app-hint>
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let itemSet of allTags.items; trackBy:trackByIndex;">
+        <ng-container *ngFor="let itemSet of items$ | async; trackBy:trackByIndex;">
             <ng-container *ngFor="let item of itemSet.items; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
@@ -70,7 +69,7 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let specializationSet of allTags.specializations; trackBy:trackByIndex;">
+        <ng-container *ngFor="let specializationSet of specializations$ | async; trackBy:trackByIndex;">
             <ng-container *ngFor="let spec of specializationSet.specializations; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
@@ -83,7 +82,7 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let activitySet of allTags.activities; trackBy:trackByIndex;">
+        <ng-container *ngFor="let activitySet of activities$ | async; trackBy:trackByIndex;">
             <ng-container *ngFor="let activity of activitySet.activities; trackBy:trackByIndex;">
                 <app-hint
                     [creature]="creature"
@@ -108,11 +107,11 @@
             </ng-container>
         </ng-container>
 
-        <ng-container *ngFor="let effect of allTags.effects; trackBy:trackByIndex;">
+        <ng-container *ngFor="let effect of (effects$ | async); trackBy:trackByIndex;">
             <ng-template #effectPopover>
                 <div class="newrow">
                     <span>
-                        <strong [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">
+                        <strong [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.hasSetValue, 'absolute':effect.hasSetValue}">
                             {{effect.target}} {{effect.displayTitle(true)}}
                         </strong>
                     </span>
@@ -120,7 +119,7 @@
 
                 <div
                     class="newrow"
-                    *ngIf="effect.type !== 'untyped' && !effect.toggle && !effect.setValue"
+                    *ngIf="effect.type !== 'untyped' && !effect.toggled && !effect.setValue"
                 >
                     <span>
                         <strong>Type</strong>

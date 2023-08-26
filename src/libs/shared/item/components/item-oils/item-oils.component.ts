@@ -12,7 +12,7 @@ import { ItemsDataService } from 'src/libs/shared/services/data/items-data.servi
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { BaseClass } from 'src/libs/shared/util/mixins/base-class';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface OilSet {
