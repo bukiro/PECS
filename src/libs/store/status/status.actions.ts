@@ -11,16 +11,16 @@ export const setConfigStatus = createAction(
 );
 
 export const setCharacterStatus = createAction(
-    '[STATUS] Set config status',
+    '[STATUS] Set character status',
     props<{ status: ApiStatus }>(),
 );
 
 export const setSavegamesStatus = createAction(
-    '[STATUS] Set config status',
+    '[STATUS] Set savegames status',
     props<{ status: ApiStatus }>(),
 );
 
 export const setDataStatus = createAction(
-    '[STATUS] Set config status',
+    '[STATUS] Set data status',
     props<{ status: ApiStatus }>(),
 );

@@ -14,7 +14,7 @@ export const appFeature = createFeature({
     name: appFeatureName,
     reducer: createReducer(
         initialState,
-        on(resetCharacter, (state, { gmMode }): AppState => ({ ...initialState, gmMode: gmMode ?? false })),
+        on(resetCharacter, (_state, { gmMode }): AppState => ({ ...initialState, gmMode: gmMode ?? false })),
         on(closeAllMenus, (state): AppState => ({ ...state, characterMenuClosedOnce: true })),
         on(toggleTopMenu, (state): AppState => ({ ...state, characterMenuClosedOnce: true })),
         on(toggleLeftMenu, (state): AppState => ({ ...state, characterMenuClosedOnce: true })),
