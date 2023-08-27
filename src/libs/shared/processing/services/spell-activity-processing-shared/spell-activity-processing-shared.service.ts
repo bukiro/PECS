@@ -9,7 +9,6 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -17,6 +16,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { Observable, map, of, tap, zip } from 'rxjs';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Injectable({
     providedIn: 'root',
@@ -26,7 +26,7 @@ export class SpellActivityProcessingSharedService {
     constructor(
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _creatureService: CreatureService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _messageSendingService: MessageSendingService,
     ) { }
@@ -280,7 +280,7 @@ export class SpellActivityProcessingSharedService {
         source: Activity | Spell,
     ): void {
         //Apply to any non-creature targets whose ID matches your own creatures.
-        this._creatureService.allAvailableCreatures$()
+        this._creatureAvailabilityService.allAvailableCreatures$()
             .pipe(
                 map(creatures => {
                     //Apply to any targets that are your own creatures.

@@ -12,7 +12,7 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { Observable } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 
 interface AeonStoneSet {
     aeonStone: WornItem;
@@ -94,7 +94,7 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
         }
     }
 
-    public aeonStoneCooldownText(stone: WornItem): string {
+    public aeonStoneCooldownText$(stone: WornItem): Observable<string> {
         //If any resonant activity on this aeon Stone has a cooldown, return the lowest of these in a human readable format.
         if (stone.activities?.some(activity => activity.resonant && activity.activeCooldown)) {
             const lowestCooldown =
@@ -104,9 +104,12 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
                         .map(activity => activity.activeCooldown),
                 );
 
-            return ` (Cooldown: ${ this._durationsService.durationDescription(lowestCooldown) })`;
+            return this._durationsService.durationDescription$(lowestCooldown)
+                .pipe(
+                    map(durationDescription => ` (Cooldown: ${ durationDescription })`),
+                );
         } else {
-            return '';
+            return of('');
         }
     }
 

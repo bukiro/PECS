@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, ViewChild } from '@angular/core';
-import { BehaviorSubject, map, Observable, take, zip } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, take, zip } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
@@ -101,28 +101,32 @@ export class MessagesDialogComponent extends DestroyableMixin(TrackByMixin(Dialo
         return '';
     }
 
-    private _conditionMessageDurationDescription(message: PlayerMessage): string {
+    private _conditionMessageDurationDescription$(message: PlayerMessage): Observable<string> {
         const duration = message.gainCondition[0].duration;
 
         if (duration === TimePeriods.Default) {
-            return '(Default duration)';
+            return of('(Default duration)');
         } else {
-            return this._durationsService.durationDescription(duration, false, true);
+            return this._durationsService.durationDescription$(duration, false, true);
         }
     }
 
+    //TO-DO: instead of updating the BehaviorSubject, make enrichedMessages$ an observable that uses this as a pipe.
     private _enrichMessages(messages: Array<PlayerMessage>): void {
         zip(
-            messages.map(message => this._messageTargetCreature$(message)
+            messages.map(message => zip([
+                this._messageTargetCreature$(message),
+                this._conditionMessageDurationDescription$(message),
+            ])
                 .pipe(
-                    map(messageTargetCreature =>
+                    map(([messageTargetCreature, conditionMessageDurationDescription]) =>
                         messageTargetCreature
                             ? ({
                                 message,
                                 messageTargetCreature,
                                 messageSenderName: this._messageSenderName(message),
                                 itemMessageIncludedAmount: this._itemMessageIncludedAmount(message),
-                                conditionMessageDurationDescription: this._conditionMessageDurationDescription(message),
+                                conditionMessageDurationDescription,
                             })
                             : undefined,
                     ),

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable, of, switchMap } from 'rxjs';
 import { Class } from 'src/app/classes/Class';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
@@ -19,9 +18,7 @@ export class CharacterFlatteningService {
     public static characterSpellCasting$: Observable<Array<SpellCasting>>;
     public static characterFocusPoints$: Observable<number>;
 
-    constructor(
-        _store$: Store,
-    ) {
+    constructor() {
         CharacterFlatteningService.characterLevel$ = CreatureService.character$
             .pipe(
                 switchMap(character => character.level$),

@@ -1129,8 +1129,8 @@ export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implemen
             );
     }
 
-    private _durationDescription(turns: number, includeTurnState = true, inASentence = false): string {
-        return this._durationsService.durationDescription(turns, includeTurnState, inASentence);
+    private _durationDescription$(turns: number, includeTurnState = true, inASentence = false): Observable<string> {
+        return this._durationsService.durationDescription$(turns, includeTurnState, inASentence);
     }
 
     private _spellDisabledByEffect$(spell: Spell, choice: SpellChoice): Observable<boolean> {
@@ -1172,7 +1172,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implemen
                     context.choice.charges
                         ? 'Recharged in '
                         : 'Cooldown: '
-                ) + this._durationDescription(context.gain.activeCooldown, true),
+                ) + this._durationDescription$(context.gain.activeCooldown, true),
             );
         }
 

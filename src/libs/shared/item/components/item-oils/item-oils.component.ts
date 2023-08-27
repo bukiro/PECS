@@ -14,6 +14,7 @@ import { CharacterLoreService } from 'src/libs/shared/services/character-lore/ch
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { Observable } from 'rxjs';
 
 interface OilSet {
     oil: Oil;
@@ -51,8 +52,8 @@ export class ItemOilsComponent extends TrackByMixin(BaseClass) {
         return CreatureService.character;
     }
 
-    public durationDescription(turns: number): string {
-        return this._durationsService.durationDescription(turns);
+    public durationDescription$(turns: number): Observable<string> {
+        return this._durationsService.durationDescription$(turns);
     }
 
     public availableOils(): Array<OilSet> {

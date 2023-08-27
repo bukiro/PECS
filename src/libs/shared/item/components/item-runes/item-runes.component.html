@@ -99,7 +99,7 @@
                                 >
                                     {{(runeSet.rune?.amount || 0) > 1 ? runeSet.rune?.amount : ""}}
                                     {{runeSet.rune?.name}}
-                                    {{runeCooldownText(runeSet.rune)}}
+                                    {{runeCooldownText$(runeSet.rune)} | async}
                                 </option>
                             </optgroup>
                         </ng-container>

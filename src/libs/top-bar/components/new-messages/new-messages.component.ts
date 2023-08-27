@@ -3,13 +3,13 @@ import { Observable, take, tap } from 'rxjs';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { DialogService } from 'src/libs/shared/dialog/services/dialog.service';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { MessagesDialogComponent } from '../messages-dialog/messages-dialog.component';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Component({
     selector: 'app-new-messages',
@@ -35,7 +35,7 @@ export class NewMessagesComponent {
         private readonly _refreshService: RefreshService,
         private readonly _messagesService: MessagesService,
         private readonly _toastService: ToastService,
-        private readonly _creatureService: CreatureService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _dialogService: DialogService,
         _savegamesService: SavegamesService,
         _characterFlatteningService: CharacterFlatteningService,
@@ -78,7 +78,7 @@ export class NewMessagesComponent {
                         .forEach(message => this._messagesService.markMessageAsIgnored(message));
 
                     // TO-DO: Figure out how to update effects dynamically and granularly.
-                    this._creatureService.allAvailableCreatures$()
+                    this._creatureAvailabilityService.allAvailableCreatures$()
                         .pipe(
                             take(1),
                             tap(creatures => creatures.forEach(creature => {

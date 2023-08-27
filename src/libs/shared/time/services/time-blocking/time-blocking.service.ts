@@ -5,7 +5,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { combineLatest, map, Observable, switchMap } from 'rxjs';
 import { Effect } from 'src/app/classes/Effect';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,7 +16,7 @@ export class TimeBlockingService {
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _creatureService: CreatureService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) { }
 
     public waitingDescription$(
@@ -50,7 +50,7 @@ export class TimeBlockingService {
         const RestingBlockingEffectsActive = (blockingEffects: Array<Effect>): boolean =>
             blockingEffects.some(effect => !effect.ignored);
 
-        return this._creatureService.allAvailableCreatures$()
+        return this._creatureAvailabilityService.allAvailableCreatures$()
             .pipe(
                 switchMap(creatures => combineLatest(creatures
                     .map(creature =>

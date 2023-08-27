@@ -78,8 +78,8 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
         return this._creature;
     }
 
-    public durationDescription(duration: number): string {
-        return this._durationsService.durationDescription(duration);
+    public durationDescription$(duration: number): Observable<string> {
+        return this._durationsService.durationDescription$(duration);
     }
 
     public isInformationalCondition(): boolean {

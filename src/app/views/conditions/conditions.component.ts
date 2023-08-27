@@ -15,7 +15,19 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Consumable } from 'src/app/classes/Consumable';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, debounceTime, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap } from 'rxjs';
+import {
+    combineLatest,
+    debounceTime,
+    distinctUntilChanged,
+    map,
+    Observable,
+    of,
+    shareReplay,
+    Subscription,
+    switchMap,
+    take,
+    zip,
+} from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -43,6 +55,7 @@ import { Store } from '@ngrx/store';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
 
 const itemsPerPage = 40;
 
@@ -262,7 +275,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
     }
 
     public allAvailableCreatures$(): Observable<Array<Creature>> {
-        return this._creatureService.allAvailableCreatures$();
+        return this._creatureAvailabilityService.allAvailableCreatures$();
     }
 
     public componentParameters$(): Observable<{ isCompanionAvailable: boolean; isFamiliarAvailable: boolean }> {
@@ -324,72 +337,99 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         this.permanent = this.untilRest = this.untilRefocus = false;
     }
 
-    public effectiveDuration(includeTurn = true): number {
+    public effectiveDuration$(includeTurn = true): Observable<number> {
         if (this.permanent) {
-            return TimePeriods.Permanent;
+            return of(TimePeriods.Permanent);
         }
 
         if (this.untilRest) {
-            return TimePeriods.UntilRest;
+            return of(TimePeriods.UntilRest);
         }
 
         if (this.untilRefocus) {
-            return TimePeriods.UntilRefocus;
+            return of(TimePeriods.UntilRefocus);
         }
 
-        return (
-            this.days * TimePeriods.Day +
-            this.hours * TimePeriods.Hour +
-            this.minutes * TimePeriods.Minute +
-            this.turns * TimePeriods.Turn +
-            (
-                includeTurn
-                    ? (
-                        this.endOn === this._timeService.yourTurn$.value
-                            ? TimePeriods.NoTurn
-                            : TimePeriods.HalfTurn
-                    )
-                    : TimePeriods.NoTurn
-            )
-        );
+        return TurnService.yourTurn$
+            .pipe(
+                map(yourTurn =>
+                    this.days * TimePeriods.Day +
+                    this.hours * TimePeriods.Hour +
+                    this.minutes * TimePeriods.Minute +
+                    this.turns * TimePeriods.Turn +
+                    (
+                        includeTurn
+                            ? (
+                                this.endOn === yourTurn
+                                    ? TimePeriods.NoTurn
+                                    : TimePeriods.HalfTurn
+                            )
+                            : TimePeriods.NoTurn
+                    ),
+                ),
+            );
     }
 
     public conditionChoices(condition: Condition): Array<string> {
         return condition.unfilteredChoices();
     }
 
-    public durationDescription(duration: number = this.effectiveDuration(), inASentence = false): string {
-        return this._durationsService.durationDescription(duration, true, inASentence);
+    public durationDescription$(duration?: number, inASentence = false): Observable<string> {
+        return (
+            duration !== undefined
+                ? of(duration)
+                : this.effectiveDuration$()
+        )
+            .pipe(
+                switchMap(effectiveDuration =>
+                    this._durationsService.durationDescription$(effectiveDuration, true, inASentence),
+                ),
+            );
     }
 
     public onAddCondition(
         creature: Creature,
         condition: Condition,
-        duration: number = this.effectiveDuration(false),
+        duration?: number,
         includeTurnState = true,
     ): void {
-        const newGain = new ConditionGain();
+        zip([
+            (
+                duration !== undefined
+                    ? of(duration)
+                    : this.effectiveDuration$()
+            ),
+            TurnService.yourTurn$,
+        ])
+            .pipe(
+                take(1),
+            )
+            .subscribe(([effectiveDuration, yourTurn]) => {
+                const newGain = new ConditionGain();
 
-        newGain.name = condition.name;
+                newGain.name = condition.name;
 
-        if (duration < 0 || duration === 1 || !includeTurnState) {
-            newGain.duration = duration;
-        } else {
-            newGain.duration = duration + (this.endOn === this._timeService.yourTurn$.value ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
-        }
+                if (effectiveDuration < 0 || effectiveDuration === 1 || !includeTurnState) {
+                    newGain.duration = effectiveDuration;
+                } else {
+                    newGain.duration =
+                        effectiveDuration +
+                        (this.endOn === yourTurn ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
+                }
 
-        newGain.choice = condition.choice;
+                newGain.choice = condition.choice;
 
-        if (condition.hasValue) {
-            newGain.value = this.value;
-        }
+                if (condition.hasValue) {
+                    newGain.value = this.value;
+                }
 
-        if (condition.type === 'spells') {
-            newGain.heightened = this.heightened;
-        }
+                if (condition.type === 'spells') {
+                    newGain.heightened = this.heightened;
+                }
 
-        newGain.source = 'Manual';
-        this._creatureConditionsService.addCondition(creature, newGain);
+                newGain.source = 'Manual';
+                this._creatureConditionsService.addCondition(creature, newGain);
+            });
     }
 
     public effectiveEffectValue$(
@@ -442,23 +482,27 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
     }
 
     public onAddEffect(creature: Creature): void {
-        const duration: number = this.effectiveDuration(false);
-        const newLength =
-            creature.effects.push(
-                this.newEffect.clone(),
-            );
-        const newEffect = creature.effects[newLength - 1];
+        zip([
+            this.effectiveDuration$(false),
+            TurnService.yourTurn$,
+        ])
+            .pipe(
+                take(1),
+            )
+            .subscribe(([effectiveDuration, yourTurn]) => {
+                const newLength =
+                    creature.effects.push(
+                        this.newEffect.clone(),
+                    );
+                const newEffect = creature.effects[newLength - 1];
 
-        if (duration < 0) {
-            newEffect.maxDuration = newEffect.duration = duration;
-        } else {
-            newEffect.maxDuration = newEffect.duration =
-                duration + (this.endOn === this._timeService.yourTurn$.value ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
-        }
-
-        this._refreshService.prepareDetailToChange(creature.type, 'effects');
-        this._refreshService.prepareDetailToChange(creature.type, 'conditions');
-        this._refreshService.processPreparedChanges();
+                if (effectiveDuration < 0) {
+                    newEffect.maxDuration = newEffect.duration = effectiveDuration;
+                } else {
+                    newEffect.maxDuration = newEffect.duration =
+                        effectiveDuration + (this.endOn === yourTurn ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
+                }
+            });
     }
 
     public onNewCustomEffect(creature: Creature): void {

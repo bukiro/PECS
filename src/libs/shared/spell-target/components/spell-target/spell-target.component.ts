@@ -319,16 +319,16 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
         let phrase = this.dismissPhrase || 'Dismiss <span class=\'actionIcon action1A\'></span> or Stop Sustaining';
 
         if (this.parentActivityGain?.duration) {
-            phrase += ` (Duration: ${ this.durationDescription(this.parentActivityGain?.duration) })`;
+            phrase += ` (Duration: ${ this.durationDescription$(this.parentActivityGain?.duration) })`;
         } else if (this.gain.duration) {
-            phrase += ` (Duration: ${ this.durationDescription(this.gain?.duration) })`;
+            phrase += ` (Duration: ${ this.durationDescription$(this.gain?.duration) })`;
         }
 
         return phrase;
     }
 
-    public durationDescription(turns: number, includeTurnState = true, inASentence = false): string {
-        return this._durationsService.durationDescription(turns, includeTurnState, inASentence);
+    public durationDescription$(turns: number, includeTurnState = true, inASentence = false): Observable<string> {
+        return this._durationsService.durationDescription$(turns, includeTurnState, inASentence);
     }
 
     public ngOnInit(): void {
@@ -361,7 +361,7 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
 
     private _createSpellTargetObservable$(): Observable<Array<SpellTarget>> {
         return combineLatest([
-            this._creatureService.allAvailableCreatures$(),
+            this._creatureAvailabilityService.allAvailableCreatures$(),
             this._savegamesService.savegames$,
         ])
             .pipe(

@@ -41,7 +41,7 @@
                         title="{{hint(stone.aeonStone)}}"
                     >
                         {{stone.aeonStone.amount > 1 ? stone.aeonStone.amount : ""}}
-                        {{stone.aeonStone.name}}{{aeonStoneCooldownText(stone.aeonStone)}}
+                        {{stone.aeonStone.name}}{{aeonStoneCooldownText$(stone.aeonStone) | async}}
                     </option>
                 </optgroup>
             </ng-container>

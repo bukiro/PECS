@@ -22,7 +22,7 @@
         <ng-container *ngIf="componentParameters$() | async as componentParameters">
             <div class="character-sheet-column-container">
                 <div class="character-sheet-column">
-                    <header class="sectionHeader">Duration: {{durationDescription()}}</header>
+                    <header class="sectionHeader">Duration: {{durationDescription$()}}</header>
 
                     <div class="vlist">
                         <div class="list-item">
@@ -353,7 +353,7 @@
                                                         >
                                                             <strong style="margin-bottom:0;">
                                                                 Add
-                                                                {{durationDescription(defaultDuration.duration,
+                                                                {{durationDescription$(defaultDuration.duration,
                                                                 true)}}
                                                                 ({{defaultDuration.source}})
                                                             </strong>
@@ -387,7 +387,7 @@
                                                         <div class="newrow">
                                                             <strong style="margin-bottom:0;">
                                                                 Add
-                                                                {{durationDescription(effectiveDuration(), true)}}
+                                                                {{durationDescription$(undefined, true)}}
                                                             </strong>
 
                                                             <div class="newrow">

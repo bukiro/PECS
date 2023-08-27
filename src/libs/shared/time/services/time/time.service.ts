@@ -19,19 +19,17 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
-import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { BehaviorSubject, map, of, switchMap, take, withLatestFrom, zip } from 'rxjs';
+import { map, of, switchMap, take, withLatestFrom, zip } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { TurnService } from '../turn/turn.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class TimeService {
-
-    //yourTurn is 5 if it is your turn or 0 if not.
-    public yourTurn$ = new BehaviorSubject<TimePeriods.NoTurn | TimePeriods.HalfTurn>(TimePeriods.NoTurn);
 
     constructor(
         private readonly _activitiesTimeService: ActivitiesTimeService,
@@ -39,7 +37,6 @@ export class TimeService {
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
-        private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _abilityValueService: AbilityValuesService,
         private readonly _healthService: HealthService,
         private readonly _conditionsDataService: ConditionsDataService,
@@ -47,17 +44,12 @@ export class TimeService {
         private readonly _conditionsTimeService: ConditionsTimeService,
         private readonly _spellsTimeService: SpellsTimeService,
         private readonly _itemsTimeService: ItemsTimeService,
-        private readonly _creatureService: CreatureService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _spellCastingPrerequisitesService: SpellCastingPrerequisitesService,
     ) { }
-
-    public setYourTurn(yourTurn: TimePeriods.NoTurn | TimePeriods.HalfTurn): void {
-        //Only used when loading a character
-        this.yourTurn$.next(yourTurn);
-    }
 
     public startTurn(): void {
         //Apply Fast Healing.
@@ -68,7 +60,7 @@ export class TimeService {
         (
             character.settings.manualMode
                 ? of(new Array<Creature>())
-                : this._creatureService.allAvailableCreatures$()
+                : this._creatureAvailabilityService.allAvailableCreatures$()
         )
             .pipe(
                 switchMap(creatureList => zip(creatureList
@@ -140,7 +132,7 @@ export class TimeService {
 
         this.tick(TimePeriods.EightHours, false);
 
-        this._creatureService.allAvailableCreatures$()
+        this._creatureAvailabilityService.allAvailableCreatures$()
             .pipe(
                 switchMap(creatures => zip(creatures
                     .map(creature => zip([
@@ -281,7 +273,7 @@ export class TimeService {
         const character = CreatureService.character;
         const maximumFocusPoints = 3;
 
-        this._creatureService.allAvailableCreatures$()
+        this._creatureAvailabilityService.allAvailableCreatures$()
             .pipe(
                 take(1),
             )
@@ -340,11 +332,14 @@ export class TimeService {
         turns = 10,
         reload = true,
     ): void {
-        this._creatureService.allAvailableCreatures$()
+        zip([
+            this._creatureAvailabilityService.allAvailableCreatures$(),
+            TurnService.yourTurn$,
+        ])
             .pipe(
                 take(1),
             )
-            .subscribe(creatures => {
+            .subscribe(([creatures, yourTurn]) => {
                 creatures.forEach(creature => {
                     //If any conditions are currently stopping time, process these first before continuing with the rest.
                     const timeStopDurations = creature.conditions
@@ -364,7 +359,7 @@ export class TimeService {
                                 this._refreshService.prepareDetailToChange(creature.type, 'health');
                             }
 
-                            this._conditionsTimeService.tickConditions(creature, timeStopDuration, this.yourTurn$.value);
+                            this._conditionsTimeService.tickConditions(creature, timeStopDuration, yourTurn);
                             this._refreshService.prepareDetailToChange(creature.type, 'effects');
                         }
 
@@ -381,7 +376,7 @@ export class TimeService {
                                     this._refreshService.prepareDetailToChange(creature.type, 'health');
                                 }
 
-                                this._conditionsTimeService.tickConditions(creature, creatureTurns, this.yourTurn$.value);
+                                this._conditionsTimeService.tickConditions(creature, creatureTurns, yourTurn);
                                 this._refreshService.prepareDetailToChange(creature.type, 'effects');
                             }
 
@@ -401,7 +396,7 @@ export class TimeService {
                         }
                     }
                 });
-                this.yourTurn$.next((this.yourTurn$.value + turns) % TimePeriods.Turn);
+                TurnService.setYourTurn((yourTurn + turns) % TimePeriods.Turn);
 
                 if (reload) {
                     this._refreshService.processPreparedChanges();

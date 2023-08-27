@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpRequest, HttpEvent, HttpStatusCode, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpEvent, HttpStatusCode, HttpEventType, HttpBackend } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
 import { default as package_json } from 'package.json';
@@ -24,10 +24,15 @@ export class ConfigService {
     private _dataServiceURL?: string;
     private _xAccessToken = 'testtoken';
 
+    private readonly _httpClient: HttpClient;
+
     constructor(
-        private readonly _httpClient: HttpClient,
+        _httpBackend: HttpBackend,
         private readonly _store$: Store,
     ) {
+        // Create a new HttpClient to avoid circular dependencies with http interceptors.
+        this._httpClient = new HttpClient(_httpBackend);
+
         this.isReady$ = _store$.select(selectConfigStatus)
             .pipe(
                 map(status => status.key === ApiStatusKey.Ready),

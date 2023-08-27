@@ -6,7 +6,6 @@ import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
@@ -19,6 +18,7 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Injectable({
     providedIn: 'root',
@@ -26,7 +26,7 @@ import { propMap$ } from 'src/libs/shared/util/observableUtils';
 export class MessageProcessingService {
 
     constructor(
-        private readonly _creatureService: CreatureService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _savegamesService: SavegamesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _toastService: ToastService,
@@ -46,7 +46,7 @@ export class MessageProcessingService {
             return;
         }
 
-        this._creatureService.allAvailableCreatures$()
+        this._creatureAvailabilityService.allAvailableCreatures$()
             .pipe(
                 take(1),
             )
@@ -325,7 +325,7 @@ export class MessageProcessingService {
 
     public applyItemAcceptedMessages(messages: Array<PlayerMessage>): void {
         zip([
-            this._creatureService.allAvailableCreatures$(),
+            this._creatureAvailabilityService.allAvailableCreatures$(),
             propMap$(SettingsService.settings$, 'manualMode$'),
         ])
             .subscribe(([creatures, isManualMode]) => {

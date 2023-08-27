@@ -9,8 +9,8 @@ import { SettingsService } from '../settings/settings.service';
 import { abilityModFromAbilityValue } from '../../util/abilityUtils';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap, take, tap } from 'rxjs';
-import { CreatureService } from '../creature/creature.service';
 import { propMap$ } from '../../util/observableUtils';
+import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 
 export interface CalculatedHealth {
     maxHP$: Observable<{ result: number; explain: string }>;
@@ -30,45 +30,9 @@ export class HealthService {
         private readonly _refreshService: RefreshService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _creatureService: CreatureService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
-        // This pipe lets creatures die when their dying value is too high.
-        combineLatest([
-            propMap$(SettingsService.settings$, 'manualMode$'),
-            this._creatureService.allAvailableCreatures$(),
-        ])
-            .pipe(
-                switchMap(([manualMode, creatures]) => combineLatest(
-                    creatures.map(creature =>
-                        // Don't do anything about your dying status in manual mode.
-                        manualMode
-                            ? of()
-                            : combineLatest([
-                                this.maxDying$(creature),
-                                //TO-DO: dying needs to be async, or else this won't ever update.
-                                of(this.dying(creature)),
-                            ])
-                                .pipe(
-                                    distinctUntilChanged(),
-                                    tap(([maxDying, dying]) => {
-
-                                        if (dying >= maxDying) {
-                                            if (
-                                                this._creatureConditionsService
-                                                    .currentCreatureConditions(creature, { name: 'Doomed' })
-                                                    .length
-                                            ) {
-                                                this.die(creature, 'Doomed');
-                                            } else {
-                                                this.die(creature, 'Dying value too high');
-                                            }
-                                        }
-                                    }),
-                                ),
-                    ),
-                )),
-            )
-            .subscribe();
+        this._keepCreatureDyingUpdated();
     }
 
     public calculate(creature: Creature): CalculatedHealth {
@@ -362,6 +326,46 @@ export class HealthService {
                     this._creatureConditionsService.removeCondition(creature, gain, false);
                 });
         }
+    }
+
+    private _keepCreatureDyingUpdated(): void {
+        // This pipe lets creatures die when their dying value is too high.
+        combineLatest([
+            propMap$(SettingsService.settings$, 'manualMode$'),
+            this._creatureAvailabilityService.allAvailableCreatures$(),
+        ])
+            .pipe(
+                switchMap(([manualMode, creatures]) => combineLatest(
+                    creatures.map(creature =>
+                        // Don't do anything about your dying status in manual mode.
+                        manualMode
+                            ? of()
+                            : combineLatest([
+                                this.maxDying$(creature),
+                                //TO-DO: dying needs to be async, or else this won't ever update.
+                                of(this.dying(creature)),
+                            ])
+                                .pipe(
+                                    distinctUntilChanged(),
+                                    tap(([maxDying, dying]) => {
+
+                                        if (dying >= maxDying) {
+                                            if (
+                                                this._creatureConditionsService
+                                                    .currentCreatureConditions(creature, { name: 'Doomed' })
+                                                    .length
+                                            ) {
+                                                this.die(creature, 'Doomed');
+                                            } else {
+                                                this.die(creature, 'Dying value too high');
+                                            }
+                                        }
+                                    }),
+                                ),
+                    ),
+                )),
+            )
+            .subscribe();
     }
 }
 

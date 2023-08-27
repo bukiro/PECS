@@ -9,7 +9,6 @@ import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-co
 import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
 import { Item } from 'src/app/classes/Item';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { SavegamesService } from '../savegames/savegames.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
@@ -17,6 +16,7 @@ import { Constructable } from 'src/libs/shared/definitions/interfaces/constructa
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { ClassSavingLoadingService } from '../class-saving-loading/class-saving-loading.service';
 import { HistorySavingLoadingService } from '../history-saving-loading/history-saving-loading.service';
+import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
 
 interface SaveCharacterResponse {
     result: { n: number; ok: number };
@@ -37,7 +37,6 @@ export class CharacterSavingService {
         private readonly _classSavingLoadingService: ClassSavingLoadingService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _historySavingLoadingService: HistorySavingLoadingService,
-        private readonly _timeService: TimeService,
         private readonly _toastService: ToastService,
         private readonly _savegamesService: SavegamesService,
         private readonly _recastService: RecastService,
@@ -46,7 +45,7 @@ export class CharacterSavingService {
     public saveCharacter(): void {
         const character = CreatureService.character;
 
-        character.yourTurn = this._timeService.yourTurn$.value;
+        character.yourTurn = TurnService.yourTurn;
         this._toastService.show('Saving...');
 
         const savegame =

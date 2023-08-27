@@ -471,7 +471,7 @@
                                     >
                                         <span>
                                             <strong>Duration</strong>
-                                            {{durationDescription(itemParameters.item.expiration)}}
+                                            {{durationDescription$(itemParameters.item.expiration) | async}}
                                             <span *ngIf="itemParameters.item.expiresOnlyIf">
                                                 {{itemParameters.item.expiresOnlyIf === "equipped" ?
                                                     "(The item only expires while equipped.)" :
@@ -485,7 +485,7 @@
                                             <app-spell-target
                                                 class="newrow vlist"
                                                 [creature]="creature"
-                                                [phrase]="!!itemParameters.asWand?.cooldown ? 'Overcharge (Cooldown ' + durationDescription(itemParameters.asWand?.cooldown) + ') and cast' : 'Cast'"
+                                                [phrase]="!!itemParameters.asWand?.cooldown ? 'Overcharge (Cooldown ' + (durationDescription$(itemParameters.asWand?.cooldown) | async) + ') and cast' : 'Cast'"
                                                 [showActions]="true"
                                                 [spell]="itemSpell.spell"
                                                 [gain]="itemSpell.gain"

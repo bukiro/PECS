@@ -137,7 +137,6 @@ export class MessagesService {
                 ),
             propMap$(SettingsService.settings$, 'manualMode$'),
             propMap$(SettingsService.settings$, 'checkMessagesAutomatically$'),
-
         ])
             .pipe(
                 switchMap(([ready, partyName, manualMode, checkAutomatically]) =>

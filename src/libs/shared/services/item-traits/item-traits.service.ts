@@ -10,7 +10,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { SpellsDataService } from '../data/spells-data.service';
 import { deepDistinctUntilChanged } from '../../util/observableUtils';
-import { CreatureService } from '../creature/creature.service';
+import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 
 @Injectable({
     providedIn: 'root',
@@ -20,12 +20,12 @@ export class ItemTraitsService {
     constructor(
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _creatureService: CreatureService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) { }
 
     /** Always keep the traits of all items in all inventories up to date. */
     public initialize(): void {
-        this._creatureService.allAvailableCreatures$()
+        this._creatureAvailabilityService.allAvailableCreatures$()
             .pipe(
                 switchMap(creatures => combineLatest(
                     creatures

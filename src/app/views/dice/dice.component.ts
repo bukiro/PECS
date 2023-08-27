@@ -95,7 +95,7 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
     }
 
     public allAvailableCreatures$(): Observable<Array<Creature>> {
-        return this._creatureService.allAvailableCreatures$();
+        return this._creatureAvailabilityService.allAvailableCreatures$();
     }
 
     public onHeal(creature: Creature): void {

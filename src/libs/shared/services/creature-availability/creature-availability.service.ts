@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { selectAllCharacterFeatsAtLevel } from 'src/libs/store/feats/feats.selectors';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { Creature } from 'src/app/classes/Creature';
+import { CreatureService } from '../creature/creature.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +24,7 @@ export class CreatureAvailabilityService {
                 ),
                 map(feats => feats.some(feat => feat.gainAnimalCompanion === 'Young')),
                 distinctUntilChanged(),
+                shareReplay({ refCount: true, bufferSize: 1 }),
             );
     }
 
@@ -34,6 +37,27 @@ export class CreatureAvailabilityService {
                 ),
                 map(feats => feats.some(feat => feat.gainFamiliar)),
                 distinctUntilChanged(),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+    }
+
+    public allAvailableCreatures$(levelNumber?: number): Observable<Array<Creature>> {
+        return combineLatest([
+            CreatureService.character$,
+            this.isCompanionAvailable$(levelNumber)
+                .pipe(
+                    switchMap(isCompanionAvailable => isCompanionAvailable ? CreatureService.companion$ : of(undefined)),
+                ),
+            this.isFamiliarAvailable$(levelNumber)
+                .pipe(
+                    switchMap(isFamiliarAvailable => isFamiliarAvailable ? CreatureService.familiar$ : of(undefined)),
+                ),
+        ])
+            .pipe(
+                map<Array<Creature | undefined>, Array<Creature>>(creatures => creatures
+                    .filter((creature): creature is Creature => creature !== undefined),
+                ),
+                shareReplay({ refCount: true, bufferSize: 1 }),
             );
     }
 }

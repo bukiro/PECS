@@ -39,7 +39,7 @@
             *ngIf="cooldown !== activity.cooldown"
         >
             &nbsp;{{maxCharges ? maxCharges + "
-            times every " : "once every "}}{{durationDescription(cooldown, false, false)}}
+            times every " : "once every "}}{{durationDescription$(cooldown, false, false) | async}}
         </span>
     </span>
 </div>
@@ -52,8 +52,7 @@
         <strong>Cooldown after use</strong>
 
         <span [ngClass]="{'absolute':cooldown !== activity.cooldown}">
-            &nbsp;{{durationDescription(cooldown, false,
-            false)}}
+            &nbsp;{{durationDescription$(cooldown, false, false) | async}}
         </span>
     </span>
 </div>

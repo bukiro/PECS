@@ -189,15 +189,18 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
         return indexes;
     }
 
-    public runeCooldownText(rune?: Rune): string {
+    public runeCooldownText$(rune?: Rune): Observable<string> {
         //If any activity on this rune has a cooldown, return the lowest of these in a human readable format.
         if (rune && rune.activities.some(activity => activity.activeCooldown)) {
             const lowestCooldown =
                 Math.min(...rune.activities.filter(activity => activity.activeCooldown).map(activity => activity.activeCooldown));
 
-            return `(Cooldown ${ this._durationsService.durationDescription(lowestCooldown) })`;
+            return this._durationsService.durationDescription$(lowestCooldown)
+                .pipe(
+                    map(durationDescription => `(Cooldown ${ durationDescription })`),
+                );
         } else {
-            return '';
+            return of('');
         }
     }
 

@@ -25,6 +25,7 @@ import { Store } from '@ngrx/store';
 import { setCharacterStatus } from 'src/libs/store/status/status.actions';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -118,7 +119,7 @@ export class CharacterLoadingService {
         this._basicEquipmentService.equipBasicItems(character, false);
 
         // Set your turn state according to the saved state.
-        this._timeService.setYourTurn(character.yourTurn);
+        TurnService.setYourTurn(character.yourTurn);
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
         this._characterFeatsService.buildCharacterFeats(character);
 

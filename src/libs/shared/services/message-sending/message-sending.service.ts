@@ -19,6 +19,7 @@ import { SettingsService } from '../settings/settings.service';
 import { MessagesApiService } from '../messages-api/messages-api.service';
 import { Store } from '@ngrx/store';
 import { selectGmMode } from 'src/libs/store/app/app.selectors';
+import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 
 @Injectable({
     providedIn: 'root',
@@ -32,7 +33,7 @@ export class MessageSendingService {
         private readonly _messagesApiService: MessagesApiService,
         private readonly _toastService: ToastService,
         private readonly _itemTransferService: ItemTransferService,
-        private readonly _creatureService: CreatureService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _recastService: RecastService,
         private readonly _messagePropertiesService: MessagePropertiesService,
         private readonly _store$: Store,
@@ -107,7 +108,7 @@ export class MessageSendingService {
             this._store$.select(selectGmMode),
             SettingsService.settings.manualMode$,
             this._configService.isReady$,
-            this._creatureService.allAvailableCreatures$(),
+            this._creatureAvailabilityService.allAvailableCreatures$(),
         ])
             .pipe(
                 take(1),

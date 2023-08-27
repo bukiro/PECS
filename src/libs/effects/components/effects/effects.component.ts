@@ -162,8 +162,8 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
         };
     }
 
-    public durationDescription(duration: number): string {
-        return this._durationsService.durationDescription(duration);
+    public durationDescription$(duration: number): Observable<string> {
+        return this._durationsService.durationDescription$(duration);
     }
 
     public conditionSuperTitle(conditionGain: ConditionGain, condition: Condition): string {

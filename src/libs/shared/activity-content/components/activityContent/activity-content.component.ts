@@ -71,8 +71,8 @@ export class ActivityContentComponent extends TrackByMixin(BaseClass) implements
         return this._spellsDataService.spellFromName(name);
     }
 
-    public durationDescription(duration: number, includeTurnState = true, inASentence = false): string {
-        return this._durationsService.durationDescription(duration, includeTurnState, inASentence);
+    public durationDescription$(duration: number, includeTurnState = true, inASentence = false): Observable<string> {
+        return this._durationsService.durationDescription$(duration, includeTurnState, inASentence);
     }
 
     public activities(name: string): Array<Activity> {

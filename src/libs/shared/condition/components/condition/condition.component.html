@@ -224,7 +224,7 @@
 
             <span>
                 <strong>Duration&nbsp;</strong>
-                {{durationDescription(conditionGain.duration)}}
+                {{durationDescription$(conditionGain.duration) | async}}
             </span>
         </div>
 
@@ -479,7 +479,7 @@
             >
                 <span>
                     <strong>Affliction onset</strong>
-                    {{durationDescription(conditionGain.nextStage)}}
+                    {{durationDescription$(conditionGain.nextStage) | async}}
                 </span>
             </div>
 

@@ -175,8 +175,8 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
         return allTags;
     }
 
-    public durationDescription(duration: number): string {
-        return this._durationsService.durationDescription(duration);
+    public durationDescription$(duration: number): Observable<string> {
+        return this._durationsService.durationDescription$(duration);
     }
 
     public onActivateEffect(): void {

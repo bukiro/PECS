@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, distinctUntilChanged, of, map, tap, shareReplay } from 'rxjs';
+import { Observable, combineLatest, distinctUntilChanged, of, map, tap, shareReplay, switchMap } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Creature } from 'src/app/classes/Creature';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
@@ -28,15 +28,24 @@ export class ActivityGainPropertiesService {
             this._creatureEffectsService.effectsOnThis$(context.creature, `${ gain.name } Disabled`),
         ])
             .pipe(
-                map(([active, activeCooldown, chargesUsed, maxCharges, disablingEffects]) => {
+                switchMap(([active, activeCooldown, chargesUsed, maxCharges, disablingEffects]) =>
+                    (activeCooldown && (chargesUsed >= maxCharges)
+                        ? this._durationsService.durationDescription$(activeCooldown, true, false)
+                        : of('')
+                    )
+                        .pipe(
+                            map(durationDescription => ({
+                                active, activeCooldown, chargesUsed, maxCharges, disablingEffects, durationDescription,
+                            })),
+                        ),
+                ),
+                map(({ active, activeCooldown, chargesUsed, maxCharges, disablingEffects, durationDescription }) => {
                     if (active) {
                         return '';
                     }
 
                     if (chargesUsed >= maxCharges) {
                         if (activeCooldown) {
-                            const durationDescription = this._durationsService.durationDescription(activeCooldown, true, false);
-
                             return `${ maxCharges ? 'Recharged in:' : 'Cooldown:' } ${ durationDescription }`;
                         } else if (maxCharges) {
                             return 'No activations left.';

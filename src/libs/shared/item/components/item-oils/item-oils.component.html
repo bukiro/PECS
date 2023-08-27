@@ -32,7 +32,7 @@
                 *ngFor="let oil of item.oilsApplied; let index = index; trackBy:trackByIndex;"
             >
                 <span>
-                    {{oil.effectiveName$()}} ({{durationDescription(oil.duration)}})
+                    {{oil.effectiveName$() | async}} ({{durationDescription$(oil.duration) | async}})
                 </span>
 
                 <button

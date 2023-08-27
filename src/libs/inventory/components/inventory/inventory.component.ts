@@ -563,8 +563,12 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         inventory.otheritems.splice(inventory.otheritems.indexOf(item), 1);
     }
 
-    public durationDescription(turns?: number): string | undefined {
-        return !!turns && this._durationsService.durationDescription(turns) || undefined;
+    public durationDescription$(turns?: number): Observable<string | undefined> {
+        if (!turns) {
+            return of();
+        }
+
+        return this._durationsService.durationDescription$(turns);
     }
 
     public onEquipItem(item: Equipment, inventory: ItemCollection, equipped: boolean): void {
@@ -1047,7 +1051,7 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     }
 
     private _allAvailableCreatures$(): Observable<Array<Creature>> {
-        return this._creatureService.allAvailableCreatures$();
+        return this._creatureAvailabilityService.allAvailableCreatures$();
     }
 
     private _containedItemsOfItem(item: Item): number {

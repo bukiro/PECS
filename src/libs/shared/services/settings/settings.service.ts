@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable, take, tap } from 'rxjs';
 import { Settings } from 'src/app/classes/Settings';
 import { CreatureService } from '../creature/creature.service';
@@ -12,9 +11,7 @@ export class SettingsService {
 
     public static settings$: Observable<Settings>;
 
-    constructor(
-        _store$: Store,
-    ) {
+    constructor() {
         SettingsService.settings$ =
             propMap$(CreatureService.character$, 'settings$');
     }

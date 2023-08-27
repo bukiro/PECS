@@ -19,6 +19,7 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { Store } from '@ngrx/store';
 import { selectGmMode } from 'src/libs/store/app/app.selectors';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Component({
     selector: 'app-item-target[creature][item][inventory]',
@@ -53,7 +54,7 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _modalService: NgbModal,
         private readonly _itemTransferService: ItemTransferService,
-        private readonly _creatureService: CreatureService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
         private readonly _store$: Store,
     ) {
@@ -226,7 +227,7 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
                     (
                         isExcludingParts
                             ? of([])
-                            : this._creatureService.allAvailableCreatures$()
+                            : this._creatureAvailabilityService.allAvailableCreatures$()
                     )
                         .pipe(
                             map(creatures => ({ savegames, isManualMode, isGmMode, isExcludingParts, creatures })),

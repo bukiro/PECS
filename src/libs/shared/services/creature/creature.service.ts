@@ -3,11 +3,9 @@ import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { BehaviorSubject, combineLatest, map, Observable, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { ApiStatusKey } from '../../definitions/apiStatusKey';
 import { Store } from '@ngrx/store';
-import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
-import { Creature } from 'src/app/classes/Creature';
 import { setCharacterStatus } from 'src/libs/store/status/status.actions';
 import { resetCharacter } from 'src/libs/store/character/character.actions';
 
@@ -21,7 +19,6 @@ export class CreatureService {
     public static familiar$: Observable<Familiar>;
 
     constructor(
-        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _store$: Store,
     ) {
         CreatureService.character$ = new BehaviorSubject<Character>(new Character());
@@ -60,25 +57,6 @@ export class CreatureService {
 
     public closeCharacter(): void {
         this._store$.dispatch(setCharacterStatus({ status: { key: ApiStatusKey.NoCharacter } }));
-    }
-
-    public allAvailableCreatures$(levelNumber?: number): Observable<Array<Creature>> {
-        return combineLatest([
-            CreatureService.character$,
-            this._creatureAvailabilityService.isCompanionAvailable$(levelNumber)
-                .pipe(
-                    switchMap(isCompanionAvailable => isCompanionAvailable ? CreatureService.companion$ : of(undefined)),
-                ),
-            this._creatureAvailabilityService.isFamiliarAvailable$(levelNumber)
-                .pipe(
-                    switchMap(isFamiliarAvailable => isFamiliarAvailable ? CreatureService.familiar$ : of(undefined)),
-                ),
-        ])
-            .pipe(
-                map<Array<Creature | undefined>, Array<Creature>>(creatures => creatures
-                    .filter((creature): creature is Creature => creature !== undefined),
-                ),
-            );
     }
 
 }

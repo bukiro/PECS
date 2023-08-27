@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Defaults } from '../../definitions/defaults';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+// Import these services first to avoid dependency issues.
+import { CreatureService } from '../creature/creature.service';
+import { SettingsService } from '../settings/settings.service';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+//
 import { ItemsDataService } from '../data/items-data.service';
 import { ItemMaterialsDataService } from '../data/item-materials-data.service';
 import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';
@@ -59,6 +64,14 @@ import { ItemTraitsService } from '../item-traits/item-traits.service';
 export class AppInitService {
 
     constructor(
+        //Initialize these services simply by injecting them.
+        _creatureService: CreatureService,
+        _settingsService: SettingsService,
+        _characterFlatteningService: CharacterFlatteningService,
+        _configService: ConfigService,
+        _extensionsService: DataService,
+        _documentStyleService: DocumentStyleService,
+        _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -101,12 +114,6 @@ export class AppInitService {
         private readonly _itemActivationProcessingService: ItemActivationProcessingService,
         private readonly _itemTraitsService: ItemTraitsService,
         private readonly _store$: Store,
-        //Initialize these services simply by injecting them.
-        _configService: ConfigService,
-        _extensionsService: DataService,
-        _documentStyleService: DocumentStyleService,
-        _animalCompanionLevelsService: AnimalCompanionLevelsService,
-
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
