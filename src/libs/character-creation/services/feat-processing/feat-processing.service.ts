@@ -5,7 +5,6 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { Character } from 'src/app/classes/Character';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Speed } from 'src/app/classes/Speed';
@@ -17,7 +16,6 @@ import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.servi
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
@@ -37,6 +35,7 @@ import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-s
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
 import { take } from 'rxjs';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 export interface FeatProcessingContext {
     creature: Character | Familiar;
@@ -52,7 +51,6 @@ export class FeatProcessingService {
 
     constructor(
         private readonly _refreshService: RefreshService,
-        private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
@@ -68,6 +66,7 @@ export class FeatProcessingService {
         private readonly _animalCompanionService: AnimalCompanionService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _familiarService: FamiliarService,
+        private readonly _recastService: RecastService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
@@ -415,7 +414,7 @@ export class FeatProcessingService {
         if (feat.gainSpellCasting.length) {
             if (taken) {
                 feat.gainSpellCasting.forEach(casting => {
-                    character.class.addSpellCasting(context.level, casting);
+                    character.class.addSpellCasting(context.level, casting, this._recastService.recastFns);
                 });
             } else {
                 feat.gainSpellCasting.forEach(casting => {
@@ -600,7 +599,7 @@ export class FeatProcessingService {
 
             if (taken) {
                 feat.gainConditions.forEach(conditionGain => {
-                    const newConditionGain = Object.assign(new ConditionGain(), conditionGain);
+                    const newConditionGain = conditionGain.clone(this._recastService.recastFns);
 
                     newConditionGain.fromFeat = true;
                     this._creatureConditionsService.addCondition(character, newConditionGain, {}, { noReload: true });

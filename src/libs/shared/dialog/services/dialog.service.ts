@@ -17,30 +17,30 @@ export class DialogService {
 
     public showDialog$<T extends DialogComponent>(
         dialog: Constructable<T>,
-        options: Partial<T> & Pick<T, 'title'>,
+        options: Partial<T>,
     ): Observable<NgbModalRef> {
         return propMap$(SettingsService.settings$, 'darkmode$')
             .pipe(
+                take(1),
                 map(isDarkMode => {
                     const modal = this._modalService.open(
                         dialog,
                         { centered: true },
                     );
 
-                    Object.assign(modal.componentInstance, options);
+                    const component: T = modal.componentInstance;
 
-                    modal.componentInstance.close =
-                        options.close
+                    Object.assign(component, options);
+
+                    component.close =
+                        component.close
                             ? () => { modal.close(); (options.close as () => void)(); }
                             : () => modal.close();
-                    modal.componentInstance.buttons = options.buttons;
-                    modal.componentInstance.cancelLabel = options.cancelLabel || 'Cancel';
-                    modal.componentInstance.hideCancel = options.hideCancel;
-                    modal.componentInstance.darkmode = isDarkMode;
+                    component.cancelLabel = component.cancelLabel || 'Cancel';
+                    component.isDarkMode = isDarkMode;
 
                     return modal;
                 }),
-                take(1),
             );
     }
 

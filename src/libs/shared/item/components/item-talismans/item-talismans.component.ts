@@ -156,7 +156,7 @@ export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements O
             //Then add the new Talisman to the item and (unless we are in the item store) remove it from the inventory.
             if (talisman.name !== '') {
                 //Add a copy of Talisman to the item
-                const newLength = item.talismans.push(talisman.clone(this._recastService.recastOnlyFns));
+                const newLength = item.talismans.push(talisman.clone(this._recastService.recastFns));
                 const newTalisman = item.talismans[newLength - 1];
 
                 newTalisman.amount = 1;

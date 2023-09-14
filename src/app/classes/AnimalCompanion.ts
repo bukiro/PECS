@@ -1,7 +1,7 @@
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
-import { AbilityBoost } from 'src/app/classes/AbilityBoost';
+import { AbilityBoostInterface } from 'src/app/classes/AbilityBoostInterface';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
@@ -10,11 +10,24 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject } from 'rxjs';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 
-export class AnimalCompanion extends Creature {
+const { assign, forExport } = setupSerializationWithHelpers<AnimalCompanion>({
+    primitives: [
+        'species',
+    ],
+    exportables: {
+        class:
+            recastFns => obj => AnimalCompanionClass.from({ ...obj }, recastFns),
+    },
+});
 
-    public type: CreatureTypes = CreatureTypes.AnimalCompanion;
-    public readonly typeId = 1;
+export class AnimalCompanion extends Creature implements Serializable<AnimalCompanion> {
+    public readonly type: CreatureTypes = CreatureTypes.AnimalCompanion;
+    public readonly typeId: CreatureTypeIds = CreatureTypeIds.AnimalCompanion;
 
     public readonly class$: BehaviorSubject<AnimalCompanionClass>;
     public readonly species$: BehaviorSubject<string>;
@@ -54,17 +67,26 @@ export class AnimalCompanion extends Creature {
 
     public get requiresConForHP(): boolean { return true; }
 
-    public recast(recastFns: RecastFns): AnimalCompanion {
-        super.recast(recastFns);
-        this.class = Object.assign(new AnimalCompanionClass(), this.class).recast(recastFns);
+    public static from(values: DeepPartial<AnimalCompanion>, recastFns: RecastFns): AnimalCompanion {
+        return new AnimalCompanion().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<AnimalCompanion>, recastFns: RecastFns): AnimalCompanion {
+        super.with(values, recastFns);
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<AnimalCompanion> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): AnimalCompanion {
-        return Object.assign<AnimalCompanion, AnimalCompanion>(
-            new AnimalCompanion(), JSON.parse(JSON.stringify(this)),
-        ).recast(recastFns);
+        return AnimalCompanion.from(this, recastFns);
     }
 
     public isAnimalCompanion(): this is AnimalCompanion {
@@ -127,9 +149,9 @@ export class AnimalCompanion extends Creature {
         source = '',
         sourceId = '',
         locked: boolean | undefined = undefined,
-    ): Array<AbilityBoost> {
+    ): Array<AbilityBoostInterface> {
         if (this.class) {
-            const boosts: Array<AbilityBoost> = [];
+            const boosts: Array<AbilityBoostInterface> = [];
             // When animal companion levels are checked for ability boosts,
             // we don't care about the character level - so we use the companion's level here.
             const levels: Array<AnimalCompanionLevel | AnimalCompanionAncestry> =

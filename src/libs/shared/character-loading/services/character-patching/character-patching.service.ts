@@ -161,13 +161,13 @@ export class CharacterPatchingService {
                                 .forEach(item => {
                                     //For each inventory, for each array property, recast all hints of the listed items.
                                     if (item.hints?.length) {
-                                        item.hints = item.hints.map(hint => Object.assign(new Hint(), hint));
+                                        item.hints = item.hints.map(hint => safeAssign(new Hint(), hint));
                                     }
 
                                     if (item.propertyRunes?.length) {
                                         item.propertyRunes.forEach(rune => {
                                             if (rune.hints?.length) {
-                                                rune.hints = rune.hints.map(hint => Object.assign(new Hint(), hint));
+                                                rune.hints = rune.hints.map(hint => safeAssign(new Hint(), hint));
                                             }
                                         });
                                     }
@@ -175,7 +175,7 @@ export class CharacterPatchingService {
                                     if (item.oilsApplied?.length) {
                                         item.oilsApplied.forEach(oil => {
                                             if (oil.hints?.length) {
-                                                oil.hints = oil.hints.map(hint => Object.assign(new Hint(), hint));
+                                                oil.hints = oil.hints.map(hint => safeAssign(new Hint(), hint));
                                             }
                                         });
                                     }
@@ -183,7 +183,7 @@ export class CharacterPatchingService {
                                     if (item.material?.length) {
                                         item.material.forEach(material => {
                                             if (material.hints?.length) {
-                                                material.hints = material.hints.map(hint => Object.assign(new Hint(), hint));
+                                                material.hints = material.hints.map(hint => safeAssign(new Hint(), hint));
                                             }
                                         });
                                     }
@@ -615,7 +615,7 @@ export class CharacterPatchingService {
         }
     }
 
-    public patchCompleteCharacter(savedCharacter: Character, character: Character): void {
+    public patchCompleteCharacter(character: Character, savedCharacter: Character): void {
 
         // STAGE 2
         //After restoring data and reassigning.

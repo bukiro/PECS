@@ -3,12 +3,40 @@ import { Scroll } from 'src/app/classes/Scroll';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
 const defaultSpellbookCantripSlots = 10;
 const defaultSpellbookFirstLevelSlots = 5;
 const defaultSpellbookOtherLevelsSlots = 2;
 
-export class SpellCasting {
+const { assign, forExport } = setupSerializationWithHelpers<SpellCasting>({
+    primitives: [
+        'className',
+        'ability',
+        'charLevelAvailable',
+        'tradition',
+        'traditionAvailable',
+        'spellBookOnly',
+        'source',
+    ],
+    primitiveArrays: [
+        'spellSlotsUsed',
+        'spellBookSlots',
+        'traditionFilter',
+        'bondedItemCharges',
+    ],
+    exportableArrays: {
+        scrollSavant:
+            recastFns => obj => Scroll.from({ ...obj }, recastFns),
+        spellChoices:
+            () => obj => SpellChoice.from({ ...obj }),
+    },
+});
+
+export class SpellCasting implements Serializable<SpellCasting> {
     /**
      * The name of the class that this choice belongs to.
      * Important to identify the class's spellcasting key ability.
@@ -19,8 +47,9 @@ export class SpellCasting {
     public charLevelAvailable = 0;
     public tradition: SpellTraditions | '' = '';
     public traditionAvailable = 0;
-    public traditionFilter: Array<SpellTraditions> = [];
     public spellBookOnly = false;
+    public source = '';
+
     /**
      * SpellSlotsUsed is for spontaneous casters and counts the spells cast on each spell level, where the index is the spell level.
      * Index 0 is for Studious Capacity, which allows a single more casting each day,
@@ -55,9 +84,10 @@ export class SpellCasting {
         defaultSpellbookOtherLevelsSlots,
         defaultSpellbookOtherLevelsSlots,
     ];
-    public source = '';
+    public traditionFilter: Array<SpellTraditions> = [];
 
     private readonly _bondedItemCharges = new OnChangeArray<number>(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
     private readonly _scrollSavant = new OnChangeArray<Scroll>();
     private readonly _spellChoices = new OnChangeArray<SpellChoice>();
 
@@ -93,13 +123,23 @@ export class SpellCasting {
         this._spellChoices.setValues(...value);
     }
 
-    public recast(): SpellCasting {
-        this.spellChoices = this.spellChoices.map(obj => Object.assign(new SpellChoice(), obj).recast());
+    public static from(values: DeepPartial<SpellCasting>, recastFns: RecastFns): SpellCasting {
+        return new SpellCasting(values.castingType ?? SpellCastingTypes.Innate).with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<SpellCasting>, recastFns: RecastFns): SpellCasting {
+        assign(this, values, recastFns);
 
         return this;
     }
 
-    public clone(): SpellCasting {
-        return Object.assign<SpellCasting, SpellCasting>(new SpellCasting(this.castingType), JSON.parse(JSON.stringify(this))).recast();
+    public forExport(): DeepPartial<SpellCasting> {
+        return {
+            ...forExport(this),
+        };
+    }
+
+    public clone(recastFns: RecastFns): SpellCasting {
+        return SpellCasting.from(this, recastFns);
     }
 }

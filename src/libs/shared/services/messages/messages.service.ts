@@ -209,7 +209,7 @@ export class MessagesService {
 
         zip(
             CreatureService.character.ignoredMessages.map(message => {
-                this._messagesApiService.deleteMessageFromConnector$(Object.assign(new PlayerMessage(), { id: message.id }));
+                this._messagesApiService.deleteMessageFromConnector$({ id: message.id });
             }),
         )
             .subscribe({

@@ -8,10 +8,41 @@ import { resilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, map, of } from 'rxjs';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 
-export class Armor extends Equipment {
+const { assign, forExport, forMessage } = setupSerializationWithHelpers<Armor>({
+    primitives: [
+        'armorBase',
+        'dexcap',
+        'group',
+        'moddable',
+        'prof',
+        'speedpenalty',
+        'acbonus',
+        'skillpenalty',
+        'strength',
+        'battleforged',
+    ],
+    exportableArrays: {
+        // Treat all materials on Armor as ArmorMaterial.
+        material:
+            () => obj => ArmorMaterial.from({ ...obj }),
+    },
+    messageExportableArrays: {
+        // Treat all propertyRunes on Armor as ArmorRune.
+        propertyRunes:
+            recastFns => obj =>
+                recastFns.getItemPrototype<ArmorRune>({ ...obj }, { type: 'armorrunes' })
+                    .with({ ...obj }, recastFns),
+    },
+});
+
+export class Armor extends Equipment implements MessageSerializable<Armor> {
     //Armor should be type "armors" to be found in the database
-    public readonly type = 'armors';
+    public readonly type: ItemTypes = 'armors';
     /** What kind of armor is this based on? Needed for armor proficiencies for specific magical items. */
     public armorBase = '';
     /**
@@ -40,21 +71,21 @@ export class Armor extends Equipment {
     /** The strength requirement (strength, not STR) to overcome skill and speed penalties. */
     public strength = 0;
 
-    public runesChanged$ = new BehaviorSubject<true>(true);
     /**
      * For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead.
      * This value influences acbonus, skillpenalty, dexcap and strength
      */
     public effectiveArmoredSkirt$ = new BehaviorSubject<-1 | 0 | 1>(0);
 
-    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = resilientTitleFromLevel;
-
     /** Shoddy armors give a penalty of -2 unless you have the Junk Tinker feat. */
     public effectiveShoddy$ = new BehaviorSubject<ShoddyPenalties>(ShoddyPenalties.NotShoddy);
 
+    public readonly battleforged$: BehaviorSubject<boolean>;
+
     public readonly armorMaterial$: Observable<Array<ArmorMaterial>>;
     public readonly armorRunes$: Observable<Array<ArmorRune>>;
-    public readonly battleforged$: BehaviorSubject<boolean>;
+
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = resilientTitleFromLevel;
 
     private _battleforged = false;
 
@@ -62,11 +93,11 @@ export class Armor extends Equipment {
         super();
 
         this.battleforged$ = new BehaviorSubject(this._battleforged);
-        this.armorMaterial$ = this.material.values$
+        this.armorMaterial$ = this._material.values$
             .pipe(
                 map(materials => materials.filter((material): material is ArmorMaterial => material.isArmorMaterial())),
             );
-        this.armorRunes$ = this.propertyRunes.values$
+        this.armorRunes$ = this._propertyRunes.values$
             .pipe(
                 map(runes => runes.filter((rune): rune is ArmorRune => rune.isArmorRune())),
             );
@@ -90,30 +121,41 @@ export class Armor extends Equipment {
         this.resilientRune = value;
     }
 
-    public get armorRunes(): Array<ArmorRune> {
+    public get armorRunes(): Readonly<Array<ArmorRune>> {
         return this.propertyRunes.filter((rune): rune is ArmorRune => rune.isArmorRune());
     }
 
-    public get armorMaterial(): Array<ArmorMaterial> {
+    public get armorMaterial(): Readonly<Array<ArmorMaterial>> {
         return this.material.filter((material): material is ArmorMaterial => material.isArmorMaterial());
     }
 
-    public recast(recastFns: RecastFns): Armor {
-        super.recast(recastFns);
-        this.propertyRunes =
-            this.propertyRunes.map(obj =>
-                Object.assign(
-                    new ArmorRune(),
-                    recastFns.item(obj),
-                ).recast(recastFns),
-            );
-        this.material = this.material.map(obj => Object.assign(new ArmorMaterial(), obj).recast());
+    public static from(values: DeepPartial<Armor>, recastFns: RecastFns): Armor {
+        return new Armor().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Armor>, recastFns: RecastFns): Armor {
+        super.with(values, recastFns);
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Armor> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<Armor> {
+        return {
+            ...super.forMessage(),
+            ...forMessage(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Armor {
-        return Object.assign<Armor, Armor>(new Armor(), JSON.parse(JSON.stringify({ ...this, runesChanged$: null }))).recast(recastFns);
+        return Armor.from(this, recastFns);
     }
 
     public isArmor(): this is Armor { return true; }

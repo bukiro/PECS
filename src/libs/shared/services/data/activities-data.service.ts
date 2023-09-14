@@ -11,6 +11,7 @@ import * as json_activities from 'src/assets/json/activities';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { DeepPartial } from '../../definitions/types/deepPartial';
 
 @Injectable({
     providedIn: 'root',
@@ -89,10 +90,10 @@ export class ActivitiesDataService {
     }
 
     public initialize(): void {
-        this._registerRestoreFn();
+        this._registerRecastFns();
 
         this._activities =
-            this._dataLoadingService.loadRecastable(
+            this._dataLoadingService.loadCastable(
                 json_activities as ImportedJsonFileList<Activity>,
                 'activities',
                 'name',
@@ -125,14 +126,14 @@ export class ActivitiesDataService {
         );
     }
 
-    private _registerRestoreFn(): void {
-        const activityGainRestoreFn =
-            (obj: ActivityGain): ActivityGain => Object.assign(new ActivityGain(this.activityFromName(obj.name)), obj);
+    private _registerRecastFns(): void {
+        const activityLookupFn =
+            (obj: DeepPartial<ActivityGain>): Activity =>
+                (obj.originalActivity instanceof Activity)
+                    ? obj.originalActivity
+                    : this.activityFromName(obj.name ?? '');
 
-        const activityGainRecastFn =
-            (obj: ActivityGain): ActivityGain => Object.assign(new ActivityGain(obj.originalActivity), obj);
-
-        this._recastService.registerActivityGainRecastFns(activityGainRestoreFn, activityGainRecastFn);
+        this._recastService.registerActivityGainRecastFns(activityLookupFn);
     }
 
 }

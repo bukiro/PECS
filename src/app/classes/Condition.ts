@@ -11,6 +11,9 @@ import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Observable } from 'rxjs';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
 interface ConditionEnd {
     name: string;
@@ -34,7 +37,75 @@ export interface OtherConditionSelection {
     typeFilter?: Array<string>;
 }
 
-export class Condition {
+const { assign, forExport } = setupSerializationWithHelpers<Condition>({
+    primitives: [
+        'name',
+        'type',
+        'buff',
+        'minLevel',
+        'hasValue',
+        'decreasingValue',
+        'value',
+        'automaticStages',
+        'circularStages',
+        'desc',
+        'inputRequired',
+        'hide',
+        'alwaysApplyCasterCondition',
+        'sourceBook',
+        'persistent',
+        'restricted',
+        'radius',
+        'allowRadiusChange',
+        'notes',
+        'choice',
+        'unlimited',
+    ],
+    primitiveArrays: [
+        'denyConditions',
+        'stopTimeChoiceFilter',
+        'traits',
+    ],
+    primitiveObjectArrays: [
+        'endConditions',
+        'endsWithConditions',
+        'overrideConditions',
+        'pauseConditions',
+        'selectOtherConditions',
+    ],
+    exportableArrays: {
+        attackRestrictions:
+            () => obj => AttackRestriction.from({ ...obj }),
+        choices:
+            () => obj => ConditionChoice.from({ ...obj }),
+        defaultDurations:
+            () => obj => ConditionDuration.from({ ...obj }),
+        effects:
+            () => obj => EffectGain.from({ ...obj }),
+        endEffects:
+            () => obj => EffectGain.from({ ...obj }),
+        gainActivities:
+            recastFns => obj => ActivityGain.from({
+                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+            }),
+        gainConditions:
+            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+        gainItems:
+            () => obj => ItemGain.from({ ...obj }),
+        heightenedDescs:
+            () => obj => HeightenedDescSet.from({ ...obj }),
+        hints:
+            () => obj => Hint.from({ ...obj }),
+        nextCondition:
+            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+        onceEffects:
+            () => obj => EffectGain.from({ ...obj }),
+        senses:
+            () => obj => SenseGain.from({ ...obj }),
+    },
+});
+
+export class Condition implements Serializable<Condition> {
     public name = '';
     public type = '';
     public buff = false;
@@ -44,59 +115,62 @@ export class Condition {
     public value = 0;
     public automaticStages = false;
     public circularStages = false;
-    public heightenedDescs: Array<HeightenedDescSet> = [];
     public desc = '';
-    public hints: Array<Hint> = [];
     public inputRequired = '';
-    public onceEffects: Array<EffectGain> = [];
-    public endEffects: Array<EffectGain> = [];
-    public effects: Array<EffectGain> = [];
-    public gainActivities: Array<ActivityGain> = [];
-    public gainConditions: Array<ConditionGain> = [];
-    public gainItems: Array<ItemGain> = [];
     public hide = false;
-    /**
-     * Each selectCondition offers a select box that can be used to select one other active condition for later use.
-     * The selected condition can be referenced in overrideConditions and pauseConditions as "selectedCondition|0" (or other index).
-     */
-    public selectOtherConditions: Array<{ title?: string; nameFilter?: Array<string>; typeFilter?: Array<string> }> = [];
-    public denyConditions: Array<string> = [];
-    public endConditions: Array<ConditionEnd> = [];
     /**
      * If alwaysApplyCasterCondition is true and this is a caster condition,
      * it is applied even when it is informational and the caster is already getting the target condition.
      */
     public alwaysApplyCasterCondition = false;
-    /** Remove this condition if any of the endsWithConditions is removed. */
-    public endsWithConditions: Array<EndsWithCondition> = [];
-    /**
-     * If the stopTimeChoiceFilter matches the condition choice or is "All",
-     * no time elapses for anything other than the condition that causes the time stop.
-     */
-    public stopTimeChoiceFilter: Array<string> = [];
-    public attackRestrictions: Array<AttackRestriction> = [];
-    public senses: Array<SenseGain> = [];
     public sourceBook = '';
-    public nextCondition: Array<ConditionGain> = [];
-    public defaultDurations: Array<ConditionDuration> = [];
     public persistent = false;
     /** Restricted conditions can be seen, but not taken from the conditions menu. */
     public restricted = false;
     public radius = 0;
     public allowRadiusChange = false;
-    public traits: Array<string> = [];
     /** If a condition has notes (like the HP of a summoned object), they get copied on the conditionGain. */
     public notes = '';
-    /** List choices you can make for this condition. The first choice must never have a featreq. */
-    public choices: Array<ConditionChoice> = [];
     /** This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition. */
     public choice = '';
     /** All instances of an unlimited condition are shown in the conditions area. Limited conditions only show one instance. */
     public unlimited = false;
+
+    public denyConditions: Array<string> = [];
+    /**
+     * If the stopTimeChoiceFilter matches the condition choice or is "All",
+     * no time elapses for anything other than the condition that causes the time stop.
+     */
+    public stopTimeChoiceFilter: Array<string> = [];
+    public traits: Array<string> = [];
+
+    public endConditions: Array<ConditionEnd> = [];
+    /** Remove this condition if any of the endsWithConditions is removed. */
+    public endsWithConditions: Array<EndsWithCondition> = [];
     /** Overridden conditions aren't applied, but keep ticking. */
     public overrideConditions: Array<ConditionOverride> = [];
     /** Paused conditions don't tick. If you want to stop -and- hide a condition, you need to override it as well. */
     public pauseConditions: Array<ConditionOverride> = [];
+    /**
+     * Each selectCondition offers a select box that can be used to select one other active condition for later use.
+     * The selected condition can be referenced in overrideConditions and pauseConditions as "selectedCondition|0" (or other index).
+     */
+    public selectOtherConditions: Array<{ title?: string; nameFilter?: Array<string>; typeFilter?: Array<string> }> = [];
+
+    public attackRestrictions: Array<AttackRestriction> = [];
+    /** List choices you can make for this condition. The first choice must never have a featreq. */
+    public choices: Array<ConditionChoice> = [];
+    public defaultDurations: Array<ConditionDuration> = [];
+    public effects: Array<EffectGain> = [];
+    public endEffects: Array<EffectGain> = [];
+    public gainActivities: Array<ActivityGain> = [];
+    public gainConditions: Array<ConditionGain> = [];
+    public gainItems: Array<ItemGain> = [];
+    public heightenedDescs: Array<HeightenedDescSet> = [];
+    public hints: Array<Hint> = [];
+    public nextCondition: Array<ConditionGain> = [];
+    public onceEffects: Array<EffectGain> = [];
+    public senses: Array<SenseGain> = [];
 
     public effectiveChoicesBySpellLevel$ = new Map<number, Observable<Array<string>>>();
 
@@ -112,57 +186,55 @@ export class Condition {
         }
     }
 
-    public recast(recastFns: RecastFns): Condition {
-        this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
-        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
-        this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.endEffects = this.endEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.gainActivities = this.gainActivities.map(obj => recastFns.activityGain(obj).recast(recastFns));
-        this.gainActivities.forEach(activityGain => {
-            activityGain.source = this.name;
-        });
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
-        this.gainConditions.forEach(conditionGain => {
-            conditionGain.source = this.name;
-        });
-        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
-        this.attackRestrictions = this.attackRestrictions.map(obj => Object.assign(new AttackRestriction(), obj).recast());
-        this.senses = this.senses.map(obj => Object.assign(new SenseGain(), obj).recast());
-        this.nextCondition = this.nextCondition.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
-        this.defaultDurations = this.defaultDurations.map(obj => Object.assign(new ConditionDuration(), obj).recast());
-        this.choices = this.choices.map(obj => Object.assign(new ConditionChoice(), obj).recast());
+    public static from(values: DeepPartial<Condition>, recastFns: RecastFns): Condition {
+        return new Condition().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Condition>, recastFns: RecastFns): Condition {
+        // endsWithConditions has changed from string to object; this is patched here for existing conditions.
+        if (values.endsWithConditions) {
+            values.endsWithConditions = values.endsWithConditions.map(obj =>
+                typeof obj === 'string'
+                    ? { name: obj, source: '' }
+                    : {
+                        name: '',
+                        source: '',
+                        ...obj,
+                    },
+            );
+        }
+
+        // selectOtherConditions may come from the database in an incomplete state.
+        if (values.selectOtherConditions) {
+            values.selectOtherConditions = values.selectOtherConditions.map(obj => ({
+                title: obj?.title ?? '',
+                nameFilter: (obj?.nameFilter ?? []) as Array<string>,
+                typeFilter: (obj?.typeFilter ?? []) as Array<string>,
+            }));
+        }
+
+        assign(this, values, recastFns);
+
+        this.gainActivities.forEach(gain => { gain.source = this.name; });
+
+        this.gainConditions.forEach(gain => { gain.source = this.name; });
 
         //If choices exist and no default choice is given, take the first one as default.
         if (this.choices.length && !this.choice) {
             this.choice = this.choices[0].name;
         }
 
-        this.selectOtherConditions = this.selectOtherConditions.map(selection => ({
-            title: '',
-            nameFilter: [],
-            typeFilter: [], ...selection,
-        }));
-        //endsWithConditions has changed from string to object; this is patched here for existing conditions.
-        this.endsWithConditions.forEach((endsWith, index) => {
-            if (typeof endsWith === 'string') {
-                this.endsWithConditions[index] = { name: endsWith, source: '' };
-            }
-        });
-
         return this;
+    }
+
+    public forExport(): DeepPartial<Condition> {
+        return {
+            ...forExport(this),
+        };
     }
 
     public clone(recastFns: RecastFns): Condition {
-        return Object.assign<Condition, Condition>(new Condition(), JSON.parse(JSON.stringify(this)))
-            .recast(recastFns)
-            .clearTemporaryValues();
-    }
-
-    public clearTemporaryValues(): Condition {
-        this.effectiveChoicesBySpellLevel$.clear();
-
-        return this;
+        return Condition.from(this, recastFns);
     }
 
     public conditionOverrides(gain?: ConditionGain): Array<ConditionOverride> {

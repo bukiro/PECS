@@ -27,50 +27,56 @@ export const featsFeature = createFeature({
             state.levelTakenFeats[levelNumber].set(feat.name, feat);
 
             // Add the feat and the level to the gain list.
-            state.characterFeatsTaken.push({ levelNumber, gain, feat, temporary });
-
-            return state;
+            return {
+                ...state,
+                characterFeatsTaken: state.characterFeatsTaken.concat({ levelNumber, gain, feat, temporary }),
+            };
         }),
         on(removeFeatAtLevel, (state, { gain, levelNumber }): FeatsState => {
-            // Remove this gain from the list of gains.
-            state.characterFeatsTaken = state.characterFeatsTaken
-                .filter(taken => taken.gain.id);
-
-            // Remove the feat and the countAs. If the feat is still taken at any level, only remove it from the levels lower than that.
-            const lowestLevelOfFeat = _lowestLevelOfFeat(state, gain);
-            const lowestLevelOfCountAs = _lowestLevelOfCountAs(state, gain);
+            // Remove the feat and the countAs. If the feat is otherwise still taken at any level,
+            // only remove it from the levels lower than that.
+            const lowestLevelOfFeat = _lowestLevelOfFeatFromOthers(state, gain);
+            const lowestLevelOfCountAs = _lowestLevelOfCountAsFromOthers(state, gain);
 
             for (let index = 1; index >= levelNumber && index <= Defaults.maxCharacterLevel; index++) {
-                if (index < lowestLevelOfFeat) {state.levelFeats[index].delete(gain.name.toLowerCase());}
+                if (index < lowestLevelOfFeat) { state.levelFeats[index].delete(gain.name.toLowerCase()); }
 
                 if (gain.countAsFeat) {
-                    if (index < lowestLevelOfCountAs) {state.levelCountAs[index].delete(gain.name.toLowerCase());}
+                    if (index < lowestLevelOfCountAs) { state.levelCountAs[index].delete(gain.name.toLowerCase()); }
                 }
             }
 
-            // If the feat is not taken at this specific level anymore, remove it from the taken feats for the level.
-            if (!_takenAtLevel(state, gain, levelNumber)) {
+            // If the feat is otherwise not taken at this specific level anymore, remove it from the taken feats for the level.
+            if (!_takenAtLevelFromOthers(state, gain, levelNumber)) {
                 state.levelTakenFeats[levelNumber].delete(gain.name.toLowerCase());
             }
 
-            return { ...state };
+            // Remove this gain from the list of gains.
+            return {
+                ...state,
+                characterFeatsTaken: state.characterFeatsTaken
+                    .filter(taken => taken.gain.id),
+            };
         }),
     ),
 });
 
-function _takenAtLevel(state: FeatsState, gain: FeatTaken, levelNumber: number): boolean {
+function _takenAtLevelFromOthers(state: FeatsState, gain: FeatTaken, levelNumber: number): boolean {
     return state.characterFeatsTaken
+        .filter(taken => taken.gain.id !== gain.id)
         .some(taken => taken.levelNumber === levelNumber && taken.gain.name === gain.name);
 }
 
-function _lowestLevelOfFeat(state: FeatsState, gain: FeatTaken): number {
+function _lowestLevelOfFeatFromOthers(state: FeatsState, gain: FeatTaken): number {
     return state.characterFeatsTaken
+        .filter(taken => taken.gain.id !== gain.id)
         .filter(taken => taken.gain.name === gain.name)
         .reduce((highestLevel, currentTaken) => Math.min(highestLevel, currentTaken.levelNumber), Defaults.maxCharacterLevel);
 }
 
-function _lowestLevelOfCountAs(state: FeatsState, gain: FeatTaken): number {
+function _lowestLevelOfCountAsFromOthers(state: FeatsState, gain: FeatTaken): number {
     return state.characterFeatsTaken
+        .filter(taken => taken.gain.id !== gain.id)
         .filter(taken => taken.gain.countAsFeat === gain.countAsFeat)
         .reduce((highestLevel, currentTaken) => Math.min(highestLevel, currentTaken.levelNumber), Defaults.maxCharacterLevel);
 }

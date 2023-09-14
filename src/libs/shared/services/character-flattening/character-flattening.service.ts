@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, switchMap } from 'rxjs';
-import { Class } from 'src/app/classes/Class';
+import { CharacterClass } from 'src/app/classes/CharacterClass';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { CreatureService } from '../creature/creature.service';
 
@@ -14,7 +14,7 @@ import { CreatureService } from '../creature/creature.service';
 export class CharacterFlatteningService {
 
     public static characterLevel$: Observable<number>;
-    public static characterClass$: Observable<Class>;
+    public static characterClass$: Observable<CharacterClass>;
     public static characterSpellCasting$: Observable<Array<SpellCasting>>;
     public static characterFocusPoints$: Observable<number>;
 

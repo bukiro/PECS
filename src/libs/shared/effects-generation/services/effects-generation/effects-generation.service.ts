@@ -56,7 +56,7 @@ export class EffectsGenerationService {
 
         CreatureService.character$
             .pipe(
-                switchMap(this._generateCreatureEffects$),
+                switchMap(creature => this._generateCreatureEffects$(creature)),
             )
             .subscribe();
 
@@ -66,7 +66,7 @@ export class EffectsGenerationService {
                     isCompanionAvailable
                         ? CreatureService.companion$
                             .pipe(
-                                switchMap(this._generateCreatureEffects$),
+                                switchMap(creature => this._generateCreatureEffects$(creature)),
                             )
                         : of(),
                 ),
@@ -79,7 +79,7 @@ export class EffectsGenerationService {
                     isFamiliarAvailable
                         ? CreatureService.familiar$
                             .pipe(
-                                switchMap(this._generateCreatureEffects$),
+                                switchMap(creature => this._generateCreatureEffects$(creature)),
                             )
                         : of(),
                 ),

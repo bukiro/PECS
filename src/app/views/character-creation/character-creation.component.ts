@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Class } from 'src/app/classes/Class';
+import { CharacterClass } from 'src/app/classes/CharacterClass';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { HistoryDataService } from 'src/libs/shared/services/data/history-data.service';
@@ -52,7 +52,7 @@ import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Alignments } from 'src/libs/shared/definitions/alignments';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { Trait } from 'src/app/classes/Trait';
-import { AbilityBoost } from 'src/app/classes/AbilityBoost';
+import { AbilityBoostInterface } from 'src/app/classes/AbilityBoostInterface';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { Skill } from 'src/app/classes/Skill';
 import { creatureSizeName } from 'src/libs/shared/util/creatureUtils';
@@ -107,7 +107,7 @@ type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id:
 export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseCardComponent)) implements OnInit, OnDestroy {
 
     public character = CreatureService.character;
-    public newClass: Class = new Class();
+    public newClass: CharacterClass = new CharacterClass();
     public adventureBackgrounds = true;
     public regionalBackgrounds = true;
     public deityWordFilter = '';
@@ -807,7 +807,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         source = '',
         sourceId = '',
         locked?: boolean,
-    ): Array<AbilityBoost> {
+    ): Array<AbilityBoostInterface> {
         return this.character.abilityBoosts(levelNumber, levelNumber, abilityName, type, source, sourceId, locked);
     }
 
@@ -1394,7 +1394,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             );
     }
 
-    public availableClasses$(): Observable<Array<Class>> {
+    public availableClasses$(): Observable<Array<CharacterClass>> {
         return this.character.settings.showOtherOptions$
             .pipe(
                 map(showOtherOptions => this._classesDataService.classes()
@@ -1408,7 +1408,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             );
     }
 
-    public onClassChange($class: Class, checkedEvent: Event): void {
+    public onClassChange($class: CharacterClass, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
         if (isChecked) {

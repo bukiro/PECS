@@ -52,14 +52,14 @@ export class DeitiesDataService {
     }
 
     public initialize(): void {
-        this._deities = this._dataLoadingService.loadRecastable(
+        this._deities = this._dataLoadingService.loadCastable(
             json_deities as ImportedJsonFileList<Deity>,
             'deities',
             'name',
             Deity,
         );
 
-        this._domains = this._dataLoadingService.loadRecastable(
+        this._domains = this._dataLoadingService.loadCastable(
             json_domains,
             'domains',
             'name',

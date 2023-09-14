@@ -210,7 +210,7 @@ export class MessageProcessingService {
                                         item.amount = message.itemAmount;
                                     }
 
-                                    const typedItem = this._typeService.castItemByType(item);
+                                    const typedItem = this._typeService.getPrototypeItem(item).with(item);
 
                                     const targetItemTypes = targetInventory.itemsOfType(typedItem.type);
 

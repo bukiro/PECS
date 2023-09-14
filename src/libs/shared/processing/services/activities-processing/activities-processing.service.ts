@@ -193,7 +193,7 @@ export class ActivitiesProcessingService {
                 //Gain Items on Activation
                 if (activity.gainItems.length) {
                     if (context.gain instanceof ActivityGain) {
-                        context.gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem).recast());
+                        context.gain.gainItems = activity.gainItems.map(gainItem => safeClone(new ItemGain(), gainItem).recast());
                     }
 
                     context.gain.gainItems.forEach(gainItem => {
@@ -423,7 +423,7 @@ export class ActivitiesProcessingService {
 
         return zip(
             conditions.map((conditionGain, conditionIndex) => {
-                const newConditionGain = conditionGain.clone(this._recastService.recastOnlyFns);
+                const newConditionGain = conditionGain.clone(this._recastService.recastFns);
                 const condition = this._conditionsDataService.conditionFromName(conditionGain.name);
 
                 if (

@@ -9,6 +9,7 @@ import { CreatureTypes } from '../../definitions/creatureTypes';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureService } from '../creature/creature.service';
 import { deepDistinctUntilChanged } from '../../util/observableUtils';
+import { safeAssign } from '../../util/safe-assign';
 
 @Injectable({
     providedIn: 'root',
@@ -116,9 +117,9 @@ export class AnimalCompanionLevelsService {
                     (companion.class.levels[advancedLevel]?.name !== advancedOption)
                 ) {
                     companion.class.levels[advancedLevel] =
-                        Object.assign(
+                        safeAssign(
                             new AnimalCompanionLevel(),
-                            companion.class.levels.find(level => level.name === advancedOption),
+                            companion.class.levels.find(level => level.name === advancedOption) ?? {},
                         ).recast();
                     companion.class.levels[advancedLevel].number = advancedLevel;
                 } else if (

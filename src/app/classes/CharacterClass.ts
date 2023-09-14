@@ -23,56 +23,119 @@ import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-export class Class {
+const { assign, forExport } = setupSerializationWithHelpers<CharacterClass>({
+    primitives: [
+        'disabled',
+        'warning',
+        'deityFocused',
+        'showDeityEdicts',
+        'showDeityAnathema',
+        'focusPointsLast',
+        'hitPoints',
+        'name',
+        'sourceBook',
+        'deity',
+        'focusPoints',
+    ],
+    primitiveArrays: [
+        'anathema',
+    ],
+    primitiveObjectArrays: [
+        'desc',
+    ],
+    exportables: {
+        ancestry:
+            () => obj => Ancestry.from({ ...obj }),
+        animalCompanion:
+            recastFns => obj => AnimalCompanion.from({ ...obj }, recastFns),
+        background:
+            () => obj => Background.from({ ...obj }),
+        familiar:
+            recastFns => obj => Familiar.from({ ...obj }, recastFns),
+        heritage:
+            () => obj => Heritage.from({ ...obj }),
+    },
+    exportableArrays: {
+        activities:
+            recastFns => obj => ActivityGain.from({
+                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+            }),
+        customSkills:
+            () => obj => Skill.from({ ...obj }),
+        gainItems:
+            () => obj => ItemGain.from({ ...obj }),
+        levels:
+            () => obj => ClassLevel.from({ ...obj }),
+        formulaBook:
+            () => obj => FormulaLearned.from({ ...obj }),
+        additionalHeritages:
+            () => obj => AdditionalHeritage.from({ ...obj }),
+        featData:
+            () => obj => FeatData.from({ ...obj }),
+        languages:
+            () => obj => LanguageGain.from({ ...obj }),
+        spellCasting:
+            recastFns => obj => SpellCasting.from({ ...obj }, recastFns),
+    },
+});
+
+export class CharacterClass implements Serializable<CharacterClass> {
     public disabled = '';
     public warning = '';
-    public activities: Array<ActivityGain> = [];
-    public anathema: Array<string> = [];
     public deityFocused = false;
     public showDeityEdicts = false;
     public showDeityAnathema = false;
-
-    public customSkills: Array<Skill> = [];
-    public desc: Array<{ name: string; value: string }> = [];
     public focusPointsLast = 0;
-    public gainItems: Array<ItemGain> = [];
     public hitPoints = 0;
-    public levels: Array<ClassLevel> = [];
     public name = '';
     public sourceBook = '';
 
+    public anathema: Array<string> = [];
+
+    public desc: Array<{ name: string; value: string }> = [];
+
+    public activities: Array<ActivityGain> = [];
+    public customSkills: Array<Skill> = [];
+    public gainItems: Array<ItemGain> = [];
+    public levels: Array<ClassLevel> = [];
     public spellBook: Array<SpellLearned> = [];
     public spellList: Array<SpellLearned> = [];
     public formulaBook: Array<FormulaLearned> = [];
 
+    public readonly deity$: BehaviorSubject<string>;
+    public readonly focusPoints$: BehaviorSubject<number>;
+
     public readonly ancestry$: BehaviorSubject<Ancestry>;
     public readonly animalCompanion$: BehaviorSubject<AnimalCompanion>;
     public readonly background$: BehaviorSubject<Background>;
-    public readonly deity$: BehaviorSubject<string>;
     public readonly familiar$: BehaviorSubject<Familiar>;
-    public readonly focusPoints$: BehaviorSubject<number>;
     public readonly heritage$: BehaviorSubject<Heritage>;
 
-    private readonly _additionalHeritages = new OnChangeArray<AdditionalHeritage>();
+    private _deity = '';
+    private _focusPoints = 0;
+
     private _ancestry: Ancestry = new Ancestry();
     private _animalCompanion: AnimalCompanion = new AnimalCompanion();
     private _background: Background = new Background();
-    private _deity = '';
     private _familiar: Familiar = new Familiar();
-    private readonly _featData = new OnChangeArray<FeatData>();
-    private _focusPoints = 0;
     private _heritage: Heritage = new Heritage();
+
+    private readonly _additionalHeritages = new OnChangeArray<AdditionalHeritage>();
+    private readonly _featData = new OnChangeArray<FeatData>();
     private readonly _languages = new OnChangeArray<LanguageGain>();
     private readonly _spellCasting = new OnChangeArray<SpellCasting>();
 
     constructor() {
+        this.deity$ = new BehaviorSubject(this._deity);
+        this.focusPoints$ = new BehaviorSubject(this._focusPoints);
         this.ancestry$ = new BehaviorSubject(this._ancestry);
         this.animalCompanion$ = new BehaviorSubject(this._animalCompanion);
         this.background$ = new BehaviorSubject(this._background);
-        this.deity$ = new BehaviorSubject(this._deity);
         this.familiar$ = new BehaviorSubject(this._familiar);
-        this.focusPoints$ = new BehaviorSubject(this._focusPoints);
         this.heritage$ = new BehaviorSubject(this._heritage);
     }
 
@@ -171,27 +234,24 @@ export class Class {
         this._spellCasting.setValues(...value);
     }
 
-    public recast(recastFns: RecastFns): Class {
-        this.activities = this.activities.map(obj => recastFns.activityGain(obj).recast(recastFns));
-        this.ancestry = Object.assign(new Ancestry(), this.ancestry).recast();
-        this.animalCompanion = Object.assign(new AnimalCompanion(), this.animalCompanion).recast(recastFns);
-        this.background = Object.assign(new Background(), this.background).recast();
-        this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
-        this.featData = this.featData.map(obj => Object.assign(new FeatData(obj.level, obj.featName, obj.sourceId), obj).recast());
-        this.familiar = Object.assign(new Familiar(), this.familiar).recast(recastFns);
-        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
-        this.heritage = Object.assign(new Heritage(), this.heritage).recast();
-        this.additionalHeritages = this.additionalHeritages.map(obj => Object.assign(new AdditionalHeritage(), obj).recast());
-        this.languages = this.languages.map(obj => Object.assign(new LanguageGain(), obj).recast());
-        this.levels = this.levels.map(obj => Object.assign(new ClassLevel(), obj).recast());
-        this.spellCasting = this.spellCasting.map(obj => Object.assign(new SpellCasting(obj.castingType), obj).recast());
-        this.formulaBook = this.formulaBook.map(obj => Object.assign(new FormulaLearned(), obj).recast());
+    public static from(values: DeepPartial<CharacterClass>, recastFns: RecastFns): CharacterClass {
+        return new CharacterClass().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<CharacterClass>, recastFns: RecastFns): CharacterClass {
+        assign(this, values, recastFns);
 
         return this;
     }
 
-    public clone(recastFns: RecastFns): Class {
-        return Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+    public forExport(): DeepPartial<CharacterClass> {
+        return {
+            ...forExport(this),
+        };
+    }
+
+    public clone(recastFns: RecastFns): CharacterClass {
+        return CharacterClass.from(this, recastFns);
     }
 
     /**
@@ -268,9 +328,9 @@ export class Class {
         return this.levels[levelNumber].loreChoices.find(choice => choice.id === sourceId);
     }
 
-    public addSpellCasting(level: ClassLevel, newCasting: SpellCasting): SpellCasting {
+    public addSpellCasting(level: ClassLevel, newCasting: SpellCasting, recastFns: RecastFns): SpellCasting {
         const newLength: number =
-            this.spellCasting.push(newCasting.clone());
+            this.spellCasting.push(newCasting.clone(recastFns));
         const newSpellCasting = this.spellCasting[newLength - 1];
 
         //If the SpellCasting has a charLevelAvailable above 0, but lower than the current level, you could use it before you get it.

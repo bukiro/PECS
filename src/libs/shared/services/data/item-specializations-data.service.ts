@@ -28,7 +28,7 @@ export class ItemSpecializationsDataService {
     }
 
     public initialize(): void {
-        this._specializations = this._dataLoadingService.loadRecastable(
+        this._specializations = this._dataLoadingService.loadCastable(
             json_specializations,
             'specializations',
             'name',

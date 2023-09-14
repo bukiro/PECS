@@ -45,7 +45,7 @@ export class SpellsDataService {
     }
 
     public initialize(): void {
-        this._spells = this._dataLoadingService.loadRecastable(
+        this._spells = this._dataLoadingService.loadCastable(
             json_spells as ImportedJsonFileList<Spell>,
             'spells',
             'id',

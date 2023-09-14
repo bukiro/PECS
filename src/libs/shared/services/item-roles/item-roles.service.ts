@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Scroll } from '@angular/router';
 import { AdventuringGear } from '../../../../app/classes/AdventuringGear';
 import { AlchemicalElixir } from '../../../../app/classes/AlchemicalElixir';
 import { Ammunition } from '../../../../app/classes/Ammunition';
@@ -12,6 +11,7 @@ import { ItemRoles } from '../../../../app/classes/ItemRoles';
 import { Oil } from '../../../../app/classes/Oil';
 import { Potion } from '../../../../app/classes/Potion';
 import { Rune } from '../../../../app/classes/Rune';
+import { Scroll } from '../../../../app/classes/Scroll';
 import { Shield } from '../../../../app/classes/Shield';
 import { Talisman } from '../../../../app/classes/Talisman';
 import { Wand } from '../../../../app/classes/Wand';
@@ -39,6 +39,7 @@ export class ItemRolesService {
             asEquipment: this._itemAsEquipment(item),
             asArmor,
             asOil: this._itemAsOil(item),
+            asScroll: this._itemAsScroll(item),
             asTalisman: this._itemAsTalisman(item),
             asWeapon,
             asWand: this._itemAsWand(item),
@@ -113,6 +114,10 @@ export class ItemRolesService {
 
     private _itemAsOil(item: Item): Oil | undefined {
         return item instanceof Oil ? item : undefined;
+    }
+
+    private _itemAsScroll(item: Item): Scroll | undefined {
+        return item instanceof Scroll ? item : undefined;
     }
 
     private _itemAsTalisman(item: Item): Talisman | undefined {

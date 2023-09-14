@@ -22,8 +22,8 @@ export class InventoryService {
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
-    public grantInventoryItem(
-        item: Item,
+    public grantInventoryItem<T extends Item>(
+        item: T,
         context: { creature: Creature; inventory: ItemCollection; amount?: number },
         options: {
             resetRunes?: boolean;
@@ -33,7 +33,7 @@ export class InventoryService {
             expiration?: number;
             newPropertyRunes?: Array<Partial<Rune>>;
         } = {},
-    ): Item {
+    ): T {
         context.amount = context.amount || 1;
         options = {
             resetRunes: true,
@@ -49,16 +49,16 @@ export class InventoryService {
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
 
         const newInventoryItem =
-            this._itemInitializationService.initializeItem(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
-        let returnedItem: Item;
+            this._itemInitializationService.initializeItem<T>(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
+        let returnedItem: T;
         // Check if this item already exists in the inventory, and if it is stackable and doesn't expire.
         // Don't make that check if this item expires.
-        let existingItems: Array<Item> = [];
+        let existingItems: Array<T> = [];
 
         if (!options.expiration && newInventoryItem.canStack()) {
             existingItems =
-                context.inventory.itemsOfType(item.type)
-                    .filter((existing: Item) =>
+                context.inventory.itemsOfType<T>(item.type)
+                    .filter(existing =>
                         existing.refId === newInventoryItem.refId
                         && existing.name === newInventoryItem.name
                         && newInventoryItem.canStack()
@@ -85,7 +85,7 @@ export class InventoryService {
             //Update gridicons of the expanded item.
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, returnedItem.id);
         } else {
-            const targetTypes = context.inventory.itemsOfType(newInventoryItem.type);
+            const targetTypes = context.inventory.itemsOfType<T>(newInventoryItem.type);
 
             const newInventoryLength =
                 targetTypes.push(newInventoryItem);

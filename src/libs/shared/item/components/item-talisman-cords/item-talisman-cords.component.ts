@@ -111,7 +111,7 @@ export class ItemTalismanCordsComponent extends TrackByMixin(BaseClass) implemen
             // Then add the new Talisman Cord to the item and (unless we are in the item store) remove it from the inventory.
             if (cord.name !== '') {
                 //Add a copy of the cord to the item
-                const newLength = item.talismanCords.push(cord.clone(this._recastService.recastOnlyFns));
+                const newLength = item.talismanCords.push(cord.clone(this._recastService.recastFns));
                 const newCord = item.talismanCords[newLength - 1];
 
                 newCord.amount = 1;

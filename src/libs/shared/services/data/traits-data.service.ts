@@ -100,7 +100,7 @@ export class TraitsDataService {
     }
 
     public initialize(): void {
-        this._traits = this._dataLoadingService.loadRecastable(
+        this._traits = this._dataLoadingService.loadCastable(
             json_traits as ImportedJsonFileList<Trait>,
             'traits',
             'name',

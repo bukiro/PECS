@@ -275,9 +275,9 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                 let newLength = 0;
 
                 if (item.isArmor()) {
-                    newLength = item.propertyRunes.push(rune.clone(this._recastService.recastOnlyFns) as ArmorRune);
+                    newLength = item.propertyRunes.push(rune.clone(this._recastService.recastFns) as ArmorRune);
                 } else if (item.isWeapon() || item.isWornItem()) {
-                    newLength = item.propertyRunes.push(rune.clone(this._recastService.recastOnlyFns) as WeaponRune);
+                    newLength = item.propertyRunes.push(rune.clone(this._recastService.recastFns) as WeaponRune);
                 }
 
                 const newRune = item.propertyRunes[newLength - 1];

@@ -129,7 +129,7 @@ export class FoundryVTTIntegrationService {
             // and reverse the order (because PECS keeps dice results in order from last to first).
             // If any results are included, build a fake Roll object from them, including the formula,
             // terms, results and total sum (as _total).
-            const results = JSON.parse(JSON.stringify(diceResults.filter(result => result.included)));
+            const results = diceResults.filter(result => result.included).map(result => result.clone());
 
             if (results.length) {
                 results.reverse();

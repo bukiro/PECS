@@ -44,7 +44,7 @@ export class EquipmentPropertiesService {
 
         CreatureService.character$
             .pipe(
-                switchMap(this._updateItemModifiers$),
+                switchMap(creature => this._updateItemModifiers$(creature)),
             )
             .subscribe();
 
@@ -54,7 +54,7 @@ export class EquipmentPropertiesService {
                     isCompanionAvailable
                         ? CreatureService.companion$
                             .pipe(
-                                switchMap(this._updateItemModifiers$),
+                                switchMap(creature => this._updateItemModifiers$(creature)),
                             )
                         : of(),
                 ),
@@ -67,7 +67,7 @@ export class EquipmentPropertiesService {
                     isFamiliarAvailable
                         ? CreatureService.familiar$
                             .pipe(
-                                switchMap(this._updateItemModifiers$),
+                                switchMap(creature => this._updateItemModifiers$(creature)),
                             )
                         : of(),
                 ),

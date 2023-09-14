@@ -64,6 +64,7 @@ import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/cr
 import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -464,20 +465,23 @@ export class ItemsComponent extends TrackByMixin(DestroyableMixin(BaseCreatureEl
         );
     }
 
-    public newItemTypeOptionsFilter(): Array<{ name: string; key: string }> {
-        return [{ name: '', key: '' }].concat(this.items().names.filter(name =>
-            ![
-                'weaponrunes',
-                'alchemicalbombs',
-                'armorrunes',
-                'alchemicaltools',
-                'scrolls',
-                'alchemicalpoisons',
-                'oils',
-                'talismans',
-                'snares',
-                'wands',
-            ].includes(name.key)));
+    public newItemTypeOptionsFilter(): Array<{ name: string; key: ItemTypes | '' }> {
+        return new Array<{ name: string; key: ItemTypes | '' }>({ name: '', key: '' })
+            .concat(
+                ItemCollection.names.filter(name =>
+                    [
+                        'adventuringgear',
+                        'alchemicalelixirs',
+                        'ammunition',
+                        'armors',
+                        'helditems',
+                        'otherconsumables',
+                        'potions',
+                        'shields',
+                        'weapons',
+                        'wornitems',
+                    ].includes(name.key)),
+            );
     }
 
     public initializeNewItem(): void {
@@ -802,11 +806,11 @@ export class ItemsComponent extends TrackByMixin(DestroyableMixin(BaseCreatureEl
         return this._scrollSavantService.scrollSavantSpellDCLevel$;
     }
 
-    public prepareScrollSavantScroll(scroll: Item): void {
+    public prepareScrollSavantScroll(scroll: Scroll): void {
         this._scrollSavantService.prepareScroll(scroll);
     }
 
-    public unprepareScrollSavant(scroll: Item): void {
+    public unprepareScrollSavant(scroll: Scroll): void {
         this._scrollSavantService.unprepareScroll(scroll);
     }
 

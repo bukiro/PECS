@@ -17,11 +17,103 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { FeatIgnoreRequirements } from './featIgnoreRequirements';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { FeatRequirements } from './featRequirements';
+import { setupSerializationWithHelpers } from '../../util/serialization';
+import { Serializable } from '../interfaces/serializable';
+import { DeepPartial } from '../types/deepPartial';
+import { RecastFns } from '../interfaces/recastFns';
 
-export class Feat {
-    public abilityreq: Array<FeatRequirements.AbilityRequirement> = [];
+const { assign, forExport } = setupSerializationWithHelpers<Feat>({
+    primitives: [
+        'access',
+        'weaponfeatbase',
+        'archetype',
+        'countAsFeat',
+        'generatedLoreFeat',
+        'generatedWeaponFeat',
+        'canDelete',
+        'displayName',
+        'desc',
+        'heritagereq',
+        'gainAnimalCompanion',
+        'gainFamiliar',
+        'hide',
+        'levelreq',
+        'limited',
+        'lorebase',
+        'name',
+        'shortdesc',
+        'specialdesc',
+        'complexreqdesc',
+        'subType',
+        'subTypes',
+        'superType',
+        'unlimited',
+        'usageNote',
+        'sourceBook',
+        'PFSnote',
+    ],
+    primitiveArrays: [
+        'anathema',
+        'featreq',
+        'gainActivities',
+        'gainAncestry',
+        'gainSpellListSpells',
+        'gainDomains',
+        'senses',
+        'tenets',
+        'traits',
+    ],
+    primitiveObjectArrays: [
+        'customData',
+        'ignoreRequirements',
+        'skillreq',
+        'complexreq',
+        'abilityreq',
+    ],
+    exportableArrays: {
+        effects:
+            () => obj => EffectGain.from({ ...obj }),
+        changeProficiency:
+            () => obj => ProficiencyChange.from({ ...obj }),
+        copyProficiency:
+            () => obj => ProficiencyCopy.from({ ...obj }),
+        bloodMagic:
+            () => obj => BloodMagic.from({ ...obj }),
+        gainAbilityChoice:
+            () => obj => AbilityChoice.from({ ...obj }),
+        gainSpecialization:
+            () => obj => SpecializationGain.from({ ...obj }),
+        gainConditions:
+            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+        gainFeatChoice:
+            () => obj => FeatChoice.from({ ...obj }),
+        gainFormulaChoice:
+            () => obj => FormulaChoice.from({ ...obj }),
+        gainHeritage:
+            () => obj => HeritageGain.from({ ...obj }),
+        gainItems:
+            () => obj => ItemGain.from({ ...obj }),
+        gainLanguages:
+            () => obj => LanguageGain.from({ ...obj }),
+        gainLoreChoice:
+            () => obj => LoreChoice.from({ ...obj }),
+        gainSkillChoice:
+            () => obj => SkillChoice.from({ ...obj }),
+        gainSpellCasting:
+            recastFns => obj => SpellCasting.from({ ...obj }, recastFns),
+        gainSpellChoice:
+            () => obj => SpellChoice.from({ ...obj }),
+        hints:
+            () => obj => Hint.from({ ...obj }),
+        onceEffects:
+            () => obj => EffectGain.from({ ...obj }),
+        allowSignatureSpells:
+            () => obj => SignatureSpellGain.from({ ...obj }),
+    },
+});
+
+export class Feat implements Serializable<Feat> {
     public access = '';
     /**
      * If weaponfeatbase is true, the feat will be copied for every weapon that matches the description in the subtype:
@@ -31,33 +123,55 @@ export class Feat {
      * These can be combined. Any more filters need to be hardcoded in characterService.create_WeaponFeats().
      */
     public weaponfeatbase = false;
-    public anathema: Array<string> = [];
     public archetype = '';
-    public changeProficiency: Array<ProficiencyChange> = [];
-    public copyProficiency: Array<ProficiencyCopy> = [];
-    public bloodMagic: Array<BloodMagic> = [];
     /**
      * Having this feat counts as fulfilling the prerequisite of having the feat named in countAsFeat.
      * This is useful for class feats that allow you to take another of the class type choices.
      */
     public countAsFeat = '';
-    /**
-     * The customData property causes the feat to be copied into a custom feat, and the data property to gain the listed fields.
-     * This usually goes hand in hand with feats where you need to make very specific, hardcoded choices that are saved in the data fields.
-     */
-    public customData: Array<{ name: string; type: 'string' | 'number' | 'stringArray' | 'numberArray' }> = [];
     public generatedLoreFeat = false;
     public generatedWeaponFeat = false;
     //A custom character feat with canDelete: true can be manually deleted by the user.
     public canDelete = false;
     public displayName = '';
     public desc = '';
-    public effects: Array<EffectGain> = [];
-    public featreq: Array<string> = [];
     public heritagereq = '';
+    public gainAnimalCompanion = '';
+    public gainFamiliar = false;
+    public hide = false;
+    public levelreq = 0;
+    public limited = 0;
+    public lorebase = '';
+    public name = '';
+    public shortdesc = '';
+    public specialdesc = '';
+    public complexreqdesc = '';
+    public subType = '';
+    public subTypes = false;
+    public superType = '';
+    public unlimited = false;
+    public usageNote = '';
+    public sourceBook = '';
+    public PFSnote = '';
+
+    public anathema: Array<string> = [];
+    public featreq: Array<string> = [];
+    public gainActivities: Array<string> = [];
+    public gainAncestry: Array<string> = [];
+    public gainSpellListSpells: Array<string> = [];
+    public gainDomains: Array<string> = [];
+    public senses: Array<string> = [];
+    public tenets: Array<string> = [];
+    public traits: Array<string> = [];
+
+    /**
+     * The customData property causes the feat to be copied into a custom feat, and the data property to gain the listed fields.
+     * This usually goes hand in hand with feats where you need to make very specific, hardcoded choices that are saved in the data fields.
+     */
+    public customData: Array<{ name: string; type: 'string' | 'number' | 'stringArray' | 'numberArray' }> = [];
     /**
      * You can add requirements to the ignore list.
-     * These get evaluated as complexreqs and must result in one of the following to disable the requirement:
+     * These get evaluated as complexreqs and must each result in one of the following to disable the requirement:
      * - "levelreq"
      * - "abilityreq"
      * - "featreq"
@@ -67,69 +181,42 @@ export class Feat {
      * - "dedicationlimit"
      */
     public ignoreRequirements: Array<FeatIgnoreRequirements.FeatIgnoreRequirement> = [];
+    public gainSpellBookSlots: Array<{ spellBookSlots: Array<number>; className: string }> = [];
+    public skillreq: Array<FeatRequirements.SkillRequirement> = [];
+    public complexreq: Array<FeatRequirements.ComplexRequirement> = [];
+    public abilityreq: Array<FeatRequirements.AbilityRequirement> = [];
+
+    public effects: Array<EffectGain> = [];
+    public changeProficiency: Array<ProficiencyChange> = [];
+    public copyProficiency: Array<ProficiencyCopy> = [];
+    public bloodMagic: Array<BloodMagic> = [];
     public gainAbilityChoice: Array<AbilityChoice> = [];
-    public gainActivities: Array<string> = [];
-    public gainAnimalCompanion = '';
     public gainSpecialization: Array<SpecializationGain> = [];
-    public gainFamiliar = false;
     public gainConditions: Array<ConditionGain> = [];
     public gainFeatChoice: Array<FeatChoice> = [];
     public gainFormulaChoice: Array<FormulaChoice> = [];
-    public gainAncestry: Array<string> = [];
     public gainHeritage: Array<HeritageGain> = [];
     public gainItems: Array<ItemGain> = [];
     public gainLanguages: Array<LanguageGain> = [];
     public gainLoreChoice: Array<LoreChoice> = [];
     public gainSkillChoice: Array<SkillChoice> = [];
-    public gainSpellBookSlots: Array<{ spellBookSlots: Array<number>; className: string }> = [];
-    public gainSpellListSpells: Array<string> = [];
     public gainSpellCasting: Array<SpellCasting> = [];
     public gainSpellChoice: Array<SpellChoice> = [];
-    public gainDomains: Array<string> = [];
-    public hide = false;
     public hints: Array<Hint> = [];
-    public levelreq = 0;
-    public limited = 0;
-    public lorebase = '';
-    public name = '';
     public onceEffects: Array<EffectGain> = [];
-    public senses: Array<string> = [];
-    public shortdesc = '';
-    public skillreq: Array<FeatRequirements.SkillRequirement> = [];
-    public specialdesc = '';
-    public complexreq: Array<FeatRequirements.ComplexRequirement> = [];
-    public complexreqdesc = '';
-    public subType = '';
-    public subTypes = false;
-    public superType = '';
-    public tenets: Array<string> = [];
-    public traits: Array<string> = [];
-    public unlimited = false;
-    public usageNote = '';
-    public sourceBook = '';
     public allowSignatureSpells: Array<SignatureSpellGain> = [];
-    public PFSnote = '';
 
-    public recast(recastFns: RecastFns): Feat {
-        this.changeProficiency = this.changeProficiency.map(obj => Object.assign(new ProficiencyChange(), obj).recast());
-        this.copyProficiency = this.copyProficiency.map(obj => Object.assign(new ProficiencyCopy(), obj).recast());
-        this.bloodMagic = this.bloodMagic.map(obj => Object.assign(new BloodMagic(), obj).recast());
-        this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.gainAbilityChoice = this.gainAbilityChoice.map(obj => Object.assign(new AbilityChoice(), obj).recast());
-        this.gainSpecialization = this.gainSpecialization.map(obj => Object.assign(new SpecializationGain(), obj).recast());
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
-        this.gainFeatChoice = this.gainFeatChoice.map(obj => Object.assign(new FeatChoice(), obj).recast());
-        this.gainFormulaChoice = this.gainFormulaChoice.map(obj => Object.assign(new FormulaChoice(), obj).recast());
-        this.gainHeritage = this.gainHeritage.map(obj => Object.assign(new HeritageGain(), obj).recast());
+    public static from(values: DeepPartial<Feat>, recastFns: RecastFns): Feat {
+        return new Feat().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Feat>, recastFns: RecastFns): Feat {
+        assign(this, values, recastFns);
+
         this.gainHeritage.forEach(gainHeritage => {
             gainHeritage.source = this.name;
         });
-        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
-        this.gainLanguages = this.gainLanguages.map(obj => Object.assign(new LanguageGain(), obj).recast());
-        this.gainLoreChoice = this.gainLoreChoice.map(obj => Object.assign(new LoreChoice(), obj).recast());
-        this.gainSkillChoice = this.gainSkillChoice.map(obj => Object.assign(new SkillChoice(), obj).recast());
-        this.gainSpellCasting = this.gainSpellCasting.map(obj => Object.assign(new SpellCasting(obj.castingType), obj).recast());
-        this.gainSpellChoice = this.gainSpellChoice.map(obj => Object.assign(new SpellChoice(), obj).recast());
+
         this.gainSpellChoice.forEach(choice => {
             if (!choice.source) {
                 choice.source = `Feat: ${ this.name }`;
@@ -138,13 +225,17 @@ export class Feat {
                 });
             }
         });
-        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
-        this.allowSignatureSpells = this.allowSignatureSpells.map(obj => Object.assign(new SignatureSpellGain(), obj).recast());
 
         return this;
     }
 
+    public forExport(): DeepPartial<Feat> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Feat {
-        return Object.assign<Feat, Feat>(new Feat(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Feat.from(this, recastFns);
     }
 }

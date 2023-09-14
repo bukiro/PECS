@@ -7,8 +7,63 @@ import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtil
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { ActivityTargetOptions } from './Activity';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-export class Spell {
+const { assign, forExport } = setupSerializationWithHelpers<Spell>({
+    primitives: [
+        'actions',
+        'allowReturnFocusPoint',
+        'area',
+        'castType',
+        'cost',
+        'critfailure',
+        'critsuccess',
+        'desc',
+        'desc2',
+        'duration',
+        'durationDependsOnTarget',
+        'failure',
+        'id',
+        'inputRequired',
+        'levelreq',
+        'name',
+        'overrideHostile',
+        'PFSnote',
+        'range',
+        'savingThrow',
+        'shortDesc',
+        'sourceBook',
+        'success',
+        'sustained',
+        'target',
+        'targets',
+        'cannotTargetCaster',
+        'singleTarget',
+        'trigger',
+        'requirements',
+    ],
+    primitiveArrays: [
+        'traditions',
+        'traits',
+    ],
+    primitiveObjectArrays: [
+        'heightened',
+    ],
+    exportableArrays: {
+        gainConditions:
+            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+        gainItems:
+            () => obj => ItemGain.from({ ...obj }),
+        heightenedDescs:
+            () => obj => HeightenedDescSet.from({ ...obj }),
+        showSpells:
+            () => obj => SpellCast.from({ ...obj }),
+    },
+});
+
+export class Spell implements Serializable<Spell> {
     public actions = '1A';
     public allowReturnFocusPoint = false;
     public area = '';
@@ -16,7 +71,6 @@ export class Spell {
     public cost = '';
     public critfailure = '';
     public critsuccess = '';
-    public heightenedDescs: Array<HeightenedDescSet> = [];
     public desc = '';
     /** desc2 is displayed after the success levels. */
     public desc2 = '';
@@ -29,9 +83,6 @@ export class Spell {
      */
     public durationDependsOnTarget = false;
     public failure = '';
-    public gainConditions: Array<ConditionGain> = [];
-    public gainItems: Array<ItemGain> = [];
-    public heightened: Array<{ desc: string; level: string }> = [];
     public id = '';
     public inputRequired = '';
     public levelreq = 1;
@@ -45,7 +96,6 @@ export class Spell {
     public range = '';
     public savingThrow = '';
     public shortDesc = '';
-    public showSpells: Array<SpellCast> = [];
     public sourceBook = '';
     public success = '';
     /** Sustained spells are deactivated after this time (or permanent with -1, or when resting with -2). */
@@ -74,10 +124,18 @@ export class Spell {
      */
     public cannotTargetCaster = false;
     public singleTarget = false;
-    public traditions: Array<SpellTraditions | ''> = [];
-    public traits: Array<string> = [];
     public trigger = '';
     public requirements = '';
+
+    public traditions: Array<SpellTraditions | ''> = [];
+    public traits: Array<string> = [];
+
+    public heightened: Array<{ desc: string; level: string }> = [];
+
+    public gainConditions: Array<ConditionGain> = [];
+    public gainItems: Array<ItemGain> = [];
+    public heightenedDescs: Array<HeightenedDescSet> = [];
+    public showSpells: Array<SpellCast> = [];
     /**
      * The target number determines how many allies you can target with a non-hostile activity,
      * or how many enemies you can target with a hostile one (not actually implemented).
@@ -85,21 +143,28 @@ export class Spell {
      */
     public targetNumbers: Array<SpellTargetNumber> = [];
 
-    public recast(recastFns: RecastFns): Spell {
-        this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
-        this.gainConditions.forEach(conditionGain => {
-            conditionGain.source = this.name;
+    public static from(values: DeepPartial<Spell>, recastFns: RecastFns): Spell {
+        return new Spell().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Spell>, recastFns: RecastFns): Spell {
+        assign(this, values, recastFns);
+
+        this.gainConditions.forEach(gain => {
+            gain.source = this.name;
         });
-        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
-        this.showSpells = this.showSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
-        this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());
 
         return this;
     }
 
+    public forExport(): DeepPartial<Spell> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Spell {
-        return Object.assign<Spell, Spell>(new Spell(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Spell.from(this, recastFns);
     }
 
     public activationTraits(): Array<string> {

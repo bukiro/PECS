@@ -18,18 +18,90 @@ import { BehaviorSubject, Observable, combineLatest, map, of } from 'rxjs';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { Rune } from './Rune';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+
+const { assign, forExport } = setupSerializationWithHelpers<Equipment>({
+    primitives: [
+        'allowEquippable',
+        'equippable',
+        'broken',
+        'shoddy',
+        'carryingBulk',
+        'invested',
+        'moddable',
+        'showName',
+        'showRunes',
+        'showStatus',
+        'showChoicesInInventory',
+        'choice',
+        'equipped',
+        'potencyRune',
+        'resilientRune',
+        'strikingRune',
+    ],
+    primitiveArrays: [
+        'gainSenses',
+        'choices',
+    ],
+    exportableArrays: {
+        effects:
+            () => obj => EffectGain.from({ ...obj }),
+        gainActivities:
+            recastFns => obj => ActivityGain.from({
+                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+            }),
+        gainInventory:
+            () => obj => InventoryGain.from({ ...obj }),
+        gainConditions:
+            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+        gainSpells:
+            () => obj => SpellChoice.from({ ...obj }),
+        hints:
+            () => obj => Hint.from({ ...obj }),
+        activities:
+            recastFns => obj => ItemActivity.from({ ...obj }, recastFns),
+    },
+    messageExportableArrays: {
+        talismans:
+            recastFns => obj => recastFns.getItemPrototype<Talisman>({ ...obj }, { type: 'talismans' }).with({ ...obj }, recastFns),
+        talismanCords:
+            recastFns => obj => recastFns.getItemPrototype<WornItem>({ ...obj }, { type: 'wornitems' }).with({ ...obj }, recastFns),
+        bladeAllyRunes:
+            recastFns => obj => recastFns.getItemPrototype<WeaponRune>({ ...obj }, { type: 'weaponrunes' }).with({ ...obj }, recastFns),
+    },
+});
 
 export abstract class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
     public allowEquippable = true;
     //Equipment can normally be equipped.
     public equippable = true;
-    /** Describe all activities that you gain from this item. The activity must be a fully described "Activity" type object */
-    public activities: Array<ItemActivity> = [];
     public broken = false;
     public shoddy = false;
     /** Some items have a different bulk when you are carrying them instead of wearing them, like backpacks */
     public carryingBulk = '';
+    /** Is the item currently invested - items without the Invested trait are always invested and don't count against the limit. */
+    //TODO: Invested needs to be reactive.
+    public invested = false;
+    /**
+     * Can runes and material be applied to this item? Armor, shields,
+     * weapons and handwraps of mighty blows can usually be modded, but other equipment and specific magic versions of them should not.
+     */
+    public moddable = false;
+    /** Is the name input visible in the inventory. */
+    public showName = false;
+    /** Is the rune selection visible in the inventory. */
+    public showRunes = false;
+    /** Is the status selection visible in the inventory. */
+    public showStatus = false;
+    public showChoicesInInventory = false;
+    public choice = '';
+
+    /** List any senses you gain when the item is equipped or invested. */
+    public gainSenses: Array<string> = [];
+    public choices: Array<string> = [];
+
     /** List EffectGain for every Effect that comes from equipping and investing the item */
     public effects: Array<EffectGain> = [];
     /** Name any common activity that becomes available when you equip and invest this item. */
@@ -47,41 +119,24 @@ export abstract class Equipment extends Item {
      * What hints should show up for this item? If no hint is set, desc will show instead.
      */
     public hints: Array<Hint> = [];
-    /** Is the item currently invested - items without the Invested trait are always invested and don't count against the limit. */
-    //TODO: Invested needs to be reactive.
-    public invested = false;
-    /**
-     * Can runes and material be applied to this item? Armor, shields,
-     * weapons and handwraps of mighty blows can usually be modded, but other equipment and specific magic versions of them should not.
-     */
-    public moddable = false;
-    /** Is the name input visible in the inventory. */
-    public showName = false;
-    /** Is the rune selection visible in the inventory. */
-    public showRunes = false;
-    /** Is the status selection visible in the inventory. */
-    public showStatus = false;
+    /** Describe all activities that you gain from this item. The activity must be a fully described "Activity" type object */
+    public activities: Array<ItemActivity> = [];
     /** Store any talismans attached to this item. */
     public talismans: Array<Talisman> = [];
     /** List any Talisman Cords attached to this item. */
     public talismanCords: Array<WornItem> = [];
-    /** List any senses you gain when the item is equipped or invested. */
-    public gainSenses: Array<string> = [];
-    public showChoicesInInventory = false;
-    public choices: Array<string> = [];
-    public choice = '';
 
     public equipped$: BehaviorSubject<boolean>;
     public potencyRune$: BehaviorSubject<BasicRuneLevels>;
     public resilientRune$: BehaviorSubject<BasicRuneLevels>;
     public strikingRune$: BehaviorSubject<BasicRuneLevels>;
 
+    protected _propertyRunes = new OnChangeArray<Rune>();
+    protected _material = new OnChangeArray<Material>();
     private _equipped = false;
-    private readonly _material = new OnChangeArray<Material>();
     private _potencyRune = BasicRuneLevels.None;
     private _strikingRune = BasicRuneLevels.None;
     private _resilientRune = BasicRuneLevels.None;
-    private readonly _propertyRunes = new OnChangeArray<Rune>();
     private readonly _bladeAllyRunes = new OnChangeArray<WeaponRune>();
 
     constructor() {
@@ -168,15 +223,14 @@ export abstract class Equipment extends Item {
 
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = secondary => secondary.toString();
 
-    public recast(recastFns: RecastFns): Equipment {
-        super.recast(recastFns);
-        this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast(recastFns));
+    public with(values: DeepPartial<Equipment>, recastFns: RecastFns): Equipment {
+        super.with(values, recastFns);
+        assign(this, values, recastFns);
+
         this.activities.forEach(activity => { activity.source = this.id; });
-        this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.gainActivities = this.gainActivities.map(obj => recastFns.activityGain(obj).recast(recastFns));
+
         this.gainActivities.forEach(gain => { gain.source = this.id; });
-        this.gainInventory = this.gainInventory.map(obj => Object.assign(new InventoryGain(), obj).recast());
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
+
         this.gainConditions.forEach(conditionGain => {
             if (!conditionGain.source) {
                 conditionGain.source = this.name;
@@ -184,7 +238,7 @@ export abstract class Equipment extends Item {
 
             conditionGain.fromItem = true;
         });
-        this.gainSpells = this.gainSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
+
         this.gainSpells.forEach(choice => {
             if (!choice.castingType) {
                 choice.castingType = SpellCastingTypes.Innate;
@@ -195,27 +249,19 @@ export abstract class Equipment extends Item {
                 gain.source = choice.source;
             });
         });
-        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
-        this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
-        this.bladeAllyRunes =
-            this.bladeAllyRunes.map(obj =>
-                Object.assign(new WeaponRune(), recastFns.item(obj)).recast(recastFns));
-        this.talismans =
-            this.talismans.map(obj =>
-                Object.assign(
-                    new Talisman(),
-                    recastFns.item(obj),
-                ).recast(recastFns),
-            );
-        //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
-        this.talismanCords =
-            this.talismanCords.map(obj => recastFns.item(obj, { type: 'wornitems' }).recast(recastFns));
 
         if (this.choices.length && !this.choices.includes(this.choice)) {
             this.choice = this.choices[0];
         }
 
         return this;
+    }
+
+    public forExport(): DeepPartial<Equipment> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
     }
 
     public isEquipment(): this is Equipment { return true; }

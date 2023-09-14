@@ -121,13 +121,12 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
                 switchMap(item =>
                     combineLatest([
                         of(item),
-                        item.runesChanged$,
                         CreatureService.character$,
                         CharacterFlatteningService.characterLevel$,
                     ]),
 
                 ),
-                switchMap(([item, _, character, charLevel]) =>
+                switchMap(([item, character, charLevel]) =>
                     (
                         this.craftingStation
                             ? this._skillValuesService.level$('Crafting', character)

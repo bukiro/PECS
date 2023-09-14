@@ -53,9 +53,9 @@ export class ItemInitializationService {
 
         //Clone the item into a new item to lose all references; If it hasn't been cast yet, it is cast by its type.
         if (options.preassigned) {
-            newItem = (item as T).clone(this._recastService.recastOnlyFns) as T;
+            newItem = (item as T).clone(this._recastService.recastFns) as T;
         } else {
-            newItem = this._typeService.castItemByType<T>(item, item.type).clone(this._recastService.recastOnlyFns) as T;
+            newItem = this._typeService.getPrototypeItem<T>(item, item.type).clone(this._recastService.recastFns) as T;
         }
 
         //Optionally, a new ID is assigned and updated on the item's activities and their spell gains.
@@ -89,7 +89,7 @@ export class ItemInitializationService {
             this._restoreRunesAndMaterials(newItem);
         }
 
-        newItem = newItem.recast(this._recastService.recastOnlyFns) as T;
+        newItem = newItem.recast(this._recastService.recastFns) as T;
 
         //Disable all hints.
         if (newItem.isEquipment()) {
@@ -115,7 +115,7 @@ export class ItemInitializationService {
                 .find(weaponRune => weaponRune.name === newItem.runeEffect?.name);
 
             if (rune) {
-                newItem.runeEffect = rune.clone(this._recastService.recastOnlyFns);
+                newItem.runeEffect = rune.clone(this._recastService.recastFns);
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += ` (${ newItem.name })`; });
             }
         }

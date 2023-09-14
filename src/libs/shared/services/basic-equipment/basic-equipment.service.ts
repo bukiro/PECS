@@ -83,8 +83,8 @@ export class BasicEquipmentService {
     }
 
     public setBasicItems(weapon: Weapon, armor: Armor): void {
-        const newBasicWeapon: Weapon = weapon.clone(this._recastService.recastOnlyFns);
-        const newBasicArmor: Armor = armor.clone(this._recastService.recastOnlyFns);
+        const newBasicWeapon: Weapon = weapon.clone(this._recastService.recastFns);
+        const newBasicArmor: Armor = armor.clone(this._recastService.recastFns);
 
         this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
     }

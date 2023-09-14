@@ -159,7 +159,7 @@ export class ItemBladeAllyComponent extends TrackByMixin(BaseClass) implements O
             //Then add the new rune to the item.
             if (rune.name !== '') {
                 //Add a copy of the rune to the item
-                weapon.bladeAllyRunes[0] = rune.clone(this._recastService.recastOnlyFns);
+                weapon.bladeAllyRunes[0] = rune.clone(this._recastService.recastFns);
                 weapon.bladeAllyRunes[0].amount = 1;
             }
         }

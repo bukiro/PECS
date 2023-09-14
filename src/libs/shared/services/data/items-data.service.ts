@@ -52,6 +52,8 @@ import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImpo
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { Constructable } from 'src/libs/shared/definitions/interfaces/constructable';
 import { DataService } from './data.service';
+import { DeepPartial } from '../../definitions/types/deepPartial';
+import { ItemTypes } from '../../definitions/types/item-types';
 
 @Injectable({
     providedIn: 'root',
@@ -222,8 +224,8 @@ export class ItemsDataService {
         this._typeService.registerItemCasting(WornItem);
 
         //Make a copy of clean items for shop items and crafting items.
-        this._storeItems = this._cleanItems.clone(this._recastService.recastOnlyFns);
-        this._craftingItems = this._cleanItems.clone(this._recastService.recastOnlyFns);
+        this._storeItems = this._cleanItems.clone(this._recastService.recastFns);
+        this._craftingItems = this._cleanItems.clone(this._recastService.recastFns);
 
         this._initialized = true;
 
@@ -232,8 +234,8 @@ export class ItemsDataService {
 
     public reset(): void {
         //Reset items and crafting items from clean items.
-        this._storeItems = this._cleanItems.clone(this._recastService.recastOnlyFns);
-        this._craftingItems = this._cleanItems.clone(this._recastService.recastOnlyFns);
+        this._storeItems = this._cleanItems.clone(this._recastService.recastFns);
+        this._craftingItems = this._cleanItems.clone(this._recastService.recastFns);
     }
 
     private _setBasicItems(): void {
@@ -253,12 +255,12 @@ export class ItemsDataService {
 
     private _registerRecastFns(): void {
         const itemRestoreFn =
-            <T extends Item>(obj: T, options: { type?: string; skipMerge?: boolean } = {}): T =>
-                this._typeService.restoreItem(obj, this, options);
+            <T extends Item>(obj: DeepPartial<T>, options: { type?: ItemTypes; prototype?: T } = {}): T =>
+                this._typeService.getReferenceItem<T>(obj, this, options);
 
         const itemRecastFn =
-            <T extends Item>(obj: T, options: { type?: string; skipMerge?: boolean } = {}): T =>
-                this._typeService.castItemByType<T>(obj, options.type);
+            <T extends Item>(obj: DeepPartial<T>, options: { type?: ItemTypes; prototype?: T } = {}): T =>
+                this._typeService.getPrototypeItem<T>(obj, options);
 
         this._recastService.registerItemRecastFns(itemRestoreFn, itemRecastFn);
     }

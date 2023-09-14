@@ -1,17 +1,42 @@
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class BloodMagic {
+const { assign, forExport } = setupSerialization<BloodMagic>({
+    primitives: [
+        'condition', 'duration', 'neutralPhrase',
+    ],
+    primitiveArrays: [
+        'sourceTrigger', 'trigger',
+    ],
+});
+
+export class BloodMagic implements Serializable<BloodMagic> {
     public condition = '';
     public duration = TimePeriods.Turn;
-    public sourceTrigger: Array<string> = [];
-    public trigger: Array<string> = [];
     public neutralPhrase = false;
 
-    public recast(): BloodMagic {
+    public sourceTrigger: Array<string> = [];
+    public trigger: Array<string> = [];
+
+    public static from(values: DeepPartial<BloodMagic>): BloodMagic {
+        return new BloodMagic().with(values);
+    }
+
+    public with(values: DeepPartial<BloodMagic>): BloodMagic {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<BloodMagic> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): BloodMagic {
-        return Object.assign<BloodMagic, BloodMagic>(new BloodMagic(), JSON.parse(JSON.stringify(this))).recast();
+        return BloodMagic.from(this);
     }
 }

@@ -1,15 +1,41 @@
-export class Domain {
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
+
+const { assign, forExport } = setupSerialization<Domain>({
+    primitives: [
+        'name',
+        'desc',
+        'domainSpell',
+        'advancedDomainSpell',
+        'sourceBook',
+    ],
+});
+
+export class Domain implements Serializable<Domain> {
     public name = '';
     public desc = '';
     public domainSpell = '';
     public advancedDomainSpell = '';
     public sourceBook = '';
 
-    public recast(): Domain {
+    public static from(values: DeepPartial<Domain>): Domain {
+        return new Domain().with(values);
+    }
+
+    public with(values: DeepPartial<Domain>): Domain {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<Domain> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): Domain {
-        return Object.assign<Domain, Domain>(new Domain(), JSON.parse(JSON.stringify(this))).recast();
+        return Domain.from(this);
     }
 }

@@ -1,21 +1,48 @@
 import { Hint } from 'src/app/classes/Hint';
 import { EffectGain } from './EffectGain';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-export class Specialization {
+const { assign, forExport } = setupSerialization<Specialization>({
+    primitives: [
+        'desc',
+        'name',
+        'type',
+    ],
+    exportableArrays: {
+        effects:
+            () => obj => EffectGain.from({ ...obj }),
+        hints:
+            () => obj => Hint.from({ ...obj }),
+    },
+});
+
+export class Specialization implements Serializable<Specialization> {
     public desc = '';
-    public effects: Array<EffectGain> = [];
-    public hints: Array<Hint> = [];
     public name = '';
     public type = '';
 
-    public recast(): Specialization {
-        this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+    public effects: Array<EffectGain> = [];
+    public hints: Array<Hint> = [];
+
+    public static from(values: DeepPartial<Specialization>): Specialization {
+        return new Specialization().with(values);
+    }
+
+    public with(values: DeepPartial<Specialization>): Specialization {
+        assign(this, values);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Specialization> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): Specialization {
-        return Object.assign<Specialization, Specialization>(new Specialization(), JSON.parse(JSON.stringify(this))).recast();
+        return Specialization.from(this);
     }
 }

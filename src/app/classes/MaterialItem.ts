@@ -1,17 +1,24 @@
 import { Item } from 'src/app/classes/Item';
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 
-export class MaterialItem extends Item {
+export class MaterialItem extends Item implements MessageSerializable<MaterialItem> {
     //Material Items should be type "materialitems" to be found in the database
-    public readonly type = 'materialitems';
+    public readonly type: ItemTypes = 'materialitems';
 
-    public recast(recastFns: RecastFns): MaterialItem {
-        super.recast(recastFns);
+    public static from(values: DeepPartial<MaterialItem>, recastFns: RecastFns): MaterialItem {
+        return new MaterialItem().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<MaterialItem>, recastFns: RecastFns): MaterialItem {
+        super.with(values, recastFns);
 
         return this;
     }
 
     public clone(recastFns: RecastFns): MaterialItem {
-        return Object.assign<MaterialItem, MaterialItem>(new MaterialItem(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return MaterialItem.from(this, recastFns);
     }
 }

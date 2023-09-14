@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Constructable } from 'src/libs/shared/definitions/interfaces/constructable';
-import { Recastable } from 'src/libs/shared/definitions/interfaces/recastable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataService } from './data.service';
+import { FromCastable } from '../../definitions/interfaces/from-constructable';
 
 type SingleIdentifier = 'id' | 'name';
 
@@ -20,31 +19,17 @@ export class DataLoadingService {
         private readonly _recastService: RecastService,
     ) { }
 
-    public loadRecastable<T extends Recastable<T>>(
+    public loadCastable<T extends object>(
         data: ImportedJsonFileList<T>,
         target: string,
         identifier: SingleIdentifier | MultipleIdentifiers,
-        constructor: Constructable<T>,
+        constructor: FromCastable<T>,
     ): Array<T> {
         return this._load(
             data,
             target,
             identifier,
-            (entry: DeepPartial<T>) => Object.assign(new constructor(), entry).recast(this._recastService.restoreFns),
-        );
-    }
-
-    public loadNonRecastable<T extends object>(
-        data: ImportedJsonFileList<T>,
-        target: string,
-        identifier: SingleIdentifier | MultipleIdentifiers,
-        constructor: Constructable<T>,
-    ): Array<T> {
-        return this._load(
-            data,
-            target,
-            identifier,
-            (entry: DeepPartial<T>) => Object.assign(new constructor(), entry),
+            (entry: DeepPartial<T>) => constructor.from(entry, this._recastService.restoreFns),
         );
     }
 

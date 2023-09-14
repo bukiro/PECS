@@ -10,8 +10,33 @@ import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { Observable, combineLatest, map, switchMap } from 'rxjs';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { Equipment } from './Equipment';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-export class Trait {
+const { assign, forExport } = setupSerializationWithHelpers<Trait>({
+    primitives: [
+        'desc',
+        'effectDesc',
+        'dynamic',
+        'dynamicDefault',
+        'name',
+        'extraActivations',
+        'sourceBook',
+    ],
+    exportableArrays: {
+        gainActivities:
+            recastFns => obj => ActivityGain.from({
+                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+            }),
+        hints:
+            () => obj => Hint.from({ ...obj }),
+        objectEffects:
+            () => obj => EffectGain.from({ ...obj }),
+    },
+});
+
+export class Trait implements Serializable<Trait> {
     public desc = '';
     /**
      * effectDesc describes how to use the trait's effects, if needed.
@@ -20,16 +45,7 @@ export class Trait {
     public effectDesc = '';
     public dynamic = false;
     public dynamicDefault = DiceSizes.D6;
-    /** Name any common activity that becomes available when you equip and invest an item with this trait. */
-    public gainActivities: Array<ActivityGain> = [];
     public name = '';
-    public hints: Array<Hint> = [];
-    /**
-     * Object effects apply only to the object that is bearing this trait,
-     * and are evaluated within the object instead of the effects service.
-     * Whether they are activated or not is saved in the object and accessed with 'active' in calculations.
-     */
-    public objectEffects: Array<EffectGain> = [];
     /**
      * If extraActivations is 1 through 4, up to four more activation boxes are shown to control the object effects.
      * Their state can be accessed with 'active2' through 'active5' in calculations.
@@ -37,16 +53,34 @@ export class Trait {
     public extraActivations = 0;
     public sourceBook = '';
 
-    public recast(recastFns: RecastFns): Trait {
-        this.gainActivities = this.gainActivities.map(obj => recastFns.activityGain(obj).recast(recastFns));
-        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
-        this.objectEffects = this.objectEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
+    /** Name any common activity that becomes available when you equip and invest an item with this trait. */
+    public gainActivities: Array<ActivityGain> = [];
+    public hints: Array<Hint> = [];
+    /**
+     * Object effects apply only to the object that is bearing this trait,
+     * and are evaluated within the object instead of the effects service.
+     * Whether they are activated or not is saved in the object and accessed with 'active' in calculations.
+     */
+    public objectEffects: Array<EffectGain> = [];
+
+    public static from(values: DeepPartial<Trait>, recastFns: RecastFns): Trait {
+        return new Trait().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Trait>, recastFns: RecastFns): Trait {
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Trait> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Trait {
-        return Object.assign<Trait, Trait>(new Trait(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Trait.from(this, recastFns);
     }
 
     /**

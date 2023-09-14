@@ -48,7 +48,7 @@ export class AnimalCompanionsDataService {
 
     public initialize(): void {
         this._companionAncestries =
-            this._dataLoadingService.loadRecastable(
+            this._dataLoadingService.loadCastable(
                 json_ancestries as ImportedJsonFileList<AnimalCompanionAncestry>,
                 'companionAncestries',
                 'name',
@@ -57,7 +57,7 @@ export class AnimalCompanionsDataService {
         this._ancestriesInitialized = true;
 
         this._companionLevels =
-            this._dataLoadingService.loadRecastable(
+            this._dataLoadingService.loadCastable(
                 json_levels,
                 'companionLevels',
                 'name',
@@ -68,7 +68,7 @@ export class AnimalCompanionsDataService {
         this._levelsInitialized = true;
 
         this._companionSpecializations =
-            this._dataLoadingService.loadRecastable(
+            this._dataLoadingService.loadCastable(
                 json_specializations as ImportedJsonFileList<AnimalCompanionSpecialization>,
                 'companionSpecializations',
                 'name',

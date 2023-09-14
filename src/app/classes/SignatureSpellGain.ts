@@ -1,14 +1,37 @@
-export class SignatureSpellGain {
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
+
+const { assign, forExport } = setupSerialization<SignatureSpellGain>({
+    primitives: [
+        'className',
+        'available',
+    ],
+});
+
+export class SignatureSpellGain implements Serializable<SignatureSpellGain> {
     /** You can assign signature spells for spontaneous spell slots for this class. */
     public className = '';
     /** You can assign this amount of signature spells, where -1 is unlimited. */
     public available = 0;
 
-    public recast(): SignatureSpellGain {
+    public static from(values: DeepPartial<SignatureSpellGain>): SignatureSpellGain {
+        return new SignatureSpellGain().with(values);
+    }
+
+    public with(values: DeepPartial<SignatureSpellGain>): SignatureSpellGain {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<SignatureSpellGain> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): SignatureSpellGain {
-        return Object.assign<SignatureSpellGain, SignatureSpellGain>(new SignatureSpellGain(), JSON.parse(JSON.stringify(this))).recast();
+        return SignatureSpellGain.from(this);
     }
 }

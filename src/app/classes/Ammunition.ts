@@ -2,11 +2,25 @@ import { Observable, of } from 'rxjs';
 import { Consumable } from 'src/app/classes/Consumable';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-export class Ammunition extends Consumable {
+const { assign, forExport, forMessage } = setupSerializationWithHelpers<Ammunition>({
+    primitives: [
+        'actions',
+        'ammunition',
+    ],
+    exportableArrays: {
+        activities:
+            recastFns => obj => ItemActivity.from({ ...obj }, recastFns),
+    },
+});
+
+export class Ammunition extends Consumable implements MessageSerializable<Ammunition> {
     //Ammunition should be type "ammunition" to be found in the database
-    public readonly type = 'ammunition';
-    public activities: Array<ItemActivity> = [];
+    public readonly type: ItemTypes = 'ammunition';
     public actions = '';
     /**
      * The ammunition group, in order to identify suitable weapons.
@@ -14,17 +28,35 @@ export class Ammunition extends Consumable {
      */
     public ammunition = '';
 
-    public recast(recastFns: RecastFns): Ammunition {
-        super.recast(recastFns);
-        this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast(recastFns));
+    public activities: Array<ItemActivity> = [];
+
+    public static from(values: DeepPartial<Ammunition>, recastFns: RecastFns): Ammunition {
+        return new Ammunition().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Ammunition>, recastFns: RecastFns): Ammunition {
+        super.with(values, recastFns);
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Ammunition> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<Ammunition> {
+        return {
+            ...super.forMessage(),
+            ...forMessage(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Ammunition {
-        return Object.assign<Ammunition, Ammunition>(
-            new Ammunition(), JSON.parse(JSON.stringify(this)),
-        ).recast(recastFns);
+        return Ammunition.from(this, recastFns);
     }
 
     public isAmmunition(): this is Ammunition { return true; }

@@ -11,10 +11,56 @@ import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/emblazon-armament-set';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-export class Weapon extends Equipment {
+const { assign, forExport, forMessage } = setupSerializationWithHelpers<Weapon>({
+    primitives: [
+        'type',
+        'moddable',
+        'ammunition',
+        'criticalHint',
+        'dicenum',
+        'dicesize',
+        'dmgType',
+        'extraDamage',
+        'group',
+        'hands',
+        'melee',
+        'prof',
+        'ranged',
+        'reload',
+        'weaponBase',
+        'dexterityBased',
+        'useHighestAttackProficiency',
+        'battleforged',
+        'bladeAlly',
+        'large',
+    ],
+    primitiveObjects: [
+        'emblazonArmament',
+    ],
+    exportableArrays: {
+        material:
+            () => obj => WeaponMaterial.from({ ...obj }),
+    },
+    messageExportableArrays: {
+        propertyRunes:
+            recastFns => obj =>
+                recastFns.getItemPrototype<WeaponRune>({ ...obj }, { type: 'weaponrunes' })
+                    .with({ ...obj }, recastFns),
+        poisonsApplied:
+            recastFns => obj =>
+                recastFns.getItemPrototype<AlchemicalPoison>({ ...obj }, { type: 'alchemicalpoisons' })
+                    .with({ ...obj }, recastFns),
+    },
+});
+
+export class Weapon extends Equipment implements MessageSerializable<Weapon> {
     //Weapons should be type "weapons" to be found in the database
-    public type = 'weapons';
+    public type: ItemTypes = 'weapons';
     //Weapons are usually moddable.
     public moddable = true;
     /** What type of ammo is used? (Bolts, arrows...) */
@@ -52,17 +98,19 @@ export class Weapon extends Equipment {
     public dexterityBased = false;
     /** If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency. */
     public useHighestAttackProficiency = false;
+
     /** Shoddy weapons take a -2 penalty to attacks. */
     public effectiveShoddy$ = new BehaviorSubject<ShoddyPenalties>(ShoddyPenalties.NotShoddy);
-
     //TO-DO: This should be a true observable and update when it has reason to.
     // I'm not sure how, because it relies on the deity service.
     public effectiveEmblazonArmament$ = new BehaviorSubject<EmblazonArmamentSet | undefined>(undefined);
 
     public readonly battleforged$: BehaviorSubject<boolean>;
     public readonly bladeAlly$: BehaviorSubject<boolean>;
-    public readonly emblazonArmament$: BehaviorSubject<EmblazonArmamentSet | undefined>;
     public readonly large$: BehaviorSubject<boolean>;
+
+    public readonly emblazonArmament$: BehaviorSubject<EmblazonArmamentSet | undefined>;
+
     public readonly weaponMaterial$: Observable<Array<WeaponMaterial>>;
     public readonly weaponRunes$: Observable<Array<WeaponRune>>;
 
@@ -70,9 +118,11 @@ export class Weapon extends Equipment {
 
     private _battleforged = false;
     private _bladeAlly = false;
-    private readonly _poisonsApplied = new OnChangeArray<AlchemicalPoison>();
-    private _emblazonArmament?: EmblazonArmamentSet | undefined = undefined;
     private _large = false;
+
+    private _emblazonArmament?: EmblazonArmamentSet | undefined = undefined;
+
+    private readonly _poisonsApplied = new OnChangeArray<AlchemicalPoison>();
 
     constructor() {
         super();
@@ -150,25 +200,41 @@ export class Weapon extends Equipment {
         this.strikingRune = value;
     }
 
-    public get weaponRunes(): Array<WeaponRune> {
+    public get weaponRunes(): Readonly<Array<WeaponRune>> {
         return this.propertyRunes.filter((rune): rune is WeaponRune => rune.isWeaponRune());
     }
 
-    public get weaponMaterial(): Array<WeaponMaterial> {
+    public get weaponMaterial(): Readonly<Array<WeaponMaterial>> {
         return this.material.filter((material): material is WeaponMaterial => material.isWeaponMaterial());
     }
 
-    public recast(recastFns: RecastFns): Weapon {
-        super.recast(recastFns);
-        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign(new AlchemicalPoison(), recastFns.item(obj)).recast(recastFns));
-        this.material = this.material.map(obj => Object.assign(new WeaponMaterial(), obj).recast());
-        this.propertyRunes = this.propertyRunes.map(obj => Object.assign(new WeaponRune(), recastFns.item(obj)).recast(recastFns));
+    public static from(values: DeepPartial<Weapon>, recastFns: RecastFns): Weapon {
+        return new Weapon().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Weapon>, recastFns: RecastFns): Weapon {
+        super.with(values, recastFns);
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Weapon> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<Weapon> {
+        return {
+            ...super.forMessage(),
+            ...forMessage(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Weapon {
-        return Object.assign<Weapon, Weapon>(new Weapon(), JSON.parse(JSON.stringify({ ...this, runesChanged$: null }))).recast(recastFns);
+        return Weapon.from(this, recastFns);
     }
 
     public isWeapon(): this is Weapon { return true; }

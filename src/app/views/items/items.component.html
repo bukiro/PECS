@@ -433,12 +433,12 @@
                                                                     ></app-item-talismans>
                                                                 </ng-container>
 
-                                                                <ng-container *ngIf="selectedPurpose()==='scrollsavant' && shownCreature()===creatureTypesEnum.Character && (scrollSavantSpellDCLevel$() | async) as available">
+                                                                <ng-container *ngIf="itemParameters.asScroll && selectedPurpose()==='scrollsavant' && shownCreature()===creatureTypesEnum.Character && (scrollSavantSpellDCLevel$() | async) as available">
                                                                     <button
                                                                         type="button"
                                                                         class="newrow center-aligned"
                                                                         *ngIf="scrollSavantSpellCasting$() | async as scrollSavantCasting"
-                                                                        (click)="prepareScrollSavantScroll(itemParameters.item)"
+                                                                        (click)="prepareScrollSavantScroll(itemParameters.asScroll)"
                                                                         [disabled]="(scrollSavantCasting?.scrollSavant?.length || 0) >= available / 2"
                                                                     >
                                                                         Select scroll for daily creation

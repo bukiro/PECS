@@ -29,43 +29,144 @@ import { MaterialItem } from './MaterialItem';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject, Observable, map, combineLatest } from 'rxjs';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-export class ItemCollection {
-    /** These are all the keys of the item lists in this ItemCollection.
-     * They are used to verify that itemsOfType(key) can and should return an item list.
-     */
-    private static readonly _itemListsKeys: Array<string> = [
-        'adventuringgear',
-        'alchemicalbombs',
-        'alchemicalelixirs',
-        'alchemicalpoisons',
-        'alchemicaltools',
-        'ammunition',
-        'armorrunes',
-        'armors',
-        'helditems',
-        'materialitems',
-        'oils',
-        'otherconsumables',
-        'otherconsumablesbombs',
-        'potions',
-        'scrolls',
-        'shields',
-        'snares',
-        'talismans',
-        'wands',
-        'weaponrunes',
-        'weapons',
-        'wornitems',
-    ];
+/** These are all the keys of the item lists in this ItemCollection.
+ * They are used to verify that this[key] can and should return an item list.
+ */
+const itemListsKeys: Array<ItemTypes> = [
+    'adventuringgear',
+    'alchemicalbombs',
+    'alchemicalelixirs',
+    'alchemicalpoisons',
+    'alchemicaltools',
+    'ammunition',
+    'armorrunes',
+    'armors',
+    'helditems',
+    'materialitems',
+    'oils',
+    'otherconsumables',
+    'otherconsumablesbombs',
+    'potions',
+    'scrolls',
+    'shields',
+    'snares',
+    'talismans',
+    'wands',
+    'weaponrunes',
+    'weapons',
+    'wornitems',
+];
 
-    //This is the amount of bulk that can be ignored when weighing this inventory.
-    public bulkReduction = 0;
-    public id = uuidv4();
-    //If an item grants an inventory, this is the item's ID.
-    public itemId = '';
+const { assign, forExport, forMessage } = setupSerializationWithHelpers<ItemCollection>({
+    primitives: [
+        'bulkReduction',
+        'id',
+        'itemId',
+        'touched',
+        'bulkLimit',
+    ],
+    messageExportableArrays: {
+        adventuringgear:
+            recastFns => obj =>
+                recastFns.getItemPrototype<AdventuringGear>({ ...obj }, { type: 'adventuringgear' })
+                    .with({ ...obj }, recastFns),
+        alchemicalbombs:
+            recastFns => obj =>
+                recastFns.getItemPrototype<AlchemicalBomb>({ ...obj }, { type: 'alchemicalbombs' })
+                    .with({ ...obj }, recastFns),
+        alchemicalelixirs:
+            recastFns => obj =>
+                recastFns.getItemPrototype<AlchemicalElixir>({ ...obj }, { type: 'alchemicalelixirs' })
+                    .with({ ...obj }, recastFns),
+        alchemicalpoisons:
+            recastFns => obj =>
+                recastFns.getItemPrototype<AlchemicalPoison>({ ...obj }, { type: 'alchemicalpoisons' })
+                    .with({ ...obj }, recastFns),
+        alchemicaltools:
+            recastFns => obj =>
+                recastFns.getItemPrototype<AlchemicalTool>({ ...obj }, { type: 'alchemicaltools' })
+                    .with({ ...obj }, recastFns),
+        ammunition:
+            recastFns => obj =>
+                recastFns.getItemPrototype<Ammunition>({ ...obj }, { type: 'ammunition' })
+                    .with({ ...obj }, recastFns),
+        armorrunes:
+            recastFns => obj =>
+                recastFns.getItemPrototype<ArmorRune>({ ...obj }, { type: 'armorrunes' })
+                    .with({ ...obj }, recastFns),
+        armors:
+            recastFns => obj =>
+                recastFns.getItemPrototype<Armor>({ ...obj }, { type: 'armors' })
+                    .with({ ...obj }, recastFns),
+        helditems:
+            recastFns => obj =>
+                recastFns.getItemPrototype<HeldItem>({ ...obj }, { type: 'helditems' })
+                    .with({ ...obj }, recastFns),
+        materialitems:
+            recastFns => obj =>
+                recastFns.getItemPrototype<MaterialItem>({ ...obj }, { type: 'materialitems' })
+                    .with({ ...obj }, recastFns),
+        oils:
+            recastFns => obj =>
+                recastFns.getItemPrototype<Oil>({ ...obj }, { type: 'oils' })
+                    .with({ ...obj }, recastFns),
+        otherconsumables:
+            recastFns => obj =>
+                recastFns.getItemPrototype<OtherConsumable>({ ...obj }, { type: 'otherconsumables' })
+                    .with({ ...obj }, recastFns),
+        otherconsumablesbombs:
+            recastFns => (obj =>
+                recastFns.getItemPrototype<OtherConsumableBomb>({ ...obj }, { type: 'otherconsumablesbombs' })
+                    .with({ ...obj }, recastFns)
+            ),
+        otheritems:
+            () => obj => OtherItem.from({ ...obj }),
+        potions:
+            recastFns => obj =>
+                recastFns.getItemPrototype<Potion>({ ...obj }, { type: 'potions' })
+                    .with({ ...obj }, recastFns),
+        scrolls:
+            recastFns => obj =>
+                recastFns.getItemPrototype<Scroll>({ ...obj }, { type: 'scrolls' })
+                    .with({ ...obj }, recastFns),
+        shields:
+            recastFns => obj =>
+                recastFns.getItemPrototype<Shield>({ ...obj }, { type: 'shields' })
+                    .with({ ...obj }, recastFns),
+        snares:
+            recastFns => obj =>
+                recastFns.getItemPrototype<Snare>({ ...obj }, { type: 'snares' })
+                    .with({ ...obj }, recastFns),
+        talismans:
+            recastFns => obj =>
+                recastFns.getItemPrototype<Talisman>({ ...obj }, { type: 'talismans' })
+                    .with({ ...obj }, recastFns),
+        wands:
+            recastFns => obj =>
+                recastFns.getItemPrototype<Wand>({ ...obj }, { type: 'wands' })
+                    .with({ ...obj }, recastFns),
+        weaponrunes:
+            recastFns => obj =>
+                recastFns.getItemPrototype<WeaponRune>({ ...obj }, { type: 'weaponrunes' })
+                    .with({ ...obj }, recastFns),
+        weapons:
+            recastFns => obj =>
+                recastFns.getItemPrototype<Weapon>({ ...obj }, { type: 'weapons' })
+                    .with({ ...obj }, recastFns),
+        wornitems:
+            recastFns => obj =>
+                recastFns.getItemPrototype<WornItem>({ ...obj }, { type: 'wornitems' })
+                    .with({ ...obj }, recastFns),
+    },
+});
 
-    public readonly names: Array<{ name: string; key: keyof ItemCollection }> = [
+export class ItemCollection implements MessageSerializable<ItemCollection> {
+    public static readonly names: Array<{ name: string; key: keyof ItemCollection & ItemTypes }> = [
         { name: 'Weapons', key: 'weapons' },
         { name: 'Armors', key: 'armors' },
         { name: 'Shields', key: 'shields' },
@@ -90,6 +191,12 @@ export class ItemCollection {
         { name: 'Materials', key: 'materialitems' },
     ];
 
+    //This is the amount of bulk that can be ignored when weighing this inventory.
+    public bulkReduction = 0;
+    public id = uuidv4();
+    //If an item grants an inventory, this is the item's ID.
+    public itemId = '';
+
     public touched$: BehaviorSubject<boolean>;
 
     public equippedAdventuringGear$: Observable<Array<AdventuringGear>>;
@@ -100,29 +207,29 @@ export class ItemCollection {
     public activeEquipment$: Observable<Array<Equipment>>;
     public equippedEquipment$: Observable<Array<Equipment>>;
 
-    private readonly _adventuringgear: OnChangeArray<AdventuringGear> = new OnChangeArray();
-    private readonly _alchemicalbombs: OnChangeArray<AlchemicalBomb> = new OnChangeArray();
-    private readonly _alchemicalelixirs: OnChangeArray<AlchemicalElixir> = new OnChangeArray();
-    private readonly _alchemicalpoisons: OnChangeArray<AlchemicalPoison> = new OnChangeArray();
-    private readonly _alchemicaltools: OnChangeArray<AlchemicalTool> = new OnChangeArray();
-    private readonly _ammunition: OnChangeArray<Ammunition> = new OnChangeArray();
-    private readonly _armorrunes: OnChangeArray<ArmorRune> = new OnChangeArray();
-    private readonly _armors: OnChangeArray<Armor> = new OnChangeArray();
-    private readonly _helditems: OnChangeArray<HeldItem> = new OnChangeArray();
-    private readonly _materialitems: OnChangeArray<MaterialItem> = new OnChangeArray();
-    private readonly _oils: OnChangeArray<Oil> = new OnChangeArray();
-    private readonly _otherconsumables: OnChangeArray<OtherConsumable> = new OnChangeArray();
-    private readonly _scrolls: OnChangeArray<Scroll> = new OnChangeArray();
-    private readonly _shields: OnChangeArray<Shield> = new OnChangeArray();
-    private readonly _snares: OnChangeArray<Snare> = new OnChangeArray();
-    private readonly _talismans: OnChangeArray<Talisman> = new OnChangeArray();
-    private readonly _wands: OnChangeArray<Wand> = new OnChangeArray();
-    private readonly _weaponrunes: OnChangeArray<WeaponRune> = new OnChangeArray();
-    private readonly _weapons: OnChangeArray<Weapon> = new OnChangeArray();
-    private readonly _wornitems: OnChangeArray<WornItem> = new OnChangeArray();
-    private readonly _otherconsumablesbombs: OnChangeArray<OtherConsumableBomb> = new OnChangeArray();
-    private readonly _otheritems: OnChangeArray<OtherItem> = new OnChangeArray();
-    private readonly _potions: OnChangeArray<Potion> = new OnChangeArray();
+    private readonly _adventuringgear = new OnChangeArray<AdventuringGear>();
+    private readonly _alchemicalbombs = new OnChangeArray<AlchemicalBomb>();
+    private readonly _alchemicalelixirs = new OnChangeArray<AlchemicalElixir>();
+    private readonly _alchemicalpoisons = new OnChangeArray<AlchemicalPoison>();
+    private readonly _alchemicaltools = new OnChangeArray<AlchemicalTool>();
+    private readonly _ammunition = new OnChangeArray<Ammunition>();
+    private readonly _armorrunes = new OnChangeArray<ArmorRune>();
+    private readonly _armors = new OnChangeArray<Armor>();
+    private readonly _helditems = new OnChangeArray<HeldItem>();
+    private readonly _materialitems = new OnChangeArray<MaterialItem>();
+    private readonly _oils = new OnChangeArray<Oil>();
+    private readonly _otherconsumables = new OnChangeArray<OtherConsumable>();
+    private readonly _scrolls = new OnChangeArray<Scroll>();
+    private readonly _shields = new OnChangeArray<Shield>();
+    private readonly _snares = new OnChangeArray<Snare>();
+    private readonly _talismans = new OnChangeArray<Talisman>();
+    private readonly _wands = new OnChangeArray<Wand>();
+    private readonly _weaponrunes = new OnChangeArray<WeaponRune>();
+    private readonly _weapons = new OnChangeArray<Weapon>();
+    private readonly _wornitems = new OnChangeArray<WornItem>();
+    private readonly _otherconsumablesbombs = new OnChangeArray<OtherConsumableBomb>();
+    private readonly _otheritems = new OnChangeArray<OtherItem>();
+    private readonly _potions = new OnChangeArray<Potion>();
 
     //Has this inventory been changed since initialization?
     private _touched = false;
@@ -174,6 +281,10 @@ export class ItemCollection {
                 .pipe(
                     map(items => items.filter(item => (item.equipped === item.equippable))),
                 );
+    }
+
+    public get names(): Array<{ name: string; key: keyof ItemCollection }> {
+        return ItemCollection.names;
     }
 
     public get adventuringgear(): OnChangeArray<AdventuringGear> {
@@ -369,130 +480,31 @@ export class ItemCollection {
         this.touched$.next(this._touched);
     }
 
-    public recast(recastFns: RecastFns): ItemCollection {
-        this.adventuringgear =
-            this.adventuringgear.map(obj => Object.assign<AdventuringGear, AdventuringGear>(
-                new AdventuringGear(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.alchemicalbombs =
-            this.alchemicalbombs.map(obj => Object.assign<AlchemicalBomb, AlchemicalBomb>(
-                new AlchemicalBomb(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.alchemicalelixirs =
-            this.alchemicalelixirs.map(obj => Object.assign<AlchemicalElixir, AlchemicalElixir>(
-                new AlchemicalElixir(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.alchemicalpoisons =
-            this.alchemicalpoisons.map(obj => Object.assign<AlchemicalPoison, AlchemicalPoison>(
-                new AlchemicalPoison(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.alchemicaltools =
-            this.alchemicaltools.map(obj => Object.assign<AlchemicalTool, AlchemicalTool>(
-                new AlchemicalTool(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.ammunition =
-            this.ammunition.map(obj => Object.assign<Ammunition, Ammunition>(
-                new Ammunition(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.armorrunes =
-            this.armorrunes.map(obj => Object.assign<ArmorRune, ArmorRune>(
-                new ArmorRune(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.armors =
-            this.armors.map(obj => Object.assign<Armor, Armor>(
-                new Armor(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.helditems =
-            this.helditems.map(obj => Object.assign<HeldItem, HeldItem>(
-                new HeldItem(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.materialitems =
-            this.materialitems.map(obj => Object.assign<MaterialItem, MaterialItem>(
-                new MaterialItem(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.oils =
-            this.oils.map(obj => Object.assign<Oil, Oil>(
-                new Oil(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.otherconsumables =
-            this.otherconsumables.map(obj => Object.assign<OtherConsumable, OtherConsumable>(
-                new OtherConsumable(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.otherconsumablesbombs =
-            this.otherconsumablesbombs.map(obj => Object.assign<OtherConsumableBomb, OtherConsumableBomb>(
-                new OtherConsumableBomb(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.otheritems =
-            this.otheritems.map(obj => Object.assign<OtherItem, Partial<OtherItem>>(
-                new OtherItem(),
-                obj,
-            ).recast());
-        this.potions =
-            this.potions.map(obj => Object.assign<Potion, Potion>(
-                new Potion(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.scrolls =
-            this.scrolls.map(obj => Object.assign<Scroll, Scroll>(
-                new Scroll(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.shields =
-            this.shields.map(obj => Object.assign<Shield, Shield>(
-                new Shield(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.snares =
-            this.snares.map(obj => Object.assign<Snare, Snare>(
-                new Snare(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.talismans =
-            this.talismans.map(obj => Object.assign<Talisman, Talisman>(
-                new Talisman(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.wands =
-            this.wands.map(obj => Object.assign<Wand, Wand>(
-                new Wand(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.weaponrunes =
-            this.weaponrunes.map(obj => Object.assign<WeaponRune, WeaponRune>(
-                new WeaponRune(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.weapons =
-            this.weapons.map(obj => Object.assign<Weapon, Weapon>(
-                new Weapon(),
-                recastFns.item(obj),
-            ).recast(recastFns));
-        this.wornitems =
-            this.wornitems.map(obj => Object.assign<WornItem, WornItem>(
-                new WornItem(),
-                recastFns.item(obj),
-            ).recast(recastFns));
+    public static from(values: DeepPartial<ItemCollection>, recastFns: RecastFns): ItemCollection {
+        return new ItemCollection().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<ItemCollection>, recastFns: RecastFns): ItemCollection {
+        assign(this, values, recastFns);
+
 
         return this;
     }
 
+    public forExport(): DeepPartial<ItemCollection> {
+        return {
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<ItemCollection> {
+        return {
+            ...forMessage(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): ItemCollection {
-        return Object.assign<ItemCollection, ItemCollection>(
-            new ItemCollection(), JSON.parse(JSON.stringify(this)),
-        ).recast(recastFns);
+        return ItemCollection.from(this, recastFns);
     }
 
     public allEquipment(): Array<Equipment> {
@@ -733,6 +745,6 @@ export class ItemCollection {
     }
 
     private _isItemType(type: string): type is keyof ItemCollection {
-        return ItemCollection._itemListsKeys.includes(type);
+        return `${ itemListsKeys }`.includes(type);
     }
 }

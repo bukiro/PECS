@@ -1,4 +1,25 @@
-export class Savegame {
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
+
+const { assign, forExport } = setupSerialization<Savegame>({
+    primitives: [
+        'name',
+        'dbId',
+        'class',
+        'classChoice',
+        'heritage',
+        'ancestry',
+        'level',
+        'partyName',
+        'companionName',
+        'companionId',
+        'familiarName',
+        'familiarId',
+    ],
+});
+
+export class Savegame implements Serializable<Savegame> {
     public name = 'Unnamed';
     public dbId?: string;
     public class?: string;
@@ -14,11 +35,23 @@ export class Savegame {
 
     constructor(public id: string) { }
 
-    public recast(): Savegame {
+    public static from(values: DeepPartial<Savegame> & { id: string }): Savegame {
+        return new Savegame(values.id).with(values);
+    }
+
+    public with(values: DeepPartial<Savegame>): Savegame {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<Savegame> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): Savegame {
-        return Object.assign<Savegame, Savegame>(new Savegame(this.id), JSON.parse(JSON.stringify(this))).recast();
+        return Savegame.from(this);
     }
 }

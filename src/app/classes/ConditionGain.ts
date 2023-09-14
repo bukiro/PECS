@@ -3,8 +3,73 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { v4 as uuidv4 } from 'uuid';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-export class ConditionGain {
+const { assign, forExport } = setupSerializationWithHelpers<ConditionGain>({
+    primitives: [
+        'addValue',
+        'addValueUpperLimit',
+        'addValueLowerLimit',
+        'increaseRadius',
+        'id',
+        'foreignPlayerId',
+        'apply',
+        'paused',
+        'decreasingValue',
+        'duration',
+        'maxDuration',
+        'nextStage',
+        'name',
+        'showChoices',
+        'showNotes',
+        'showDuration',
+        'showValue',
+        'showRadius',
+        'notes',
+        'source',
+        'parentID',
+        'value',
+        'activationPrerequisite',
+        'heightenedFilter',
+        'alignmentFilter',
+        'heightened',
+        'radius',
+        'spellCastingAbility',
+        'spellSource',
+        'sourceGainID',
+        'persistent',
+        'ignorePersistent',
+        'ignorePersistentAtChoiceChange',
+        'lockedByParent',
+        'valueLockedByParent',
+        'targetFilter',
+        'choice',
+        'choiceBySubType',
+        'choiceLocked',
+        'hideChoices',
+        'copyChoiceFrom',
+        'acknowledgedInputRequired',
+        'resonant',
+        'fromFeat',
+        'fromItem',
+    ],
+    primitiveArrays: [
+        'conditionChoiceFilter',
+        'selectedOtherConditions',
+    ],
+    exportableArrays: {
+        gainActivities:
+            recastFns => obj => ActivityGain.from({
+                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+            }),
+        gainItems:
+            () => obj => ItemGain.from({ ...obj }),
+    },
+});
+
+export class ConditionGain implements Serializable<ConditionGain> {
     public addValue = 0;
     public addValueUpperLimit = 0;
     public addValueLowerLimit = 0;
@@ -51,8 +116,6 @@ export class ConditionGain {
      * This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
      */
     public activationPrerequisite = '';
-    /** For conditions within conditions, activate this condition only if this choice was made on the original condition. */
-    public conditionChoiceFilter: Array<string> = [];
     /**
      * Spells choose from multiple conditions those that match their level.
      * For example, if a spell has a ConditionGain with heightenedFilter 1 and one with heightenedFilter 2,
@@ -77,10 +140,6 @@ export class ConditionGain {
     public spellSource = '';
     /** Save the id of the SpellGain or ActivityGain so that the Spellgain or ActivityGain can be deactivated when the condition ends. */
     public sourceGainID = '';
-    /** A condition's gainActivities gets copied here to track. */
-    public gainActivities: Array<ActivityGain> = [];
-    /** A condition's gainItems gets copied here to track. */
-    public gainItems: Array<ItemGain> = [];
     /** If the gain is persistent, it does not get removed when its source is deactivated. */
     public persistent = false;
     /** If the gain is ignorePersistent, it gets removed when its source is deactivated, even when the condition is usually persistent. */
@@ -124,11 +183,19 @@ export class ConditionGain {
      * These only get applied if the stone is slotted in a wayfinder (or activated while slotted in a wayfinder, respectively).
      */
     public resonant = false;
-    /** Some conditions allow you to select other conditions to override. These are saved here. */
-    public selectedOtherConditions: Array<string> = [];
     /** Permanent conditions from feats and items cannot be removed. */
     public fromFeat = false;
     public fromItem = false;
+
+    /** For conditions within conditions, activate this condition only if this choice was made on the original condition. */
+    public conditionChoiceFilter: Array<string> = [];
+    /** Some conditions allow you to select other conditions to override. These are saved here. */
+    public selectedOtherConditions: Array<string> = [];
+
+    /** A condition's gainActivities gets copied here to track. */
+    public gainActivities: Array<ActivityGain> = [];
+    /** A condition's gainItems gets copied here to track. */
+    public gainItems: Array<ItemGain> = [];
 
     public get durationIsDynamic(): boolean {
         return this.duration === TimePeriods.Default;
@@ -161,14 +228,23 @@ export class ConditionGain {
         return [TimePeriods.UntilOtherCharactersTurn, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(this.duration);
     }
 
-    public recast(recastFns: RecastFns): ConditionGain {
-        this.gainActivities = this.gainActivities.map(obj => recastFns.activityGain(obj).recast(recastFns));
-        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+    public static from(values: DeepPartial<ConditionGain>, recastFns: RecastFns): ConditionGain {
+        return new ConditionGain().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<ConditionGain>, recastFns: RecastFns): ConditionGain {
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<ConditionGain> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): ConditionGain {
-        return Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return ConditionGain.from(this, recastFns);
     }
 }

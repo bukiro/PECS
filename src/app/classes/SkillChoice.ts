@@ -1,11 +1,34 @@
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { maxSkillLevel } from 'src/libs/shared/definitions/skillLevels';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class SkillChoice {
+const { assign, forExport } = setupSerialization<SkillChoice>({
+    primitives: [
+        'available',
+        'bonus',
+        'id',
+        'insertLevel',
+        'insertClass',
+        'minRank',
+        'maxRank',
+        'showOnSheet',
+        'source',
+        'type',
+    ],
+    primitiveArrays: [
+        'filter',
+    ],
+    primitiveObjectArrays: [
+        'increases',
+    ],
+});
+
+export class SkillChoice implements Serializable<SkillChoice> {
     public available = 0;
-    public filter: Array<string> = [];
+    public bonus = false;
     public id = '';
-    public increases: Array<SkillIncrease> = [];
     /**
      * If insertLevel is set, this SkillChoice is placed at the designated class level when granted by a feat.
      * I.e. if a feat contains a SkillChoice with insertLevel = 5, the choice is added to level 5 regardless of when the feat was taken.
@@ -35,13 +58,28 @@ export class SkillChoice {
     public showOnSheet = false;
     public source = '';
     public type = '';
-    public bonus = false;
 
-    public recast(): SkillChoice {
+    public filter: Array<string> = [];
+
+    public increases: Array<SkillIncrease> = [];
+
+    public static from(values: DeepPartial<SkillChoice>): SkillChoice {
+        return new SkillChoice().with(values);
+    }
+
+    public with(values: DeepPartial<SkillChoice>): SkillChoice {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<SkillChoice> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): SkillChoice {
-        return Object.assign<SkillChoice, SkillChoice>(new SkillChoice(), JSON.parse(JSON.stringify(this))).recast();
+        return SkillChoice.from(this);
     }
 }

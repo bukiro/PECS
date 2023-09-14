@@ -3,15 +3,41 @@ import { Skill } from 'src/app/classes/Skill';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureSizes } from 'src/libs/shared/definitions/creatureSizes';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { AbilityBoost } from './AbilityBoost';
+import { AbilityBoostInterface } from './AbilityBoostInterface';
 import { SkillIncrease } from './SkillIncrease';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-export class Familiar extends Creature {
-    public readonly type = CreatureTypes.Familiar;
-    public readonly typeId = 2;
+const { assign, forExport } = setupSerializationWithHelpers<Familiar>({
+    primitives: [
+        'originClass',
+        'species',
+    ],
+    primitiveArrays: [
+        'senses',
+        'traits',
+    ],
+    exportableArrays: {
+        customSkills:
+            () => obj => Skill.from({ ...obj }),
+    },
+});
+
+export class Familiar extends Creature implements Serializable<Familiar> {
+    public readonly type: CreatureTypes = CreatureTypes.Familiar;
+    public readonly typeId: CreatureTypeIds = CreatureTypeIds.Familiar;
+
+    public originClass = '';
+    public species = '';
+
+    public senses: Array<string> = ['Low-Light Vision'];
+    public traits: Array<string> = ['Minion'];
+
     public abilities: FeatChoice = Object.assign(new FeatChoice(), {
         available: Defaults.familiarAbilities,
         id: '0-Feat-Familiar-0',
@@ -19,26 +45,32 @@ export class Familiar extends Creature {
         type: 'Familiar',
     });
 
-    public originClass = '';
-    public senses: Array<string> = ['Low-Light Vision'];
-    public species = '';
-    public traits: Array<string> = ['Minion'];
-
     protected _customSkills = new OnChangeArray(
         new Skill('', 'Attack Rolls', 'Familiar Proficiency'),
     );
 
     public get requiresConForHP(): boolean { return false; }
 
-    public recast(recastFns: RecastFns): Familiar {
-        super.recast(recastFns);
-        this.abilities = Object.assign(new FeatChoice(), this.abilities).recast();
+    public static from(values: DeepPartial<Familiar>, recastFns: RecastFns): Familiar {
+        return new Familiar().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Familiar>, recastFns: RecastFns): Familiar {
+        super.with(values, recastFns);
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Familiar> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Familiar {
-        return Object.assign<Familiar, Familiar>(new Familiar(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Familiar.from(this, recastFns);
     }
 
     public isFamiliar(): this is Familiar {
@@ -74,7 +106,7 @@ export class Familiar extends Creature {
         return { result: sum, explain: explain.trim() };
     }
 
-    public abilityBoosts(): Array<AbilityBoost> { return []; }
+    public abilityBoosts(): Array<AbilityBoostInterface> { return []; }
 
     public skillIncreases(): Array<SkillIncrease> { return []; }
 }

@@ -2,21 +2,52 @@ import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class ClassLevel {
+const { assign, forExport } = setupSerialization<ClassLevel>({
+    primitives: [
+        'number',
+    ],
+    exportableArrays: {
+        abilityChoices:
+            () => obj => AbilityChoice.from({ ...obj }),
+        featChoices:
+            () => obj => FeatChoice.from({ ...obj }),
+        loreChoices:
+            () => obj => LoreChoice.from({ ...obj }),
+        skillChoices:
+            () => obj => SkillChoice.from({ ...obj }),
+    },
+});
+
+export class ClassLevel implements Serializable<ClassLevel> {
+    public number = 0;
+
     public abilityChoices: Array<AbilityChoice> = [];
     public featChoices: Array<FeatChoice> = [];
     public loreChoices: Array<LoreChoice> = [];
-    public number = 0;
     public skillChoices: Array<SkillChoice> = [];
 
-    public recast(): ClassLevel {
-        this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
-        this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());
-        this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());
-        this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
+    public static from(values: DeepPartial<ClassLevel>): ClassLevel {
+        return new ClassLevel().with(values);
+    }
+
+    public with(values: DeepPartial<ClassLevel>): ClassLevel {
+        assign(this, values);
 
         return this;
+    }
+
+    public forExport(): DeepPartial<ClassLevel> {
+        return {
+            ...forExport(this),
+        };
+    }
+
+    public clone(): ClassLevel {
+        return ClassLevel.from(this);
     }
 
     public addAbilityChoice(newChoice: AbilityChoice): AbilityChoice {

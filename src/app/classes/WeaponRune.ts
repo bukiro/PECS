@@ -1,9 +1,31 @@
 import { Rune } from 'src/app/classes/Rune';
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class WeaponRune extends Rune {
+const { assign, forExport, forMessage } = setupSerialization<WeaponRune>({
+    primitives: [
+        'alignmentPenalty',
+        'critfailure',
+        'criticalHint',
+        'critsuccess',
+        'damagereq',
+        'extraDamage',
+        'failure',
+        'namereq',
+        'rangereq',
+        'runeBlock',
+        'striking',
+        'success',
+        'traitreq',
+    ],
+});
+
+export class WeaponRune extends Rune implements MessageSerializable<WeaponRune> {
     //Weapon Runes should be type "weaponrunes" to be found in the database
-    public readonly type = 'weaponrunes';
+    public readonly type: ItemTypes = 'weaponrunes';
     /** You are enfeebled 2 if you equip this rune and your alignment contains this word. */
     public alignmentPenalty = '';
     public critfailure = '';
@@ -28,18 +50,37 @@ export class WeaponRune extends Rune {
         return this.striking;
     }
 
-    public isWeaponRune(): this is WeaponRune {
-        return true;
+    public static from(values: DeepPartial<WeaponRune>, recastFns: RecastFns): WeaponRune {
+        return new WeaponRune().with(values, recastFns);
     }
 
-    public recast(recastFns: RecastFns): WeaponRune {
-        super.recast(recastFns);
+    public with(values: DeepPartial<WeaponRune>, recastFns: RecastFns): WeaponRune {
+        super.with(values, recastFns);
+        assign(this, values);
 
         return this;
     }
 
+    public forExport(): DeepPartial<WeaponRune> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<WeaponRune> {
+        return {
+            ...super.forMessage(),
+            ...forMessage(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): WeaponRune {
-        return Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return WeaponRune.from(this, recastFns);
+    }
+
+    public isWeaponRune(): this is WeaponRune {
+        return true;
     }
 
     public hasSuccessResults(): this is WeaponRune { return true; }

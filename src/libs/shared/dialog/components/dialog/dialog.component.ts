@@ -26,7 +26,7 @@ export class DialogComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
     // As a workaround, set class .darkmode on the modal content.
     // isDarkmode is set once synchronously by the dialog service to avoid a short moment of light mode before the observable is evaluated.
     @HostBinding('class.darkmode')
-    public isDarkmode = false;
+    public isDarkMode = false;
 
     public title?: string;
     public cancelLabel?: string;
@@ -42,7 +42,7 @@ export class DialogComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
                 takeUntil(this.destroyed$),
                 distinctUntilChanged(),
             )
-            .subscribe(darkmode => { this.isDarkmode = darkmode; });
+            .subscribe(darkmode => { this.isDarkMode = darkmode; });
     }
 
     public ngAfterViewInit(): void {

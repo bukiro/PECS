@@ -38,7 +38,7 @@ export class EquipmentConditionsService {
 
         CreatureService.character$
             .pipe(
-                switchMap(this._generateCreatureEquipmentConditions),
+                switchMap(creature => this._generateCreatureEquipmentConditions(creature)),
             )
             .subscribe();
 
@@ -48,7 +48,7 @@ export class EquipmentConditionsService {
                     isCompanionAvailable
                         ? CreatureService.companion$
                             .pipe(
-                                switchMap(this._generateCreatureEquipmentConditions),
+                                switchMap(creature => this._generateCreatureEquipmentConditions(creature)),
                             )
                         : of(),
                 ),
@@ -61,7 +61,7 @@ export class EquipmentConditionsService {
                     isFamiliarAvailable
                         ? CreatureService.familiar$
                             .pipe(
-                                switchMap(this._generateCreatureEquipmentConditions),
+                                switchMap(creature => this._generateCreatureEquipmentConditions(creature)),
                             )
                         : of(),
                 ),

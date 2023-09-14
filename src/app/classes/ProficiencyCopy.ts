@@ -1,6 +1,18 @@
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class ProficiencyCopy {
+const { assign, forExport } = setupSerialization<ProficiencyCopy>({
+    primitives: [
+        'name',
+        'type',
+        'featuresOnly',
+        'minLevel',
+    ],
+});
+
+export class ProficiencyCopy implements Serializable<ProficiencyCopy> {
     /** Which skill gets to copy proficiency levels? Can include weapon traits, e.g. "Goblin" for goblin weapon proficiency. */
     public name = '';
     /** What type of skill increase gets copied? E.g. "Weapon Proficiency", "Skill"... */
@@ -10,11 +22,23 @@ export class ProficiencyCopy {
     /** Minimum skill level needed to apply (usually Trained). */
     public minLevel: SkillLevels = SkillLevels.Trained;
 
-    public recast(): ProficiencyCopy {
+    public static from(values: DeepPartial<ProficiencyCopy>): ProficiencyCopy {
+        return new ProficiencyCopy().with(values);
+    }
+
+    public with(values: DeepPartial<ProficiencyCopy>): ProficiencyCopy {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<ProficiencyCopy> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): ProficiencyCopy {
-        return Object.assign<ProficiencyCopy, ProficiencyCopy>(new ProficiencyCopy(), JSON.parse(JSON.stringify(this))).recast();
+        return ProficiencyCopy.from(this);
     }
 }

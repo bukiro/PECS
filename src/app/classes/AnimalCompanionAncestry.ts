@@ -4,37 +4,73 @@ import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Hint } from 'src/app/classes/Hint';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-export class AnimalCompanionAncestry {
-    public abilityChoices: Array<AbilityChoice> = [];
-    public activities: Array<ActivityGain> = [];
+const { assign, forExport } = setupSerializationWithHelpers<AnimalCompanionAncestry>({
+    primitives: [
+        'desc', 'hitPoints', 'name', 'size', 'sourceBook', 'specialdesc', 'supportBenefit',
+    ],
+    primitiveArrays: [
+        'senses', 'traits',
+    ],
+    primitiveObjectArrays: [
+        'speeds',
+    ],
+    exportableArrays: {
+        abilityChoices:
+            () => obj => AbilityChoice.from({ ...obj }),
+        activities:
+            recastFns => obj => ActivityGain.from({
+                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+            }),
+        hints:
+            () => obj => Hint.from({ ...obj }),
+        gainItems:
+            () => obj => ItemGain.from({ ...obj }),
+        skillChoices:
+            () => obj => SkillChoice.from({ ...obj }),
+    },
+});
+
+export class AnimalCompanionAncestry implements Serializable<AnimalCompanionAncestry> {
     public desc = '';
-    public gainItems: Array<ItemGain> = [];
     public hitPoints = 0;
     public name = '';
-    public senses: Array<string> = [];
-    public hints: Array<Hint> = [];
     public size = 0;
-    public skillChoices: Array<SkillChoice> = [];
     public sourceBook = '';
     public specialdesc = '';
-    public speeds: Array<{ name: string; value: number }> = [];
     public supportBenefit = '';
+
+    public senses: Array<string> = [];
     public traits: Array<string> = [];
 
-    public recast(recastFns: RecastFns): this {
-        this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
-        this.activities = this.activities.map(obj => recastFns.activityGain(obj).recast(recastFns));
-        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
-        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
-        this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
+    public speeds: Array<{ name: string; value: number }> = [];
+
+    public abilityChoices: Array<AbilityChoice> = [];
+    public activities: Array<ActivityGain> = [];
+    public hints: Array<Hint> = [];
+    public gainItems: Array<ItemGain> = [];
+    public skillChoices: Array<SkillChoice> = [];
+
+    public static from(values: DeepPartial<AnimalCompanionAncestry>, recastFns: RecastFns): AnimalCompanionAncestry {
+        return new AnimalCompanionAncestry().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<AnimalCompanionAncestry>, recastFns: RecastFns): AnimalCompanionAncestry {
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<AnimalCompanionAncestry> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): AnimalCompanionAncestry {
-        return Object.assign<AnimalCompanionAncestry, AnimalCompanionAncestry>(
-            new AnimalCompanionAncestry(), JSON.parse(JSON.stringify(this)),
-        ).recast(recastFns);
+        return AnimalCompanionAncestry.from(this, recastFns);
     }
 }

@@ -1,11 +1,11 @@
 import { Skill } from 'src/app/classes/Skill';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
-import { Class } from 'src/app/classes/Class';
+import { CharacterClass } from 'src/app/classes/CharacterClass';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Settings } from 'src/app/classes/Settings';
 import { Creature } from 'src/app/classes/Creature';
-import { AbilityBoost } from 'src/app/classes/AbilityBoost';
+import { AbilityBoostInterface } from 'src/app/classes/AbilityBoostInterface';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
@@ -17,35 +17,74 @@ import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, 
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 import { Alignments } from 'src/libs/shared/definitions/alignments';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-interface IgoredMessage { id: string; ttl: number }
+interface IgnoredMessage { id: string; ttl: number }
 
-export class Character extends Creature {
-    public readonly type = CreatureTypes.Character;
-    public readonly typeId = CreatureTypeIds.Character;
+const { assign, forExport } = setupSerializationWithHelpers<Character>({
+    primitives: [
+        'appVersionMajor',
+        'appVersion',
+        'appVersionMinor',
+        'yourTurn',
+        'experiencePoints',
+        'heroPoints',
+        'partyName',
+    ],
+    primitiveArrays: [
+        'cash',
+    ],
+    primitiveObjectArrays: [
+        'ignoredMessages',
+        'baseValues',
+    ],
+    exportables: {
+        class:
+            recastFns => obj => CharacterClass.from({ ...obj }, recastFns),
+        settings:
+            () => obj => Settings.from({ ...obj }),
+    },
+    exportableArrays: {
+        customFeats:
+            recastFns => obj => Feat.from({ ...obj }, recastFns),
+    },
+});
+
+export class Character extends Creature implements Serializable<Character> {
+    public readonly type: CreatureTypes = CreatureTypes.Character;
+    public readonly typeId: CreatureTypeIds = CreatureTypeIds.Character;
     public appVersionMajor = 0;
     public appVersion = 0;
     public appVersionMinor = 0;
-    public ignoredMessages: Array<IgoredMessage> = [];
-    public cash: Array<number> = [0, Defaults.startingGold, 0, 0];
     //yourTurn is only written when saving the character to the database and read when loading.
     public yourTurn = 0;
 
-    public readonly class$: BehaviorSubject<Class>;
+    public cash: [number, number, number, number] = [0, Defaults.startingGold, 0, 0];
+
+    public ignoredMessages: Array<IgnoredMessage> = [];
+
     public readonly experiencePoints$: BehaviorSubject<number>;
     public readonly heroPoints$: BehaviorSubject<number>;
     public readonly partyName$: BehaviorSubject<string>;
+
+    public readonly class$: BehaviorSubject<CharacterClass>;
     public readonly settings$: BehaviorSubject<Settings>;
+
     public readonly isBlankCharacter$: Observable<boolean>;
     public readonly maxSpellLevel$: Observable<number>;
 
-    private readonly _baseValues = new OnChangeArray<{ name: string; baseValue: number }>();
-    private _class: Class = new Class();
-    private readonly _customFeats = new OnChangeArray<Feat>();
     private _heroPoints = 1;
     private _experiencePoints = 0;
     private _partyName = '';
+
+    private readonly _baseValues = new OnChangeArray<{ name: string; baseValue: number }>();
+
+    private _class: CharacterClass = new CharacterClass();
     private _settings: Settings = new Settings();
+
+    private readonly _customFeats = new OnChangeArray<Feat>();
 
     constructor() {
         super();
@@ -73,11 +112,11 @@ export class Character extends Creature {
             );
     }
 
-    public get class(): Class {
+    public get class(): CharacterClass {
         return this._class;
     }
 
-    public set class(newClass: Class) {
+    public set class(newClass: CharacterClass) {
         this._class = newClass;
         this.class$.next(this._class);
     }
@@ -137,17 +176,26 @@ export class Character extends Creature {
 
     public get requiresConForHP(): boolean { return true; }
 
-    public recast(recastFns: RecastFns): Character {
-        super.recast(recastFns);
-        this.class = Object.assign(new Class(), this.class).recast(recastFns);
-        this.customFeats = this.customFeats.map(obj => Object.assign(new Feat(), obj).recast(recastFns));
-        this.settings = Object.assign(new Settings(), this.settings);
+    public static from(values: DeepPartial<Character>, recastFns: RecastFns): Character {
+        return new Character().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Character>, recastFns: RecastFns): Character {
+        super.with(values, recastFns);
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Character> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Character {
-        return Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Character.from(this, recastFns);
     }
 
     public isCharacter(): this is Character {
@@ -202,9 +250,9 @@ export class Character extends Creature {
         source = '',
         sourceId = '',
         locked: boolean | undefined = undefined,
-    ): Array<AbilityBoost> {
+    ): Array<AbilityBoostInterface> {
         if (this.class) {
-            const boosts: Array<AbilityBoost> = [];
+            const boosts: Array<AbilityBoostInterface> = [];
             const levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
 
             levels.forEach(level => {

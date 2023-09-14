@@ -21,7 +21,7 @@ export class EffectPropertiesDataService {
     }
 
     public initialize(): void {
-        this._effectProperties = this._dataLoadingService.loadRecastable<ItemProperty<EffectGain>>(
+        this._effectProperties = this._dataLoadingService.loadCastable<ItemProperty<EffectGain>>(
             json_effectproperties as ImportedJsonFileList<ItemProperty<EffectGain>>,
             'effectProperties',
             ['parent', 'key'],

@@ -1,6 +1,19 @@
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class ProficiencyChange {
+const { assign, forExport } = setupSerialization<ProficiencyChange>({
+    primitives: [
+        'result',
+        'proficiency',
+        'name',
+        'group',
+        'trait',
+    ],
+});
+
+export class ProficiencyChange implements Serializable<ProficiencyChange> {
     // A ProficiencyChange changes what proficiency is used for certain weapons. These can be filtered here.
     // For feat effects like "treat Advanced Goblin Sword as Martial Weapons", enter
     // trait:"Goblin", proficiency:"Advanced Weapons", public group:"Sword", result:"Martial Weapons"
@@ -10,11 +23,23 @@ export class ProficiencyChange {
     public group = '';
     public trait = '';
 
-    public recast(): ProficiencyChange {
+    public static from(values: DeepPartial<ProficiencyChange>): ProficiencyChange {
+        return new ProficiencyChange().with(values);
+    }
+
+    public with(values: DeepPartial<ProficiencyChange>): ProficiencyChange {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<ProficiencyChange> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): ProficiencyChange {
-        return Object.assign<ProficiencyChange, ProficiencyChange>(new ProficiencyChange(), JSON.parse(JSON.stringify(this))).recast();
+        return ProficiencyChange.from(this);
     }
 }

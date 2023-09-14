@@ -1,14 +1,38 @@
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { HeightenedDesc } from './HeightenedDesc';
 
-export class HeightenedDescSet {
+const { assign, forExport } = setupSerialization<HeightenedDescSet>({
+    primitives: [
+        'level',
+    ],
+    primitiveObjectArrays: [
+        'descs',
+    ],
+});
+
+export class HeightenedDescSet implements Serializable<HeightenedDescSet> {
     public level = 0;
     public descs: Array<HeightenedDesc> = [];
 
-    public recast(): HeightenedDescSet {
+    public static from(values: DeepPartial<HeightenedDescSet>): HeightenedDescSet {
+        return new HeightenedDescSet().with(values);
+    }
+
+    public with(values: DeepPartial<HeightenedDescSet>): HeightenedDescSet {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<HeightenedDescSet> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): HeightenedDescSet {
-        return Object.assign<HeightenedDescSet, HeightenedDescSet>(new HeightenedDescSet(), JSON.parse(JSON.stringify(this))).recast();
+        return HeightenedDescSet.from(this);
     }
 }

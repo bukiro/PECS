@@ -20,6 +20,7 @@ import { MessagesApiService } from '../messages-api/messages-api.service';
 import { Store } from '@ngrx/store';
 import { selectGmMode } from 'src/libs/store/app/app.selectors';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
+import { PlayerMessageInterface } from 'src/app/classes/PlayerMessageInterface';
 
 @Injectable({
     providedIn: 'root',
@@ -62,24 +63,23 @@ export class MessageSendingService {
                                             savegame.partyName === character.partyName
                                             && savegame.id !== character.id,
                                         );
-                                    const messages: Array<PlayerMessage> = [];
+                                    const messages: Array<PlayerMessageInterface> = [];
+                                    const date = new Date();
 
                                     targets.forEach(target => {
-                                        const message = new PlayerMessage();
-
-                                        message.recipientId = target.id;
-                                        message.senderId = character.id;
-                                        message.targetId = '';
-
-                                        const date = new Date();
-
-                                        message.time = `${ date.getHours() }:${ date.getMinutes() }`;
-                                        message.timeStamp = timeStamp;
-                                        message.turnChange = true;
-
-                                        message.recast(this._recastService.cleanForSaveFns);
-
-                                        messages.push(message);
+                                        messages.push(
+                                            PlayerMessage.from(
+                                                {
+                                                    recipientId: target.id,
+                                                    senderId: character.id,
+                                                    targetId: '',
+                                                    time: `${ date.getHours() }:${ date.getMinutes() }`,
+                                                    timeStamp,
+                                                    turnChange: true,
+                                                },
+                                                this._recastService.recastFns,
+                                            ).forExport(),
+                                        );
                                     });
 
                                     if (messages.length) {
@@ -121,7 +121,8 @@ export class MessageSendingService {
                                 switchMap(result => {
                                     const character = CreatureService.character;
                                     const timeStamp = result.time;
-                                    const messages: Array<PlayerMessage> = [];
+                                    const messages: Array<PlayerMessageInterface> = [];
+                                    const date = new Date();
 
                                     targets.forEach(target => {
                                         const targetedOwnCreature = creatures.find(creature => creature.id === target.id);
@@ -133,27 +134,20 @@ export class MessageSendingService {
                                         } else {
                                             // Build a message to the correct player and creature,
                                             // with the timestamp just received from the database connector.
-                                            const message = new PlayerMessage();
-
-                                            message.recipientId = target.playerId;
-                                            message.senderId = character.id;
-                                            message.targetId = target.id;
-
-                                            const date = new Date();
-
-                                            message.time = `${ date.getHours() }:${ date.getMinutes() }`;
-                                            message.timeStamp = timeStamp;
-                                            message.gainCondition.push(conditionGain);
-
-                                            if (message.gainCondition.length) {
-                                                message.gainCondition[0].foreignPlayerId = message.senderId;
-                                            }
-
-                                            message.activateCondition = activate;
-
-                                            message.recast(this._recastService.cleanForSaveFns);
-
-                                            messages.push(message);
+                                            messages.push(
+                                                PlayerMessage.from(
+                                                    {
+                                                        recipientId: target.playerId,
+                                                        senderId: character.id,
+                                                        targetId: target.id,
+                                                        time: `${ date.getHours() }:${ date.getMinutes() }`,
+                                                        timeStamp,
+                                                        gainCondition: [conditionGain.with({ foreignPlayerId: character.id })],
+                                                        activateCondition: activate,
+                                                    },
+                                                    this._recastService.recastFns,
+                                                ).forExport(),
+                                            );
                                         }
                                     });
 
@@ -216,26 +210,27 @@ export class MessageSendingService {
 
                                     const included: { items: Array<Item>; inventories: Array<ItemCollection> } =
                                         this._itemTransferService.packGrantingItemForTransfer(sender, item);
-                                    // Build a message to the correct player and creature,
-                                    // with the timestamp just received from the database connector.
-                                    const message = new PlayerMessage();
-
-                                    message.recipientId = target.playerId;
-                                    message.senderId = character.id;
-                                    message.targetId = target.id;
 
                                     const date = new Date();
 
-                                    message.time = `${ date.getHours() }:${ date.getMinutes() }`;
-                                    message.timeStamp = timeStamp;
-                                    message.offeredItem.push(item);
-                                    message.itemAmount = amount;
-                                    message.includedItems = included.items;
-                                    message.includedInventories = included.inventories;
+                                    // Build a message to the correct player and creature,
+                                    // with the timestamp just received from the database connector.
+                                    const message = PlayerMessage.from(
+                                        {
+                                            recipientId: target.playerId,
+                                            senderId: character.id,
+                                            targetId: target.id,
+                                            time: `${ date.getHours() }:${ date.getMinutes() }`,
+                                            timeStamp,
+                                            offeredItem: [item],
+                                            itemAmount: amount,
+                                            includedItems: included.items,
+                                            includedInventories: included.inventories,
+                                        },
+                                        this._recastService.recastFns,
+                                    );
 
-                                    message.recast(this._recastService.cleanForSaveFns);
-
-                                    return this._messagesApiService.sendMessagesToConnector$([message])
+                                    return this._messagesApiService.sendMessagesToConnector$([message.forExport()])
                                         .pipe(
                                             tap({
                                                 complete: () => {
@@ -278,44 +273,35 @@ export class MessageSendingService {
                             .pipe(
                                 switchMap(result => {
                                     const character = CreatureService.character;
-                                    const timeStamp = result.time;
-                                    // Build a message to the correct player and creature,
-                                    // with the timestamp just received from the database connector.
-                                    const response = new PlayerMessage();
-
-                                    response.recipientId = message.senderId;
-                                    response.senderId = character.id;
-                                    response.targetId = message.senderId;
-
                                     const target = this._messagePropertiesService.messageSenderName(message) || 'sender';
+                                    const timeStamp = result.time;
                                     const date = new Date();
 
-                                    response.time = `${ date.getHours() }:${ date.getMinutes() }`;
-                                    response.timeStamp = timeStamp;
-                                    response.itemAmount = message.itemAmount;
+                                    // Build a message to the correct player and creature,
+                                    // with the timestamp just received from the database connector.
+                                    const response = PlayerMessage.from(
+                                        {
+                                            recipientId: message.senderId,
+                                            senderId: character.id,
+                                            targetId: message.senderId,
+                                            time: `${ date.getHours() }:${ date.getMinutes() }`,
+                                            timeStamp,
+                                            itemAmount: message.itemAmount,
+                                            acceptedItem: accepted ? message.offeredItem[0].id : '',
+                                            rejectedItem: accepted ? '' : message.offeredItem[0].id,
+                                        },
+                                        this._recastService.recastFns,
+                                    );
 
-                                    if (accepted) {
-                                        response.acceptedItem = message.offeredItem[0].id;
-                                    } else {
-                                        response.rejectedItem = message.offeredItem[0].id;
-                                    }
-
-                                    message.recast(this._recastService.cleanForSaveFns);
-
-                                    return this._messagesApiService.sendMessagesToConnector$([response])
+                                    return this._messagesApiService.sendMessagesToConnector$([response.forExport()])
                                         .pipe(
                                             tap({
                                                 complete: () => {
                                                     //If the message was sent, send a summary toast.
-                                                    if (accepted) {
-                                                        this._toastService.show(
-                                                            `Sent acceptance response to <strong>${ target }</strong>.`,
-                                                        );
-                                                    } else {
-                                                        this._toastService.show(
-                                                            `Sent rejection response to <strong>${ target }</strong>.`,
-                                                        );
-                                                    }
+                                                    this._toastService.show(
+                                                        `Sent ${ accepted ? 'acceptance' : 'rejection'
+                                                        } response to <strong>${ target }</strong>.`,
+                                                    );
                                                 },
                                             }),
                                         );

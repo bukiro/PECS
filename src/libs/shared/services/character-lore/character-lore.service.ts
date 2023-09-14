@@ -341,7 +341,7 @@ export class CharacterLoreService {
         // They are marked as lorebase==true.
         this._featsDataService.feats(character.customFeats).filter(feat => feat.lorebase === 'Lore')
             .forEach(lorebaseFeat => {
-                const newFeat = lorebaseFeat.clone(this._recastService.recastOnlyFns);
+                const newFeat = lorebaseFeat.clone(this._recastService.recastFns);
 
                 newFeat.name = newFeat.name.replace('Lore', `Lore: ${ loreName }`);
                 newFeat.subType = newFeat.subType.replace('Lore', `Lore: ${ loreName }`);

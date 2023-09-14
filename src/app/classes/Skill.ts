@@ -1,4 +1,21 @@
-export class Skill {
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
+
+const { assign, forExport } = setupSerialization<Skill>({
+    primitives: [
+        'notes',
+        'showNotes',
+        'showEffects',
+        'ability',
+        'name',
+        'type',
+        'locked',
+        'recallKnowledge',
+    ],
+});
+
+export class Skill implements Serializable<Skill> {
     public notes = '';
     public showNotes = false;
     public showEffects = false;
@@ -11,11 +28,23 @@ export class Skill {
         public recallKnowledge: boolean = false,
     ) { }
 
-    public recast(): Skill {
+    public static from(values: DeepPartial<Skill>): Skill {
+        return new Skill().with(values);
+    }
+
+    public with(values: DeepPartial<Skill>): Skill {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<Skill> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): Skill {
-        return Object.assign<Skill, Skill>(new Skill(), JSON.parse(JSON.stringify(this))).recast();
+        return Skill.from(this);
     }
 }

@@ -1,4 +1,17 @@
-export class AttackRestriction {
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
+
+const { assign, forExport } = setupSerialization<AttackRestriction>({
+    primitives: [
+        'name', 'special', 'excluding',
+    ],
+    primitiveArrays: [
+        'conditionChoiceFilter',
+    ],
+});
+
+export class AttackRestriction implements Serializable<AttackRestriction> {
     public name = '';
     /** If special is set, attacks are restricted depending on hardcoded functions. */
     public special: 'Favored Weapon' | '' = '';
@@ -6,11 +19,23 @@ export class AttackRestriction {
     /** If excluding is set, you can NOT use this attack, instead of ONLY this attack. */
     public excluding = false;
 
-    public recast(): AttackRestriction {
+    public static from(values: DeepPartial<AttackRestriction>): AttackRestriction {
+        return new AttackRestriction().with(values);
+    }
+
+    public with(values: DeepPartial<AttackRestriction>): AttackRestriction {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<AttackRestriction> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): AttackRestriction {
-        return Object.assign<AttackRestriction, AttackRestriction>(new AttackRestriction(), JSON.parse(JSON.stringify(this))).recast();
+        return AttackRestriction.from(this);
     }
 }

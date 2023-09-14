@@ -33,7 +33,7 @@ export class AbilitiesDataService {
     }
 
     public initialize(): void {
-        this._abilities = this._dataLoadingService.loadNonRecastable(json_abilities, 'abilities', 'name', Ability);
+        this._abilities = this._dataLoadingService.loadCastable(json_abilities, 'abilities', 'name', Ability);
         this._abilities.forEach(ability => {
             this._abilitiesMap.set(ability.name.toLowerCase(), ability);
         });

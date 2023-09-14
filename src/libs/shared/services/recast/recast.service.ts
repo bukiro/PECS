@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Item } from 'src/app/classes/Item';
-import { ActivityGainRecastFn, ItemRecastFn, RecastFns } from '../../definitions/interfaces/recastFns';
+import { ActivityLookupFn, ItemPrototypeFn, RecastFns } from '../../definitions/interfaces/recastFns';
+import { DeepPartial } from '../../definitions/types/deepPartial';
 
+//TO-DO: Make static
 @Injectable({
     providedIn: 'root',
 })
@@ -13,54 +15,35 @@ export class RecastService {
      * Use this set in recast functions if the data has been received from the API.
      */
     public readonly restoreFns: RecastFns = {
-        item: <T extends Item>(obj: T) => obj,
-        activityGain: (obj: ActivityGain) => obj,
+        getItemPrototype: <T extends Item>(obj: DeepPartial<T>) => {
+            throw new Error(`[RecastService] restore functions not ready when casting ${ obj.name }`);
+        },
+        getOriginalActivity: (obj: DeepPartial<ActivityGain>) => {
+            throw new Error(`[RecastService] restore functions  not ready when casting ${ obj.name }`);
+        },
     };
 
     /**
      * A set of functions that can be used as restoreFns but don't restore content.
      * Use this set in recast functions if the content is already there and just needs to be recast.
      */
-    public readonly recastOnlyFns: RecastFns = {
-        item: <T extends Item>(obj: T) => obj,
-        activityGain: (obj: ActivityGain) => obj,
-    };
-
-    /* eslint-disable @typescript-eslint/no-dynamic-delete */
-    /**
-     * A set of function that removes content that should not be saved.
-     * Use this set in recast functions if the content is about to be sent to the API.
-     */
-    public readonly cleanForSaveFns: RecastFns = {
-        item: <T extends Item>(obj: T, options: { type?: string } = {}) => {
-            (Object.keys(obj) as Array<keyof T & string>).forEach(key => {
-                if (obj.neversave.includes(key) || key.charAt(0) === '$') {
-                    delete obj[key];
-                }
-            });
-
-            return this.recastOnlyFns.item(obj, options);
+    public readonly recastFns: RecastFns = {
+        getItemPrototype: <T extends Item>(obj: DeepPartial<T>) => {
+            throw new Error(`[RecastService] recast functions not ready when casting ${ obj.name }`);
         },
-        activityGain: (obj: ActivityGain) => {
-            (Object.keys(obj) as Array<keyof ActivityGain & string>).forEach(key => {
-                if (key.charAt(0) === '$') {
-                    delete obj[key];
-                }
-            });
-
-            return this.recastOnlyFns.activityGain(obj);
+        getOriginalActivity: (obj: DeepPartial<ActivityGain>) => {
+            throw new Error(`[RecastService] recast functions not ready when casting ${ obj.name }`);
         },
     };
-    /* eslint-enable @typescript-eslint/no-dynamic-delete */
 
-    public registerItemRecastFns(itemRestoreFn: ItemRecastFn, itemRecastFn: ItemRecastFn): void {
-        this.restoreFns.item = itemRestoreFn;
-        this.recastOnlyFns.item = itemRecastFn;
+    public registerItemRecastFns(restoredPrototypeFn: ItemPrototypeFn, blankPrototypeFn: ItemPrototypeFn): void {
+        this.restoreFns.getItemPrototype = restoredPrototypeFn;
+        this.recastFns.getItemPrototype = blankPrototypeFn;
     }
 
-    public registerActivityGainRecastFns(activityGainRestoreFn: ActivityGainRecastFn, activityGainRecastFn: ActivityGainRecastFn): void {
-        this.restoreFns.activityGain = activityGainRestoreFn;
-        this.recastOnlyFns.activityGain = activityGainRecastFn;
+    public registerActivityGainRecastFns(activityLookupFn: ActivityLookupFn): void {
+        this.restoreFns.getOriginalActivity = activityLookupFn;
+        this.recastFns.getOriginalActivity = activityLookupFn;
     }
 
 }

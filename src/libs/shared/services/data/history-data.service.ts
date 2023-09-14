@@ -77,21 +77,21 @@ export class HistoryDataService {
     }
 
     public initialize(): void {
-        this._ancestries = this._dataLoadingService.loadRecastable(
+        this._ancestries = this._dataLoadingService.loadCastable(
             json_ancestries,
             'ancestries',
             'name',
             Ancestry,
         );
 
-        this._backgrounds = this._dataLoadingService.loadRecastable(
+        this._backgrounds = this._dataLoadingService.loadCastable(
             json_backgrounds,
             'backgrounds',
             'name',
             Background,
         );
 
-        this._heritages = this._dataLoadingService.loadRecastable(
+        this._heritages = this._dataLoadingService.loadCastable(
             json_heritages as ImportedJsonFileList<Heritage>,
             'heritages',
             'name',

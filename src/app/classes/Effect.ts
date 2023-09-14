@@ -1,28 +1,58 @@
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { v4 as uuidv4 } from 'uuid';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
+
+const { assign, forExport } = setupSerialization<Effect>({
+    primitives: [
+        'applied',
+        'creature',
+        'displayed',
+        'duration',
+        'id',
+        'ignored',
+        'invertPenalty',
+        'maxDuration',
+        'source',
+        'sourceId',
+        'setValue',
+        'setValueNumerical',
+        'target',
+        'title',
+        'toggled',
+        'type',
+        'value',
+        'valueNumerical',
+    ],
+    primitiveArrays: [
+        'cumulative',
+    ],
+});
 
 export type AbsoluteEffect = Effect & { setValueNumerical: number };
 export type RelativeEffect = Effect & { valueNumerical: number };
 
-export class Effect {
-    public id = uuidv4();
-    public ignored = false;
-    public creature = '';
-    public type: BonusTypes = BonusTypes.Untyped;
-    public target = '';
-    public title = '';
-    public source = '';
-    public invertPenalty?: boolean;
-    public toggled?: boolean;
+export class Effect implements Serializable<Effect> {
     public applied?: boolean;
+    public creature = '';
     public displayed?: boolean;
     public duration = 0;
+    public id = uuidv4();
+    public ignored = false;
+    public invertPenalty?: boolean;
     public maxDuration = 0;
+    public source = '';
+    public sourceId = '';
+    public setValueNumerical: number | null = null;
+    public target = '';
+    public title = '';
+    public toggled?: boolean;
+    public type: BonusTypes = BonusTypes.Untyped;
+    public valueNumerical = 0;
+
     /** If the effect has a type, cumulative lists all effect sources (of the same type) that it is cumulative with. */
     public cumulative: Array<string> = [];
-    public sourceId = '';
-    public valueNumerical = 0;
-    public setValueNumerical: number | null = null;
 
     private _value = '';
     private _setValue = '';
@@ -51,9 +81,9 @@ export class Effect {
     }
 
     public set setValue(setValue: string) {
-        const setValueNumerical = parseInt(setValue, 10);
-
         this._setValue = setValue;
+
+        const setValueNumerical = parseInt(setValue, 10);
 
         if (setValue && !isNaN(setValueNumerical)) {
             this.setValueNumerical = setValueNumerical;
@@ -78,8 +108,24 @@ export class Effect {
         return this.valueNumerical !== 0;
     }
 
-    public static from(partial: Partial<Effect>): Effect {
-        return Object.assign<Effect, Partial<Effect>>(new Effect(), partial).recast();
+    public static from(values: DeepPartial<Effect>): Effect {
+        return new Effect().with(values);
+    }
+
+    public with(values: DeepPartial<Effect>): Effect {
+        assign(this, values);
+
+        return this;
+    }
+
+    public forExport(): DeepPartial<Effect> {
+        return {
+            ...forExport(this),
+        };
+    }
+
+    public clone(): Effect {
+        return Effect.from(this);
     }
 
     public isAbsoluteEffect(): this is AbsoluteEffect {
@@ -88,14 +134,6 @@ export class Effect {
 
     public isRelativeEffect(): this is RelativeEffect {
         return !this.hasSetValue && this.hasValue;
-    }
-
-    public recast(): Effect {
-        return this;
-    }
-
-    public clone(): Effect {
-        return Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(this))).recast();
     }
 
     public displayTitle(signed = false): string {

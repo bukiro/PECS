@@ -1,16 +1,19 @@
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Item } from 'src/app/classes/Item';
+import { DeepPartial } from '../types/deepPartial';
+import { Activity } from 'src/app/classes/Activity';
+import { ItemTypes } from '../types/item-types';
 
-export type ItemRecastFn = <T extends Item>(obj: T, options?: { type?: string }) => T;
-export type ActivityGainRecastFn = (obj: ActivityGain) => ActivityGain;
+export type ItemPrototypeFn = <T extends Item>(obj: DeepPartial<T>, options?: { type?: ItemTypes; prototype?: T }) => T;
+export type ActivityLookupFn = (obj: DeepPartial<ActivityGain>) => Activity;
 
 export interface RecastFns {
-    item: ItemRecastFn;
-    activityGain: ActivityGainRecastFn;
+    getItemPrototype: ItemPrototypeFn;
+    getOriginalActivity: ActivityLookupFn;
 }
 
-export const recastFnsforTesting = {
-    item: <T extends Item>(obj: T, options?: { type?: string }) =>
-        Object.assign(obj, { type: options?.type ?? obj.type }),
-    activityGain: (obj: ActivityGain) => obj,
+export const recastFnsforTesting: RecastFns = {
+    getItemPrototype: <T extends Item>(obj: DeepPartial<T>, options?: { type?: string }) =>
+        Object.assign(obj, { type: options?.type ?? obj.type }) as T,
+    getOriginalActivity: (_obj: DeepPartial<ActivityGain>) => new Activity(),
 };

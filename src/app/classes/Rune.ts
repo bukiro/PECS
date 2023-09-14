@@ -6,10 +6,41 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { ArmorRune } from './ArmorRune';
 import { WeaponRune } from './WeaponRune';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
-export abstract class Rune extends Item {
-    public activities: Array<ItemActivity> = [];
+const { assign, forExport, forMessage } = setupSerializationWithHelpers<Rune>({
+    primitives: [
+        'desc',
+        'potency',
+        'usage',
+    ],
+    primitiveArrays: [
+        'traits',
+    ],
+    exportableArrays: {
+        activities:
+            recastFns => obj => ItemActivity.from({ ...obj }, recastFns),
+        hints:
+            () => obj => Hint.from({ ...obj }),
+        effects:
+            () => obj => EffectGain.from({ ...obj }),
+        loreChoices:
+            () => obj => LoreChoice.from({ ...obj }),
+    },
+});
+
+export abstract class Rune extends Item implements Serializable<Rune> {
+    public readonly allowEquippable: boolean = false;
+    public readonly equippable: boolean = false;
     public desc = '';
+    public potency = 0;
+    public usage = '';
+
+    public traits: Array<string> = [];
+
+    public activities: Array<ItemActivity> = [];
     /**
      * For weapon runes, the hints are shown directly on the weapon.
      * They don't have effects and are not taken into account when collecting hints or generating effects.
@@ -19,11 +50,7 @@ export abstract class Rune extends Item {
     public effects: Array<EffectGain> = [];
     // Certain runes train a lore skill while equipped and require this to be set.
     public loreChoices: Array<LoreChoice> = [];
-    public potency = 0;
-    public traits: Array<string> = [];
-    public usage = '';
-    public readonly allowEquippable = false;
-    public readonly equippable = false;
+
     public get secondary(): number {
         return 0;
     }
@@ -38,13 +65,24 @@ export abstract class Rune extends Item {
 
     public hasHints(): this is Rune { return true; }
 
-    public recast(recastFns: RecastFns): Rune {
-        super.recast(recastFns);
-        this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast(recastFns));
-        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
-        this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());
+    public with(values: DeepPartial<Rune>, recastFns: RecastFns): Rune {
+        assign(this, values, recastFns);
 
         return this;
+    }
+
+    public forExport(): DeepPartial<Rune> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<Rune> {
+        return {
+            ...super.forMessage(),
+            ...forMessage(this),
+        };
     }
 
     public canStack(): boolean {

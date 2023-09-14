@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { ConfigService } from '../config/config.service';
+import { PlayerMessageInterface } from 'src/app/classes/PlayerMessageInterface';
 
 @Injectable({
     providedIn: 'root',
@@ -22,7 +22,7 @@ export class MessagesApiService {
         );
     }
 
-    public sendMessagesToConnector$(messages: Array<PlayerMessage>): Observable<object> {
+    public sendMessagesToConnector$(messages: Array<PlayerMessageInterface>): Observable<object> {
         return this._httpClient.post(
             `${ this._configService.dataServiceURL }/saveMessages/`,
             messages,
@@ -31,15 +31,15 @@ export class MessagesApiService {
         );
     }
 
-    public loadMessagesFromConnector$(recipientId: string): Observable<Array<Partial<PlayerMessage>>> {
-        return this._httpClient.get<Array<Partial<PlayerMessage>>>(
+    public loadMessagesFromConnector$(recipientId: string): Observable<Array<PlayerMessageInterface>> {
+        return this._httpClient.get<Array<PlayerMessageInterface>>(
             `${ this._configService.dataServiceURL }/loadMessages/${ recipientId }`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
         );
     }
 
-    public deleteMessageFromConnector$(message: PlayerMessage): Observable<object> {
+    public deleteMessageFromConnector$(message: { id: string }): Observable<object> {
         return this._httpClient.post(
             `${ this._configService.dataServiceURL }/deleteMessage`,
             { id: message.id },

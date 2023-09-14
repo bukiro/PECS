@@ -11,7 +11,6 @@ import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/
 import { CharacterPatchingService } from '../character-patching/character-patching.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
@@ -49,7 +48,6 @@ export class CharacterLoadingService {
         private readonly _characterPatchingService: CharacterPatchingService,
         private readonly _refreshService: RefreshService,
         private readonly _toastService: ToastService,
-        private readonly _timeService: TimeService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _basicEquipmentService: BasicEquipmentService,
         private readonly _recastService: RecastService,
@@ -152,23 +150,23 @@ export class CharacterLoadingService {
         loader: Partial<Character & DatabaseCharacter>,
     ): Character {
         //Make a copy of the character before restoration. This will be used in patching.
-        const savedCharacter = Object.assign<Character, Partial<Character>>(new Character(), JSON.parse(JSON.stringify(loader)));
+        const savedCharacter = safeClone(new Character(), loader);
 
         //Remove the database id so it isn't saved over.
         if (loader._id) {
             delete loader._id;
         }
 
-        const character = Object.assign<Character, Partial<Character>>(new Character(), JSON.parse(JSON.stringify(loader)));
+        const character = safeClone(new Character(), loader);
 
         // We restore a few things individually before we restore the class,
         // allowing us to patch them before any issues would be created by new changes to the class.
 
         //Apply any new settings.
-        character.settings = Object.assign(new Settings(), character.settings);
+        character.settings = safeAssign(new Settings(), character.settings);
 
         //Restore Inventories, but not items.
-        character.inventories.setValues(...character.inventories.map(inventory => Object.assign(new ItemCollection(), inventory)));
+        character.inventories = character.inventories.map(inventory => safeAssign(new ItemCollection(), inventory));
 
         // Apply patches that need to be done before the class is restored.
         // This is usually removing skill increases and feat choices,
@@ -220,7 +218,7 @@ export class CharacterLoadingService {
         character.recast(this._recastService.restoreFns);
 
         //Apply any patches that need to be done after the class is restored.
-        this._characterPatchingService.patchCompleteCharacter(savedCharacter, character);
+        this._characterPatchingService.patchCompleteCharacter(character, savedCharacter);
 
         return character;
     }

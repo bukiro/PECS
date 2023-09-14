@@ -9,6 +9,10 @@ import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Observable, combineLatest, map, of } from 'rxjs';
 import { Creature } from './Creature';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
 export enum ActivityTargetOptions {
     Companion = 'companion',
@@ -22,14 +26,65 @@ export enum ActivityTargetOptions {
     Null = '',
 }
 
-export class Activity {
-    public readonly isActivity: boolean = true;
+const { assign, forExport } = setupSerializationWithHelpers<Activity>({
+    primitives: [
+        'actions',
+        'activationType',
+        'cooldown',
+        'cooldownAfterEnd',
+        'cost',
+        'maxDuration',
+        'durationDependsOnTarget',
+        'sourceBook',
+        'sustained',
+        'charges',
+        'critfailure',
+        'critsuccess',
+        'desc',
+        'failure',
+        'frequency',
+        'inputRequired',
+        'name',
+        'iconTitleOverride',
+        'iconValueOverride',
+        'overrideHostile',
+        'requirements',
+        'showonSkill',
+        'specialdesc',
+        'success',
+        'target',
+        'toggle',
+        'trigger',
+        'cannotTargetCaster',
+        'displayOnly',
+    ],
+    primitiveArrays: [
+        'showActivities',
+        'traits',
+    ],
+    exportableArrays: {
+        castSpells:
+            () => obj => SpellCast.from({ ...obj }),
+        gainConditions:
+            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+        gainItems:
+            () => obj => ItemGain.from({ ...obj }),
+        heightenedDescs:
+            () => obj => HeightenedDescSet.from({ ...obj }),
+        hints:
+            () => obj => Hint.from({ ...obj }),
+        onceEffects:
+            () => obj => EffectGain.from({ ...obj }),
+        showSpells:
+            () => obj => SpellCast.from({ ...obj }),
+        targetNumbers:
+            () => obj => SpellTargetNumber.from({ ...obj }),
+    },
+});
+
+export class Activity implements Serializable<Activity> {
     public actions = '';
     public activationType = '';
-    /**
-     * When activated, the activity will cast this spell. Multiple spells must have the same target or targets.
-     */
-    public castSpells: Array<SpellCast> = [];
     public cooldown = 0;
     /**
      * For Conditions that are toggled, if cooldownAfterEnd is set, the cooldown starts only after the active duration is finished.
@@ -59,27 +114,20 @@ export class Activity {
     public charges = 0;
     public critfailure = '';
     public critsuccess = '';
-    public heightenedDescs: Array<HeightenedDescSet> = [];
     public desc = '';
     public failure = '';
     public frequency = '';
-    public gainConditions: Array<ConditionGain> = [];
-    public gainItems: Array<ItemGain> = [];
-    public hints: Array<Hint> = [];
     public inputRequired = '';
     public name = '';
     public iconTitleOverride = '';
     public iconValueOverride = '';
-    public onceEffects: Array<EffectGain> = [];
     /**
      * overrideHostile allows you to declare a spell as hostile or friendly regardless of other indicators.
      * This will only change the display color of the spell, but not whether you can target allies.
      */
     public overrideHostile: 'hostile' | 'friendly' | '' = '';
     public requirements = '';
-    public showActivities: Array<string> = [];
     public showonSkill = '';
-    public showSpells: Array<SpellCast> = [];
     public specialdesc = '';
     public success = '';
     /**
@@ -94,15 +142,8 @@ export class Activity {
      * Any non-hostile activity can still target allies if the target number is nonzero.
      * Hostile activities can target allies if the target number is nonzero and this.overrideHostile is "friendly".
      */
-    public target: `${ ActivityTargetOptions }` = ActivityTargetOptions.Self;
-    /**
-     * The target number determines how many allies you can target with a non-hostile activity,
-     * or how many enemies you can target with a hostile one (not actually implemented).
-     * The activity can have multiple target numbers that are dependent on the character level and whether you have a feat.
-     */
-    public targetNumbers: Array<SpellTargetNumber> = [];
+    public target: ActivityTargetOptions = ActivityTargetOptions.Self;
     public toggle = false;
-    public traits: Array<string> = [];
     public trigger = '';
     /**
      * If cannotTargetCaster is set, you can't apply the conditions of the activity on yourself,
@@ -114,6 +155,27 @@ export class Activity {
     public cannotTargetCaster = false;
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
     public displayOnly = false;
+
+    public showActivities: Array<string> = [];
+    public traits: Array<string> = [];
+
+    /**
+     * When activated, the activity will cast this spell. Multiple spells must have the same target or targets.
+     */
+    public castSpells: Array<SpellCast> = [];
+    public gainConditions: Array<ConditionGain> = [];
+    public gainItems: Array<ItemGain> = [];
+    public heightenedDescs: Array<HeightenedDescSet> = [];
+    public hints: Array<Hint> = [];
+    public onceEffects: Array<EffectGain> = [];
+    public showSpells: Array<SpellCast> = [];
+    /**
+     * The target number determines how many allies you can target with a non-hostile activity,
+     * or how many enemies you can target with a hostile one (not actually implemented).
+     * The activity can have multiple target numbers that are dependent on the character level and whether you have a feat.
+     */
+    public targetNumbers: Array<SpellTargetNumber> = [];
+
     /**
      * effectiveCooldownByCreature$ is a map of calculated cooldown observables matched to creatures
      * created by the ActivityPropertiesService so that it can be subscribed to without passing parameters.
@@ -125,21 +187,17 @@ export class Activity {
      */
     public readonly effectiveMaxChargesByCreature$ = new Map<string, Observable<number>>();
 
-    public recast(recastFns: RecastFns): Activity {
-        this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
-        this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
-        this.gainConditions.forEach(conditionGain => {
-            conditionGain.source = this.name;
-        });
-        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
-        this.showSpells = this.showSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
-        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
-        this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());
+    public static from(values: DeepPartial<Activity>, recastFns: RecastFns): Activity {
+        return new Activity().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Activity>, recastFns: RecastFns): Activity {
+        assign(this, values, recastFns);
+
+        this.gainConditions.forEach(gain => gain.source = this.name);
 
         if (this.sustained) {
-            const defaultSustainDuration = 1000;
+            const defaultSustainDuration = TimePeriods.TenMinutes;
 
             this.toggle = true;
 
@@ -151,10 +209,14 @@ export class Activity {
         return this;
     }
 
+    public forExport(): DeepPartial<Activity> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Activity {
-        return Object.assign<Activity, Activity>(new Activity(), JSON.parse(JSON.stringify(this)))
-            .recast(recastFns)
-            .clearTemporaryValues();
+        return Activity.from(this, recastFns);
     }
 
     public clearTemporaryValues(): Activity {

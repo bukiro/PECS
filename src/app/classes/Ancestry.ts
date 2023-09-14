@@ -1,26 +1,48 @@
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { ItemGain } from 'src/app/classes/ItemGain';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 
-export class Ancestry {
+const { assign, forExport } = setupSerialization<Ancestry>({
+    primitives: [
+        'disabled', 'warning', 'baseLanguages', 'hitPoints', 'name', 'sourceBook', 'size',
+    ],
+    primitiveArrays: [
+        'ancestries', 'heritages', 'languages', 'recommendedLanguages', 'senses', 'traits',
+    ],
+    primitiveObjectArrays: [
+        'desc', 'speeds',
+    ],
+    exportableArrays: {
+        abilityChoices:
+            () => obj => AbilityChoice.from({ ...obj }),
+    },
+});
+
+export class Ancestry implements Serializable<Ancestry> {
     public disabled = '';
     public warning = '';
-    public abilityChoices: Array<AbilityChoice> = [];
-    public ancestries: Array<string> = [];
     public baseLanguages = 0;
-    public desc: Array<{ name: string; value: string }> = [];
-    public featChoices: Array<FeatChoice> = [];
-    public gainItems: Array<ItemGain> = [];
-    public heritages: Array<string> = [];
     public hitPoints = 0;
-    public languages: Array<string> = [];
     public name = '';
-    public recommendedLanguages: Array<string> = [];
-    public senses: Array<string> = [];
     public sourceBook = '';
     public size = 0;
+
+    public ancestries: Array<string> = [];
+    public heritages: Array<string> = [];
+    public languages: Array<string> = [];
+    public recommendedLanguages: Array<string> = [];
+    public senses: Array<string> = [];
+
+    public desc: Array<{ name: string; value: string }> = [];
     public speeds: Array<{ name: string; value: number }> = [];
+
+    public abilityChoices: Array<AbilityChoice> = [];
+    public featChoices: Array<FeatChoice> = [];
+    public gainItems: Array<ItemGain> = [];
 
     private readonly _traits = new OnChangeArray<string>();
 
@@ -32,15 +54,23 @@ export class Ancestry {
         this._traits.setValues(...value);
     }
 
-    public recast(): Ancestry {
-        this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
-        this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());
-        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+    public static from(values: DeepPartial<Ancestry>): Ancestry {
+        return new Ancestry().with(values);
+    }
+
+    public with(values: DeepPartial<Ancestry>): Ancestry {
+        assign(this, values);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Ancestry> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): Ancestry {
-        return Object.assign<Ancestry, Ancestry>(new Ancestry(), JSON.parse(JSON.stringify(this))).recast();
+        return Ancestry.from(this);
     }
 }

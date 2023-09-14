@@ -1,25 +1,48 @@
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class AnimalCompanionLevel {
-    public abilityChoices: Array<AbilityChoice> = [];
+const { assign, forExport } = setupSerialization<AnimalCompanionLevel>({
+    primitives: [
+        'extraDamage', 'name', 'number', 'sizeChange', 'sourceBook',
+    ],
+    exportableArrays: {
+        abilityChoices:
+            () => obj => AbilityChoice.from({ ...obj }),
+        skillChoices:
+            () => obj => SkillChoice.from({ ...obj }),
+    },
+});
+
+export class AnimalCompanionLevel implements Serializable<AnimalCompanionLevel> {
     public extraDamage = 0;
     public name = '';
     public number = 0;
     public sizeChange = 0;
-    public skillChoices: Array<SkillChoice> = [];
     public sourceBook = '';
 
-    public recast(): this {
-        this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
-        this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
+    public abilityChoices: Array<AbilityChoice> = [];
+    public skillChoices: Array<SkillChoice> = [];
+
+    public static from(values: DeepPartial<AnimalCompanionLevel>): AnimalCompanionLevel {
+        return new AnimalCompanionLevel().with(values);
+    }
+
+    public with(values: DeepPartial<AnimalCompanionLevel>): AnimalCompanionLevel {
+        assign(this, values);
 
         return this;
     }
 
+    public forExport(): DeepPartial<AnimalCompanionLevel> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): AnimalCompanionLevel {
-        return Object.assign<AnimalCompanionLevel, AnimalCompanionLevel>(
-            new AnimalCompanionLevel(), JSON.parse(JSON.stringify(this)),
-        ).recast();
+        return AnimalCompanionLevel.from(this);
     }
 }

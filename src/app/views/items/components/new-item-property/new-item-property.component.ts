@@ -792,7 +792,7 @@ export class NewItemPropertyComponent<T extends Item | object> extends TrackByMi
     }
 
     public itemSets(): Array<{ name: string; key: string }> {
-        return this._itemsDataService.storeItems().names;
+        return ItemCollection.names;
     }
 
     public setItemType(): void {

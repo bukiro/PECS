@@ -50,18 +50,21 @@ export class CharacterHeritageChangeService {
             const levelNumber = heritageToChange.charLevelAvailable;
 
             if (heritage) {
-                characterClass.additionalHeritages[index] = Object.assign(new AdditionalHeritage(),
+                characterClass.additionalHeritages[index] = safeClone(
+                    new AdditionalHeritage(),
                     {
-                        ...JSON.parse(JSON.stringify(heritage)),
+                        ...heritage,
                         source,
                         charLevelAvailable: levelNumber,
                     }).recast();
             } else {
-                characterClass.additionalHeritages[index] = Object.assign(new AdditionalHeritage(),
+                characterClass.additionalHeritages[index] = safeClone(
+                    new AdditionalHeritage(),
                     {
                         source,
                         charLevelAvailable: levelNumber,
-                    }).recast();
+                    },
+                ).recast();
             }
 
         }
@@ -226,7 +229,7 @@ export class CharacterHeritageChangeService {
                     Object.assign(
                         new ActivityGain(this._activitiesDataService.activityFromName(gainActivity)),
                         { name: gainActivity, source: heritage.name },
-                    ).recast(this._recastService.recastOnlyFns),
+                    ).recast(this._recastService.recastFns),
                     1,
                 );
 

@@ -22,7 +22,7 @@ export class ActivityGainPropertiesService {
     ): Observable<string> {
         return combineLatest([
             gain.active$,
-            gain.innerActiveCooldown$,
+            gain.activeCooldown$,
             gain.chargesUsed$,
             context.maxCharges$,
             this._creatureEffectsService.effectsOnThis$(context.creature, `${ gain.name } Disabled`),
@@ -83,14 +83,14 @@ export class ActivityGainPropertiesService {
                         ?.pipe(
                             distinctUntilChanged(),
                         ) ?? of(0),
-                    gain.innerActiveCooldown$
+                    gain.activeCooldown$
                         .pipe(
                             distinctUntilChanged(),
                         ),
                 ])
                     .pipe(
                         map(cooldowns =>
-                            // Return the shortest cooldown between the activity's and the gains.
+                            // Return the shortest cooldown between the activity's and the gain's.
                             cooldowns.some(cooldown => !!cooldown)
                                 ? Math.min(
                                     ...cooldowns

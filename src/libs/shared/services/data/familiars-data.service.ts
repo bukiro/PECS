@@ -32,7 +32,7 @@ export class FamiliarsDataService {
     }
 
     public initialize(): void {
-        this._familiarAbilities = this._dataLoadingService.loadRecastable(
+        this._familiarAbilities = this._dataLoadingService.loadCastable(
             json_abilities as ImportedJsonFileList<Feat>,
             'familiarAbilities',
             'name',

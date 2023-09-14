@@ -12,7 +12,7 @@ import { Character } from 'src/app/classes/Character';
 import { FeatTaken } from '../../definitions/models/FeatTaken';
 import { Effect } from 'src/app/classes/Effect';
 import { sortAlphaNum } from '../../util/sortUtils';
-import { Class } from 'src/app/classes/Class';
+import { CharacterClass } from 'src/app/classes/CharacterClass';
 
 const noLanguageSourceLevel = -1;
 const temporaryLanguageSourceLevel = -2;
@@ -208,7 +208,7 @@ export class CharacterLanguagesService {
      * This is where languages are removed from or added to the list.
      * The order of the languages may change here.
      */
-    private _refillCharacterLanguages(characterClass: Class, languageSources: Array<LanguageSource>): void {
+    private _refillCharacterLanguages(characterClass: CharacterClass, languageSources: Array<LanguageSource>): void {
         //Remove all free languages that have not been filled.
         characterClass.languages =
             characterClass.languages

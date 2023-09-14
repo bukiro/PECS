@@ -4,32 +4,70 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { Activity } from './Activity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ActivityGainInterface } from './ActivityGainInterface';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
-export class ActivityGain {
-    /**
-     * If you use a charge of an activity on an item, and it has a sharedChargesID,
-     * all activities on the same item with the same sharedChargesID will also use a charge.
-     */
-    public sharedChargesID = 0;
+const { assign, forExport } = setupSerialization<ActivityGain>({
+    primitives: [
+        'active',
+        'activeCooldown',
+        'chargesUsed',
+        'duration',
+        'exclusiveActivityID',
+        'heightened',
+        'id',
+        'level',
+        'name',
+        'selectedTarget',
+        'sharedChargesID',
+        'source',
+    ],
+    primitiveObjectArrays: [
+        'data',
+        'effectChoices',
+        'spellEffectChoices',
+    ],
+    exportableArrays: {
+        gainItems:
+            () => obj => ItemGain.from({ ...obj }),
+        castSpells:
+            () => obj => SpellCast.from({ ...obj }),
+        targets:
+            () => obj => SpellTarget.from({ ...obj }),
+    },
+});
+
+export class ActivityGain implements ActivityGainInterface, Serializable<ActivityGain> {
+    /** The duration is copied from the activity when activated. */
+    public duration = 0;
     /**
      * If you activate an activity, and it has an exclusiveActivityID,
      * all activities on the same item with the same sharedChargesID are automatically deactivated.
      */
     public exclusiveActivityID = 0;
-    /** The duration is copied from the activity when activated. */
-    public duration = 0;
-    /** The character level where this activity becomes available. */
-    public level = 0;
     /** The heightened value can be set by a condition that grants this activity gain. */
     public heightened = 0;
+    /**
+     * Condition gains save this id so they can be found and removed when the activity ends,
+     * or end the activity when the condition ends.
+     */
+    public id = uuidv4();
+    /** The character level where this activity becomes available. */
+    public level = 0;
     public name = '';
+    /** The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the activity service */
+    public selectedTarget: '' | 'self' | 'Selected' | CreatureTypes = '';
+    /**
+     * If you use a charge of an activity on an item, and it has a sharedChargesID,
+     * all activities on the same item with the same sharedChargesID will also use a charge.
+     */
+    public sharedChargesID = 0;
     public source = '';
-    /** We copy the activities ItemGains here whenever we activate it, so we can store the item ID. */
-    public gainItems: Array<ItemGain> = [];
-    /** We copy the activities castSpells here whenever we activate it, so we can store its duration. */
-    public castSpells: Array<SpellCast> = [];
+
+    public data: Array<{ name: string; value: string }> = [];
     /**
      * If the activity causes a condition, in order to select a choice from the activity beforehand,
      * the choice is saved here for each condition.
@@ -40,21 +78,19 @@ export class ActivityGain {
      * the choice is saved here for each condition for each spell, recursively.
      */
     public spellEffectChoices: Array<Array<{ condition: string; choice: string }>> = [];
-    /** The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the activity service */
-    public selectedTarget: '' | 'self' | 'Selected' | CreatureTypes = '';
+
+    /** We copy the activities ItemGains here whenever we activate it, so we can store the item ID. */
+    public gainItems: Array<ItemGain> = [];
+    /** We copy the activities castSpells here whenever we activate it, so we can store its duration. */
+    public castSpells: Array<SpellCast> = [];
     /** The selected targets are saved here for applying conditions. */
     public targets: Array<SpellTarget> = [];
-    /**
-     * Condition gains save this id so they can be found and removed when the activity ends,
-     * or end the activity when the condition ends.
-     */
-    public id = uuidv4();
-    public data: Array<{ name: string; value: string }> = [];
+
     public $originalActivity?: Activity;
 
     public readonly active$: BehaviorSubject<boolean>;
     public readonly chargesUsed$: BehaviorSubject<number>;
-    public readonly innerActiveCooldown$: BehaviorSubject<number>;
+    public readonly activeCooldown$: BehaviorSubject<number>;
     /**
      * activeCooldownByCreature$ is a map of calculated cooldown observables matched to creatures,
      * depending on the original activity's effective cooldown,
@@ -72,7 +108,7 @@ export class ActivityGain {
         this.$originalActivity = originalActivity;
 
         this.active$ = new BehaviorSubject(this._active);
-        this.innerActiveCooldown$ = new BehaviorSubject(this._activeCooldown);
+        this.activeCooldown$ = new BehaviorSubject(this._activeCooldown);
         this.chargesUsed$ = new BehaviorSubject(this._chargesUsed);
     }
 
@@ -91,7 +127,7 @@ export class ActivityGain {
 
     public set activeCooldown(value: number) {
         this._activeCooldown = value;
-        this.innerActiveCooldown$.next(this._activeCooldown);
+        this.activeCooldown$.next(this._activeCooldown);
     }
 
     public get chargesUsed(): number {
@@ -114,31 +150,24 @@ export class ActivityGain {
             );
     }
 
-    public recast(recastFns: RecastFns): ActivityGain {
-        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
-        this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
-        this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
-        this.$originalActivity =
-            this.$originalActivity
-                ? Object.assign(new Activity(), this.$originalActivity).recast(recastFns)
-                : undefined;
+    public static from(values: DeepPartial<ActivityGain> & { originalActivity: Activity }): ActivityGain {
+        return new ActivityGain(values.originalActivity).with(values);
+    }
+
+    public with(values: DeepPartial<ActivityGain>): ActivityGain {
+        assign(this, values);
 
         return this;
     }
 
-    public clone(recastFns: RecastFns): ActivityGain {
-        return Object.assign<ActivityGain, ActivityGain>(
-            new ActivityGain(this.$originalActivity),
-            JSON.parse(JSON.stringify(this)),
-        )
-            .recast(recastFns)
-            .clearTemporaryValues();
+    public forExport(): DeepPartial<ActivityGain> {
+        return {
+            ...forExport(this),
+        };
     }
 
-    public clearTemporaryValues(): ActivityGain {
-        this.activeCooldownByCreature$.clear();
-
-        return this;
+    public clone(): ActivityGain {
+        return ActivityGain.from(this);
     }
 
     public isOwnActivity(): this is Activity {

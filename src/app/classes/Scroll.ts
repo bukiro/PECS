@@ -1,19 +1,26 @@
 import { Observable, of } from 'rxjs';
 import { Consumable } from 'src/app/classes/Consumable';
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 
-export class Scroll extends Consumable {
+export class Scroll extends Consumable implements MessageSerializable<Scroll> {
     //Scrolls should be type "scrolls" to be found in the database
-    public readonly type = 'scrolls';
+    public readonly type: ItemTypes = 'scrolls';
 
-    public recast(recastFns: RecastFns): Scroll {
-        super.recast(recastFns);
+    public static from(values: DeepPartial<Scroll>, recastFns: RecastFns): Scroll {
+        return new Scroll().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Scroll>, recastFns: RecastFns): Scroll {
+        super.with(values, recastFns);
 
         return this;
     }
 
     public clone(recastFns: RecastFns): Scroll {
-        return Object.assign<Scroll, Scroll>(new Scroll(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Scroll.from(this, recastFns);
     }
 
     public isScroll(): this is Scroll { return true; }

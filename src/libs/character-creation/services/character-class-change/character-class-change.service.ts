@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Class } from 'src/app/classes/Class';
+import { CharacterClass } from 'src/app/classes/CharacterClass';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -26,7 +26,7 @@ export class CharacterClassChangeService {
         private readonly _store$: Store,
     ) { }
 
-    public changeClass(newClass?: Class): void {
+    public changeClass(newClass?: CharacterClass): void {
         //Cleanup Heritage, Ancestry, Background and class skills
         const character = CreatureService.character;
 
@@ -35,11 +35,11 @@ export class CharacterClassChangeService {
         this._processRemovingOldClass();
 
         if (newClass) {
-            character.class = newClass.clone(this._recastService.recastOnlyFns);
+            character.class = newClass.clone(this._recastService.recastFns);
 
             this._processNewClass();
         } else {
-            character.class = new Class();
+            character.class = new CharacterClass();
         }
 
         this._refreshService.setComponentChanged();
@@ -94,7 +94,7 @@ export class CharacterClassChangeService {
             });
 
             characterClass.customSkills.forEach(skill => {
-                character.customSkills.push(Object.assign(new Skill(), skill));
+                character.customSkills.push(safeAssign(new Skill(), skill));
             });
         }
     }

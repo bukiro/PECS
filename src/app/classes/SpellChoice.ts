@@ -3,8 +3,52 @@ import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { v4 as uuidv4 } from 'uuid';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class SpellChoice {
+const { assign, forExport } = setupSerialization<SpellChoice>({
+    primitives: [
+        'available',
+        'dynamicAvailable',
+        'alwaysShowHeightened',
+        'className',
+        'cooldown',
+        'charges',
+        'frequency',
+        'id',
+        'insertClass',
+        'level',
+        'dynamicLevel',
+        'charLevelAvailable',
+        'castingType',
+        'spellCombinationAllowed',
+        'spellCombination',
+        'tradition',
+        'source',
+        'showOnSheet',
+        'singleTarget',
+        'spellBookOnly',
+        'infinitePossibilities',
+        'adaptedCantrip',
+        'adaptiveAdept',
+        'crossbloodedEvolution',
+        'ringOfWizardry',
+        'resonant',
+        'target',
+    ],
+    primitiveArrays: [
+        'filter',
+        'traitFilter',
+        'spellBlending',
+    ],
+    exportableArrays: {
+        spells:
+            () => obj => SpellGain.from({ ...obj }),
+    },
+});
+
+export class SpellChoice implements Serializable<SpellChoice> {
     /**
      * This is a list of all the attributes that should not be discarded when saving the character.
      * For SpellChoices, if the choice is part of a class, the class may designate this choice as a signature spell.
@@ -31,8 +75,6 @@ export class SpellChoice {
      */
     public charges = 0;
     public frequency = '';
-    public filter: Array<string> = [];
-    public traitFilter: Array<string> = [];
     public id = uuidv4();
     /**
      * If insertClass is set, this SpellChoice is only granted by a feat if the character class name matches this name.
@@ -74,14 +116,6 @@ export class SpellChoice {
     /** Only allow spells from your spellbook. */
     public spellBookOnly = false;
     /**
-     * Spell Blending is for Wizards and tracks spell blending choices for this spell choice. It contains three numbers.
-     * The numbers are:
-     * [0]: Number of spell slots traded away for cantrips
-     * [1]: Number of spell slots traded away for a spell slot 1 level higher
-     * [2]: Number of spell slots traded away for a spell slot 2 levels higher
-     */
-    public spellBlending: Array<number> = [0, 0, 0];
-    /**
      * Infinite Possibilities is for Wizards and tracks whether one of the spell slots of this choice
      * has been traded away for an Infinite Possibilities slot.
      */
@@ -104,6 +138,17 @@ export class SpellChoice {
      */
     public target = '';
 
+    public filter: Array<string> = [];
+    public traitFilter: Array<string> = [];
+    /**
+     * Spell Blending is for Wizards and tracks spell blending choices for this spell choice. It contains three numbers.
+     * The numbers are:
+     * [0]: Number of spell slots traded away for cantrips
+     * [1]: Number of spell slots traded away for a spell slot 1 level higher
+     * [2]: Number of spell slots traded away for a spell slot 2 levels higher
+     */
+    public spellBlending: Array<number> = [0, 0, 0];
+
     private readonly _spells = new OnChangeArray<SpellGain>();
 
     public get spells(): OnChangeArray<SpellGain> {
@@ -114,15 +159,28 @@ export class SpellChoice {
         this._spells.setValues(...value);
     }
 
-    public recast(): SpellChoice {
-        this.spells = this.spells.map(obj => Object.assign(new SpellGain(), obj).recast());
-        this.spells.forEach(gain => { gain.source = this.source; });
+    public static from(values: DeepPartial<SpellChoice>): SpellChoice {
+        return new SpellChoice().with(values);
+    }
+
+    public with(values: DeepPartial<SpellChoice>): SpellChoice {
+        assign(this, values);
+
+        this.spells.forEach(spell => {
+            spell.source = this.source;
+        });
 
         return this;
     }
 
+    public forExport(): DeepPartial<SpellChoice> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): SpellChoice {
-        return Object.assign<SpellChoice, SpellChoice>(new SpellChoice(), JSON.parse(JSON.stringify(this))).recast();
+        return SpellChoice.from(this);
     }
 
     public addSpell(

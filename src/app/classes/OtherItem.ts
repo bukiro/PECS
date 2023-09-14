@@ -1,15 +1,42 @@
-export class OtherItem {
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
+
+const { assign, forExport, forMessage } = setupSerialization<OtherItem>({
+    primitives: [
+        'name',
+        'bulk',
+    ],
+});
+
+export class OtherItem implements MessageSerializable<OtherItem>{
     public name = '';
     public bulk = '';
     public readonly amount: number = 1;
 
-    public recast(): OtherItem {
+    public static from(values: DeepPartial<OtherItem>): OtherItem {
+        return new OtherItem().with(values);
+    }
+
+    public with(values: DeepPartial<OtherItem>): OtherItem {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<OtherItem> {
+        return {
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<OtherItem> {
+        return {
+            ...forMessage(this),
+        };
+    }
+
     public clone(): OtherItem {
-        return Object.assign<OtherItem, OtherItem>(
-            new OtherItem(), JSON.parse(JSON.stringify(this)),
-        ).recast();
+        return OtherItem.from(this);
     }
 }

@@ -4,10 +4,29 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject } from 'rxjs';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
 const AnimalCompanionDefaultHitPoints = 6;
 
-export class AnimalCompanionClass {
+const { assign, forExport } = setupSerializationWithHelpers<AnimalCompanionClass>({
+    primitives: [
+        'hitPoints',
+    ],
+    exportables: {
+        ancestry:
+            recastFns => obj => AnimalCompanionAncestry.from({ ...obj }, recastFns),
+    },
+    exportableArrays: {
+        levels:
+            () => obj => AnimalCompanionLevel.from({ ...obj }),
+        specializations:
+            () => obj => AnimalCompanionSpecialization.from({ ...obj }),
+    },
+});
+
+export class AnimalCompanionClass implements Serializable<AnimalCompanionClass> {
     public hitPoints = AnimalCompanionDefaultHitPoints;
 
     public readonly ancestry$: BehaviorSubject<AnimalCompanionAncestry>;
@@ -45,17 +64,23 @@ export class AnimalCompanionClass {
         this._specializations.setValues(...value);
     }
 
-    public recast(recastFns: RecastFns): AnimalCompanionClass {
-        this.ancestry = Object.assign(new AnimalCompanionAncestry(), this.ancestry).recast(recastFns);
-        this.levels = this.levels.map(obj => Object.assign(new AnimalCompanionLevel(), obj).recast());
-        this.specializations = this.specializations.map(obj => Object.assign(new AnimalCompanionSpecialization(), obj).recast());
+    public static from(values: DeepPartial<AnimalCompanionClass>, recastFns: RecastFns): AnimalCompanionClass {
+        return new AnimalCompanionClass().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<AnimalCompanionClass>, recastFns: RecastFns): AnimalCompanionClass {
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<AnimalCompanionClass> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): AnimalCompanionClass {
-        return Object.assign<AnimalCompanionClass, AnimalCompanionClass>(
-            new AnimalCompanionClass(), JSON.parse(JSON.stringify(this)),
-        ).recast(recastFns);
+        return AnimalCompanionClass.from(this, recastFns);
     }
 }

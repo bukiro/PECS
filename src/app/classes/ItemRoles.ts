@@ -5,6 +5,7 @@ import { Equipment } from './Equipment';
 import { Item } from './Item';
 import { Oil } from './Oil';
 import { Rune } from './Rune';
+import { Scroll } from './Scroll';
 import { Shield } from './Shield';
 import { Talisman } from './Talisman';
 import { Wand } from './Wand';
@@ -21,6 +22,7 @@ export interface ItemRoles {
     asActivityBearing?: Equipment | Rune | Ammunition;
     asArmor?: Armor;
     asOil?: Oil;
+    asScroll?: Scroll;
     asTalisman?: Talisman;
     asWeapon?: Weapon;
     asWand?: Wand;

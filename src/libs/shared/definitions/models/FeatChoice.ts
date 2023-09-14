@@ -1,11 +1,42 @@
 
 import { OnChangeArray } from '../../util/classes/on-change-array';
+import { setupSerialization } from '../../util/serialization';
+import { Serializable } from '../interfaces/serializable';
+import { DeepPartial } from '../types/deepPartial';
 import { FeatIgnoreRequirements } from './featIgnoreRequirements';
 import { FeatTaken } from './FeatTaken';
 
-export class FeatChoice {
+const { assign, forExport } = setupSerialization<FeatChoice>({
+    primitives: [
+        'available',
+        'bonus',
+        'id',
+        'insertLevel',
+        'insertClass',
+        'level',
+        'showOnSheet',
+        'autoSelectIfPossible',
+        'showOnCurrentLevel',
+        'source',
+        'specialChoice',
+        'dynamicLevel',
+        'type',
+    ],
+    primitiveArrays: [
+        'filter',
+    ],
+    primitiveObjectArrays: [
+        'ignoreRequirements',
+    ],
+    exportableArrays: {
+        feats:
+            () => obj => FeatTaken.from({ ...obj }),
+    },
+});
+
+export class FeatChoice implements Serializable<FeatChoice> {
     public available = 0;
-    public filter: Array<string> = [];
+    public bonus = false;
     public id = '';
     /**
      * If insertLevel is set, this featChoice is placed at the designated class level when granted by a feat.
@@ -49,6 +80,8 @@ export class FeatChoice {
      * It will always be rounded down.
      */
     public dynamicLevel = '';
+    public type = '';
+
     /**
      * You can add requirements to the ignore list.
      * These get evaluated as complexreqs and must result in one of the following to disable the requirement:
@@ -60,9 +93,9 @@ export class FeatChoice {
      * - "complexreq"
      * - "dedicationlimit"
      */
+    public filter: Array<string> = [];
+
     public ignoreRequirements: Array<FeatIgnoreRequirements.FeatIgnoreRequirement> = [];
-    public type = '';
-    public bonus = false;
 
     private readonly _feats = new OnChangeArray<FeatTaken>();
 
@@ -74,14 +107,23 @@ export class FeatChoice {
         this._feats.setValues(...value);
     }
 
+    public static from(values: DeepPartial<FeatChoice>): FeatChoice {
+        return new FeatChoice().with(values);
+    }
 
-    public recast(): FeatChoice {
-        this.feats = this.feats.map(obj => Object.assign(new FeatTaken(), obj).recast());
+    public with(values: DeepPartial<FeatChoice>): FeatChoice {
+        assign(this, values);
 
         return this;
     }
 
+    public forExport(): DeepPartial<FeatChoice> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): FeatChoice {
-        return Object.assign<FeatChoice, FeatChoice>(new FeatChoice(), JSON.parse(JSON.stringify(this))).recast();
+        return FeatChoice.from(this);
     }
 }

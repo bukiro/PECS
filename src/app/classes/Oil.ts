@@ -2,12 +2,47 @@ import { Consumable } from 'src/app/classes/Consumable';
 import { Hint } from 'src/app/classes/Hint';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-export class Oil extends Consumable {
+const { assign, forExport, forMessage } = setupSerializationWithHelpers<Oil>({
+    primitives: [
+        'critfailure',
+        'critsuccess',
+        'damagereq',
+        'duration',
+        'failure',
+        'bulkEffect',
+        'potencyEffect',
+        'strikingEffect',
+        'resilientEffect',
+        'rangereq',
+        'success',
+        'weightLimit',
+    ],
+    primitiveArrays: [
+        'targets',
+    ],
+    messageExportables: {
+        runeEffect:
+            recastFns => obj =>
+                recastFns.getItemPrototype<WeaponRune>({ ...obj }, { type: 'weaponrunes' })
+                    .with({ ...obj }, recastFns),
+    },
+    exportableArrays: {
+        castSpells:
+            () => obj => SpellCast.from({ ...obj }),
+        hints:
+            () => obj => Hint.from({ ...obj }),
+    },
+});
+
+export class Oil extends Consumable implements MessageSerializable<Oil> {
     //Oils should be type "oils" to be found in the database
-    public readonly type = 'oils';
-    public castSpells: Array<SpellCast> = [];
+    public readonly type: ItemTypes = 'oils';
     public critfailure = '';
     public critsuccess = '';
     /** Can only be applied to a weapon with this damage type (or modular). */
@@ -15,39 +50,54 @@ export class Oil extends Consumable {
     /** Duration is in turns * 10. The Oil is removed after the duration expires. */
     public duration = 0;
     public failure = '';
-    public hints: Array<Hint> = [];
     public bulkEffect = '';
     public potencyEffect = 0;
     public strikingEffect = 0;
     public resilientEffect = 0;
     /** If this is "melee" or "ranged", you can only apply it to a weapon that has a value in that property. */
     public rangereq = '';
+    public success = '';
+    public weightLimit = 0;
+
+    /** You can only choose this oil for an item if its type or "items" is in the targets list */
+    public targets: Array<string> = [];
+
     /**
      * The rune with this name will be loaded into the oil at initialization,
      * and its effects will be applied on a weapon to which the oil is applied.
      */
     public runeEffect?: WeaponRune;
-    public success = '';
-    /** You can only choose this oil for an item if its type or "items" is in the targets list */
-    public targets: Array<string> = [];
-    public weightLimit = 0;
 
-    public recast(recastFns: RecastFns): Oil {
-        super.recast(recastFns);
-        this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
-        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
-        this.runeEffect = this.runeEffect
-            ? Object.assign(
-                new WeaponRune(),
-                recastFns.item(this.runeEffect),
-            ).recast(recastFns)
-            : undefined;
+    public castSpells: Array<SpellCast> = [];
+    public hints: Array<Hint> = [];
+
+    public static from(values: DeepPartial<Oil>, recastFns: RecastFns): Oil {
+        return new Oil().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Oil>, recastFns: RecastFns): Oil {
+        super.with(values, recastFns);
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Oil> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<Oil> {
+        return {
+            ...super.forMessage(),
+            ...forMessage(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Oil {
-        return Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Oil.from(this, recastFns);
     }
 
     public isOil(): this is Oil { return true; }

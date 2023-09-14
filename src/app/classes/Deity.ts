@@ -1,15 +1,47 @@
 import { SpellCast } from 'src/app/classes/SpellCast';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class Deity {
+const { assign, forExport } = setupSerialization<Deity>({
+    primitives: [
+        'name',
+        'nickname',
+        'desc',
+        'sourceBook',
+        'areasOfConcern',
+        'category',
+        'alignment',
+    ],
+    primitiveArrays: [
+        'edicts',
+        'anathema',
+        'pantheonMembers',
+        'followerAlignments',
+        'divineAbility',
+        'divineFont',
+        'divineSkill',
+        'favoredWeapon',
+        'domains',
+        'alternateDomains',
+    ],
+    exportableArrays: {
+        clericSpells:
+            () => obj => SpellCast.from({ ...obj }),
+    },
+});
+
+export class Deity implements Serializable<Deity> {
     public name = '';
     public nickname = '';
     public desc = '';
     public sourceBook = '';
-    public edicts: Array<string> = [];
-    public anathema: Array<string> = [];
     public areasOfConcern = '';
     public category = '';
     public alignment = '';
+
+    public edicts: Array<string> = [];
+    public anathema: Array<string> = [];
     public pantheonMembers: Array<string> = [];
     public followerAlignments: Array<string> = [];
     public divineAbility: Array<string> = [];
@@ -18,16 +50,27 @@ export class Deity {
     public favoredWeapon: Array<string> = [];
     public domains: Array<string> = [];
     public alternateDomains: Array<string> = [];
+
     public clericSpells: Array<SpellCast> = [];
 
-    public recast(): Deity {
-        this.clericSpells = this.clericSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
+    public static from(values: DeepPartial<Deity>): Deity {
+        return new Deity().with(values);
+    }
+
+    public with(values: DeepPartial<Deity>): Deity {
+        assign(this, values);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Deity> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): Deity {
-        return Object.assign<Deity, Deity>(new Deity(), JSON.parse(JSON.stringify(this))).recast();
+        return Deity.from(this);
     }
 
     public isDomainExternal(domain: string): boolean {

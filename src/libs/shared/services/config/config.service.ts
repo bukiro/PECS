@@ -143,7 +143,7 @@ export class ConfigService {
                             },
                         }));
 
-                        throw (error);
+                        throw error;
                     }
 
                     console.warn('An unknown error occurred while reading the config file. Switching to a local service.');

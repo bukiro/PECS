@@ -10,13 +10,16 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
-import { AbilityBoost } from './AbilityBoost';
+import { AbilityBoostInterface } from './AbilityBoostInterface';
 import { SkillIncrease } from './SkillIncrease';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject, Observable, combineLatest, map, switchMap } from 'rxjs';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 import { Alignments } from 'src/libs/shared/definitions/alignments';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
 export interface SkillNotes {
     name: string;
@@ -24,28 +27,63 @@ export interface SkillNotes {
     notes: string;
 }
 
-export abstract class Creature {
+const { assign, forExport } = setupSerializationWithHelpers<Creature>({
+    primitives: [
+        'id',
+        'notes',
+        'alignment',
+        'level',
+        'name',
+    ],
+    primitiveObjectArrays: [
+        'skillNotes',
+    ],
+    exportables: {
+        health:
+            () => obj => Health.from({ ...obj }),
+    },
+    exportableArrays: {
+        conditions:
+            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+        customSkills:
+            () => obj => Skill.from({ ...obj }),
+        effects:
+            () => obj => EffectGain.from({ ...obj }),
+        ignoredEffects:
+            () => obj => Effect.from({ ...obj }),
+        inventories:
+            recastFns => obj => ItemCollection.from({ ...obj }, recastFns),
+        speeds:
+            () => obj => Speed.from({ ...obj }),
+    },
+});
+
+export abstract class Creature implements Serializable<Creature> {
     public id = uuidv4();
     public type: CreatureTypes = CreatureTypes.Character;
     public typeId: CreatureTypeIds = CreatureTypeIds.Character;
+    public notes = '';
+
+    public skillNotes: Array<SkillNotes> = [];
+
     public health: Health = new Health();
+
     public conditions: Array<ConditionGain> = [];
     public effects: Array<EffectGain> = [];
     public ignoredEffects: Array<Effect> = [];
-    public notes = '';
-    public skillNotes: Array<SkillNotes> = [];
 
     public readonly alignment$: BehaviorSubject<Alignments>;
     public readonly level$: BehaviorSubject<number>;
     public readonly name$: BehaviorSubject<string>;
 
-    protected _customSkills: OnChangeArray<Skill> = new OnChangeArray<Skill>();
     protected readonly _inventoriesTouched$: Observable<boolean>;
+    protected _customSkills = new OnChangeArray<Skill>();
 
     private _alignment: Alignments = Alignments.N;
-    private readonly _inventories = new OnChangeArray(new ItemCollection());
     private _level = 1;
     private _name = '';
+
+    private readonly _inventories = new OnChangeArray(new ItemCollection());
     private readonly _speeds = new OnChangeArray<Speed>(
         new Speed('Speed'),
         new Speed('Land Speed'),
@@ -118,15 +156,16 @@ export abstract class Creature {
 
     public get requiresConForHP(): boolean { return false; }
 
-    public recast(recastFns: RecastFns): Creature {
-        this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
-        this.health = Object.assign(new Health(), this.health).recast();
-        this.conditions = this.conditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
-        this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.inventories = this.inventories.map(obj => Object.assign(new ItemCollection(), obj).recast(recastFns));
-        this.speeds = this.speeds.map(obj => Object.assign(new Speed(), obj).recast());
+    public with(values: DeepPartial<Creature>, recastFns: RecastFns): Creature {
+        assign(this, values, recastFns);
 
         return this;
+    }
+
+    public forExport(): DeepPartial<Creature> {
+        return {
+            ...forExport(this),
+        };
     }
 
     public isAnimalCompanion(): this is AnimalCompanion {
@@ -161,7 +200,7 @@ export abstract class Creature {
         source?: string,
         sourceId?: string,
         locked?: boolean,
-    ): Array<AbilityBoost>;
+    ): Array<AbilityBoostInterface>;
 
     public abstract skillIncreases(
         minLevelNumber: number,

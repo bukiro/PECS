@@ -11,6 +11,7 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { safeAssign } from '../../util/safe-assign';
 
 @Injectable({
     providedIn: 'root',
@@ -101,7 +102,7 @@ export class FeatsDataService {
                 featString = featString.replace(regex, weapon.name);
 
                 const newFeat =
-                    Object.assign<Feat, Partial<Feat>>(new Feat(), JSON.parse(featString)).recast(this._recastService.recastOnlyFns);
+                    safeAssign(new Feat(), JSON.parse(featString)).recast(this._recastService.recastFns);
 
                 newFeat.hide = false;
                 newFeat.weaponfeatbase = false;
@@ -182,7 +183,7 @@ export class FeatsDataService {
             if (!this._itemsDataService.stillLoading) {
                 clearInterval(waitForItemsDataService);
 
-                this._feats = this._dataLoadingService.loadRecastable(
+                this._feats = this._dataLoadingService.loadCastable(
                     json_feats as ImportedJsonFileList<Feat>,
                     'feats',
                     'name',
@@ -199,7 +200,7 @@ export class FeatsDataService {
                     this._featsMap.set(feat.name.toLowerCase(), feat);
                 });
 
-                this._features = this._dataLoadingService.loadRecastable(
+                this._features = this._dataLoadingService.loadCastable(
                     json_features as ImportedJsonFileList<Feat>,
                     'features',
                     'name',

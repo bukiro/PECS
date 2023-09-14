@@ -1,9 +1,23 @@
 import { Equipment } from 'src/app/classes/Equipment';
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class AdventuringGear extends Equipment {
+const { assign, forExport, forMessage } = setupSerialization<AdventuringGear>({
+    primitives: [
+        'equippable',
+        'hands',
+        'isArmoredSkirt',
+        'stack',
+        'usage',
+    ],
+});
+
+export class AdventuringGear extends Equipment implements MessageSerializable<AdventuringGear> {
     //Adventuring Gear should be type "adventuringgear" to be found in the database
-    public readonly type = 'adventuringgear';
+    public readonly type: ItemTypes = 'adventuringgear';
     //Adventuring Gear can usually not be equipped or invested, but with exceptions.
     public equippable = false;
     //How many hands need to be free to use this item?
@@ -16,22 +30,39 @@ export class AdventuringGear extends Equipment {
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage = '';
 
-    public recast(recastFns: RecastFns): AdventuringGear {
-        super.recast(recastFns);
+    public static from(values: DeepPartial<AdventuringGear>, recastFns: RecastFns): AdventuringGear {
+        return new AdventuringGear().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<AdventuringGear>, recastFns: RecastFns): AdventuringGear {
+        super.with(values, recastFns);
+        assign(this, values);
 
         return this;
     }
 
+    public forExport(): DeepPartial<AdventuringGear> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<AdventuringGear> {
+        return {
+            ...super.forMessage(),
+            ...forMessage(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): AdventuringGear {
-        return Object.assign<AdventuringGear, AdventuringGear>(
-            new AdventuringGear(), JSON.parse(JSON.stringify(this)),
-        ).recast(recastFns);
+        return AdventuringGear.from(this, recastFns);
     }
 
     public isAdventuringGear(): this is AdventuringGear { return true; }
 
     public canStack(): boolean {
-        //Some AdventuringGear can stack. This is an expanded version of Item.can_Stack().
+        //Some AdventuringGear can stack. This is an expanded version of Item.canStack().
         return (
             !this.equippable &&
             !this.canInvest() &&

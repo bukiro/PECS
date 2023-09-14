@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
 import { Injectable } from '@angular/core';
-import { Class } from 'src/app/classes/Class';
+import { CharacterClass } from 'src/app/classes/CharacterClass';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { ClassesDataService } from 'src/libs/shared/services/data/classes-data.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
@@ -15,8 +15,8 @@ export class ClassSavingLoadingService {
         private readonly _typeService: TypeService,
     ) { }
 
-    public restoreClassFromSave(classObject: Class): Class {
-        let restoredClass: Class | undefined;
+    public restoreClassFromSave(classObject: CharacterClass): CharacterClass {
+        let restoredClass: CharacterClass | undefined;
 
         if (classObject.name) {
             const libraryObject = this._classesDataService.classFromName(classObject.name);
@@ -35,12 +35,12 @@ export class ClassSavingLoadingService {
         return restoredClass || classObject;
     }
 
-    public cleanClassForSave(classObject: Class): Class {
+    public cleanClassForSave(classObject: CharacterClass): CharacterClass {
         if (classObject.name) {
             const libraryObject = this._classesDataService.classFromName(classObject.name);
 
             if (libraryObject) {
-                (Object.keys(classObject) as Array<keyof Class>).forEach(key => {
+                (Object.keys(classObject) as Array<keyof CharacterClass>).forEach(key => {
                     if (key !== 'name') {
                         // If the Object has a name, and a library item can be found with that name,
                         // compare the property with the library item

@@ -75,7 +75,7 @@ export class ItemPoisonsComponent extends TrackByMixin(BaseClass) {
             const item = this.item;
 
             item.poisonsApplied.length = 0;
-            item.poisonsApplied.push(this.newPoison.poison.clone(this._recastService.recastOnlyFns));
+            item.poisonsApplied.push(this.newPoison.poison.clone(this._recastService.recastFns));
 
             if (this.newPoison.inv) {
                 this._inventoryService.dropInventoryItem(

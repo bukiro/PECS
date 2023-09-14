@@ -1,6 +1,31 @@
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class EffectGain {
+const { assign, forExport } = setupSerialization<EffectGain>({
+    primitives: [
+        'affected',
+        'value',
+        'setValue',
+        'toggle',
+        'conditionalToggle',
+        'show',
+        'type',
+        'duration',
+        'maxDuration',
+        'resonant',
+        'source',
+        'sourceId',
+        'spellSource',
+        'title',
+    ],
+    primitiveArrays: [
+        'cumulative',
+    ],
+});
+
+export class EffectGain implements Serializable<EffectGain> {
     public affected = '';
     /**
      * Add this number to the target value.
@@ -28,30 +53,39 @@ export class EffectGain {
     public type: BonusTypes = BonusTypes.Untyped;
     public duration = 0;
     public maxDuration = 0;
+    /** A resonant effect only applies if the carrying item is slotted into a wayfinder. */
+    public resonant = false;
     /** source and sourceId are copied from conditions and used to track temporary HP. */
     public source = '';
     public sourceId = '';
     /** spellSource is copied from conditions and used in value eval()s. Also only used to calculate temporary HP so far. */
     public spellSource = '';
-    /** If the effect has a type, cumulative lists all effect sources (of the same type) that it is cumulative with. */
-    public cumulative: Array<string> = [];
-    /** A resonant effect only applies if the carrying item is slotted into a wayfinder. */
-    public resonant = false;
     /**
      * The title will be shown instead of the value if it is set.
      * It can be calculated like the value, and use the value for its calculations, but should result in a string.
      */
     public title = '';
 
-    public static from(partial: Partial<EffectGain>): EffectGain {
-        return Object.assign<EffectGain, Partial<EffectGain>>(new EffectGain(), partial).recast();
+    /** If the effect has a type, cumulative lists all effect sources (of the same type) that it is cumulative with. */
+    public cumulative: Array<string> = [];
+
+    public static from(values: DeepPartial<EffectGain>): EffectGain {
+        return new EffectGain().with(values);
     }
 
-    public recast(): EffectGain {
+    public with(values: DeepPartial<EffectGain>): EffectGain {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<EffectGain> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): EffectGain {
-        return Object.assign<EffectGain, EffectGain>(new EffectGain(), JSON.parse(JSON.stringify(this))).recast();
+        return EffectGain.from(this);
     }
 }

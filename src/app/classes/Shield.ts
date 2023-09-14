@@ -3,6 +3,10 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
 import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/emblazon-armament-set';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
 enum ShoddyPenalties {
     NotShoddy = 0,
@@ -12,9 +16,33 @@ enum ShoddyPenalties {
 const shieldAllyBonus = 2;
 const emblazonArmamentBonus = 1;
 
-export class Shield extends Equipment {
+const { assign, forExport, forMessage } = setupSerializationWithHelpers<Shield>({
+    primitives: [
+        'moddable',
+        'acbonus',
+        'raised',
+        'speedpenalty',
+        'takingCover',
+        'brokenThreshold',
+        'coverbonus',
+        'damage',
+        'hardness',
+        'hitpoints',
+        'shieldBase',
+    ],
+    primitiveObjects: [
+        'emblazonArmament',
+    ],
+    exportableArrays: {
+        // Treat all materials on Shield as ShieldMaterial.
+        material:
+            () => obj => ShieldMaterial.from({ ...obj }),
+    },
+});
+
+export class Shield extends Equipment implements MessageSerializable<Shield> {
     //Shields should be type "shields" to be found in the database
-    public readonly type = 'shields';
+    public readonly type: ItemTypes = 'shields';
     //Shields are usually moddable, which means they get material but no runes.
     public moddable = true;
     /** The shield's AC bonus received when raising it. */
@@ -33,10 +61,10 @@ export class Shield extends Equipment {
     public hitpoints = 0;
     /** What kind of shield is this based on? */
     public shieldBase = '';
+
     /** Shoddy shields take a -2 penalty to AC. */
     /** Shoddy weapons take a -2 penalty to attacks. */
     public effectiveShoddy$ = new BehaviorSubject<ShoddyPenalties>(ShoddyPenalties.NotShoddy);
-
     //TO-DO: This should be a true observable and update when it has reason to.
     // I'm not sure how, because it relies on the deity service.
     public effectiveEmblazonArmament$ = new BehaviorSubject<EmblazonArmamentSet | undefined>(undefined);
@@ -45,7 +73,7 @@ export class Shield extends Equipment {
     public readonly emblazonArmament$: BehaviorSubject<EmblazonArmamentSet | undefined>;
     public readonly shieldMaterial$: Observable<Array<ShieldMaterial>>;
 
-    private _emblazonArmament?: EmblazonArmamentSet | undefined = undefined;
+    private _emblazonArmament?: EmblazonArmamentSet = undefined;
 
     constructor() {
         super();
@@ -70,29 +98,43 @@ export class Shield extends Equipment {
         this.emblazonArmament$.next(this._emblazonArmament);
     }
 
-    public get shieldMaterial(): Array<ShieldMaterial> {
+    public get shieldMaterial(): Readonly<Array<ShieldMaterial>> {
         return this.material.filter((material): material is ShieldMaterial => material.isShieldMaterial());
     }
 
-    public recast(recastFns: RecastFns): Shield {
-        super.recast(recastFns);
-        this.material = this.material.map(obj => Object.assign(new ShieldMaterial(), obj).recast());
+    public static from(values: DeepPartial<Shield>, recastFns: RecastFns): Shield {
+        return new Shield().with(values, recastFns);
+    }
+
+    public with(values: DeepPartial<Shield>, recastFns: RecastFns): Shield {
+        super.with(values, recastFns);
+        assign(this, values, recastFns);
 
         return this;
     }
 
+    public forExport(): DeepPartial<Shield> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<Shield> {
+        return {
+            ...super.forMessage(),
+            ...forMessage(this),
+        };
+    }
+
     public clone(recastFns: RecastFns): Shield {
-        return Object.assign<Shield, Shield>(new Shield(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Shield.from(this, recastFns);
     }
 
     public isShield(): this is Shield { return true; }
 
     public effectiveHardness$(): Observable<number> {
-        let hardness = this.hardness;
-
-        this.shieldMaterial.forEach((material: ShieldMaterial) => {
-            hardness = material.hardness;
-        });
+        const hardness = this.shieldMaterial.reduce((_, current) => current.hardness, this.hardness);
 
         return combineLatest([
             this.effectiveShieldAlly$,
@@ -108,11 +150,7 @@ export class Shield extends Equipment {
 
     public effectiveMaxHP$(): Observable<number> {
         const half = .5;
-        let hitpoints = this.hitpoints;
-
-        this.shieldMaterial.forEach((material: ShieldMaterial) => {
-            hitpoints = material.hitpoints;
-        });
+        const hitpoints = this.shieldMaterial.reduce((_, current) => current.hitpoints, this.hitpoints);
 
         return this.effectiveShieldAlly$
             .pipe(
@@ -123,11 +161,7 @@ export class Shield extends Equipment {
 
     public effectiveBrokenThreshold$(): Observable<number> {
         const half = .5;
-        let brokenThreshold = this.brokenThreshold;
-
-        this.shieldMaterial.forEach((material: ShieldMaterial) => {
-            brokenThreshold = material.brokenThreshold;
-        });
+        const brokenThreshold = this.shieldMaterial.reduce((_, current) => current.brokenThreshold, this.brokenThreshold);
 
         return this.effectiveShieldAlly$
             .pipe(

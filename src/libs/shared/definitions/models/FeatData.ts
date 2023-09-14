@@ -1,14 +1,25 @@
-//TO-DO: Resolve private properties either not matching JSON import or not having an underscore
-/* eslint-disable @typescript-eslint/naming-convention */
-
 import { BehaviorSubject, Observable, map } from 'rxjs';
+import { setupSerialization } from '../../util/serialization';
+import { Serializable } from '../interfaces/serializable';
+import { DeepPartial } from '../types/deepPartial';
 
 type FeatDataValue = string | number | boolean | Array<string> | Array<number> | null;
 
-export class FeatData {
-    private data: Record<string, FeatDataValue> = {};
+const { assign, forExport } = setupSerialization<FeatData>({
+    primitives: [
+        'level',
+        'featName',
+        'sourceId',
+    ],
+    primitiveObjects: [
+        'data',
+    ],
+});
 
-    private readonly data$: BehaviorSubject<Record<string, FeatDataValue>>;
+export class FeatData implements Serializable<FeatData> {
+    private _data: Record<string, FeatDataValue> = {};
+
+    private readonly _data$: BehaviorSubject<Record<string, FeatDataValue>>;
 
     constructor(
         public level: number,
@@ -17,91 +28,115 @@ export class FeatData {
         data?: Record<string, FeatDataValue>,
     ) {
         if (data) {
-            this.data = data;
+            this._data = data;
         }
 
-        this.data$ = new BehaviorSubject(this.data);
+        this._data$ = new BehaviorSubject(this._data);
     }
 
-    public recast(): FeatData {
+    public get data(): Record<string, FeatDataValue> {
+        return this._data;
+    }
+
+    /** Only for setting in  */
+    public set data(data: Record<string, FeatDataValue>) {
+        this._data = data;
+        this._data$.next(this._data);
+    }
+
+    public static from(values: DeepPartial<FeatData>): FeatData {
+        return new FeatData(
+            values.level ?? 0,
+            values.featName ?? '',
+            values.sourceId ?? '',
+        ).with(values);
+    }
+
+    public with(values: DeepPartial<FeatData>): FeatData {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<FeatData> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): FeatData {
-        return Object.assign<FeatData, FeatData>(
-            new FeatData(this.level, this.featName, this.sourceId, this.data), JSON.parse(JSON.stringify(this)),
-        ).recast();
+        return FeatData.from(this);
     }
 
     public setValue(key: string, input: FeatDataValue | Event): void {
         const value = input instanceof Event ? (input.target as HTMLInputElement).value : input;
 
-        this.data[key] = value;
-        this.data$.next(this.data);
+        this._data[key] = value;
+        this._data$.next(this._data);
     }
 
     public getValue(key: string): Readonly<FeatDataValue> {
-        return this.data[key];
+        return this._data[key];
     }
 
     public valueAsString(key: string): Readonly<string | null> {
-        return typeof this.data[key] === 'string' ? this.data[key] as string : null;
+        return typeof this._data[key] === 'string' ? this._data[key] as string : null;
     }
 
     public valueAsNumber(key: string): Readonly<number | null> {
-        return typeof this.data[key] === 'number' ? this.data[key] as number : null;
+        return typeof this._data[key] === 'number' ? this._data[key] as number : null;
     }
 
     public valueAsBoolean(key: string): Readonly<boolean | null> {
-        return typeof this.data[key] === 'boolean' ? this.data[key] as boolean : null;
+        return typeof this._data[key] === 'boolean' ? this._data[key] as boolean : null;
     }
 
     public valueAsStringArray(key: string): ReadonlyArray<string> | null {
-        if (this.data[key] && Array.isArray(this.data[key])) {
-            return this.data[key] as Array<string>;
+        if (this._data[key] && Array.isArray(this._data[key])) {
+            return this._data[key] as Array<string>;
         } else {
             return null;
         }
     }
 
     public valueAsNumberArray(key: string): ReadonlyArray<number> | null {
-        if (this.data[key] && Array.isArray(this.data[key])) {
-            return this.data[key] as Array<number>;
+        if (this._data[key] && Array.isArray(this._data[key])) {
+            return this._data[key] as Array<number>;
         } else {
             return null;
         }
     }
 
     public getValue$(key: string): Observable<Readonly<FeatDataValue>> {
-        return this.data$
+        return this._data$
             .pipe(
                 map(data => data[key]),
             );
     }
 
     public valueAsString$(key: string): Observable<Readonly<string | null>> {
-        return this.data$
+        return this._data$
             .pipe(
                 map(data => typeof data[key] === 'string' ? data[key] as string : null),
             );
     }
 
     public valueAsNumber$(key: string): Observable<Readonly<number | null>> {
-        return this.data$
+        return this._data$
             .pipe(
                 map(data => typeof data[key] === 'number' ? data[key] as number : null),
             );
     }
 
     public valueAsBoolean$(key: string): Observable<Readonly<boolean | null>> {
-        return this.data$
+        return this._data$
             .pipe(
                 map(data => typeof data[key] === 'boolean' ? data[key] as boolean : null),
             );
     }
 
     public valueAsStringArray$(key: string): Observable<ReadonlyArray<string> | null> {
-        return this.data$
+        return this._data$
             .pipe(
                 map(data => {
                     if (data[key] && Array.isArray(data[key])) {
@@ -114,7 +149,7 @@ export class FeatData {
     }
 
     public valueAsNumberArray$(key: string): Observable<ReadonlyArray<number> | null> {
-        return this.data$
+        return this._data$
             .pipe(
                 map(data => {
                     if (data[key] && Array.isArray(data[key])) {

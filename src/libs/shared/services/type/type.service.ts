@@ -1,108 +1,81 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
-import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
 import { Constructable } from '../../definitions/interfaces/constructable';
 import { ItemsDataService } from '../data/items-data.service';
+import { DeepPartial } from '../../definitions/types/deepPartial';
+import { ItemTypes } from '../../definitions/types/item-types';
 
-type CastFn<T> = (object: Partial<T>) => T;
+type ItemPrototypeFn<T extends Item> = () => T;
 
 @Injectable({
     providedIn: 'root',
 })
 export class TypeService {
 
-    private readonly _itemTypeCastings: Map<string, CastFn<any>> = new Map();
+    private readonly _itemPrototypeFunctions: Map<ItemTypes, ItemPrototypeFn<Item>> = new Map();
 
-    public castItemByType<T extends Item>(item: Partial<T>, type?: string): T {
-        //This function tries to cast an item according to its type name.
-        type = type || item.type;
-
-        if (type) {
-            return this._itemTypeCastings.get(type)?.(item) || (item as T);
+    public getPrototypeItem<T extends Item>(item: DeepPartial<T>, options: { type?: ItemTypes; prototype?: T }): T {
+        if (options.prototype) {
+            return options.prototype;
         }
 
-        return item as T;
+        //This function tries to cast an item according to its type name.
+        const type = options.type ?? (item.type as ItemTypes | undefined);
+
+        if (!type) {
+            throw new Error('[TypeService] Could not create prototype without item type');
+        }
+
+        const prototype = this._itemPrototypeFunctions.get(type)?.() as T;
+
+        if (!prototype) {
+            throw new Error(`[TypeService] Could not create prototype from type ${ type }`);
+        }
+
+        return prototype;
     }
 
+    //TO-DO: Implement a merging mechanism for classes comparable to .with().
+    // Alternatively, verify that it isn't needed.
+    // Should arrays be replaced or merged in .with()?
+    /**
     public mergeArray<T>(target: Array<T> | undefined, source: Array<Partial<T>>): Array<T> {
         const output: Array<T> = target
-            ? JSON.parse(JSON.stringify(target)) as Array<T>
+            ? removeObservableMembers([...target])
             : new Array<T>();
-
         source.forEach((member, index) => {
             output[index] = this.mergeProperty(target?.[index], member) as T;
         });
-
         return output;
     }
+     */
 
-    public mergeObject<T extends object>(target: T | undefined, source: Partial<T>): T {
-        const output = target
-            ? Object.assign(new (target.constructor as Constructable<T>)(), JSON.parse(JSON.stringify(target)))
-            : {};
-
-        (Object.keys(source) as Array<keyof T>).forEach(key => {
-            output[key] = this.mergeProperty(target?.[key], source[key] as Partial<T[keyof T]>);
-        });
-
-        return output;
-    }
-
-    public mergeProperty<T>(target: T | Array<T> | undefined, source: Partial<T> | Array<Partial<T>>): T | Array<T> {
-        if (Array.isArray(source)) {
-            // Merging arrays means merging all of their members.
-            return this.mergeArray(target as Array<T>, source);
-        } else if (!!source && !!target && typeof target === 'object') {
-            // Merging objects means merging all of their properties.
-            return this.mergeObject<T & object>(target as T & object, source as Partial<T & object>);
-        } else {
-            // Merging literals means just accepting the source value over the target value.
-            return JSON.parse(JSON.stringify(source));
-        }
-    }
-
-    public restoreItem<T extends Item>(
-        object: T,
+    public getReferenceItem<T extends Item>(
+        obj: DeepPartial<T>,
         itemsDataService: ItemsDataService,
-        options: { type?: string; skipMerge?: boolean } = {},
+        options: { type?: ItemTypes; prototype?: T } = {},
     ): T {
-        if (object.refId && !object.restoredFromSave) {
-            const libraryItem = itemsDataService.cleanItemFromID(object.refId) as T;
-            let mergedObject = object;
+        if (obj.refId && !obj.restoredFromSave) {
+            const libraryItem = itemsDataService.cleanItemFromID(obj.refId as string) as T;
 
             if (libraryItem) {
-                //Map the restored object onto the library object and keep the result.
-                try {
-                    mergedObject = this.mergeObject<T>(libraryItem, mergedObject) as T;
-                    mergedObject = this.castItemByType<T>(mergedObject, options.type || libraryItem.type);
+                Reflect.set(obj, 'restoredFromSave', true, obj);
 
-                    // Disable any active hint effects when loading an item.
-                    // The item is not yet recast at this point, so the hints have to use the prototype.
-                    if (mergedObject.isEquipment()) {
-                        mergedObject.hints.forEach(hint => Hint.prototype.deactivateAll.call(hint));
-                    }
-
-                    mergedObject.restoredFromSave = true;
-                } catch (e) {
-                    console.error(`[TypeService] Failed reassigning item ${ mergedObject.id }: ${ e }`);
-                }
+                return libraryItem;
             }
-
-            return mergedObject;
         }
 
-        if (options.type) {
-            return this.castItemByType<T>(object, options.type);
+        if (options.type ?? obj.type) {
+            return this.getPrototypeItem<T>(obj, options);
         }
 
-        return object;
+        throw new Error(`[TypeService] Could not get reference item or prototype for ${ obj.name ?? obj.id }`);
     }
 
     public registerItemCasting<T extends Item>(constructor: Constructable<T>): void {
-        const castFn = (object: Partial<T>): T => Object.assign(new constructor(), object);
+        const prototypeFn = (): T => new constructor();
 
-        this._itemTypeCastings.set((new constructor()).type, castFn);
+        this._itemPrototypeFunctions.set(new constructor().type, prototypeFn);
     }
 
 }

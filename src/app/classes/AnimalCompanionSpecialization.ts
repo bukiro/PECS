@@ -2,29 +2,54 @@ import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Hint } from 'src/app/classes/Hint';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class AnimalCompanionSpecialization {
-    public abilityChoices: Array<AbilityChoice> = [];
+const { assign, forExport } = setupSerialization<AnimalCompanionSpecialization>({
+    primitives: [
+        'desc', 'level', 'name', 'sourceBook',
+    ],
+    exportableArrays: {
+        abilityChoices:
+            () => obj => AbilityChoice.from({ ...obj }),
+        effects:
+            () => obj => EffectGain.from({ ...obj }),
+        hints:
+            () => obj => Hint.from({ ...obj }),
+        skillChoices:
+            () => obj => SkillChoice.from({ ...obj }),
+    },
+});
+
+export class AnimalCompanionSpecialization implements Serializable<AnimalCompanionSpecialization> {
     public desc = '';
-    public effects: Array<EffectGain> = [];
-    public hints: Array<Hint> = [];
     public level = 0;
     public name = '';
-    public skillChoices: Array<SkillChoice> = [];
     public sourceBook = '';
 
-    public recast(): this {
-        this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
-        this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
-        this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+    public abilityChoices: Array<AbilityChoice> = [];
+    public effects: Array<EffectGain> = [];
+    public hints: Array<Hint> = [];
+    public skillChoices: Array<SkillChoice> = [];
+
+    public static from(values: DeepPartial<AnimalCompanionSpecialization>): AnimalCompanionSpecialization {
+        return new AnimalCompanionSpecialization().with(values);
+    }
+
+    public with(values: DeepPartial<AnimalCompanionSpecialization>): AnimalCompanionSpecialization {
+        assign(this, values);
 
         return this;
     }
 
-    public clone(): this {
-        return Object.assign<AnimalCompanionSpecialization, this>(
-            new AnimalCompanionSpecialization(), JSON.parse(JSON.stringify(this)),
-        ).recast();
+    public forExport(): DeepPartial<AnimalCompanionSpecialization> {
+        return {
+            ...forExport(this),
+        };
+    }
+
+    public clone(): AnimalCompanionSpecialization {
+        return AnimalCompanionSpecialization.from(this);
     }
 }

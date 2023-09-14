@@ -1,7 +1,64 @@
 import { BehaviorSubject } from 'rxjs';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-export class Settings {
+const { assign, forExport } = setupSerialization<Settings>({
+    primitives: [
+        'abilitiesMinimized',
+        'accent',
+        'activitiesMinimized',
+        'activitiesTileMode',
+        'applyMessagesAutomatically',
+        'archetypeFeats',
+        'attacksMinimized',
+        'autoCloseChoices',
+        'characterMinimized',
+        'characterTileMode',
+        'craftingTileMode',
+        'checkMessagesAutomatically',
+        'companionMinimized',
+        'conditionsTileMode',
+        'darkmode',
+        'defenseMinimized',
+        'effectsMinimized',
+        'familiarMinimized',
+        'foundryVTTSendRolls',
+        'foundryVTTUrl',
+        'foundryVTTRollDirectly',
+        'foundryVTTTimeout',
+        'generalMinimized',
+        'healthMinimized',
+        'hiddenFeats',
+        'higherLevelFeats',
+        'hintsShowMoreInformation',
+        'itemsTileMode',
+        'inventoryMinimized',
+        'inventoryTileMode',
+        'lowerLevelFeats',
+        'manualMode',
+        'noFriendlyCasterConditions',
+        'noHostileCasterConditions',
+        'sendTurnEndMessage',
+        'sendTurnStartMessage',
+        'showHeightenedSpells',
+        'showOtherOptions',
+        'showSkillActivities',
+        'skillsMinimized',
+        'skillsTileMode',
+        'spellLibraryTileMode',
+        'spellbookMinimized',
+        'spellbookTileMode',
+        'spelllibraryMinimized',
+        'spellsMinimized',
+        'spellsTileMode',
+        'unavailableFeats',
+        'useIndividualAbilityBaseValues',
+    ],
+});
+
+export class Settings implements Serializable<Settings> {
     public readonly abilitiesMinimized$: BehaviorSubject<boolean>;
     public readonly accent$: BehaviorSubject<string>;
     public readonly activitiesMinimized$: BehaviorSubject<boolean>;
@@ -544,5 +601,25 @@ export class Settings {
     public set useIndividualAbilityBaseValues(useIndividualAbilityBaseValues: boolean) {
         this._useIndividualAbilityBaseValues = useIndividualAbilityBaseValues;
         this.useIndividualAbilityBaseValues$.next(this._useIndividualAbilityBaseValues);
+    }
+
+    public static from(values: DeepPartial<Settings>): Settings {
+        return new Settings().with(values);
+    }
+
+    public with(values: DeepPartial<Settings>): Settings {
+        assign(this, values);
+
+        return this;
+    }
+
+    public forExport(): DeepPartial<Settings> {
+        return {
+            ...forExport(this),
+        };
+    }
+
+    public clone(): Settings {
+        return Settings.from(this);
     }
 }

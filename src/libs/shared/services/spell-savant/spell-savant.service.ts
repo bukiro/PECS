@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, map, combineLatest, switchMap, of, shareReplay, tap, take } from 'rxjs';
-import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellCastingTypes } from '../../definitions/spellCastingTypes';
@@ -15,6 +14,7 @@ import { SkillValuesService } from '../skill-values/skill-values.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { Scroll } from 'src/app/classes/Scroll';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { safeAssign } from '../../util/safe-assign';
 
 @Injectable({
     providedIn: 'root',
@@ -49,7 +49,7 @@ export class ScrollSavantService {
         this._keepScrollSavantOptionsUpdated();
     }
 
-    public prepareScroll(scroll: Item): void {
+    public prepareScroll(scroll: Scroll): void {
         this.scrollSavantSpellCasting$
             .pipe(
                 tap(casting => {
@@ -59,7 +59,7 @@ export class ScrollSavantService {
 
                     const tempInv = new ItemCollection();
                     const newScroll =
-                        this._inventoryService.grantInventoryItem(
+                        this._inventoryService.grantInventoryItem<Scroll>(
                             scroll,
                             { creature: CreatureService.character, inventory: tempInv, amount: 1 },
                             { resetRunes: false, changeAfter: false, equipAfter: false },
@@ -72,7 +72,7 @@ export class ScrollSavantService {
                         spell.spells.length = 0;
                     });
 
-                    casting.scrollSavant.push(Object.assign(new Scroll(), newScroll));
+                    casting.scrollSavant.push(safeAssign(new Scroll(), newScroll));
                 }),
                 take(1),
             )
@@ -80,7 +80,7 @@ export class ScrollSavantService {
 
     }
 
-    public unprepareScroll(scroll: Item): void {
+    public unprepareScroll(scroll: Scroll): void {
         this.scrollSavantSpellCasting$
             .pipe(
                 tap(casting => {

@@ -1,12 +1,35 @@
-export class ConditionDuration {
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerialization } from 'src/libs/shared/util/serialization';
+
+const { assign, forExport } = setupSerialization<ConditionDuration>({
+    primitives: [
+        'duration',
+        'minLevel',
+    ],
+});
+
+export class ConditionDuration implements Serializable<ConditionDuration> {
     public duration?: number;
     public minLevel = 0;
 
-    public recast(): ConditionDuration {
+    public static from(values: DeepPartial<ConditionDuration>): ConditionDuration {
+        return new ConditionDuration().with(values);
+    }
+
+    public with(values: DeepPartial<ConditionDuration>): ConditionDuration {
+        assign(this, values);
+
         return this;
     }
 
+    public forExport(): DeepPartial<ConditionDuration> {
+        return {
+            ...forExport(this),
+        };
+    }
+
     public clone(): ConditionDuration {
-        return Object.assign<ConditionDuration, ConditionDuration>(new ConditionDuration(), JSON.parse(JSON.stringify(this))).recast();
+        return ConditionDuration.from(this);
     }
 }

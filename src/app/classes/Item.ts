@@ -25,6 +25,10 @@ import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Potion } from './Potion';
 import { BehaviorSubject, distinctUntilChanged, map, Observable, of, tap } from 'rxjs';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
+import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
 export interface TraitActivation {
     trait: string;
@@ -40,7 +44,61 @@ export interface ItemData {
     type: 'string' | 'boolean';
 }
 
-export abstract class Item {
+const { assign, forExport, forMessage } = setupSerializationWithHelpers<Item>({
+    primitives: [
+        'access',
+        'allowEquippable',
+        'amount',
+        'bulk',
+        'craftable',
+        'crafted',
+        'craftRequirement',
+        'desc',
+        'expiration',
+        'expiresOnlyIf',
+        'displayName',
+        'equippable',
+        'hide',
+        'grantedBy',
+        'id',
+        'level',
+        'name',
+        'iconTitleOverride',
+        'iconValueOverride',
+        'notes',
+        'price',
+        'refId',
+        'showNotes',
+        'sourceBook',
+        'storeBulk',
+        'subType',
+        'subTypeDesc',
+        'tradeable',
+        'overridePriority',
+        'markedForDeletion',
+        'PFSnote',
+        'inputRequired',
+    ],
+    primitiveArrays: [
+        'traits',
+    ],
+    primitiveObjectArrays: [
+        'traitActivations',
+        'data',
+    ],
+    exportableArrays: {
+        gainItems:
+            () => obj => ItemGain.from({ ...obj }),
+        storedSpells:
+            () => obj => SpellChoice.from({ ...obj }),
+    },
+    messageExportableArrays: {
+        oilsApplied:
+            recastFns => obj => recastFns.getItemPrototype<Oil>({ ...obj }, { type: 'oils' }).with({ ...obj }, recastFns),
+    },
+});
+
+export abstract class Item implements Serializable<Item> {
     public readonly save: Array<string> = [
         'refId',
     ];
@@ -76,8 +134,6 @@ export abstract class Item {
     public equippable = false;
     /** Should this item be hidden in the item store */
     public hide = false;
-    /** List ItemGain for every Item that you receive when you get, equip or use this item (specified in the ItemGain) */
-    public gainItems: Array<ItemGain> = [];
     /** Descriptive text, set only if the item is granted via an ItemGain. */
     public grantedBy = '';
     /** Every item gets an ID to reference in activities or other items. */
@@ -123,10 +179,6 @@ export abstract class Item {
     public subTypeDesc = '';
     //Can be bought or sold. This can be set to false for unique weapons etc. Snares are not tradeable by default.
     public tradeable = true;
-    /** What traits does the item have? Can be expanded under certain circumstances. */
-    public traits: Array<string> = [];
-    /** Items can store whether they have activated effects on any of their trait's hints here. */
-    public traitActivations: Array<TraitActivation> = [];
     /**
      * For items with the same id (from different source files for example), higher overridePriority wins.
      * If two have the same priority, the first in the list wins.
@@ -142,16 +194,25 @@ export abstract class Item {
     public PFSnote = '';
     public inputRequired = '';
 
+    /** What traits does the item have? Can be expanded under certain circumstances. */
+    public traits: Array<string> = [];
+
+    /** Items can store whether they have activated effects on any of their trait's hints here. */
+    public traitActivations: Array<TraitActivation> = [];
+
+    /** List ItemGain for every Item that you receive when you get, equip or use this item (specified in the ItemGain) */
+    public gainItems: Array<ItemGain> = [];
+
     /** Some items may recalculate their traits and store them here temporarily for easier access. */
     public effectiveTraits$: BehaviorSubject<Array<string>>;
     public traitActivations$: Observable<Array<TraitActivation>>;
 
     private readonly _data = new OnChangeArray<ItemData>();
     private readonly _oilsApplied = new OnChangeArray<Oil>();
-    private readonly _storedSpells: OnChangeArray<SpellChoice> = new OnChangeArray<SpellChoice>();
+    private readonly _storedSpells = new OnChangeArray<SpellChoice>();
 
     /** Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item */
-    public abstract type: string;
+    public abstract type: ItemTypes;
 
     constructor() {
         this.effectiveTraits$ = new BehaviorSubject<Array<string>>(this.traits);
@@ -214,14 +275,12 @@ export abstract class Item {
         return this.level.toString().padStart(twoDigits, '0');
     }
 
-    public recast(recastFns: RecastFns): Item {
-        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
-        //Oils need to be cast blindly in order to avoid circular dependency warnings.
-        this.oilsApplied = this.oilsApplied.map(obj => (recastFns.item(obj, { type: 'oils' })).recast(recastFns));
-        this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
-        this.storedSpells.forEach((choice: SpellChoice, index) => {
-            choice.source = this.id;
-            choice.id = `0-Spell-${ this.id }${ index }`;
+    public with(values: DeepPartial<Item>, recastFns: RecastFns): Item {
+        assign(this, values, recastFns);
+
+        this.storedSpells.forEach((spell, index) => {
+            spell.source = this.id;
+            spell.id = `0-Spell-${ this.id }${ index }`;
         });
 
         if (!this.refId) {
@@ -229,6 +288,22 @@ export abstract class Item {
         }
 
         return this;
+    }
+
+    public forExport(): DeepPartial<Item> {
+        return {
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): DeepPartial<Item> {
+        return {
+            // Item in messages include the type to allow for restoring.
+            type: this.type,
+            ...forMessage(this),
+            // Messages don't include trait activations, as the recipient may want to activate them differently.
+            traitActivations: [],
+        };
     }
 
     public canCastSpells(): this is Oil | Potion { return false; }

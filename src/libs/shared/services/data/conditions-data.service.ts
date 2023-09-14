@@ -43,7 +43,7 @@ export class ConditionsDataService {
     }
 
     public initialize(): void {
-        this._conditions = this._dataLoadingService.loadRecastable(
+        this._conditions = this._dataLoadingService.loadCastable(
             json_conditions as ImportedJsonFileList<Condition>,
             'conditions',
             'name',

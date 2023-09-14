@@ -1,0 +1,12 @@
+import { DeepPartial } from '../types/deepPartial';
+import { RecastFns } from './recastFns';
+
+export interface Serializable<T> {
+    with: ((values: Partial<T>, recastFns?: RecastFns) => T) | ((values: Partial<T>, recastFns: RecastFns) => T);
+    forExport: () => DeepPartial<T>;
+    clone: (() => T) | ((recastFns: RecastFns) => T);
+}
+
+export interface MessageSerializable<T> extends Serializable<T> {
+    forMessage: () => DeepPartial<T>;
+}

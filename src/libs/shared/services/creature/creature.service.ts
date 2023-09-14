@@ -35,7 +35,7 @@ export class CreatureService {
     }
 
     public static get character(): Character {
-        return CreatureService.character$.getValue();
+        return CreatureService.character$.value;
     }
 
     public static creatureFromType$(type: CreatureTypes): Observable<Character | AnimalCompanion | Familiar> {
