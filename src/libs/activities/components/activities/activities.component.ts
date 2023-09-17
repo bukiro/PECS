@@ -102,6 +102,10 @@ export class ActivitiesComponent extends TrackByMixin(BaseCardComponent) impleme
             );
     }
 
+    public get creature(): Creature {
+        return super.creature;
+    }
+
     @Input()
     public set creature(creature: Creature) {
         this._updateCreature(creature);

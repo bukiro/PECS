@@ -67,8 +67,6 @@ import { CharacterAncestryChangeService } from 'src/libs/character-creation/serv
 import { CharacterHeritageChangeService } from 'src/libs/character-creation/services/character-heritage-change/character-heritage-change.service';
 import { CharacterBackgroundChangeService } from 'src/libs/character-creation/services/character-background-change/character-background-change.service';
 import { CharacterBoostAbilityService } from 'src/libs/character-creation/services/character-boost-ability/character-boost-ability.service';
-import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
-import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
@@ -78,7 +76,6 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
@@ -165,15 +162,12 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
         private readonly _characterBoostAbilityService: CharacterBoostAbilityService,
-        private readonly _spellsTakenService: SpellsTakenService,
-        private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _characterSavingService: CharacterSavingService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _itemsDataService: ItemsDataService,
-        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _animalCompanionService: AnimalCompanionService,

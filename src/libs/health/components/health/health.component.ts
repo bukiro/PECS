@@ -29,6 +29,7 @@ import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/bas
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Component({
     selector: 'app-health',
@@ -101,6 +102,10 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
             .subscribe();
 
         this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$');
+    }
+
+    public get creature(): Creature {
+        return super.creature;
     }
 
     @Input()

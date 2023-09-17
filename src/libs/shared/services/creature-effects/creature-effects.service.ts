@@ -197,6 +197,10 @@ export class CreatureEffectsService {
             ...options,
         };
 
+        if (effects.length <= 1) {
+            return effects;
+        }
+
         const resultingEffect =
             effects
                 .reduce(

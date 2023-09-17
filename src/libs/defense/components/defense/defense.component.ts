@@ -102,6 +102,10 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
             );
     }
 
+    public get creature(): Creature {
+        return super.creature;
+    }
+
     @Input()
     public set creature(creature: Creature) {
         this._updateCreature(creature);

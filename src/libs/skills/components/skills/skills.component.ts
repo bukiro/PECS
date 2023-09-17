@@ -101,10 +101,13 @@ export class SkillsComponent extends TrackByMixin(BaseCardComponent) implements 
             );
     }
 
+    public get creature(): Creature {
+        return super.creature;
+    }
+
     @Input()
     public set creature(creature: Creature) {
-        this._creature = creature;
-        this.creature$.next(this._creature);
+        this._updateCreature(creature);
     }
 
     public get shouldShowMinimizeButton(): boolean {

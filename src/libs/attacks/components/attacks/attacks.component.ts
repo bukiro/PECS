@@ -136,6 +136,14 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
             );
     }
 
+    public get creature(): Character | AnimalCompanion {
+        if (super.creature.isCharacter() || super.creature.isAnimalCompanion()) {
+            return super.creature;
+        }
+
+        return CreatureService.character;
+    }
+
     @Input()
     public set creature(creature: Character | AnimalCompanion) {
         this._updateCreature(creature);

@@ -68,14 +68,14 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
         this.creature$ = new BehaviorSubject<Creature>(CreatureService.character);
     }
 
+    public get creature(): Creature {
+        return this._creature;
+    }
+
     @Input()
     public set creature(creature: Creature) {
         this._creature = creature;
         this.creature$.next(this._creature);
-    }
-
-    public get creature(): Creature {
-        return this._creature;
     }
 
     public durationDescription$(duration: number): Observable<string> {

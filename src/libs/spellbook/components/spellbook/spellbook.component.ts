@@ -511,7 +511,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implemen
     }
 
     public onManualIncFocusPoints(amount: number, max: number): void {
-        const character = this._character$.value;
+        const character = CreatureService.character;
 
         character.class.focusPoints = Math.min(character.class.focusPoints, max);
         character.class.focusPoints = Math.max(Math.min(character.class.focusPoints + amount, max), 0);
@@ -541,7 +541,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implemen
         },
         options: { expend?: boolean } = {},
     ): void {
-        const character = this._character$.value;
+        const character = CreatureService.character;
         // If an effect changes whether a spell resource will get used, mark this here and mark any matching condition for removal.
         // The conditions will be removed if they have duration 1, regardless of whether the effect was used.
         // These conditions are assumed to apply to "the next spell you cast".
@@ -667,7 +667,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implemen
     }
 
     public onRestoreSpellFromBondedItem(gain: SpellGain, casting: SpellCasting, level: number): void {
-        const character = this._character$.value;
+        const character = CreatureService.character;
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
 
@@ -743,7 +743,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implemen
             highestNoDurationSpellPreservationLevel: number;
         },
     ): void {
-        const character = this._character$.value;
+        const character = CreatureService.character;
 
         if (context.spellParameters.choice.source === 'Feat: Channeled Succor') {
             //When you use a Channeled Succor spell, you instead expend a heal spell from your divine font.

@@ -6,23 +6,24 @@ import { BehaviorSubject, Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class TurnService {
+    private static readonly _yourTurnSubject$ = new BehaviorSubject<TimePeriods.NoTurn | TimePeriods.HalfTurn>(TimePeriods.NoTurn);
+    private static _yourTurn$?: Observable<TimePeriods.NoTurn | TimePeriods.HalfTurn>;
 
     //yourTurn is 5 if it is your turn or 0 if not.
-    public static yourTurn$: Observable<TimePeriods.NoTurn | TimePeriods.HalfTurn>;
+    public static get yourTurn$(): Observable<TimePeriods.NoTurn | TimePeriods.HalfTurn> {
+        if (!TurnService._yourTurn$) {
+            TurnService._yourTurn$ = TurnService._yourTurnSubject$.asObservable();
+        }
 
-    private static readonly _yourTurn$ = new BehaviorSubject<TimePeriods.NoTurn | TimePeriods.HalfTurn>(TimePeriods.NoTurn);
-
-    constructor() {
-        TurnService.yourTurn$ = TurnService._yourTurn$.asObservable();
+        return TurnService._yourTurn$;
     }
 
     public static get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
-        return TurnService._yourTurn$.value;
+        return TurnService._yourTurnSubject$.value;
     }
 
     public static setYourTurn(yourTurn: TimePeriods.NoTurn | TimePeriods.HalfTurn): void {
         //Only used when loading a character
-        this._yourTurn$.next(yourTurn);
+        TurnService._yourTurnSubject$.next(yourTurn);
     }
-
 }

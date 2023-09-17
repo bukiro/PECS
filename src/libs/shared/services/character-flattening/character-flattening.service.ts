@@ -13,31 +13,53 @@ import { CreatureService } from '../creature/creature.service';
  */
 export class CharacterFlatteningService {
 
-    public static characterLevel$: Observable<number>;
-    public static characterClass$: Observable<CharacterClass>;
-    public static characterSpellCasting$: Observable<Array<SpellCasting>>;
-    public static characterFocusPoints$: Observable<number>;
+    private static _characterLevel$?: Observable<number>;
+    private static _characterClass$?: Observable<CharacterClass>;
+    private static _characterSpellCasting$?: Observable<Array<SpellCasting>>;
+    private static _characterFocusPoints$?: Observable<number>;
 
-    constructor() {
-        CharacterFlatteningService.characterLevel$ = CreatureService.character$
-            .pipe(
-                switchMap(character => character.level$),
-            );
+    public static get characterLevel$(): Observable<number> {
+        if (!CharacterFlatteningService._characterLevel$) {
+            CharacterFlatteningService._characterLevel$ = CreatureService.character$
+                .pipe(
+                    switchMap(character => character.level$),
+                );
+        }
 
-        CharacterFlatteningService.characterClass$ = CreatureService.character$
-            .pipe(
-                switchMap(character => character.class$),
-            );
+        return CharacterFlatteningService._characterLevel$;
+    }
 
-        CharacterFlatteningService.characterSpellCasting$ = CharacterFlatteningService.characterClass$
-            .pipe(
-                switchMap(characterClass => characterClass.spellCasting.values$),
-            );
+    public static get characterClass$(): Observable<CharacterClass> {
+        if (!CharacterFlatteningService._characterClass$) {
+            CharacterFlatteningService._characterClass$ = CreatureService.character$
+                .pipe(
+                    switchMap(character => character.class$),
+                );
+        }
 
-        CharacterFlatteningService.characterFocusPoints$ = CharacterFlatteningService.characterClass$
-            .pipe(
-                switchMap(characterClass => characterClass.focusPoints$),
-            );
+        return CharacterFlatteningService._characterClass$;
+    }
+
+    public static get characterSpellCasting$(): Observable<Array<SpellCasting>> {
+        if (!CharacterFlatteningService._characterSpellCasting$) {
+            CharacterFlatteningService._characterSpellCasting$ = CharacterFlatteningService.characterClass$
+                .pipe(
+                    switchMap(characterClass => characterClass.spellCasting.values$),
+                );
+        }
+
+        return CharacterFlatteningService._characterSpellCasting$;
+    }
+
+    public static get characterFocusPoints$(): Observable<number> {
+        if (!CharacterFlatteningService._characterFocusPoints$) {
+            CharacterFlatteningService._characterFocusPoints$ = CharacterFlatteningService.characterClass$
+                .pipe(
+                    switchMap(characterClass => characterClass.focusPoints$),
+                );
+        }
+
+        return CharacterFlatteningService._characterFocusPoints$;
     }
 
     public static levelOrCurrent$(levelNumber?: number): Observable<number> {

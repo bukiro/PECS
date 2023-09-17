@@ -14,28 +14,49 @@ import { resetCharacter } from 'src/libs/store/character/character.actions';
 })
 export class CreatureService {
 
-    public static character$: BehaviorSubject<Character>;
-    public static companion$: Observable<AnimalCompanion>;
-    public static familiar$: Observable<Familiar>;
+    private static readonly _characterSubject$ = new BehaviorSubject<Character>(new Character());
+    private static _character$?: Observable<Character>;
+    private static _companion$?: Observable<AnimalCompanion>;
+    private static _familiar$?: Observable<Familiar>;
 
     constructor(
         private readonly _store$: Store,
-    ) {
-        CreatureService.character$ = new BehaviorSubject<Character>(new Character());
-        CreatureService.companion$ = CreatureService.character$
-            .pipe(
-                switchMap(character => character.class$),
-                switchMap(characterClass => characterClass.animalCompanion$),
-            );
-        CreatureService.familiar$ = CreatureService.character$
-            .pipe(
-                switchMap(character => character.class$),
-                switchMap(characterClass => characterClass.familiar$),
-            );
+    ) { }
+
+    public static get character$(): Observable<Character> {
+        if (!CreatureService._character$) {
+            CreatureService._character$ = CreatureService._characterSubject$.asObservable();
+        }
+
+        return CreatureService._character$;
     }
 
     public static get character(): Character {
-        return CreatureService.character$.value;
+        return CreatureService._characterSubject$.value;
+    }
+
+    public static get companion$(): Observable<AnimalCompanion> {
+        if (!CreatureService._companion$) {
+            CreatureService._companion$ = CreatureService.character$
+                .pipe(
+                    switchMap(character => character.class$),
+                    switchMap(characterClass => characterClass.animalCompanion$),
+                );
+        }
+
+        return CreatureService._companion$;
+    }
+
+    public static get familiar$(): Observable<Familiar> {
+        if (!CreatureService._familiar$) {
+            CreatureService._familiar$ = CreatureService.character$
+                .pipe(
+                    switchMap(character => character.class$),
+                    switchMap(characterClass => characterClass.familiar$),
+                );
+        }
+
+        return CreatureService._familiar$;
     }
 
     public static creatureFromType$(type: CreatureTypes): Observable<Character | AnimalCompanion | Familiar> {
@@ -52,7 +73,7 @@ export class CreatureService {
     public resetCharacter(character: Character, gmMode?: boolean): void {
         this._store$.dispatch(resetCharacter({ gmMode }));
 
-        CreatureService.character$.next(character);
+        CreatureService._characterSubject$.next(character);
     }
 
     public closeCharacter(): void {

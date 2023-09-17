@@ -3,7 +3,6 @@ import { combineLatest, map } from 'rxjs';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureService } from '../creature/creature.service';
@@ -19,9 +18,8 @@ export class AnimalCompanionLevelsService {
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _refreshService: RefreshService,
         private readonly _characterFeatsService: CharacterFeatsService,
-        private readonly _typeService: TypeService,
     ) {
-        this._updateAnimalCompanionLevel();
+        this._keepAnimalCompanionLevelUpdated();
     }
 
     public restoreLevelsFromSave(levels: Array<DeepPartial<AnimalCompanionLevel>>): Array<AnimalCompanionLevel> {
@@ -61,7 +59,7 @@ export class AnimalCompanionLevelsService {
      * Keeps track of all taken feats at the current character level that grow the animal companion,
      * then sets the companion level to the highest option (or 1).
      */
-    private _updateAnimalCompanionLevel(): void {
+    private _keepAnimalCompanionLevelUpdated(): void {
         // Level 3 is a placeholder, and all levels after that are advanced options.
         // When you take a feat with gainAnimalCompanion other than "Young", "Mature" or "Specialized",
         // level 3 gets replaced with that level.

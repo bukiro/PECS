@@ -131,6 +131,10 @@ export class GeneralComponent extends TrackByMixin(BaseCardComponent) implements
         this.characterTraits$ = this._characterTraits$();
     }
 
+    public get creature(): Creature {
+        return super.creature;
+    }
+
     @Input()
     public set creature(creature: Creature) {
         this._updateCreature(creature);

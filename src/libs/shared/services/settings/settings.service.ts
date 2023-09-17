@@ -9,11 +9,15 @@ import { propMap$ } from '../../util/observableUtils';
 })
 export class SettingsService {
 
-    public static settings$: Observable<Settings>;
+    private static _settings$?: Observable<Settings>;
 
-    constructor() {
-        SettingsService.settings$ =
-            propMap$(CreatureService.character$, 'settings$');
+    public static get settings$(): Observable<Settings> {
+        if (!SettingsService._settings$) {
+            SettingsService._settings$ =
+                propMap$(CreatureService.character$, 'settings$');
+        }
+
+        return SettingsService._settings$;
     }
 
     public static get settings(): Settings {

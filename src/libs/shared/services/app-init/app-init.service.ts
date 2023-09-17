@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Defaults } from '../../definitions/defaults';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
-// Import these services first to avoid dependency issues.
-import { CreatureService } from '../creature/creature.service';
-import { SettingsService } from '../settings/settings.service';
-import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
-//
 import { ItemsDataService } from '../data/items-data.service';
 import { ItemMaterialsDataService } from '../data/item-materials-data.service';
 import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';
@@ -65,9 +60,6 @@ export class AppInitService {
 
     constructor(
         //Initialize these services simply by injecting them.
-        _creatureService: CreatureService,
-        _settingsService: SettingsService,
-        _characterFlatteningService: CharacterFlatteningService,
         _configService: ConfigService,
         _extensionsService: DataService,
         _documentStyleService: DocumentStyleService,

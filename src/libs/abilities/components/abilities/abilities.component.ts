@@ -8,6 +8,7 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 
 @Component({
     selector: 'app-abilities',
@@ -60,6 +61,14 @@ export class AbilitiesComponent extends TrackByMixin(BaseCardComponent) implemen
                         .map(ability => this._abilityValuesService.liveValue$(ability, creature)),
                 )),
             );
+    }
+
+    public get creature(): Character | AnimalCompanion {
+        if (super.creature.isCharacter() || super.creature.isAnimalCompanion()) {
+            return super.creature;
+        }
+
+        return CreatureService.character;
     }
 
     @Input()
