@@ -1,6 +1,7 @@
 import { Serializable, MessageSerializable } from '../definitions/interfaces/serializable';
 import { RecastFns } from '../definitions/interfaces/recastFns';
 import { DeepPartial } from '../definitions/types/deepPartial';
+import { forEachMember } from './objectUtils';
 
 type AssignFn<T> = () => (obj: DeepPartial<T>, index?: number) => T;
 type AssignFnWithHelpers<T> = (recastFns: RecastFns) => (obj: DeepPartial<T>, index?: number) => T;
@@ -16,25 +17,23 @@ type PrimitiveKey<T> = KeyOfPropertyType<T, Primitive>;
 type PrimitiveArrayKey<T> = KeyOfPropertyType<T, Array<Primitive>>;
 type PrimitiveObjectKey<T> = KeyOfPropertyType<T, object>;
 type PrimitiveObjectArrayKey<T> = KeyOfPropertyType<T, Array<object>>;
-type ExportableKey<T> = KeyOfPropertyType<T, Serializable<unknown>>;
-type ExportableArrayKey<T> = KeyOfPropertyType<T, Array<Serializable<unknown>>>;
-type MessageExportableKey<T> = KeyOfPropertyType<T, MessageSerializable<unknown>>;
-type MessageExportableArrayKey<T> = KeyOfPropertyType<T, Array<MessageSerializable<unknown>>>;
+type ExportableKey<T> = KeyOfPropertyType<T, Serializable<unknown> | MessageSerializable<unknown>>;
+type AnyExportableArrayKey<T> = KeyOfPropertyType<T, Array<Serializable<unknown>> | Array<MessageSerializable<unknown>>>;
 
 type ExportableSet<T> = Partial<{
-    [K in ExportableKey<T> | MessageExportableKey<T>]: AssignFn<T[K]>;
+    [K in ExportableKey<T>]: AssignFn<T[K]>;
 }>;
 
 type ExportableSetWithHelpers<T> = Partial<{
-    [K in ExportableKey<T> | MessageExportableKey<T>]: AssignFnWithHelpers<T[K]>;
+    [K in ExportableKey<T>]: AssignFnWithHelpers<T[K]>;
 }>;
 
 type ExportableArraySet<T> = Partial<{
-    [K in ExportableArrayKey<T> | MessageExportableArrayKey<T>]: AssignFn<ArrayMemberType<T, K>>;
+    [K in AnyExportableArrayKey<T>]: AssignFn<ArrayMemberType<T, K>>;
 }>;
 
 type ExportableArraySetWithHelpers<T> = Partial<{
-    [K in ExportableArrayKey<T> | MessageExportableArrayKey<T>]: AssignFnWithHelpers<ArrayMemberType<T, K>>;
+    [K in AnyExportableArrayKey<T>]: AssignFnWithHelpers<ArrayMemberType<T, K>>;
 }>;
 
 type AnyExportableSet<T> =
@@ -62,78 +61,70 @@ export const setupSerialization = <T extends object>(properties: {
         forImport.primitiveObjectProperties<T>(obj, values, properties.primitiveObjects ?? []);
         forImport.primitiveObjectArrayProperties<T>(obj, values, properties.primitiveObjectArrays ?? []);
 
-        const exportables = properties.exportables;
-        const exportableArrays = properties.exportableArrays;
-        const messageExportables = properties.messageExportables;
-        const messageExportableArrays = properties.messageExportableArrays;
+        forEachMember(properties.exportables ?? {}, (key, fn) => {
+            if (fn) {
+                forImport.exportableProperty(
+                    obj,
+                    values,
+                    key,
+                    fn,
+                );
+            }
+        });
 
-        if (exportables) {
-            (Object.keys(exportables) as Array<keyof ExportableSet<T>>)
-                .forEach(key => {
-                    forImport.exportableProperty(
-                        obj,
-                        values,
-                        key,
-                        exportables[key] as AssignFn<T[keyof ExportableSet<T>]>,
-                    );
-                });
-        }
+        forEachMember(properties.exportableArrays ?? {}, (key, fn) => {
+            if (fn) {
+                forImport.exportableArrayProperty(
+                    obj,
+                    values,
+                    key,
+                    fn,
+                );
+            }
+        });
 
-        if (exportableArrays) {
-            (Object.keys(exportableArrays) as Array<keyof ExportableArraySet<T>>)
-                .forEach(key => {
-                    forImport.exportableArrayProperty(
-                        obj,
-                        values,
-                        key,
-                        exportableArrays[key] as AssignFn<ArrayMemberType<T, keyof ExportableArraySet<T>>>,
-                    );
-                });
-        }
+        forEachMember(properties.messageExportables ?? {}, (key, fn) => {
+            if (fn) {
+                forImport.exportableProperty(
+                    obj,
+                    values,
+                    key,
+                    fn,
+                );
+            }
 
-        if (messageExportables) {
-            (Object.keys(messageExportables) as Array<keyof ExportableSet<T>>)
-                .forEach(key => {
-                    forImport.exportableProperty(
-                        obj,
-                        values,
-                        key,
-                        messageExportables[key] as AssignFn<T[keyof ExportableSet<T>]>,
-                    );
-                });
-        }
+        });
 
-        if (messageExportableArrays) {
-            (Object.keys(messageExportableArrays) as Array<keyof ExportableArraySet<T>>)
-                .forEach(key => {
-                    forImport.exportableArrayProperty(
-                        obj,
-                        values,
-                        key,
-                        messageExportableArrays[key] as AssignFn<ArrayMemberType<T, keyof ExportableArraySet<T>>>,
-                    );
-                });
-        }
+        forEachMember(properties.messageExportableArrays ?? {}, (key, fn) => {
+            if (fn) {
+                forImport.exportableArrayProperty(
+                    obj,
+                    values,
+                    key,
+                    fn,
+                );
+            }
+        });
     },
     forExport: (obj: T) => ({
         ...forExport.primitiveProperties(obj, properties.primitives ?? []),
         ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays ?? []),
         ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects ?? []),
         ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays ?? []),
-        ...forExport.exportableProperties(obj, properties.exportables ?? {} as ExportableSet<T>),
-        ...forExport.exportableArrayProperties(obj, properties.exportableArrays ?? {} as ExportableArraySet<T>),
-        ...forExport.exportableProperties(obj, properties.messageExportables ?? {} as ExportableSet<T>),
-        ...forExport.exportableArrayProperties(obj, properties.messageExportableArrays ?? {} as ExportableArraySet<T>),
+        ...forExport.exportableProperties(obj, properties.exportables ?? {}),
+        ...forExport.exportableArrayProperties(obj, properties.exportableArrays ?? {}),
+        ...forExport.exportableProperties(obj, properties.messageExportables ?? {}),
+        ...forExport.exportableArrayProperties(obj, properties.messageExportableArrays ?? {}),
     }),
     forMessage: (obj: T) => ({
         ...forExport.primitiveProperties(obj, properties.primitives ?? []),
         ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays ?? []),
         ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects ?? []),
         ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays ?? []),
-        ...forExport.exportableProperties(obj, properties.exportables ?? {} as ExportableSet<T>),
-        ...forExport.exportableArrayProperties(obj, properties.exportableArrays ?? {} as ExportableArraySet<T>),
-        ...forExport.messageExportableProperties(obj, properties.messageExportables ?? {} as ExportableSet<T>),
-        ...forExport.messageExportableArrayProperties(obj, properties.messageExportableArrays ?? {} as ExportableArraySet<T>),
+        ...forExport.exportableProperties(obj, properties.exportables ?? {}),
+        ...forExport.exportableArrayProperties(obj, properties.exportableArrays ?? {}),
+        ...forExport.messageExportableProperties(obj, properties.messageExportables ?? {}),
+        ...forExport.messageExportableArrayProperties(obj, properties.messageExportableArrays ?? {}),
     }),
 });
 
@@ -157,82 +148,73 @@ export const setupSerializationWithHelpers = <T extends object>(properties: {
         forImport.primitiveObjectProperties<T>(obj, values, properties.primitiveObjects ?? []);
         forImport.primitiveObjectArrayProperties<T>(obj, values, properties.primitiveObjectArrays ?? []);
 
-        const exportables = properties.exportables;
-        const exportableArrays = properties.exportableArrays;
-        const messageExportables = properties.messageExportables;
-        const messageExportableArrays = properties.messageExportableArrays;
+        forEachMember(properties.exportables ?? {}, (key, fn) => {
+            if (fn) {
+                forImport.exportablePropertyWithHelpers(
+                    obj,
+                    values,
+                    key,
+                    fn,
+                    recastFns,
+                );
+            }
+        });
 
-        if (exportables) {
-            (Object.keys(exportables) as Array<keyof ExportableSetWithHelpers<T>>)
-                .forEach(key => {
-                    forImport.exportablePropertyWithHelpers(
-                        obj,
-                        values,
-                        key,
-                        exportables[key] as AssignFn<T[keyof ExportableSetWithHelpers<T>]>,
-                        recastFns,
-                    );
-                });
-        }
+        forEachMember(properties.exportableArrays ?? {}, (key, fn) => {
+            if (fn) {
+                forImport.exportableArrayPropertyWithHelpers(
+                    obj,
+                    values,
+                    key,
+                    fn,
+                    recastFns,
+                );
+            }
+        });
 
-        if (exportableArrays) {
-            (Object.keys(exportableArrays) as Array<keyof ExportableArraySetWithHelpers<T>>)
-                .forEach(key => {
-                    forImport.exportableArrayPropertyWithHelpers(
-                        obj,
-                        values,
-                        key,
-                        exportableArrays[key] as AssignFn<ArrayMemberType<T, keyof ExportableArraySetWithHelpers<T>>>,
-                        recastFns,
-                    );
-                });
-        }
+        forEachMember(properties.messageExportables ?? {}, (key, fn) => {
+            if (fn) {
+                forImport.exportablePropertyWithHelpers(
+                    obj,
+                    values,
+                    key,
+                    fn,
+                    recastFns,
+                );
+            }
+        });
 
-        if (messageExportables) {
-            (Object.keys(messageExportables) as Array<keyof ExportableSetWithHelpers<T>>)
-                .forEach(key => {
-                    forImport.exportablePropertyWithHelpers(
-                        obj,
-                        values,
-                        key,
-                        messageExportables[key] as AssignFn<T[keyof ExportableSetWithHelpers<T>]>,
-                        recastFns,
-                    );
-                });
-        }
-
-        if (messageExportableArrays) {
-            (Object.keys(messageExportableArrays) as Array<keyof ExportableArraySetWithHelpers<T>>)
-                .forEach(key => {
-                    forImport.exportableArrayPropertyWithHelpers(
-                        obj,
-                        values,
-                        key,
-                        messageExportableArrays[key] as AssignFn<ArrayMemberType<T, keyof ExportableArraySetWithHelpers<T>>>,
-                        recastFns,
-                    );
-                });
-        }
+        forEachMember(properties.messageExportableArrays ?? {}, (key, fn) => {
+            if (fn) {
+                forImport.exportableArrayPropertyWithHelpers(
+                    obj,
+                    values,
+                    key,
+                    fn,
+                    recastFns,
+                );
+            }
+        });
     },
     forExport: (obj: T) => ({
         ...forExport.primitiveProperties(obj, properties.primitives ?? []),
         ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays ?? []),
         ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects ?? []),
         ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays ?? []),
-        ...forExport.exportableProperties(obj, properties.exportables ?? {} as ExportableSetWithHelpers<T>),
-        ...forExport.exportableArrayProperties(obj, properties.exportableArrays ?? {} as ExportableArraySetWithHelpers<T>),
-        ...forExport.exportableProperties(obj, properties.messageExportables ?? {} as ExportableSetWithHelpers<T>),
-        ...forExport.exportableArrayProperties(obj, properties.messageExportableArrays ?? {} as ExportableArraySetWithHelpers<T>),
+        ...forExport.exportableProperties(obj, properties.exportables ?? {}),
+        ...forExport.exportableArrayProperties(obj, properties.exportableArrays ?? {}),
+        ...forExport.exportableProperties(obj, properties.messageExportables ?? {}),
+        ...forExport.exportableArrayProperties(obj, properties.messageExportableArrays ?? {}),
     }),
     forMessage: (obj: T) => ({
         ...forExport.primitiveProperties(obj, properties.primitives ?? []),
         ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays ?? []),
         ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects ?? []),
         ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays ?? []),
-        ...forExport.exportableProperties(obj, properties.exportables ?? {} as ExportableSetWithHelpers<T>),
-        ...forExport.exportableArrayProperties(obj, properties.exportableArrays ?? {} as ExportableArraySetWithHelpers<T>),
-        ...forExport.messageExportableProperties(obj, properties.messageExportables ?? {} as ExportableSetWithHelpers<T>),
-        ...forExport.messageExportableArrayProperties(obj, properties.messageExportableArrays ?? {} as ExportableArraySetWithHelpers<T>),
+        ...forExport.exportableProperties(obj, properties.exportables ?? {}),
+        ...forExport.exportableArrayProperties(obj, properties.exportableArrays ?? {}),
+        ...forExport.messageExportableProperties(obj, properties.messageExportables ?? {}),
+        ...forExport.messageExportableArrayProperties(obj, properties.messageExportableArrays ?? {}),
     }),
 });
 
@@ -298,7 +280,7 @@ namespace forImport {
         };
 
     export const exportableProperty =
-        <T extends object, K extends ExportableKey<T> | MessageExportableKey<T>>(
+        <T extends object, K extends ExportableKey<T>>(
             obj: T,
             values: DeepPartial<T>,
             key: K,
@@ -312,7 +294,7 @@ namespace forImport {
         };
 
     export const exportablePropertyWithHelpers =
-        <T extends object, K extends ExportableKey<T> | MessageExportableKey<T>>(
+        <T extends object, K extends ExportableKey<T>>(
             obj: T,
             values: DeepPartial<T>,
             key: K,
@@ -327,7 +309,7 @@ namespace forImport {
         };
 
     export const exportableArrayProperty =
-        <T extends object, K extends ExportableArrayKey<T> | MessageExportableArrayKey<T>>(
+        <T extends object, K extends AnyExportableArrayKey<T>>(
             obj: T,
             values: DeepPartial<T>,
             key: K,
@@ -344,7 +326,7 @@ namespace forImport {
         };
 
     export const exportableArrayPropertyWithHelpers =
-        <T extends object, K extends ExportableArrayKey<T> | MessageExportableArrayKey<T>>(
+        <T extends object, K extends AnyExportableArrayKey<T>>(
             obj: T,
             values: DeepPartial<T>,
             key: K,
@@ -416,7 +398,7 @@ export namespace forExport {
             obj: T,
             keySets: AnyExportableSet<T>,
         ): DeepPartial<T> =>
-            (Object.keys(keySets) as Array<ExportableKey<T> | MessageExportableKey<T>>)
+            (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
                     (previous, current) => ({
                         ...previous,
@@ -429,7 +411,7 @@ export namespace forExport {
             obj: T,
             keySets: AnyExportableArraySet<T>,
         ): DeepPartial<T> =>
-            (Object.keys(keySets) as Array<ExportableArrayKey<T> | MessageExportableArrayKey<T>>)
+            (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
                     (previous, current) => ({
                         ...previous,
@@ -442,7 +424,7 @@ export namespace forExport {
             obj: T,
             keySets: AnyExportableSet<T>,
         ): DeepPartial<T> =>
-            (Object.keys(keySets) as Array<MessageExportableKey<T>>)
+            (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
                     (previous, current) => ({
                         ...previous,
@@ -455,7 +437,7 @@ export namespace forExport {
             obj: T,
             keySets: AnyExportableArraySet<T>,
         ): DeepPartial<T> =>
-            (Object.keys(keySets) as Array<MessageExportableArrayKey<T>>)
+            (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
                     (previous, current) => ({
                         ...previous,
