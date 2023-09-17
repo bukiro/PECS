@@ -23,7 +23,7 @@
 
     &__diamond {
         @include background-color-default;
-        @include border-color-inverted;
+        @include border-color-default;
         position: absolute;
 
         border-width: .1em;
@@ -76,7 +76,7 @@
     }
 
     &--T {
-        top: -2%;
+        top: -1%;
         left: 27.5%;
     }
 
