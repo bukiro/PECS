@@ -7,6 +7,7 @@ import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
 import { RecastService } from '../recast/recast.service';
+import { DeepPartial } from '../../definitions/types/deepPartial';
 
 @Injectable({
     providedIn: 'root',
@@ -21,7 +22,7 @@ export class AnimalCompanionAncestryService {
         private readonly _recastService: RecastService,
     ) { }
 
-    public restoreAncestryFromSave(ancestry: AnimalCompanionAncestry): AnimalCompanionAncestry {
+    public restoreAncestryFromSave(ancestry: DeepPartial<AnimalCompanionAncestry>): AnimalCompanionAncestry {
         let restoredAncestry: AnimalCompanionAncestry | undefined;
 
         if (ancestry.name) {
@@ -29,15 +30,11 @@ export class AnimalCompanionAncestryService {
 
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
-                try {
-                    restoredAncestry = this._typeService.mergeObject(libraryObject, ancestry);
-                } catch (e) {
-                    console.error(`Failed restoring animal companion ancestry: ${ e }`);
-                }
+                restoredAncestry = libraryObject.clone(RecastService.recastFns).with(ancestry, RecastService.recastFns);
             }
         }
 
-        return restoredAncestry || ancestry;
+        return restoredAncestry || AnimalCompanionAncestry.from(ancestry, RecastService.recastFns);
     }
 
     public cleanAncestryForSave(ancestry: AnimalCompanionAncestry): void {
@@ -64,7 +61,7 @@ export class AnimalCompanionAncestryService {
         this.processRemovingOldAncestry(companion);
 
         if (type) {
-            companion.class.ancestry = type.clone(this._recastService.recastFns);
+            companion.class.ancestry = type.clone(RecastService.recastFns);
             this.processNewAncestry(companion);
         } else {
             companion.class.ancestry = new AnimalCompanionAncestry();

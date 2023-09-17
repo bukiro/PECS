@@ -14,7 +14,7 @@ import { SkillValuesService } from '../skill-values/skill-values.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { Scroll } from 'src/app/classes/Scroll';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { safeAssign } from '../../util/safe-assign';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -72,7 +72,7 @@ export class ScrollSavantService {
                         spell.spells.length = 0;
                     });
 
-                    casting.scrollSavant.push(safeAssign(new Scroll(), newScroll));
+                    casting.scrollSavant.push(Scroll.from(newScroll, RecastService.recastFns));
                 }),
                 take(1),
             )

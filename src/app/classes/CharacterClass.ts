@@ -464,7 +464,7 @@ export class CharacterClass implements Serializable<CharacterClass> {
 
     public learnItemFormula(item: Item, source: string): void {
         if (!this.formulaBook.find(learned => learned.id === item.id)) {
-            this.formulaBook.push(Object.assign(new FormulaLearned(), { id: item.id, source }));
+            this.formulaBook.push(FormulaLearned.from({ id: item.id, source }));
         }
     }
 

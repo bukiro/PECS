@@ -567,8 +567,9 @@ export class ItemsComponent extends TrackByMixin(DestroyableMixin(BaseCreatureEl
 
             // Completely restore the item in order to restore any data that
             // doesn't match up anymore after you arbitrarily change attributes.
-            this.newItem.recast(this._recastService.restoreFns);
-            this.grantItem(this.newItem);
+            const itemToGrant = this.newItem.clone(RecastService.restoreFns);
+
+            this.grantItem(itemToGrant);
         }
     }
 

@@ -1,8 +1,6 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Skill } from 'src/app/classes/Skill';
@@ -58,7 +56,7 @@ export class CharacterPatchingService {
         //Monks below version 1.0.2 will lose their Path to Perfection skill increases and gain the feat choices instead.
         //The matching feats will be added in stage 2.
         if (
-            character.class.name === 'Monk' &&
+            character.class?.name === 'Monk' &&
             character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionTwo
         ) {
             const firstPathLevel = 7;
@@ -147,51 +145,6 @@ export class CharacterPatchingService {
                     character.class?.levels?.[thirdPathLevel]?.featChoices.splice(insertIndex, 0, newFeatChoice);
                 }
             }
-        }
-
-        //Characters before version 1.0.3 need their item hints reassigned.
-        if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionThree) {
-            creatures.forEach(creature => {
-                creature?.inventories?.forEach(inventory => {
-                    Object.keys(inventory).forEach(key => {
-                        if (
-                            Array.isArray(inventory[key as keyof ItemCollection])
-                            && !['names', 'keys', 'otherItems'].includes(key)) {
-                            (inventory[key as keyof ItemCollection] as Array<Equipment>)
-                                .forEach(item => {
-                                    //For each inventory, for each array property, recast all hints of the listed items.
-                                    if (item.hints?.length) {
-                                        item.hints = item.hints.map(hint => safeAssign(new Hint(), hint));
-                                    }
-
-                                    if (item.propertyRunes?.length) {
-                                        item.propertyRunes.forEach(rune => {
-                                            if (rune.hints?.length) {
-                                                rune.hints = rune.hints.map(hint => safeAssign(new Hint(), hint));
-                                            }
-                                        });
-                                    }
-
-                                    if (item.oilsApplied?.length) {
-                                        item.oilsApplied.forEach(oil => {
-                                            if (oil.hints?.length) {
-                                                oil.hints = oil.hints.map(hint => safeAssign(new Hint(), hint));
-                                            }
-                                        });
-                                    }
-
-                                    if (item.material?.length) {
-                                        item.material.forEach(material => {
-                                            if (material.hints?.length) {
-                                                material.hints = material.hints.map(hint => safeAssign(new Hint(), hint));
-                                            }
-                                        });
-                                    }
-                                });
-                        }
-                    });
-                });
-            });
         }
 
         //Rogues before version 1.0.3 need to rename their class choice type.

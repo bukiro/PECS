@@ -190,15 +190,11 @@ export class SpellChoice implements Serializable<SpellChoice> {
         borrowed = false,
     ): void {
         this.spells.push(
-            Object.assign(
-                new SpellGain(),
+            SpellGain.from(
                 {
                     name: spellName,
                     locked,
-                    sourceId: this.id,
                     source: this.source,
-                    cooldown: this.cooldown,
-                    frequency: this.frequency,
                     prepared,
                     borrowed,
                 },

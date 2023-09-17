@@ -30,14 +30,12 @@ export class DialogService {
 
                     const component: T = modal.componentInstance;
 
-                    Object.assign(component, options);
-
-                    component.close =
-                        component.close
-                            ? () => { modal.close(); (options.close as () => void)(); }
-                            : () => modal.close();
-                    component.cancelLabel = component.cancelLabel || 'Cancel';
-                    component.isDarkMode = isDarkMode;
+                    component.with({
+                        ...options,
+                        close: () => { modal.close(); options.close?.(); },
+                        cancelLabel: component.cancelLabel || 'Cancel',
+                        isDarkMode,
+                    });
 
                     return modal;
                 }),

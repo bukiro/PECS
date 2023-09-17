@@ -91,7 +91,8 @@ export class SavegamesService {
 
         return characters.map(savegame => {
             //Build some informational attributes on each save game description from the character's properties.
-            const parsedSavegame = Object.assign(new Savegame(savegame.id), {
+            const parsedSavegame = Savegame.from({
+                id: savegame.id,
                 dbId: savegame._id || '',
                 level: savegame.level || 1,
                 name: savegame.name || 'Unnamed',

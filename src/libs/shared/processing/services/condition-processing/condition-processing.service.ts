@@ -64,7 +64,7 @@ export class ConditionProcessingService {
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities
-            .map(activityGain => activityGain.clone(this._recastService.recastFns));
+            .map(activityGain => activityGain.clone());
 
         //Process adding or removing other conditions.
         if (taken) {
@@ -209,7 +209,7 @@ export class ConditionProcessingService {
                 this._conditionsDataService.conditionFromName(conditionGain.name).endsWithConditions
                     .some(endsWith => endsWith.name === condition.name && (!endsWith.source || gain.source === endsWith.source)),
             )
-            .map(conditionGain => conditionGain.clone(this._recastService.recastFns))
+            .map(conditionGain => conditionGain.clone(RecastService.recastFns))
             .forEach(conditionGain => {
                 areEndsWithConditionsProcessed = true;
                 this._creatureConditionsService.removeCondition(creature, conditionGain, false);
@@ -249,7 +249,7 @@ export class ConditionProcessingService {
             .forEach(extraCondition => {
                 areGainConditionsProcessed = true;
 
-                const addCondition = extraCondition.clone(this._recastService.recastFns);
+                const addCondition = extraCondition.clone(RecastService.recastFns);
 
                 if (!addCondition.heightened) {
                     addCondition.heightened = gain.heightened;
@@ -313,8 +313,7 @@ export class ConditionProcessingService {
                         if (!this._creatureConditionsService.currentCreatureConditions(creature, { name: 'Dead' }).length) {
                             this._creatureConditionsService.addCondition(
                                 creature,
-                                Object.assign(new ConditionGain(), { name: 'Dead', source: 'Dying value too high' })
-                                    .recast(this._recastService.recastFns),
+                                ConditionGain.from({ name: 'Dead', source: 'Dying value too high' }, RecastService.recastFns),
                                 {},
                                 { noReload: true },
                             );
@@ -333,8 +332,7 @@ export class ConditionProcessingService {
                     } else {
                         this._creatureConditionsService.addCondition(
                             creature,
-                            Object.assign(new ConditionGain(), { name: 'Wounded', value: 1, source: 'Recovered from Dying' })
-                                .recast(this._recastService.recastFns),
+                            ConditionGain.from({ name: 'Wounded', value: 1, source: 'Recovered from Dying' }, RecastService.recastFns),
                             {},
                             { noReload: true },
                         );
@@ -357,8 +355,7 @@ export class ConditionProcessingService {
                             ) {
                                 this._creatureConditionsService.addCondition(
                                     creature,
-                                    Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' })
-                                        .recast(this._recastService.recastFns),
+                                    ConditionGain.from({ name: 'Unconscious', source: '0 Hit Points' }, RecastService.recastFns),
                                     {},
                                     { noReload: true },
                                 );

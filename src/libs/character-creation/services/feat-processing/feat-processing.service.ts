@@ -414,7 +414,7 @@ export class FeatProcessingService {
         if (feat.gainSpellCasting.length) {
             if (taken) {
                 feat.gainSpellCasting.forEach(casting => {
-                    character.class.addSpellCasting(context.level, casting, this._recastService.recastFns);
+                    character.class.addSpellCasting(context.level, casting, RecastService.recastFns);
                 });
             } else {
                 feat.gainSpellCasting.forEach(casting => {
@@ -547,18 +547,23 @@ export class FeatProcessingService {
                 feat.gainActivities.forEach((gainActivity: string) => {
                     if (feat.name === 'Trickster\'s Ace') {
                         character.class.gainActivity(
-                            Object.assign(
-                                new ActivityGain(this._activitiesDataService.activityFromName(gainActivity)),
-                                { name: gainActivity, source: feat.name, data: [{ name: 'Trigger', value: '' }] },
-                            ),
-                            context.level.number);
+                            ActivityGain.from({
+                                name: gainActivity,
+                                source: feat.name,
+                                data: [{ name: 'Trigger', value: '' }],
+                                originalActivity: this._activitiesDataService.activityFromName(gainActivity),
+                            }),
+                            context.level.number,
+                        );
                     } else {
                         character.class.gainActivity(
-                            Object.assign(
-                                new ActivityGain(this._activitiesDataService.activityFromName(gainActivity)),
-                                { name: gainActivity, source: feat.name },
-                            ),
-                            context.level.number);
+                            ActivityGain.from({
+                                name: gainActivity,
+                                source: feat.name,
+                                originalActivity: this._activitiesDataService.activityFromName(gainActivity),
+                            }),
+                            context.level.number,
+                        );
                     }
                 });
             } else {
@@ -599,7 +604,7 @@ export class FeatProcessingService {
 
             if (taken) {
                 feat.gainConditions.forEach(conditionGain => {
-                    const newConditionGain = conditionGain.clone(this._recastService.recastFns);
+                    const newConditionGain = conditionGain.clone(RecastService.recastFns);
 
                     newConditionGain.fromFeat = true;
                     this._creatureConditionsService.addCondition(character, newConditionGain, {}, { noReload: true });

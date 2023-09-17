@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, ViewChild } from '@angular/core';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { DialogFooterComponent } from '../dialog-footer/dialog-footer.component';
@@ -21,4 +20,14 @@ export class ConfirmationDialogComponent extends DestroyableMixin(TrackByMixin(D
     public declare footer?: DialogFooterComponent;
 
     public content?: string;
+
+    public with(values: Partial<ConfirmationDialogComponent>): ConfirmationDialogComponent {
+        super.with(values);
+
+        if (values.content) {
+            this.content = values.content;
+        }
+
+        return this;
+    }
 }

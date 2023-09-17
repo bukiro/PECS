@@ -3,7 +3,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataService } from './data.service';
-import { FromCastable } from '../../definitions/interfaces/from-constructable';
+import { FromConstructable } from '../../definitions/interfaces/from-constructable';
 
 type SingleIdentifier = 'id' | 'name';
 
@@ -16,20 +16,19 @@ export class DataLoadingService {
 
     constructor(
         private readonly _extensionsService: DataService,
-        private readonly _recastService: RecastService,
     ) { }
 
-    public loadCastable<T extends object>(
+    public loadSerializable<T extends object>(
         data: ImportedJsonFileList<T>,
         target: string,
         identifier: SingleIdentifier | MultipleIdentifiers,
-        constructor: FromCastable<T>,
+        constructor: FromConstructable<T>,
     ): Array<T> {
         return this._load(
             data,
             target,
             identifier,
-            (entry: DeepPartial<T>) => constructor.from(entry, this._recastService.restoreFns),
+            (entry: DeepPartial<T>) => constructor.from(entry, RecastService.restoreFns),
         );
     }
 

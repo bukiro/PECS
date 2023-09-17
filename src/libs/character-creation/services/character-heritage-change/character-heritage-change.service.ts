@@ -12,7 +12,6 @@ import { spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
 
@@ -28,49 +27,45 @@ export class CharacterHeritageChangeService {
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _featsDataService: FeatsDataService,
-        private readonly _recastService: RecastService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
-    public changeHeritage(heritage?: Heritage, index = -1): void {
+    public changeHeritage(heritage?: Heritage, additionalHeritageIndex = -1): void {
         const character = CreatureService.character;
         const characterClass = character.class;
 
-        this._processRemovingOldHeritage(index);
+        this._processRemovingOldHeritage(additionalHeritageIndex);
 
-        if (index === -1) {
+        if (additionalHeritageIndex === -1) {
             if (heritage) {
                 characterClass.heritage = heritage.clone();
             } else {
                 characterClass.heritage = new Heritage();
             }
         } else {
-            const heritageToChange = characterClass.additionalHeritages[index];
+            const heritageToChange = characterClass.additionalHeritages[additionalHeritageIndex];
             const source = heritageToChange.source;
             const levelNumber = heritageToChange.charLevelAvailable;
 
             if (heritage) {
-                characterClass.additionalHeritages[index] = safeClone(
-                    new AdditionalHeritage(),
-                    {
+                characterClass.additionalHeritages[additionalHeritageIndex] =
+                    AdditionalHeritage.from({
                         ...heritage,
                         source,
                         charLevelAvailable: levelNumber,
-                    }).recast();
+                    });
             } else {
-                characterClass.additionalHeritages[index] = safeClone(
-                    new AdditionalHeritage(),
-                    {
+                characterClass.additionalHeritages[additionalHeritageIndex] =
+                    AdditionalHeritage.from({
                         source,
                         charLevelAvailable: levelNumber,
-                    },
-                ).recast();
+                    });
             }
 
         }
 
         if (heritage) {
-            this._processNewHeritage(index);
+            this._processNewHeritage(additionalHeritageIndex);
         }
     }
 
@@ -226,10 +221,11 @@ export class CharacterHeritageChangeService {
 
             heritage.gainActivities.forEach((gainActivity: string) => {
                 characterClass.gainActivity(
-                    Object.assign(
-                        new ActivityGain(this._activitiesDataService.activityFromName(gainActivity)),
-                        { name: gainActivity, source: heritage.name },
-                    ).recast(this._recastService.recastFns),
+                    ActivityGain.from({
+                        name: gainActivity,
+                        source: heritage.name,
+                        originalActivity: this._activitiesDataService.activityFromName(gainActivity),
+                    }),
                     1,
                 );
 

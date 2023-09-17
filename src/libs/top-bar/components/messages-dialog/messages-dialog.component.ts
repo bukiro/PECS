@@ -38,7 +38,7 @@ export class MessagesDialogComponent extends DestroyableMixin(TrackByMixin(Dialo
 
     public applyMessages?: (messages: Array<PlayerMessage>) => void;
 
-    public buttons = [{
+    public readonly buttons = [{
         label: 'Apply selected messages',
         danger: false,
         onClick: () => this.applyMessages?.(this._enrichedMessages.map(message => message.message)),
@@ -69,6 +69,20 @@ export class MessagesDialogComponent extends DestroyableMixin(TrackByMixin(Dialo
         });
 
         this.enrichedMessages$.next(this._enrichedMessages);
+    }
+
+    public with(values: Partial<MessagesDialogComponent>): MessagesDialogComponent {
+        super.with(values);
+
+        if (values.messages) {
+            this.messages = values.messages;
+        }
+
+        if (values.applyMessages) {
+            this.applyMessages = values.applyMessages;
+        }
+
+        return this;
     }
 
     public areAllMessagesSelected(): boolean {

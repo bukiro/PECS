@@ -77,21 +77,21 @@ export class HistoryDataService {
     }
 
     public initialize(): void {
-        this._ancestries = this._dataLoadingService.loadCastable(
+        this._ancestries = this._dataLoadingService.loadSerializable(
             json_ancestries,
             'ancestries',
             'name',
             Ancestry,
         );
 
-        this._backgrounds = this._dataLoadingService.loadCastable(
+        this._backgrounds = this._dataLoadingService.loadSerializable(
             json_backgrounds,
             'backgrounds',
             'name',
             Background,
         );
 
-        this._heritages = this._dataLoadingService.loadCastable(
+        this._heritages = this._dataLoadingService.loadSerializable(
             json_heritages as ImportedJsonFileList<Heritage>,
             'heritages',
             'name',
@@ -102,33 +102,24 @@ export class HistoryDataService {
     }
 
     private _replacementAncestry(name?: string): Ancestry {
-        return Object.assign(
-            new Ancestry(),
-            {
-                name: 'Ancestry not found',
-                desc: `${ name ? name : 'The requested ancestry' } does not exist in the ancestry list.`,
-            },
-        );
+        return Ancestry.from({
+            name: 'Ancestry not found',
+            desc: [{ name: '', value: `${ name ? name : 'The requested ancestry' } does not exist in the ancestry list.` }],
+        });
     }
 
     private _replacementHeritage(name?: string): Heritage {
-        return Object.assign(
-            new Heritage(),
-            {
-                name: 'Heritage not found',
-                desc: `${ name ? name : 'The requested heritage' } does not exist in the heritage list.`,
-            },
-        );
+        return Heritage.from({
+            name: 'Heritage not found',
+            desc: `${ name ? name : 'The requested heritage' } does not exist in the heritage list.`,
+        });
     }
 
     private _replacementBackground(name?: string): Background {
-        return Object.assign(
-            new Background(),
-            {
-                name: 'Background not found',
-                desc: `${ name ? name : 'The requested background' } does not exist in the background list.`,
-            },
-        );
+        return Background.from({
+            name: 'Background not found',
+            desc: `${ name ? name : 'The requested background' } does not exist in the background list.`,
+        });
     }
 
 }

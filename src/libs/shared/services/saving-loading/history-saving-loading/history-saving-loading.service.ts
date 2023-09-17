@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Heritage } from 'src/app/classes/Heritage';
 import { Background } from 'src/app/classes/Background';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { HistoryDataService } from 'src/libs/shared/services/data/history-data.service';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
 @Injectable({
     providedIn: 'root',
@@ -12,10 +12,9 @@ import { HistoryDataService } from 'src/libs/shared/services/data/history-data.s
 export class HistorySavingLoadingService {
     constructor(
         private readonly _historyDataService: HistoryDataService,
-        private readonly _typeService: TypeService,
     ) { }
 
-    public restoreAncestryFromSave(ancestry: Ancestry): Ancestry {
+    public restoreAncestryFromSave(ancestry: DeepPartial<Ancestry>): Ancestry {
         let restoredAncestry: Ancestry | undefined;
 
         if (ancestry.name) {
@@ -23,18 +22,14 @@ export class HistorySavingLoadingService {
 
             if (libraryObject.name === ancestry.name) {
                 //Map the restored object onto the library object and keep the result.
-                try {
-                    restoredAncestry = this._typeService.mergeObject(libraryObject, ancestry);
-                } catch (e) {
-                    console.error(`Failed restoring ancestry: ${ e }`);
-                }
+                restoredAncestry = libraryObject.clone().with(ancestry);
             }
         }
 
-        return restoredAncestry || ancestry;
+        return restoredAncestry || Ancestry.from(ancestry);
     }
 
-    public cleanAncestryForSave(ancestry: Ancestry): Ancestry {
+    public cleanAncestryForSave(ancestry: Ancestry): void {
         if (ancestry.name) {
             const libraryObject = this._historyDataService.ancestryFromName(ancestry.name);
 
@@ -52,11 +47,9 @@ export class HistorySavingLoadingService {
                 });
             }
         }
-
-        return ancestry;
     }
 
-    public restoreHeritageFromSave(heritage: Heritage): Heritage {
+    public restoreHeritageFromSave(heritage: DeepPartial<Heritage>): Heritage {
         let restoredHeritage: Heritage | undefined;
 
         if (heritage.name) {
@@ -64,18 +57,14 @@ export class HistorySavingLoadingService {
 
             if (libraryObject.name === heritage.name) {
                 //Map the restored object onto the library object and keep the result.
-                try {
-                    restoredHeritage = this._typeService.mergeObject(libraryObject, heritage);
-                } catch (e) {
-                    console.error(`Failed restoring heritage: ${ e }`);
-                }
+                restoredHeritage = libraryObject.clone().with(heritage);
             }
         }
 
-        return restoredHeritage || heritage;
+        return restoredHeritage || Heritage.from(heritage);
     }
 
-    public cleanHeritageForSave(heritage: Heritage): Heritage {
+    public cleanHeritageForSave(heritage: Heritage): void {
         if (heritage.name) {
             const libraryObject = this._historyDataService.heritageFromName(heritage.name);
 
@@ -93,11 +82,9 @@ export class HistorySavingLoadingService {
                 });
             }
         }
-
-        return heritage;
     }
 
-    public restoreBackgroundFromSave(background: Background): Background {
+    public restoreBackgroundFromSave(background: DeepPartial<Background>): Background {
         let mergedBackground: Background | undefined;
 
         if (background.name) {
@@ -105,18 +92,14 @@ export class HistorySavingLoadingService {
 
             if (libraryObject.name === background.name) {
                 //Map the restored object onto the library object and keep the result.
-                try {
-                    mergedBackground = this._typeService.mergeObject(libraryObject, background);
-                } catch (e) {
-                    console.error(`Failed restoring background: ${ e }`);
-                }
+                mergedBackground = libraryObject.clone().with(background);
             }
         }
 
-        return mergedBackground || background;
+        return mergedBackground || Background.from(background);
     }
 
-    public cleanBackgroundForSave(background: Background): Background {
+    public cleanBackgroundForSave(background: Background): void {
         if (background.name) {
             const libraryObject = this._historyDataService.backgroundFromName(background.name);
 
@@ -134,8 +117,6 @@ export class HistorySavingLoadingService {
                 });
             }
         }
-
-        return background;
     }
 
 }

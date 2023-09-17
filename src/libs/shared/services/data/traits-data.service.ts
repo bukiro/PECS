@@ -5,6 +5,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { DataLoadingService } from './data-loading.service';
 import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
 import { BehaviorSubject, Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -100,7 +101,7 @@ export class TraitsDataService {
     }
 
     public initialize(): void {
-        this._traits = this._dataLoadingService.loadCastable(
+        this._traits = this._dataLoadingService.loadSerializable(
             json_traits as ImportedJsonFileList<Trait>,
             'traits',
             'name',
@@ -120,9 +121,9 @@ export class TraitsDataService {
     }
 
     private _replacementTrait(name?: string): Trait {
-        return Object.assign(
-            new Trait(),
+        return Trait.from(
             { name: 'Trait not found', desc: `${ name ? name : 'The requested trait' } does not exist in the traits list.` },
+            RecastService.recastFns,
         );
     }
 

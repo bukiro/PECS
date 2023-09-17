@@ -11,6 +11,7 @@ import { CharacterFlatteningService } from '../character-flattening/character-fl
 import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap, take, tap } from 'rxjs';
 import { propMap$ } from '../../util/observableUtils';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
+import { RecastService } from '../recast/recast.service';
 
 export interface CalculatedHealth {
     maxHP$: Observable<{ result: number; explain: string }>;
@@ -213,7 +214,10 @@ export class HealthService {
                                     dyingAddedAmount = wounded + 1;
                                     this._creatureConditionsService.addCondition(
                                         creature,
-                                        Object.assign(new ConditionGain(), { name: 'Dying', value: wounded + 1, source: '0 Hit Points' }),
+                                        ConditionGain.from(
+                                            { name: 'Dying', value: wounded + 1, source: '0 Hit Points' },
+                                            RecastService.recastFns,
+                                        ),
                                         {},
                                         { noReload: true },
                                     );
@@ -233,7 +237,10 @@ export class HealthService {
                                 hasAddedUnconscious = true;
                                 this._creatureConditionsService.addCondition(
                                     creature,
-                                    Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' }),
+                                    ConditionGain.from(
+                                        { name: 'Unconscious', source: '0 Hit Points' },
+                                        RecastService.recastFns,
+                                    ),
                                     {},
                                     { noReload: true },
                                 );
@@ -316,7 +323,10 @@ export class HealthService {
         ) {
             this._creatureConditionsService.addCondition(
                 creature,
-                Object.assign(new ConditionGain(), { name: 'Dead', source: reason }),
+                ConditionGain.from(
+                    { name: 'Dead', source: reason },
+                    RecastService.recastFns,
+                ),
                 {},
                 { noReload: true },
             );

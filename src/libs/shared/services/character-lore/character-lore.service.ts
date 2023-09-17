@@ -41,44 +41,35 @@ export class CharacterLoreService {
         if (source.source === 'Feat: Additional Lore') {
             character.classLevelFromNumber(additionalLoreFirstIncreaseLevel)
                 .addSkillChoice(
-                    Object.assign(
-                        new SkillChoice(),
-                        {
-                            available: 1,
-                            filter: [`Lore: ${ source.loreName }`],
-                            type: 'Skill',
-                            maxRank: SkillLevels.Expert,
-                            source: 'Feat: Additional Lore',
-                        },
-                    ),
+                    SkillChoice.from({
+                        available: 1,
+                        filter: [`Lore: ${ source.loreName }`],
+                        type: 'Skill',
+                        maxRank: SkillLevels.Expert,
+                        source: 'Feat: Additional Lore',
+                    }),
                 );
 
             character.classLevelFromNumber(additionalLoreSecondIncreaseLevel)
                 .addSkillChoice(
-                    Object.assign(
-                        new SkillChoice(),
-                        {
-                            available: 1,
-                            filter: [`Lore: ${ source.loreName }`],
-                            type: 'Skill',
-                            maxRank: SkillLevels.Master,
-                            source: 'Feat: Additional Lore',
-                        },
-                    ),
+                    SkillChoice.from({
+                        available: 1,
+                        filter: [`Lore: ${ source.loreName }`],
+                        type: 'Skill',
+                        maxRank: SkillLevels.Master,
+                        source: 'Feat: Additional Lore',
+                    }),
                 );
 
             character.classLevelFromNumber(additionalLoreThirdIncreaseLevel)
                 .addSkillChoice(
-                    Object.assign(
-                        new SkillChoice(),
-                        {
-                            available: 1,
-                            filter: [`Lore: ${ source.loreName }`],
-                            type: 'Skill',
-                            maxRank: SkillLevels.Legendary,
-                            source: 'Feat: Additional Lore',
-                        },
-                    ),
+                    SkillChoice.from({
+                        available: 1,
+                        filter: [`Lore: ${ source.loreName }`],
+                        type: 'Skill',
+                        maxRank: SkillLevels.Legendary,
+                        source: 'Feat: Additional Lore',
+                    }),
                 );
         }
 
@@ -91,14 +82,11 @@ export class CharacterLoreService {
             const firstChoice =
                 character.classLevelFromNumber(gnomeObsessionFirstIncreaseLevel)
                     .addSkillChoice(
-                        Object.assign(
-                            new SkillChoice(),
-                            {
-                                type: 'Skill',
-                                maxRank: SkillLevels.Expert,
-                                source: 'Feat: Gnome Obsession',
-                            },
-                        ),
+                        SkillChoice.from({
+                            type: 'Skill',
+                            maxRank: SkillLevels.Expert,
+                            source: 'Feat: Gnome Obsession',
+                        }),
                     );
 
             firstChoice.increases.push({
@@ -112,14 +100,11 @@ export class CharacterLoreService {
             const secondChoice =
                 character.classLevelFromNumber(gnomeObsessionSecondIncreaseLevel)
                     .addSkillChoice(
-                        Object.assign(
-                            new SkillChoice(),
-                            {
-                                type: 'Skill',
-                                maxRank: SkillLevels.Master,
-                                source: 'Feat: Gnome Obsession',
-                            },
-                        ),
+                        SkillChoice.from({
+                            type: 'Skill',
+                            maxRank: SkillLevels.Master,
+                            source: 'Feat: Gnome Obsession',
+                        }),
                     );
 
             secondChoice.increases.push({
@@ -133,14 +118,11 @@ export class CharacterLoreService {
             const thirdChoice =
                 character.classLevelFromNumber(gnomeObsessionThirdIncreaseLevel)
                     .addSkillChoice(
-                        Object.assign(
-                            new SkillChoice(),
-                            {
-                                type: 'Skill',
-                                maxRank: SkillLevels.Legendary,
-                                source: 'Feat: Gnome Obsession',
-                            },
-                        ),
+                        SkillChoice.from({
+                            type: 'Skill',
+                            maxRank: SkillLevels.Legendary,
+                            source: 'Feat: Gnome Obsession',
+                        }),
                     );
 
             thirdChoice.increases.push({
@@ -174,14 +156,11 @@ export class CharacterLoreService {
                     const firstChoice =
                         character.classLevelFromNumber(gnomeObsessionFirstIncreaseLevel)
                             .addSkillChoice(
-                                Object.assign(
-                                    new SkillChoice(),
-                                    {
-                                        type: 'Skill',
-                                        maxRank: SkillLevels.Expert,
-                                        source: 'Feat: Gnome Obsession',
-                                    },
-                                ),
+                                SkillChoice.from({
+                                    type: 'Skill',
+                                    maxRank: SkillLevels.Expert,
+                                    source: 'Feat: Gnome Obsession',
+                                }),
                             );
 
                     firstChoice.increases.push({
@@ -195,14 +174,11 @@ export class CharacterLoreService {
                     const secondChoice =
                         character.classLevelFromNumber(gnomeObsessionSecondIncreaseLevel)
                             .addSkillChoice(
-                                Object.assign(
-                                    new SkillChoice(),
-                                    {
-                                        type: 'Skill',
-                                        maxRank: SkillLevels.Master,
-                                        source: 'Feat: Gnome Obsession',
-                                    },
-                                ),
+                                SkillChoice.from({
+                                    type: 'Skill',
+                                    maxRank: SkillLevels.Master,
+                                    source: 'Feat: Gnome Obsession',
+                                }),
                             );
 
                     secondChoice.increases.push({
@@ -216,14 +192,11 @@ export class CharacterLoreService {
                     const thirdChoice =
                         character.classLevelFromNumber(gnomeObsessionThirdIncreaseLevel)
                             .addSkillChoice(
-                                Object.assign(
-                                    new SkillChoice(),
-                                    {
-                                        type: 'Skill',
-                                        maxRank: SkillLevels.Legendary,
-                                        source: 'Feat: Gnome Obsession',
-                                    },
-                                ),
+                                SkillChoice.from({
+                                    type: 'Skill',
+                                    maxRank: SkillLevels.Legendary,
+                                    source: 'Feat: Gnome Obsession',
+                                }),
                             );
 
                     thirdChoice.increases.push({
@@ -341,7 +314,7 @@ export class CharacterLoreService {
         // They are marked as lorebase==true.
         this._featsDataService.feats(character.customFeats).filter(feat => feat.lorebase === 'Lore')
             .forEach(lorebaseFeat => {
-                const newFeat = lorebaseFeat.clone(this._recastService.recastFns);
+                const newFeat = lorebaseFeat.clone(RecastService.recastFns);
 
                 newFeat.name = newFeat.name.replace('Lore', `Lore: ${ loreName }`);
                 newFeat.subType = newFeat.subType.replace('Lore', `Lore: ${ loreName }`);

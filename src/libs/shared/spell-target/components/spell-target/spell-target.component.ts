@@ -377,16 +377,15 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
 
                     creatures.forEach(creature => {
                         newTargets.push(
-                            Object.assign(
-                                new SpellTarget(),
-                                {
-                                    name: creature.name || creature.type,
-                                    id: creature.id,
-                                    playerId: character.id,
-                                    type: creature.type,
-                                    selected: (this.gain.targets.find(target => target.id === creature.id)?.selected || false),
-                                    isPlayer: creature === character,
-                                }));
+                            SpellTarget.from({
+                                name: creature.name || creature.type,
+                                id: creature.id,
+                                playerId: character.id,
+                                type: creature.type,
+                                selected: (this.gain.targets.find(target => target.id === creature.id)?.selected || false),
+                                isPlayer: creature === character,
+                            }),
+                        );
                     });
 
                     if (!character.partyName) {
@@ -399,45 +398,36 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
                         .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
                         .forEach(savegame => {
                             newTargets.push(
-                                Object.assign(
-                                    new SpellTarget(),
-                                    {
-                                        name: savegame.name || 'Unnamed',
-                                        id: savegame.id,
-                                        playerId: savegame.id,
-                                        type: CreatureTypes.Character,
-                                        selected: this._isTargetSelected(savegame.id),
-                                    },
-                                ),
+                                SpellTarget.from({
+                                    name: savegame.name || 'Unnamed',
+                                    id: savegame.id,
+                                    playerId: savegame.id,
+                                    type: CreatureTypes.Character,
+                                    selected: this._isTargetSelected(savegame.id),
+                                }),
                             );
 
                             if (savegame.companionId) {
                                 newTargets.push(
-                                    Object.assign(
-                                        new SpellTarget(),
-                                        {
-                                            name: savegame.companionName || 'Companion',
-                                            id: savegame.companionId,
-                                            playerId: savegame.id,
-                                            type: 'Companion',
-                                            selected: this._isTargetSelected(savegame.companionId),
-                                        },
-                                    ),
+                                    SpellTarget.from({
+                                        name: savegame.companionName || 'Companion',
+                                        id: savegame.companionId,
+                                        playerId: savegame.id,
+                                        type: CreatureTypes.AnimalCompanion,
+                                        selected: this._isTargetSelected(savegame.companionId),
+                                    }),
                                 );
                             }
 
                             if (savegame.familiarId) {
                                 newTargets.push(
-                                    Object.assign(
-                                        new SpellTarget(),
-                                        {
-                                            name: savegame.familiarName || 'Familiar',
-                                            id: savegame.familiarId,
-                                            playerId: savegame.id,
-                                            type: 'Familiar',
-                                            selected: this._isTargetSelected(savegame.familiarId),
-                                        },
-                                    ),
+                                    SpellTarget.from({
+                                        name: savegame.familiarName || 'Familiar',
+                                        id: savegame.familiarId,
+                                        playerId: savegame.id,
+                                        type: CreatureTypes.Familiar,
+                                        selected: this._isTargetSelected(savegame.familiarId),
+                                    }),
                                 );
                             }
                         });

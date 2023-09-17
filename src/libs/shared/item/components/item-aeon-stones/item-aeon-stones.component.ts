@@ -134,7 +134,7 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
                 //Add a copy of the stone to the item
                 const newLength =
                     item.aeonStones.push(
-                        stone.clone(this._recastService.recastFns),
+                        stone.clone(RecastService.recastFns),
                     );
                 const newStone = item.aeonStones[newLength - 1];
 

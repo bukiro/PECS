@@ -33,7 +33,7 @@ export class AbilitiesDataService {
     }
 
     public initialize(): void {
-        this._abilities = this._dataLoadingService.loadCastable(json_abilities, 'abilities', 'name', Ability);
+        this._abilities = this._dataLoadingService.loadSerializable(json_abilities, 'abilities', 'name', Ability);
         this._abilities.forEach(ability => {
             this._abilitiesMap.set(ability.name.toLowerCase(), ability);
         });
@@ -41,11 +41,8 @@ export class AbilitiesDataService {
     }
 
     private _replacementAbility(name?: string): Ability {
-        return Object.assign(
-            new Ability(),
-            {
-                name: `${ name ? name : 'Ability' } not found`,
-            },
-        );
+        return Ability.from({
+            name: `${ name ? name : 'Ability' } not found`,
+        });
     }
 }

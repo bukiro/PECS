@@ -788,7 +788,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
     }
 
     private _setEffectPropertyValue(key: keyof EffectGain, value: number): void {
-        Object.assign(this.newEffect, { [key]: value });
+        new ObjectPropertyAccessor(this.newEffect, key).value = value;
     }
 
 }

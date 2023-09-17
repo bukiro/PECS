@@ -51,6 +51,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -671,10 +672,10 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
         }
 
         if (mapName) {
-            const newCondition: ConditionGain =
-                Object.assign(
-                    new ConditionGain(),
-                    { name: mapName, choice: mapChoice, source: 'Quick Status', duration: TimePeriods.HalfTurn, locked: true },
+            const newCondition =
+                ConditionGain.from(
+                    { name: mapName, choice: mapChoice, source: 'Quick Status', duration: TimePeriods.HalfTurn },
+                    RecastService.recastFns,
                 );
 
             this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
@@ -772,10 +773,10 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
         }
 
         if (rapChoice) {
-            const newCondition: ConditionGain =
-                Object.assign(
-                    new ConditionGain(),
-                    { name: 'Range Penalty', choice: rapChoice, source: 'Quick Status', duration: TimePeriods.HalfTurn, locked: true },
+            const newCondition =
+                ConditionGain.from(
+                    { name: 'Range Penalty', choice: rapChoice, source: 'Quick Status', duration: TimePeriods.HalfTurn },
+                    RecastService.recastFns,
                 );
 
             this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });

@@ -35,17 +35,16 @@ export class FeatTakingService {
 
         if (taken) {
             const newLength =
-                choice.feats.push(Object.assign(
-                    new FeatTaken(),
-                    {
+                choice.feats.push(
+                    FeatTaken.from({
                         name: (feat?.name || featName),
                         source: choice.source,
                         locked,
                         automatic,
                         sourceId: choice.id,
                         countAsFeat: (feat?.countAsFeat || feat?.superType || ''),
-                    },
-                ));
+                    }),
+                );
             const gain = choice.feats[newLength - 1];
 
             this._psp.featProcessingService?.processFeat(feat, taken, { creature, gain, choice, level });

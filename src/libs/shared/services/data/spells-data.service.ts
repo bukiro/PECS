@@ -4,6 +4,7 @@ import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import * as json_spells from 'src/assets/json/spells';
 import { DataLoadingService } from './data-loading.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -45,7 +46,7 @@ export class SpellsDataService {
     }
 
     public initialize(): void {
-        this._spells = this._dataLoadingService.loadCastable(
+        this._spells = this._dataLoadingService.loadSerializable(
             json_spells as ImportedJsonFileList<Spell>,
             'spells',
             'id',
@@ -60,9 +61,9 @@ export class SpellsDataService {
     }
 
     private _replacementSpell(name?: string): Spell {
-        return Object.assign(
-            new Spell(),
+        return Spell.from(
             { name: 'Spell not found', desc: `${ name ? name : 'The requested spell' } does not exist in the spells list.` },
+            RecastService.recastFns,
         );
     }
 

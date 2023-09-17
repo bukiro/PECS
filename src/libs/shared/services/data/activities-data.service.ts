@@ -93,7 +93,7 @@ export class ActivitiesDataService {
         this._registerRecastFns();
 
         this._activities =
-            this._dataLoadingService.loadCastable(
+            this._dataLoadingService.loadSerializable(
                 json_activities as ImportedJsonFileList<Activity>,
                 'activities',
                 'name',
@@ -116,13 +116,13 @@ export class ActivitiesDataService {
     }
 
     private _replacementActivity(name?: string): Activity {
-        return Object.assign(
-            new Activity(),
+        return Activity.from(
             {
                 name: 'Activity not found',
                 desc: `${ name ? name : 'The requested activity' } does not exist in the activities list.`,
                 displayOnly: true,
             },
+            RecastService.recastFns,
         );
     }
 

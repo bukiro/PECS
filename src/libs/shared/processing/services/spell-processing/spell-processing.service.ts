@@ -237,7 +237,7 @@ export class SpellProcessingService {
         return zip(
             conditions
                 .map((conditionGain, conditionIndex) => {
-                    const newConditionGain = conditionGain.clone(this._recastService.restoreFns);
+                    const newConditionGain = conditionGain.clone(RecastService.restoreFns);
                     const condition = this._conditionsDataService.conditionFromName(conditionGain.name);
 
                     //Under certain circumstances, don't grant a condition.

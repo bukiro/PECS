@@ -45,6 +45,35 @@ export class DialogComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
             .subscribe(darkmode => { this.isDarkMode = darkmode; });
     }
 
+    public with(values: Partial<DialogComponent>): DialogComponent {
+        if (values.title) {
+            this.title = values.title;
+        }
+
+        if (values.cancelLabel) {
+            this.cancelLabel = values.cancelLabel;
+        }
+
+
+        if (values.buttons) {
+            this.buttons = values.buttons;
+        }
+
+        if (values.close) {
+            this.close = values.close;
+        }
+
+        if (values.hideCancel) {
+            this.hideCancel = values.hideCancel;
+        }
+
+        if (values.isDarkMode) {
+            this.isDarkMode = values.isDarkMode;
+        }
+
+        return this;
+    }
+
     public ngAfterViewInit(): void {
         if (!this.hideCancel) {
             this.footer?.focusCancelButton();

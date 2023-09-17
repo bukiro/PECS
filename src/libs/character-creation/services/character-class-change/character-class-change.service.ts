@@ -21,7 +21,6 @@ export class CharacterClassChangeService {
         private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
         private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
         private readonly _itemGrantingService: ItemGrantingService,
-        private readonly _recastService: RecastService,
         private readonly _psp: ProcessingServiceProvider,
         private readonly _store$: Store,
     ) { }
@@ -35,7 +34,7 @@ export class CharacterClassChangeService {
         this._processRemovingOldClass();
 
         if (newClass) {
-            character.class = newClass.clone(this._recastService.recastFns);
+            character.class = newClass.clone(RecastService.recastFns);
 
             this._processNewClass();
         } else {
@@ -94,7 +93,7 @@ export class CharacterClassChangeService {
             });
 
             characterClass.customSkills.forEach(skill => {
-                character.customSkills.push(safeAssign(new Skill(), skill));
+                character.customSkills.push(Skill.from(skill));
             });
         }
     }

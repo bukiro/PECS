@@ -29,7 +29,7 @@ export class ItemPropertiesDataService {
     }
 
     public initialize(): void {
-        this._itemProperties = this._dataLoadingService.loadCastable<ItemProperty<Item | any>>(
+        this._itemProperties = this._dataLoadingService.loadSerializable<ItemProperty<Item | any>>(
             json_itemproperties as ImportedJsonFileList<ItemProperty<Item | any>>,
             'itemProperties',
             ['group', 'parent', 'key'],

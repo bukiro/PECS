@@ -88,7 +88,7 @@ export class CharacterAncestryChangeService {
 
             characterClass.languages.push(
                 ...ancestry.languages
-                    .map(language => Object.assign(new LanguageGain(), { name: language, locked: true, source: ancestry.name })),
+                    .map(language => LanguageGain.from({ name: language, locked: true, source: ancestry.name })),
             );
 
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');

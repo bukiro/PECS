@@ -38,7 +38,7 @@ export class Familiar extends Creature implements Serializable<Familiar> {
     public senses: Array<string> = ['Low-Light Vision'];
     public traits: Array<string> = ['Minion'];
 
-    public abilities: FeatChoice = Object.assign(new FeatChoice(), {
+    public abilities: FeatChoice = FeatChoice.from({
         available: Defaults.familiarAbilities,
         id: '0-Feat-Familiar-0',
         source: 'Familiar',

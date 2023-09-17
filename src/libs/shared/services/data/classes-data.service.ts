@@ -4,6 +4,7 @@ import { CharacterClass } from 'src/app/classes/CharacterClass';
 import * as json_classes from 'src/assets/json/classes';
 import { DataLoadingService } from './data-loading.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -38,7 +39,7 @@ export class ClassesDataService {
     }
 
     public initialize(): void {
-        this._classes = this._dataLoadingService.loadCastable(
+        this._classes = this._dataLoadingService.loadSerializable(
             json_classes as ImportedJsonFileList<CharacterClass>,
             'classes',
             'name',
@@ -52,9 +53,12 @@ export class ClassesDataService {
     }
 
     private _replacementClass(name?: string): CharacterClass {
-        return Object.assign(
-            new CharacterClass(),
-            { name: 'Class not found', desc: `${ name ? name : 'The requested class' } does not exist in the class list.` },
+        return CharacterClass.from(
+            {
+                name: 'Class not found',
+                desc: [{ name: '', value: `${ name ? name : 'The requested class' } does not exist in the class list.` }],
+            },
+            RecastService.recastFns,
         );
     }
 

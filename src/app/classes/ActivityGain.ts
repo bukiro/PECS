@@ -9,6 +9,7 @@ import { ActivityGainInterface } from './ActivityGainInterface';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 const { assign, forExport } = setupSerialization<ActivityGain>({
     primitives: [
@@ -141,13 +142,10 @@ export class ActivityGain implements ActivityGainInterface, Serializable<Activit
 
     public get originalActivity(): Activity {
         return this.$originalActivity ||
-            Object.assign(
-                new Activity(),
-                {
-                    name: 'Activity not available',
-                    desc: `${ this.name } is not cached. This is an error and should not happen.`,
-                },
-            );
+            Activity.from({
+                name: 'Activity not available',
+                desc: `${ this.name } is not cached. This is an error and should not happen.`,
+            }, RecastService.recastFns);
     }
 
     public static from(values: DeepPartial<ActivityGain> & { originalActivity: Activity }): ActivityGain {

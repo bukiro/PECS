@@ -77,7 +77,7 @@ export class MessageSendingService {
                                                     timeStamp,
                                                     turnChange: true,
                                                 },
-                                                this._recastService.recastFns,
+                                                RecastService.recastFns,
                                             ).forExport(),
                                         );
                                     });
@@ -142,10 +142,12 @@ export class MessageSendingService {
                                                         targetId: target.id,
                                                         time: `${ date.getHours() }:${ date.getMinutes() }`,
                                                         timeStamp,
-                                                        gainCondition: [conditionGain.with({ foreignPlayerId: character.id })],
+                                                        gainCondition: [
+                                                            conditionGain.with({ foreignPlayerId: character.id }, RecastService.recastFns),
+                                                        ],
                                                         activateCondition: activate,
                                                     },
-                                                    this._recastService.recastFns,
+                                                    RecastService.recastFns,
                                                 ).forExport(),
                                             );
                                         }
@@ -227,7 +229,7 @@ export class MessageSendingService {
                                             includedItems: included.items,
                                             includedInventories: included.inventories,
                                         },
-                                        this._recastService.recastFns,
+                                        RecastService.recastFns,
                                     );
 
                                     return this._messagesApiService.sendMessagesToConnector$([message.forExport()])
@@ -290,7 +292,7 @@ export class MessageSendingService {
                                             acceptedItem: accepted ? message.offeredItem[0].id : '',
                                             rejectedItem: accepted ? '' : message.offeredItem[0].id,
                                         },
-                                        this._recastService.recastFns,
+                                        RecastService.recastFns,
                                     );
 
                                     return this._messagesApiService.sendMessagesToConnector$([response.forExport()])

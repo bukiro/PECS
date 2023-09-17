@@ -30,6 +30,7 @@ import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/bas
 import { deepDistinctUntilChanged, propMap$ } from 'src/libs/shared/util/observableUtils';
 import { Creature } from 'src/app/classes/Creature';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 interface ComponentParameters {
     ACSources: ACForDisplay;
@@ -180,8 +181,8 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
         if (currentFlatFooted) {
             this._creatureConditionsService.removeCondition(creature, currentFlatFooted, false);
         } else {
-            const newCondition: ConditionGain =
-                Object.assign(new ConditionGain(), { name: 'Flat-Footed', source: 'Quick Status', duration: -1, locked: true });
+            const newCondition =
+                ConditionGain.from({ name: 'Flat-Footed', source: 'Quick Status', duration: -1 }, RecastService.recastFns);
 
             this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
         }
@@ -196,7 +197,7 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
             this._creatureConditionsService.removeCondition(creature, currentHidden, false);
         } else {
             const newCondition: ConditionGain =
-                Object.assign(new ConditionGain(), { name: 'Hidden', source: 'Quick Status', duration: -1, locked: true });
+                ConditionGain.from({ name: 'Hidden', source: 'Quick Status', duration: -1 }, RecastService.recastFns);
 
             this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
         }

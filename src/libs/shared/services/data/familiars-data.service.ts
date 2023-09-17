@@ -3,6 +3,7 @@ import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import * as json_abilities from 'src/assets/json/familiarabilities';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { DataLoadingService } from './data-loading.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -32,7 +33,7 @@ export class FamiliarsDataService {
     }
 
     public initialize(): void {
-        this._familiarAbilities = this._dataLoadingService.loadCastable(
+        this._familiarAbilities = this._dataLoadingService.loadSerializable(
             json_abilities as ImportedJsonFileList<Feat>,
             'familiarAbilities',
             'name',
@@ -50,12 +51,12 @@ export class FamiliarsDataService {
     }
 
     private _replacementAbility(name?: string): Feat {
-        return Object.assign(
-            new Feat(),
+        return Feat.from(
             {
                 name: 'Familiar ability not found',
                 desc: `${ name ? name : 'The requested familiar ability' } does not exist in the feat and features lists.`,
             },
+            RecastService.recastFns,
         );
     }
 

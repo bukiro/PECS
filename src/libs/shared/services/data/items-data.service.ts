@@ -50,10 +50,10 @@ import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { Constructable } from 'src/libs/shared/definitions/interfaces/constructable';
 import { DataService } from './data.service';
 import { DeepPartial } from '../../definitions/types/deepPartial';
 import { ItemTypes } from '../../definitions/types/item-types';
+import { FromConstructable } from '../../definitions/interfaces/from-constructable';
 
 @Injectable({
     providedIn: 'root',
@@ -224,8 +224,8 @@ export class ItemsDataService {
         this._typeService.registerItemCasting(WornItem);
 
         //Make a copy of clean items for shop items and crafting items.
-        this._storeItems = this._cleanItems.clone(this._recastService.recastFns);
-        this._craftingItems = this._cleanItems.clone(this._recastService.recastFns);
+        this._storeItems = this._cleanItems.clone(RecastService.recastFns);
+        this._craftingItems = this._cleanItems.clone(RecastService.recastFns);
 
         this._initialized = true;
 
@@ -234,8 +234,8 @@ export class ItemsDataService {
 
     public reset(): void {
         //Reset items and crafting items from clean items.
-        this._storeItems = this._cleanItems.clone(this._recastService.recastFns);
-        this._craftingItems = this._cleanItems.clone(this._recastService.recastFns);
+        this._storeItems = this._cleanItems.clone(RecastService.recastFns);
+        this._craftingItems = this._cleanItems.clone(RecastService.recastFns);
     }
 
     private _setBasicItems(): void {
@@ -267,11 +267,11 @@ export class ItemsDataService {
 
     private _loadItemType<T extends Item>(
         data: ImportedJsonFileList<T>,
-        constructor: Constructable<T>,
+        constructor: FromConstructable<T>,
     ): Array<T> {
         let resultingData: Array<T> = [];
 
-        const listName = (new constructor()).type;
+        const listName = constructor.from({}, RecastService.recastFns).type;
 
         const extendedData = this._extensionsService.extend<T>(data, `items_${ listName }`);
 
@@ -287,7 +287,7 @@ export class ItemsDataService {
             resultingData.push(...extendedData[key]
                 .map(entry =>
                     this._itemInitializationService?.initializeItem<T>(
-                        Object.assign(new constructor(), entry),
+                        constructor.from(entry, RecastService.recastFns),
                         { preassigned: true, newId: false, restoreRunesAndMaterials: true },
                     ),
                 )

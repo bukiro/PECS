@@ -135,18 +135,15 @@ export class CharacterSkillIncreaseService {
             const skilledHeritageExtraIncreaseLevel = 5;
             const newChoice = character.classLevelFromNumber(skilledHeritageExtraIncreaseLevel)
                 .addSkillChoice(
-                    Object.assign(
-                        new SkillChoice(),
-                        {
-                            available: 0,
-                            filter: [],
-                            increases: [],
-                            type: 'Skill',
-                            maxRank: SkillLevels.Legendary,
-                            source: 'Skilled Heritage',
-                            id: '',
-                        },
-                    ),
+                    SkillChoice.from({
+                        available: 0,
+                        filter: [],
+                        increases: [],
+                        type: 'Skill',
+                        maxRank: SkillLevels.Legendary,
+                        source: 'Skilled Heritage',
+                        id: '',
+                    }),
                 );
 
             this.increaseSkill(skillName, true, newChoice, true);
@@ -168,18 +165,15 @@ export class CharacterSkillIncreaseService {
             if (!existingChoices.length) {
                 const newChoice = character.classLevelFromNumber(cannyAcumenExtraIncreaseLevel)
                     .addSkillChoice(
-                        Object.assign(
-                            new SkillChoice(),
-                            {
-                                available: 0,
-                                filter: [],
-                                increases: [],
-                                type: 'Automatic',
-                                maxRank: SkillLevels.Master,
-                                source: choice.source,
-                                id: '',
-                            },
-                        ),
+                        SkillChoice.from({
+                            available: 0,
+                            filter: [],
+                            increases: [],
+                            type: 'Automatic',
+                            maxRank: SkillLevels.Master,
+                            source: choice.source,
+                            id: '',
+                        }),
                     );
 
                 this.increaseSkill(skillName, true, newChoice, true);

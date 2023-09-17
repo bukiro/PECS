@@ -45,21 +45,21 @@ export class ItemMaterialsDataService {
     }
 
     public initialize(): void {
-        this._armorMaterials = this._dataLoadingService.loadCastable(
+        this._armorMaterials = this._dataLoadingService.loadSerializable(
             json_armormaterials as ImportedJsonFileList<ArmorMaterial>,
             'armorMaterials',
             'name',
             ArmorMaterial,
         );
 
-        this._shieldMaterials = this._dataLoadingService.loadCastable(
+        this._shieldMaterials = this._dataLoadingService.loadSerializable(
             json_shieldmaterials,
             'shieldMaterials',
             ['name', 'itemFilter'],
             ShieldMaterial,
         );
 
-        this._weaponMaterials = this._dataLoadingService.loadCastable(
+        this._weaponMaterials = this._dataLoadingService.loadSerializable(
             json_weaponmaterials,
             'weaponMaterials',
             'name',

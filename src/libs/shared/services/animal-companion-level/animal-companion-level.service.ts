@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, map } from 'rxjs';
-import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -9,7 +8,7 @@ import { CreatureTypes } from '../../definitions/creatureTypes';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureService } from '../creature/creature.service';
 import { deepDistinctUntilChanged } from '../../util/observableUtils';
-import { safeAssign } from '../../util/safe-assign';
+import { DeepPartial } from '../../definitions/types/deepPartial';
 
 @Injectable({
     providedIn: 'root',
@@ -25,42 +24,35 @@ export class AnimalCompanionLevelsService {
         this._updateAnimalCompanionLevel();
     }
 
-    public restoreLevelsFromSave(classObject: AnimalCompanionClass): AnimalCompanionClass {
-        if (classObject.levels) {
-            const libraryObject = this._animalCompanionsDataService.companionLevels();
+    public restoreLevelsFromSave(levels: Array<DeepPartial<AnimalCompanionLevel>>): Array<AnimalCompanionLevel> {
+        const libraryLevels = this._animalCompanionsDataService.companionLevels();
 
-            if (libraryObject) {
-                try {
-                    classObject.levels = this._typeService.mergeArray(libraryObject, classObject.levels);
-                } catch (e) {
-                    console.error(`Failed restoring animal companion levels: ${ e }`);
-                }
-            }
-        }
+        //Map the restored levels onto the library levels and keep the result.
+        const restoredLevels = [
+            ...libraryLevels.map((libraryLevel, index) => libraryLevel.clone().with(levels[index] ?? {})),
+        ];
 
-        return classObject;
+        return restoredLevels;
     }
 
-    public cleanLevelsForSave(classObject: AnimalCompanionClass): void {
-        if (classObject.levels) {
-            const libraryObject = this._animalCompanionsDataService.companionLevels();
+    public cleanLevelsForSave(levels: Array<AnimalCompanionLevel>): void {
+        const libraryObject = this._animalCompanionsDataService.companionLevels();
 
-            if (libraryObject) {
-                classObject.levels.forEach(level => {
-                    (Object.keys(level) as Array<keyof AnimalCompanionLevel>).forEach((key, index) => {
-                        if (key !== 'name') {
-                            // If the Object has a name, and a library item can be found with that name,
-                            // compare the property with the library item.
-                            // If they have the same value, delete the property from the item
-                            // - it can be recovered during loading from the database.
-                            if (JSON.stringify(level[key]) === JSON.stringify(libraryObject[index][key])) {
-                                // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-                                delete level[key];
-                            }
+        if (libraryObject) {
+            levels.forEach(level => {
+                (Object.keys(level) as Array<keyof AnimalCompanionLevel>).forEach((key, index) => {
+                    if (key !== 'name') {
+                        // If the Object has a name, and a library item can be found with that name,
+                        // compare the property with the library item.
+                        // If they have the same value, delete the property from the item
+                        // - it can be recovered during loading from the database.
+                        if (JSON.stringify(level[key]) === JSON.stringify(libraryObject[index][key])) {
+                            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+                            delete level[key];
                         }
-                    });
+                    }
                 });
-            }
+            });
         }
     }
 
@@ -117,10 +109,9 @@ export class AnimalCompanionLevelsService {
                     (companion.class.levels[advancedLevel]?.name !== advancedOption)
                 ) {
                     companion.class.levels[advancedLevel] =
-                        safeAssign(
-                            new AnimalCompanionLevel(),
+                        AnimalCompanionLevel.from(
                             companion.class.levels.find(level => level.name === advancedOption) ?? {},
-                        ).recast();
+                        );
                     companion.class.levels[advancedLevel].number = advancedLevel;
                 } else if (
                     !advancedOption &&

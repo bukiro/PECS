@@ -12,7 +12,6 @@ import { SkillsDataService } from '../data/skills-data.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
-import { safeAssign } from '../../util/safe-assign';
 
 @Injectable({
     providedIn: 'root',
@@ -129,7 +128,7 @@ export class ArmorPropertiesService {
                         .forEach(critSpec => {
                             const specs: Array<Specialization> =
                                 groupSpecializations
-                                    .map(spec => safeAssign(new Specialization(), spec).recast());
+                                    .map(spec => Specialization.from(spec));
 
                             specs.forEach(spec => {
                                 if (critSpec.condition) {

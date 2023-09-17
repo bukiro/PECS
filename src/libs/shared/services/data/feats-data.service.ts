@@ -11,7 +11,6 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { safeAssign } from '../../util/safe-assign';
 
 @Injectable({
     providedIn: 'root',
@@ -101,8 +100,7 @@ export class FeatsDataService {
 
                 featString = featString.replace(regex, weapon.name);
 
-                const newFeat =
-                    safeAssign(new Feat(), JSON.parse(featString)).recast(this._recastService.recastFns);
+                const newFeat = Feat.from(JSON.parse(featString), RecastService.recastFns);
 
                 newFeat.hide = false;
                 newFeat.weaponfeatbase = false;
@@ -183,7 +181,7 @@ export class FeatsDataService {
             if (!this._itemsDataService.stillLoading) {
                 clearInterval(waitForItemsDataService);
 
-                this._feats = this._dataLoadingService.loadCastable(
+                this._feats = this._dataLoadingService.loadSerializable(
                     json_feats as ImportedJsonFileList<Feat>,
                     'feats',
                     'name',
@@ -200,7 +198,7 @@ export class FeatsDataService {
                     this._featsMap.set(feat.name.toLowerCase(), feat);
                 });
 
-                this._features = this._dataLoadingService.loadCastable(
+                this._features = this._dataLoadingService.loadSerializable(
                     json_features as ImportedJsonFileList<Feat>,
                     'features',
                     'name',
@@ -230,12 +228,12 @@ export class FeatsDataService {
     }
 
     private _replacementFeat(name?: string): Feat {
-        return Object.assign(
-            new Feat(),
+        return Feat.from(
             {
                 name: 'Feat not found',
                 desc: `${ name ? name : 'The requested feat or feature' } does not exist in the feat and features lists.`,
             },
+            RecastService.recastFns,
         );
     }
 

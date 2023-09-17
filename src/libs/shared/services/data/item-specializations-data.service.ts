@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Specialization } from 'src/app/classes/Specialization';
 import * as json_specializations from 'src/assets/json/specializations';
 import { DataLoadingService } from './data-loading.service';
+import { Hint } from 'src/app/classes/Hint';
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +29,7 @@ export class ItemSpecializationsDataService {
     }
 
     public initialize(): void {
-        this._specializations = this._dataLoadingService.loadCastable(
+        this._specializations = this._dataLoadingService.loadSerializable(
             json_specializations,
             'specializations',
             'name',
@@ -41,8 +42,8 @@ export class ItemSpecializationsDataService {
     public reset(): void {
         //Disable any active hint effects when loading a character, and reinitialize the hints.
         this._specializations.forEach(spec => {
-            spec.recast();
-            spec.hints?.forEach(hint => hint.deactivateAll());
+            spec.hints = spec.hints.map(hint => Hint.from(hint));
+            spec.hints.forEach(hint => hint.deactivateAll());
         });
     }
 

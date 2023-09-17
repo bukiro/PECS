@@ -2,7 +2,18 @@ import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { TypeService } from './type.service';
-import { recastFnsforTesting } from '../../definitions/interfaces/recastFns';
+import { RecastFns } from '../../definitions/interfaces/recastFns';
+import { Activity } from 'src/app/classes/Activity';
+import { ActivityGain } from 'src/app/classes/ActivityGain';
+import { Item } from 'src/app/classes/Item';
+import { DeepPartial } from '../../definitions/types/deepPartial';
+
+export const recastFnsforTesting: RecastFns = {
+    getItemPrototype: <T extends Item>(obj: DeepPartial<T>, options?: { type?: string }) =>
+        Object.assign(obj, { type: options?.type ?? obj.type }) as T,
+    getOriginalActivity: (_obj: DeepPartial<ActivityGain>) => new Activity(),
+};
+
 
 describe('TypeService', () => {
 

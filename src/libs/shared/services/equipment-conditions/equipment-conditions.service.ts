@@ -13,6 +13,7 @@ import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -122,7 +123,7 @@ export class EquipmentConditionsService {
                                     const addCondition = (name: string, value: number, source: string): void => {
                                         this._creatureConditionsService.addCondition(
                                             creature,
-                                            Object.assign(new ConditionGain(), { name, value, source, apply: true }),
+                                            ConditionGain.from({ name, value, source, apply: true }, RecastService.recastFns),
                                             {},
                                             { noReload: true },
                                         );
@@ -130,7 +131,7 @@ export class EquipmentConditionsService {
                                     const removeCondition = (name: string, value: number, source: string): void => {
                                         this._creatureConditionsService.removeCondition(
                                             creature,
-                                            Object.assign(new ConditionGain(), { name, value, source, apply: true }),
+                                            ConditionGain.from({ name, value, source, apply: true }, RecastService.recastFns),
                                             false,
                                         );
                                     };
@@ -291,9 +292,9 @@ export class EquipmentConditionsService {
                                     ) {
                                         this._creatureConditionsService.addCondition(
                                             creature,
-                                            Object.assign(
-                                                new ConditionGain(),
+                                            ConditionGain.from(
                                                 { name: 'Encumbered', value: 0, source: 'Bulk', apply: true },
+                                                RecastService.recastFns,
                                             ),
                                             {},
                                             { noReload: true },
@@ -310,9 +311,9 @@ export class EquipmentConditionsService {
                                     ) {
                                         this._creatureConditionsService.removeCondition(
                                             creature,
-                                            Object.assign(
-                                                new ConditionGain(),
+                                            ConditionGain.from(
                                                 { name: 'Encumbered', value: 0, source: 'Bulk', apply: true },
+                                                RecastService.recastFns,
                                             ),
                                             true,
                                         );

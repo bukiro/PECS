@@ -52,14 +52,14 @@ export class DeitiesDataService {
     }
 
     public initialize(): void {
-        this._deities = this._dataLoadingService.loadCastable(
+        this._deities = this._dataLoadingService.loadSerializable(
             json_deities as ImportedJsonFileList<Deity>,
             'deities',
             'name',
             Deity,
         );
 
-        this._domains = this._dataLoadingService.loadCastable(
+        this._domains = this._dataLoadingService.loadSerializable(
             json_domains,
             'domains',
             'name',
@@ -74,17 +74,15 @@ export class DeitiesDataService {
     }
 
     private _replacementDeity(name?: string): Deity {
-        return Object.assign(
-            new Deity(),
-            { name: 'Deity not found', desc: `${ name ? name : 'The requested deity' } does not exist in the deities list.` },
-        );
+        return Deity.from({
+            name: 'Deity not found', desc: `${ name ? name : 'The requested deity' } does not exist in the deities list.`,
+        });
     }
 
     private _replacementDomain(name?: string): Domain {
-        return Object.assign(
-            new Domain(),
-            { name: 'Domain not found', desc: `${ name ? name : 'The requested domain' } does not exist in the domains list.` },
-        );
+        return Domain.from({
+            name: 'Domain not found', desc: `${ name ? name : 'The requested domain' } does not exist in the domains list.`,
+        });
     }
 
 }

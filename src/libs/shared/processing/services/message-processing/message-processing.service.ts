@@ -210,7 +210,8 @@ export class MessageProcessingService {
                                         item.amount = message.itemAmount;
                                     }
 
-                                    const typedItem = this._typeService.getPrototypeItem(item).with(item);
+                                    const typedItem =
+                                        this._typeService.getPrototypeItem(item).with(item, RecastService.recastFns);
 
                                     const targetItemTypes = targetInventory.itemsOfType(typedItem.type);
 
@@ -236,8 +237,6 @@ export class MessageProcessingService {
                                         this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
                                         this._refreshService.setComponentChanged(existingItems[0].id);
                                     } else if (targetItemTypes) {
-                                        typedItem.recast(this._recastService.restoreFns);
-
                                         const newLength = targetItemTypes.push(typedItem);
                                         const addedItem = targetItemTypes[newLength - 1];
 

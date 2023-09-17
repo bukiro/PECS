@@ -15,7 +15,6 @@ import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 import { Observable, map, of } from 'rxjs';
-import { safeAssign } from '../../util/safe-assign';
 
 @Injectable({
     providedIn: 'root',
@@ -30,7 +29,6 @@ export class CreatureConditionsService {
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
-        private readonly _recastService: RecastService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
@@ -69,7 +67,7 @@ export class CreatureConditionsService {
         context: { parentItem?: Item; parentConditionGain?: ConditionGain } = {},
         options: { noReload?: boolean } = {},
     ): boolean {
-        const workingGain: ConditionGain = gain.clone(this._recastService.recastFns);
+        const workingGain: ConditionGain = gain.clone(RecastService.recastFns);
         const originalCondition = this._conditionsDataService.conditionFromName(workingGain.name);
 
         if (originalCondition) {
@@ -310,8 +308,8 @@ export class CreatureConditionsService {
             const originalCondition = this._conditionsDataService.conditionFromName(gain.name);
 
             if (originalCondition.name === gain.name) {
-                const conditionEffectsObject: ConditionEffectsObject =
-                    safeAssign(new ConditionEffectsObject(originalCondition.effects), gain);
+                const conditionEffectsObject =
+                    new ConditionEffectsObject(originalCondition.effects).with(gain);
 
                 conditions.push(conditionEffectsObject);
                 originalCondition?.hints
@@ -388,7 +386,7 @@ export class CreatureConditionsService {
         // Ignore anything that would stop the condition from being removed (i.e. lockedByParent).
         const conditionsToRemove = activeConditions
             .filter(activeCondition => activeCondition.value === -1)
-            .map(activeCondition => activeCondition.clone(this._recastService.recastFns));
+            .map(activeCondition => activeCondition.clone(RecastService.recastFns));
 
         conditionsToRemove.forEach(remainingCondition =>
             this.removeCondition(
@@ -495,7 +493,7 @@ export class CreatureConditionsService {
             });
         //The currentCreatureConditions are cached here for readonly calls.
         this._previousCreatureConditionsState[creatureIndex] =
-            activeConditions.map(gain => gain.clone(this._recastService.recastFns));
+            activeConditions.map(gain => gain.clone(RecastService.recastFns));
     }
 
     /**

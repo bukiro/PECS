@@ -17,6 +17,8 @@ import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { ClassSavingLoadingService } from '../class-saving-loading/class-saving-loading.service';
 import { HistorySavingLoadingService } from '../history-saving-loading/history-saving-loading.service';
 import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
+import { CharacterClass } from 'src/app/classes/CharacterClass';
+import { ClassLevel } from 'src/app/classes/ClassLevel';
 
 interface SaveCharacterResponse {
     result: { n: number; ok: number };
@@ -39,7 +41,6 @@ export class CharacterSavingService {
         private readonly _historySavingLoadingService: HistorySavingLoadingService,
         private readonly _toastService: ToastService,
         private readonly _savegamesService: SavegamesService,
-        private readonly _recastService: RecastService,
     ) { }
 
     public saveCharacter(): void {
@@ -77,8 +78,8 @@ export class CharacterSavingService {
 
     private _prepareCharacterForSaving(character: Character): Partial<Character> {
 
-        //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
-        const savegame = character.clone(this._recastService.recastFns);
+        //Copy the character into a savegame.
+        const savegame = character.clone(RecastService.recastFns);
 
         const versionString: string = package_json.version;
 
@@ -93,38 +94,38 @@ export class CharacterSavingService {
         }
 
         // Go through all the items, class, ancestry, heritage, background and
-        // compare every element to its library equivalent, skipping the properties listed in .save
+        // compare every element to its library equivalent.
         // Everything that is the same as the library item gets deleted.
         if (savegame.class.name) {
-            savegame.class = this._classSavingLoadingService.cleanClassForSave(savegame.class);
+            this._classSavingLoadingService.cleanClassForSave(savegame.class);
 
-            const _class = savegame.class;
+            const _class: Partial<CharacterClass> & { levels: Array<Partial<ClassLevel>> } = savegame.class;
 
             if (_class.ancestry?.name) {
-                _class.ancestry = this._historySavingLoadingService.cleanAncestryForSave(_class.ancestry);
+                this._historySavingLoadingService.cleanAncestryForSave(_class.ancestry);
             }
 
             if (_class.heritage?.name) {
-                _class.heritage = this._historySavingLoadingService.cleanHeritageForSave(_class.heritage);
+                this._historySavingLoadingService.cleanHeritageForSave(_class.heritage);
             }
 
             if (_class.background?.name) {
-                _class.background = this._historySavingLoadingService.cleanBackgroundForSave(_class.background);
+                this._historySavingLoadingService.cleanBackgroundForSave(_class.background);
             }
 
             if (_class.animalCompanion) {
                 const animalCompanion = _class.animalCompanion;
 
-                if (animalCompanion.class?.ancestry) {
+                if (animalCompanion.class?.ancestry?.name) {
                     this._animalCompanionAncestryService.cleanAncestryForSave(animalCompanion.class.ancestry);
                 }
 
                 if (animalCompanion.class?.levels) {
-                    this._animalCompanionLevelsService.cleanLevelsForSave(animalCompanion.class);
+                    this._animalCompanionLevelsService.cleanLevelsForSave(animalCompanion.class?.levels);
                 }
 
-                if (animalCompanion.class?.specializations) {
-                    animalCompanion.class.specializations
+                if (animalCompanion.class?.specializations?.length) {
+                    animalCompanion.class?.specializations
                         .forEach(spec => this._animalCompanionSpecializationsService.cleanSpecializationForSave(spec));
                 }
             }

@@ -41,7 +41,7 @@ export class ItemActivationProcessingService {
 
             //Apply conditions
             item.gainConditions.forEach(gain => {
-                const newConditionGain = safeAssign(new ConditionGain(), gain).recast(this._recastService.recastFns);
+                const newConditionGain = ConditionGain.from(gain, RecastService.recastFns);
 
                 this._creatureConditionsService.addCondition(creature, newConditionGain, {}, { noReload: true });
             });

@@ -383,7 +383,7 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
         ) {
             this._creatureConditionsService.addCondition(
                 this.creature,
-                Object.assign(new ConditionGain(), { name: 'Dead', source: reason }),
+                ConditionGain.from({ name: 'Dead', source: reason }, RecastService.recastFns),
                 {},
                 { noReload: true },
             );

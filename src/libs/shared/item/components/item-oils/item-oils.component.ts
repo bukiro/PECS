@@ -104,7 +104,7 @@ export class ItemOilsComponent extends TrackByMixin(BaseClass) {
     public onSelectOil(): void {
         if (this.newOil.oil.name) {
             const item = this.item;
-            const newLength = item.oilsApplied.push(this.newOil.oil.clone(this._recastService.recastFns));
+            const newLength = item.oilsApplied.push(this.newOil.oil.clone(RecastService.recastFns));
 
             if (this.newOil.inv) {
                 this._inventoryService.dropInventoryItem(this._character, this.newOil.inv, this.newOil.oil, false, false, false, 1);

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Settings } from 'src/app/classes/Settings';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
@@ -25,6 +24,7 @@ import { setCharacterStatus } from 'src/libs/store/status/status.actions';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
+import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 
 interface DatabaseCharacter {
     _id: string;
@@ -150,34 +150,31 @@ export class CharacterLoadingService {
         loader: Partial<Character & DatabaseCharacter>,
     ): Character {
         //Make a copy of the character before restoration. This will be used in patching.
-        const savedCharacter = safeClone(new Character(), loader);
+        const rawCharacterCopy = JSON.parse(JSON.stringify(loader));
 
         //Remove the database id so it isn't saved over.
         if (loader._id) {
             delete loader._id;
         }
 
-        const character = safeClone(new Character(), loader);
+        const rawCharacter = JSON.parse(JSON.stringify(loader));
 
         // We restore a few things individually before we restore the class,
         // allowing us to patch them before any issues would be created by new changes to the class.
 
         //Apply any new settings.
-        character.settings = safeAssign(new Settings(), character.settings);
-
-        //Restore Inventories, but not items.
-        character.inventories = character.inventories.map(inventory => safeAssign(new ItemCollection(), inventory));
+        rawCharacter.settings = Settings.from(rawCharacter.settings ?? {});
 
         // Apply patches that need to be done before the class is restored.
         // This is usually removing skill increases and feat choices,
         // which can cause issues if the class doesn't have them at the same index as the character.
-        this._characterPatchingService.patchPartialCharacter(character, JSON.parse(JSON.stringify(loader)));
+        this._characterPatchingService.patchPartialCharacter(rawCharacter, rawCharacterCopy);
 
         // Restore a lot of data from reference objects.
         // This allows us to save a lot of traffic at saving by removing all data
         // from certain objects that is the unchanged from in their original template.
-        if (character.class.name) {
-            const _class = character.class;
+        if (rawCharacter.class.name) {
+            const _class = rawCharacter.class;
 
             if (_class.ancestry && _class.ancestry.name) {
                 _class.ancestry = this._historySavingLoadingService.restoreAncestryFromSave(_class.ancestry);
@@ -201,26 +198,28 @@ export class CharacterLoadingService {
 
                 if (animalCompanion?.class?.levels) {
                     animalCompanion.class =
-                        this._animalCompanionLevelsService.restoreLevelsFromSave(animalCompanion.class);
+                        this._animalCompanionLevelsService.restoreLevelsFromSave(animalCompanion.class.levels);
                 }
 
                 if (animalCompanion.class?.specializations) {
                     animalCompanion.class.specializations =
                         animalCompanion.class.specializations
-                            .map(spec => this._animalCompanionSpecializationsService.restoreSpecializationFromSave(spec));
+                            .map((spec: Partial<AnimalCompanionSpecialization>) =>
+                                this._animalCompanionSpecializationsService.restoreSpecializationFromSave(spec),
+                            );
                 }
             }
 
             //Restore the class last, so we don't null its components (ancestry, animal companion etc.)
-            character.class = this._classSavingLoadingService.restoreClassFromSave(character.class);
+            rawCharacter.class = this._classSavingLoadingService.restoreClassFromSave(rawCharacter.class);
         }
 
-        character.recast(this._recastService.restoreFns);
+        const finalCharacter = Character.from(rawCharacter, RecastService.restoreFns);
 
         //Apply any patches that need to be done after the class is restored.
-        this._characterPatchingService.patchCompleteCharacter(character, savedCharacter);
+        this._characterPatchingService.patchCompleteCharacter(finalCharacter, rawCharacterCopy);
 
-        return character;
+        return finalCharacter;
     }
 
     private _loadCharacterFromDatabase(id: string): Observable<Array<Partial<Character>>> {

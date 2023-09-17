@@ -76,7 +76,7 @@ export class SkillsDataService {
     }
 
     public initialize(): void {
-        this._skills = this._dataLoadingService.loadCastable(
+        this._skills = this._dataLoadingService.loadSerializable(
             json_skills,
             'skills',
             'name',

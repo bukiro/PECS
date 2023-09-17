@@ -3,6 +3,7 @@ import { Condition } from 'src/app/classes/Condition';
 import * as json_conditions from 'src/assets/json/conditions';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { DataLoadingService } from './data-loading.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -43,7 +44,7 @@ export class ConditionsDataService {
     }
 
     public initialize(): void {
-        this._conditions = this._dataLoadingService.loadCastable(
+        this._conditions = this._dataLoadingService.loadSerializable(
             json_conditions as ImportedJsonFileList<Condition>,
             'conditions',
             'name',
@@ -66,9 +67,12 @@ export class ConditionsDataService {
     }
 
     private _replacementCondition(name?: string): Condition {
-        return Object.assign(
-            new Condition(),
-            { name: 'Condition not found', desc: `${ name ? name : 'The requested condition' } does not exist in the conditions list.` },
+        return Condition.from(
+            {
+                name: 'Condition not found',
+                desc: `${ name ? name : 'The requested condition' } does not exist in the conditions list.`,
+            },
+            RecastService.recastFns,
         );
     }
 

@@ -251,16 +251,13 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
                         .filter(otherCreature => otherCreature !== creature)
                         .forEach(otherCreature => {
                             targets.push(
-                                Object.assign(
-                                    new SpellTarget(),
-                                    {
-                                        name: otherCreature.name || otherCreature.type,
-                                        id: otherCreature.id,
-                                        playerId: character.id,
-                                        type: otherCreature.type,
-                                        selected: false,
-                                    },
-                                ),
+                                SpellTarget.from({
+                                    name: otherCreature.name || otherCreature.type,
+                                    id: otherCreature.id,
+                                    playerId: character.id,
+                                    type: otherCreature.type,
+                                    selected: false,
+                                }),
                             );
                         });
 
@@ -272,16 +269,13 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
                             .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
                             .forEach(savegame => {
                                 targets.push(
-                                    Object.assign(
-                                        new SpellTarget(),
-                                        {
-                                            name: savegame.name || 'Unnamed',
-                                            id: savegame.id,
-                                            playerId: savegame.id,
-                                            type: CreatureTypes.Character,
-                                            selected: false,
-                                        },
-                                    ),
+                                    SpellTarget.from({
+                                        name: savegame.name || 'Unnamed',
+                                        id: savegame.id,
+                                        playerId: savegame.id,
+                                        type: CreatureTypes.Character,
+                                        selected: false,
+                                    }),
                                 );
                             });
                     }

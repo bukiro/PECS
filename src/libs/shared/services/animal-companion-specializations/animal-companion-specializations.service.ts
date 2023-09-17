@@ -3,6 +3,7 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
+import { DeepPartial } from '../../definitions/types/deepPartial';
 
 @Injectable({
     providedIn: 'root',
@@ -14,7 +15,7 @@ export class AnimalCompanionSpecializationsService {
         private readonly _typeService: TypeService,
     ) { }
 
-    public restoreSpecializationFromSave(spec: AnimalCompanionSpecialization): AnimalCompanionSpecialization {
+    public restoreSpecializationFromSave(spec: DeepPartial<AnimalCompanionSpecialization>): AnimalCompanionSpecialization {
         let restoredSpecialization: AnimalCompanionSpecialization | undefined;
 
         if (spec.name) {
@@ -22,15 +23,11 @@ export class AnimalCompanionSpecializationsService {
 
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
-                try {
-                    restoredSpecialization = this._typeService.mergeObject(libraryObject, spec);
-                } catch (e) {
-                    console.error(`Failed restoring animal companion specialization: ${ e }`);
-                }
+                restoredSpecialization = libraryObject.clone().with(spec);
             }
         }
 
-        return restoredSpecialization || spec;
+        return restoredSpecialization || AnimalCompanionSpecialization.from(spec);
     }
 
     public cleanSpecializationForSave(spec: AnimalCompanionSpecialization): void {

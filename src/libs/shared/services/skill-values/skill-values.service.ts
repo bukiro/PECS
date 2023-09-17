@@ -245,10 +245,11 @@ export class SkillValuesService {
                                         // highest weapon or unarmed procifiency that you have.
                                         if (skill.name === 'Highest Attack Proficiency') {
                                             proficiencyCopies.push(
-                                                Object.assign(
-                                                    new ProficiencyCopy(),
-                                                    { name: 'Highest Attack Proficiency', type: 'Weapon Proficiency', featuresOnly: false },
-                                                ),
+                                                ProficiencyCopy.from({
+                                                    name: 'Highest Attack Proficiency',
+                                                    type: 'Weapon Proficiency',
+                                                    featuresOnly: false,
+                                                }),
                                             );
                                         }
 

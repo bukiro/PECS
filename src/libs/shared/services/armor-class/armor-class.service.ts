@@ -13,6 +13,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
 import { BonusTypes } from '../../definitions/bonusTypes';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { RecastService } from '../recast/recast.service';
 
 export interface ACForDisplay {
     bonuses$: Observable<boolean>;
@@ -111,9 +112,9 @@ export class ArmorClassService {
 
         if (coverChoice) {
             const newCondition: ConditionGain =
-                Object.assign(
-                    new ConditionGain(),
-                    { name: 'Cover', choice: coverChoice, source: 'Quick Status', duration: -1, locked: true },
+                ConditionGain.from(
+                    { name: 'Cover', choice: coverChoice, source: 'Quick Status', duration: -1 },
+                    RecastService.recastFns,
                 );
 
             this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });

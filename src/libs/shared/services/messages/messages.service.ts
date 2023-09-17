@@ -26,6 +26,7 @@ import { MessagesApiService } from '../messages-api/messages-api.service';
 import { sortAlphaNum } from '../../util/sortUtils';
 import { HttpStatusCode } from '@angular/common/http';
 import { propMap$ } from '../../util/observableUtils';
+import { PlayerMessageInterface } from 'src/app/classes/PlayerMessageInterface';
 
 const ignoredMessageTTL = 5000;
 
@@ -43,7 +44,6 @@ export class MessagesService {
     constructor(
         private readonly _configService: ConfigService,
         private readonly _toastService: ToastService,
-        private readonly _recastService: RecastService,
         private readonly _messagePropertiesService: MessagePropertiesService,
         private readonly _psp: ProcessingServiceProvider,
         private readonly _messagesApiService: MessagesApiService,
@@ -167,9 +167,9 @@ export class MessagesService {
             });
     }
 
-    private _processNewMessages$(results: Array<Partial<PlayerMessage>>): Observable<Array<PlayerMessage>> {
+    private _processNewMessages$(results: Array<PlayerMessageInterface>): Observable<Array<PlayerMessage>> {
         return zip(results
-            .map(message => Object.assign(new PlayerMessage(), message).recast(this._recastService.restoreFns))
+            .map(message => PlayerMessage.from(message, RecastService.restoreFns))
             .map(message => this._messagePropertiesService.messageTargetCreature$(message)
                 .pipe(
                     // Mark messages for creatures that you don't own as ignored.

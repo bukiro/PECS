@@ -243,10 +243,9 @@ export class CharacterLanguagesService {
                         language.level === noLanguageSourceLevel &&
                         !language.locked,
                     )
-                    || Object.assign(
-                        new LanguageGain(),
-                        { name: '', source: languageSource.name, locked: false, level: languageSource.level },
-                    );
+                    || LanguageGain.from({
+                        name: '', source: languageSource.name, locked: false, level: languageSource.level,
+                    });
 
                 const newLanguage = existingLanguage.clone();
 
