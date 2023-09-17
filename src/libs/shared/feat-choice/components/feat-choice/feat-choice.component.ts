@@ -205,6 +205,7 @@ export class FeatChoiceComponent extends DestroyableMixin(TrackByMixin(BaseClass
     @Input()
     public set creature(value: CharacterModel | Familiar) {
         this._creature = value;
+        this._creature$.next(this._creature);
     }
 
     public get choice(): FeatChoice {
