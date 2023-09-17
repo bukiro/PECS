@@ -60,11 +60,12 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
     ) {
         super();
 
+        // Watch the construction order: itemTarget$ requires these two to be set.
+        this.isGmMode$ = this._store$.select(selectGmMode);
+        this._isExcludingParts$ = new BehaviorSubject(this.isExcludingParts);
+
         this.itemTargets$ = this._createItemTargetsObservable();
 
-        this.isGmMode$ = this._store$.select(selectGmMode);
-
-        this._isExcludingParts$ = new BehaviorSubject(this.isExcludingParts);
     }
 
     public get isItemContainer(): boolean {
