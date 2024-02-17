@@ -20,7 +20,10 @@
                         "outputPath": "dist/PECS",
                         "index": "src/index.html",
                         "main": "src/main.ts",
-                        "polyfills": ["zone.js"],
+                        "polyfills": [
+                            "zone.js",
+                            "src/polyfills.ts"
+                        ],
                         "tsConfig": "tsconfig.base.json",
                         "aot": true,
                         "sourceMap": true,
@@ -79,12 +82,6 @@
                         "production": {
                             "buildTarget": "PECS:build:production"
                         }
-                    }
-                },
-                "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
-                    "options": {
-                        "buildTarget": "PECS:build"
                     }
                 },
                 "lint": {
