@@ -20,7 +20,7 @@ interface ShieldMaterialSet {
 }
 
 @Component({
-    selector: 'app-item-material-shield[item]',
+    selector: 'app-item-material-shield',
     templateUrl: './item-material-option.component.html',
     styleUrls: ['./item-material-option.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,7 +53,7 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
         return this._item;
     }
 
-    @Input()
+    @Input({ required: true })
     public set item(value: Shield) {
         this._item = value;
         this.item$.next(this._item);

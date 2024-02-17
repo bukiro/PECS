@@ -42,7 +42,7 @@ interface WeaponMaterialSet {
 }
 
 @Component({
-    selector: 'app-item-material-weapon[item]',
+    selector: 'app-item-material-weapon',
     templateUrl: './item-material-option.component.html',
     styleUrls: ['./item-material-option.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -74,7 +74,7 @@ export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) impleme
         return this._item;
     }
 
-    @Input()
+    @Input({ required: true })
     public set item(value: Weapon) {
         this._item = value;
         this.item$.next(this._item);

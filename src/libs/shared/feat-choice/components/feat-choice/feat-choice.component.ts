@@ -68,7 +68,7 @@ interface FeatSetParameters {
 }
 
 @Component({
-    selector: 'app-feat-choice[choice]',
+    selector: 'app-feat-choice',
     templateUrl: './feat-choice.component.html',
     styleUrls: ['./feat-choice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -212,7 +212,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
         return this._choice;
     }
 
-    @Input()
+    @Input({ required: true })
     public set choice(value: FeatChoice) {
         this._choice = value;
         this._choice$.next(this._choice);

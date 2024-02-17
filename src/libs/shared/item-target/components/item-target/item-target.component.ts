@@ -22,18 +22,18 @@ import { selectGmMode } from 'src/libs/store/app/app.selectors';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Component({
-    selector: 'app-item-target[creature][item][inventory]',
+    selector: 'app-item-target',
     templateUrl: './item-target.component.html',
     styleUrls: ['./item-target.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnInit {
 
-    @Input()
+    @Input({ required: true })
     public creature!: Creature;
-    @Input()
+    @Input({ required: true })
     public item!: Item;
-    @Input()
+    @Input({ required: true })
     public inventory!: ItemCollection;
     @Output()
     public readonly moveMessage = new EventEmitter<{ target?: ItemCollection | SpellTarget; amount: number; including: boolean }>();

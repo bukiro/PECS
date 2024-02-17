@@ -33,7 +33,7 @@ interface ActivityParameters {
 }
 
 @Component({
-    selector: 'app-skill[skill]',
+    selector: 'app-skill',
     templateUrl: './skill.component.html',
     styleUrls: ['./skill.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,7 +43,7 @@ export class SkillComponent extends TrackByMixin(BaseClass) implements OnInit, O
     @Input()
     public creature: Creature = CreatureService.character;
 
-    @Input()
+    @Input({ required: true })
     public skill!: Skill;
 
     @Input()
