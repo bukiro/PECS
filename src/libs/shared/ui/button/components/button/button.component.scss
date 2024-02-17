@@ -2,94 +2,141 @@
 
 :host {
     @include text-color-default;
-    @include background-color-default;
-    @include border-default;
-    @include box-shadow-small;
-
-    border-width: $spacing-xxs;
 
     display: inline-flex;
-    opacity: 100%;
 
     min-height: 1em;
     min-width: 1em;
 
     line-height: inherit;
 
-    transition: box-shadow .5s;
-
     &:not(.disabled):not(.processing):not(.toggled):hover {
-        @include box-shadow-large;
-    }
-
-    &:not(.disabled):not(.processing):hover {
-        button {
-            opacity: 50%;
+        .button {
+            &__content {
+                @include box-shadow-large;
+            }
         }
     }
 
-    &:not(.disabled):not(.processing):active {
-        @include box-shadow-none;
-        transform: translate(0, 5px);
-        transition: box-shadow .01s;
+    &:not(.disabled):not(.processing):hover {
+        .button {
+            &__content {
+                opacity: 50%;
+            }
+        }
     }
 
-    button {
+    &:not(.disabled):not(.processing) {
+        .button:active {
+            .button__content {
+                @include box-shadow-none;
+                transition: box-shadow .01s;
+                transform: translate(0, 5px);
+            }
+        }
+    }
+
+    .button {
         height: 100%;
         width: 100%;
 
-        color: inherit;
-        border: none;
+        opacity: 100%;
         background-color: transparent;
+        border: none;
+        padding: 0;
 
-        padding: .25em .5em;
+        &__content {
+            @include box-shadow-small;
+            @include border-default;
+            @include background-color-default;
+            border-width: $spacing-xxs;
 
-        line-height: inherit;
+            height: 100%;
+            width: 100%;
 
-        transition: opacity .5s;
+            color: inherit;
+
+            padding: .25em .5em;
+
+            line-height: inherit;
+
+            transition: opacity .5s;
+            transition: box-shadow .5s;
+        }
     }
 }
 
 :host(.ghost) {
-    background-color: transparent;
+    .button {
+        &__content {
+            background-color: transparent;
+        }
+    }
 }
 
 :host(.no-outline) {
-    border-color: transparent;
+    .button {
+        &__content {
+            box-shadow: none !important;
+            border-color: transparent;
+        }
+    }
 
-    box-shadow: none !important;
 }
 
 :host(.compact):not(.tight) {
-    button {
-        padding: .25em;
+    .button {
+        &__content {
+            padding: .25em;
+        }
     }
 }
 
 :host(.tight) {
-    button {
-        padding: 0;
+    .button {
+        &__content {
+            padding: 0;
+        }
     }
 }
 
 :host(.toggled) {
-    @include box-shadow-glow;
-    transform: translate(0, 2px);
+    .button {
+        &__content {
+            @include box-shadow-glow;
+            transform: translate(0, 2px);
+        }
 
-    &:active {
-        transform: translate(0, 5px);
+        &:active {
+            .button__content {
+                transform: translate(0, 5px);
+            }
+        }
     }
 }
 
 :host(.circle) {
-    @include border-circle;
+    .button {
+        &__content {
+            @include border-circle;
+        }
+    }
 }
 
 :host(.disabled),
 :host(.processing) {
-    opacity: 50%;
+    .button {
+        &__content {
+            opacity: 50%;
+        }
+    }
+
 
     &:not(.no-outline) {
-        border-color: $color-text-medium;
+        .button {
+            &__content {
+                border-color: $color-text-medium;
+            }
+        }
     }
 }

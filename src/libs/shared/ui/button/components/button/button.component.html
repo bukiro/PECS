@@ -1,5 +1,6 @@
 <button
     #Button
+    class="button"
     type="button"
     aria-label="button"
     [name]="label"
@@ -9,5 +10,7 @@
     [disableTooltip]="!shouldShowLabel"
     (click)="clicked.emit()"
 >
-    <ng-content />
+    <div class="button__content">
+        <ng-content />
+    </div>
 </button>

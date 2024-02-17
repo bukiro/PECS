@@ -1,4 +1,5 @@
 <button
+    class="button"
     type="button"
     aria-label="button"
     [attr.aria-label]="tileModeLabel"
@@ -6,16 +7,18 @@
     [ngbTooltip]="tileModeLabel"
     (click)="value = !value"
 >
-    <!-- The icon is css only -->
-    <div class="icon">
-        <div class="icon__element"></div>
+    <div class="button__content">
+        <!-- The icon is css only -->
+        <div class="icon">
+            <div class="icon__element"></div>
 
-        <div class="icon__element"></div>
+            <div class="icon__element"></div>
 
-        <div class="icon__element"></div>
+            <div class="icon__element"></div>
 
-        <div class="icon__element"></div>
+            <div class="icon__element"></div>
+        </div>
+
+        <ng-content />
     </div>
-
-    <ng-content />
 </button>
