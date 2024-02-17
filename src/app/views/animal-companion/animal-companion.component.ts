@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { debounceTime, distinctUntilChanged, map, Observable, of, Subscription, switchMap, takeUntil, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
@@ -79,7 +80,7 @@ export class AnimalCompanionComponent extends IsMobileMixin(BaseCardComponent) i
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe(target => {
                 if (['companion', 'all'].includes(target.toLowerCase())) {
@@ -88,7 +89,7 @@ export class AnimalCompanionComponent extends IsMobileMixin(BaseCardComponent) i
             });
         this._viewChangeSubscription = this._refreshService.detailChanged$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe(view => {
                 if (view.creature.toLowerCase() === 'companion' && ['companion', 'all'].includes(view.target.toLowerCase())) {
@@ -100,7 +101,6 @@ export class AnimalCompanionComponent extends IsMobileMixin(BaseCardComponent) i
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
 }

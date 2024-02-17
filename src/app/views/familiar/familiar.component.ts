@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { distinctUntilChanged, map, Observable, Subscription, switchMap, combineLatest, tap, of, debounceTime, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Observable, Subscription, switchMap, combineLatest, tap, of, debounceTime } from 'rxjs';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-familiar',
@@ -104,7 +105,7 @@ export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implemen
     public ngOnInit(): void {
         this._changeSubscription = this._refreshService.componentChanged$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe(target => {
                 if (['familiar', 'all'].includes(target.toLowerCase())) {
@@ -113,7 +114,7 @@ export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implemen
             });
         this._viewChangeSubscription = this._refreshService.detailChanged$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe(view => {
                 if (view.creature.toLowerCase() === 'familiar' && ['familiar', 'all'].includes(view.target.toLowerCase())) {
@@ -125,7 +126,6 @@ export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implemen
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
 }

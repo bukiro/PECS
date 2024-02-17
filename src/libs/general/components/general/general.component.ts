@@ -7,7 +7,7 @@ import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.service';
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, takeUntil, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, tap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
@@ -26,6 +26,7 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { capitalize, stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { Character } from 'src/app/classes/Character';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface ClassChoice {
     name: string;
@@ -103,7 +104,7 @@ export class GeneralComponent extends TrackByMixin(BaseCardComponent) implements
         // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
         this.isMinimized$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe();
 
@@ -180,7 +181,6 @@ export class GeneralComponent extends TrackByMixin(BaseCardComponent) implements
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
     //TO-DO: Pretty sure this should be async.

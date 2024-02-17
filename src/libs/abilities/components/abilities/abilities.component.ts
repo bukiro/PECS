@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { combineLatest, distinctUntilChanged, Observable, shareReplay, switchMap, takeUntil, tap } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { combineLatest, distinctUntilChanged, Observable, shareReplay, switchMap, tap } from 'rxjs';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService, AbilityLiveValue } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -9,6 +9,7 @@ import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/bas
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-abilities',
@@ -16,7 +17,7 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
     styleUrls: ['./abilities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AbilitiesComponent extends TrackByMixin(BaseCardComponent) implements OnDestroy {
+export class AbilitiesComponent extends TrackByMixin(BaseCardComponent) {
 
     public readonly abilityValues$: Observable<Array<AbilityLiveValue>>;
 
@@ -50,7 +51,7 @@ export class AbilitiesComponent extends TrackByMixin(BaseCardComponent) implemen
         // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
         this.isMinimized$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe();
 
@@ -83,9 +84,4 @@ export class AbilitiesComponent extends TrackByMixin(BaseCardComponent) implemen
     public toggleMinimized(minimized: boolean): void {
         SettingsService.setSetting(settings => settings.abilitiesMinimized = minimized);
     }
-
-    public ngOnDestroy(): void {
-        this._destroy();
-    }
-
 }

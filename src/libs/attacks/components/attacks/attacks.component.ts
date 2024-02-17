@@ -19,7 +19,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, takeUntil, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, tap } from 'rxjs';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Specialization } from 'src/app/classes/Specialization';
@@ -52,6 +52,7 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -119,7 +120,7 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
         // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
         this.isMinimized$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe();
 
@@ -843,7 +844,6 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
     private _setAttackRestrictions(): void {

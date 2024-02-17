@@ -1,12 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, HostBinding, OnDestroy, ViewChild } from '@angular/core';
-import { takeUntil, distinctUntilChanged } from 'rxjs';
+import { AfterViewInit, ChangeDetectionStrategy, Component, HostBinding, ViewChild } from '@angular/core';
+import { distinctUntilChanged } from 'rxjs';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { DialogFooterComponent } from '../dialog-footer/dialog-footer.component';
 import { DialogHeaderComponent } from '../dialog-header/dialog-header.component';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-dialog',
@@ -14,7 +14,7 @@ import { propMap$ } from 'src/libs/shared/util/observableUtils';
     styleUrls: ['./dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnDestroy, AfterViewInit {
+export class DialogComponent extends TrackByMixin(BaseClass) implements AfterViewInit {
 
     @ViewChild('Header')
     public header?: DialogHeaderComponent;
@@ -39,7 +39,7 @@ export class DialogComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
 
         propMap$(SettingsService.settings$, 'darkmode$')
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntilDestroyed(),
                 distinctUntilChanged(),
             )
             .subscribe(darkmode => { this.isDarkMode = darkmode; });
@@ -80,9 +80,5 @@ export class DialogComponent extends DestroyableMixin(TrackByMixin(BaseClass)) i
         } else {
             this.header?.focusCloseButton();
         }
-    }
-
-    public ngOnDestroy(): void {
-        this.destroy();
     }
 }

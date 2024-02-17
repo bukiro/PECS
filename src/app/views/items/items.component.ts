@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
@@ -27,7 +27,6 @@ import {
     shareReplay,
     Subscription,
     switchMap,
-    takeUntil,
 } from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
@@ -62,9 +61,9 @@ import { selectItemsMenuTarget, selectLeftMenu } from 'src/libs/store/menu/menu.
 import { ScrollSavantService } from 'src/libs/shared/services/spell-savant/spell-savant.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/creature-component/base-creature-element.component';
 import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -97,7 +96,7 @@ interface AvailableForLearningParameters {
     styleUrls: ['./items.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemsComponent extends TrackByMixin(DestroyableMixin(BaseCreatureElementComponent)) implements OnDestroy {
+export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     public wordFilter = '';
     public sorting: SortingOption = 'sortLevel';
@@ -162,7 +161,7 @@ export class ItemsComponent extends TrackByMixin(DestroyableMixin(BaseCreatureEl
         // If the items menu target changes, change the current creature accordingly.
         _store$.select(selectItemsMenuTarget)
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntilDestroyed(),
                 distinctUntilChanged(),
                 switchMap(target => CreatureService.creatureFromType$(target)),
             )
@@ -177,7 +176,7 @@ export class ItemsComponent extends TrackByMixin(DestroyableMixin(BaseCreatureEl
             this._creatureAvailabilityService.isFamiliarAvailable$(),
         ])
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe(([creature, isCompanionAvailable, isFamiliarAvailable]) => {
                 if (creature.isAnimalCompanion() && !isCompanionAvailable) {
@@ -813,10 +812,6 @@ export class ItemsComponent extends TrackByMixin(DestroyableMixin(BaseCreatureEl
 
     public unprepareScrollSavant(scroll: Scroll): void {
         this._scrollSavantService.unprepareScroll(scroll);
-    }
-
-    public ngOnDestroy(): void {
-        this.destroy();
     }
 
     private _canUseItem$(itemRoles: ItemRoles, proficiency: string): Observable<boolean | undefined> {

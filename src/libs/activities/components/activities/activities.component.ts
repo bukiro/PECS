@@ -5,7 +5,7 @@ import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, takeUntil, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, tap } from 'rxjs';
 import { Activity } from 'src/app/classes/Activity';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
@@ -20,6 +20,7 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { deepDistinctUntilChanged, propMap$ } from 'src/libs/shared/util/observableUtils';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface ActivitySet {
     name: string;
@@ -91,7 +92,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCardComponent) impleme
         // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
         this.isMinimized$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe();
 
@@ -237,7 +238,6 @@ export class ActivitiesComponent extends TrackByMixin(BaseCardComponent) impleme
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
     private _toggleShownItem(name: string): void {

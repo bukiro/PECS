@@ -6,7 +6,7 @@ import { Speed } from 'src/app/classes/Speed';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, takeUntil, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, tap } from 'rxjs';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -24,6 +24,7 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { Store } from '@ngrx/store';
 import { selectEffects } from 'src/libs/store/effects';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface SpeedParameters {
     name: string;
@@ -90,7 +91,7 @@ export class SkillsComponent extends TrackByMixin(BaseCardComponent) implements 
         // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
         this.isMinimized$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe();
 
@@ -333,7 +334,6 @@ export class SkillsComponent extends TrackByMixin(BaseCardComponent) implements 
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
     public ngOnInit(): void {

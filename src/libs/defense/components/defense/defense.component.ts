@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { Armor } from 'src/app/classes/Armor';
@@ -10,7 +10,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, switchMap, takeUntil, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Trait } from 'src/app/classes/Trait';
 import { Skill } from 'src/app/classes/Skill';
@@ -31,6 +31,7 @@ import { deepDistinctUntilChanged, propMap$ } from 'src/libs/shared/util/observa
 import { Creature } from 'src/app/classes/Creature';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface ComponentParameters {
     ACSources: ACForDisplay;
@@ -45,7 +46,7 @@ interface ComponentParameters {
     styleUrls: ['./defense.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements OnDestroy {
+export class DefenseComponent extends TrackByMixin(BaseCardComponent) {
 
     public shieldDamage = 0;
 
@@ -91,7 +92,7 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
         // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
         this.isMinimized$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe();
 
@@ -364,10 +365,6 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) implements
                     return specialNames;
                 }),
             );
-    }
-
-    public ngOnDestroy(): void {
-        this._destroy();
     }
 
     private _setDefenseChanged(): void {

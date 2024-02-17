@@ -303,7 +303,6 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
     //TO-DO: This method and others are also used in the spellbook. Can they be centralized, e.g. in the SpellCasting class?

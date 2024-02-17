@@ -13,7 +13,6 @@ import {
     shareReplay,
     Subscription,
     switchMap,
-    takeUntil,
     tap,
 } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -30,6 +29,7 @@ import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-health',
@@ -97,7 +97,7 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
         // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
         this.isMinimized$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe();
 
@@ -377,7 +377,6 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
     private _die(reason: string): void {

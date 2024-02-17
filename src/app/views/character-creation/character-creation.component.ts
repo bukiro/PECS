@@ -1950,7 +1950,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
     private _resetChoiceArea(): void {

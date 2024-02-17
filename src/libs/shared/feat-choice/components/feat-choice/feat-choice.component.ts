@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
@@ -7,7 +7,7 @@ import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-da
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, map, of, shareReplay, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, map, of, shareReplay, switchMap } from 'rxjs';
 import { Trait } from 'src/app/classes/Trait';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -23,8 +23,8 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequirements';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface CannotTakeSet {
     reason: string;
@@ -73,7 +73,7 @@ interface FeatSetParameters {
     styleUrls: ['./feat-choice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FeatChoiceComponent extends DestroyableMixin(TrackByMixin(BaseClass)) implements OnDestroy {
+export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public showChoice = '';
@@ -176,7 +176,7 @@ export class FeatChoiceComponent extends DestroyableMixin(TrackByMixin(BaseClass
                 propMap$(SettingsService.settings$, 'hiddenFeats$'),
             ])
                 .pipe(
-                    takeUntil(this.destroyed$),
+                    takeUntilDestroyed(),
                     map(([choice, allowed, availableFeatSets, showHiddenFeats]) => {
                         const isAutoSelectChoiceComplete = this._takeFeatsAutomatically(availableFeatSets, choice, allowed);
 
@@ -190,7 +190,7 @@ export class FeatChoiceComponent extends DestroyableMixin(TrackByMixin(BaseClass
             this.availableFeats$,
         ])
             .pipe(
-                takeUntil(this.destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe(([choice, allowed, availableFeatSets]) => {
                 this._removeIllegalFeats(availableFeatSets, choice, allowed);
@@ -266,10 +266,6 @@ export class FeatChoiceComponent extends DestroyableMixin(TrackByMixin(BaseClass
     public set showArchetypeFeats(value: boolean) {
         this._showArchetypeFeats = value;
         this._showArchetypeFeats$.next(this._showArchetypeFeats);
-    }
-
-    public ngOnDestroy(): void {
-        this.destroy();
     }
 
     public toggleShownFeat(name: string): void {

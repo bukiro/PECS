@@ -32,7 +32,6 @@ import {
     Subscription,
     switchMap,
     take,
-    takeUntil,
     tap,
 } from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
@@ -77,6 +76,7 @@ import { Store } from '@ngrx/store';
 import { InvestedLiveValue, InvestedService } from 'src/libs/shared/services/invested/invested.service';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -179,7 +179,7 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
         // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
         this.isMinimized$
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(),
             )
             .subscribe();
 
@@ -1051,7 +1051,6 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
     private _allAvailableCreatures$(): Observable<Array<Creature>> {

@@ -1,5 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, ViewChild } from '@angular/core';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { DialogFooterComponent } from '../dialog-footer/dialog-footer.component';
 import { DialogHeaderComponent } from '../dialog-header/dialog-header.component';
@@ -11,7 +10,7 @@ import { DialogComponent } from '../dialog/dialog.component';
     styleUrls: ['./confirmation-dialog.component.scss', '../dialog/dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfirmationDialogComponent extends DestroyableMixin(TrackByMixin(DialogComponent)) implements OnDestroy, AfterViewInit {
+export class ConfirmationDialogComponent extends TrackByMixin(DialogComponent) implements AfterViewInit {
 
     @ViewChild('Header')
     public declare header?: DialogHeaderComponent;

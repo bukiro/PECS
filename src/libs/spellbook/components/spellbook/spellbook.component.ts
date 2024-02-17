@@ -714,7 +714,6 @@ export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implemen
     public ngOnDestroy(): void {
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
-        this._destroy();
     }
 
     public ngOnInit(): void {

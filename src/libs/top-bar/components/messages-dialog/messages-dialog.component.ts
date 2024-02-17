@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { BehaviorSubject, map, Observable, of, take, zip } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
@@ -9,7 +9,6 @@ import { DialogComponent } from 'src/libs/shared/dialog/components/dialog/dialog
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
-import { DestroyableMixin } from 'src/libs/shared/util/mixins/destroyable-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface EnrichedMessage {
@@ -26,7 +25,7 @@ interface EnrichedMessage {
     styleUrls: ['./messages-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MessagesDialogComponent extends DestroyableMixin(TrackByMixin(DialogComponent)) implements OnDestroy, AfterViewInit {
+export class MessagesDialogComponent extends TrackByMixin(DialogComponent) implements AfterViewInit {
 
     @ViewChild('Header')
     public declare header?: DialogHeaderComponent;

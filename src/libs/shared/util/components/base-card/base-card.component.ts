@@ -36,11 +36,6 @@ export class BaseCardComponent extends BaseCreatureElementComponent {
     public isMinimized$?: Observable<boolean>;
 
     /**
-     * Observable pipes can use `takeUntil(this._destroyed$)` to unsubscribe when it emits.
-     */
-    protected readonly _destroyed$ = new Subject<true>();
-
-    /**
      * This should be called depending on the settings.
      *
      * ## Example
@@ -62,11 +57,6 @@ export class BaseCardComponent extends BaseCreatureElementComponent {
      */
     protected _updateMinimized(minimized: boolean): void {
         this._isMinimized = minimized;
-    }
-
-    protected _destroy(): void {
-        this._destroyed$.next(true);
-        this._destroyed$.complete();
     }
 
 }
