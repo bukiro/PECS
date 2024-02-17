@@ -1,11 +1,15 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { AbsoluteEffect, Effect } from 'src/app/classes/Effect';
 import { CreatureEffectsService } from './creature-effects.service';
+import { Store } from '@ngrx/store';
 
 describe('CreatureEffectsService', () => {
     let spectator: SpectatorService<CreatureEffectsService>;
 
-    const createService = createServiceFactory(CreatureEffectsService);
+    const createService = createServiceFactory({
+        service: CreatureEffectsService,
+        mocks: [Store],
+    });
 
     beforeEach(() => spectator = createService());
 
@@ -17,7 +21,7 @@ describe('CreatureEffectsService', () => {
         it('should return an empty array if no effects are entered', () => {
             const result = spectator.service.reduceAbsolutes([]);
 
-            expect(result).toBe([]);
+            expect(result).toStrictEqual([]);
         });
 
         it('should return an array including the highest effect', () => {
