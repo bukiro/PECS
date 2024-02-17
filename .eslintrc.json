@@ -185,10 +185,7 @@
             "files": "*.spec.ts",
             "plugins": [
                 "jest"
-            ],
-            "env": {
-                "jest/globals": true
-            }
+            ]
         }
     ],
     "env": {
