@@ -1,13 +1,12 @@
-<button
-    class="button"
-    type="button"
-    aria-label="button"
-    [attr.aria-label]="tileModeLabel"
-    [disabled]="isDisabled"
-    [ngbTooltip]="tileModeLabel"
-    (click)="value = !value"
+<app-toggle-button
+    [fullSize]="true"
+    [tight]="true"
+    [showLabel]="true"
+    [activeLabel]="activeLabel"
+    [inactiveLabel]="inactiveLabel"
+    [(ngModel)]="value"
 >
-    <div class="button__content">
+    <div class="content">
         <!-- The icon is css only -->
         <div class="icon">
             <div class="icon__element"></div>
@@ -18,7 +17,5 @@
 
             <div class="icon__element"></div>
         </div>
-
-        <ng-content />
     </div>
-</button>
+</app-toggle-button>

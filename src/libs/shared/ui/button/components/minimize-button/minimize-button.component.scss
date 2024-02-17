@@ -3,4 +3,12 @@
 :host {
     height: 2rem;
     width: 2rem;
+
+    .icon {
+        @include flex-column-center;
+        justify-content: center;
+
+        height: 100%;
+        width: 100%;
+    }
 }

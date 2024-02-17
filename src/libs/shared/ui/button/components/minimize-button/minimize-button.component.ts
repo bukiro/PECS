@@ -5,7 +5,7 @@ import { ToggleButtonComponent } from '../toggle-button/toggle-button.component'
 @Component({
     selector: 'app-minimize-button',
     templateUrl: './minimize-button.component.html',
-    styleUrls: ['./minimize-button.component.scss', '../button/button.component.scss'],
+    styleUrls: ['./minimize-button.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
@@ -16,16 +16,7 @@ import { ToggleButtonComponent } from '../toggle-button/toggle-button.component'
     ],
 })
 export class MinimizeButtonComponent extends ToggleButtonComponent {
+    public override activeLabel = 'Click to show all information.';
 
-    constructor() {
-        super();
-
-        this.compact = true;
-    }
-
-    public get minimizeLabel(): string {
-        return this.value
-            ? 'Click to show all information.'
-            : 'Click to show compact information.';
-    }
+    public override inactiveLabel = 'Click to show compact information.';
 }

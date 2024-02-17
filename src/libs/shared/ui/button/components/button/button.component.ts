@@ -18,6 +18,9 @@ export class ButtonComponent {
     @Output()
     public readonly clicked = new EventEmitter<undefined>();
 
+    @HostBinding('class.full-size')
+    public isFullSize?: boolean;
+
     @HostBinding('class.disabled')
     public isDisabled?: boolean;
 
@@ -43,6 +46,11 @@ export class ButtonComponent {
     public isCircle?: boolean;
 
     public shouldShowLabel?: boolean;
+
+    @Input()
+    public set fullSize(fullSize: boolean | string | undefined) {
+        this.isFullSize = forceBooleanFromInput(fullSize);
+    }
 
     @Input()
     public set disabled(disabled: boolean | string | undefined) {

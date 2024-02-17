@@ -4,10 +4,17 @@
     height: 2rem;
     width: 2rem;
 
+    .content {
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        padding: $spacing-xs;
+        overflow: hidden;
+    }
+
     .icon {
         width: 100%;
         height: 100%;
-        padding: $spacing-xs;
         display: grid;
         grid-template-columns: 100%;
         grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -19,15 +26,12 @@
             border-radius: $spacing-xxs;
         }
     }
-
-    button {
-        padding: 0;
-    }
 }
 
 :host(.toggled) {
     .icon {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
+
     }
 }

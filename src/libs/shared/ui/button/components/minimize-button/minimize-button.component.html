@@ -1,13 +1,12 @@
-<button
-    class="button"
-    type="button"
-    aria-label="button"
-    [attr.aria-label]="minimizeLabel"
-    [disabled]="isDisabled"
-    [ngbTooltip]="minimizeLabel"
-    (click)="value = !value"
+<app-toggle-button
+    [fullSize]="true"
+    [tight]="true"
+    [showLabel]="true"
+    [activeLabel]="activeLabel"
+    [inactiveLabel]="inactiveLabel"
+    [(ngModel)]="value"
 >
-    <div class="button__content">
+    <div class="icon">
         <i
             *ngIf="value"
             class='bi-arrows-angle-contract'
@@ -17,7 +16,5 @@
             *ngIf="!value"
             class='bi-arrows-angle-expand'
         ></i>
-
-        <ng-content />
     </div>
-</button>
+</app-toggle-button>

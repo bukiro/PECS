@@ -1,15 +1,16 @@
-<button
-    class="button"
-    type="button"
-    aria-label="button"
-    [name]="label"
-    [attr.aria-label]="label"
+<app-button
+    [circle]="isCircle"
+    [compact]="isCompact"
     [disabled]="isDisabled"
-    [ngbTooltip]="label"
-    [disableTooltip]="!shouldShowLabel"
-    (click)="value = !value"
+    [fullSize]="isFullSize"
+    [ghost]="isGhost"
+    [label]="currentLabel()"
+    [processing]="isProcessing"
+    [noOutline]="isNotOutlined"
+    [showLabel]="shouldShowLabel"
+    [tight]="isTight"
+    [toggled]="isToggled"
+    (clicked)="value = !value"
 >
-    <div class="button__content">
-        <ng-content />
-    </div>
-</button>
+    <ng-content />
+</app-button>

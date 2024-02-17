@@ -10,6 +10,11 @@
 
     line-height: inherit;
 
+    &.full-size {
+        height: 100%;
+        width: 100%;
+    }
+
     &:not(.disabled):not(.processing):not(.toggled):hover {
         .button {
             &__content {
@@ -30,7 +35,7 @@
         .button:active {
             .button__content {
                 @include box-shadow-none;
-                transition: box-shadow .01s;
+                transition: opacity .5s, box-shadow .01s;
                 transform: translate(0, 5px);
             }
         }
@@ -60,8 +65,7 @@
 
             line-height: inherit;
 
-            transition: opacity .5s;
-            transition: box-shadow .5s;
+            transition: opacity .5s, box-shadow .5s;
         }
     }
 }

@@ -5,7 +5,7 @@ import { ToggleButtonComponent } from '../toggle-button/toggle-button.component'
 @Component({
     selector: 'app-tile-mode-button',
     templateUrl: './tile-mode-button.component.html',
-    styleUrls: ['./tile-mode-button.component.scss', '../button/button.component.scss'],
+    styleUrls: ['./tile-mode-button.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
@@ -16,14 +16,7 @@ import { ToggleButtonComponent } from '../toggle-button/toggle-button.component'
     ],
 })
 export class TileModeButtonComponent extends ToggleButtonComponent {
+    public override activeLabel = 'Click to enable list mode.';
 
-    public override isCompact = true;
-
-    public override shouldShowLabel = true;
-
-    public get tileModeLabel(): string {
-        return this.value
-            ? 'Click to enable list mode.'
-            : 'Click to enable tile mode.';
-    }
+    public override inactiveLabel = 'Click to enable tile mode.';
 }
