@@ -20,7 +20,7 @@
                         "outputPath": "dist/PECS",
                         "index": "src/index.html",
                         "main": "src/main.ts",
-                        "polyfills": "src/polyfills.ts",
+                        "polyfills": ["zone.js"],
                         "tsConfig": "tsconfig.base.json",
                         "aot": true,
                         "sourceMap": true,
@@ -73,18 +73,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "PECS:build"
+                        "buildTarget": "PECS:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "PECS:build:production"
+                            "buildTarget": "PECS:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "PECS:build"
+                        "buildTarget": "PECS:build"
                     }
                 },
                 "lint": {

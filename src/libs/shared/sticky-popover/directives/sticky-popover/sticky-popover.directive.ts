@@ -44,17 +44,8 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     private _viewChangeSubscription?: Subscription;
 
     constructor(
-        private readonly _refreshService: RefreshService,
-        _elRef: ElementRef,
-        _render: Renderer2,
-        injector: Injector,
-        viewContainerRef: ViewContainerRef,
-        config: NgbPopoverConfig,
-        ngZone: NgZone,
-        changeRef: ChangeDetectorRef,
-        applicationRef: ApplicationRef,
-        @Inject(DOCUMENT) _document: unknown) {
-        super(_elRef, _render, injector, viewContainerRef, config, ngZone, _document, changeRef, applicationRef);
+        private readonly _refreshService: RefreshService) {
+        super();
     }
 
     public ngOnInit(): void {
