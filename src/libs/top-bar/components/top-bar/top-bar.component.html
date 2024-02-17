@@ -2,15 +2,15 @@
 <app-logo
     class="logo"
     ngbTooltip="Pathfinder Excessive Character Sheet"
-></app-logo>
+/>
 
 <app-button
     class="top-bar-button"
     label="Edit character and settings"
-    [toggled]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu"
-    (clicked)="toggleLeftMenu(menuNames.CharacterCreationMenu)"
     showLabel
     compact
+    [toggled]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu"
+    (clicked)="toggleLeftMenu(menuNames.CharacterCreationMenu)"
 >
     <div class=top-bar-button__content>
         <i class="ra ra-player"></i>
@@ -23,10 +23,10 @@
     *ngIf="isCompanionAvailable$ | async"
     label="Show animal companion"
     class="top-bar-button"
-    [toggled]="(sideMenuState$ | async) === menuNames.CompanionMenu"
-    (clicked)="toggleLeftMenu(menuNames.CompanionMenu)"
     showLabel
     compact
+    [toggled]="(sideMenuState$ | async) === menuNames.CompanionMenu"
+    (clicked)="toggleLeftMenu(menuNames.CompanionMenu)"
 >
     <i class="ra ra-wolf-howl top-bar-button__content"></i>
 </app-button>
@@ -35,27 +35,27 @@
     *ngIf="isFamiliarAvailable$ | async"
     label="Show familiar"
     class="top-bar-button"
+    showLabel
     [toggled]="(sideMenuState$ | async) === menuNames.FamiliarMenu"
     (clicked)="toggleLeftMenu(menuNames.FamiliarMenu)"
-    showLabel
 >
     <i class="ra ra-raven top-bar-button__content"></i>
 </app-button>
 
 <app-button
     class="top-bar-button"
+    compact
     [toggled]="(sideMenuState$ | async) === menuNames.ItemsMenu"
     (clicked)="toggleLeftMenu(menuNames.ItemsMenu)"
-    compact
 >
     <span class="top-bar-button__content">Items</span>
 </app-button>
 
 <app-button
     class="top-bar-button"
+    compact
     [toggled]="(sideMenuState$ | async) === menuNames.CraftingMenu"
     (clicked)="toggleLeftMenu(menuNames.CraftingMenu)"
-    compact
 >
     <span class="top-bar-button__content">Crafting</span>
 </app-button>
@@ -63,27 +63,27 @@
 <app-button
     *ngIf="hasAnySpells$ | async"
     class="top-bar-button"
+    compact
     [toggled]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu"
     (clicked)="toggleLeftMenu(menuNames.SpellSelectionMenu)"
-    compact
 >
     <span class="top-bar-button__content">Spellbook</span>
 </app-button>
 
 <app-button
     class="top-bar-button"
+    compact
     [toggled]="(sideMenuState$ | async) === menuNames.SpellLibraryMenu"
     (clicked)="toggleLeftMenu(menuNames.SpellLibraryMenu)"
-    compact
 >
     <span class="top-bar-button__content">Spell Library</span>
 </app-button>
 
 <app-button
     class="top-bar-button"
+    compact
     [toggled]="(sideMenuState$ | async) === menuNames.ConditionsMenu"
     (clicked)="toggleLeftMenu(menuNames.ConditionsMenu)"
-    compact
 >
     <span class="top-bar-button__content">Conditions</span>
 </app-button>
@@ -91,11 +91,11 @@
 <app-button
     class="top-bar-button"
     label="Dice"
+    compact
     [toggled]="(topMenuState$ | async) === menuNames.DiceMenu"
     (clicked)="toggleTopMenu(menuNames.DiceMenu)"
-    compact
 >
-    <app-dice-icon-D20 class="top-bar-button__content top-bar-button__content--dice"></app-dice-icon-D20>
+    <app-dice-icon-D20 class="top-bar-button__content top-bar-button__content--dice" />
 </app-button>
 
 <!-- Save and Effects buttons change depending on some factors -->
@@ -128,9 +128,9 @@
             <app-button
                 class="top-bar-button"
                 label="Save Character"
-                (clicked)="save()"
                 showLabel
                 compact
+                (clicked)="save()"
             >
                 <i class="bi-file-earmark-arrow-up top-bar-button__content"></i>
             </app-button>
@@ -141,7 +141,7 @@
                 [hasPartyName]="apiButtonsStatus.hasPartyName"
                 [checkMessagesAutomatically]="apiButtonsStatus.checkMessagesAutomatically"
                 [applyMessagesAutomatically]="apiButtonsStatus.applyMessagesAutomatically"
-            ></app-new-messages>
+            />
         </ng-template>
     </ng-template>
 </ng-container>
@@ -149,9 +149,9 @@
 <app-button
     class="top-bar-button"
     label="Refresh all"
-    (clicked)="refreshAll()"
     showLabel
     compact
+    (clicked)="refreshAll()"
 >
     <i class="ra ra-cycle top-bar-button__content"></i>
 </app-button>

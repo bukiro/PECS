@@ -2,26 +2,26 @@
     class="toast-container ngb-toasts"
     aria-live="polite"
     aria-atomic="true"
-></app-toast-container>
+/>
 
 <ng-container *ngIf="isReady$ | async; else LoadingTemplate">
-    <app-top-bar class="top-bar"></app-top-bar>
+    <app-top-bar class="top-bar" />
 
-    <app-character-sheet class="character-sheet"></app-character-sheet>
+    <app-character-sheet class="character-sheet" />
 </ng-container>
 
 <ng-template #LoadingTemplate>
     <div
-        class="loading"
         *ngIf="loadingStatus$ | async as loadingStatus"
+        class="loading"
     >
         <ng-container [ngSwitch]="loadingStatus.key">
             <app-login
                 *ngSwitchCase="apiStatusKey.NotLoggedIn"
                 [loadingStatus]="loadingStatus"
-            ></app-login>
+            />
 
-            <app-character-selection *ngSwitchCase="apiStatusKey.NoCharacter"></app-character-selection>
+            <app-character-selection *ngSwitchCase="apiStatusKey.NoCharacter" />
 
             <ng-container *ngSwitchDefault>
                 <i
@@ -33,13 +33,13 @@
                     <app-loading-spinner
                         class="loading__spinner"
                         size="25vw"
-                    ></app-loading-spinner>
+                    />
                 </ng-template>
 
                 <app-description
                     class="loading__text"
                     [text]="loadingStatus.message ?? ''"
-                ></app-description>
+                />
 
                 <app-button
                     *ngIf="loadingStatus.retryFn"
@@ -55,9 +55,9 @@
 <app-button
     class="darkmode-button"
     label="Toggle dark mode"
-    (clicked)="toggleDarkmode()"
     noOutline
     ghost
+    (clicked)="toggleDarkmode()"
 >
     <i [className]="(isDarkmode$ | async) ? 'bi-moon-fill' : 'bi-sun-fill'"></i>
 </app-button>

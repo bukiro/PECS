@@ -3,12 +3,12 @@
         *ngIf="shouldShowMinimizeButton"
         [ngModel]="(isMinimized$ | async) ?? false"
         (ngModelChange)="toggleMinimized($event)"
-    ></app-minimize-button>
+    />
 </div>
 
 <div
-    id="{{creature}}-abilities-height"
     class="attributeBox"
+    id="{{creature}}-abilities-height"
 >
     <header class="sectionHeader box-header">Abilities</header>
 
@@ -20,7 +20,7 @@
                 [customEffectsTarget]="{ creature: creature, target: ability.ability.name }"
                 [value]="ability.value.result"
                 [bonuses]="ability.value.bonuses"
-            ></app-attribute-value>
+            />
 
             <app-tags
                 *ngIf="(isMinimized$ | async) === false"
@@ -32,7 +32,7 @@
                 [showActivities]="true"
                 [showConditions]="true"
                 [showEffects]="true"
-            ></app-tags>
+            />
         </div>
 
         <div
@@ -44,7 +44,7 @@
                 [customEffectsTarget]="{ creature: creature, target: ability.ability.name + ' Modifier' }"
                 [value]="ability.mod.result"
                 [bonuses]="ability.mod.bonuses"
-            ></app-attribute-value>
+            />
 
             <app-tags
                 [creature]="creature"
@@ -55,7 +55,7 @@
                 [showActivities]="true"
                 [showConditions]="true"
                 [showEffects]="true"
-            ></app-tags>
+            />
         </div>
     </ng-container>
 </div>

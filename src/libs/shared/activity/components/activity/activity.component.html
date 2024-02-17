@@ -1,8 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngIf="activityParameters$() | async as activityParameters">
     <div
-        class="newrow"
         *ngIf="allowActivate && gain"
+        class="newrow"
     >
         <!-- Buttons if the activity does anything, including activating a cooldown or toggling the activity status. -->
         <ng-container *ngIf="activity.canActivate$(creature) | async; else NoEffectActivityTemplate">
@@ -22,8 +22,7 @@
                     [showDismiss]="true"
                     [dismissPhrase]="activity.sustained ? 'Stop Sustaining' : 'Deactivate'"
                     (castMessage)="onActivate(gain, activity, $event.activated, $event.target)"
-                >
-                </app-spell-target>
+                />
             </ng-container>
 
             <!-- Activity targets if no spell is cast. -->
@@ -39,8 +38,7 @@
                     [showDismiss]="true"
                     [dismissPhrase]="activity.sustained ? 'Stop Sustaining' : 'Deactivate'"
                     (castMessage)="onActivate(gain, activity, $event.activated, $event.target)"
-                >
-                </app-spell-target>
+                />
             </ng-container>
         </ng-container>
 
@@ -54,8 +52,8 @@
                 <span>
                     Activate
                     <i
-                        class='bi-peace'
                         *ngIf="(isManualMode$ | async) === false"
+                        class='bi-peace'
                     ></i>
                 </span>
             </button>
@@ -92,10 +90,10 @@
 
     <!-- Unslotted Aeon Stone warning -->
     <button
+        *ngIf="isResonant && !(isSubItem || activityParameters.resonantAllowed) && !activityParameters.tooManySlottedAeonStones"
         type="button"
         class="newrow list-item"
         disabled
-        *ngIf="isResonant && !(isSubItem || activityParameters.resonantAllowed) && !activityParameters.tooManySlottedAeonStones"
     >
         <strong>
             Slot this item into a Wayfinder to unlock this activation.
@@ -104,8 +102,8 @@
 
     <!-- Too many slotted Aeon Stones warning -->
     <div
-        class="newrow list-item problem"
         *ngIf="isResonant && activityParameters.tooManySlottedAeonStones"
+        class="newrow list-item problem"
     >
         You have too many aeon stones slotted in wayfinders. All effects of these aeon stones are disabled, including this activation.
     </div>
@@ -117,8 +115,7 @@
             *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
-        >
-        </app-trait>
+        />
 
 
 
@@ -127,8 +124,7 @@
             [name]="trait"
             [trait]="traitFromName(trait)"
             [extraDescription]="'(This trait was derived from the action components.)'"
-        >
-        </app-trait>
+        />
 
 
 
@@ -141,14 +137,14 @@
             [showActivities]=true
             [showConditions]=true
             [showEffects]=true
-        ></app-tags>
+        />
     </div>
 
 
 
     <div
-        class="newrow list-item"
         *ngFor="let data of gain?.data; trackBy:trackByIndex"
+        class="newrow list-item"
     >
         <strong>{{data.name}}</strong>
 
@@ -166,8 +162,8 @@
 
     <ng-container *ngFor="let conditionSet of activityConditions$() | async; let conditionSetIndex = index; trackBy:trackByIndex">
         <div
-            class="newrow list-item left-aligned"
             *ngIf="gain && shownConditionChoice(conditionSet, {tooManySlottedAeonStones: activityParameters.tooManySlottedAeonStones, resonantAllowed: activityParameters.resonantAllowed})"
+            class="newrow list-item left-aligned"
         >
             <span>
                 {{conditionSet.condition.name}} effect selection:
@@ -199,16 +195,15 @@
             [allowActivate]="allowActivate"
             [cooldown]="activityParameters.cooldown"
             [maxCharges]="activityParameters.maxCharges"
-        >
-        </app-activity-content>
+        />
 
 
 
         <!-- Only show related feats and conditions if this activity is not currently being shown on another object - that is, if it's allowed to be activated. -->
         <ng-container *ngIf="allowActivate">
             <div
-                class="list-item newrow left-aligned"
                 *ngFor="let feat of characterFeatsShowingHintsOnThis$(activity.name) | async; trackBy:trackByIndex;"
+                class="list-item newrow left-aligned"
             >
                 <header class="spellHeader">{{feat.name}}</header>
 
@@ -219,57 +214,55 @@
                         *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
                         [name]="trait"
                         [trait]="traitFromName(trait)"
-                    >
-                    </app-trait>
+                    />
                 </div>
 
 
 
                 <div
-                    class="newrow left-aligned"
                     *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;"
+                    class="newrow left-aligned"
                 >
                     <app-description
                         class="newrow"
                         [text]="desc"
-                    ></app-description>
+                    />
                 </div>
             </div>
 
 
 
             <div
-                class="newrow left-aligned"
                 *ngFor="let conditionSet of conditionsShowingHintsOnThis(activity.name); trackBy:trackByIndex;"
+                class="newrow left-aligned"
             >
                 <header class="spellHeader">{{conditionSet.condition.name}}</header>
 
 
 
                 <div
-                    class="newrow left-aligned"
                     *ngFor="let desc of conditionSet.condition.heightenedText(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;"
+                    class="newrow left-aligned"
                 >
                     <app-description
                         class="newrow"
                         [text]="desc"
-                    ></app-description>
+                    />
                 </div>
             </div>
 
 
 
             <div
-                class="list-item newrow left-aligned"
                 *ngFor="let activityGain of activitiesShowingHintsOnThis$(activity.name) | async; trackBy:trackByIndex;"
+                class="list-item newrow left-aligned"
             >
                 <header class="spellHeader">
                     {{activityGain.originalActivity.name}}
                     <app-action-icons
                         *ngIf="activityGain.originalActivity.actions"
                         [actionString]="activityGain.originalActivity.actions"
-                    >
-                    </app-action-icons>
+                    />
                     {{(activityGain.originalActivity.activationType) ? activityGain.originalActivity.activationType :
                     ""}}
                 </header>
@@ -281,24 +274,22 @@
                     [activity]="activityGain.originalActivity"
                     [gain]="activityGain"
                     [allowActivate]=true
-                >
-                </app-activity>
+                />
             </div>
 
 
 
             <ng-container *ngIf="gain?.name === 'Fused Stance'">
                 <div
-                    class="list-item newrow left-aligned"
                     *ngFor="let fusedStanceGain of fusedStances$() | async; trackBy:trackByIndex;"
+                    class="list-item newrow left-aligned"
                 >
                     <header class="spellHeader">
                         {{fusedStanceGain.originalActivity.name}}
                         <app-action-icons
                             *ngIf="fusedStanceGain.originalActivity.actions"
                             [actionString]="fusedStanceGain.originalActivity.actions"
-                        >
-                        </app-action-icons>
+                        />
                         {{(fusedStanceGain.originalActivity.activationType) ?
                         fusedStanceGain.originalActivity.activationType : ""}}
                     </header>
@@ -310,8 +301,7 @@
                         [activity]="fusedStanceGain.originalActivity"
                         [gain]="fusedStanceGain"
                         [allowActivate]="false"
-                    >
-                    </app-activity>
+                    />
                 </div>
             </ng-container>
         </ng-container>

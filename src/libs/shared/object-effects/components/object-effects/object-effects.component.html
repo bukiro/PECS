@@ -11,8 +11,8 @@
     </button>
 
     <div
-        class="newrow list-item"
         *ngFor="let effect of customEffectsOnThis(); let index = index; trackBy:trackByIndex;"
+        class="newrow list-item"
     >
         <ng-template #FormulaTemplate>
             <strong>Formula</strong>
@@ -25,8 +25,8 @@
             <input
                 type="text"
                 aria-label="Effect source input"
-                id="customEffectSource{{objectName}}{{index}}"
                 maxLength="50"
+                id="customEffectSource{{objectName}}{{index}}"
                 [(ngModel)]="effect.source"
                 (blur)="updateEffects()"
             >
@@ -45,8 +45,8 @@
         </span>
 
         <span
-            class="hlist"
             *ngIf="effectValueParameters(effect) as effectValueParameters"
+            class="hlist"
             [ngSwitch]="effectValueParameters.displayType"
         >
             <strong class="no-shadow">Value</strong>
@@ -61,9 +61,9 @@
                     </span>
 
                     <i
-                        [ngbPopover]="FormulaTemplate"
                         *ngIf="effectValueParameters.isFormula"
                         class="bi-calculator"
+                        [ngbPopover]="FormulaTemplate"
                     ></i>
                 </span>
             </ng-container>
@@ -77,8 +77,8 @@
                     aria-label="Effect value input"
                     type="number"
                     class="number4"
-                    id="customEffectValue{{objectName}}{{index}}"
                     maxLength="30"
+                    id="customEffectValue{{objectName}}{{index}}"
                     [(ngModel)]="effect.value"
                     (blur)="validate(effect)"
                 >

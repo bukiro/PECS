@@ -42,8 +42,8 @@
         <span>
             <button
                 type="button"
-                (click)="addCash(1)"
                 [disabled]="isCashInvalid()"
+                (click)="addCash(1)"
             >
                 Gain
             </button>
@@ -52,9 +52,9 @@
         <span>
             <button
                 type="button"
-                (click)="addCash(-1)"
                 [disabled]="isCashInvalid()"
                 [disabled]="!hasFunds()"
+                (click)="addCash(-1)"
             >
                 Spend
             </button>

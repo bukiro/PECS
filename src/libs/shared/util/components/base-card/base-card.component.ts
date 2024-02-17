@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BaseCreatureElementComponent } from '../creature-component/base-creature-element.component';
 
 /**

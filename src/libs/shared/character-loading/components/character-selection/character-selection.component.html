@@ -1,9 +1,9 @@
 <div
-    class="character-selection"
     *ngIf="savegames$ | async as savegames"
+    class="character-selection"
 >
     <div class="character-selection__header">
-        <app-logo class="logo"></app-logo>
+        <app-logo class="logo" />
         <div class="text-large">Select your character</div>
     </div>
 
@@ -36,14 +36,14 @@
                     label="Load character as GM"
                     [hint]="'Open the character in a read-only mode where you can\'t save and can\'t send effects to other players.'"
                     [(ngModel)]="loadAsGM"
-                ></app-label-input-pair>
+                />
             </div>
 
             <div class="savegames">
                 <ng-container *ngFor="let savegame of savegames; let index = index; trackBy: trackByIndex;">
                     <div
-                        class="savegames__header"
                         *ngIf="index === 0 || savegame.partyName !== savegames[index-1].partyName"
+                        class="savegames__header"
                     >
                         {{savegame.partyName}}
                     </div>
@@ -54,16 +54,16 @@
                             (clicked)="loadCharacterFromDB(savegame.id)"
                         >
                             <app-attribute-value
+                                showValueOnLeftSide
                                 [value]="savegame.level"
                                 [title]="savegame.name"
                                 [sublines]="[savegame.class, savegame.ancestry]"
-                                showValueOnLeftSide
-                            ></app-attribute-value>
+                            />
                         </app-button>
 
                         <app-button
-                            [label]="'Delete ' + savegame.name"
                             class="button button--delete"
+                            [label]="'Delete ' + savegame.name"
                             (clicked)="showDeleteDialog(savegame)"
                         >
                             <i class="bi-file-earmark-x icon"></i>

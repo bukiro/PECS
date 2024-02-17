@@ -1,6 +1,6 @@
 <div
-    class="click-outside-overlay"
     *ngIf="showOptions"
+    class="click-outside-overlay"
     (click)="toggleOptions()"
 ></div>
 
@@ -19,16 +19,16 @@
             [ngbTooltip]="option.disabled"
         >
             <app-button
-                (clicked)="option.onClick(); option.closeAfter ? toggleOptions() : null;"
                 tabindex="-1"
                 [toggled]="option.toggled"
                 [circle]="option.circle"
                 [disabled]="option.disabled"
+                (clicked)="option.onClick(); option.closeAfter ? toggleOptions() : null;"
             >
                 <span *ngIf="option.label">{{option.label}}</span>
                 <i
-                    [ngClass]="option.icon"
                     *ngIf="option.icon"
+                    [ngClass]="option.icon"
                 ></i>
             </app-button>
         </div>
@@ -41,10 +41,9 @@
 >
     <app-button
         #centerButton
+        class="button button--center"
         [label]="label"
         [showLabel]="shouldShowLabel"
-        class="button button--center"
-        (clicked)="toggleOptions()"
         [circle]="isCircle"
         [compact]="isCompact"
         [disabled]="isDisabled"
@@ -52,7 +51,8 @@
         [processing]="isProcessing"
         [noOutline]="isNotOutlined"
         [ghost]="isGhost"
+        (clicked)="toggleOptions()"
     >
-        <ng-content></ng-content>
+        <ng-content />
     </app-button>
 </div>

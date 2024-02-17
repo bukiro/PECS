@@ -4,23 +4,23 @@
     <app-minimize-button
         [ngModel]="(isMinimized$ | async) ?? false"
         (ngModelChange)="toggleMinimized($event)"
-    ></app-minimize-button>
+    />
 
     <app-tile-mode-button
         [ngModel]="(isTileMode$ | async) ?? false"
         (ngModelChange)="toggleTileMode($event)"
-    ></app-tile-mode-button>
+    />
 </div>
 
 <div
+    *ngIf="{ enabled: isTileMode$ | async } as tileMode"
     id="character-height"
     class="itembox vlist"
-    *ngIf="{ enabled: isTileMode$ | async } as tileMode"
 >
     <div
+        *ngIf="!((isMobile$ | async) && shownList()); else ListCloseButton"
         class="itembox-close-button"
         [ngbTooltip]="(isBlankCharacter$ | async) ? 'Create your character first!' : ''"
-        *ngIf="!((isMobile$ | async) && shownList()); else ListCloseButton"
     >
         <button
             type="button"
@@ -51,14 +51,14 @@
             <ng-container *ngIf="!tileMode.enabled">
 
                 <div
-                    class="list-item"
                     *ngIf="(isGmMode$ | async) === false"
+                    class="list-item"
                 >
                     <button
                         type="button"
                         class="newrow"
-                        (click)="saveCharacterToDB()"
                         [disabled]="(isBlankCharacter$ | async)"
+                        (click)="saveCharacterToDB()"
                     >
                         Save Character
                     </button>
@@ -68,8 +68,8 @@
                     <button
                         type="button"
                         class="newrow"
-                        (click)="toggleShownList('settings')"
                         [ngClass]="{'activechoice':shownList()==='settings'}"
+                        (click)="toggleShownList('settings')"
                     >
                         Settings
                     </button>
@@ -79,8 +79,8 @@
                     <button
                         type="button"
                         class="newrow"
-                        (click)="toggleShownList('licenses')"
                         [ngClass]="{'activechoice':shownList()==='licenses'}"
+                        (click)="toggleShownList('licenses')"
                     >
                         Licenses
                     </button>
@@ -90,8 +90,8 @@
                     <button
                         type="button"
                         class="newrow"
-                        (click)="toggleShownList('about')"
                         [ngClass]="{'activechoice':shownList()==='about'}"
+                        (click)="toggleShownList('about')"
                     >
                         About
                     </button>
@@ -100,38 +100,36 @@
 
             <!-- Management tile mode -->
             <div
-                class="newrow list-item"
                 *ngIf="tileMode.enabled"
+                class="newrow list-item"
             >
                 <div class="icon-list">
 
                     <button
+                        *ngIf="(isGmMode$ | async) === false"
                         type="button"
                         aria-label="Save character"
-                        *ngIf="(isGmMode$ | async) === false"
-                        (click)="saveCharacterToDB()"
                         [disabled]="isBlankCharacter$ | async"
+                        (click)="saveCharacterToDB()"
                     >
                         <app-grid-icon
                             [ngbTooltip]="(isBlankCharacter$ | async) ? 'No changes to character yet.' : 'Save Character'"
                             [subTitle]="'Save'"
                             [superTitle]="'icon-bi-file-earmark-arrow-up'"
-                        >
-                        </app-grid-icon>
+                        />
                     </button>
 
                     <button
                         type="button"
                         aria-label="Settings"
-                        (click)="toggleShownList('settings')"
                         [ngClass]="{'activechoice':shownList()==='settings'}"
+                        (click)="toggleShownList('settings')"
                     >
                         <app-grid-icon
                             [ngbTooltip]="'Settings'"
                             [subTitle]="'Settings'"
                             [superTitle]="'icon-bi-gear'"
-                        >
-                        </app-grid-icon>
+                        />
                     </button>
 
                     <div class="filler"></div>
@@ -139,29 +137,27 @@
                     <button
                         type="button"
                         aria-label="Licenses"
-                        (click)="toggleShownList('licenses')"
                         [ngClass]="{'activechoice':shownList()==='licenses'}"
+                        (click)="toggleShownList('licenses')"
                     >
                         <app-grid-icon
                             [ngbTooltip]="'Licenses'"
                             [subTitle]="'Licenses'"
                             [superTitle]="'§'"
-                        >
-                        </app-grid-icon>
+                        />
                     </button>
 
                     <button
                         type="button"
                         aria-label="About"
-                        (click)="toggleShownList('about')"
                         [ngClass]="{'activechoice':shownList()==='about'}"
+                        (click)="toggleShownList('about')"
                     >
                         <app-grid-icon
                             [ngbTooltip]="'About'"
                             [subTitle]="'About'"
                             [superTitle]="'icon-bi-info-circle'"
-                        >
-                        </app-grid-icon>
+                        />
                     </button>
                 </div>
             </div>
@@ -172,9 +168,9 @@
 
                     <span class="hlist">
                         <button
+                            *ngIf="character.experiencePoints >= 1000 && character.level < 20"
                             type="button"
                             (click)="onLevelUp()"
-                            *ngIf="character.experiencePoints >= 1000 && character.level < 20"
                         >
                             Level Up
                         </button>
@@ -184,17 +180,17 @@
                             type="number"
                             class="number4"
                             id="experiencePoints"
-                            [(ngModel)]="character.experiencePoints"
-                            (keypress)="positiveNumbersOnly($event)"
                             [ngbTooltip]="(character.experiencePoints >= 1000 && character.level < 20) ? 'You are ready to level up!' : ''"
                             [ngClass]="{'bonus':(character.experiencePoints >= 1000 && character.level < 20)}"
+                            [(ngModel)]="character.experiencePoints"
+                            (keypress)="positiveNumbersOnly($event)"
                         >
                     </span>
                 </div>
 
                 <div
-                    class="list-item"
                     *ngFor="let oldLevel of [character.level]; trackBy: trackByIndex;"
+                    class="list-item"
                 >
                     <strong>Level</strong>
 
@@ -232,8 +228,8 @@
                             <button
                                 type="button"
                                 class="center-aligned"
-                                (click)="toggleShownLevel(0)"
                                 [ngClass]="{'fancy-button':shownLevel()===0}"
+                                (click)="toggleShownLevel(0)"
                             >
                                 Everything
                             </button>
@@ -241,8 +237,8 @@
                             <button
                                 type="button"
                                 class="center-aligned"
-                                (click)="toggleShownLevel(-1)"
                                 [ngClass]="{'fancy-button':shownLevel()===-1}"
+                                (click)="toggleShownLevel(-1)"
                             >
                                 History
                             </button>
@@ -250,12 +246,12 @@
 
                         <div class="levelBox fullwidth">
                             <button
+                                *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy: trackByIndex;"
                                 type="button"
                                 class="center-aligned"
-                                *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy: trackByIndex;"
-                                (click)="toggleShownLevel(levelNumber)"
                                 [disabled]="!character.class.name"
                                 [ngClass]="{'fancy-button':shownLevel()===levelNumber}"
+                                (click)="toggleShownLevel(levelNumber)"
                             >
                                 {{levelNumber}}
                             </button>
@@ -271,7 +267,7 @@
                     [showItems]=true
                     [showActivities]=true
                     [showConditions]=true
-                ></app-tags>
+                />
 
                 <div
                     class="vlist"
@@ -287,9 +283,9 @@
                                 aria-label="Character name"
                                 type="text"
                                 id="charactername"
+                                maxLength="100"
                                 [(ngModel)]="character.name"
                                 (blur)="onNameChange()"
-                                maxLength="100"
                             >
                         </span>
                     </div>
@@ -303,8 +299,8 @@
                                     aria-label="Party name"
                                     type="text"
                                     id="partyname"
-                                    [(ngModel)]="character.partyName"
                                     maxLength="100"
+                                    [(ngModel)]="character.partyName"
                                 >
                             </span>
                         </div>
@@ -349,18 +345,18 @@
 
                     <!-- Available Ancestry Feats -->
                     <div
-                        class="list-item minimized-hide"
                         *ngIf="character.class.ancestry.name"
+                        class="list-item minimized-hide"
                     >
                         <strong>Available Ancestry Feats</strong>
 
                         <div
-                            class="newrow left-aligned"
                             *ngIf="character.class.ancestry?.ancestries?.length"
+                            class="newrow left-aligned"
                         >
                             <cite
-                                class="trait"
                                 *ngFor="let ancestry of character.class.ancestry.ancestries; trackBy: trackByIndex;"
+                                class="trait"
                             >
                                 {{ancestry}}
                             </cite>
@@ -437,9 +433,9 @@
                         <ng-container *ngFor="let currentLanguages of [availableLanguagesOnLevel(character.level)]; trackBy: trackByIndex">
                             <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(character.level)]; trackBy: trackByIndex">
                                 <div
+                                    *ngIf="areLanguagesAvailableOnLevel$() | async"
                                     class="list-item"
                                     [ngClass]="{'minimized-hide':!blankLanguages}"
-                                    *ngIf="areLanguagesAvailableOnLevel$() | async"
                                 >
                                     <button
                                         type="button"
@@ -491,8 +487,8 @@
 
                     <!-- History tile mode -->
                     <div
-                        class="list-item icon-list"
                         *ngIf="tileMode.enabled"
+                        class="list-item icon-list"
                     >
                         <!-- BaseValues -->
                         <button
@@ -507,8 +503,7 @@
                                 [ngbTooltip]="'Alternative Ability Values: ' + (character.settings.useIndividualAbilityBaseValues ? 'Used' : 'Not Used')"
                                 [title]="'A B I'"
                                 [superTitle]="'icon-ra ra-circle-of-circles'"
-                            >
-                            </app-grid-icon>
+                            />
                         </button>
 
                         <!-- Class -->
@@ -523,8 +518,7 @@
                                 [ngbTooltip]="'Class' + (character.class.name ? ': ' + character.class.name : '')"
                                 [title]="character.class.name ? character.class.name : 'C L A S'"
                                 [superTitle]="'icon-ra ra-lightning-sword'"
-                            >
-                            </app-grid-icon>
+                            />
                         </button>
 
                         <!-- Ancestry -->
@@ -540,8 +534,7 @@
                                     [ngbTooltip]="'Ancestry' + (character.class.ancestry.name ? ': ' + character.class.ancestry.name : '')"
                                     [title]="character.class.ancestry.name ? character.class.ancestry.name : 'A N C E'"
                                     [superTitle]="'icon-ra ra-sprout-emblem'"
-                                >
-                                </app-grid-icon>
+                                />
                             </button>
                         </ng-container>
 
@@ -558,8 +551,7 @@
                                     [ngbTooltip]="'Heritage' + (character.class.heritage.name ? ': ' + character.class.heritage.name : '')"
                                     [title]="character.class.heritage.name ? character.class.heritage.name : 'H E R I'"
                                     [superTitle]="'icon-ra ra-crowned-heart'"
-                                >
-                                </app-grid-icon>
+                                />
                             </button>
                         </ng-container>
 
@@ -567,19 +559,18 @@
                         <ng-container *ngFor="let currentLanguages of [availableLanguagesOnLevel(character.level)]; trackBy: trackByIndex">
                             <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(character.level)]; trackBy: trackByIndex">
                                 <button
+                                    *ngIf="areLanguagesAvailableOnLevel$() | async"
                                     type="button"
                                     aria-label="Show language menu"
                                     [ngClass]="{'fancy-button choicecleared minimized-hide':!blankLanguages, 'activechoice':shownList()==='languages' && shownContentLevelNumber()===character.level}"
                                     (click)="toggleShownList('languages', character.level)"
-                                    *ngIf="areLanguagesAvailableOnLevel$() | async"
                                 >
                                     <app-grid-icon
                                         [ngClass]="{'fancy-button':!blankLanguages}"
                                         [ngbTooltip]="'Languages'"
                                         [title]="'L A N G'"
                                         [superTitle]="currentLanguages.toString()"
-                                    >
-                                    </app-grid-icon>
+                                    />
                                 </button>
                             </ng-container>
                         </ng-container>
@@ -597,8 +588,7 @@
                                     [ngbTooltip]="'Background' + (character.class.background.name ? ': ' + character.class.background.name : '')"
                                     [title]="character.class.background.name ? character.class.background.name : 'B A C K'"
                                     [superTitle]="'icon-ra ra-forging'"
-                                >
-                                </app-grid-icon>
+                                />
                             </button>
                         </ng-container>
 
@@ -615,8 +605,7 @@
                                     [ngbTooltip]="'Deity' + (character.class.deity ? ': ' + character.class.deity : '')"
                                     [title]="character.class.deity ? character.class.deity : 'D E I T'"
                                     [superTitle]="'icon-ra ra-sunbeams'"
-                                >
-                                </app-grid-icon>
+                                />
                             </button>
                         </ng-container>
                     </div>
@@ -638,9 +627,9 @@
                                     <input
                                         aria-label="Bonus source input"
                                         type="text"
+                                        maxLength="30"
                                         id="bonusSource_{{level.number}}"
                                         [(ngModel)]="bonusSource"
-                                        maxLength="30"
                                     >
                                 </span>
 
@@ -702,8 +691,8 @@
                                     <button
                                         type="button"
                                         class="featchoice center-aligned"
-                                        (click)="addBonusFeatChoice(level, 'Ancestry')"
                                         [disabled]="!this.character.class.ancestry.name"
+                                        (click)="addBonusFeatChoice(level, 'Ancestry')"
                                     >
                                         Ancestry
                                         <br>
@@ -753,18 +742,18 @@
                             </ng-template>
 
                             <header
-                                class="sectionHeader levelHeader"
                                 *ngIf="level.number > 0"
+                                class="sectionHeader levelHeader"
                             >
                                 <span
-                                    class="minimized-hide"
-                                    [ngbPopover]="AddBonusesTemplate"
                                     #AddBonusesPopover="ngbPopover"
+                                    class="minimized-hide"
                                     triggers="click"
+                                    [ngbPopover]="AddBonusesTemplate"
                                 >
                                     <i
-                                        [ngbTooltip]="!AddBonusesPopover.isOpen() ? 'Add bonus abilities, skills or feats' : ''"
                                         class='bi-patch-plus'
+                                        [ngbTooltip]="!AddBonusesPopover.isOpen() ? 'Add bonus abilities, skills or feats' : ''"
                                     ></i>
                                 </span>
                                 Level {{level.number}}
@@ -782,14 +771,14 @@
                                                     <ng-container *ngIf="!!(fixedAbilityBoosts.length + fixedSkillIncreases.length + (fixedFeatures?.length ?? 0) + (fixedFeats?.length ?? 0))">
                                                         <!-- Fixed information list mode -->
                                                         <div
-                                                            class="minimized-hide list-item"
                                                             *ngIf="!tileMode.enabled"
+                                                            class="minimized-hide list-item"
                                                         >
                                                             <button
                                                                 type="button"
                                                                 class="newrow left-aligned"
-                                                                (click)="toggleFixedChangesLevelNumber(level.number)"
                                                                 [ngClass]="{'fancy-button':shownFixedChangesLevelNumber()===level.number}"
+                                                                (click)="toggleFixedChangesLevelNumber(level.number)"
                                                             >
                                                                 <i class="bi-lock-fill"></i>
                                                                 Show fixed changes
@@ -798,8 +787,8 @@
 
                                                         <!-- Fixed information tile mode -->
                                                         <div
-                                                            class="minimized-hide"
                                                             *ngIf="tileMode.enabled"
+                                                            class="minimized-hide"
                                                         >
                                                             <button
                                                                 type="button"
@@ -811,8 +800,7 @@
                                                                     [ngClass]="{'fancy-button':shownFixedChangesLevelNumber()===level.number}"
                                                                     [ngbTooltip]="(shownFixedChangesLevelNumber()===level.number ? 'Hide' : 'Show') + ' fixed changes'"
                                                                     [superTitle]="'icon-bi-lock-fill'"
-                                                                >
-                                                                </app-grid-icon>
+                                                                />
                                                             </button>
                                                         </div>
                                                     </ng-container>
@@ -847,11 +835,11 @@
                                                 </ng-template>
 
                                                 <button
+                                                    #FixedAbilityPopover="ngbPopover"
                                                     type="button"
                                                     class="newrow left-aligned fancy-button abilityboost"
-                                                    #FixedAbilityPopover="ngbPopover"
-                                                    [ngbPopover]="FixedAbilityBoostContent"
                                                     triggers="click"
+                                                    [ngbPopover]="FixedAbilityBoostContent"
                                                 >
                                                     <span [ngbTooltip]="'Fixed ' + (boost.type === 'Flaw' ? 'flaw' : 'boost')">
                                                         <i class="bi-lock-fill"></i>
@@ -881,12 +869,12 @@
                                             </ng-template>
 
                                             <button
+                                                #FixedAbilityPopover="ngbPopover"
                                                 type="button"
                                                 aria-label="Show fixed ability boost"
                                                 class="minimized-hide inactive-button"
-                                                #FixedAbilityPopover="ngbPopover"
-                                                [ngbPopover]="FixedAbilityBoostContent"
                                                 triggers="click"
+                                                [ngbPopover]="FixedAbilityBoostContent"
                                             >
                                                 <app-grid-icon
                                                     class="abilityboost"
@@ -894,8 +882,7 @@
                                                     [title]="boost.name"
                                                     [superTitle]="'icon-bi-lock-fill'"
                                                     [detail]="(boost.type === 'Flaw' ? 'Flaw' : 'Boost')"
-                                                >
-                                                </app-grid-icon>
+                                                />
                                             </button>
                                         </ng-container>
                                     </ng-container>
@@ -904,8 +891,8 @@
                                         <ng-container *ngFor="let maxAvailable of [maxAbilityBoostsAvailableInChoice(choice)]; trackBy: trackByIndex;">
                                             <!-- List mode ability boost buttons -->
                                             <div
-                                                class="list-item"
                                                 *ngIf="maxAvailable && !tileMode.enabled"
+                                                class="list-item"
                                                 [ngClass]="{'problem':(choice.boosts.length > maxAvailable || areSomeAbilitiesIllegal(choice, level.number)), 'minimized-hide':choice.boosts.length === maxAvailable}"
                                             >
                                                 <button
@@ -920,12 +907,12 @@
 
                                             <!-- Tile mode ability boost buttons -->
                                             <button
+                                                *ngIf="maxAvailable && tileMode.enabled"
                                                 type="button"
                                                 aria-label="Show ability boost menu"
                                                 class="abilityboost"
-                                                *ngIf="maxAvailable && tileMode.enabled"
-                                                (click)="toggleShownList(choice.id, level.number, choice)"
                                                 [ngClass]="{'problem':(choice.boosts.length > maxAvailable || areSomeAbilitiesIllegal(choice, level.number)), 'fancy-button minimized-hide choicecleared':choice.boosts.length === maxAvailable, 'activechoice':shownList()===choice.id}"
+                                                (click)="toggleShownList(choice.id, level.number, choice)"
                                             >
                                                 <app-grid-icon
                                                     class="abilityboost"
@@ -934,8 +921,7 @@
                                                     [superTitle]="maxAvailable.toString()"
                                                     [title]="abilityChoiceIconTitle(maxAvailable, choice)"
                                                     [ngClass]="{'fancy-button':choice.boosts.length === maxAvailable}"
-                                                >
-                                                </app-grid-icon>
+                                                />
                                             </button>
                                         </ng-container>
                                     </ng-container>
@@ -962,11 +948,11 @@
                                                 </ng-template>
 
                                                 <button
+                                                    #FixedSkillPopover="ngbPopover"
                                                     type="button"
                                                     class="newrow left-aligned fancy-button skillincrease"
-                                                    #FixedSkillPopover="ngbPopover"
-                                                    [ngbPopover]="FixedSkillIncreaseContent"
                                                     triggers="click"
+                                                    [ngbPopover]="FixedSkillIncreaseContent"
                                                 >
                                                     <span [ngbTooltip]="'Fixed increase'">
                                                         <i class="bi-lock-fill"></i>
@@ -992,20 +978,19 @@
                                             </ng-template>
 
                                             <button
+                                                #FixedSkillPopover="ngbPopover"
                                                 type="button"
                                                 aria-label="Show fixed skill increase"
                                                 class="minimized-hide inactive-button"
-                                                #FixedSkillPopover="ngbPopover"
-                                                [ngbPopover]="FixedSkillIncreaseContent"
                                                 triggers="click"
+                                                [ngbPopover]="FixedSkillIncreaseContent"
                                             >
                                                 <app-grid-icon
                                                     class="skillincrease"
                                                     [ngbTooltip]="!FixedSkillPopover.isOpen() && skillIncrease.name || undefined"
                                                     [title]="skillIncrease.name"
                                                     [superTitle]="'icon-bi-lock-fill'"
-                                                >
-                                                </app-grid-icon>
+                                                />
                                             </button>
                                         </ng-container>
                                     </ng-container>
@@ -1013,15 +998,14 @@
                                     <!-- Skill Choices handle tile mode internally -->
                                     <ng-container *ngFor="let choice of skillChoicesOnLevel$(level) | async; let index = index; trackBy: trackByIndex;">
                                         <app-skill-choice
-                                            (showSkillChoiceMessage)="receiveChoiceMessage($event)"
                                             [choice]="choice"
                                             [showChoice]="shownList()"
                                             [levelNumber]="level.number"
                                             [showContent]="false"
                                             [excludeTemporary]="true"
                                             [isTileMode]="tileMode.enabled ?? false"
-                                        >
-                                        </app-skill-choice>
+                                            (showSkillChoiceMessage)="receiveChoiceMessage($event)"
+                                        />
                                     </ng-container>
                                 </div>
 
@@ -1035,8 +1019,8 @@
                                         <ng-container *ngFor="let feat of characterFeatsTakenOnLevel$(level.number, 'feat') | async; trackBy: trackByIndex;">
                                             <ng-container *ngFor="let libraryFeat of characterFeatsAndFeatures$(feat.name) | async; let first = first; trackBy: trackByIndex;">
                                                 <div
-                                                    class="list-item minimized-hide"
                                                     *ngIf="first"
+                                                    class="list-item minimized-hide"
                                                 >
                                                     <ng-template #FixedFeatContent>
                                                         <header class="spellHeader">
@@ -1051,16 +1035,15 @@
                                                         <app-feat
                                                             [feat]="libraryFeat"
                                                             [levelNumber]="level.number"
-                                                        >
-                                                        </app-feat>
+                                                        />
                                                     </ng-template>
 
                                                     <button
+                                                        #FixedFeatPopover="ngbPopover"
                                                         type="button"
                                                         class="newrow left-aligned fancy-button featchoice"
-                                                        #FixedFeatPopover="ngbPopover"
-                                                        [ngbPopover]="FixedFeatContent"
                                                         triggers="click"
+                                                        [ngbPopover]="FixedFeatContent"
                                                     >
                                                         <span [ngbTooltip]="'Fixed feat'">
                                                             <i class="bi-lock-fill"></i>
@@ -1089,18 +1072,17 @@
                                                     <app-feat
                                                         [feat]="libraryFeat"
                                                         [levelNumber]="level.number"
-                                                    >
-                                                    </app-feat>
+                                                    />
                                                 </ng-template>
 
                                                 <button
                                                     *ngIf="first"
+                                                    #FixedFeatPopover="ngbPopover"
                                                     type="button"
                                                     aria-label="Show gained feat"
                                                     class="minimized-hide inactive-button"
-                                                    #FixedFeatPopover="ngbPopover"
-                                                    [ngbPopover]="FixedFeatContent"
                                                     triggers="click"
+                                                    [ngbPopover]="FixedFeatContent"
                                                 >
                                                     <app-grid-icon
                                                         class="featchoice"
@@ -1108,8 +1090,7 @@
                                                         [title]="(libraryFeat.displayName || feat.name).split(': ')[0]"
                                                         [detail]="(libraryFeat.displayName || feat.name).split(': ')[1] || ''"
                                                         [superTitle]="'icon-bi-lock-fill'"
-                                                    >
-                                                    </app-grid-icon>
+                                                    />
                                                 </button>
                                             </ng-container>
                                         </ng-container>
@@ -1118,8 +1099,6 @@
                                     <!-- Feat Choices handle tile mode internally -->
                                     <ng-container *ngFor="let choice of featChoicesOnLevel(level, false); let index = index; trackBy: trackByIndex;">
                                         <app-feat-choice
-                                            (showFeatChoiceMessage)="receiveChoiceMessage($event)"
-                                            (showFeatMessage)="receiveFeatMessage($event)"
                                             [choice]="choice"
                                             [levelNumber]="level.number"
                                             [showContent]="false"
@@ -1127,8 +1106,9 @@
                                             [showChoice]="shownList()"
                                             [showArchetypeFeats]="character.settings.archetypeFeats"
                                             [isTileMode]="tileMode.enabled ?? false"
-                                        >
-                                        </app-feat-choice>
+                                            (showFeatChoiceMessage)="receiveChoiceMessage($event)"
+                                            (showFeatMessage)="receiveFeatMessage($event)"
+                                        />
                                     </ng-container>
                                 </div>
 
@@ -1142,8 +1122,8 @@
                                         <ng-container *ngFor="let feature of characterFeatsTakenOnLevel$(level.number, 'feature') | async; trackBy: trackByIndex;">
                                             <ng-container *ngFor="let libraryFeature of characterFeatsAndFeatures$(feature.name) | async; let first = first; trackBy: trackByIndex;">
                                                 <div
-                                                    class="list-item minimized-hide"
                                                     *ngIf="first"
+                                                    class="list-item minimized-hide"
                                                 >
                                                     <ng-template #FixedFeatureContent>
                                                         <header class="spellHeader">
@@ -1159,16 +1139,15 @@
                                                         <app-feat
                                                             [feat]="libraryFeature"
                                                             [levelNumber]="level.number"
-                                                        >
-                                                        </app-feat>
+                                                        />
                                                     </ng-template>
 
                                                     <button
+                                                        #FixedFeaturePopover="ngbPopover"
                                                         type="button"
                                                         class="newrow left-aligned fancy-button specialchoice"
-                                                        #FixedFeaturePopover="ngbPopover"
-                                                        [ngbPopover]="FixedFeatureContent"
                                                         triggers="click"
+                                                        [ngbPopover]="FixedFeatureContent"
                                                     >
                                                         <span [ngbTooltip]="'Fixed ability'">
                                                             <i class="bi-lock-fill"></i>
@@ -1198,18 +1177,17 @@
                                                     <app-feat
                                                         [feat]="libraryFeature"
                                                         [levelNumber]="level.number"
-                                                    >
-                                                    </app-feat>
+                                                    />
                                                 </ng-template>
 
                                                 <button
                                                     *ngIf="first"
+                                                    #FixedFeaturePopover="ngbPopover"
                                                     type="button"
                                                     aria-label="Show gained feature"
                                                     class="minimized-hide inactive-button"
-                                                    #FixedFeaturePopover="ngbPopover"
-                                                    [ngbPopover]="FixedFeatureContent"
                                                     triggers="click"
+                                                    [ngbPopover]="FixedFeatureContent"
                                                 >
                                                     <app-grid-icon
                                                         class="specialchoice"
@@ -1217,8 +1195,7 @@
                                                         [title]="(libraryFeature.displayName || feature.name).split(': ')[0]"
                                                         [detail]="(libraryFeature.displayName || feature.name).split(': ')[1] || ''"
                                                         [superTitle]="'icon-bi-lock-fill'"
-                                                    >
-                                                    </app-grid-icon>
+                                                    />
                                                 </button>
                                             </ng-container>
                                         </ng-container>
@@ -1229,8 +1206,8 @@
                                         <ng-container *ngFor="let currentLanguages of [availableLanguagesOnLevel(level.number)]; trackBy: trackByIndex">
                                             <ng-container *ngFor="let blankLanguages of [blankLanguagesOnLevel(level.number)]; trackBy: trackByIndex">
                                                 <div
-                                                    class="list-item"
                                                     *ngIf="!tileMode.enabled"
+                                                    class="list-item"
                                                     [ngClass]="{'minimized-hide':!blankLanguages}"
                                                 >
                                                     <button
@@ -1245,10 +1222,10 @@
                                                 </div>
 
                                                 <button
+                                                    *ngIf="tileMode.enabled"
                                                     type="button"
                                                     aria-label="Show special choice menu"
                                                     class="specialchoice"
-                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':!blankLanguages, 'activechoice':shownList()==='languages' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('languages', level.number)"
                                                 >
@@ -1258,8 +1235,7 @@
                                                         [ngbTooltip]="'Languages: ' + (currentLanguages - blankLanguages) + '/' + currentLanguages"
                                                         [title]="blankLanguages ? blankLanguages.toString() : currentLanguages.toString()"
                                                         [superTitle]="'icon-ra ra-speech-bubbles'"
-                                                    >
-                                                    </app-grid-icon>
+                                                    />
                                                 </button>
                                             </ng-container>
                                         </ng-container>
@@ -1268,8 +1244,6 @@
                                     <!-- "Specialchoice" feat choices (feats handle tile mode internally) -->
                                     <ng-container *ngFor="let choice of featChoicesOnLevel(level, true); let index = index; trackBy: trackByIndex;">
                                         <app-feat-choice
-                                            (showFeatChoiceMessage)="receiveChoiceMessage($event)"
-                                            (showFeatMessage)="receiveFeatMessage($event)"
                                             [choice]="choice"
                                             [levelNumber]="level.number"
                                             [showContent]="false"
@@ -1277,16 +1251,17 @@
                                             [showChoice]="shownList()"
                                             [showArchetypeFeats]="character.settings.archetypeFeats"
                                             [isTileMode]="tileMode.enabled ?? false"
-                                        >
-                                        </app-feat-choice>
+                                            (showFeatChoiceMessage)="receiveChoiceMessage($event)"
+                                            (showFeatMessage)="receiveFeatMessage($event)"
+                                        />
                                     </ng-container>
 
                                     <!-- Animal Companion -->
                                     <ng-container *ngIf="hasCompanionBecomeAvailableOnLevel$(level.number) | async">
                                         <ng-container *ngIf="animalCompanion$ | async as companion">
                                             <div
-                                                class="list-item"
                                                 *ngIf="!tileMode.enabled"
+                                                class="list-item"
                                                 [ngClass]="{'minimized-hide':(companion.name && companion.species && companion.class.ancestry.name)}"
                                             >
                                                 <button
@@ -1301,10 +1276,10 @@
                                             </div>
 
                                             <button
+                                                *ngIf="tileMode.enabled"
                                                 type="button"
                                                 aria-label="Show animal companion menu"
                                                 class="specialchoice"
-                                                *ngIf="tileMode.enabled"
                                                 [ngClass]="{'fancy-button choicecleared minimized-hide':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':shownList()==='animalcompanion' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('animalcompanion', level.number)"
                                             >
@@ -1314,8 +1289,7 @@
                                                     [ngbTooltip]="'Animal Companion' + ((companion.class.ancestry.name) ? ': ' + companion.class.ancestry.name : '')"
                                                     [title]="companion.class.ancestry.name || ''"
                                                     [superTitle]="'icon-ra ra-wolf-howl'"
-                                                >
-                                                </app-grid-icon>
+                                                />
                                             </button>
                                         </ng-container>
                                     </ng-container>
@@ -1325,8 +1299,8 @@
                                         <ng-container *ngFor="let available of [(companionSpecializationsAvailable$(level.number) | async) ?? 0]; trackBy: trackByIndex;">
                                             <ng-container *ngIf="(companionSpecializationsOnLevel$(level.number) | async) as takenSpecializations; trackBy: trackByIndex">
                                                 <div
-                                                    class="list-item"
                                                     *ngIf="!tileMode.enabled"
+                                                    class="list-item"
                                                     [ngClass]="{'minimized-hide':takenSpecializations.length === available}"
                                                 >
                                                     <button
@@ -1340,10 +1314,10 @@
                                                 </div>
 
                                                 <button
+                                                    *ngIf="tileMode.enabled"
                                                     type="button"
                                                     aria-label="Show animal companion specialization menu"
                                                     class="specialchoice"
-                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':(takenSpecializations.length === available), 'activechoice':shownList()==='companionspecialization' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('companionspecialization', level.number)"
                                                 >
@@ -1353,8 +1327,7 @@
                                                         [ngbTooltip]="'Animal Companion Specialization' + (available > 1 ? ': ' + takenSpecializations.length + '/' + available : (takenSpecializations.length === 1 ? ': ' + takenSpecializations[0] : ''))"
                                                         [title]="(available > 1) ? takenSpecializations.length.toString() + '/' + available.toString() : (takenSpecializations.length ? takenSpecializations[0] : '')"
                                                         [superTitle]="'icon-ra ra-love-howl'"
-                                                    >
-                                                    </app-grid-icon>
+                                                    />
                                                 </button>
                                             </ng-container>
                                         </ng-container>
@@ -1365,8 +1338,8 @@
                                         <ng-container *ngIf="(familiar$ | async) as familiar">
                                             <ng-container *ngFor="let finished of [!!familiar.name && !!familiar.species]; trackBy: trackByIndex;">
                                                 <div
-                                                    class="list-item"
                                                     *ngIf="!tileMode.enabled"
+                                                    class="list-item"
                                                     [ngClass]="{'minimized-hide':finished}"
                                                 >
                                                     <button
@@ -1380,10 +1353,10 @@
                                                 </div>
 
                                                 <button
+                                                    *ngIf="tileMode.enabled"
                                                     type="button"
                                                     aria-label="Show familiar menu"
                                                     class="specialchoice"
-                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='familiar' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('familiar', level.number)"
                                                 >
@@ -1392,8 +1365,7 @@
                                                         [ngClass]="{'fancy-button':finished}"
                                                         [ngbTooltip]="'Familiar'"
                                                         [superTitle]="'icon-ra ra-raven'"
-                                                    >
-                                                    </app-grid-icon>
+                                                    />
                                                 </button>
                                             </ng-container>
                                         </ng-container>
@@ -1404,8 +1376,8 @@
                                         <ng-container *ngFor="let finished of [!!differentWorldsData.getValue('name') && !!differentWorldsData.getValue('background')]; trackBy: trackByIndex;">
                                             <!-- Different Worlds -->
                                             <div
-                                                class="list-item"
                                                 *ngIf="!tileMode.enabled"
+                                                class="list-item"
                                                 [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
@@ -1421,10 +1393,10 @@
                                             </div>
 
                                             <button
+                                                *ngIf="tileMode.enabled"
                                                 type="button"
                                                 aria-label="Show different worlds menu"
                                                 class="specialchoice"
-                                                *ngIf="tileMode.enabled"
                                                 [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='differentworlds' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('differentworlds', level.number)"
                                             >
@@ -1434,8 +1406,7 @@
                                                     [ngbTooltip]="'Different Worlds' + (differentWorldsData.getValue('background') ? ': ' + differentWorldsData.getValue('background') : '')"
                                                     [title]="differentWorldsData.valueAsString('background') || ''"
                                                     [superTitle]="'icon-ra ra-arcane-mask'"
-                                                >
-                                                </app-grid-icon>
+                                                />
                                             </button>
                                         </ng-container>
                                     </ng-container>
@@ -1445,8 +1416,8 @@
                                         <ng-container *ngFor="let blessedBloodSpells of [blessedBloodSpellsTaken()]; trackBy: trackByIndex;">
                                             <ng-container *ngFor="let finished of [blessedBloodSpells >= 3]; trackBy: trackByIndex;">
                                                 <div
-                                                    class="list-item"
                                                     *ngIf="!tileMode.enabled"
+                                                    class="list-item"
                                                     [ngClass]="{'minimized-hide':finished}"
                                                 >
                                                     <button
@@ -1460,10 +1431,10 @@
                                                 </div>
 
                                                 <button
+                                                    *ngIf="tileMode.enabled"
                                                     type="button"
                                                     aria-label="Show blessed blood menu"
                                                     class="specialchoice"
-                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='blessedblood' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('blessedblood', level.number)"
                                                 >
@@ -1473,8 +1444,7 @@
                                                         [ngbTooltip]="'Blessed Blood Deity Spells: ' + blessedBloodSpells.toString() + '/3'"
                                                         [title]="finished ? '3' : blessedBloodSpells.toString() + '/3'"
                                                         [superTitle]="'icon-ra ra-burning-eye'"
-                                                    >
-                                                    </app-grid-icon>
+                                                    />
                                                 </button>
                                             </ng-container>
                                         </ng-container>
@@ -1485,8 +1455,8 @@
                                         <ng-container *ngFor="let splinterFaithDomains of [(splinterFaithDomains$() | async)?.length || 0]; trackBy: trackByIndex;">
                                             <ng-container *ngFor="let finished of [splinterFaithDomains >= 4]; trackBy: trackByIndex;">
                                                 <div
-                                                    class="list-item"
                                                     *ngIf="!tileMode.enabled"
+                                                    class="list-item"
                                                     [ngClass]="{'minimized-hide':finished}"
                                                 >
                                                     <button
@@ -1500,10 +1470,10 @@
                                                 </div>
 
                                                 <button
+                                                    *ngIf="tileMode.enabled"
                                                     type="button"
                                                     aria-label="Show slinter faith menu"
                                                     class="specialchoice"
-                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='splinterfaith' && shownContentLevelNumber()===level.number}"
                                                     (click)="toggleShownList('splinterfaith', level.number)"
                                                 >
@@ -1513,8 +1483,7 @@
                                                         [ngbTooltip]="'Splinter Faith Domains: ' + splinterFaithDomains.toString() + '/4'"
                                                         [title]="finished ? '4' : splinterFaithDomains.toString() + '/4'"
                                                         [superTitle]="'icon-ra ra-ocean-emblem'"
-                                                    >
-                                                    </app-grid-icon>
+                                                    />
                                                 </button>
                                             </ng-container>
                                         </ng-container>
@@ -1525,8 +1494,8 @@
                                         <ng-container *ngFor="let heritageIndex of [additionalHeritageIndex(heritageGain.source, level.number)]; trackBy: trackByIndex">
                                             <ng-container *ngFor="let finished of [!!character.class.additionalHeritages[heritageIndex].name]; trackBy: trackByIndex">
                                                 <div
-                                                    class="list-item"
                                                     *ngIf="!tileMode.enabled"
+                                                    class="list-item"
                                                     [ngClass]="{'minimized-hide':finished}"
                                                 >
                                                     <button
@@ -1543,10 +1512,10 @@
                                                 </div>
 
                                                 <button
+                                                    *ngIf="tileMode.enabled"
                                                     type="button"
                                                     aria-label="Show additional heritages menu"
                                                     class="specialchoice"
-                                                    *ngIf="tileMode.enabled"
                                                     [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='additionalheritage' && shownContentLevelNumber()===level.number && this.shownContent()?.id===heritageGain.source}"
                                                     (click)="toggleShownList('additionalheritages', level.number, {id: 'additionalheritage'+level.number+heritageGain.source, source: heritageGain.source})"
                                                 >
@@ -1556,8 +1525,7 @@
                                                         [ngbTooltip]="'Heritage (' + heritageGain.source + ')' + (finished ? ': ' + character.class.additionalHeritages[heritageIndex].name : '')"
                                                         [title]="finished ? character.class.additionalHeritages[heritageIndex].name : ''"
                                                         [superTitle]="'icon-ra ra-sprout-emblem'"
-                                                    >
-                                                    </app-grid-icon>
+                                                    />
                                                 </button>
                                             </ng-container>
                                         </ng-container>
@@ -1567,8 +1535,8 @@
                                     <ng-container *ngFor="let fuseStanceData of fuseStanceData$(level.number) | async; trackBy: trackByIndex;">
                                         <ng-container *ngFor="let finished of [fuseStanceData.stances?.length === 2 && !!fuseStanceData.name]; trackBy: trackByIndex">
                                             <div
-                                                class="list-item"
                                                 *ngIf="!tileMode.enabled"
+                                                class="list-item"
                                                 [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
@@ -1586,10 +1554,10 @@
                                             </div>
 
                                             <button
+                                                *ngIf="tileMode.enabled"
                                                 type="button"
                                                 aria-label="Show fuse stance menu"
                                                 class="specialchoice"
-                                                *ngIf="tileMode.enabled"
                                                 [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='fusestance' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('fusestance', level.number)"
                                             >
@@ -1599,8 +1567,7 @@
                                                     [ngbTooltip]="'Fuse Stance' + (finished ? ': ' + fuseStanceData.name + ' (' + fuseStanceData.stances?.join(', ') || '' + ')' : '')"
                                                     [title]="finished ? (fuseStanceData.name ?? '') : 'Fuse Stance'"
                                                     [superTitle]="'icon-ra ra-double-team'"
-                                                >
-                                                </app-grid-icon>
+                                                />
                                             </button>
                                         </ng-container>
                                     </ng-container>
@@ -1609,8 +1576,8 @@
                                     <ng-container *ngFor="let syncretismData of syncretismData$(level.number) | async; trackBy: trackByIndex;">
                                         <ng-container *ngFor="let finished of [!!syncretismData.deity]; trackBy: trackByIndex">
                                             <div
-                                                class="list-item"
                                                 *ngIf="!tileMode.enabled"
+                                                class="list-item"
                                                 [ngClass]="{'minimized-hide':finished}"
                                             >
                                                 <button
@@ -1624,10 +1591,10 @@
                                             </div>
 
                                             <button
+                                                *ngIf="tileMode.enabled"
                                                 type="button"
                                                 aria-label="Show syncretism menu"
                                                 class="specialchoice"
-                                                *ngIf="tileMode.enabled"
                                                 [ngClass]="{'fancy-button choicecleared minimized-hide':finished, 'activechoice':shownList()==='syncretism' && shownContentLevelNumber()===level.number}"
                                                 (click)="toggleShownList('syncretism', level.number)"
                                             >
@@ -1637,8 +1604,7 @@
                                                     [ngbTooltip]="'Second Deity' + (finished ? ': ' + syncretismData.deity : '')"
                                                     [title]="finished ? (syncretismData.deity ?? '') : 'D E I T'"
                                                     [superTitle]="'icon-ra ra-sunbeams'"
-                                                >
-                                                </app-grid-icon>
+                                                />
                                             </button>
                                         </ng-container>
                                     </ng-container>
@@ -1646,8 +1612,8 @@
                                     <!-- Lore Training -->
                                     <ng-container *ngFor="let choice of level.loreChoices; trackBy: trackByIndex;">
                                         <div
-                                            class="list-item"
                                             *ngIf="choice.available && !tileMode.enabled"
+                                            class="list-item"
                                             [ngClass]="{'problem':(choice.increases.length > choice.available), 'minimized-hide':choice.increases.length === choice.available}"
                                         >
                                             <button
@@ -1663,10 +1629,10 @@
                                         </div>
 
                                         <button
+                                            *ngIf="choice.available && tileMode.enabled"
                                             type="button"
                                             aria-label="Show lore training menu"
                                             class="specialchoice"
-                                            *ngIf="choice.available && tileMode.enabled"
                                             [ngClass]="{'fancy-button choicecleared minimized-hide':choice.increases.length === choice.available, 'activechoice':shownList()===choice.id}"
                                             (click)="toggleShownList(choice.id, level.number, choice)"
                                         >
@@ -1676,8 +1642,7 @@
                                                 [ngbTooltip]="'Lore Training (' + choice.source + ')' + ((choice.increases.length) ? ': ' + choice.loreName : '')"
                                                 [title]="choice.increases.length === choice.available ? choice.loreName : ''"
                                                 [superTitle]="'icon-ra ra-book'"
-                                            >
-                                            </app-grid-icon>
+                                            />
                                         </button>
                                     </ng-container>
                                 </div>
@@ -1718,8 +1683,8 @@
                                 class="character-choice"
                                 id="coloraccent"
                                 style="padding:0 2px"
-                                [(ngModel)]="character.settings.accent"
                                 maxLength="7"
+                                [(ngModel)]="character.settings.accent"
                             >
                             <label for="accent">
                                 <strong>Color Accent</strong>
@@ -2195,9 +2160,9 @@
                                 <i
                                     *ngIf="!character.settings.manualMode"
                                     class="bi-question-circle"
-                                    [ngbPopover]="ManualModeDescription"
                                     autoClose=false
                                     triggers="click"
+                                    [ngbPopover]="ManualModeDescription"
                                 ></i>
                             </span>
                         </div>
@@ -2207,7 +2172,7 @@
                             [ngbCollapse]="!character.settings.manualMode"
                         >
                             <div class="lower">
-                                <ng-container *ngTemplateOutlet="ManualModeDescription"></ng-container>
+                                <ng-container *ngTemplateOutlet="ManualModeDescription" />
                             </div>
                         </div>
 
@@ -2326,8 +2291,8 @@
                             id="useAlternativeBaseValues"
                             class="character-choice"
                             type="checkbox"
-                            (change)="onBaseValueChange()"
                             [checked]="character.settings.useIndividualAbilityBaseValues"
+                            (change)="onBaseValueChange()"
                         >
                         <label for="useAlternativeBaseValues">
                             <strong>Enter your own Ability scores</strong>
@@ -2335,16 +2300,16 @@
                     </div>
 
                     <div
-                        class="list-item gridicon-fullsizebox"
                         *ngFor="let ability of character.baseValues; trackBy: trackByIndex;"
+                        class="list-item gridicon-fullsizebox"
                     >
                         <input
                             aria-label="Ability score input"
                             type="number"
                             class="number2"
+                            maxlength="2"
                             [(ngModel)]="ability.baseValue"
                             (blur)="onAbilityBaseValueChange(ability.name)"
-                            maxlength="2"
                             (keypress)="positiveNumbersOnly($event)"
                         >
                         <strong>{{ability.name}}</strong>
@@ -2371,25 +2336,25 @@
                                     <header class="spellHeader">{{class.name}}</header>
 
                                     <div
-                                        class="button newrow no-animation"
                                         *ngIf="!disabled"
+                                        class="button newrow no-animation"
                                         [ngClass]="{'fancy-button':checked, 'disabled':disabled}"
                                     >
                                         <label>
                                             <input
                                                 type="checkbox"
-                                                (change)="onClassChange(class, $event)"
+                                                hidden
                                                 [checked]="checked"
                                                 [disabled]="disabled"
-                                                hidden
+                                                (change)="onClassChange(class, $event)"
                                             >
                                             {{checked ? "Remove" : "Choose"}}
                                         </label>
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned"
                                         *ngIf="class.sourceBook"
+                                        class="newrow left-aligned"
                                     >
                                         <strong>Source</strong>
 
@@ -2397,13 +2362,13 @@
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned"
                                         *ngFor="let desc of class.desc; trackBy: trackByIndex;"
+                                        class="newrow left-aligned"
                                     >
                                         <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy: trackByIndex;">
                                             <header
-                                                class="featureHeader"
                                                 *ngIf="textIndex === 0"
+                                                class="featureHeader"
                                             >
                                                 {{desc.name}}
                                             </header>
@@ -2411,7 +2376,7 @@
                                             <app-description
                                                 class="newrow"
                                                 [text]="text"
-                                            ></app-description>
+                                            />
                                         </ng-container>
                                     </div>
                                 </ng-template>
@@ -2422,34 +2387,34 @@
                                 >
                                     <input
                                         aria-label="Choose this class"
-                                        id="{{class.name}}"
                                         type="checkbox"
                                         class="character-choice"
-                                        (change)="onClassChange(class, $event)"
+                                        id="{{class.name}}"
                                         [checked]="checked"
                                         [disabled]="disabled"
+                                        (change)="onClassChange(class, $event)"
                                     >
                                     <div
                                         class="gridicon-fullsizebox"
-                                        [ngbPopover]="ClassChoiceDetailsTemplate"
                                         triggers="click"
+                                        [ngbPopover]="ClassChoiceDetailsTemplate"
                                     >
-                                        <app-grid-icon [title]="class.name"></app-grid-icon>
+                                        <app-grid-icon [title]="class.name" />
 
                                         <header class="sectionHeader">
                                             <i
-                                                [ngbTooltip]="class.disabled"
-                                                style="font-size:200%"
                                                 *ngIf="class.disabled"
+                                                style="font-size:200%"
                                                 class="penalty bi-exclamation-triangle"
+                                                [ngbTooltip]="class.disabled"
                                             >
                                             </i>
 
                                             <i
-                                                [ngbTooltip]="class.warning"
-                                                style="font-size:200%"
                                                 *ngIf="class.warning"
+                                                style="font-size:200%"
                                                 class="absolute bi-exclamation-triangle"
+                                                [ngbTooltip]="class.warning"
                                             >
                                             </i>
 
@@ -2483,17 +2448,17 @@
                                     <header class="spellHeader">{{ancestry.name}}</header>
 
                                     <div
-                                        class="button newrow no-animation"
                                         *ngIf="!disabled"
+                                        class="button newrow no-animation"
                                         [ngClass]="{'fancy-button':checked, 'disabled':disabled}"
                                     >
                                         <label>
                                             <input
                                                 type="checkbox"
-                                                (change)="onAncestryChange(ancestry, $event)"
+                                                hidden
                                                 [checked]="checked"
                                                 [disabled]="disabled"
-                                                hidden
+                                                (change)="onAncestryChange(ancestry, $event)"
                                             >
                                             {{checked ?
                                             "Remove" : "Choose"}}
@@ -2505,13 +2470,12 @@
                                             *ngFor="let trait of ancestry.traits; trackBy: trackByIndex;"
                                             [name]="trait"
                                             [trait]="traitFromName(trait)"
-                                        >
-                                        </app-trait>
+                                        />
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned"
                                         *ngIf="ancestry.sourceBook"
+                                        class="newrow left-aligned"
                                     >
                                         <strong>Source</strong>
 
@@ -2519,13 +2483,13 @@
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned"
                                         *ngFor="let desc of ancestry.desc; trackBy: trackByIndex;"
+                                        class="newrow left-aligned"
                                     >
                                         <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy: trackByIndex;">
                                             <header
-                                                class="featureHeader"
                                                 *ngIf="textIndex === 0"
+                                                class="featureHeader"
                                             >
                                                 {{desc.name}}
                                             </header>
@@ -2533,7 +2497,7 @@
                                             <app-description
                                                 class="newrow"
                                                 [text]="text"
-                                            ></app-description>
+                                            />
                                         </ng-container>
                                     </div>
                                 </ng-template>
@@ -2544,38 +2508,37 @@
                                 >
                                     <input
                                         aria-label="Choose this ancestry"
-                                        id="{{ancestry.name}}"
                                         type="checkbox"
                                         class="character-choice"
-                                        (change)="onAncestryChange(ancestry, $event)"
+                                        id="{{ancestry.name}}"
                                         [checked]="checked"
                                         [disabled]="disabled"
+                                        (change)="onAncestryChange(ancestry, $event)"
                                     >
                                     <div
                                         class="gridicon-fullsizebox"
-                                        [ngbPopover]="AncestryChoiceDetailsTemplate"
                                         triggers="click"
+                                        [ngbPopover]="AncestryChoiceDetailsTemplate"
                                     >
                                         <app-grid-icon
                                             [title]="ancestry.name"
                                             [detail]="ancestry.traits.includes('Rare') ? 'Rare' : (ancestry.traits.includes('Uncommon') ? 'Uncommon' : '')"
-                                        >
-                                        </app-grid-icon>
+                                        />
 
                                         <header class="sectionHeader">
                                             <i
-                                                [ngbTooltip]="ancestry.disabled"
-                                                style="font-size:200%"
                                                 *ngIf="ancestry.disabled"
+                                                style="font-size:200%"
                                                 class="penalty bi-exclamation-triangle"
+                                                [ngbTooltip]="ancestry.disabled"
                                             >
                                             </i>
 
                                             <i
-                                                [ngbTooltip]="ancestry.warning"
-                                                style="font-size:200%"
                                                 *ngIf="ancestry.warning"
+                                                style="font-size:200%"
                                                 class="absolute bi-exclamation-triangle"
+                                                [ngbTooltip]="ancestry.warning"
                                             >
                                             </i>
 
@@ -2586,8 +2549,7 @@
                                                     *ngIf="ancestry.traits.includes(trait)"
                                                     [name]="trait"
                                                     [trait]="traitFromName(trait)"
-                                                >
-                                                </app-trait>
+                                                />
                                             </ng-container>
                                         </header>
                                     </div>
@@ -2619,17 +2581,17 @@
                                         <header class="spellHeader">{{heritage.name}}</header>
 
                                         <div
-                                            class="button newrow no-animation"
                                             *ngIf="!disabled && !heritage.subTypes.length"
+                                            class="button newrow no-animation"
                                             [ngClass]="{'fancy-button':selected, 'disabled':disabled}"
                                         >
                                             <label>
                                                 <input
                                                     type="checkbox"
-                                                    (change)="onHeritageChange(heritage, $event)"
+                                                    hidden
                                                     [checked]="selected"
                                                     [disabled]="disabled"
-                                                    hidden
+                                                    (change)="onHeritageChange(heritage, $event)"
                                                 >
                                                 {{selected ?
                                                 "Remove" : "Choose"}}
@@ -2641,13 +2603,12 @@
                                                 *ngFor="let trait of heritage.traits; trackBy: trackByIndex;"
                                                 [name]="trait"
                                                 [trait]="traitFromName(trait)"
-                                            >
-                                            </app-trait>
+                                            />
                                         </div>
 
                                         <div
-                                            class="newrow left-aligned"
                                             *ngIf="heritage.sourceBook"
+                                            class="newrow left-aligned"
                                         >
                                             <strong>Source</strong>
 
@@ -2659,22 +2620,21 @@
                                                 <app-description
                                                     class="newrow"
                                                     [text]="desc"
-                                                ></app-description>
+                                                />
                                             </ng-container>
                                         </div>
 
                                         <ng-container *ngFor="let activityName of heritage.gainActivities; trackBy: trackByIndex;">
                                             <div
-                                                class="newrow left-aligned"
                                                 *ngIf="activityFromName(activityName) as activity"
+                                                class="newrow left-aligned"
                                             >
                                                 <header class="spellHeader left-aligned">
                                                     {{activity.name}}
                                                     <app-action-icons
                                                         *ngIf="activity.actions"
                                                         [actionString]="activity.actions"
-                                                    >
-                                                    </app-action-icons>
+                                                    />
                                                     {{(activity.activationType) ? activity.activationType : ""}}
                                                 </header>
 
@@ -2682,8 +2642,7 @@
                                                     class="newrow"
                                                     [activity]=activity
                                                     [allowActivate]=false
-                                                >
-                                                </app-activity>
+                                                />
                                             </div>
                                         </ng-container>
 
@@ -2699,12 +2658,12 @@
                                                             <div class="gridicon-fullsizebox lower">
                                                                 <input
                                                                     aria-label="Choose this sub-heritage"
-                                                                    id="{{subheritage.name}}"
                                                                     type="checkbox"
                                                                     class="character-choice"
-                                                                    (change)="onHeritageChange(subheritage, $event)"
+                                                                    id="{{subheritage.name}}"
                                                                     [checked]="subheritageChecked"
                                                                     [disabled]="subheritageDisabled"
+                                                                    (change)="onHeritageChange(subheritage, $event)"
                                                                 >
                                                                 <label for="{{subheritage.name}}">
                                                                     <strong>{{subheritage.subType}}</strong>
@@ -2724,35 +2683,34 @@
                                         [ngClass]="{'selected':selected}"
                                     >
                                         <input
-                                            aria-label="Choose this heritage"
                                             *ngIf="!heritage.subTypes.length"
-                                            id="{{heritage.name}}"
+                                            aria-label="Choose this heritage"
                                             type="checkbox"
                                             class="character-choice"
-                                            (change)="onHeritageChange(heritage, $event)"
+                                            id="{{heritage.name}}"
                                             [checked]="checked"
                                             [disabled]="disabled"
+                                            (change)="onHeritageChange(heritage, $event)"
                                         >
                                         <button
+                                            *ngIf="heritage.subTypes.length"
                                             type="button"
                                             class="character-choice"
-                                            *ngIf="heritage.subTypes.length"
                                             (click)="HeritageChoiceDetailsPopover.toggle()"
                                         >
                                             +
                                         </button>
 
                                         <div
-                                            class="gridicon-fullsizebox"
                                             #HeritageChoiceDetailsPopover="ngbPopover"
-                                            [ngbPopover]="HeritageChoiceDetailsTemplate"
+                                            class="gridicon-fullsizebox"
                                             triggers="click"
+                                            [ngbPopover]="HeritageChoiceDetailsTemplate"
                                         >
                                             <app-grid-icon
                                                 [title]="heritage.name"
                                                 [detail]="heritage.traits.includes('Rare') ? 'Rare' : (heritage.traits.includes('Uncommon') ? 'Uncommon' : '')"
-                                            >
-                                            </app-grid-icon>
+                                            />
 
                                             <header class="sectionHeader">
                                                 <span>{{heritage.name}}&nbsp;</span>
@@ -2762,8 +2720,7 @@
                                                         *ngIf="heritage.traits.includes(trait)"
                                                         [name]="trait"
                                                         [trait]="traitFromName(trait)"
-                                                    >
-                                                    </app-trait>
+                                                    />
                                                 </ng-container>
                                             </header>
                                         </div>
@@ -2786,8 +2743,8 @@
                     class="list-item"
                 >
                     <div
-                        class="newrow list-item left-aligned"
                         *ngIf="character.class.ancestry.recommendedLanguages.length"
+                        class="newrow list-item left-aligned"
                     >
                         <strong>Recommended Languages</strong>
                         {{character.class.ancestry.recommendedLanguages.join(', ')}}
@@ -2795,8 +2752,8 @@
 
                     <ng-container *ngFor="let language of character.class.languages; trackBy: trackByIndex;">
                         <div
-                            class="list-item"
                             *ngIf="!language.level || language.level <= shownContentLevelNumber()"
+                            class="list-item"
                         >
                             <ng-template #LanguageSource>
                                 <div class="newrow">
@@ -2807,8 +2764,8 @@
                                 </div>
 
                                 <div
-                                    class="newrow"
                                     *ngIf="language.level > 0"
+                                    class="newrow"
                                 >
                                     <span>
                                         <strong>Level</strong>
@@ -2825,9 +2782,9 @@
                                     aria-label="Language name input"
                                     class="newrow"
                                     type="text"
+                                    [disabled]="language.locked"
                                     [(ngModel)]="language.name"
                                     (blur)="onLanguageChange()"
-                                    [disabled]="language.locked"
                                 >
                             </div>
                         </div>
@@ -2893,17 +2850,17 @@
                                     <header class="spellHeader">{{background.name}}</header>
 
                                     <div
-                                        class="button newrow no-animation"
                                         *ngIf="!disabled && !background.subTypes"
+                                        class="button newrow no-animation"
                                         [ngClass]="{'fancy-button':checked, 'disabled':disabled}"
                                     >
                                         <label>
                                             <input
                                                 type="checkbox"
-                                                (change)="onBackgroundChange(background, $event)"
+                                                hidden
                                                 [checked]="checked"
                                                 [disabled]="disabled"
-                                                hidden
+                                                (change)="onBackgroundChange(background, $event)"
                                             >
                                             {{checked ?
                                             "Remove" : "Choose"}}
@@ -2915,13 +2872,12 @@
                                             *ngFor="let trait of background.traits; trackBy: trackByIndex;"
                                             [name]="trait"
                                             [trait]="traitFromName(trait)"
-                                        >
-                                        </app-trait>
+                                        />
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned"
                                         *ngIf="background.sourceBook"
+                                        class="newrow left-aligned"
                                     >
                                         <strong>Source</strong>
 
@@ -2929,16 +2885,16 @@
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned"
                                         *ngIf="background.prerequisites"
+                                        class="newrow left-aligned"
                                     >
                                         <strong>Prerequisites</strong>
                                         {{background.prerequisites}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned"
                                         *ngIf="background.region"
+                                        class="newrow left-aligned"
                                     >
                                         <strong>Region</strong>
                                         {{background.region}}
@@ -2949,41 +2905,41 @@
                                             <app-description
                                                 class="newrow"
                                                 [text]="desc"
-                                            ></app-description>
+                                            />
                                         </ng-container>
                                     </div>
 
                                     <div
-                                        class="list-item lower newrow problem"
                                         *ngIf="background.inputRequired"
+                                        class="list-item lower newrow problem"
                                     >
                                         <strong>Player input required:</strong>
 
                                         <div
-                                            class="newrow left-aligned"
                                             *ngFor="let inputRequired of background.inputRequired.split('\n\n'); trackBy: trackByIndex;"
+                                            class="newrow left-aligned"
                                         >
                                             <app-description
                                                 class="newrow"
                                                 [text]="inputRequired"
-                                            ></app-description>
+                                            />
                                         </div>
                                     </div>
 
                                     <!-- Subbackgrounds -->
                                     <div
+                                        *ngFor="let subbackground of subTypesOfBackground(background.name); trackBy: trackByIndex;"
                                         class="list-item"
                                         [ngClass]="{'selected':subbackground.name === character.class.background.name}"
-                                        *ngFor="let subbackground of subTypesOfBackground(background.name); trackBy: trackByIndex;"
                                     >
                                         <div class="gridicon-fullsizebox lower">
                                             <input
-                                                id="{{subbackground.name}}"
                                                 type="checkbox"
                                                 class="character-choice"
-                                                (change)="onBackgroundChange(subbackground, $event)"
+                                                id="{{subbackground.name}}"
                                                 [checked]="subbackground.name === character.class.background.name"
                                                 [disabled]="character.class.background.name && (subbackground.name !== character.class.background.name)"
+                                                (change)="onBackgroundChange(subbackground, $event)"
                                             >
                                             <label for="{{subbackground.name}}">
                                                 <strong>{{subbackground.subType}}</strong>
@@ -2999,35 +2955,34 @@
                                     [ngClass]="{'selected':checked}"
                                 >
                                     <input
-                                        aria-label="Choose this sub-background"
                                         *ngIf="!background.subTypes"
-                                        id="{{background.name}}"
+                                        aria-label="Choose this sub-background"
                                         type="checkbox"
                                         class="character-choice"
-                                        (change)="onBackgroundChange(background, $event)"
+                                        id="{{background.name}}"
                                         [checked]="checked"
                                         [disabled]="disabled"
+                                        (change)="onBackgroundChange(background, $event)"
                                     >
                                     <button
+                                        *ngIf="background.subTypes"
                                         type="button"
                                         class="character-choice"
-                                        *ngIf="background.subTypes"
                                         (click)="BackgroundChoiceDetailsPopover.toggle()"
                                     >
                                         +
                                     </button>
 
                                     <div
-                                        class="gridicon-fullsizebox"
                                         #BackgroundChoiceDetailsPopover="ngbPopover"
-                                        [ngbPopover]="BackgroundChoiceDetailsTemplate"
+                                        class="gridicon-fullsizebox"
                                         triggers="click"
+                                        [ngbPopover]="BackgroundChoiceDetailsTemplate"
                                     >
                                         <app-grid-icon
                                             [title]="background.name"
                                             [detail]="background.traits.includes('Rare') ? 'Rare' : (background.traits.includes('Uncommon') ? 'Uncommon' : '')"
-                                        >
-                                        </app-grid-icon>
+                                        />
 
                                         <header class="sectionHeader">
                                             <span>{{background.name}}&nbsp;</span>
@@ -3037,8 +2992,7 @@
                                                     *ngIf="background.traits.includes(trait)"
                                                     [name]="trait"
                                                     [trait]="traitFromName(trait)"
-                                                >
-                                                </app-trait>
+                                                />
                                             </ng-container>
                                         </header>
                                     </div>
@@ -3085,32 +3039,32 @@
                                     <header class="spellHeader">{{deity.name}}</header>
 
                                     <div
-                                        class="button newrow no-animation"
                                         *ngIf="!disabled"
+                                        class="button newrow no-animation"
                                         [ngClass]="{'fancy-button':checked, 'disabled':disabled}"
                                     >
                                         <label>
                                             <input
                                                 type="checkbox"
-                                                (change)="onDeityChange(deity, $event)"
+                                                hidden
                                                 [checked]="checked"
                                                 [disabled]="disabled"
-                                                hidden
+                                                (change)="onDeityChange(deity, $event)"
                                             >
                                             {{checked ? "Remove" : "Choose"}}
                                         </label>
                                     </div>
 
                                     <header
-                                        class="subsectionHeader"
                                         *ngIf="deity.nickname"
+                                        class="subsectionHeader"
                                     >
                                         {{deity.nickname}}
                                     </header>
 
                                     <div
-                                        class="newrow left-aligned"
                                         *ngIf="deity.sourceBook"
+                                        class="newrow left-aligned"
                                     >
                                         <strong>Source</strong>
 
@@ -3121,92 +3075,92 @@
                                         <app-description
                                             class="newrow"
                                             [text]="desc"
-                                        ></app-description>
+                                        />
                                     </ng-container>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.edicts"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Edicts</strong>
                                         {{deity.edicts.join(", ")}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.anathema"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Anathema</strong>
                                         {{deity.anathema.join(", ")}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.areasOfConcern"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Areas of Concern</strong>
                                         {{deity.areasOfConcern}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.followerAlignments.length"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Follower Alignments</strong>
                                         {{deity.followerAlignments.join(", ")}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.pantheonMembers.length"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Pantheon Members</strong>
                                         {{deity.pantheonMembers.join(", ")}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.divineAbility.length"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Divine Ability</strong>
                                         {{deity.divineAbility.join(" or ")}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.divineFont.length"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Divine Font</strong>
                                         {{deity.divineFont.join(" or ")}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.divineSkill.length"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Divine Skill</strong>
                                         {{deity.divineSkill.join(" or ")}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.favoredWeapon.length"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Favored Weapon</strong>
                                         {{deity.favoredWeapon.join(" or ")}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.domains.length"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Domains</strong>
                                         {{deity.domains.join(", ")}}
                                     </div>
 
                                     <div
-                                        class="newrow left-aligned gap-text"
                                         *ngIf="deity.alternateDomains.length"
+                                        class="newrow left-aligned gap-text"
                                     >
                                         <strong>Alternate Domains</strong>
                                         {{deity.alternateDomains.join(", ")}}
@@ -3218,8 +3172,8 @@
                                         </div>
 
                                         <div
-                                            class="list-item lower left-aligned"
                                             *ngFor="let spell of deity.clericSpells; trackBy: trackByIndex;"
+                                            class="list-item lower left-aligned"
                                         >
                                             <strong>Level {{spell.level}}</strong>
                                             {{spell.name}}
@@ -3234,30 +3188,29 @@
                                 >
                                     <input
                                         aria-label="Choose this deity"
-                                        id="{{deity.name}}"
                                         type="checkbox"
                                         class="character-choice"
-                                        (change)="onDeityChange(deity, $event)"
+                                        id="{{deity.name}}"
                                         [checked]="checked"
                                         [disabled]="disabled"
+                                        (change)="onDeityChange(deity, $event)"
                                     >
                                     <div
                                         class="gridicon-fullsizebox"
-                                        [ngbPopover]="DeityChoiceDetailsTemplate"
                                         triggers="click"
+                                        [ngbPopover]="DeityChoiceDetailsTemplate"
                                     >
                                         <app-grid-icon
                                             [title]="deity.name"
                                             [detail]="deity.alignment"
-                                        >
-                                        </app-grid-icon>
+                                        />
 
                                         <header class="sectionHeader">
                                             <span>{{deity.name}}</span>
 
                                             <cite
-                                                class="trait"
                                                 *ngIf="deity.alignment"
+                                                class="trait"
                                             >
                                                 {{deity.alignment}}
                                             </cite>
@@ -3281,9 +3234,9 @@
                     <div class="newrow center-aligned">
                         <span>
                             <button
+                                *ngIf="abilityContent.choice.bonus"
                                 type="button"
                                 class="center-aligned"
-                                *ngIf="abilityContent.choice.bonus"
                                 (click)="removeBonusAbilityChoice(abilityContent.choice, abilityContent.levelNumber)"
                             >
                                 Remove bonus ability choice
@@ -3305,16 +3258,16 @@
                                 >
                                     <input
                                         aria-label="Boost this ability"
-                                        id="{{ability.name}}"
                                         type="checkbox"
                                         class="character-choice"
-                                        (change)="onBoostAbility(ability.name, $event, abilityContent.choice, false)"
+                                        id="{{ability.name}}"
                                         [checked]="checked"
                                         [disabled]="disabled"
+                                        (change)="onBoostAbility(ability.name, $event, abilityContent.choice, false)"
                                     >
                                     <div
-                                        class="gridicon-fullsizebox"
                                         *ngIf="abilityBaseValue$(ability, abilityContent.levelNumber) | async as baseValue"
+                                        class="gridicon-fullsizebox"
                                     >
                                         <!--
                                             A BonusDescription goes here as the popover
@@ -3328,25 +3281,24 @@
                                             </app-grid-icon>
                                         -->
                                         <app-grid-icon
-                                            [title]="ability.name"
                                             triggers="hover:click"
+                                            [title]="ability.name"
                                             [superTitle]="baseValue.result.toString()"
-                                        >
-                                        </app-grid-icon>
+                                        />
 
                                         <header class="sectionHeader">
                                             <span>{{ability.name}}&nbsp;</span>
 
                                             <cite
-                                                class="problem"
                                                 *ngFor="let reason of cannotBoostAbilityReasons$(ability, abilityContent.levelNumber, abilityContent.choice) | async; trackBy: trackByIndex;"
+                                                class="problem"
                                             >
                                                 {{reason}}
                                             </cite>
 
                                             <cite
-                                                class="problem"
                                                 *ngIf="isAbilityIllegal$(abilityContent.levelNumber, ability)"
+                                                class="problem"
                                                 [ngbPopover]="'Abilities cannot be raised above 18 on level 1.'"
                                             >
                                                 Limit reached
@@ -3363,29 +3315,27 @@
             <!-- Skill Choice Content -->
             <ng-container *ngIf="activeSkillChoiceContent$ | async as skillContent">
                 <app-skill-choice
-                    (showSkillChoiceMessage)="receiveChoiceMessage($event)"
                     [choice]="skillContent.choice"
                     [levelNumber]="skillContent.levelNumber"
                     [showTitle]="false"
                     [showChoice]="skillContent.name"
                     [excludeTemporary]="true"
-                >
-                </app-skill-choice>
+                    (showSkillChoiceMessage)="receiveChoiceMessage($event)"
+                />
             </ng-container>
 
             <!-- Feat Choice Content -->
             <ng-container *ngIf="activeFeatChoiceContent$ | async as featContent">
                 <app-feat-choice
-                    (showFeatChoiceMessage)="receiveChoiceMessage($event)"
-                    (showFeatMessage)="receiveFeatMessage($event)"
                     [choice]="featContent.choice"
                     [levelNumber]="featContent.levelNumber"
                     [showTitle]="false"
                     [showFeat]="shownItem()"
                     [showChoice]="featContent.name"
                     [showArchetypeFeats]="character.settings.archetypeFeats"
-                >
-                </app-feat-choice>
+                    (showFeatChoiceMessage)="receiveChoiceMessage($event)"
+                    (showFeatMessage)="receiveFeatMessage($event)"
+                />
             </ng-container>
 
             <!-- Lore Training content -->
@@ -3399,9 +3349,9 @@
                     <div class="newrow center-aligned">
                         <span>
                             <button
+                                *ngIf="loreContent.choice.bonus"
                                 type="button"
                                 class="center-aligned"
-                                *ngIf="loreContent.choice.bonus"
                                 (click)="removeBonusLoreChoice(loreContent.choice, loreContent.levelNumber)"
                             >
                                 Remove bonus lore training
@@ -3418,8 +3368,8 @@
                         <ng-container *ngFor="let illegal of [skills('Lore: '+loreContent.choice.loreName, {}, {noSubstitutions: true}).length && !checked]; trackBy: trackByIndex">
                             <ng-container *ngFor="let disabled of [!loreContent.choice.loreName || !!illegal]; trackBy: trackByIndex">
                                 <div
-                                    class="newrow left-aligned list-item"
                                     *ngIf="loreContent.choice.loreDesc"
+                                    class="newrow left-aligned list-item"
                                 >
                                     <strong>Lore Type</strong>
                                     {{loreContent.choice.loreDesc}}
@@ -3433,12 +3383,12 @@
                                     >
                                         <label>
                                             <input
-                                                id="{{loreContent.choice.id}}"
                                                 type="checkbox"
-                                                (change)="onLoreChange($event, loreContent.choice)"
+                                                hidden
+                                                id="{{loreContent.choice.id}}"
                                                 [checked]="checked"
                                                 [disabled]="disabled"
-                                                hidden
+                                                (change)="onLoreChange($event, loreContent.choice)"
                                             >
                                             {{checked ? "Change" : "Save"}}
                                         </label>
@@ -3446,8 +3396,8 @@
 
                                     <header class="sectionHeader gap-text">
                                         <cite
-                                            class="problem"
                                             *ngIf="illegal"
+                                            class="problem"
                                         >
                                             Lore already trained
                                         </cite>
@@ -3457,10 +3407,10 @@
                                             id="LoreName"
                                             class="short"
                                             type="text"
-                                            [(ngModel)]="loreContent.choice.loreName"
-                                            [disabled]="checked"
-                                            (blur)="onLoreNameChange"
                                             maxLength="20"
+                                            [disabled]="checked"
+                                            [(ngModel)]="loreContent.choice.loreName"
+                                            (blur)="onLoreNameChange"
                                         >
                                         <span>Lore</span>
                                     </header>
@@ -3501,8 +3451,8 @@
                                     aria-label="Animal companion name input"
                                     id="CompanionName"
                                     type="text"
-                                    [(ngModel)]="companion.name"
                                     maxLength="30"
+                                    [(ngModel)]="companion.name"
                                 >
                             </div>
 
@@ -3513,8 +3463,8 @@
                                     aria-label="Animal companion animal input"
                                     id="CompanionSpecies"
                                     type="text"
-                                    [(ngModel)]="companion.species"
                                     maxLength="30"
+                                    [(ngModel)]="companion.species"
                                 >
                             </div>
                         </div>
@@ -3530,17 +3480,17 @@
                                         <header class="spellHeader">{{type.name}}</header>
 
                                         <div
-                                            class="button newrow no-animation"
                                             *ngIf="!disabled"
+                                            class="button newrow no-animation"
                                             [ngClass]="{'fancy-button':checked, 'disabled':disabled}"
                                         >
                                             <label>
                                                 <input
                                                     type="checkbox"
-                                                    (change)="onChangeCompanionType(type, $event)"
+                                                    hidden
                                                     [checked]="checked"
                                                     [disabled]="disabled"
-                                                    hidden
+                                                    (change)="onChangeCompanionType(type, $event)"
                                                 >
                                                 {{checked ? "Remove" : "Choose"}}
                                             </label>
@@ -3552,13 +3502,12 @@
                                                     *ngFor="let trait of type.traits; trackBy: trackByIndex;"
                                                     [name]="trait"
                                                     [trait]="traitFromName(trait)"
-                                                >
-                                                </app-trait>
+                                                />
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned"
                                                 *ngIf="type.sourceBook"
+                                                class="newrow left-aligned"
                                             >
                                                 <strong>Source</strong>
 
@@ -3569,7 +3518,7 @@
                                                 <app-description
                                                     class="newrow"
                                                     [text]="desc"
-                                                ></app-description>
+                                                />
                                             </ng-container>
 
                                             <p>
@@ -3629,16 +3578,15 @@
 
                                         <ng-container *ngIf="type.activities[1] as gain;">
                                             <div
-                                                class="newrow left-aligned"
                                                 *ngIf="activityFromName(gain.name) as activity"
+                                                class="newrow left-aligned"
                                             >
                                                 <header class="spellHeader left-aligned">
                                                     Advanced Maneuver: {{activity.name}}
                                                     <app-action-icons
                                                         *ngIf="activity.actions"
                                                         [actionString]="activity.actions"
-                                                    >
-                                                    </app-action-icons>
+                                                    />
                                                     {{(activity.activationType) ? activity.activationType : ""}}
                                                 </header>
 
@@ -3646,8 +3594,7 @@
                                                     class="newrow"
                                                     [activity]="activity"
                                                     [allowActivate]="false"
-                                                >
-                                                </app-activity>
+                                                />
                                             </div>
                                         </ng-container>
                                     </ng-template>
@@ -3658,20 +3605,20 @@
                                     >
                                         <input
                                             aria-label="Choose this animal companion type"
-                                            id="{{type.name}}"
                                             type="checkbox"
                                             class="character-choice"
-                                            (change)="onChangeCompanionType(type, $event)"
+                                            id="{{type.name}}"
                                             [checked]="checked"
                                             [disabled]="disabled"
+                                            (change)="onChangeCompanionType(type, $event)"
                                         >
                                         <div class="gridicon-fullsizebox">
-                                            <app-grid-icon [title]="type.name"></app-grid-icon>
+                                            <app-grid-icon [title]="type.name" />
 
                                             <header class="sectionHeader">
                                                 <span
-                                                    [ngbPopover]="AnimalCompanionDetailsTemplate"
                                                     triggers="click"
+                                                    [ngbPopover]="AnimalCompanionDetailsTemplate"
                                                 >
                                                     {{type.name}}
                                                 </span>
@@ -3719,17 +3666,17 @@
                                                     <header class="spellHeader">{{spec.name}}</header>
 
                                                     <div
-                                                        class="button newrow no-animation"
                                                         *ngIf="!disabled && (taken || !checked)"
+                                                        class="button newrow no-animation"
                                                         [ngClass]="{'fancy-button':taken}"
                                                     >
                                                         <label>
                                                             <input
                                                                 type="checkbox"
-                                                                (change)="onChangeCompanionSpecialization(spec, $event, companionSpecializationContent.levelNumber)"
+                                                                hidden
                                                                 [checked]="checked"
                                                                 [disabled]="disabled"
-                                                                hidden
+                                                                (change)="onChangeCompanionSpecialization(spec, $event, companionSpecializationContent.levelNumber)"
                                                             >
                                                             {{checked ? "Remove" : "Choose"}}
                                                         </label>
@@ -3737,16 +3684,16 @@
 
                                                     <div class="newrow left-aligned">
                                                         <cite
-                                                            class="problem"
                                                             *ngIf="checked && !taken"
+                                                            class="problem"
                                                         >
                                                             Already taken
                                                         </cite>
                                                     </div>
 
                                                     <div
-                                                        class="newrow left-aligned"
                                                         *ngIf="spec.sourceBook"
+                                                        class="newrow left-aligned"
                                                     >
                                                         <strong>Source</strong>
 
@@ -3764,20 +3711,20 @@
                                                 >
                                                     <input
                                                         aria-label="Choose this animal companion specialization"
-                                                        id="{{spec.name}}"
                                                         type="checkbox"
                                                         class="character-choice"
-                                                        (change)="onChangeCompanionSpecialization(spec, $event, companionSpecializationContent.levelNumber)"
+                                                        id="{{spec.name}}"
                                                         [checked]="checked"
                                                         [disabled]="disabled"
+                                                        (change)="onChangeCompanionSpecialization(spec, $event, companionSpecializationContent.levelNumber)"
                                                     >
                                                     <div class="gridicon-fullsizebox">
-                                                        <app-grid-icon [title]="spec.name"></app-grid-icon>
+                                                        <app-grid-icon [title]="spec.name" />
 
                                                         <header class="sectionHeader">
                                                             <span
-                                                                [ngbPopover]="CompanionSpecializationDetailsTemplate"
                                                                 triggers="click"
+                                                                [ngbPopover]="CompanionSpecializationDetailsTemplate"
                                                             >
                                                                 {{spec.name}}
                                                             </span>
@@ -3821,8 +3768,8 @@
                                     aria-label="Familiar name input"
                                     id="FamiliarName"
                                     type="text"
-                                    [(ngModel)]="familiar.name"
                                     maxLength="30"
+                                    [(ngModel)]="familiar.name"
                                 >
                             </div>
 
@@ -3833,8 +3780,8 @@
                                     aria-label="Familiar creature input"
                                     id="FamiliarCreature"
                                     type="text"
-                                    [(ngModel)]="familiar.species"
                                     maxLength="30"
+                                    [(ngModel)]="familiar.species"
                                 >
                             </div>
 
@@ -3843,8 +3790,8 @@
                                     class="character-choice"
                                     id="FamiliarSwimmer"
                                     type="checkbox"
-                                    (click)="onFamiliarSpeedChange($event)"
                                     [checked]="isFamiliarSwimmer$() | async"
+                                    (click)="onFamiliarSpeedChange($event)"
                                 >
                                 <label for="FamiliarSwimmer">
                                     <strong>Gain Swim Speed instead of Land Speed</strong>
@@ -3876,10 +3823,10 @@
                                 <input
                                     aria-label="Alternative name input"
                                     type="text"
+                                    maxLength="30"
                                     [ngModel]="differentWorldsData.getValue('name')"
                                     (input)="differentWorldsData.setValue('name', $event)"
                                     (blur)=onNameChange()
-                                    maxLength="30"
                                 >
                             </div>
                         </div>
@@ -3926,17 +3873,17 @@
                                             <header class="spellHeader">{{background.name}}</header>
 
                                             <div
-                                                class="button newrow no-animation"
                                                 *ngIf="!disabled"
+                                                class="button newrow no-animation"
                                                 [ngClass]="{'fancy-button':selected, 'disabled':disabled}"
                                             >
                                                 <label>
                                                     <input
                                                         type="checkbox"
-                                                        (change)="onDifferentWorldsBackgroundChange(differentWorldsContent.levelNumber, differentWorldsData, background, $event)"
+                                                        hidden
                                                         [checked]="checked"
                                                         [disabled]="disabled"
-                                                        hidden
+                                                        (change)="onDifferentWorldsBackgroundChange(differentWorldsContent.levelNumber, differentWorldsData, background, $event)"
                                                     >
                                                     {{selected
                                                     ? "Remove" : "Choose"}}
@@ -3948,13 +3895,12 @@
                                                     *ngFor="let trait of background.traits; trackBy: trackByIndex;"
                                                     [name]="trait"
                                                     [trait]="traitFromName(trait)"
-                                                >
-                                                </app-trait>
+                                                />
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned"
                                                 *ngIf="background.sourceBook"
+                                                class="newrow left-aligned"
                                             >
                                                 <strong>Source</strong>
 
@@ -3962,16 +3908,16 @@
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned"
                                                 *ngIf="background.prerequisites"
+                                                class="newrow left-aligned"
                                             >
                                                 <strong>Prerequisites</strong>
                                                 {{background.prerequisites}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned"
                                                 *ngIf="background.region"
+                                                class="newrow left-aligned"
                                             >
                                                 <strong>Region</strong>
                                                 {{background.region}}
@@ -3983,7 +3929,7 @@
                                                         <app-description
                                                             class="newrow"
                                                             [text]="desc"
-                                                        ></app-description>
+                                                        />
                                                     </ng-container>
                                                 </ng-container>
 
@@ -4009,23 +3955,22 @@
                                         >
                                             <input
                                                 aria-label="Choose this alternativebackground"
-                                                id="{{background.name}}"
                                                 type="checkbox"
                                                 class="character-choice"
-                                                (change)="onDifferentWorldsBackgroundChange(differentWorldsContent.levelNumber, differentWorldsData, background, $event)"
+                                                id="{{background.name}}"
                                                 [checked]="checked"
                                                 [disabled]="disabled"
+                                                (change)="onDifferentWorldsBackgroundChange(differentWorldsContent.levelNumber, differentWorldsData, background, $event)"
                                             >
                                             <div
                                                 class="gridicon-fullsizebox"
-                                                [ngbPopover]="DifferentWorldsBackgroundChoiceDetailsTemplate"
                                                 triggers="click"
+                                                [ngbPopover]="DifferentWorldsBackgroundChoiceDetailsTemplate"
                                             >
                                                 <app-grid-icon
                                                     [title]="background.name"
                                                     [detail]="background.traits.includes('Rare') ? 'Rare' : (background.traits.includes('Uncommon') ? 'Uncommon' : '')"
-                                                >
-                                                </app-grid-icon>
+                                                />
 
                                                 <header class="sectionHeader">
                                                     <span>{{background.name}}&nbsp;</span>
@@ -4035,8 +3980,7 @@
                                                             *ngIf="background.traits.includes(trait)"
                                                             [name]="trait"
                                                             [trait]="traitFromName(trait)"
-                                                        >
-                                                        </app-trait>
+                                                        />
                                                     </ng-container>
                                                 </header>
                                             </div>
@@ -4080,8 +4024,7 @@
                                                 <app-action-icons
                                                     *ngIf="spell.actions"
                                                     [actionString]="spell.actions"
-                                                >
-                                                </app-action-icons>
+                                                />
                                                 {{(spell.castType) ? spell.castType : ""}}
                                             </span>
 
@@ -4089,17 +4032,17 @@
                                         </header>
 
                                         <div
-                                            class="button newrow no-animation"
                                             *ngIf="!disabled"
+                                            class="button newrow no-animation"
                                             [ngClass]="{'fancy-button':checked, 'disabled':disabled}"
                                         >
                                             <label>
                                                 <input
                                                     type="checkbox"
-                                                    (change)="onBlessedBloodSpellTaken(spell, blessedBloodContent.levelNumber, $event)"
+                                                    hidden
                                                     [checked]="checked"
                                                     [disabled]="disabled"
-                                                    hidden
+                                                    (change)="onBlessedBloodSpellTaken(spell, blessedBloodContent.levelNumber, $event)"
                                                 >
                                                 {{checked ? "Remove" : "Choose"}}
                                             </label>
@@ -4109,8 +4052,7 @@
                                             class="newrow"
                                             [spell]=spell
                                             [spellLevel]="spell.levelreq"
-                                        >
-                                        </app-spell>
+                                        />
                                     </ng-template>
 
                                     <div
@@ -4119,19 +4061,19 @@
                                     >
                                         <input
                                             aria-label="Choose this spell"
-                                            id="{{spell.name}}"
                                             type="checkbox"
                                             class="character-choice"
-                                            (change)="onBlessedBloodSpellTaken(spell, blessedBloodContent.levelNumber, $event)"
+                                            id="{{spell.name}}"
                                             [checked]="checked"
                                             [disabled]="disabled"
+                                            (change)="onBlessedBloodSpellTaken(spell, blessedBloodContent.levelNumber, $event)"
                                         >
                                         <div
                                             class="gridicon-fullsizebox"
-                                            [ngbPopover]="BlessedBloodChoiceDetailsTemplate"
                                             triggers="click"
+                                            [ngbPopover]="BlessedBloodChoiceDetailsTemplate"
                                         >
-                                            <app-grid-icon [title]="spell.name"></app-grid-icon>
+                                            <app-grid-icon [title]="spell.name" />
 
                                             <header class="sectionHeader">
                                                 <span>{{spell.name}}</span>
@@ -4173,8 +4115,8 @@
                         <ng-container *ngFor="let availableDomains of [splinterFaithAvailableDomains()]; trackBy: trackByIndex;">
                             <ng-container *ngFor="let domain of availableDomains; trackBy: trackByIndex;">
                                 <div
-                                    class="list-item newrow"
                                     *ngIf="domain.title"
+                                    class="list-item newrow"
                                 >
                                     <header class="sectionHeader">{{domain.title}}</header>
                                 </div>
@@ -4187,17 +4129,17 @@
                                         >
                                             <input
                                                 aria-label="Choose this domain"
-                                                id="{{domain.domain.name}}"
                                                 type="checkbox"
                                                 class="character-choice"
-                                                (change)="onSplinterFaithDomainTaken(domain.domain.name, $event)"
+                                                id="{{domain.domain.name}}"
                                                 [checked]="checked"
                                                 [disabled]="disabled"
+                                                (change)="onSplinterFaithDomainTaken(domain.domain.name, $event)"
                                             >
                                             <ng-template #DomainDescTemplate>
                                                 <div
-                                                    class="newrow left-aligned"
                                                     *ngIf="domain.domain.sourceBook"
+                                                    class="newrow left-aligned"
                                                 >
                                                     <strong>Source</strong>
 
@@ -4209,10 +4151,10 @@
 
                                             <div
                                                 class="gridicon-fullsizebox"
-                                                [ngbPopover]="DomainDescTemplate"
                                                 triggers="click"
+                                                [ngbPopover]="DomainDescTemplate"
                                             >
-                                                <app-grid-icon [title]="domain.domain.name"></app-grid-icon>
+                                                <app-grid-icon [title]="domain.domain.name" />
 
                                                 <header class="sectionHeader">
                                                     <span>{{domain.domain.name}}</span>
@@ -4262,10 +4204,10 @@
                                     <input
                                         aria-label="Fused stance name input"
                                         type="text"
+                                        maxLength="30"
                                         [ngModel]="fuseStanceData.name ?? ''"
                                         (ngModelChange)="fuseStanceData.featData.setValue('name', $event)"
                                         (blur)="onFuseStanceNameChange()"
-                                        maxLength="30"
                                     >
                                 </div>
                             </div>
@@ -4281,8 +4223,7 @@
                                         <app-action-icons
                                             *ngIf="stance.activity.actions"
                                             [actionString]="stance.activity.actions"
-                                        >
-                                        </app-action-icons>
+                                        />
                                         {{(stance.activity.activationType) ?
                                         stance.activity.activationType
                                         : ""}}
@@ -4292,8 +4233,7 @@
                                         [creature]="character"
                                         [activity]=stance.activity
                                         [allowActivate]=false
-                                    >
-                                    </app-activity>
+                                    />
                                 </ng-template>
 
                                 <div
@@ -4302,30 +4242,29 @@
                                 >
                                     <input
                                         aria-label="Choose this stance"
-                                        id="{{stance.activity.name}}"
                                         type="checkbox"
                                         class="character-choice"
-                                        (change)="onFuseStanceStanceChange(fuseStanceData.featData, stance.activity.name, $event)"
+                                        id="{{stance.activity.name}}"
                                         [checked]="fuseStanceData.stances?.includes(stance.activity.name)"
                                         [disabled]="(finished || stance.reason) && !fuseStanceData.stances?.includes(stance.activity.name)"
+                                        (change)="onFuseStanceStanceChange(fuseStanceData.featData, stance.activity.name, $event)"
                                     >
                                     <div
                                         class="gridicon-fullsizebox"
-                                        [ngbPopover]="FuseStanceChoiceDetailsPopover"
                                         triggers="click"
+                                        [ngbPopover]="FuseStanceChoiceDetailsPopover"
                                     >
                                         <app-grid-icon
                                             [title]="stance.activity.name"
                                             [superTitle]="stance.restricted ? 'icon-ra ra-bird-claw' : ''"
-                                        >
-                                        </app-grid-icon>
+                                        />
 
                                         <header class="sectionHeader">
                                             <span>{{stance.activity.name}}&nbsp;</span>
 
                                             <cite
-                                                class="trait"
                                                 *ngIf="stance.restricted"
+                                                class="trait"
                                                 [ngbPopover]="'While in this stance, you can only use the stance\'s special attack. You can only add one stance of this type to the fused stance.'"
                                                 [openDelay]=100
                                             >
@@ -4333,8 +4272,8 @@
                                             </cite>
 
                                             <cite
-                                                class="problem"
                                                 *ngIf="stance.reason"
+                                                class="problem"
                                             >
                                                 {{stance.reason}}
                                             </cite>
@@ -4372,17 +4311,17 @@
                                                     <header class="spellHeader">{{heritage.name}}</header>
 
                                                     <div
-                                                        class="button newrow no-animation"
                                                         *ngIf="!disabled && !heritage.subTypes.length"
+                                                        class="button newrow no-animation"
                                                         [ngClass]="{'fancy-button':selected, 'disabled':disabled}"
                                                     >
                                                         <label>
                                                             <input
                                                                 type="checkbox"
-                                                                (change)="onAdditionalHeritageChange(heritage, $event, heritageIndex)"
+                                                                hidden
                                                                 [checked]="checked"
                                                                 [disabled]="disabled"
-                                                                hidden
+                                                                (change)="onAdditionalHeritageChange(heritage, $event, heritageIndex)"
                                                             >
                                                             {{checked ?
                                                             "Remove" : "Choose"}}
@@ -4394,13 +4333,12 @@
                                                             *ngFor="let trait of heritage.traits; trackBy: trackByIndex;"
                                                             [name]="trait"
                                                             [trait]="traitFromName(trait)"
-                                                        >
-                                                        </app-trait>
+                                                        />
                                                     </div>
 
                                                     <div
-                                                        class="newrow left-aligned"
                                                         *ngIf="heritage.sourceBook"
+                                                        class="newrow left-aligned"
                                                     >
                                                         <strong>Source</strong>
 
@@ -4412,23 +4350,21 @@
                                                             <app-description
                                                                 class="newrow"
                                                                 [text]="desc"
-                                                            >
-                                                            </app-description>
+                                                            />
                                                         </ng-container>
                                                     </div>
 
                                                     <ng-container *ngFor="let activityName of heritage.gainActivities; trackBy: trackByIndex;">
                                                         <div
-                                                            class="newrow left-aligned"
                                                             *ngIf="activityFromName(activityName) as activity"
+                                                            class="newrow left-aligned"
                                                         >
                                                             <header class="spellHeader left-aligned">
                                                                 {{activity.name}}
                                                                 <app-action-icons
                                                                     *ngIf="activity.actions"
                                                                     [actionString]="activity.actions"
-                                                                >
-                                                                </app-action-icons>
+                                                                />
                                                                 {{(activity.activationType) ? activity.activationType :
                                                                 ""}}
                                                             </header>
@@ -4437,8 +4373,7 @@
                                                                 class="newrow"
                                                                 [activity]=activity
                                                                 [allowActivate]=false
-                                                            >
-                                                            </app-activity>
+                                                            />
                                                         </div>
                                                     </ng-container>
 
@@ -4454,12 +4389,12 @@
                                                                         <div class="gridicon-fullsizebox lower">
                                                                             <input
                                                                                 aria-label="Choose this sub-heritage"
-                                                                                id="additional{{subheritage.name}}"
                                                                                 type="checkbox"
                                                                                 class="character-choice"
-                                                                                (change)="onAdditionalHeritageChange(subheritage, $event, heritageIndex)"
+                                                                                id="additional{{subheritage.name}}"
                                                                                 [checked]="subheritageChecked"
                                                                                 [disabled]="subheritageDisabled"
+                                                                                (change)="onAdditionalHeritageChange(subheritage, $event, heritageIndex)"
                                                                             >
                                                                             <label for="additional{{subheritage.name}}">
                                                                                 <strong>{{subheritage.subType}}</strong>
@@ -4479,35 +4414,34 @@
                                                     [ngClass]="{'selected':selected}"
                                                 >
                                                     <input
-                                                        aria-label="Choose this heritage"
                                                         *ngIf="!heritage.subTypes.length"
-                                                        id="{{heritage.name}}"
+                                                        aria-label="Choose this heritage"
                                                         type="checkbox"
                                                         class="character-choice"
-                                                        (change)="onAdditionalHeritageChange(heritage, $event, heritageIndex)"
+                                                        id="{{heritage.name}}"
                                                         [checked]="checked"
                                                         [disabled]="disabled"
+                                                        (change)="onAdditionalHeritageChange(heritage, $event, heritageIndex)"
                                                     >
                                                     <button
+                                                        *ngIf="heritage.subTypes.length"
                                                         type="button"
                                                         class="character-choice"
-                                                        *ngIf="heritage.subTypes.length"
                                                         (click)="HeritageChoiceDetailsPopover.toggle()"
                                                     >
                                                         +
                                                     </button>
 
                                                     <div
-                                                        class="gridicon-fullsizebox"
                                                         #HeritageChoiceDetailsPopover="ngbPopover"
-                                                        [ngbPopover]="HeritageChoiceDetailsTemplate"
+                                                        class="gridicon-fullsizebox"
                                                         triggers="click"
+                                                        [ngbPopover]="HeritageChoiceDetailsTemplate"
                                                     >
                                                         <app-grid-icon
                                                             [title]="heritage.name"
                                                             [detail]="heritage.traits.includes('Rare') ? 'Rare' : (heritage.traits.includes('Uncommon') ? 'Uncommon' : '')"
-                                                        >
-                                                        </app-grid-icon>
+                                                        />
 
                                                         <header class="sectionHeader">
                                                             <span>{{heritage.name}}&nbsp;</span>
@@ -4517,8 +4451,7 @@
                                                                     *ngIf="heritage.traits.includes(trait)"
                                                                     [name]="trait"
                                                                     [trait]="traitFromName(trait)"
-                                                                >
-                                                                </app-trait>
+                                                                />
                                                             </ng-container>
                                                         </header>
                                                     </div>
@@ -4568,47 +4501,47 @@
                                             <header class="spellHeader">{{deity.name}}</header>
 
                                             <div
-                                                class="button newrow no-animation"
                                                 *ngIf="!disabled"
+                                                class="button newrow no-animation"
                                                 [ngClass]="{'fancy-button':checked, 'disabled':disabled}"
                                             >
                                                 <label>
                                                     <input
                                                         type="checkbox"
-                                                        (change)="onSyncretismDeityChange(syncretismData.featData, deity, $event)"
+                                                        hidden
                                                         [checked]="checked"
                                                         [disabled]="disabled"
-                                                        hidden
+                                                        (change)="onSyncretismDeityChange(syncretismData.featData, deity, $event)"
                                                     >
                                                     {{checked ? "Remove" : "Choose"}}
                                                 </label>
                                             </div>
 
                                             <header
-                                                class="subsectionHeader"
                                                 *ngIf="deity.nickname"
+                                                class="subsectionHeader"
                                             >
                                                 {{deity.nickname}}
                                             </header>
 
                                             <div
-                                                class="newrow left-aligned problem"
                                                 *ngIf="!deity.alternateDomains.length"
+                                                class="newrow left-aligned problem"
                                             >
                                                 This deity has no alternate domains and will not grant a domain spell to
                                                 a cloistered cleric.
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned problem"
                                                 *ngIf="!deity.favoredWeapon.length"
+                                                class="newrow left-aligned problem"
                                             >
                                                 This deity has no favored weapon and will not grant one a warpriest.
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned"
                                                 *ngIf="deity.sourceBook"
+                                                class="newrow left-aligned"
                                             >
                                                 <strong>Source</strong>
 
@@ -4619,92 +4552,92 @@
                                                 <app-description
                                                     class="newrow"
                                                     [text]="desc"
-                                                ></app-description>
+                                                />
                                             </ng-container>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.edicts"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Edicts</strong>
                                                 {{deity.edicts.join(", ")}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.anathema"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Anathema</strong>
                                                 {{deity.anathema.join(", ")}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.areasOfConcern"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Areas of Concern</strong>
                                                 {{deity.areasOfConcern}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.followerAlignments.length"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Follower Alignments</strong>
                                                 {{deity.followerAlignments.join(", ")}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.pantheonMembers.length"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Pantheon Members</strong>
                                                 {{deity.pantheonMembers.join(", ")}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.divineAbility.length"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Divine Ability</strong>
                                                 {{deity.divineAbility.join(" or ")}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.divineFont.length"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Divine Font</strong>
                                                 {{deity.divineFont.join(" or ")}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.divineSkill.length"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Divine Skill</strong>
                                                 {{deity.divineSkill.join(" or ")}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.favoredWeapon.length"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Favored Weapon</strong>
                                                 {{deity.favoredWeapon.join(" or ")}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.domains.length"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Domains</strong>
                                                 {{deity.domains.join(", ")}}
                                             </div>
 
                                             <div
-                                                class="newrow left-aligned gap-text"
                                                 *ngIf="deity.alternateDomains.length"
+                                                class="newrow left-aligned gap-text"
                                             >
                                                 <strong>Alternate Domains</strong>
                                                 {{deity.alternateDomains.join(", ")}}
@@ -4716,8 +4649,8 @@
                                                 </div>
 
                                                 <div
-                                                    class="list-item lower left-aligned"
                                                     *ngFor="let spell of deity.clericSpells; trackBy: trackByIndex;"
+                                                    class="list-item lower left-aligned"
                                                 >
                                                     <strong>Level {{spell.level}}</strong>
                                                     {{spell.name}}
@@ -4732,44 +4665,43 @@
                                         >
                                             <input
                                                 aria-label="Choose this deity"
-                                                id="syncretism{{deity.name}}"
                                                 type="checkbox"
                                                 class="character-choice"
-                                                (change)="onSyncretismDeityChange(syncretismData.featData, deity, $event)"
+                                                id="syncretism{{deity.name}}"
                                                 [checked]="checked"
                                                 [disabled]="disabled"
+                                                (change)="onSyncretismDeityChange(syncretismData.featData, deity, $event)"
                                             >
                                             <div
                                                 class="gridicon-fullsizebox"
-                                                [ngbPopover]="DeityChoiceDetailsTemplate"
                                                 triggers="click"
+                                                [ngbPopover]="DeityChoiceDetailsTemplate"
                                             >
                                                 <app-grid-icon
                                                     [title]="deity.name"
                                                     [detail]="deity.alignment"
-                                                >
-                                                </app-grid-icon>
+                                                />
 
                                                 <header class="sectionHeader">
                                                     <span>{{deity.name}}</span>
 
                                                     <cite
-                                                        class="trait"
                                                         *ngIf="deity.alignment"
+                                                        class="trait"
                                                     >
                                                         {{deity.alignment}}
                                                     </cite>
 
                                                     <cite
-                                                        class
                                                         *ngIf="!deity.alternateDomains.length"
+                                                        class
                                                     >
                                                         No alternate domains
                                                     </cite>
 
                                                     <cite
-                                                        class
                                                         *ngIf="!deity.favoredWeapon.length"
+                                                        class
                                                     >
                                                         No favored weapon
                                                     </cite>
@@ -4794,7 +4726,7 @@
                     id="choiceArea"
                     style="font-size: 1em;"
                 >
-                    <app-licenses class="list-item"></app-licenses>
+                    <app-licenses class="list-item" />
                 </div>
             </ng-container>
 
@@ -4812,7 +4744,7 @@
                 </div>
 
                 <div id="choiceArea">
-                    <app-about class="list-item"></app-about>
+                    <app-about class="list-item" />
                 </div>
             </ng-container>
         </div>

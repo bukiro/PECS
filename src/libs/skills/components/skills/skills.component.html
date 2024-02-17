@@ -4,17 +4,17 @@
         *ngIf="shouldShowMinimizeButton"
         [ngModel]="(isMinimized$ | async) ?? false"
         (ngModelChange)="toggleMinimized($event)"
-    ></app-minimize-button>
+    />
 
     <app-tile-mode-button
         [ngModel]="(isTileMode$ | async) ?? false"
         (ngModelChange)="toggleTileMode($event)"
-    ></app-tile-mode-button>
+    />
 </div>
 
 <div
-    id="{{creature}}-skills-height"
     class="attributeBox"
+    id="{{creature}}-skills-height"
 >
     <header class="sectionHeader box-header">Perception</header>
 
@@ -28,16 +28,16 @@
                 [relatedActivityGains]="skillMatchingActivities(activityGains, skill.name)"
                 [showAction]="shownAction()"
                 (showActionMessage)="receiveShowActionMessage($event)"
-            ></app-skill>
+            />
         </ng-container>
 
         <div class="vlist">
             <header class="subsectionHeader">Senses</header>
 
             <div
+                *ngFor="let sense of senses$() | async; trackBy:trackByIndex;"
                 class="list-item lower"
                 [ngbPopover]="senseDesc(sense)"
-                *ngFor="let sense of senses$() | async; trackBy:trackByIndex;"
             >
                 {{sense}}
             </div>
@@ -51,7 +51,7 @@
             [showItems]="true"
             [showActivities]="true"
             [showConditions]="true"
-        ></app-tags>
+        />
 
         <ng-container *ngIf="creature.isFamiliar()">
             <header class="sectionHeader box-header">Attack Rolls</header>
@@ -64,7 +64,7 @@
                 [showItems]="true"
                 [showActivities]="true"
                 [showConditions]="true"
-            ></app-tags>
+            />
 
             <ng-container *ngFor="let skill of skillsOfType$('Familiar Proficiency') | async; trackBy:trackByIndex;">
                 <app-skill
@@ -72,7 +72,7 @@
                     [isMinimized]="(isMinimized$ | async) ?? false"
                     [isTileMode]="(isTileMode$ | async) ?? false"
                     [skill]=skill
-                ></app-skill>
+                />
             </ng-container>
         </ng-container>
 
@@ -81,56 +81,56 @@
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Land Speed'"
-                ></app-object-effects>
+                />
             </div>
 
             <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Burrow Speed'"
-                ></app-object-effects>
+                />
             </div>
 
             <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Climb Speed'"
-                ></app-object-effects>
+                />
             </div>
 
             <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Fly Speed'"
-                ></app-object-effects>
+                />
             </div>
 
             <div class="minimized-hide newrow">
                 <app-object-effects
                     [creature]="creature"
                     [objectName]="'Swim Speed'"
-                ></app-object-effects>
+                />
             </div>
         </ng-template>
 
         <header class="sectionHeader box-header">
             <span
-                class="minimized-hide"
-                [ngbPopover]="SpeedEffectsPopoverContent"
                 #SpeedEffectsPopover="ngbPopover"
+                class="minimized-hide"
                 triggers="click"
+                [ngbPopover]="SpeedEffectsPopoverContent"
             >
                 <i
-                    [ngbTooltip]="!SpeedEffectsPopover.isOpen() ? 'Edit effects' : ''"
                     class='bi-lightning-charge'
+                    [ngbTooltip]="!SpeedEffectsPopover.isOpen() ? 'Edit effects' : ''"
                 ></i>
             </span>
             Movement
         </header>
 
         <div
-            class="list-item"
             *ngFor="let speedParameters of (speedParameters$() | async); trackBy:trackByIndex;"
+            class="list-item"
         >
             <div class="newrow">
                 <span>
@@ -162,8 +162,7 @@
                 [showActivities]="true"
                 [showConditions]="true"
                 [specialEffects]="speedParameters.absolutes.concat(speedParameters.relatives)"
-            >
-            </app-tags>
+            />
         </div>
 
         <app-tags
@@ -175,20 +174,19 @@
             [showActivities]="true"
             [showConditions]="true"
             [showEffects]="true"
-        ></app-tags>
+        />
 
         <header class="sectionHeader box-header">Skills</header>
 
         <!-- Skill Increases -->
         <ng-container *ngFor="let choice of skillChoices$() | async; trackBy:trackByIndex;">
             <app-skill-choice
-                (showSkillChoiceMessage)="receiveShowChoiceMessage($event)"
                 [showTitle]="true"
                 [showContent]="true"
                 [choice]="choice"
                 [showChoice]="shownList()"
-            >
-            </app-skill-choice>
+                (showSkillChoiceMessage)="receiveShowChoiceMessage($event)"
+            />
         </ng-container>
 
         <app-tags
@@ -200,7 +198,7 @@
             [showActivities]="true"
             [showConditions]="true"
             [showEffects]="true"
-        ></app-tags>
+        />
 
         <app-tags
             [creature]="creature"
@@ -211,7 +209,7 @@
             [showActivities]="true"
             [showConditions]="true"
             [showEffects]="true"
-        ></app-tags>
+        />
 
         <ng-container *ngFor="let skill of skillsOfType$('Skill') | async; trackBy:trackByIndex;">
             <app-skill
@@ -222,7 +220,7 @@
                 [relatedActivityGains]="skillMatchingActivities(activityGains, skill.name)"
                 [showAction]="shownAction()"
                 (showActionMessage)="receiveShowActionMessage($event)"
-            ></app-skill>
+            />
         </ng-container>
     </ng-container>
 </div>

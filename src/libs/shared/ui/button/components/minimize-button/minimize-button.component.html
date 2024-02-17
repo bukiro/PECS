@@ -2,19 +2,19 @@
     type="button"
     aria-label="button"
     [attr.aria-label]="minimizeLabel"
-    (click)="value = !value"
     [disabled]="isDisabled"
     [ngbTooltip]="minimizeLabel"
+    (click)="value = !value"
 >
     <i
-        class='bi-arrows-angle-contract'
         *ngIf="value"
+        class='bi-arrows-angle-contract'
     ></i>
 
     <i
-        class='bi-arrows-angle-expand'
         *ngIf="!value"
+        class='bi-arrows-angle-expand'
     ></i>
 
-    <ng-content></ng-content>
+    <ng-content />
 </button>

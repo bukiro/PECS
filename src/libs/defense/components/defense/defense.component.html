@@ -4,12 +4,12 @@
         *ngIf="shouldShowMinimizeButton"
         [ngModel]="(isMinimized$ | async) ?? false"
         (ngModelChange)="toggleMinimized($event)"
-    ></app-minimize-button>
+    />
 </div>
 
 <div
-    id="{{creature}}-defense-height"
     class="attributeBox"
+    id="{{creature}}-defense-height"
 >
     <ng-container *ngIf="componentParameters$() | async as componentParameters">
         <ng-container *ngIf="(componentParameters.ACSources.value$ | async) as acValue">
@@ -18,20 +18,20 @@
                     <app-object-effects
                         [creature]="creature"
                         [objectName]="'AC'"
-                    ></app-object-effects>
+                    />
                 </div>
             </ng-template>
 
             <header class="sectionHeader box-header">
                 <span
-                    class="minimized-hide"
-                    [ngbPopover]="EffectsPopoverContent"
                     #EffectsPopover="ngbPopover"
+                    class="minimized-hide"
                     triggers="click"
+                    [ngbPopover]="EffectsPopoverContent"
                 >
                     <i
-                        [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''"
                         class='bi-lightning-charge'
+                        [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''"
                     ></i>
                 </span>
                 Defense: Armor Class
@@ -53,8 +53,7 @@
                 [showConditions]=true
                 [showEffects]=false
                 [specialEffects]="acValue.effects"
-            >
-            </app-tags>
+            />
 
             <app-tags
                 [creature]="creature"
@@ -65,7 +64,7 @@
                 [showActivities]=true
                 [showConditions]=true
                 [showEffects]=true
-            ></app-tags>
+            />
         </ng-container>
 
         <div class="list-item newrow">
@@ -102,8 +101,8 @@
             <strong>Cover</strong>
 
             <span
-                class="hlist right-aligned"
                 *ngIf="{ value: (componentParameters.cover$ | async) ?? 0 } as cover"
+                class="hlist right-aligned"
             >
                 <button
                     type="button"
@@ -144,24 +143,24 @@
             <header class="subsectionHeader minimized-hide">Armor</header>
 
             <div
-                class="minimized-hide list-item"
                 *ngFor="let armor of equippedArmor$() | async; let armorIndex = index; trackBy:trackByIndex;"
+                class="minimized-hide list-item"
             >
                 <div>{{armor.effectiveName$()}}</div>
 
                 <div
-                    class="minimized-hide newrow left-aligned"
                     *ngIf="armor.traits.length"
+                    class="minimized-hide newrow left-aligned"
                 >
                     <app-trait
                         *ngFor="let trait of armor.traits; trackBy:trackByIndex;"
                         [name]="trait"
                         [trait]="traitFromName(trait)"
-                    >
-                    </app-trait>
+                    />
                 </div>
 
                 <app-tags
+                    *ngIf="armorIndex === 0"
                     [creature]="creature"
                     [objectName]="'Armor'"
                     [showTraits]=true
@@ -170,27 +169,26 @@
                     [showActivities]=true
                     [showConditions]=true
                     [showEffects]=true
-                    *ngIf="armorIndex === 0"
-                ></app-tags>
+                />
 
                 <app-tags
                     [creature]="creature"
                     [objectName]="armor.name"
                     [showItems]=true
-                ></app-tags>
+                />
 
                 <ng-container *ngIf="hintShowingRunes(armor) as hintShowingRunes">
                     <div
-                        class="minimized-hide newrow left-aligned"
                         *ngIf="hintShowingRunes.length"
+                        class="minimized-hide newrow left-aligned"
                         style="margin-top:initial"
                     >
                         <ng-container *ngFor="let rune of hintShowingRunes; trackBy:trackByIndex;">
                             <ng-container *ngFor="let hint of rune.hints; trackBy:trackByIndex;">
                                 <ng-template #RuneDescTemplate>
                                     <div
-                                        class="newrow left-aligned"
                                         *ngIf="rune.sourceBook"
+                                        class="newrow left-aligned"
                                     >
                                         <strong>Source</strong>
 
@@ -212,13 +210,13 @@
                 </ng-container>
 
                 <div
-                    class="minimized-hide lower newrow left-aligned"
                     *ngFor="let talisman of armor.talismans; let index = index; trackBy:trackByIndex;"
+                    class="minimized-hide lower newrow left-aligned"
                 >
                     <ng-template #TalismanTemplate>
                         <div
-                            class="list-item left-aligned lower"
                             *ngFor="let cord of armor.talismanCords; trackBy:trackByIndex;"
+                            class="list-item left-aligned lower"
                         >
                             <header class="spellHeader newrow">
                                 <span>{{cord.name}}</span>
@@ -229,15 +227,15 @@
                             <p>
                                 When you activate a talisman threaded through a cord with the same magic school trait
                                     that's also the cord's level or lower, attempt a
-                                <app-quickdice [diceString]="'1d20'"></app-quickdice>
+                                <app-quickdice [diceString]="'1d20'" />
                                 DC 16 flat check. On a success, that
                                     talisman is not consumed and can be used again.
                             </p>
 
                             <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
                                 <div
-                                    class="newrow"
                                     *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]"
+                                    class="newrow"
                                 >
                                     <strong>{{cord.data[talismanCordIndex].name}}</strong>
                                     {{cord.data[talismanCordIndex].value}}
@@ -261,25 +259,23 @@
                                 <app-action-icons
                                     *ngIf="talisman.actions"
                                     [actionString]="talisman.actions"
-                                >
-                                </app-action-icons>
+                                />
                                 {{(talisman.activationType) ? talisman.activationType : ""}}
                             </span>
                         </button>
 
                         <button
+                            *ngIf="hasMatchingTalismanCord(armor, talisman)"
                             type="button"
                             class="newrow left-aligned"
                             (click)="onTalismanUse(armor, talisman, index, true)"
-                            *ngIf="hasMatchingTalismanCord(armor, talisman)"
                         >
                             <span>
                                 Activate and preserve with talisman cord
                                 <app-action-icons
                                     *ngIf="talisman.actions"
                                     [actionString]="talisman.actions"
-                                >
-                                </app-action-icons>
+                                />
                                 {{(talisman.activationType) ? talisman.activationType : ""}}
                             </span>
                         </button>
@@ -289,14 +285,13 @@
                             [item]=talisman
                             [allowActivate]=true
                             [isSubItem]=true
-                        >
-                        </app-item>
+                        />
                     </ng-template>
 
                     <button
                         type="button"
-                        [ngbPopover]="TalismanTemplate"
                         triggers="click"
+                        [ngbPopover]="TalismanTemplate"
                     >
                         <span>
                             {{talisman.name}}
@@ -307,8 +302,8 @@
                 </div>
 
                 <div
-                    class="minimized-hide lower newrow left-aligned"
                     *ngFor="let spec of armorSpecialization$(armor) | async; trackBy:trackByIndex;"
+                    class="minimized-hide lower newrow left-aligned"
                 >
                     <strong>Armor specialization effect&nbsp;</strong>
                     {{spec.desc}}
@@ -327,15 +322,14 @@
                     </div>
 
                     <div
-                        class="minimized-hide newrow left-aligned"
                         *ngIf="shield.traits.length"
+                        class="minimized-hide newrow left-aligned"
                     >
                         <app-trait
                             *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
                             [name]="trait"
                             [trait]="traitFromName(trait)"
-                        >
-                        </app-trait>
+                        />
                     </div>
 
                     <app-tags
@@ -348,23 +342,22 @@
                         [showConditions]=true
                         [showEffects]=true
                         [specialNames]="(specialShowOnNamesShield$(shield) | async) ?? []"
-                    >
-                    </app-tags>
+                    />
 
                     <div class="newrow">
                         <button
+                            *ngIf="!shield.raised"
                             type="button"
                             class="center-aligned"
-                            *ngIf="!shield.raised"
                             (click)="onRaiseShield(true, shield)"
                         >
                             Raise shield
                         </button>
 
                         <button
+                            *ngIf="shield.raised"
                             type="button"
                             class="center-aligned fancy-button"
-                            *ngIf="shield.raised"
                             (click)="onRaiseShield(false, shield)"
                         >
                             Lower
@@ -372,18 +365,18 @@
                         </button>
 
                         <button
+                            *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
                             type="button"
                             class="center-aligned"
-                            *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
                             (click)="onSetCover(4, shield)"
                         >
                             Take cover behind shield
                         </button>
 
                         <button
+                            *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
                             type="button"
                             class="center-aligned fancy-button"
-                            *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
                             (click)="onSetCover(0, shield)"
                         >
                             Leave cover behind shield
@@ -408,8 +401,8 @@
                         <ng-template #DamageSliderTemplate>
                             <div
                                 class="slider-container"
-                                [style.--name]="'\'Damage: ' + shieldDamage + '\''"
                                 style="min-width:25vw; max-width:100%;"
+                                [style.--name]="'\'Damage: ' + shieldDamage + '\''"
                             >
                                 <input
                                     aria-label="Shield damage amount slider"
@@ -434,17 +427,17 @@
 
                         <span class="hlist center-aligned">
                             <input
-                                aria-label="Shield damage amount"
-                                [ngbPopover]="DamageSliderTemplate"
                                 #DamagePopover="ngbPopover"
+                                aria-label="Shield damage amount"
                                 triggers="manual"
-                                (focus)="DamagePopover.open()"
                                 class="number3"
                                 type="number"
-                                [(ngModel)]="shieldDamage"
                                 maxLength="3"
                                 min="0"
+                                [ngbPopover]="DamageSliderTemplate"
                                 max="{{shield.effectiveMaxHP$() | async}}"
+                                [(ngModel)]="shieldDamage"
+                                (focus)="DamagePopover.open()"
                                 (keypress)="positiveNumbersOnly($event)"
                             >
                         </span>
@@ -461,28 +454,28 @@
                     </div>
 
                     <div
-                        class="minimized-hide lower newrow left-aligned"
                         *ngFor="let talisman of shield.talismans; let index = index; trackBy:trackByIndex;"
+                        class="minimized-hide lower newrow left-aligned"
                     >
                         <ng-template #TalismanTemplate>
                             <div
-                                class="list-item left-aligned lower"
                                 *ngFor="let cord of shield.talismanCords; trackBy:trackByIndex;"
+                                class="list-item left-aligned lower"
                             >
                                 <header class="spellHeader">{{cord.name}}</header>
 
                                 <p>
                                     When you activate a talisman threaded through a cord with the same magic
                                         school trait that's also the cord's level or lower, attempt a
-                                    <app-quickdice [diceString]="'1d20'"></app-quickdice>
+                                    <app-quickdice [diceString]="'1d20'" />
                                     DC 16 flat check. On a success,
                                         that talisman is not consumed and can be used again.
                                 </p>
 
                                 <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
                                     <div
-                                        class="newrow"
                                         *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]"
+                                        class="newrow"
                                     >
                                         <strong>{{cord.data[talismanCordIndex].name}}</strong>
                                         {{cord.data[talismanCordIndex].value}}
@@ -502,25 +495,23 @@
                                     <app-action-icons
                                         *ngIf="talisman.actions"
                                         [actionString]="talisman.actions"
-                                    >
-                                    </app-action-icons>
+                                    />
                                     {{(talisman.activationType) ? talisman.activationType : ""}}
                                 </span>
                             </button>
 
                             <button
+                                *ngIf="hasMatchingTalismanCord(shield, talisman)"
                                 type="button"
                                 class="newrow left-aligned"
                                 (click)="onTalismanUse(shield, talisman, index, true)"
-                                *ngIf="hasMatchingTalismanCord(shield, talisman)"
                             >
                                 <span>
                                     Activate and preserve with talisman cord
                                     <app-action-icons
                                         *ngIf="talisman.actions"
                                         [actionString]="talisman.actions"
-                                    >
-                                    </app-action-icons>
+                                    />
                                     {{(talisman.activationType) ? talisman.activationType : ""}}
                                 </span>
                             </button>
@@ -530,14 +521,13 @@
                                 [item]=talisman
                                 [allowActivate]=true
                                 [isSubItem]=true
-                            >
-                            </app-item>
+                            />
                         </ng-template>
 
                         <button
                             type="button"
-                            [ngbPopover]="TalismanTemplate"
                             triggers="click"
+                            [ngbPopover]="TalismanTemplate"
                         >
                             <span>
                                 {{talisman.name}}
@@ -561,13 +551,13 @@
                 [showConditions]=true
                 [showEffects]=true
                 [specialNames]="(specialShowOnNamesSavingThrows$() | async) ?? []"
-            ></app-tags>
+            />
 
             <ng-container *ngFor="let skill of skillsOfType$('Save') | async; trackBy:trackByIndex;">
                 <app-skill
                     [creature]="creature"
                     [skill]=skill
-                ></app-skill>
+                />
             </ng-container>
 
             <header class="sectionHeader minimized-hide box-header">Armor Proficiencies</header>
@@ -578,8 +568,7 @@
                     [creature]="creature"
                     [skill]=skill
                     [showValue]=false
-                >
-                </app-skill>
+                />
             </ng-container>
         </ng-container>
 
@@ -590,7 +579,7 @@
                 <app-skill
                     [creature]="creature"
                     [skill]=skill
-                ></app-skill>
+                />
             </ng-container>
 
             <app-tags
@@ -602,7 +591,7 @@
                 [showActivities]=true
                 [showConditions]=true
                 [showEffects]=true
-            ></app-tags>
+            />
         </ng-container>
     </ng-container>
 </div>

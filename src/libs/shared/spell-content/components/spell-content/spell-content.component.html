@@ -1,25 +1,24 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div
-    class="list-item lower newrow problem"
     *ngIf="spell.inputRequired"
+    class="list-item lower newrow problem"
 >
     <strong>Player input required:</strong>
 
     <div
-        class="newrow left-aligned"
         *ngFor="let inputRequired of spell.inputRequired.split('\n\n'); trackBy:trackByIndex;"
+        class="newrow left-aligned"
     >
         <app-description
             class="newrow"
             [text]="inputRequired"
-        >
-        </app-description>
+        />
     </div>
 </div>
 
 <div
-    class="newrow left-aligned"
     *ngIf="spell.sourceBook"
+    class="newrow left-aligned"
 >
     <span>
         <strong>Source</strong>
@@ -29,8 +28,8 @@
 </div>
 
 <div
-    class="newrow left-aligned"
     *ngIf="spell.PFSnote"
+    class="newrow left-aligned"
 >
     <span>
         <strong>PFS Note</strong>
@@ -40,8 +39,8 @@
 </div>
 
 <div
-    class="newrow left-aligned"
     *ngIf="spell.traditions && !spell.traditions.includes(spellTraditionsEnum.Focus)"
+    class="newrow left-aligned"
 >
     <span>
         <strong>Traditions</strong>
@@ -50,8 +49,8 @@
 </div>
 
 <div
-    class="newrow left-aligned"
     *ngIf="spell.castType || spell.cost"
+    class="newrow left-aligned"
 >
     <ng-container *ngIf="spell.castType">
         <strong>Cast</strong>
@@ -59,7 +58,7 @@
         <app-action-icons
             *ngIf="spell.actions"
             [actionString]="spell.actions"
-        ></app-action-icons>
+        />
 
         <span>{{spell.castType}}</span>
     </ng-container>
@@ -71,8 +70,8 @@
 </div>
 
 <div
-    class="newrow left-aligned"
     *ngIf="spell.requirements"
+    class="newrow left-aligned"
 >
     <span>
         <strong>Requirements</strong>
@@ -81,8 +80,8 @@
 </div>
 
 <div
-    class="newrow left-aligned"
     *ngIf="spell.trigger"
+    class="newrow left-aligned"
 >
     <span>
         <strong>Trigger</strong>
@@ -91,8 +90,8 @@
 </div>
 
 <div
-    class="newrow left-aligned"
     *ngIf="spell.range || spell.area || spell.targets"
+    class="newrow left-aligned"
 >
     <span *ngIf="spell.range">
         <strong>Range</strong>
@@ -111,8 +110,8 @@
 </div>
 
 <div
-    class="newrow left-aligned"
     *ngIf="spell.savingThrow || spell.duration"
+    class="newrow left-aligned"
 >
     <span *ngIf="spell.savingThrow">
         <strong>Saving Throw</strong>
@@ -126,19 +125,19 @@
 </div>
 
 <div
-    class="newrow left-aligned"
     *ngFor="let desc of heightenedText(spell.desc).split('\n\n'); trackBy:trackByIndex;"
+    class="newrow left-aligned"
 >
     <app-description
         class="newrow"
         [text]="desc"
         [casting]="casting"
-    ></app-description>
+    />
 </div>
 
 <div
-    class="newrow gap-text lower left-aligned"
     *ngIf="spell.critsuccess"
+    class="newrow gap-text lower left-aligned"
 >
     <strong>Critical Success</strong>
 
@@ -146,12 +145,12 @@
         [text]="heightenedText(spell.critsuccess)"
         [casting]="casting"
         [oneLiner]="true"
-    ></app-description>
+    />
 </div>
 
 <div
-    class="newrow gap-text lower left-aligned"
     *ngIf="spell.success"
+    class="newrow gap-text lower left-aligned"
 >
     <strong>Success</strong>
 
@@ -159,12 +158,12 @@
         [text]="heightenedText(spell.success)"
         [casting]="casting"
         [oneLiner]="true"
-    ></app-description>
+    />
 </div>
 
 <div
-    class="newrow gap-text lower left-aligned"
     *ngIf="spell.failure"
+    class="newrow gap-text lower left-aligned"
 >
     <strong>Failure</strong>
 
@@ -172,12 +171,12 @@
         [text]="heightenedText(spell.failure)"
         [casting]="casting"
         [oneLiner]="true"
-    ></app-description>
+    />
 </div>
 
 <div
-    class="newrow gap-text lower left-aligned"
     *ngIf="spell.critfailure"
+    class="newrow gap-text lower left-aligned"
 >
     <strong>Critical Failure</strong>
 
@@ -185,25 +184,25 @@
         [text]="heightenedText(spell.critfailure)"
         [casting]="casting"
         [oneLiner]="true"
-    ></app-description>
+    />
 </div>
 
 <ng-container *ngIf="spell.desc2">
     <div
-        class="newrow left-aligned"
         *ngFor="let desc of heightenedText(spell.desc2).split('\n\n'); trackBy:trackByIndex;"
+        class="newrow left-aligned"
     >
         <app-description
             class="newrow"
             [text]="desc"
             [casting]="casting"
-        ></app-description>
+        />
     </div>
 </ng-container>
 
 <div
-    class="newrow left-aligned"
     *ngFor="let heightened of spell.heightened; trackBy:trackByIndex;"
+    class="newrow left-aligned"
 >
     <span>
         <strong>Heightened {{heightened.level}}</strong>
@@ -212,8 +211,8 @@
 </div>
 
 <div
-    class="list-item left-aligned"
     *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;"
+    class="list-item left-aligned"
 >
     <div *ngIf="spellFromName(shownSpellSet.name) as shownSpell">
         <header class="spellHeader left-aligned">
@@ -221,8 +220,7 @@
             <app-action-icons
                 *ngIf="shownSpell.actions"
                 [actionString]="shownSpell.actions"
-            >
-            </app-action-icons>
+            />
             {{shownSpell.castType.toString()}}
         </header>
 
@@ -231,16 +229,14 @@
                 *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
-            >
-            </app-trait>
+            />
 
             <app-trait
                 *ngFor="let trait of shownSpell.activationTraits(); trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
                 [extraDescription]="'(This trait was derived from the action components.)'"
-            >
-            </app-trait>
+            />
         </div>
 
         <app-spell-content
@@ -248,6 +244,6 @@
             [spell]=shownSpell
             [spellLevel]="shownSpellSet.level || spellLevel || 0"
             [casting]="casting"
-        ></app-spell-content>
+        />
     </div>
 </div>

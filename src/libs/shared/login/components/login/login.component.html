@@ -4,7 +4,7 @@
         [formGroup]="passwordForm"
     >
         <div class="login-form__header text-large">
-            <app-logo></app-logo>
+            <app-logo />
             <div class="text-large">Password Required</div>
         </div>
 
@@ -20,19 +20,19 @@
             formControlName="password"
             password
             (keyDown.enter)="passwordForm.valid ? login() : null"
-        ></app-text-input>
+        />
 
         <p
-            class="login-form__message"
             *ngIf="loadingStatus.message"
+            class="login-form__message"
         >
             {{loadingStatus.message}}
         </p>
 
         <app-button
             label="Login"
-            (clicked)="login()"
             [disabled]="passwordForm.invalid"
+            (clicked)="login()"
         >
             Login
         </app-button>

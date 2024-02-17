@@ -6,9 +6,9 @@
         *ngIf="{ state: yourTurn$ | async } as yourTurn"
         class="time-control__turn-button time-control__turn-button--start"
         [ngClass]="{'disabled': (yourTurn.state === 5) || turnPassingBlocked.desc}"
-        (click)="((yourTurn.state === 5) || turnPassingBlocked.desc) ? null : startTurn()"
         [ngbTooltip]="turnPassingBlocked.desc ?? 'Start your turn'"
         [disableTooltip]="yourTurn.state === 5"
+        (click)="((yourTurn.state === 5) || turnPassingBlocked.desc) ? null : startTurn()"
     >
         <i class="bi-play-fill icon icon--turn-control"></i>
     </div>
@@ -16,12 +16,12 @@
     <app-circular-menu
         class="time-control__pass-button"
         label="Pass time"
+        circle
+        compact
         [radius]="6"
         [options]="(timePassingOptions$ | async) ?? undefined"
         [ngbTooltip]="turnPassingBlocked.desc ?? 'Pass time'"
         [disabled]="turnPassingBlocked.desc ?? undefined"
-        circle
-        compact
     >
         <i class="bi-clock icon icon--pass-time"></i>
     </app-circular-menu>
@@ -30,9 +30,9 @@
         *ngIf="{ state: yourTurn$ | async } as yourTurn"
         class="time-control__turn-button time-control__turn-button--end"
         [ngClass]="{'disabled': (yourTurn.state === 0) || turnPassingBlocked.desc}"
-        (click)="((yourTurn.state === 0) || turnPassingBlocked.desc) ? null : endTurn()"
         [ngbTooltip]="turnPassingBlocked.desc ?? 'End your turn'"
         [disableTooltip]="yourTurn.state === 0"
+        (click)="((yourTurn.state === 0) || turnPassingBlocked.desc) ? null : endTurn()"
     >
         <i class="bi-stop-fill icon icon--turn-control"></i>
 

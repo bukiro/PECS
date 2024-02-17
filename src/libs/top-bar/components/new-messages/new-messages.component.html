@@ -2,17 +2,17 @@
     <app-button
         *ngIf="messages$ | async as messages"
         class="messages-button"
+        showLabel
+        compact
         [label]="messages.length > 1 ? 'Select messages to apply' : 'No messages available'"
         [disabled]="!messages.length"
         (clicked)="showMessagesDialog(messages)"
-        showLabel
-        compact
     >
-        <ng-container [ngTemplateOutlet]="IconTemplate"></ng-container>
+        <ng-container [ngTemplateOutlet]="IconTemplate" />
 
         <div
-            class="messages-button__badge"
             *ngIf="messages.length"
+            class="messages-button__badge"
         >
             {{messages.length}}
         </div>
@@ -23,13 +23,13 @@
     <app-button
         *ngIf="{ set: hasPartyName } as partyName"
         class="messages-button"
+        showLabel
+        compact
         [label]="partyName.set ? 'Check for new messages' : 'You can only receive messages in a party.'"
         [disabled]="!partyName.set || (checkingMessages$ | async) || false"
         (clicked)="checkMessages()"
-        showLabel
-        compact
     >
-        <app-loading-spinner *ngIf="checkingMessages$ | async; else IconTemplate"></app-loading-spinner>
+        <app-loading-spinner *ngIf="checkingMessages$ | async; else IconTemplate" />
     </app-button>
 </ng-template>
 

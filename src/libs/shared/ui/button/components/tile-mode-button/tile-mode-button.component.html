@@ -2,9 +2,9 @@
     type="button"
     aria-label="button"
     [attr.aria-label]="tileModeLabel"
-    (click)="value = !value"
     [disabled]="isDisabled"
     [ngbTooltip]="tileModeLabel"
+    (click)="value = !value"
 >
     <!-- The icon is css only -->
     <div class="icon">
@@ -17,5 +17,5 @@
         <div class="icon__element"></div>
     </div>
 
-    <ng-content></ng-content>
+    <ng-content />
 </button>

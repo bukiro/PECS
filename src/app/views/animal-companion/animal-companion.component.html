@@ -3,7 +3,7 @@
     <app-minimize-button
         [ngModel]="(isMinimized$ | async) ?? false"
         (ngModelChange)="toggleMinimized($event)"
-    ></app-minimize-button>
+    />
 </div>
 
 <div
@@ -19,69 +19,68 @@
     </button>
 
     <div
-        class="animalcompanion-box"
         *ngIf="(isMenuOpen$ | async) && (animalCompanion$ | async) as animalCompanion"
+        class="animalcompanion-box"
     >
         <!-- Desktop-only view -->
         <ng-template #DesktopViewTemplate>
             <app-effects
-                [creature]="animalCompanion"
                 id="Companion-effects"
                 class="character-sheet-app character-sheet-row mobile-hide"
-            >
-            </app-effects>
+                [creature]="animalCompanion"
+            />
 
             <div class="character-sheet-column-container mobile-hide">
                 <div class="character-sheet-column">
                     <app-general
-                        [creature]="animalCompanion"
                         id="Companion-general"
                         class="character-sheet-app"
-                    ></app-general>
+                        [creature]="animalCompanion"
+                    />
 
                     <app-health
-                        [creature]="animalCompanion"
                         id="Companion-health"
                         class="character-sheet-app"
-                    ></app-health>
+                        [creature]="animalCompanion"
+                    />
 
                     <app-skills
-                        [creature]="animalCompanion"
                         id="Companion-skills"
                         class="character-sheet-app"
-                    ></app-skills>
+                        [creature]="animalCompanion"
+                    />
 
                     <app-activities
-                        [creature]="animalCompanion"
                         id="Companion-activities"
                         class="character-sheet-app"
-                    ></app-activities>
+                        [creature]="animalCompanion"
+                    />
                 </div>
 
                 <div class="character-sheet-column">
                     <app-abilities
-                        [creature]="animalCompanion"
                         id="Companion-abilities"
                         class="character-sheet-app"
-                    ></app-abilities>
+                        [creature]="animalCompanion"
+                    />
 
                     <app-defense
-                        [creature]="animalCompanion"
                         id="Companion-defense"
                         class="character-sheet-app"
-                    ></app-defense>
+                        [creature]="animalCompanion"
+                    />
 
                     <app-attacks
-                        [creature]="animalCompanion"
                         id="Companion-attacks"
                         class="character-sheet-app"
-                    ></app-attacks>
+                        [creature]="animalCompanion"
+                    />
 
                     <app-inventory
-                        [creature]="animalCompanion"
                         id="Companion-inventory"
                         class="character-sheet-app"
-                    ></app-inventory>
+                        [creature]="animalCompanion"
+                    />
                 </div>
             </div>
         </ng-template>
@@ -144,9 +143,9 @@
                     (click)="toggleShowMode('Actions')"
                 >
                     <app-action-icons
-                        [actionString]="'1A'"
                         style="margin:.12rem -.16rem -.14rem -.16rem"
-                    ></app-action-icons>
+                        [actionString]="'1A'"
+                    />
                 </button>
 
                 <button
@@ -171,78 +170,69 @@
             <div class="character-sheet-column-container desktop-hide">
                 <div class="character-sheet-column">
                     <app-general
+                        *ngIf="!showMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(showMode())"
                         if="general"
                         class="character-sheet-app"
                         [creature]="animalCompanion"
-                        *ngIf="!showMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(showMode())"
-                    >
-                    </app-general>
+                    />
 
                     <app-abilities
+                        *ngIf="!showMode()"
                         if="abilities"
                         class="character-sheet-app"
                         [creature]="animalCompanion"
-                        *ngIf="!showMode()"
-                    >
-                    </app-abilities>
+                    />
 
                     <app-health
+                        *ngIf="showMode()==='Health'"
                         if="health"
                         class="character-sheet-app"
                         [creature]="animalCompanion"
                         [forceMinimized]="showMode() === 'Downtime'"
-                        *ngIf="showMode()==='Health'"
-                    >
-                    </app-health>
+                    />
 
                     <app-defense
+                        *ngIf="showMode()==='Defense'"
                         if="defense"
                         class="character-sheet-app"
                         [creature]="animalCompanion"
-                        *ngIf="showMode()==='Defense'"
-                    >
-                    </app-defense>
+                    />
 
                     <app-attacks
+                        *ngIf="showMode()==='Attacks'"
                         if="attacks"
                         class="character-sheet-app"
                         [creature]="animalCompanion"
-                        *ngIf="showMode()==='Attacks'"
-                    >
-                    </app-attacks>
+                    />
 
                     <app-skills
+                        *ngIf="showMode()==='Skills'"
                         if="skills"
                         class="character-sheet-app"
                         [creature]="animalCompanion"
-                        *ngIf="showMode()==='Skills'"
-                    >
-                    </app-skills>
+                    />
 
                     <app-activities
+                        *ngIf="showMode()==='Actions'"
                         if="activities"
                         class="character-sheet-app"
                         [creature]="animalCompanion"
-                        *ngIf="showMode()==='Actions'"
-                    >
-                    </app-activities>
+                    />
 
                     <app-inventory
+                        *ngIf="showMode()==='Inventory'"
                         if="inventory"
                         class="character-sheet-app"
                         [creature]="animalCompanion"
-                        *ngIf="showMode()==='Inventory'"
-                    >
-                    </app-inventory>
+                    />
 
                     <app-effects
+                        *ngIf="showMode()==='ConditionsEffects'"
                         if="effects"
                         class="character-sheet-app"
                         [creature]="animalCompanion"
                         [fullDisplay]="true"
-                        *ngIf="showMode()==='ConditionsEffects'"
-                    >
-                    </app-effects>
+                    />
                 </div>
             </div>
         </ng-container>

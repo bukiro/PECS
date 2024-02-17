@@ -16,15 +16,15 @@
             <ng-container *ngFor="let block of ogl15; trackBy:trackByIndex;">
                 <div class="newrow left-aligned">
                     <header
-                        class="spellHeader"
                         *ngIf="block.header"
+                        class="spellHeader"
                     >
                         {{block.header}}
                     </header>
 
                     <div
-                        class="newrow left-aligned"
                         *ngFor="let line of block.lines; trackBy:trackByIndex;"
+                        class="newrow left-aligned"
                     >
                         <span>
                             <strong>{{line.title}}</strong>

@@ -4,12 +4,12 @@
         *ngIf="shouldShowMinimizeButton$ | async"
         [ngModel]="(isMinimized$ | async) ?? false"
         (ngModelChange)="toggleMinimized($event)"
-    ></app-minimize-button>
+    />
 </div>
 
 <div
-    id="{{creature}}-general-height"
     class="attributeBox"
+    id="{{creature}}-general-height"
 >
     <header class="sectionHeader box-header">General Information</header>
 
@@ -21,16 +21,16 @@
             </span>
 
             <span
-                class="hlist"
                 *ngIf="{ amount: (creature.heroPoints$ | async) ?? 0 } as heroPoints"
+                class="hlist"
             >
                 <strong>Hero Points</strong>
                 {{heroPoints.amount}}
                 <button
                     type="button"
                     aria-label="Increase hero points"
-                    (click)="incHeroPoints(-1)"
                     [disabled]="heroPoints.amount <= 0"
+                    (click)="incHeroPoints(-1)"
                 >
                     -
                 </button>
@@ -38,8 +38,8 @@
                 <button
                     type="button"
                     aria-label="Decrease hero points"
-                    (click)="incHeroPoints(1)"
                     [disabled]="heroPoints.amount >= 3"
+                    (click)="incHeroPoints(1)"
                 >
                     +
                 </button>
@@ -53,8 +53,8 @@
         </div>
 
         <div
-            class="minimized-hide list-item"
             *ngIf="creature.class.ancestry.name"
+            class="minimized-hide list-item"
         >
             <strong>Ancestry</strong>
 
@@ -64,15 +64,14 @@
             </span>
 
             <div
-                class="newrow left-aligned"
                 *ngIf="creature.class.ancestry.traits.length"
+                class="newrow left-aligned"
             >
                 <app-trait
                     *ngFor="let trait of characterTraits$ | async; trackBy:trackByIndex;"
                     [name]="trait.name"
                     [trait]="trait"
-                >
-                </app-trait>
+                />
             </div>
 
             <app-tags
@@ -84,12 +83,12 @@
                 [showActivities]=true
                 [showConditions]=true
                 [showEffects]=true
-            ></app-tags>
+            />
         </div>
 
         <div
-            class="minimized-hide list-item"
             *ngIf="creature.class.background?.name as background"
+            class="minimized-hide list-item"
         >
             <strong>Background</strong>
 
@@ -97,12 +96,12 @@
         </div>
 
         <div
-            class="minimized-hide list-item"
             *ngIf="creature.class.name"
+            class="minimized-hide list-item"
         >
             <div
-                class="newrow"
                 *ngFor="let classChoice of classChoices$ | async; trackBy:trackByIndex;"
+                class="newrow"
             >
                 <strong [ngStyle]="{'margin-left': classChoice.subChoice ? '1em' : ''}">{{classChoice.name}}</strong>
 
@@ -111,8 +110,8 @@
         </div>
 
         <div
-            class="minimized-hide list-item"
             *ngIf="creatureSize$ | async as creatureSize"
+            class="minimized-hide list-item"
         >
             <strong>Size</strong>
 
@@ -127,12 +126,12 @@
                 [showActivities]=true
                 [showConditions]=true
                 [showEffects]=true
-            ></app-tags>
+            />
         </div>
 
         <div
-            class="minimized-hide list-item"
             *ngIf="creature.alignment$ | async as alignment"
+            class="minimized-hide list-item"
         >
             <strong>Alignment</strong>
 
@@ -147,12 +146,12 @@
                 [showActivities]=true
                 [showConditions]=true
                 [showEffects]=true
-            ></app-tags>
+            />
         </div>
 
         <div
-            class="minimized-hide list-item"
             *ngIf="creature.class.deity"
+            class="minimized-hide list-item"
         >
             <strong>Deity</strong>
 
@@ -161,8 +160,8 @@
 
         <ng-container *ngIf="((domains$ | async) ?? []) as domains">
             <div
-                class="minimized-hide list-item"
                 *ngIf="domains.length"
+                class="minimized-hide list-item"
             >
                 <strong>Deity's Domains</strong>
 
@@ -171,8 +170,8 @@
                         <li *ngFor="let domain of domains; trackBy:trackByIndex;">
                             <ng-template #DomainDescTemplate>
                                 <div
-                                    class="newrow left-aligned"
                                     *ngIf="domain.sourceBook"
+                                    class="newrow left-aligned"
                                 >
                                     <strong>Source</strong>
 
@@ -193,8 +192,8 @@
         </ng-container>
 
         <div
-            class="list-item"
             *ngIf="creature.class.ancestry.languages?.length"
+            class="list-item"
         >
             <strong>Languages</strong>
 
@@ -208,13 +207,13 @@
                 [showItems]=true
                 [showActivities]=true
                 [showConditions]=true
-            ></app-tags>
+            />
         </div>
 
         <ng-container *ngIf="tenets$ | async as tenets">
             <div
-                class="minimized-hide list-item"
                 *ngIf="tenets.length"
+                class="minimized-hide list-item"
             >
                 <strong>Tenets</strong>
 
@@ -228,8 +227,8 @@
 
         <ng-container *ngIf="edicts$ | async as edicts">
             <div
-                class="minimized-hide list-item"
                 *ngIf="edicts.length"
+                class="minimized-hide list-item"
             >
                 <strong>Edicts</strong>
 
@@ -243,8 +242,8 @@
 
         <ng-container *ngIf="anathemas$ | async as anathemas">
             <div
-                class="minimized-hide list-item"
                 *ngIf="anathemas.length"
+                class="minimized-hide list-item"
             >
                 <strong>Anathema</strong>
 
@@ -264,11 +263,11 @@
             [showItems]=true
             [showActivities]=true
             [showConditions]=true
-        ></app-tags>
+        />
 
         <div
-            class="minimized-hide list-item"
             *ngFor="let differentWorldsData of differentWorldsData$ | async; trackBy:trackByIndex;"
+            class="minimized-hide list-item"
         >
             <strong>Alternative Identity (Different Worlds)</strong>
 
@@ -282,15 +281,14 @@
     <ng-container *ngIf="creature.isAnimalCompanion()">
         <ng-container *ngIf="companionTraits$ | async as companionTraits">
             <div
-                class="newrow left-aligned tags"
                 *ngIf="companionTraits.length"
+                class="newrow left-aligned tags"
             >
                 <app-trait
                     *ngFor="let trait of companionTraits; trackBy:trackByIndex;"
                     [name]="trait.name"
                     [trait]="trait"
-                >
-                </app-trait>
+                />
             </div>
         </ng-container>
 
@@ -304,8 +302,7 @@
                 [showActivities]=true
                 [showConditions]=true
                 [showEffects]=true
-            >
-            </app-tags>
+            />
         </ng-container>
 
         <div class="minimized-hide list-item">
@@ -315,8 +312,8 @@
         </div>
 
         <div
-            class="minimized-hide list-item"
             *ngIf="companionSpecies$ | async as companionSpecies"
+            class="minimized-hide list-item"
         >
             <strong>Animal</strong>
 
@@ -325,8 +322,8 @@
 
         <ng-container *ngIf="companionSpecializations$ | async as specializations">
             <div
-                class="minimized-hide list-item"
                 *ngIf="specializations.length"
+                class="minimized-hide list-item"
             >
                 <strong>Specializations</strong>
 
@@ -335,8 +332,8 @@
         </ng-container>
 
         <div
-            class="minimized-hide list-item"
             *ngIf="creatureSize$ | async as creatureSize"
+            class="minimized-hide list-item"
         >
             <strong>Size</strong>
 
@@ -351,12 +348,12 @@
                 [showActivities]=true
                 [showConditions]=true
                 [showEffects]=true
-            ></app-tags>
+            />
         </div>
 
         <div
-            class="list-item"
             *ngIf="creature.class.ancestry.name"
+            class="list-item"
         >
             <strong>Support Benefit</strong>
 
@@ -369,15 +366,14 @@
     <ng-container *ngIf="creature.isFamiliar()">
         <ng-container *ngIf="familiarTraits$ | async as companionTraits">
             <div
-                class="newrow left-aligned tags"
                 *ngIf="companionTraits.length"
+                class="newrow left-aligned tags"
             >
                 <app-trait
                     *ngFor="let trait of companionTraits; trackBy:trackByIndex;"
                     [name]="trait.name"
                     [trait]="trait"
-                >
-                </app-trait>
+                />
             </div>
         </ng-container>
 
@@ -391,8 +387,7 @@
             [showActivities]=true
             [showConditions]=true
             [showEffects]=true
-        >
-        </app-tags>
+        />
 
         <div class="minimized-hide list-item">
             <strong>Familiar Name</strong>
@@ -407,8 +402,8 @@
         </div>
 
         <div
-            class="minimized-hide list-item"
             *ngIf="creatureSize$ | async as creatureSize"
+            class="minimized-hide list-item"
         >
             <strong>Size</strong>
 
@@ -423,19 +418,19 @@
                 [showActivities]=true
                 [showConditions]=true
                 [showEffects]=true
-            ></app-tags>
+            />
         </div>
 
         <ng-container *ngIf="familiarAbilities$ | async as familiarAbilities">
             <div
-                class="vlist"
                 *ngIf="familiarAbilities.length"
+                class="vlist"
             >
                 <header class="subsectionHeader">Familiar Abilities</header>
 
                 <div
-                    class="list-item"
                     *ngFor="let ability of familiarAbilities; trackBy:trackByIndex;"
+                    class="list-item"
                 >
                     <strong>{{ability.ability.name}}</strong>
 
@@ -444,8 +439,7 @@
                             *ngFor="let trait of ability.traits; trackBy:trackByIndex;"
                             [name]="trait.name"
                             [trait]="trait"
-                        >
-                        </app-trait>
+                        />
                     </div>
 
                     <div class="newrow left-aligned">

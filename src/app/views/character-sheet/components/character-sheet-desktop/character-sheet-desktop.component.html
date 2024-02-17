@@ -50,44 +50,44 @@
 </div>
 
 <ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
-    <app-effects></app-effects>
+    <app-effects />
 
     <div class="character-sheet-columns">
         <div
-            class="character-sheet-columns__column"
             *ngFor="let column of [0, 1]; trackBy: trackByIndex;"
+            class="character-sheet-columns__column"
         >
 
-            <app-general *ngIf="showInColumn[column][shownMode]?.includes('general_upper')"></app-general>
+            <app-general *ngIf="showInColumn[column][shownMode]?.includes('general_upper')" />
 
-            <app-defense *ngIf="showInColumn[column][shownMode]?.includes('defense')"></app-defense>
+            <app-defense *ngIf="showInColumn[column][shownMode]?.includes('defense')" />
 
             <ng-container *ngFor="let order of [0, 1]; trackBy:trackByIndex;">
-                <app-attacks *ngIf="showInColumn[column][shownMode]?.includes('attacks') && attacksAndSpellsOrder['attacks'] === order"></app-attacks>
+                <app-attacks *ngIf="showInColumn[column][shownMode]?.includes('attacks') && attacksAndSpellsOrder['attacks'] === order" />
 
-                <app-spellbook *ngIf="showInColumn[column][shownMode]?.includes('spellbook_upper') && attacksAndSpellsOrder['spells'] === order"></app-spellbook>
+                <app-spellbook *ngIf="showInColumn[column][shownMode]?.includes('spellbook_upper') && attacksAndSpellsOrder['spells'] === order" />
             </ng-container>
 
             <app-health
-                [forceMinimized]="shownMode === 'Downtime'"
                 *ngIf="showInColumn[column][shownMode]?.includes('health')"
-            ></app-health>
+                [forceMinimized]="shownMode === 'Downtime'"
+            />
 
-            <app-general *ngIf="showInColumn[column][shownMode]?.includes('general_lower')"></app-general>
+            <app-general *ngIf="showInColumn[column][shownMode]?.includes('general_lower')" />
 
-            <app-abilities *ngIf="showInColumn[column][shownMode]?.includes('abilities')"></app-abilities>
+            <app-abilities *ngIf="showInColumn[column][shownMode]?.includes('abilities')" />
 
-            <app-skills *ngIf="showInColumn[column][shownMode]?.includes('skills')"></app-skills>
+            <app-skills *ngIf="showInColumn[column][shownMode]?.includes('skills')" />
 
-            <app-activities *ngIf="showInColumn[column][shownMode]?.includes('activities')"></app-activities>
+            <app-activities *ngIf="showInColumn[column][shownMode]?.includes('activities')" />
 
-            <app-spellbook *ngIf="showInColumn[column][shownMode]?.includes('spellbook_lower')"></app-spellbook>
+            <app-spellbook *ngIf="showInColumn[column][shownMode]?.includes('spellbook_lower')" />
 
-            <app-inventory *ngIf="showInColumn[column][shownMode]?.includes('inventory')"></app-inventory>
+            <app-inventory *ngIf="showInColumn[column][shownMode]?.includes('inventory')" />
         </div>
     </div>
 </ng-container>
 
 <ng-template #ConditionsAndEffectsTemplate>
-    <app-effects [fullDisplay]="true"></app-effects>
+    <app-effects [fullDisplay]="true" />
 </ng-template>

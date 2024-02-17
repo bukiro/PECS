@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngIf="iconValue$() | async as iconValueResult">
-    <ng-container *ngIf="iconValueResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate"></ng-container>
+    <ng-container *ngIf="iconValueResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate" />
 
     <ng-template #InnerHtmlDivTemplate>
         <span
@@ -21,7 +21,7 @@
 </ng-container>
 
 <ng-container *ngIf="iconDetail() as iconDetailResult">
-    <ng-container *ngIf="iconDetailResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate"></ng-container>
+    <ng-container *ngIf="iconDetailResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate" />
 
     <ng-template #InnerHtmlDivTemplate>
         <span
@@ -37,10 +37,10 @@
 
 <ng-container *ngIf="iconSuperTitle$() | async as iconSuperTitleResult">
     <span
-        class="iconSuperTitle disable-text-selection"
         *ngIf="iconSuperTitleResult"
+        class="iconSuperTitle disable-text-selection"
     >
-        <ng-container *ngIf="iconSuperTitleResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate"></ng-container>
+        <ng-container *ngIf="iconSuperTitleResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate" />
 
         <ng-template #InnerHtmlDivTemplate>
             <div [innerHtml]="iconSuperTitleResult"></div>
@@ -54,10 +54,10 @@
 
 <ng-container *ngIf="iconTitle() as iconTitleResult">
     <span
-        class="iconTitle disable-text-selection"
         *ngIf="iconTitleResult"
+        class="iconTitle disable-text-selection"
     >
-        <ng-container *ngIf="iconTitleResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate"></ng-container>
+        <ng-container *ngIf="iconTitleResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate" />
 
         <ng-template #InnerHtmlDivTemplate>
             <div [innerHtml]="iconTitleResult"></div>
@@ -70,20 +70,20 @@
 </ng-container>
 
 <ng-container *ngIf="iconSubTitle() as iconSubTitleResult">
-    <ng-container *ngIf="iconSubTitleResult.includes('<') || iconSubTitleResult.includes('|'); then InnerHtmlDivTemplate; else TextDivTemplate"></ng-container>
+    <ng-container *ngIf="iconSubTitleResult.includes('<') || iconSubTitleResult.includes('|'); then InnerHtmlDivTemplate; else TextDivTemplate" />
 
     <ng-template #InnerHtmlDivTemplate>
         <span
-            class="iconSubTitle disable-text-selection"
             *ngIf="!iconSubTitleResult.includes('actionIcons|')"
+            class="iconSubTitle disable-text-selection"
             [innerHtml]="iconSubTitleResult"
         ></span>
 
         <span
-            class="iconSubTitle disable-text-selection"
             *ngIf="iconSubTitleResult.includes('actionIcons|')"
+            class="iconSubTitle disable-text-selection"
         >
-            <app-action-icons [actionString]="iconSubTitleResult.split('|')[1]"></app-action-icons>
+            <app-action-icons [actionString]="iconSubTitleResult.split('|')[1]" />
 
             <span
                 *ngIf="iconSubTitleResult.split('|').length > 1"

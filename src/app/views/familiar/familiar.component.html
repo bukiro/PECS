@@ -3,13 +3,13 @@
     <app-minimize-button
         [ngModel]="(isMinimized$ | async) ?? false"
         (ngModelChange)="toggleMinimized($event)"
-    ></app-minimize-button>
+    />
 </div>
 
 <div
+    *ngIf="isMenuOpen$ | async"
     id="familiar-height"
     class="itembox vlist"
-    *ngIf="isMenuOpen$ | async"
 >
     <button
         type="button"
@@ -20,59 +20,55 @@
     </button>
 
     <div
-        class="familiar-box"
         *ngIf="familiar$ | async as familiar"
+        class="familiar-box"
     >
         <!-- Desktop-only view -->
         <ng-template #DesktopViewTemplate>
             <app-effects
-                [creature]="familiar"
                 id="Familiar-effects"
                 class="character-sheet-app character-sheet-row mobile-hide"
-            >
-            </app-effects>
+                [creature]="familiar"
+            />
 
             <div class="character-sheet-column-container mobile-hide">
                 <div class="character-sheet-column">
                     <app-general
-                        [creature]="familiar"
                         id="Familiar-general"
                         class="character-sheet-app"
-                    ></app-general>
+                        [creature]="familiar"
+                    />
 
                     <app-familiar-abilities
                         id="familiarabilities"
                         class="character-sheet-app"
-                    >
-                    </app-familiar-abilities>
+                    />
 
                     <app-health
-                        [creature]="familiar"
                         id="Familiar-health"
                         class="character-sheet-app"
-                    >
-                    </app-health>
+                        [creature]="familiar"
+                    />
 
                     <app-skills
-                        [creature]="familiar"
                         id="Familiar-skills"
                         class="character-sheet-app"
-                    >
-                    </app-skills>
+                        [creature]="familiar"
+                    />
                 </div>
 
                 <div class="character-sheet-column">
                     <app-defense
-                        [creature]="familiar"
                         id="Familiar-defense"
                         class="character-sheet-app"
-                    ></app-defense>
+                        [creature]="familiar"
+                    />
 
                     <app-inventory
-                        [creature]="familiar"
                         id="Familiar-inventory"
                         class="character-sheet-app"
-                    ></app-inventory>
+                        [creature]="familiar"
+                    />
                 </div>
             </div>
         </ng-template>
@@ -126,10 +122,9 @@
                     (click)="toggleShownMode('Actions')"
                 >
                     <app-action-icons
-                        [actionString]="'1A'"
                         style="margin:.12rem -.16rem -.14rem -.16rem"
-                    >
-                    </app-action-icons>
+                        [actionString]="'1A'"
+                    />
                 </button>
 
                 <button
@@ -145,61 +140,54 @@
             <div class="character-sheet-column-container desktop-hide">
                 <div class="character-sheet-column">
                     <app-general
+                        *ngIf="!shownMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(shownMode())"
                         id="Character-general"
                         class="character-sheet-app"
                         [creature]="familiar"
-                        *ngIf="!shownMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(shownMode())"
-                    >
-                    </app-general>
+                    />
 
                     <app-familiar-abilities
+                        *ngIf="!shownMode()"
                         id="familiarabilities"
                         class="character-sheet-app"
-                        *ngIf="!shownMode()"
-                    >
-                    </app-familiar-abilities>
+                    />
 
                     <app-health
+                        *ngIf="shownMode()==='Health'"
                         id="Character-health"
                         class="character-sheet-app"
                         [creature]="familiar"
                         [forceMinimized]="shownMode() === 'Downtime'"
-                        *ngIf="shownMode()==='Health'"
-                    >
-                    </app-health>
+                    />
 
                     <app-defense
+                        *ngIf="shownMode()==='Defense'"
                         id="Character-defense"
                         class="character-sheet-app"
                         [creature]="familiar"
-                        *ngIf="shownMode()==='Defense'"
-                    >
-                    </app-defense>
+                    />
 
                     <app-skills
+                        *ngIf="shownMode()==='Skills'"
                         id="Character-skills"
                         class="character-sheet-app"
                         [creature]="familiar"
-                        *ngIf="shownMode()==='Skills'"
-                    >
-                    </app-skills>
+                    />
 
                     <app-activities
+                        *ngIf="shownMode()==='Actions'"
                         id="Character-activities"
                         class="character-sheet-app"
                         [creature]="familiar"
-                        *ngIf="shownMode()==='Actions'"
-                    >
-                    </app-activities>
+                    />
 
                     <app-effects
+                        *ngIf="shownMode()==='ConditionsEffects'"
                         id="Character-effects"
                         class="character-sheet-app"
                         [creature]="familiar"
                         [fullDisplay]="true"
-                        *ngIf="shownMode()==='ConditionsEffects'"
-                    >
-                    </app-effects>
+                    />
                 </div>
             </div>
         </ng-container>

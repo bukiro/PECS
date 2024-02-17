@@ -5,14 +5,13 @@
             *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
-        >
-        </app-trait>
+        />
     </div>
 
     <div class="newrow left-aligned">
         <div
-            class="newrow left-aligned"
             *ngIf="feat.sourceBook"
+            class="newrow left-aligned"
         >
             <strong>Source</strong>
 
@@ -20,8 +19,8 @@
         </div>
 
         <div
-            class="newrow left-aligned"
             *ngIf="feat.access"
+            class="newrow left-aligned"
         >
             <strong>Access</strong>
             {{feat.access}}
@@ -32,9 +31,9 @@
                 <strong>Requirements&nbsp;</strong>
 
                 <span
+                    *ngFor="let req of reqs; trackBy:trackByIndex;"
                     [ngClass]="{'problem':(!(req.ignored || req.skipped) && !req.met), 'disabled':(req.ignored || req.skipped)}"
                     [ngbPopover]="req.ignored ? 'This requirement is ignored.' : req.skipped ? 'This requirement was not evaluated.' : ''"
-                    *ngFor="let req of reqs; trackBy:trackByIndex;"
                 >
                     {{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored ? ")" : ''}}
                 </span>
@@ -45,7 +44,7 @@
             <app-description
                 class="newrow"
                 [text]="desc"
-            ></app-description>
+            />
         </ng-container>
 
         <p *ngIf="feat.specialdesc">
@@ -67,15 +66,15 @@
 
     <ng-container *ngFor="let name of feat.gainActivities; trackBy:trackByIndex;">
         <div
-            class="newrow left-aligned"
             *ngIf="activityFromName(name) as activity"
+            class="newrow left-aligned"
         >
             <header class="spellHeader left-aligned">
                 {{activity.name}}
                 <app-action-icons
                     *ngIf="activity.actions"
                     [actionString]="activity.actions"
-                ></app-action-icons>
+                />
                 {{(activity.activationType) ? activity.activationType : ""}}
             </header>
 
@@ -84,8 +83,7 @@
                     *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
                     [name]="trait"
                     [trait]="traitFromName(trait)"
-                >
-                </app-trait>
+                />
             </div>
 
             <app-activity-content
@@ -93,8 +91,7 @@
                 [activity]=activity
                 [allowActivate]=false
                 [cooldown]=activity.cooldown
-            >
-            </app-activity-content>
+            />
         </div>
     </ng-container>
 
@@ -106,7 +103,7 @@
                     <app-action-icons
                         *ngIf="spell.actions"
                         [actionString]="spell.actions"
-                    ></app-action-icons>
+                    />
                     {{(spell.castType) ? spell.castType : ""}}
                 </header>
 
@@ -115,16 +112,14 @@
                         *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
                         [name]="trait"
                         [trait]="traitFromName(trait)"
-                    >
-                    </app-trait>
+                    />
                 </div>
 
                 <app-spell-content
                     class="vlist fullwidth"
                     [spell]="spell"
                     [spellLevel]="spellLevelFromSpell(spell, spellChoice)"
-                >
-                </app-spell-content>
+                />
             </ng-container>
         </ng-container>
     </ng-container>
@@ -136,7 +131,7 @@
                 <app-action-icons
                     *ngIf="spell.actions"
                     [actionString]="spell.actions"
-                ></app-action-icons>
+                />
                 {{(spell.castType) ? spell.castType : ""}}
             </header>
 
@@ -145,16 +140,14 @@
                     *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
                     [name]="trait"
                     [trait]="traitFromName(trait)"
-                >
-                </app-trait>
+                />
             </div>
 
             <app-spell-content
                 class="vlist fullwidth"
                 [spell]="spell"
                 [spellLevel]="spellLevelFromSpell(spell)"
-            >
-            </app-spell-content>
+            />
         </ng-container>
     </ng-container>
 </ng-container>

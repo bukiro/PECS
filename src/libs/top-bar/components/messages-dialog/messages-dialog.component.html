@@ -2,7 +2,7 @@
     #Header
     [title]="title"
     [close]="close"
-></app-dialog-header>
+/>
 
 <div class="content">
 
@@ -15,7 +15,7 @@
             id="messagesSelectAll"
             [ngModel]="areAllMessagesSelected()"
             (ngModelChange)="onSelectAllMessages($event)"
-        ></app-checkbox-input>
+        />
 
         <label for="messagesSelectAll">
             <strong>Select all</strong>
@@ -29,43 +29,43 @@
                 <app-checkbox-input
                     id="message{{enriched.message.id}}"
                     [(ngModel)]="enriched.message.selected"
-                ></app-checkbox-input>
+                />
 
                 <label for="message{{enriched.message.id}}">
                     <div class="newrow left-aligned">
                         <i
-                            class="ra ra-sword"
                             *ngIf="enriched.message.offeredItem.length"
+                            class="ra ra-sword"
                         ></i>
 
                         <i
-                            class="ra ra-splash"
                             *ngIf="enriched.message.gainCondition.length"
+                            class="ra ra-splash"
                         ></i>
 
                         <i
-                            class="bi-play-circle"
                             *ngIf="enriched.message.gainCondition.length && enriched.message.activateCondition"
+                            class="bi-play-circle"
                         ></i>
 
                         <i
-                            class="bi-stop-circle"
                             *ngIf="enriched.message.gainCondition.length && !enriched.message.activateCondition"
+                            class="bi-stop-circle"
                         ></i>
 
                         <i
-                            class="ra ra-player"
                             *ngIf="enriched.messageTargetCreature.type==='Character'"
+                            class="ra ra-player"
                         ></i>
 
                         <i
-                            class="ra ra-wolf-howl"
                             *ngIf="enriched.messageTargetCreature.type==='Companion'"
+                            class="ra ra-wolf-howl"
                         ></i>
 
                         <i
-                            class="ra ra-raven"
                             *ngIf="enriched.messageTargetCreature.type==='Familiar'"
+                            class="ra ra-raven"
                         ></i>
 
                         <ng-container *ngIf="enriched.message.gainCondition.length">
@@ -107,10 +107,10 @@
     <div class="content__options">
         <app-label-input-pair
             label="Keep checking automatically"
-            [sublines]="['Can be turned off in settings']"
             type="switch"
+            [sublines]="['Can be turned off in settings']"
             [(ngModel)]="character.settings.checkMessagesAutomatically"
-        ></app-label-input-pair>
+        />
     </div>
 </div>
 
@@ -120,5 +120,4 @@
     [buttons]="buttons"
     [close]="close"
     [hideCancel]="hideCancel"
->
-</app-dialog-footer>
+/>

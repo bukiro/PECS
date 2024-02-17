@@ -12,8 +12,7 @@
                     [objectName]="traitSet.setName"
                     [sourceBook]="trait.trait.sourceBook"
                     [description]="trait.trait.name +' ('+ trait.itemNamesList + ')'"
-                >
-                </app-hint>
+                />
             </ng-container>
         </ng-container>
 
@@ -25,8 +24,7 @@
                     [object]="feat"
                     [objectName]="featSet.setName"
                     [description]="feat.displayName || feat.name"
-                >
-                </app-hint>
+                />
             </ng-container>
         </ng-container>
 
@@ -38,8 +36,7 @@
                     [object]="element"
                     [objectName]="elementSet.setName"
                     [description]="element.name"
-                >
-                </app-hint>
+                />
             </ng-container>
         </ng-container>
 
@@ -51,8 +48,7 @@
                     [object]="feat"
                     [objectName]="elementSet.setName"
                     [description]="feat.displayName || feat.name"
-                >
-                </app-hint>
+                />
             </ng-container>
         </ng-container>
 
@@ -64,8 +60,7 @@
                     [object]="item"
                     [objectName]="itemSet.setName"
                     [description]="item.name"
-                >
-                </app-hint>
+                />
             </ng-container>
         </ng-container>
 
@@ -77,8 +72,7 @@
                     [object]="spec"
                     [objectName]="specializationSet.setName"
                     [description]="spec.name"
-                >
-                </app-hint>
+                />
             </ng-container>
         </ng-container>
 
@@ -90,7 +84,7 @@
                     [object]="activity"
                     [objectName]="activitySet.setName"
                     [description]="activity.name"
-                ></app-hint>
+                />
             </ng-container>
         </ng-container>
 
@@ -102,8 +96,7 @@
                     [object]="conditionSet"
                     [objectName]="conditionSets.setName"
                     [description]="conditionSet.condition.name"
-                >
-                </app-hint>
+                />
             </ng-container>
         </ng-container>
 
@@ -118,8 +111,8 @@
                 </div>
 
                 <div
-                    class="newrow"
                     *ngIf="effect.type !== 'untyped' && !effect.toggled && !effect.setValue"
+                    class="newrow"
                 >
                     <span>
                         <strong>Type</strong>
@@ -128,8 +121,8 @@
                 </div>
 
                 <div
-                    class="newrow"
                     *ngIf="effect.duration"
+                    class="newrow"
                 >
                     <span>
                         <strong>Duration</strong>
@@ -146,8 +139,8 @@
                 </div>
 
                 <div
-                    class="newrow"
                     *ngIf="effect.source.includes('conditional, ')"
+                    class="newrow"
                 >
                     <span>
                         <strong>Conditional</strong>

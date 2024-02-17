@@ -9,8 +9,8 @@
     >
         <ng-container *ngFor="let cord of initialTalismanCords(); let initialCordIndex = index; trackBy:trackByIndex;">
             <option
-                [ngValue]="cord"
                 *ngIf="initialCordIndex === 0"
+                [ngValue]="cord"
             >
             </option>
 
@@ -28,8 +28,8 @@
         <ng-container *ngFor="let inv of inventories(); trackBy:trackByIndex;">
             <ng-container *ngIf="availableTalismanCords(inv) as availableTalismanCords">
                 <optgroup
-                    [label]="inventoryName$(inv) | async"
                     *ngIf="availableTalismanCords.length"
+                    [label]="inventoryName$(inv) | async"
                 >
                     <option
                         *ngFor="let cordSet of availableTalismanCords; trackBy:trackByIndex;"

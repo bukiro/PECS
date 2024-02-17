@@ -66,7 +66,7 @@
         [toggled]="shownMode === 'Activities'"
         (click)="toggleShownMode('Activities')"
     >
-        <app-action-icons [actionString]="'1A'"></app-action-icons>
+        <app-action-icons [actionString]="'1A'" />
     </app-button>
 
     <app-button
@@ -95,27 +95,27 @@
 <div class="character-sheet-columns">
     <div class="character-sheet-columns__column">
         <ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
-            <app-general *ngIf="shownMode === 'All'"></app-general>
+            <app-general *ngIf="shownMode === 'All'" />
 
-            <app-abilities *ngIf="shownMode === 'All'"></app-abilities>
+            <app-abilities *ngIf="shownMode === 'All'" />
 
-            <app-health *ngIf="shownMode === 'Health'"></app-health>
+            <app-health *ngIf="shownMode === 'Health'" />
 
-            <app-defense *ngIf="shownMode === 'Defense'"></app-defense>
+            <app-defense *ngIf="shownMode === 'Defense'" />
 
-            <app-attacks *ngIf="shownMode === 'Attacks'"></app-attacks>
+            <app-attacks *ngIf="shownMode === 'Attacks'" />
 
-            <app-spellbook *ngIf="shownMode === 'Spells'"></app-spellbook>
+            <app-spellbook *ngIf="shownMode === 'Spells'" />
 
-            <app-skills *ngIf="shownMode === 'Skills'"></app-skills>
+            <app-skills *ngIf="shownMode === 'Skills'" />
 
-            <app-activities *ngIf="shownMode === 'Actions'"></app-activities>
+            <app-activities *ngIf="shownMode === 'Actions'" />
 
-            <app-inventory *ngIf="shownMode === 'Inventory'"></app-inventory>
+            <app-inventory *ngIf="shownMode === 'Inventory'" />
         </ng-container>
 
         <ng-template #ConditionsAndEffectsTemplate>
-            <app-effects [fullDisplay]="true"></app-effects>
+            <app-effects [fullDisplay]="true" />
         </ng-template>
     </div>
 </div>

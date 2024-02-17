@@ -3,12 +3,12 @@
     <app-minimize-button
         [ngModel]="(isMinimized$ | async) ?? false"
         (ngModelChange)="toggleMinimized($event)"
-    ></app-minimize-button>
+    />
 
     <app-tile-mode-button
         [ngModel]="(isTileMode$ | async) ?? false"
         (ngModelChange)="toggleTileMode($event)"
-    ></app-tile-mode-button>
+    />
 </div>
 
 <div
@@ -16,8 +16,8 @@
     class="itembox vlist"
 >
     <div
-        class="itembox-close-button"
         *ngIf="!((isMobile$ | async) && shownContent()); else ListCloseButton"
+        class="itembox-close-button"
     >
         <button
             type="button"
@@ -46,8 +46,8 @@
                 <div class="character-sheet-column">
                     <div class="fullsize-scroll-box vlist">
                         <div
-                            class="list-item"
                             *ngIf="componentParameters.hasSpellChoices"
+                            class="list-item"
                         >
                             <span>
                                 <input
@@ -67,8 +67,8 @@
                                 spellCastingParameters.casting.tradition + ((spellCastingParameters.casting.castingType
                                 === "Focus") ? (" " + spellCastingParameters.casting.source) : " Spells")).trim()}}
                                 <span
-                                    class="lower"
                                     *ngIf="['Prepared', 'Spontaneous'].includes(spellCastingParameters.casting.castingType)"
+                                    class="lower"
                                 >
                                     <span class="lower">
                                         {{spellCastingParameters.casting.castingType}}
@@ -85,12 +85,11 @@
                                 [showActivities]=true
                                 [showConditions]=true
                                 [showEffects]=true
-                            >
-                            </app-tags>
+                            />
 
                             <div
-                                class="list-item"
                                 *ngIf="spellCastingParameters.needSpellBook"
+                                class="list-item"
                             >
                                 <span>
                                     <input
@@ -111,56 +110,55 @@
 
                             <ng-container *ngFor="let spellCastingLevelParameters of spellCastingLevelParameters$(spellCastingParameters) | async; trackBy:trackByIndex;">
                                 <header
-                                    class="subsectionHeader"
                                     *ngIf="spellCastingLevelParameters.level === -1 && spellCastingParameters.casting.castingType === 'Focus'"
+                                    class="subsectionHeader"
                                 >
                                     Focus Spells
                                 </header>
 
                                 <header
-                                    class="subsectionHeader"
                                     *ngIf="spellCastingLevelParameters.level === 0 && spellCastingParameters.casting.castingType === 'Focus'"
+                                    class="subsectionHeader"
                                 >
                                     Focus Cantrips
                                 </header>
 
                                 <header
-                                    class="subsectionHeader"
                                     *ngIf="spellCastingLevelParameters.level === 0 && spellCastingParameters.casting.castingType !== 'Focus'"
+                                    class="subsectionHeader"
                                 >
                                     Cantrips
                                 </header>
 
                                 <header
-                                    class="subsectionHeader"
                                     *ngIf="spellCastingLevelParameters.level > 0 && spellCastingParameters.casting.castingType !== 'Focus'"
+                                    class="subsectionHeader"
                                 >
                                     {{"Level "+spellCastingLevelParameters.level}}
                                 </header>
 
                                 <div
                                     *ngIf="{ enabled: isTileMode$ | async } as tileMode"
-                                    [ngClass]="{'icon-list':tileMode.enabled, 'vlist':!tileMode.enabled}"
                                     style="min-height: auto"
+                                    [ngClass]="{'icon-list':tileMode.enabled, 'vlist':!tileMode.enabled}"
                                 >
                                     <!-- Fixed Spells gained -->
                                     <ng-container *ngFor="let spellParameters of fixedSpellParameters(spellCastingLevelParameters); trackBy:trackByIndex;">
                                         <ng-template #FixedSpellContent>
                                             <header
-                                                class="spellHeader left-aligned"
                                                 *ngIf="tileMode.enabled"
+                                                class="spellHeader left-aligned"
                                             >
                                                 {{spellParameters.gain.name}}
                                                 <app-action-icons
                                                     *ngIf="spellParameters.spell.actions"
                                                     [actionString]="spellParameters.spell.actions"
-                                                >
-                                                </app-action-icons>
+                                                />
                                             </header>
 
                                             <div
-                                                class="newrow left-aligned"
                                                 *ngIf="spellParameters.gain.source || spellParameters.choice.source"
+                                                class="newrow left-aligned"
                                             >
                                                 <strong>Granted by</strong>
                                                 {{spellParameters.gain.source || spellParameters.choice.source}}
@@ -170,20 +168,19 @@
                                                 [spell]="spellParameters.spell"
                                                 [spellLevel]="spellCastingLevelParameters.level"
                                                 [source]="spellParameters.gain.source"
-                                            >
-                                            </app-spell>
+                                            />
                                         </ng-template>
 
                                         <ng-container *ngIf="!tileMode.enabled">
                                             <div
-                                                class="list-item minimized-hide"
                                                 *ngIf="'showFixedSpell'+spellParameters.choice.id+spellParameters.gain.name as spellID"
+                                                class="list-item minimized-hide"
                                             >
                                                 <button
                                                     type="button"
                                                     class="newrow sublist-toggle fancy-button left-aligned"
-                                                    [ngbPopover]="FixedSpellContent"
                                                     triggers="click"
+                                                    [ngbPopover]="FixedSpellContent"
                                                 >
                                                     <span [ngbTooltip]="'Fixed spell'">
                                                         <i class="bi-lock-fill"></i>
@@ -192,8 +189,7 @@
                                                     <app-action-icons
                                                         *ngIf="spellParameters.spell.actions"
                                                         [actionString]="spellParameters.spell.actions"
-                                                    >
-                                                    </app-action-icons>
+                                                    />
                                                 </button>
                                             </div>
                                         </ng-container>
@@ -204,16 +200,15 @@
                                                     type="button"
                                                     aria-label="Show fixed spell"
                                                     class="minimized-hide inactive-button"
-                                                    [ngbPopover]="FixedSpellContent"
                                                     triggers="click"
+                                                    [ngbPopover]="FixedSpellContent"
                                                 >
                                                     <app-grid-icon
                                                         class="fancy-button"
                                                         [ngbTooltip]="spellParameters.gain.name"
                                                         [title]="spellParameters.gain.name"
                                                         [superTitle]="'icon-bi-lock-fill'"
-                                                    >
-                                                    </app-grid-icon>
+                                                    />
                                                 </button>
                                             </div>
                                         </ng-container>
@@ -222,8 +217,6 @@
                                     <!-- Spell choices -->
                                     <ng-container *ngFor="let choice of spellCastingLevelParameters.availableSpellChoices; trackBy:trackByIndex;">
                                         <app-spell-choice
-                                            (shownChoiceMessage)="receiveShowChoiceMessage($event)"
-                                            (shownSpellMessage)="receiveShowSpellMessage($event)"
                                             [spellCasting]="spellCastingParameters.casting"
                                             [choice]="choice"
                                             [showHeightened]="character.settings.showHeightenedSpells"
@@ -235,8 +228,9 @@
                                             [spellbook]="true"
                                             [showContent]="false"
                                             [isTileMode]="tileMode.enabled ?? false"
-                                        >
-                                        </app-spell-choice>
+                                            (shownChoiceMessage)="receiveShowChoiceMessage($event)"
+                                            (shownSpellMessage)="receiveShowSpellMessage($event)"
+                                        />
                                     </ng-container>
                                 </div>
                             </ng-container>
@@ -257,8 +251,6 @@
                     <ng-container *ngIf="activeChoiceContent() as choiceContent">
                         <app-spell-choice
                             *ngIf="choiceContent.casting"
-                            (shownChoiceMessage)="receiveShowChoiceMessage($event)"
-                            (shownSpellMessage)="receiveShowSpellMessage($event)"
                             [spellCasting]="choiceContent.casting"
                             [choice]="choiceContent.choice"
                             [showHeightened]="character.settings.showHeightenedSpells"
@@ -269,8 +261,9 @@
                             [prepared]="componentParameters.allowSwitchingPreparedSpells"
                             [spellbook]="true"
                             [showTitle]="false"
-                        >
-                        </app-spell-choice>
+                            (shownChoiceMessage)="receiveShowChoiceMessage($event)"
+                            (shownSpellMessage)="receiveShowSpellMessage($event)"
+                        />
                     </ng-container>
                 </div>
             </div>

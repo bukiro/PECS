@@ -7,8 +7,8 @@
 </div>
 
 <div
-    [ngbTooltip]="level.title"
     *ngFor="let level of levels; trackBy:trackByIndex;"
+    [ngbTooltip]="level.title"
     [className]="'option option--' + level.key"
     [ngClass]="{'option--checked':skillLevel === level.value}"
 >

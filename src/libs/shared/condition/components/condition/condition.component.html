@@ -6,9 +6,9 @@
                 <span>
                     <input
                         aria-label="Show notes"
-                        id="{{conditionGain.id+'notes'}}"
                         class="invisible"
                         type="checkbox"
+                        id="{{conditionGain.id+'notes'}}"
                         [(ngModel)]="conditionGain.showNotes"
                     >
 
@@ -26,18 +26,18 @@
                     >
                         {{conditionGain.name}}{{conditionGain.choice ? ": " : ""}}
                         <input
-                            id="{{conditionGain.id+'choice'}}"
+                            *ngIf="(choices.length || conditionGain.name === 'Persistent Damage') && !conditionGain.choiceLocked"
                             class="invisible"
                             type="checkbox"
+                            id="{{conditionGain.id+'choice'}}"
                             [(ngModel)]="conditionGain.showChoices"
-                            *ngIf="(choices.length || conditionGain.name === 'Persistent Damage') && !conditionGain.choiceLocked"
                         >
 
                         <label
+                            *ngIf="(choices.length || conditionGain.name === 'Persistent Damage') && !conditionGain.choiceLocked"
+                            style="text-shadow: none"
                             for="{{conditionGain.id+'choice'}}"
                             [ngbTooltip]="'Change effect choice'"
-                            style="text-shadow: none"
-                            *ngIf="(choices.length || conditionGain.name === 'Persistent Damage') && !conditionGain.choiceLocked"
                         >
                             <i class='bi-list-stars'></i>
 
@@ -49,7 +49,7 @@
                         <app-quickdice
                             *ngIf="conditionGain.name === 'Persistent Damage' && conditionGain.choice"
                             [diceString]="conditionGain.choice"
-                        ></app-quickdice>
+                        />
 
                         <span *ngIf="conditionGain.showChoices && choices.length && !conditionGain.choiceLocked">
                             <select
@@ -70,16 +70,16 @@
 
                         <span *ngIf="conditionGain.value && !(conditionGain.valueLockedByParent && conditionGain.parentID) && !(conditionGain.name === 'Stunned' && conditionGain.duration !== -1)">
                             <input
-                                id="{{conditionGain.id+'value'}}"
                                 class="invisible"
                                 type="checkbox"
+                                id="{{conditionGain.id+'value'}}"
                                 [(ngModel)]="conditionGain.showValue"
                             >
 
                             <label
+                                style="text-shadow: none"
                                 for="{{conditionGain.id+'value'}}"
                                 [ngbTooltip]="'Change value'"
-                                style="text-shadow: none"
                             >
                                 <i class='bi-gear-fill'></i>
                                 {{!conditionGain.showValue ? conditionGain.value : ""}}
@@ -89,8 +89,8 @@
                                 <span>
                                     <button
                                         type="button"
-                                        (click)="incConditionValue(conditionGain, -1)"
                                         [disabled]="conditionGain.value === 1 && conditionGain.lockedByParent && conditionGain.parentID"
+                                        (click)="incConditionValue(conditionGain, -1)"
                                     >
                                         -1
                                     </button>
@@ -129,19 +129,19 @@
                 [ngbTooltip]="conditionGain.fromFeat ? 'Conditions gained from feats cannot be removed.' : (conditionGain.fromItem ? 'Conditions gained from equipped items cannot be removed.' : '')"
             >
                 <button
-                    type="button"
-                    (click)="removeCondition(conditionGain)"
-                    [disabled]="conditionGain.fromFeat || conditionGain.fromItem"
                     *ngIf="!conditionGain.durationIsInstant"
+                    type="button"
+                    [disabled]="conditionGain.fromFeat || conditionGain.fromItem"
+                    (click)="removeCondition(conditionGain)"
                 >
                     Remove
                 </button>
 
                 <button
-                    type="button"
-                    (click)="removeCondition(conditionGain)"
-                    [ngbTooltip]="'This condition should be resolved immediately and then ended.'"
                     *ngIf="conditionGain.durationIsInstant"
+                    type="button"
+                    [ngbTooltip]="'This condition should be resolved immediately and then ended.'"
+                    (click)="removeCondition(conditionGain)"
                 >
                     Done
                 </button>
@@ -149,8 +149,8 @@
         </div>
 
         <div
-            class="newrow list-item left-aligned"
             *ngIf="conditionGain.showChoices && condition.name === 'Persistent Damage'"
+            class="newrow list-item left-aligned"
         >
             <span class="gap-text">
                 Damage type and amount:
@@ -158,8 +158,8 @@
                     aria-label="Damage type and amount"
                     type="text"
                     id="persistentDamage"
-                    [(ngModel)]="conditionGain.choice"
                     maxLength="30"
+                    [(ngModel)]="conditionGain.choice"
                 >
 
                 <button
@@ -187,8 +187,8 @@
         </div>
 
         <div
-            class="newrow left-aligned lower"
             *ngIf="conditionGain.source"
+            class="newrow left-aligned lower"
         >
             <span>
                 <strong>Granted by&nbsp;</strong>
@@ -197,8 +197,8 @@
         </div>
 
         <div
-            class="newrow left-aligned lower"
             *ngIf="conditionGain.heightened"
+            class="newrow left-aligned lower"
         >
             <span>
                 <strong>Spell level&nbsp;</strong>
@@ -209,9 +209,9 @@
         <div class="newrow left-aligned lower">
             <input
                 aria-label="Show notes"
-                id="{{conditionGain.id+'duration'}}"
                 class="invisible"
                 type="checkbox"
+                id="{{conditionGain.id+'duration'}}"
                 [(ngModel)]="conditionGain.showDuration"
             >
             <label
@@ -256,8 +256,8 @@
                 </div>
 
                 <div
-                    class="newrow"
                     *ngIf="conditionGain.duration < 0"
+                    class="newrow"
                 >
                     <button
                         type="button"
@@ -289,8 +289,8 @@
                 </div>
 
                 <div
-                    class="newrow"
                     *ngIf="conditionGain.duration > 0"
+                    class="newrow"
                 >
                     <button
                         type="button"
@@ -322,37 +322,37 @@
                 </div>
 
                 <div
-                    class="newrow"
                     *ngIf="conditionGain.duration > 0"
+                    class="newrow"
                 >
                     <button
                         type="button"
-                        (click)="incConditionDuration(conditionGain, -10)"
                         [disabled]="conditionGain.duration <= 11"
+                        (click)="incConditionDuration(conditionGain, -10)"
                     >
                         - 1 turn
                     </button>
 
                     <button
                         type="button"
-                        (click)="incConditionDuration(conditionGain, -100)"
                         [disabled]="conditionGain.duration <= 101"
+                        (click)="incConditionDuration(conditionGain, -100)"
                     >
                         - 1 min.
                     </button>
 
                     <button
                         type="button"
-                        (click)="incConditionDuration(conditionGain, -1000)"
                         [disabled]="conditionGain.duration <= 1001"
+                        (click)="incConditionDuration(conditionGain, -1000)"
                     >
                         - 10 min.
                     </button>
 
                     <button
                         type="button"
-                        (click)="incConditionDuration(conditionGain, -6000)"
                         [disabled]="conditionGain.duration <= 6001"
+                        (click)="incConditionDuration(conditionGain, -6000)"
                     >
                         - 1 hour
                     </button>
@@ -361,8 +361,8 @@
         </div>
 
         <div
-            class="newrow left-aligned lower"
             *ngIf="conditionGain.persistent"
+            class="newrow left-aligned lower"
         >
             <span [ngbTooltip]="'This condition will remain if its source is removed.'">
                 <strong>Persistent</strong>
@@ -370,8 +370,8 @@
         </div>
 
         <div
-            class="newrow left-aligned lower"
             *ngIf="conditionGain.lockedByParent && conditionGain.parentID"
+            class="newrow left-aligned lower"
         >
             <span [ngbTooltip]="'This condition can\'t be removed while ' + conditionGain.source + ' is active.'">
                 <strong>Locked by parent condition</strong>
@@ -379,8 +379,8 @@
         </div>
 
         <div
-            class="newrow left-aligned lower"
             *ngIf="conditionGain.valueLockedByParent && conditionGain.parentID"
+            class="newrow left-aligned lower"
         >
             <span [ngbTooltip]="'You can\'t change the value of this condition while ' + conditionGain.source + ' is active.'">
                 <strong>Value locked by parent condition</strong>
@@ -388,8 +388,8 @@
         </div>
 
         <div
-            class="newrow left-aligned lower"
             *ngIf="isInformationalCondition()"
+            class="newrow left-aligned lower"
         >
             <span
                 class="gap-text"
@@ -402,8 +402,8 @@
         </div>
 
         <div
-            class="newrow left-aligned lower"
             *ngIf="conditionGain.paused"
+            class="newrow left-aligned lower"
         >
             <span
                 class="gap-text"
@@ -416,8 +416,8 @@
         </div>
 
         <div
-            class="newrow left-aligned lower"
             *ngIf="condition.isStoppingTime(conditionGain)"
+            class="newrow left-aligned lower"
         >
             <span
                 class="gap-text"
@@ -430,21 +430,21 @@
         </div>
 
         <div
-            class="newrow left-aligned lower"
             *ngIf="conditionGain.radius"
+            class="newrow left-aligned lower"
         >
             <input
                 aria-label="Change radius"
-                id="{{conditionGain.id+'radius'}}"
                 class="invisible"
                 type="checkbox"
+                id="{{conditionGain.id+'radius'}}"
                 [(ngModel)]="conditionGain.showRadius"
             >
 
             <label
+                *ngIf="conditionGain.radius && condition.allowRadiusChange"
                 for="{{conditionGain.id+'radius'}}"
                 [ngbTooltip]="'Change radius'"
-                *ngIf="conditionGain.radius && condition.allowRadiusChange"
             >
                 <i class='bi-gear-fill'></i>
                 &nbsp;
@@ -454,18 +454,18 @@
 
             <span>
                 <button
+                    *ngIf="(condition.allowRadiusChange || conditionGain.showRadius) && conditionGain.radius"
                     type="button"
                     (click)="incConditionRadius(conditionGain, -5)"
-                    *ngIf="(condition.allowRadiusChange || conditionGain.showRadius) && conditionGain.radius"
                     (disabled)="conditionGain.radius <= 5"
                 >
                     -5
                 </button>
                 {{conditionGain.radius}} feet
                 <button
+                    *ngIf="(condition.allowRadiusChange || conditionGain.showRadius) && conditionGain.radius"
                     type="button"
                     (click)="incConditionRadius(conditionGain, +5)"
-                    *ngIf="(condition.allowRadiusChange || conditionGain.showRadius) && conditionGain.radius"
                 >
                     +5
                 </button>
@@ -474,8 +474,8 @@
 
         <ng-container *ngIf="!condition.automaticStages">
             <div
-                class="newrow"
                 *ngIf="conditionGain.nextStage > 0"
+                class="newrow"
             >
                 <span>
                     <strong>Affliction onset</strong>
@@ -484,8 +484,8 @@
             </div>
 
             <div
-                class="newrow"
                 *ngIf="conditionGain.nextStage === -1 && conditionGain.choice && choices.length"
+                class="newrow"
             >
                 <div class="list-item lower newrow problem">
                     <strong class="no-shadow">Affliction onset reached</strong>
@@ -500,8 +500,8 @@
             </div>
 
             <div
-                class="newrow left-aligned"
                 *ngIf="conditionGain.nextStage !== 0 && conditionGain.choice && choices.length"
+                class="newrow left-aligned"
             >
                 <span *ngIf="choices.indexOf(conditionGain.choice) < 1 || choices[choices.indexOf(conditionGain.choice) - 1] === 'Onset'">
                     <button
@@ -543,8 +543,8 @@
 
         <!-- Other condition selection -->
         <div
-            class="newrow"
             *ngIf="condition.selectOtherConditions.length"
+            class="newrow"
         >
             <ng-container *ngFor="let conditionSelection of prepareSelectingOtherConditions(conditionGain, condition); let selectIndex = index; trackBy:trackByIndex;">
                 <div class="newrow">
@@ -575,14 +575,14 @@
     [condition]="condition"
     [showItem]="showItem"
     [creature]="creature"
-    (showItemMessage)="showItemMessage.emit($event)"
     [fullDisplay]="fullDisplay"
-></app-condition-content>
+    (showItemMessage)="showItemMessage.emit($event)"
+/>
 
 <ng-container *ngIf="conditionActivitiesParameters$() | async as conditionActivitiesParameters">
     <div
-        class="fullwidth icon-list"
         *ngIf="conditionActivitiesParameters.length"
+        class="fullwidth icon-list"
     >
         <ng-container *ngFor="let activityParameters of conditionActivitiesParameters; let activityIndex = index; trackBy:trackByIndex;">
             <ng-template #ActivityTitleTemplate>
@@ -591,14 +591,13 @@
                 <app-action-icons
                     *ngIf="activityParameters.activity.actions"
                     [actionString]="activityParameters.activity.actions"
-                >
-                </app-action-icons>
+                />
                 {{(activityParameters.activity.activationType) ? activityParameters.activity.activationType : ""}}
             </ng-template>
 
             <ng-template #ActivityTemplate>
                 <header class="spellHeader popover-keepalive">
-                    <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
+                    <ng-container *ngTemplateOutlet="ActivityTitleTemplate" />
                 </header>
 
                 <app-activity
@@ -606,15 +605,14 @@
                     [activity]="activityParameters.activity"
                     [gain]="activityParameters.gain"
                     [allowActivate]="true"
-                >
-                </app-activity>
+                />
             </ng-template>
 
             <button
                 type="button"
                 aria-label="Show granted activity"
-                [stickyPopover]="ActivityTemplate"
                 triggers="click"
+                [stickyPopover]="ActivityTemplate"
                 [ignorePopoverKeepalive]="true"
                 [ngClass]="activityClasses(activityParameters)"
             >
@@ -625,8 +623,7 @@
                     [activity]="activityParameters.activity"
                     [activityGain]="activityParameters.gain"
                     [updateId]="activityParameters.gain.id"
-                >
-                </app-grid-icon>
+                />
             </button>
         </ng-container>
     </div>

@@ -2,8 +2,8 @@
 <!-- Changing Talismans -->
 <div class="list-item">
     <div
-        class="newrow"
         *ngFor="let index of availableSlots(); trackBy:trackByIndex;"
+        class="newrow"
     >
         <strong *ngIf="index === 0">Affix Talisman</strong>
 
@@ -11,9 +11,9 @@
 
         <select
             aria-label="Select talisman"
+            [disabled]="!item.talismans[index-1] && index > 0"
             [(ngModel)]="newTalisman[index]"
             (change)="onSelectTalisman(index)"
-            [disabled]="!item.talismans[index-1] && index > 0"
         >
             <ng-template
                 #TalismanTemplate
@@ -31,8 +31,8 @@
 
             <ng-container *ngFor="let talisman of initialTalismans(index); let initialTalismanIndex = index; trackBy:trackByIndex;">
                 <option
-                    [ngValue]="talisman"
                     *ngIf="initialTalismanIndex === 0"
+                    [ngValue]="talisman"
                 >
 
                 </option>
@@ -41,18 +41,18 @@
                     *ngIf="initialTalismanIndex === 1"
                     label="Current Talisman"
                 >
-                    <ng-container *ngTemplateOutlet="TalismanTemplate; context: {$implicit: talisman}"></ng-container>
+                    <ng-container *ngTemplateOutlet="TalismanTemplate; context: {$implicit: talisman}" />
                 </optgroup>
             </ng-container>
 
             <ng-container *ngFor="let inv of inventoriesOrCleanItems(); trackBy:trackByIndex;">
                 <ng-container *ngIf="availableTalismans(inv) as availableTalismans">
                     <optgroup
-                        [label]="itemStore ? 'Available talismans' : inventoryName$(inv) | async"
                         *ngIf="availableTalismans.length"
+                        [label]="itemStore ? 'Available talismans' : inventoryName$(inv) | async"
                     >
                         <ng-container *ngFor="let talisman of availableTalismans; trackBy:trackByIndex;">
-                            <ng-container *ngTemplateOutlet="TalismanTemplate; context: {$implicit: talisman}"></ng-container>
+                            <ng-container *ngTemplateOutlet="TalismanTemplate; context: {$implicit: talisman}" />
                         </ng-container>
                     </optgroup>
                 </ng-container>

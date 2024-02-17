@@ -15,8 +15,8 @@
             type="button"
             class="close"
             aria-label="close"
-            (click)="modal.dismiss('Cross click')"
             ngbAutofocus
+            (click)="modal.dismiss('Cross click')"
         >
             <span aria-hidden="true">&times;</span>
         </button>
@@ -28,16 +28,16 @@
             style="max-height: 50vh;"
         >
             <div
-                class="list-item newrow left-aligned"
                 *ngIf="isItemContainer"
+                class="list-item newrow left-aligned"
             >
                 <i class="ra ra-hive-emblem"></i>
                 This item contains {{containedItemsAmount()}} items with a total bulk of {{inventoryBulk()}}.
             </div>
 
             <div
-                class="list-item newrow left-aligned"
                 *ngIf="doesItemGrantItems"
+                class="list-item newrow left-aligned"
             >
                 <i class="ra ra-hive-emblem"></i>
                 This item has additional parts with a total bulk of {{containedBulkString(item)}}.
@@ -54,8 +54,8 @@
             </div>
 
             <div
-                class="list-item newrow"
                 *ngIf="canItemSplit"
+                class="list-item newrow"
             >
                 <strong>Split stack</strong>
 
@@ -64,16 +64,16 @@
                     <span class="value">
                         <button
                             type="button"
-                            (click)="onIncSplit(-1)"
                             [disabled]="selectedAmount<=0"
+                            (click)="onIncSplit(-1)"
                         >
                             -
                         </button>
                         {{selectedAmount}}
                         <button
                             type="button"
-                            (click)="onIncSplit(1)"
                             [disabled]="selectedAmount>=item.amount"
+                            (click)="onIncSplit(1)"
                         >
                             +
                         </button>
@@ -94,27 +94,27 @@
                     >
                         <ng-container [ngSwitch]="targetType(target)">
                             <i
-                                class="ra ra-hive-emblem"
                                 *ngSwitchCase="'Inventory'"
+                                class="ra ra-hive-emblem"
                                 style="line-height: 1.5;"
                             ></i>
 
                             <i
-                                class="ra ra-wolf-howl"
                                 *ngSwitchCase="'Companion'"
+                                class="ra ra-wolf-howl"
                                 style="line-height: 1.5;"
                             ></i>
 
                             <i
-                                class="ra ra-raven"
                                 *ngSwitchCase="'Familiar'"
+                                class="ra ra-raven"
                                 style="line-height: 1.5;"
                             ></i>
 
                             <i
-                                class="ra ra-player"
                                 *ngSwitchDefault
-                                style="line-height: 1.5;"
+
+                                class="ra ra-player"                                style="line-height: 1.5;"
                             ></i>
                         </ng-container>
 
@@ -124,8 +124,8 @@
                     </span>
 
                     <span
-                        style="flex-grow:0"
                         *ngFor="let cannotMove of [cannotMove(target)]; trackBy:trackByIndex"
+                        style="flex-grow:0"
                         [ngbTooltip]="cannotMove"
                     >
                         <ng-template #CurrentButton>
@@ -139,13 +139,13 @@
                         </ng-template>
 
                         <button
+                            *ngIf="!isSameInventoryAsTarget(target); else CurrentButton"
                             type="button"
                             class="btn btn-primary"
-                            *ngIf="!isSameInventoryAsTarget(target); else CurrentButton"
                             style="background-color: rgb(var(--accent))"
-                            (click)="onSetTarget(target); modal.close('Move click')"
                             [disabled]="cannotMove || (item.amount && !selectedAmount)"
                             [ngSwitch]="targetType(target)"
+                            (click)="onSetTarget(target); modal.close('Move click')"
                         >
                             <span *ngSwitchCase="'Inventory'">Move</span>
 

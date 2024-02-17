@@ -1,11 +1,11 @@
 <app-button
     class="button"
-    [label]="'Roll ' + (description$ | async)"
     showLabel
+    tight
+    [label]="'Roll ' + (description$ | async)"
     [noOutline]="noOutline"
     [ghost]="ghost"
-    tight
     (click)="roll()"
 >
-    <app-dice-icon-D20 class="dice"></app-dice-icon-D20>
+    <app-dice-icon-D20 class="dice" />
 </app-button>

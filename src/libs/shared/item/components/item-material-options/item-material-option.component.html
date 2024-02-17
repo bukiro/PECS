@@ -1,7 +1,7 @@
 <!-- Changing Material -->
 <div
-    class="list-item"
     *ngIf="materialOptionApplies"
+    class="list-item"
 >
     <div class="newrow">
         <strong>Material</strong>
@@ -13,8 +13,8 @@
         >
             <ng-container *ngFor="let material of initialMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
                 <option
-                    [ngValue]="material"
                     *ngIf="initialRuneIndex === 0"
+                    [ngValue]="material"
                     [selected]=!item.material[0]
                 >
                     <!-- Blank option to deselect -->
@@ -30,8 +30,8 @@
 
             <ng-container *ngIf="availableMaterials$() | async as availableMaterials">
                 <optgroup
-                    label="Available materials"
                     *ngIf="availableMaterials.length"
+                    label="Available materials"
                 >
                     <option
                         *ngFor="let material of availableMaterials; trackBy:trackByIndex;"
@@ -49,8 +49,8 @@
     <ng-container *ngIf="craftingStation">
         <ng-container *ngFor="let material of item.material; trackBy:trackByIndex;">
             <div
-                class="newrow"
                 *ngIf="material.craftRequirement"
+                class="newrow"
             >
                 <span>
                     <strong>Craft Requirement&nbsp;</strong>

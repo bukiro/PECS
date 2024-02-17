@@ -8,8 +8,7 @@
             *ngIf="split.includes('dice=')"
             [diceString]="split.replace('dice=','')"
             [casting]="casting"
-        >
-        </app-quickdice>
+        />
 
         <span
             *ngIf="!split.includes('dice=') && split.includes('<')"
@@ -21,17 +20,17 @@
 </ng-template>
 
 <ng-container *ngIf="oneLiner && text">
-    <ng-container *ngTemplateOutlet="Split;context:{toSplit:text}"></ng-container>
+    <ng-container *ngTemplateOutlet="Split;context:{toSplit:text}" />
 </ng-container>
 
 <ng-container *ngIf="!oneLiner && text">
     <p *ngIf="text.split('\n').length === 1">
-        <ng-container *ngTemplateOutlet="Split;context:{toSplit:text}"></ng-container>
+        <ng-container *ngTemplateOutlet="Split;context:{toSplit:text}" />
     </p>
 
     <ul *ngIf="text.split('\n').length > 1">
         <li *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
-            <ng-container *ngTemplateOutlet="Split;context:{toSplit:line}"></ng-container>
+            <ng-container *ngTemplateOutlet="Split;context:{toSplit:line}" />
         </li>
     </ul>
 </ng-container>

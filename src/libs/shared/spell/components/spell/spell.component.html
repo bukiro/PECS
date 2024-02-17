@@ -1,23 +1,21 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div
-    class="newrow lower"
     *ngIf="spell"
+    class="newrow lower"
 >
     <div class="newrow left-aligned">
         <app-trait
             *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
-        >
-        </app-trait>
+        />
 
         <app-trait
             *ngFor="let trait of spell.activationTraits(); trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
             [extraDescription]="'(This trait was derived from the action components.)'"
-        >
-        </app-trait>
+        />
 
         <app-tags
             [objectName]="spell.name"
@@ -28,7 +26,7 @@
             [showConditions]=true
             [showEffects]=true
             [specialNames]="source ? [source] : []"
-        ></app-tags>
+        />
     </div>
 
     <app-spell-content
@@ -36,35 +34,33 @@
         [spell]="spell"
         [spellLevel]="(spellLevelFromBaseLevel$(spell, spellLevel) | async) ?? spellLevel"
         [casting]="casting"
-    >
-    </app-spell-content>
+    />
 
     <div
-        class="newrow left-aligned"
         *ngFor="let feat of characterFeatsShowingHintsOnThis$(spell.name) | async; trackBy:trackByIndex;"
+        class="newrow left-aligned"
     >
         <header class="spellHeader">{{feat.name}}</header>
 
         <div
-            class="newrow left-aligned"
             *ngIf="feat.traits.length"
+            class="newrow left-aligned"
         >
             <app-trait
                 *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
                 [name]="trait"
                 [trait]="traitFromName(trait)"
-            >
-            </app-trait>
+            />
         </div>
 
         <div
-            class="newrow left-aligned"
             *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;"
+            class="newrow left-aligned"
         >
             <app-description
                 class="newrow"
                 [text]="desc"
-            ></app-description>
+            />
         </div>
     </div>
 </div>

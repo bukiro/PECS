@@ -1,8 +1,8 @@
 <!-- Adding Poisons -->
 <ng-container *ngIf="availablePoisons() as availablePoisons">
     <div
-        class="list-item"
         *ngIf="availablePoisons.length > 1 || item.poisonsApplied.length"
+        class="list-item"
     >
         <div class="newrow">
             <strong title="{{item.poisonsApplied.length ? 'Applying a new poison will waste the currently applied poison.' : ''}}">
@@ -25,14 +25,14 @@
         </div>
 
         <div
-            class="newrow"
             *ngIf="item.poisonsApplied.length"
+            class="newrow"
         >
             <strong>Applied poison</strong>
 
             <div
-                class="newrow"
                 *ngFor="let poison of item.poisonsApplied; let index = index; trackBy:trackByIndex;"
+                class="newrow"
             >
                 <span>{{poison.effectiveName$()}}</span>
 

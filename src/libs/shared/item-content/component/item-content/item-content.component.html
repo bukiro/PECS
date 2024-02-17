@@ -1,8 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngIf="itemRoles() as itemRoles">
     <div
-        class="newrow left-aligned"
         *ngIf="item.sourceBook"
+        class="newrow left-aligned"
     >
         <span>
             <strong>Source</strong>
@@ -12,8 +12,8 @@
     </div>
 
     <div
-        class="newrow left-aligned"
         *ngIf="item.PFSnote"
+        class="newrow left-aligned"
     >
         <span>
             <strong>PFS Note</strong>
@@ -129,8 +129,8 @@
     </div>
 
     <div
-        class="newrow left-aligned"
         *ngIf="itemRoles.asWeapon || uncertainItemLiteralValue('hands')"
+        class="newrow left-aligned"
     >
         <span *ngIf="(itemRoles.asWeapon?.hands || uncertainItemLiteralValue('hands')) as hands">
             <strong>Hands</strong>
@@ -149,8 +149,8 @@
     </div>
 
     <div
-        class="newrow left-aligned"
         *ngIf="item.access"
+        class="newrow left-aligned"
     >
         <span>
             <strong>Access</strong>
@@ -161,16 +161,15 @@
 
     <!-- Activation text for activated standalone items, such as wands (identified by not having a trigger or requirements) -->
     <div
-        class="newrow gap-text left-aligned"
         *ngIf="shouldShowActivations()"
+        class="newrow gap-text left-aligned"
     >
         <strong>Activate</strong>
 
         <app-action-icons
             *ngIf="uncertainItemLiteralValue('actions') as actions"
             [actionString]="actions.toString()"
-        >
-        </app-action-icons>
+        />
 
         <span *ngIf="uncertainItemLiteralValue('activationType') as activationType">{{activationType}}</span>
 
@@ -186,7 +185,7 @@
             <app-description
                 [text]="effect.toString()"
                 [oneLiner]="true"
-            ></app-description>
+            />
         </ng-container>
     </div>
 
@@ -199,16 +198,15 @@
 
     <!-- Activation text for talismans (identified by having a trigger or requirements, but no effect) -->
     <div
-        class="newrow left-aligned"
         *ngIf="shouldShowTalismans()"
+        class="newrow left-aligned"
     >
         <strong>Activate</strong>
 
         <app-action-icons
             *ngIf="uncertainItemLiteralValue('actions') as actions"
             [actionString]="actions.toString()"
-        >
-        </app-action-icons>
+        />
 
         <span *ngIf="uncertainItemLiteralValue('activationType') as activationType">{{activationType}}</span>
 
@@ -229,25 +227,25 @@
             <app-description
                 class="newrow"
                 [text]="desc"
-            ></app-description>
+            />
         </ng-container>
 
         <ng-container *ngIf="languageGainsFromItem() as languageGains">
             <div
-                class="newrow list-item"
                 *ngIf="languageGains.length"
+                class="newrow list-item"
             >
                 <ng-container *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackByIndex;">
                     <div class="newrow">
                         <strong>{{gainLanguage.title}}</strong>
 
                         <input
+                            *ngIf="!gainLanguage.locked"
                             aria-label="Language granted by the item"
-                            id="{{item.id}}language{{languageIndex}}name"
                             type="text"
+                            id="{{item.id}}language{{languageIndex}}name"
                             [(ngModel)]="gainLanguage.name"
                             (blur)="onUpdateLanguage()"
-                            *ngIf="!gainLanguage.locked"
                         >
                         <ng-container *ngIf="gainLanguage.locked">{{gainLanguage.name}}</ng-container>
                     </div>
@@ -256,30 +254,30 @@
         </ng-container>
 
         <div
-            class="newrow list-item"
             *ngIf="doesItemHaveShownData()"
+            class="newrow list-item"
         >
             <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackByIndex;">
                 <div
-                    class="newrow"
                     *ngIf="data.show"
+                    class="newrow"
                 >
                     <strong>{{data.name}}</strong>
 
                     <input
-                        aria-label="Item data text"
-                        id="{{item.id}}data{{dataIndex}}value-string"
-                        type="text"
-                        [(ngModel)]="data.value"
                         *ngIf="data.type === 'string'"
+                        aria-label="Item data text"
+                        type="text"
+                        id="{{item.id}}data{{dataIndex}}value-string"
+                        [(ngModel)]="data.value"
                     >
 
                     <input
-                        aria-label="Toggle item data"
-                        id="{{item.id}}data{{dataIndex}}value-boolean"
-                        type="checkbox"
-                        [(ngModel)]="data.value"
                         *ngIf="data.type === 'boolean'"
+                        aria-label="Toggle item data"
+                        type="checkbox"
+                        id="{{item.id}}data{{dataIndex}}value-boolean"
+                        [(ngModel)]="data.value"
                     >
                 </div>
             </ng-container>
@@ -296,7 +294,7 @@
                 <app-description
                     [text]="asAlchemicalElixir.benefit"
                     [oneLiner]="true"
-                ></app-description>
+                />
             </p>
 
             <p
@@ -308,7 +306,7 @@
                 <app-description
                     [text]="asAlchemicalElixir.drawback"
                     [oneLiner]="true"
-                ></app-description>
+                />
             </p>
         </ng-container>
 
@@ -358,7 +356,7 @@
                         <app-description
                             [text]="item.critsuccess"
                             [oneLiner]="true"
-                        ></app-description>
+                        />
                     </span>
                 </li>
 
@@ -369,7 +367,7 @@
                         <app-description
                             [text]="item.success"
                             [oneLiner]="true"
-                        ></app-description>
+                        />
                     </span>
                 </li>
 
@@ -380,7 +378,7 @@
                         <app-description
                             [text]="item.failure"
                             [oneLiner]="true"
-                        ></app-description>
+                        />
                     </span>
                 </li>
 
@@ -391,27 +389,26 @@
                         <app-description
                             [text]="item.critfailure"
                             [oneLiner]="true"
-                        ></app-description>
+                        />
                     </span>
                 </li>
             </ul>
         </ng-container>
 
         <div
-            class="list-item newrow problem"
             *ngIf="item.inputRequired"
+            class="list-item newrow problem"
         >
             <strong>Player input required:</strong>
 
             <div
-                class="newrow left-aligned"
                 *ngFor="let inputRequired of item.inputRequired.split('\n\n'); trackBy:trackByIndex;"
+                class="newrow left-aligned"
             >
                 <app-description
                     class="newrow"
                     [text]="inputRequired"
-                >
-                </app-description>
+                />
             </div>
         </div>
     </div>

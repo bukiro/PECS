@@ -1,8 +1,8 @@
 <!-- Adding Oils -->
 <ng-container *ngIf="availableOils() as availableOils">
     <div
-        class="list-item"
         *ngIf="availableOils.length > 1 || item.oilsApplied.length"
+        class="list-item"
     >
         <div class="newrow">
             <strong>Apply oil</strong>
@@ -22,14 +22,14 @@
         </div>
 
         <div
-            class="newrow"
             *ngIf="item.oilsApplied.length"
+            class="newrow"
         >
             <strong>Applied oils</strong>
 
             <div
-                class="newrow"
                 *ngFor="let oil of item.oilsApplied; let index = index; trackBy:trackByIndex;"
+                class="newrow"
             >
                 <span>
                     {{oil.effectiveName$() | async}} ({{durationDescription$(oil.duration) | async}})

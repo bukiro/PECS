@@ -1,14 +1,14 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <header
-    class="sectionHeader"
     *ngIf="propertyData.priority === '00' && propertyData.group"
+    class="sectionHeader"
 >
     {{propertyData.group.split("-")[1]}}
 </header>
 
 <div
-    class="list-item"
     *ngIf="parent() as parent"
+    class="list-item"
 >
     <ng-container *ngIf="!noTitle">
         <div class="newrow left-aligned">
@@ -26,8 +26,8 @@
             </button>
 
             <div
-                class="list-item"
                 *ngFor="let object of property; let i = index; trackBy:trackByIndex;"
+                class="list-item"
             >
                 <span>{{i+1}}</span>
 
@@ -47,8 +47,7 @@
                             [propertyKey]=subProperty.key
                             [parents]=parents.concat(propertyKey,i.toString())
                             [newItem]=newItem
-                        >
-                        </app-new-item-property>
+                        />
                     </ng-container>
                 </ng-container>
 
@@ -60,8 +59,7 @@
                         [parents]=parents.concat(propertyKey)
                         [noTitle]=true
                         [newItem]=newItem
-                    >
-                    </app-new-item-property>
+                    />
                 </ng-template>
             </div>
         </ng-container>
@@ -70,64 +68,64 @@
     <ng-container *ngIf="!isPropertyAnObject(parent[propertyKey]) || parent[propertyKey]===null">
         <div class="newrow">
             <input
+                *ngIf="!propertyData.type && !propertyData.locked"
                 aria-label="Text input"
-                id="{{propertyKey}}"
                 class="newrow"
                 type="text"
+                id="{{propertyKey}}"
                 [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
                 (blur)="validate()"
-                *ngIf="!propertyData.type && !propertyData.locked"
             >
 
             <textarea
+                *ngIf="propertyData.type==='textarea'"
                 aria-label="Multiline text input"
                 class="newrow"
                 rows=3
                 [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
-                *ngIf="propertyData.type==='textarea'"
             >
             </textarea>
 
             <input
+                *ngIf="propertyData.type==='checkbox'"
                 aria-label="Checkbox"
                 type="checkbox"
                 [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
-                *ngIf="propertyData.type==='checkbox'"
             >
 
             <input
+                *ngIf="propertyData.type==='number'"
                 aria-label="Number input"
                 type="number"
                 [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
                 (blur)="validate()"
-                *ngIf="propertyData.type==='number'"
             >
         </div>
 
         <div
-            class="newrow"
             *ngIf="validationError.length"
+            class="newrow"
         >
             <span class="problem">{{validationError}}</span>
         </div>
 
         <div
-            class="newrow"
             *ngIf="validationResult.length"
+            class="newrow"
         >
             <span>Current result: {{validationResult}}</span>
         </div>
 
         <div
+            *ngIf="propertyData.type!=='textarea' && propertyData.type!=='checkbox' && !(propertyData.parent === 'gainItems' && propertyData.key === 'type')"
             class="list-item"
             style="margin: initial 0"
-            *ngIf="propertyData.type!=='textarea' && propertyData.type!=='checkbox' && !(propertyData.parent === 'gainItems' && propertyData.key === 'type')"
         >
             <select
                 aria-label="Select example"
                 class="newrow left-aligned"
-                [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
                 [disabled]="!examples().length"
+                [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
                 (ngModelChange)="validate()"
             >
                 <option
@@ -140,9 +138,9 @@
         </div>
 
         <div
+            *ngIf="propertyData.parent === 'gainItems' && propertyData.key === 'type'"
             class="list-item"
             style="margin: initial 0"
-            *ngIf="propertyData.parent === 'gainItems' && propertyData.key === 'type'"
         >
             <select
                 aria-label="Select item type"

@@ -1,8 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!-- Changing Weapon Runes -->
 <div
-    class="list-item"
     *ngIf="isRuneItem() && (item.moddable || customItemStore)"
+    class="list-item"
 >
     <ng-container *ngIf="runeItemType() as runeItemType">
         <ng-container *ngIf="previousValues() as previousValues">
@@ -28,8 +28,8 @@
 
             <!-- Resilient/Striking rune -->
             <div
-                class="newrow"
                 *ngIf="item.potencyRune > 0"
+                class="newrow"
             >
                 <strong *ngIf="runeItemType.armor">Resilient rune</strong>
 
@@ -55,8 +55,8 @@
         <!-- Property runes -->
         <ng-container *ngIf="item.potencyRune > 0">
             <div
-                class="newrow"
                 *ngFor="let index of propertyRunesSlots(); trackBy:trackByIndex;"
+                class="newrow"
             >
                 <strong *ngIf="index === 0">Property runes</strong>
 
@@ -64,14 +64,14 @@
 
                 <select
                     aria-label="Select property rune"
+                    [disabled]="!item.propertyRunes[index-1] && index > 0"
                     [(ngModel)]="newPropertyRune[index]"
                     (ngModelChange)="onSelectPropertyRune(index)"
-                    [disabled]="!item.propertyRunes[index-1] && index > 0"
                 >
                     <ng-container *ngFor="let rune of initialPropertyRunes(index); let initialRuneIndex = index; trackBy:trackByIndex;">
                         <option
-                            [ngValue]="rune"
                             *ngIf="initialRuneIndex === 0"
+                            [ngValue]="rune"
                             [selected]=!item.propertyRunes[index]
                         >
                             <!-- Blank option to deselect -->
@@ -88,8 +88,8 @@
                     <ng-container *ngFor="let inv of inventoriesOrCleanItems(); trackBy:trackByIndex;">
                         <ng-container *ngIf="availablePropertyRunes$(index, inv, runeItemType) | async as availablePropertyRunes">
                             <optgroup
-                                [label]="itemStore ? 'Available runes' : inventoryName$(inv) | async"
                                 *ngIf="availablePropertyRunes.length"
+                                [label]="itemStore ? 'Available runes' : inventoryName$(inv) | async"
                             >
                                 <option
                                     *ngFor="let runeSet of availablePropertyRunes; trackBy:trackByIndex;"

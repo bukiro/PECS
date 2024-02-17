@@ -8,8 +8,8 @@
 
 <ng-container *ngIf="updateAvailable$ | async as updateAvailable">
     <div
-        class="list-item newrow center-aligned"
         *ngIf="updateAvailable.available"
+        class="list-item newrow center-aligned"
     >
         <a
             *ngIf="updateAvailable.desc !== 'n/a'"
@@ -25,8 +25,8 @@
 </ng-container>
 
 <div
-    class="newrow list-item left-aligned lower"
     *ngIf="version"
+    class="newrow list-item left-aligned lower"
 >
     <header class="spellHeader">
         New in version
@@ -44,12 +44,12 @@
     </header>
 
     <div
-        class="newrow list-item left-aligned"
         *ngFor="let change of (selectedVersionLog$ | async)?.changes; trackBy:trackByIndex;"
+        class="newrow list-item left-aligned"
     >
         <header
-            class="subsectionHeader"
             *ngIf="change.header"
+            class="subsectionHeader"
         >
             {{change.header}}
         </header>
@@ -57,12 +57,11 @@
         <app-description
             *ngFor="let split of change.desc.split('\n\n'); trackBy:trackByIndex"
             [text]="split"
-        >
-        </app-description>
+        />
 
         <div
-            class="newrow list-item center-aligned"
             *ngFor="let image of change.images; trackBy:trackByIndex"
+            class="newrow list-item center-aligned"
         >
             <img
                 style="max-width:100%; flex-grow: 0;"
@@ -70,8 +69,8 @@
                 src="assets/img/about/{{image.file}}"
             >
             <span
-                class="newrow center-aligned"
                 *ngIf="image.title"
+                class="newrow center-aligned"
             >
                 {{image.title}}
             </span>
@@ -83,8 +82,8 @@
     <div class="list-item newrow">
         <div class="newrow left-aligned">
             <header
-                class="spellHeader"
                 *ngIf="paragraph.header"
+                class="spellHeader"
             >
                 {{paragraph.header}}
             </header>
@@ -92,8 +91,7 @@
             <app-description
                 *ngFor="let split of paragraph.desc.split('\n\n'); trackBy:trackByIndex"
                 [text]="split"
-            >
-            </app-description>
+            />
         </div>
     </div>
 </ng-container>
@@ -104,8 +102,8 @@
     <ng-container *ngFor="let hint of hints; trackBy:trackByIndex;">
         <div class="newrow list-item left-aligned">
             <header
-                class="subsectionHeader"
                 *ngIf="hint.header"
+                class="subsectionHeader"
             >
                 {{hint.header}}
             </header>
@@ -113,12 +111,11 @@
             <app-description
                 *ngFor="let split of hint.desc.split('\n\n'); trackBy:trackByIndex"
                 [text]="split"
-            >
-            </app-description>
+            />
 
             <div
-                class="newrow list-item center-aligned"
                 *ngFor="let image of hint.images; trackBy:trackByIndex"
+                class="newrow list-item center-aligned"
             >
                 <img
                     style="max-width:100%; flex-grow: 0;"
@@ -126,8 +123,8 @@
                     src="assets/img/about/{{image.file}}"
                 >
                 <span
-                    class="newrow center-aligned"
                     *ngIf="image.title"
+                    class="newrow center-aligned"
                 >
                     {{image.title}}
                 </span>

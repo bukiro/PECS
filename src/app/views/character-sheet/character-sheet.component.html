@@ -3,35 +3,34 @@
 <app-character-sheet-desktop
     *ngIf="(isMobile$ | async) === false"
     [attacksAndSpellsOrder]="(attacksAndSpellsOrder$ | async) ?? {}"
-></app-character-sheet-desktop>
+/>
 
 <app-character-sheet-mobile
     *ngIf="(isMobile$ | async)"
-></app-character-sheet-mobile>
+/>
 
 <!-- Slide-in menus -->
 
-<app-items [@slideInOut]="(sideMenuState$ | async) === menuNames.ItemsMenu ? 'in' : 'out'"></app-items>
+<app-items [@slideInOut]="(sideMenuState$ | async) === menuNames.ItemsMenu ? 'in' : 'out'" />
 
-<app-crafting [@slideInOut]="(sideMenuState$ | async) === menuNames.CraftingMenu ? 'in' : 'out'"></app-crafting>
+<app-crafting [@slideInOut]="(sideMenuState$ | async) === menuNames.CraftingMenu ? 'in' : 'out'" />
 
-<app-spell-selection [@slideInOut]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu? 'in' : 'out'"></app-spell-selection>
+<app-spell-selection [@slideInOut]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu? 'in' : 'out'" />
 
-<app-spell-library [@slideInOut]="(sideMenuState$ | async) === menuNames.SpellLibraryMenu? 'in' : 'out'"></app-spell-library>
+<app-spell-library [@slideInOut]="(sideMenuState$ | async) === menuNames.SpellLibraryMenu? 'in' : 'out'" />
 
-<app-conditions [@slideInOut]="(sideMenuState$ | async) === menuNames.ConditionsMenu ? 'in' : 'out'"></app-conditions>
+<app-conditions [@slideInOut]="(sideMenuState$ | async) === menuNames.ConditionsMenu ? 'in' : 'out'" />
 
-<app-character-creation [@slideInOut]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu ? 'in' : 'out'"></app-character-creation>
+<app-character-creation [@slideInOut]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu ? 'in' : 'out'" />
 
 <app-animal-companion
     *ngIf="isAnimalCompanionAvailable$ | async"
     [@slideInOut]="(sideMenuState$ | async) === menuNames.CompanionMenu? 'in' : 'out'"
->
-</app-animal-companion>
+/>
 
 <app-familiar
     *ngIf="isFamiliarAvailable$ | async"
     [@slideInOut]="(sideMenuState$ | async) === menuNames.FamiliarMenu ? 'in' : 'out'"
-></app-familiar>
+/>
 
-<app-dice [@slideInOutVert]="(topMenuState$ | async) === menuNames.DiceMenu ? 'in' : 'out'"></app-dice>
+<app-dice [@slideInOutVert]="(topMenuState$ | async) === menuNames.DiceMenu ? 'in' : 'out'" />

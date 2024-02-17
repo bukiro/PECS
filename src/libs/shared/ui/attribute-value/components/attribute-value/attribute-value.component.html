@@ -11,11 +11,11 @@
     </div>
 </ng-template>
 
-<ng-container *ngIf="!showValueOnLeftSide" [ngTemplateOutlet]="TitleTemplate"></ng-container>
+<ng-container *ngIf="!showValueOnLeftSide" [ngTemplateOutlet]="TitleTemplate" />
 
 <div
-    class="value"
     *ngIf="value !== undefined"
+    class="value"
 >
     <div
         class="value__value"
@@ -35,14 +35,14 @@
         *ngIf="quickdiceTemplate"
         class="value__icon value__icon--dice"
     >
-        <ng-container *ngTemplateOutlet="quickdiceTemplate"></ng-container>
+        <ng-container *ngTemplateOutlet="quickdiceTemplate" />
     </div>
 
     <ng-template #BonusesTemplate>
         <app-bonus-list
             *ngIf="bonuses?.length"
             [bonuses]="bonuses"
-        ></app-bonus-list>
+        />
     </ng-template>
 
     <!-- Notes icon -->
@@ -52,8 +52,8 @@
     >
         <span (click)="showNotes = !showNotes">
             <i
-                [ngbTooltip]="'Edit notes'"
                 class='bi-pencil-square'
+                [ngbTooltip]="'Edit notes'"
             ></i>
         </span>
     </div>
@@ -74,15 +74,15 @@
         class="value__icon value__icon--effects"
     >
         <span
-            [ngbPopover]="EffectsTemplate"
-            [popoverTitle]="'Custom effects on ' + title"
             #EffectsPopover="ngbPopover"
             triggers="click"
+            [ngbPopover]="EffectsTemplate"
+            [popoverTitle]="'Custom effects on ' + title"
         >
             <i
+                class='bi-lightning-charge'
                 [ngbTooltip]="'Edit effects'"
                 [disableTooltip]="EffectsPopover.isOpen()"
-                class='bi-lightning-charge'
             ></i>
         </span>
 
@@ -90,9 +90,9 @@
             <app-object-effects
                 [creature]="customEffectsTarget.creature"
                 [objectName]="customEffectsTarget.target"
-            ></app-object-effects>
+            />
         </ng-template>
     </div>
 </div>
 
-<ng-container *ngIf="!!showValueOnLeftSide" [ngTemplateOutlet]="TitleTemplate"></ng-container>
+<ng-container *ngIf="!!showValueOnLeftSide" [ngTemplateOutlet]="TitleTemplate" />

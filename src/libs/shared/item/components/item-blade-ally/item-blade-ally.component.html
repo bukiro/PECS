@@ -10,8 +10,8 @@
         >
             <ng-container *ngFor="let rune of initialPropertyRunes(); let initialRuneIndex = index; trackBy:trackByIndex;">
                 <option
-                    [ngValue]="rune"
                     *ngIf="initialRuneIndex === 0"
+                    [ngValue]="rune"
                     [selected]=!item.propertyRunes[0]
                 >
                     <!-- Blank option to deselect -->
@@ -27,8 +27,8 @@
 
             <ng-container *ngIf="availableWeaponPropertyRunes() as availableWeaponPropertyRunes">
                 <optgroup
-                    label="Available runes"
                     *ngIf="availableWeaponPropertyRunes.length"
+                    label="Available runes"
                 >
                     <option
                         *ngFor="let rune of availableWeaponPropertyRunes; trackBy:trackByIndex;"

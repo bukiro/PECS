@@ -1,13 +1,13 @@
 <button
     #Button
     type="button"
-    [name]="label"
     aria-label="button"
+    [name]="label"
     [attr.aria-label]="label"
-    (click)="clicked.emit()"
     [disabled]="isDisabled ?? isProcessing"
     [ngbTooltip]="label"
     [disableTooltip]="!shouldShowLabel"
+    (click)="clicked.emit()"
 >
-    <ng-content></ng-content>
+    <ng-content />
 </button>

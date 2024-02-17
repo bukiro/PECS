@@ -1,16 +1,15 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngIf="itemTraits$() | async as traits">
     <div
-        class="newrow left-aligned tags"
         *ngIf="traits.length"
+        class="newrow left-aligned tags"
     >
         <app-trait
             *ngFor="let trait of traits; trackBy:trackByIndex;"
             [name]="trait"
             [trait]="traitFromName(trait)"
             [creatureType]="creature.type"
-        >
-        </app-trait>
+        />
     </div>
 </ng-container>
 
@@ -24,13 +23,13 @@
         [showActivities]=true
         [showConditions]=true
         [showEffects]=true
-    ></app-tags>
+    />
 </div>
 
 <ng-container *ngIf="itemRoles() as itemRoles">
     <div
-        class="newrow"
         *ngIf="itemRoles.asEquipment && itemRoles.asEquipment.choices?.length && (itemStore ? true : itemRoles.asEquipment.showChoicesInInventory)"
+        class="newrow"
     >
         <span>
             Variation:
@@ -52,8 +51,8 @@
     <!-- Doubling Rings selection -->
     <ng-container *ngIf="itemRoles.asWornItem as asWornItem">
         <div
-            class="newrow"
             *ngIf="!itemStore && asWornItem.isDoublingRings && !asWornItem.isTalismanCord && !asWornItem.isRingOfWizardry.length"
+            class="newrow"
         >
             <header class="spellHeader">Doubling Rings</header>
 
@@ -92,12 +91,12 @@
             </div>
 
             <div
-                class="newrow left-aligned"
                 *ngIf="asWornItem.isDoublingRings === 'Doubling Rings (Greater)'"
+                class="newrow left-aligned"
             >
                 <input
-                    id="{{item.id}}doublingRingsApplyPropertyRunes"
                     type="checkbox"
+                    id="{{item.id}}doublingRingsApplyPropertyRunes"
                     [(ngModel)]="item.data[2].value"
                     (ngModelChange)="onSelectDoublingRingsOption(asWornItem)"
                 >
@@ -107,14 +106,14 @@
 
         <!-- Ring of Wizardry selection -->
         <div
-            class="newrow"
             *ngIf="!itemStore || asWornItem.isRingOfWizardry.length && !asWornItem.isTalismanCord && !asWornItem.isDoublingRings"
+            class="newrow"
         >
             <header class="spellHeader">Ring of Wizardry</header>
 
             <div
-                class="newrow"
                 *ngFor="let wizardrySlot of asWornItem.isRingOfWizardry; let wizardryIndex = index; trackBy:trackByIndex"
+                class="newrow"
             >
                 <strong>
                     {{ringOfWizardrySlotName(wizardrySlot)}}
@@ -137,15 +136,15 @@
 
         <!-- Talisman Cord school display/selection -->
         <div
-            class="newrow"
             *ngIf="asWornItem.isTalismanCord && !asWornItem.isDoublingRings && !(asWornItem.isRingOfWizardry.length)"
+            class="newrow"
         >
             <header class="spellHeader">Talisman Cord</header>
 
             <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
                 <div
-                    class="newrow"
                     *ngIf="asWornItem.isTalismanCord > talismanCordIndex && item.data[talismanCordIndex]"
+                    class="newrow"
                 >
                     <strong>{{item.data[talismanCordIndex].name}}</strong>
 
@@ -165,23 +164,22 @@
         </div>
     </ng-container>
 
-    <app-item-content [item]="item"></app-item-content>
+    <app-item-content [item]="item" />
 
     <!-- Item activities -->
     <div
-        class="list-item left-aligned"
         *ngFor="let activity of itemRoles.asActivityBearing?.activities; trackBy:trackByIndex;"
+        class="list-item left-aligned"
     >
         <header
-            class="spellHeader"
             *ngIf="activity.name"
+            class="spellHeader"
         >
             {{activity.name}}
             <app-action-icons
                 *ngIf="activity.actions"
                 [actionString]="activity.actions"
-            >
-            </app-action-icons>
+            />
             {{(activity.activationType) ? activity.activationType : ""}}
         </header>
 
@@ -191,23 +189,21 @@
             [gain]=activity
             [allowActivate]="allowActivate && !(itemRoles.asEquipment?.broken) && !!(activity.resonant ? isSubItem : true)"
             [isSubItem]="isSubItem"
-        >
-        </app-activity>
+        />
     </div>
 
     <!-- Known activities -->
     <ng-container *ngFor="let gain of itemRoles.asEquipment?.gainActivities; trackBy:trackByIndex;">
         <div
-            class="list-item left-aligned"
             *ngIf="activityFromName(gain.name) as activity"
+            class="list-item left-aligned"
         >
             <header class="spellHeader">
                 {{activity.name}}
                 <app-action-icons
                     *ngIf="activity.actions"
                     [actionString]="activity.actions"
-                >
-                </app-action-icons>
+                />
                 {{(activity.activationType) ? activity.activationType : ""}}
             </header>
 
@@ -217,24 +213,22 @@
                 [gain]=gain
                 [allowActivate]="allowActivate"
                 [isSubItem]="isSubItem"
-            >
-            </app-activity>
+            />
         </div>
     </ng-container>
 
     <!-- Shown/related activities (Talismans only) -->
     <ng-container *ngFor="let activityName of itemRoles.asTalisman?.showActivities; trackBy:trackByIndex;">
         <div
-            class="list-item left-aligned"
             *ngIf="activityFromName(activityName) as activity"
+            class="list-item left-aligned"
         >
             <header class="spellHeader">
                 {{activity.name}}
                 <app-action-icons
                     *ngIf="activity.actions"
                     [actionString]="activity.actions"
-                >
-                </app-action-icons>
+                />
                 {{(activity.activationType) ? activity.activationType : ""}}
             </header>
 
@@ -243,15 +237,14 @@
                 [activity]=activity
                 [allowActivate]=false
                 [isSubItem]="isSubItem"
-            >
-            </app-activity>
+            />
         </div>
     </ng-container>
 
     <!-- Spells that get cast by activating the item (Oils only) -->
     <div
-        class="list-item left-aligned"
         *ngFor="let cast of itemRoles.asOil?.castSpells; trackBy:trackByIndex;"
+        class="list-item left-aligned"
     >
         <div *ngIf="spellFromName(cast.name) as spell">
             <header class="spellHeader">
@@ -259,23 +252,22 @@
                 <app-action-icons
                     *ngIf="spell.actions"
                     [actionString]="spell.actions"
-                >
-                </app-action-icons>
+                />
                 {{spell.castType.toString()}}
             </header>
 
             <app-spell
                 [spell]=spell
                 [spellLevel]="cast.level ? cast.level : 0"
-            ></app-spell>
+            />
         </div>
     </div>
 
     <!-- Spells that you gain from equipping/investing the item -->
     <ng-container *ngFor="let choice of itemRoles.asEquipment?.gainSpells; trackBy:trackByIndex;">
         <div
-            class="list-item left-aligned"
             *ngFor="let gain of choice.spells; trackBy:trackByIndex;"
+            class="list-item left-aligned"
         >
             <div *ngIf="spellFromName(gain.name) as spell">
                 <header class="spellHeader">
@@ -283,30 +275,28 @@
                     <app-action-icons
                         *ngIf="spell.actions"
                         [actionString]="spell.actions"
-                    >
-                    </app-action-icons>
+                    />
                     {{spell.castType.toString()}}
                 </header>
 
                 <app-spell
                     [spell]=spell
                     [spellLevel]="(gainedSpellLevel$(spell, {gain, choice}) | async) ?? 1"
-                >
-                </app-spell>
+                />
             </div>
         </div>
     </ng-container>
 
     <!-- Material description -->
     <div
-        class="list-item left-aligned"
         *ngFor="let material of itemRoles.asEquipment?.material; trackBy:trackByIndex;"
+        class="list-item left-aligned"
     >
         <header class="spellHeader">{{material.name}}</header>
 
         <div
-            class="newrow left-aligned"
             *ngIf="material.sourceBook"
+            class="newrow left-aligned"
         >
             <strong>Source</strong>
 
@@ -317,24 +307,24 @@
             <app-description
                 class="newrow"
                 [text]="desc"
-            ></app-description>
+            />
         </ng-container>
     </div>
 
     <!-- Armored skirt description if one is applied -->
     <div
-        class="list-item left-aligned"
         *ngIf="armoredSkirt"
+        class="list-item left-aligned"
     >
         <header class="spellHeader">Armored Skirt</header>
 
-        <app-item [item]=armoredSkirt></app-item>
+        <app-item [item]=armoredSkirt />
     </div>
 
     <!-- Spell choices for wands/scrolls/etc -->
     <div
-        class="list-item left-aligned"
         *ngFor="let choice of storedSpellChoices(item); trackBy:trackByIndex;"
+        class="list-item left-aligned"
     >
         <app-spell-choice
             class="newrow"
@@ -342,30 +332,29 @@
             [showHeightened]="true"
             [level]="choice.level"
             [itemSpell]="true"
-        >
-        </app-spell-choice>
+        />
     </div>
 
     <!-- Spell descriptions and effect selections of selected spells -->
     <ng-container *ngFor="let spellSet of storedSpellsTaken(item); trackBy:trackByIndex;">
         <div
-            class="list-item left-aligned"
             *ngIf="spellFromName(spellSet.taken.name) as spell"
+            class="list-item left-aligned"
         >
             <header class="spellHeader">
                 {{spell.name}}
                 <app-action-icons
                     *ngIf="spell.actions"
                     [actionString]="spell.actions"
-                ></app-action-icons>
+                />
                 {{spell.castType.toString()}}
             </header>
 
             <ng-container *ngIf="!itemStore">
                 <ng-container *ngFor="let conditionSet of spellConditions$(spell, spellSet.choice.level, spellSet.taken) | async; let conditionSetIndex = index; trackBy:trackByIndex">
                     <div
-                        class="newrow list-item left-aligned"
                         *ngIf="conditionSet.show"
+                        class="newrow list-item left-aligned"
                     >
                         <span>
                             {{conditionSet.condition.name}} effect selection:
@@ -388,15 +377,14 @@
             <app-spell
                 [spell]=spell
                 [spellLevel]="spellSet.choice.level || 0"
-            >
-            </app-spell>
+            />
         </div>
     </ng-container>
 
     <!-- Oil descriptions -->
     <div
-        class="list-item left-aligned"
         *ngFor="let oil of item.oilsApplied; trackBy:trackByIndex;"
+        class="list-item left-aligned"
     >
         <header class="spellHeader">{{oil.effectiveName$()}}</header>
 
@@ -405,20 +393,20 @@
             [item]=oil
             [allowActivate]=allowActivate
             [isSubItem]=true
-        ></app-item>
+        />
     </div>
 
     <!-- Poison descriptions -->
     <div
-        class="list-item left-aligned"
         *ngFor="let poison of itemRoles.asWeapon?.poisonsApplied; trackBy:trackByIndex;"
+        class="list-item left-aligned"
     >
         <header class="spellHeader">{{poison.name}}</header>
 
         <button
+            *ngIf="allowActivate && itemRoles.asWeapon"
             type="button"
             class="newrow left-aligned"
-            *ngIf="allowActivate && itemRoles.asWeapon"
             (click)="onActivatePoison(itemRoles.asWeapon, poison)"
         >
             <span>Spend/Remove</span>
@@ -429,13 +417,13 @@
             [item]=poison
             [allowActivate]=allowActivate
             [isSubItem]=true
-        ></app-item>
+        />
     </div>
 
     <!-- Rune descriptions -->
     <div
-        class="list-item left-aligned"
         *ngFor="let rune of itemRoles.asEquipment?.propertyRunes; trackBy:trackByIndex;"
+        class="list-item left-aligned"
     >
         <header class="spellHeader">{{rune.name}} Rune</header>
 
@@ -450,8 +438,7 @@
                     <app-action-icons
                         *ngIf="spell.actions"
                         [actionString]="spell.actions"
-                    >
-                    </app-action-icons>
+                    />
                     (Cast spell)
                 </span>
             </button>
@@ -462,15 +449,15 @@
             [item]=rune
             [allowActivate]=allowActivate
             [isSubItem]=true
-        ></app-item>
+        />
     </div>
 
     <!-- Blade ally rune descriptions -->
     <ng-container *ngIf="(itemRoles.asWeapon || itemRoles.asWornItem) as bladeAllyItem">
         <ng-container *ngIf="bladeAllyItem.bladeAlly">
             <div
-                class="list-item left-aligned"
                 *ngFor="let rune of bladeAllyItem.bladeAllyRunes; trackBy:trackByIndex;"
+                class="list-item left-aligned"
             >
                 <header class="spellHeader">{{rune.name}} Rune</header>
 
@@ -479,16 +466,15 @@
                     [item]="rune"
                     [allowActivate]="allowActivate"
                     [isSubItem]="true"
-                >
-                </app-item>
+                />
             </div>
         </ng-container>
     </ng-container>
 
     <!-- Emulated rune descriptions (oils) -->
     <div
-        class="list-item left-aligned"
         *ngIf="!!itemRoles.asOil && !!itemRoles.asOil.runeEffect"
+        class="list-item left-aligned"
     >
         <header class="spellHeader">
             Rune Effect: {{itemRoles.asOil.runeEffect.name}}
@@ -499,14 +485,13 @@
             [item]="itemRoles.asOil.runeEffect"
             [allowActivate]=allowActivate
             [isSubItem]=isSubItem
-        >
-        </app-item>
+        />
     </div>
 
     <!-- Aeon stone descriptions -->
     <div
-        class="list-item left-aligned"
         *ngFor="let stone of itemRoles.asWornItem?.aeonStones; trackBy:trackByIndex;"
+        class="list-item left-aligned"
     >
         <header class="spellHeader">{{stone.name}}</header>
 
@@ -515,20 +500,20 @@
             [item]=stone
             [allowActivate]=allowActivate
             [isSubItem]=true
-        ></app-item>
+        />
     </div>
 
     <!-- Talisman cord descriptions -->
     <div
-        class="list-item left-aligned lower"
         *ngFor="let cord of itemRoles.asEquipment?.talismanCords; trackBy:trackByIndex;"
+        class="list-item left-aligned lower"
     >
         <header class="spellHeader">{{cord.name}}</header>
 
         <p>
             When you activate a talisman threaded through a cord with the same magic school trait that's also the cord's
             level or lower, attempt a
-            <app-quickdice [diceString]="'1d20'"></app-quickdice>
+            <app-quickdice [diceString]="'1d20'" />
             DC 16 flat check. On a
             success,
             that talisman is not consumed and can be used again.
@@ -536,8 +521,8 @@
 
         <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
             <div
-                class="newrow"
                 *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]"
+                class="newrow"
             >
                 <strong>{{cord.data[talismanCordIndex].name}}</strong>
                 {{cord.data[talismanCordIndex].value}}
@@ -547,41 +532,39 @@
 
     <!-- Talisman descriptions and activation -->
     <div
-        class="list-item left-aligned"
         *ngFor="let talisman of itemRoles.asEquipment?.talismans; let index = index; trackBy:trackByIndex;"
+        class="list-item left-aligned"
     >
         <header class="spellHeader">{{talisman.name}}</header>
 
         <button
+            *ngIf="allowActivate"
             type="button"
             class="newrow left-aligned"
             (click)="onActivateTalisman(itemRoles, talisman, index)"
-            *ngIf="allowActivate"
         >
             <span>
                 Activate
                 <app-action-icons
                     *ngIf="talisman.actions"
                     [actionString]="talisman.actions"
-                >
-                </app-action-icons>
+                />
                 {{(talisman.activationType) ? talisman.activationType : ""}}
             </span>
         </button>
 
         <button
+            *ngIf="allowActivate && itemRoles.asEquipment && hasMatchingTalismanCord(itemRoles.asEquipment, talisman)"
             type="button"
             class="newrow left-aligned"
             (click)="onActivateTalisman(itemRoles, talisman, index, {preserve: true})"
-            *ngIf="allowActivate && itemRoles.asEquipment && hasMatchingTalismanCord(itemRoles.asEquipment, talisman)"
         >
             <span>
                 Activate and preserve with talisman cord
                 <app-action-icons
                     *ngIf="talisman.actions"
                     [actionString]="talisman.actions"
-                >
-                </app-action-icons>
+                />
                 {{(talisman.activationType) ? talisman.activationType : ""}}
             </span>
         </button>
@@ -591,6 +574,6 @@
             [item]=talisman
             [allowActivate]=allowActivate
             [isSubItem]=true
-        ></app-item>
+        />
     </div>
 </ng-container>
