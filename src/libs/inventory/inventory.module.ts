@@ -14,6 +14,7 @@ import { StickyPopoverModule } from '../shared/sticky-popover/sticky-popover.mod
 import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
 import { ButtonModule } from '../shared/ui/button/button.module';
 import { AttributeValueModule } from '../shared/ui/attribute-value/attribute-value.module';
+import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
     imports: [
@@ -35,6 +36,7 @@ import { AttributeValueModule } from '../shared/ui/attribute-value/attribute-val
         GridIconModule,
         ButtonModule,
         AttributeValueModule,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         InventoryComponent,

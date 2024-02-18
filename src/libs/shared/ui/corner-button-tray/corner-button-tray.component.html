@@ -1,0 +1,67 @@
+<div
+    *ngIf="showCloseButton"
+    class="button"
+>
+    <app-button
+        label="Close"
+        fullSize
+        compact
+        (clicked)="closeButtonClicked.emit()"
+    >
+        <i class="bi-x-lg"></i>
+    </app-button>
+</div>
+
+<div
+    *ngIf="showMinimizeButton"
+    class="button"
+>
+    <app-toggle-button
+        fullSize
+        compact
+        [activeLabel]="activeMinimizeLabel"
+        [inactiveLabel]="inactiveMinimizeLabel"
+        [ngModel]="minimized"
+        (ngModelChange)="toggleMinimized.emit($event)"
+    >
+        <i
+            *ngIf="minimized"
+            class='bi-arrows-angle-contract'
+        ></i>
+
+        <i
+            *ngIf="!minimized"
+            class='bi-arrows-angle-expand'
+        ></i>
+    </app-toggle-button>
+</div>
+
+<div
+    *ngIf="showTileModeButton"
+    class="button tile-mode-button"
+    [class.tile-mode-button--toggled]="tileMode"
+>
+    <app-toggle-button
+        fullSize
+        tight
+        [activeLabel]="activeTileModeLabel"
+        [inactiveLabel]="inactiveTileModeLabel"
+        [ngModel]="tileMode"
+        (ngModelChange)="toggleTileMode.emit($event)"
+    >
+        <div class="content">
+            <!-- The icon is css only -->
+            <div class="icon">
+                <div class="icon__element"></div>
+
+                <div class="icon__element"></div>
+
+                <div class="icon__element"></div>
+
+                <div class="icon__element"></div>
+            </div>
+        </div>
+    </app-toggle-button>
+</div>
+
+<ng-content />

@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { map, Observable } from 'rxjs';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
@@ -10,46 +9,10 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { selectLeftMenu, selectTopMenu } from 'src/libs/store/menu/menu.selectors';
 import { Store } from '@ngrx/store';
 
-const slideInOutTrigger = trigger('slideInOut', [
-    state('in', style({
-        transform: 'translate3d(0,0,0)',
-    })),
-    state('out', style({
-        transform: 'translate3d(-100%, 0, 0)',
-    })),
-    transition('in => out', animate('400ms ease-in-out')),
-    transition('out => in', animate('400ms ease-in-out')),
-]);
-const slideInOutRightTrigger = trigger('slideInOutRight', [
-    state('in', style({
-        transform: 'translate3d(0,0,0)',
-    })),
-    state('out', style({
-        transform: 'translate3d(+100%, 0, 0)',
-    })),
-    transition('in => out', animate('400ms ease-in-out')),
-    transition('out => in', animate('400ms ease-in-out')),
-]);
-const slideInOutVertical = trigger('slideInOutVert', [
-    state('in', style({
-        transform: 'translate3d(0,0,0)',
-    })),
-    state('out', style({
-        transform: 'translate3d(0, -100%, 0)',
-    })),
-    transition('in => out', animate('400ms ease-in-out')),
-    transition('out => in', animate('400ms ease-in-out')),
-]);
-
 @Component({
     selector: 'app-character-sheet',
     templateUrl: './character-sheet.component.html',
     styleUrls: ['./character-sheet.component.scss'],
-    animations: [
-        slideInOutTrigger,
-        slideInOutRightTrigger,
-        slideInOutVertical,
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterSheetComponent extends IsMobileMixin(TrackByMixin(BaseClass)) {

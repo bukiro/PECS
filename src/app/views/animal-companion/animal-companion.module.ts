@@ -14,6 +14,7 @@ import { AbilitiesModule } from 'src/libs/abilities/abilities.module';
 import { AttacksModule } from 'src/libs/attacks/attacks.module';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
         AbilitiesModule,
         AttacksModule,
         ButtonModule,
+        FlyInMenuComponent,
     ],
     declarations: [
         AnimalCompanionComponent,

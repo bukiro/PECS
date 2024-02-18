@@ -7,7 +7,7 @@
     [attr.aria-label]="label"
     [disabled]="isDisabled ?? isProcessing"
     [ngbTooltip]="label"
-    [disableTooltip]="!shouldShowLabel"
+    [disableTooltip]="shouldHideLabel"
     (click)="clicked.emit()"
 >
     <div class="button__content">

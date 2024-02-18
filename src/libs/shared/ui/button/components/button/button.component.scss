@@ -10,9 +10,62 @@
 
     line-height: inherit;
 
+    .button {
+        height: 100%;
+        width: 100%;
+
+        opacity: 100%;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+
+        &__content {
+            @include box-shadow-small;
+            @include border-default;
+            @include background-color-default;
+            @include flex-center-cross-axis;
+            border-width: $spacing-xxs;
+
+            height: 100%;
+            width: 100%;
+
+            color: inherit;
+
+            padding: .25em .5em;
+
+            line-height: inherit;
+
+            transition: opacity .5s, box-shadow .5s;
+        }
+    }
+
     &.full-size {
         height: 100%;
         width: 100%;
+    }
+
+    &.left-aligned {
+        .button {
+            &__content {
+                @include flex-row-start;
+            }
+        }
+    }
+
+    &.center-aligned {
+        .button {
+            &__content {
+                @include flex-row-center;
+            }
+        }
+    }
+
+    &.right-aligned {
+        .button {
+            &__content {
+                @include flex-row-end;
+            }
+        }
     }
 
     &:not(.disabled):not(.processing):not(.toggled):hover {
@@ -41,105 +94,93 @@
         }
     }
 
-    .button {
-        height: 100%;
-        width: 100%;
-
-        opacity: 100%;
-        background-color: transparent;
-        border: none;
-        padding: 0;
-
-        &__content {
-            @include box-shadow-small;
-            @include border-default;
-            @include background-color-default;
-            border-width: $spacing-xxs;
-
-            height: 100%;
-            width: 100%;
-
-            color: inherit;
-
-            padding: .25em .5em;
-
-            line-height: inherit;
-
-            transition: opacity .5s, box-shadow .5s;
-        }
-    }
-}
-
-:host(.ghost) {
-    .button {
-        &__content {
-            background-color: transparent;
-        }
-    }
-}
-
-:host(.no-outline) {
-    .button {
-        &__content {
-            box-shadow: none !important;
-            border-color: transparent;
-        }
-    }
-
-}
-
-:host(.compact):not(.tight) {
-    .button {
-        &__content {
-            padding: .25em;
-        }
-    }
-}
-
-:host(.tight) {
-    .button {
-        &__content {
-            padding: 0;
-        }
-    }
-}
-
-:host(.toggled) {
-    .button {
-        &__content {
-            @include box-shadow-glow;
-            transform: translate(0, 2px);
+    &.ghost {
+        .button {
+            &__content {
+                background-color: transparent;
+            }
         }
 
-        &:active {
-            .button__content {
-                transform: translate(0, 5px);
+        &.danger {
+            .button {
+                &__content {
+                    @include text-color-penalty;
+                }
             }
         }
     }
-}
 
-:host(.circle) {
-    .button {
-        &__content {
-            @include border-circle;
-        }
-    }
-}
-
-:host(.disabled),
-:host(.processing) {
-    .button {
-        &__content {
-            opacity: 50%;
-        }
-    }
-
-
-    &:not(.no-outline) {
+    &.danger:not(.ghost) {
         .button {
             &__content {
-                border-color: $color-text-medium;
+                @include background-color-penalty;
+            }
+        }
+    }
+
+    &.no-outline {
+        .button {
+            &__content {
+                box-shadow: none !important;
+                border-color: transparent;
+            }
+        }
+
+    }
+
+    &.compact:not(.tight) {
+        .button {
+            &__content {
+                padding: .25em;
+            }
+        }
+    }
+
+    &.tight {
+        .button {
+            &__content {
+                padding: 0;
+            }
+        }
+    }
+
+    &.toggled {
+        .button {
+            &__content {
+                @include box-shadow-glow;
+                transform: translate(0, 2px);
+            }
+
+            &:active {
+                .button__content {
+                    transform: translate(0, 5px);
+                }
+            }
+        }
+    }
+
+    &.circle {
+        .button {
+            &__content {
+                @include border-circle;
+            }
+        }
+    }
+
+    &.disabled,
+    &.processing {
+        .button {
+            &__content {
+                opacity: 50%;
+            }
+        }
+
+
+        &:not(.no-outline) {
+            .button {
+                &__content {
+                    border-color: $color-text-medium;
+                }
             }
         }
     }

@@ -1,18 +1,18 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { distinctUntilChanged, map, Observable, Subscription, switchMap, combineLatest, tap, of, debounceTime } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
+import { distinctUntilChanged, map, Observable, Subscription, switchMap, combineLatest, of, delay } from 'rxjs';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { Store } from '@ngrx/store';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 @Component({
     selector: 'app-familiar',
@@ -20,10 +20,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     styleUrls: ['./familiar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implements OnInit, OnDestroy {
+export class FamiliarComponent extends IsMobileMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
+
+    @Input()
+    public show = false;
 
     public readonly character = CreatureService.character;
 
+    public readonly isMinimized$: Observable<boolean>;
     public readonly isMenuOpen$: Observable<boolean>;
     public readonly familiar$: Observable<Familiar>;
 
@@ -45,7 +49,6 @@ export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implemen
             SettingsService.settings$
                 .pipe(
                     switchMap(settings => settings.familiarMinimized$),
-                    tap(minimized => this._updateMinimized(minimized)),
                 );
 
         this.isMenuOpen$ = _store$.select(selectLeftMenu)
@@ -56,7 +59,7 @@ export class FamiliarComponent extends IsMobileMixin(BaseCardComponent) implemen
                     ? of(isMenuOpen)
                     : of(isMenuOpen)
                         .pipe(
-                            debounceTime(Defaults.closingMenuClearDelay),
+                            delay(Defaults.closingMenuClearDelay),
                         ),
                 ),
             );

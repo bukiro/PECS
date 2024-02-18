@@ -1,25 +1,15 @@
 @import 'utilities';
 
 :host {
-    @include flex-column-left;
-
-    width: 100%;
-
-    gap: $spacing-s;
-
-    position: relative;
+    @include flex-column-right;
 
     .footer {
-        @include flex-row-spread;
+        @include flex-row-end;
 
-        gap: $spacing-l;
+        gap: $spacing-m;
 
         &__button {
             flex: 1 1 100%;
-
-            &.danger {
-                @include background-color-penalty;
-            }
         }
     }
 }

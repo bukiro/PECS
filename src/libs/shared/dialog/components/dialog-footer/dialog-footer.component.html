@@ -2,6 +2,8 @@
     <app-button
         *ngIf="!hideCancel"
         #CancelButton
+        noOutline
+        ghost
         class="footer__button footer__button--cancel"
         (clicked)="close?.()"
     >
@@ -11,7 +13,7 @@
     <app-button
         *ngFor="let button of buttons; trackBy:trackByIndex"
         class="footer__button"
-        [class.danger]="button.danger"
+        [danger]="button.danger"
         (clicked)="button.onClick(); close?.()"
     >
         {{ button.label }}

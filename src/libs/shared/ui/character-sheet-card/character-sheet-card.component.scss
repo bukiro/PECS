@@ -1,4 +1,6 @@
-@mixin character-sheet-card {
+@import 'utilities';
+
+:host {
     @include flex-column-left;
     @include border-default;
     @include text-color-default;

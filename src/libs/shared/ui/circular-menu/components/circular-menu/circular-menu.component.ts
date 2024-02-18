@@ -45,8 +45,8 @@ export class CircularMenuComponent extends TrackByMixin(ButtonComponent) {
     }
 
     @Input()
-    public set showLabel(showLabel: boolean | string | undefined) {
-        this.shouldShowLabel = forceBooleanFromInput(showLabel);
+    public set hideLabel(hideLabel: boolean | string | undefined) {
+        this.shouldHideLabel = forceBooleanFromInput(hideLabel);
     }
 
     public toggleOptions(): void {

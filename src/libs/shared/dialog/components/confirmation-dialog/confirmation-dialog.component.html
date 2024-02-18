@@ -1,18 +1,20 @@
-<app-dialog-header
-    #Header
-    [title]="title"
-    [close]="close"
-/>
+<app-character-sheet-card>
+    <app-dialog-header
+        #Header
+        [title]="title"
+        [close]="close"
+    />
 
-<div
-    class="content"
-    [innerHtml]="content"
-></div>
+    <div
+        class="content"
+        [innerHtml]="content"
+    ></div>
 
-<app-dialog-footer
-    #Footer
-    [cancelLabel]="cancelLabel"
-    [buttons]="buttons"
-    [close]="close"
-    [hideCancel]="hideCancel"
-/>
+    <app-dialog-footer
+        #Footer
+        [cancelLabel]="cancelLabel"
+        [buttons]="buttons"
+        [close]="close"
+        [hideCancel]="hideCancel"
+    />
+</app-character-sheet-card>

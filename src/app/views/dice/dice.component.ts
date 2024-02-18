@@ -1,11 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, Input } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, debounceTime, distinctUntilChanged, map, Observable, of, Subscription, switchMap } from 'rxjs';
+import { combineLatest, delay, distinctUntilChanged, map, Observable, of, Subscription, switchMap } from 'rxjs';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
@@ -28,6 +27,9 @@ const defaultDiceNum = 5;
 })
 export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
+    @Input()
+    public show = false;
+
     public diceNum = defaultDiceNum;
     public bonus = 0;
 
@@ -43,7 +45,6 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
         private readonly _integrationsService: FoundryVTTIntegrationService,
         private readonly _healthService: HealthService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
-        private readonly _creatureService: CreatureService,
         private readonly _store$: Store,
     ) {
         super();
@@ -56,7 +57,7 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
                     ? of(isMenuOpen)
                     : of(isMenuOpen)
                         .pipe(
-                            debounceTime(Defaults.closingMenuClearDelay),
+                            delay(Defaults.closingMenuClearDelay),
                         ),
                 ),
             );

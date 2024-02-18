@@ -1,195 +1,196 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<div class="corner-button-tray">
-    <app-minimize-button
-        [ngModel]="(isMinimized$ | async) ?? false"
-        (ngModelChange)="toggleMinimized($event)"
-    />
-</div>
-
-<div
-    *ngIf="isMenuOpen$ | async"
-    id="familiar-height"
-    class="itembox vlist"
+<app-fly-in-menu
+    position="left"
+    [show]="show"
+    [showMinimizeButton]="true"
+    [minimized]="(isMinimized$ | async) ?? false"
+    (toggleMinimized)="toggleMinimized($event)"
 >
-    <button
-        type="button"
-        class="itembox-close-button list-item center-aligned"
-        (click)="toggleFamiliarMenu()"
-    >
-        <header class="sectionHeader">Back to Character Sheet</header>
-    </button>
-
     <div
-        *ngIf="familiar$ | async as familiar"
-        class="familiar-box"
+        *ngIf="isMenuOpen$ | async"
+        id="familiar-height"
+        class="itembox vlist"
     >
-        <!-- Desktop-only view -->
-        <ng-template #DesktopViewTemplate>
-            <app-effects
-                id="Familiar-effects"
-                class="character-sheet-app character-sheet-row mobile-hide"
-                [creature]="familiar"
-            />
+        <button
+            type="button"
+            class="itembox-close-button list-item center-aligned"
+            (click)="toggleFamiliarMenu()"
+        >
+            <header class="sectionHeader">Back to Character Sheet</header>
+        </button>
 
-            <div class="character-sheet-column-container mobile-hide">
-                <div class="character-sheet-column">
-                    <app-general
-                        id="Familiar-general"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                    />
+        <div
+            *ngIf="familiar$ | async as familiar"
+            class="familiar-box"
+        >
+            <!-- Desktop-only view -->
+            <ng-template #DesktopViewTemplate>
+                <app-effects
+                    id="Familiar-effects"
+                    class="character-sheet-app character-sheet-row mobile-hide"
+                    [creature]="familiar"
+                />
 
-                    <app-familiar-abilities
-                        id="familiarabilities"
-                        class="character-sheet-app"
-                    />
+                <div class="character-sheet-column-container mobile-hide">
+                    <div class="character-sheet-column">
+                        <app-general
+                            id="Familiar-general"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                        />
 
-                    <app-health
-                        id="Familiar-health"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                    />
+                        <app-familiar-abilities
+                            id="familiarabilities"
+                            class="character-sheet-app"
+                        />
 
-                    <app-skills
-                        id="Familiar-skills"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                    />
+                        <app-health
+                            id="Familiar-health"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                        />
+
+                        <app-skills
+                            id="Familiar-skills"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                        />
+                    </div>
+
+                    <div class="character-sheet-column">
+                        <app-defense
+                            id="Familiar-defense"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                        />
+
+                        <app-inventory
+                            id="Familiar-inventory"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                        />
+                    </div>
+                </div>
+            </ng-template>
+
+            <!-- Mobile-only buttons and views -->
+            <ng-container *ngIf="isMobile$ | async; else DesktopViewTemplate">
+                <div
+                    class="character-sheet-app character-sheet-row desktop-hide"
+                    id="mobile-tabs"
+                >
+                    <button
+                        type="button"
+                        aria-label="General"
+                        [ngClass]="{'fancy-button':shownMode()===''}"
+                        (click)="toggleShownMode('')"
+                    >
+                        <i class="bi-info-circle-fill"></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Health"
+                        [ngClass]="{'fancy-button':shownMode()==='Health'}"
+                        (click)="toggleShownMode('Health')"
+                    >
+                        <i class="ra ra-health"></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Defense"
+                        [ngClass]="{'fancy-button':shownMode()==='Defense'}"
+                        (click)="toggleShownMode('Defense')"
+                    >
+                        <i class="ra ra-shield"></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Skills"
+                        [ngClass]="{'fancy-button':shownMode()==='Skills'}"
+                        (click)="toggleShownMode('Skills')"
+                    >
+                        <i class="ra ra-muscle-up"></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Actions and activities"
+                        [ngClass]="{'fancy-button':shownMode()==='Actions'}"
+                        (click)="toggleShownMode('Actions')"
+                    >
+                        <app-action-icons
+                            style="margin:.12rem -.16rem -.14rem -.16rem"
+                            [actionString]="'1A'"
+                        />
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Conditions and effects"
+                        [ngClass]="{'fancy-button':shownMode()==='ConditionsEffects'}"
+                        (click)="toggleShownMode('ConditionsEffects')"
+                    >
+                        <i class="ra ra-lightning-bolt"></i>
+                    </button>
                 </div>
 
-                <div class="character-sheet-column">
-                    <app-defense
-                        id="Familiar-defense"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                    />
+                <div class="character-sheet-column-container desktop-hide">
+                    <div class="character-sheet-column">
+                        <app-general
+                            *ngIf="!shownMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(shownMode())"
+                            id="Character-general"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                        />
 
-                    <app-inventory
-                        id="Familiar-inventory"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                    />
+                        <app-familiar-abilities
+                            *ngIf="!shownMode()"
+                            id="familiarabilities"
+                            class="character-sheet-app"
+                        />
+
+                        <app-health
+                            *ngIf="shownMode()==='Health'"
+                            id="Character-health"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                            [forceMinimized]="shownMode() === 'Downtime'"
+                        />
+
+                        <app-defense
+                            *ngIf="shownMode()==='Defense'"
+                            id="Character-defense"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                        />
+
+                        <app-skills
+                            *ngIf="shownMode()==='Skills'"
+                            id="Character-skills"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                        />
+
+                        <app-activities
+                            *ngIf="shownMode()==='Actions'"
+                            id="Character-activities"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                        />
+
+                        <app-effects
+                            *ngIf="shownMode()==='ConditionsEffects'"
+                            id="Character-effects"
+                            class="character-sheet-app"
+                            [creature]="familiar"
+                            [fullDisplay]="true"
+                        />
+                    </div>
                 </div>
-            </div>
-        </ng-template>
-
-        <!-- Mobile-only buttons and views -->
-        <ng-container *ngIf="isMobile$ | async; else DesktopViewTemplate">
-            <div
-                class="character-sheet-app character-sheet-row desktop-hide"
-                id="mobile-tabs"
-            >
-                <button
-                    type="button"
-                    aria-label="General"
-                    [ngClass]="{'fancy-button':shownMode()===''}"
-                    (click)="toggleShownMode('')"
-                >
-                    <i class="bi-info-circle-fill"></i>
-                </button>
-
-                <button
-                    type="button"
-                    aria-label="Health"
-                    [ngClass]="{'fancy-button':shownMode()==='Health'}"
-                    (click)="toggleShownMode('Health')"
-                >
-                    <i class="ra ra-health"></i>
-                </button>
-
-                <button
-                    type="button"
-                    aria-label="Defense"
-                    [ngClass]="{'fancy-button':shownMode()==='Defense'}"
-                    (click)="toggleShownMode('Defense')"
-                >
-                    <i class="ra ra-shield"></i>
-                </button>
-
-                <button
-                    type="button"
-                    aria-label="Skills"
-                    [ngClass]="{'fancy-button':shownMode()==='Skills'}"
-                    (click)="toggleShownMode('Skills')"
-                >
-                    <i class="ra ra-muscle-up"></i>
-                </button>
-
-                <button
-                    type="button"
-                    aria-label="Actions and activities"
-                    [ngClass]="{'fancy-button':shownMode()==='Actions'}"
-                    (click)="toggleShownMode('Actions')"
-                >
-                    <app-action-icons
-                        style="margin:.12rem -.16rem -.14rem -.16rem"
-                        [actionString]="'1A'"
-                    />
-                </button>
-
-                <button
-                    type="button"
-                    aria-label="Conditions and effects"
-                    [ngClass]="{'fancy-button':shownMode()==='ConditionsEffects'}"
-                    (click)="toggleShownMode('ConditionsEffects')"
-                >
-                    <i class="ra ra-lightning-bolt"></i>
-                </button>
-            </div>
-
-            <div class="character-sheet-column-container desktop-hide">
-                <div class="character-sheet-column">
-                    <app-general
-                        *ngIf="!shownMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(shownMode())"
-                        id="Character-general"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                    />
-
-                    <app-familiar-abilities
-                        *ngIf="!shownMode()"
-                        id="familiarabilities"
-                        class="character-sheet-app"
-                    />
-
-                    <app-health
-                        *ngIf="shownMode()==='Health'"
-                        id="Character-health"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                        [forceMinimized]="shownMode() === 'Downtime'"
-                    />
-
-                    <app-defense
-                        *ngIf="shownMode()==='Defense'"
-                        id="Character-defense"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                    />
-
-                    <app-skills
-                        *ngIf="shownMode()==='Skills'"
-                        id="Character-skills"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                    />
-
-                    <app-activities
-                        *ngIf="shownMode()==='Actions'"
-                        id="Character-activities"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                    />
-
-                    <app-effects
-                        *ngIf="shownMode()==='ConditionsEffects'"
-                        id="Character-effects"
-                        class="character-sheet-app"
-                        [creature]="familiar"
-                        [fullDisplay]="true"
-                    />
-                </div>
-            </div>
-        </ng-container>
+            </ng-container>
+        </div>
     </div>
-</div>
+</app-fly-in-menu>

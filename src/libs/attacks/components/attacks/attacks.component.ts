@@ -19,7 +19,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap } from 'rxjs';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Specialization } from 'src/app/classes/Specialization';
@@ -45,14 +45,13 @@ import { ItemActivationService } from 'src/libs/shared/services/item-activation/
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { Oil } from 'src/app/classes/Oil';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { Creature } from 'src/app/classes/Creature';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -66,12 +65,13 @@ interface WeaponParameters {
     styleUrls: ['./attacks.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
+export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 
     public onlyAttacks: Array<AttackRestriction> = [];
     public forbiddenAttacks: Array<AttackRestriction> = [];
     public showRestricted = false;
 
+    public isMinimized$: Observable<boolean>;
     public isInventoryTileMode$: Observable<boolean>;
     public isManualMode$: Observable<boolean>;
 
@@ -111,18 +111,7 @@ export class AttacksComponent extends TrackByMixin(BaseCardComponent) implements
                     }
                 }),
                 distinctUntilChanged(),
-                tap(minimized => this._updateMinimized(minimized)),
-                // If the button is hidden, another subscription ensures that the pipe is run.
-                // shareReplay prevents it from running twice if the button is not hidden.
-                shareReplay({ refCount: true, bufferSize: 1 }),
             );
-
-        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
-        this.isMinimized$
-            .pipe(
-                takeUntilDestroyed(),
-            )
-            .subscribe();
 
         this.isInventoryTileMode$ = propMap$(SettingsService.settings$, 'inventoryTileMode$')
             .pipe(

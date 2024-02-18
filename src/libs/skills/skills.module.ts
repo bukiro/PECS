@@ -8,6 +8,7 @@ import { ObjectEffectsModule } from '../shared/object-effects/object-effects.mod
 import { SkillChoiceModule } from '../shared/skill-choice/skill-choice.module';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from '../shared/ui/button/button.module';
+import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -21,6 +22,7 @@ import { ButtonModule } from '../shared/ui/button/button.module';
         ObjectEffectsModule,
         SkillChoiceModule,
         ButtonModule,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         SkillsComponent,

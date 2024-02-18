@@ -7,7 +7,7 @@ import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.service';
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
@@ -21,12 +21,11 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { capitalize, stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { Character } from 'src/app/classes/Character';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 interface ClassChoice {
     name: string;
@@ -40,10 +39,11 @@ interface ClassChoice {
     styleUrls: ['./general.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeneralComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
+export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 
     public creatureTypes = CreatureTypes;
 
+    public isMinimized$: Observable<boolean>;
     public character$: Observable<Character>;
     public companionSpecies$: Observable<string | undefined>;
     public companionSpecializations$: Observable<string | undefined>;
@@ -95,18 +95,7 @@ export class GeneralComponent extends TrackByMixin(BaseCardComponent) implements
                     ),
                 ),
                 distinctUntilChanged(),
-                tap(minimized => this._updateMinimized(minimized)),
-                // If the button is hidden, another subscription ensures that the pipe is run.
-                // shareReplay prevents it from running twice if the button is not hidden.
-                shareReplay({ refCount: true, bufferSize: 1 }),
             );
-
-        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
-        this.isMinimized$
-            .pipe(
-                takeUntilDestroyed(),
-            )
-            .subscribe();
 
         this._archetypeFeats$ = this._characterFeatsService.characterFeatsAtLevel$()
             .pipe(
@@ -141,11 +130,8 @@ export class GeneralComponent extends TrackByMixin(BaseCardComponent) implements
         this._updateCreature(creature);
     }
 
-    public get shouldShowMinimizeButton$(): Observable<boolean> {
-        return this.creature$
-            .pipe(
-                map(creature => creature.isCharacter()),
-            );
+    public get shouldShowMinimizeButton(): boolean {
+        return this.creature.isCharacter();
     }
 
     public toggleMinimized(minimized: boolean): void {

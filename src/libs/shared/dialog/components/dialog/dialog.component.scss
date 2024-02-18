@@ -1,9 +1,0 @@
-@import 'utilities';
-
-:host {
-    @include character-sheet-card;
-
-    gap: $spacing-s;
-
-    position: relative;
-}

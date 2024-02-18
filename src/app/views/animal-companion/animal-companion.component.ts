@@ -1,17 +1,18 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
+import { delay, distinctUntilChanged, map, Observable, of, Subscription, switchMap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 import { Store } from '@ngrx/store';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
 
 @Component({
     selector: 'app-animal-companion',
@@ -19,7 +20,10 @@ import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
     styleUrls: ['./animal-companion.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimalCompanionComponent extends IsMobileMixin(BaseCardComponent) implements OnInit, OnDestroy {
+export class AnimalCompanionComponent extends IsMobileMixin(BaseClass) implements OnInit, OnDestroy {
+
+    @Input()
+    public show = false;
 
     public readonly character = CreatureService.character;
 
@@ -27,6 +31,7 @@ export class AnimalCompanionComponent extends IsMobileMixin(BaseCardComponent) i
     public readonly creatureTypes = CreatureTypes;
 
     public readonly animalCompanion$ = CreatureService.companion$;
+    public readonly isMinimized$: Observable<boolean>;
     public readonly isMenuOpen$: Observable<boolean>;
 
     private _showMode = '';
@@ -41,11 +46,7 @@ export class AnimalCompanionComponent extends IsMobileMixin(BaseCardComponent) i
         super();
 
         this.isMinimized$ =
-            SettingsService.settings$
-                .pipe(
-                    switchMap(settings => settings.companionMinimized$),
-                    tap(minimized => this._updateMinimized(minimized)),
-                );
+            propMap$(SettingsService.settings$, 'companionMinimized$');
 
         this.isMenuOpen$ = _store$.select(selectLeftMenu)
             .pipe(
@@ -55,7 +56,7 @@ export class AnimalCompanionComponent extends IsMobileMixin(BaseCardComponent) i
                     ? of(isMenuOpen)
                     : of(isMenuOpen)
                         .pipe(
-                            debounceTime(Defaults.closingMenuClearDelay),
+                            delay(Defaults.closingMenuClearDelay),
                         ),
                 ),
             );

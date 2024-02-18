@@ -13,6 +13,7 @@ import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
 import { StickyPopoverModule } from '../shared/sticky-popover/sticky-popover.module';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from '../shared/ui/button/button.module';
+import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -31,6 +32,7 @@ import { ButtonModule } from '../shared/ui/button/button.module';
         GridIconModule,
         StickyPopoverModule,
         ButtonModule,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         SpellbookComponent,

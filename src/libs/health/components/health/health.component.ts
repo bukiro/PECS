@@ -10,10 +10,8 @@ import {
     map,
     Observable,
     of,
-    shareReplay,
     Subscription,
     switchMap,
-    tap,
 } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
@@ -24,12 +22,11 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 @Component({
     selector: 'app-health',
@@ -37,7 +34,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     styleUrls: ['./health.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HealthComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
+export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 
     public damage = 0;
     public nonlethal?: boolean;
@@ -45,6 +42,7 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
     public selectedTempHP?: { amount: number; source: string; sourceId: string };
 
     public readonly isManualMode$: Observable<boolean>;
+    public isMinimized$: Observable<boolean>;
 
     private _forceMinimized = false;
 
@@ -88,18 +86,7 @@ export class HealthComponent extends TrackByMixin(BaseCardComponent) implements 
                 .pipe(
                     map(([forced, bySetting]) => forced || bySetting),
                     distinctUntilChanged(),
-                    tap(minimized => this._updateMinimized(minimized)),
-                    // If the button is hidden, another subscription ensures that the pipe is run.
-                    // shareReplay prevents it from running twice if the button is not hidden.
-                    shareReplay({ refCount: true, bufferSize: 1 }),
                 );
-
-        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
-        this.isMinimized$
-            .pipe(
-                takeUntilDestroyed(),
-            )
-            .subscribe();
 
         this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$');
     }

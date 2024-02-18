@@ -26,6 +26,7 @@ import { ActivitiesModule } from 'src/libs/activities/activities.module';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingSpinnerModule } from 'src/libs/shared/ui/loading-spinner/loading-spinner.module';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
     imports: [
@@ -55,6 +56,7 @@ import { LoadingSpinnerModule } from 'src/libs/shared/ui/loading-spinner/loading
         ActivitiesModule,
         ButtonModule,
         LoadingSpinnerModule,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         CharacterSheetComponent,

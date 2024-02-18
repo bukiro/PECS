@@ -8,6 +8,7 @@ import { TagsModule } from '../shared/tags/tags.module';
 import { ConditionModule } from '../shared/condition/condition.module';
 import { FormsModule } from '@angular/forms';
 import { TimeModule } from '../shared/time/time.module';
+import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import { TimeModule } from '../shared/time/time.module';
         TagsModule,
         ConditionModule,
         TimeModule,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         EffectsComponent,

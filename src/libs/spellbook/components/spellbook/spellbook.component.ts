@@ -14,7 +14,7 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { Condition } from 'src/app/classes/Condition';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, Subscription, switchMap, take, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, Subscription, switchMap, take } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trait } from 'src/app/classes/Trait';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -26,9 +26,7 @@ import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTar
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
@@ -38,13 +36,13 @@ import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-e
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { RelativeEffect } from 'src/app/classes/Effect';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { Store } from '@ngrx/store';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -106,12 +104,13 @@ interface SpellSet {
     styleUrls: ['./spellbook.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
+export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 
     public creatureTypes = CreatureTypes;
 
     public character = CreatureService.character;
 
+    public isMinimized$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
     public isManualMode$: Observable<boolean>;
     public hasAnySpells$: Observable<boolean>;
@@ -131,8 +130,6 @@ export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implemen
         private readonly _spellPropertiesService: SpellPropertiesService,
         private readonly _timeService: TimeService,
         private readonly _creatureEffectsService: CreatureEffectsService,
-        private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _spellsTakenService: SpellsTakenService,
@@ -151,7 +148,6 @@ export class SpellbookComponent extends TrackByMixin(BaseCardComponent) implemen
         this.isMinimized$ = propMap$(SettingsService.settings$, 'spellbookMinimized$')
             .pipe(
                 distinctUntilChanged(),
-                tap(minimized => this._updateMinimized(minimized)),
             );
 
         this.isTileMode$ = propMap$(SettingsService.settings$, 'spellbookTileMode$')

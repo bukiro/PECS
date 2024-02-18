@@ -7,6 +7,7 @@ import { AbilitiesComponent } from './components/abilities/abilities.component';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from '../shared/ui/button/button.module';
 import { AttributeValueModule } from '../shared/ui/attribute-value/attribute-value.module';
+import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import { AttributeValueModule } from '../shared/ui/attribute-value/attribute-val
         ObjectEffectsModule,
         ButtonModule,
         AttributeValueModule,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         AbilitiesComponent,

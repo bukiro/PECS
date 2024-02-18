@@ -17,6 +17,7 @@ import { SpellChoiceModule } from 'src/libs/shared/spell-choice/spell-choice.mod
 import { ActivityModule } from 'src/libs/shared/activity/activity.module';
 import { SpellModule } from 'src/libs/shared/spell/spell.module';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
         ActivityModule,
         SpellModule,
         ButtonModule,
+        FlyInMenuComponent,
     ],
     declarations: [
         CharacterCreationComponent,

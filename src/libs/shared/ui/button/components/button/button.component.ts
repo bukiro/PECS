@@ -33,6 +33,9 @@ export class ButtonComponent {
     @HostBinding('class.ghost')
     public isGhost?: boolean;
 
+    @HostBinding('class.danger')
+    public isDanger?: boolean;
+
     @HostBinding('class.no-outline')
     public isNotOutlined?: boolean;
 
@@ -45,7 +48,18 @@ export class ButtonComponent {
     @HostBinding('class.circle')
     public isCircle?: boolean;
 
-    public shouldShowLabel?: boolean;
+    @HostBinding('class.left-aligned')
+    private _isLeftAligned = false;
+
+    @HostBinding('class.center-aligned')
+    private _isCenterAligned = true;
+
+    @HostBinding('class.right-aligned')
+    private _isRightAligned = false;
+
+    public shouldHideLabel = false;
+
+    private _alignment: 'left' | 'right' | 'center' = 'center';
 
     @Input()
     public set fullSize(fullSize: boolean | string | undefined) {
@@ -73,6 +87,11 @@ export class ButtonComponent {
     }
 
     @Input()
+    public set danger(danger: boolean | string | undefined) {
+        this.isDanger = forceBooleanFromInput(danger);
+    }
+
+    @Input()
     public set noOutline(noOutline: boolean | string | undefined) {
         this.isNotOutlined = forceBooleanFromInput(noOutline);
     }
@@ -93,8 +112,34 @@ export class ButtonComponent {
     }
 
     @Input()
-    public set showLabel(showLabel: boolean | string | undefined) {
-        this.shouldShowLabel = forceBooleanFromInput(showLabel);
+    public set hideLabel(hideLabel: boolean | string | undefined) {
+        this.shouldHideLabel = forceBooleanFromInput(hideLabel);
+    }
+
+    public get alignment(): 'left' | 'right' | 'center' {
+        return this._alignment;
+    }
+
+    @Input()
+    public set alignment(alignment: 'left' | 'right' | 'center') {
+        this._alignment = alignment;
+
+        switch (alignment) {
+            case 'left':
+                this._isLeftAligned = true;
+                this._isCenterAligned = false;
+                this._isRightAligned = false;
+                break;
+            case 'right':
+                this._isLeftAligned = false;
+                this._isCenterAligned = false;
+                this._isRightAligned = true;
+                break;
+            default:
+                this._isLeftAligned = false;
+                this._isCenterAligned = true;
+                this._isRightAligned = false;
+        }
     }
 
     public focus(): void {

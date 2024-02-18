@@ -1,11 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { combineLatest, debounceTime, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, tap } from 'rxjs';
+import { combineLatest, delay, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap } from 'rxjs';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
@@ -19,12 +19,12 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { Store } from '@ngrx/store';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -53,10 +53,14 @@ interface SpellParameters {
     styleUrls: ['./spell-selection.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCardComponent)) implements OnInit, OnDestroy {
+export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCreatureElementComponent)) implements OnInit, OnDestroy {
+
+    @Input()
+    public show = false;
 
     public allowBorrow = false;
 
+    public isMinimized$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
     public isMenuOpen$: Observable<boolean>;
 
@@ -84,7 +88,6 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
         this.isMinimized$ = propMap$(SettingsService.settings$, 'spellsMinimized$')
             .pipe(
                 distinctUntilChanged(),
-                tap(minimized => this._updateMinimized(minimized)),
             );
 
         this.isTileMode$ = propMap$(SettingsService.settings$, 'spellsTileMode$')
@@ -101,7 +104,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCard
                     ? of(isMenuOpen)
                     : of(isMenuOpen)
                         .pipe(
-                            debounceTime(Defaults.closingMenuClearDelay),
+                            delay(Defaults.closingMenuClearDelay),
                         ),
                 ),
             );

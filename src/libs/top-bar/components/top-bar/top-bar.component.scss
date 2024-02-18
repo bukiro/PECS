@@ -1,8 +1,10 @@
 @import 'utilities';
 
 :host {
-    @include character-sheet-card;
+    width: 100%;
+}
 
+.top-bar {
     @include flex-row-center;
 
     flex-wrap: wrap;

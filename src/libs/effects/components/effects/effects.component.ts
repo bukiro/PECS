@@ -11,7 +11,7 @@ import { ConditionPropertiesService } from 'src/libs/shared/services/condition-p
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/creature-component/base-creature-element.component';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { Creature } from 'src/app/classes/Creature';
 

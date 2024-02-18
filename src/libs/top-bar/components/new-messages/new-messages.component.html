@@ -2,7 +2,6 @@
     <app-button
         *ngIf="messages$ | async as messages"
         class="messages-button"
-        showLabel
         compact
         [label]="messages.length > 1 ? 'Select messages to apply' : 'No messages available'"
         [disabled]="!messages.length"
@@ -23,7 +22,6 @@
     <app-button
         *ngIf="{ set: hasPartyName } as partyName"
         class="messages-button"
-        showLabel
         compact
         [label]="partyName.set ? 'Check for new messages' : 'You can only receive messages in a party.'"
         [disabled]="!partyName.set || (checkingMessages$ | async) || false"

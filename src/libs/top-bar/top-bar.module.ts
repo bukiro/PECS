@@ -12,6 +12,7 @@ import { DialogModule } from '../shared/dialog/dialog.module';
 import { NewMessagesComponent } from './components/new-messages/new-messages.component';
 import { MessagesDialogComponent } from './components/messages-dialog/messages-dialog.component';
 import { InputModule } from '../shared/ui/input/input.module';
+import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
     imports: [
@@ -27,6 +28,7 @@ import { InputModule } from '../shared/ui/input/input.module';
         LoadingSpinnerModule,
         DialogModule,
         InputModule,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         NewMessagesComponent,

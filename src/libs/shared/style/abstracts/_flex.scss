@@ -4,6 +4,12 @@
     justify-content: flex-start;
 }
 
+@mixin flex-row-end {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
 @mixin flex-row-spread {
     display: flex;
     flex-direction: row;
@@ -20,6 +26,12 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+@mixin flex-column-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 @mixin flex-column-center {

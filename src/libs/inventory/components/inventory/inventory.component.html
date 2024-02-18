@@ -1,402 +1,420 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<div class="corner-button-tray">
-    <app-minimize-button
-        *ngIf="shouldShowMinimizeButton"
-        [ngModel]="(isMinimized$ | async) ?? false"
-        (ngModelChange)="toggleMinimized($event)"
-    />
-
-    <app-tile-mode-button
-        [ngModel]="(isTileMode$ | async) ?? false"
-        (ngModelChange)="toggleTileMode($event)"
-    />
-</div>
-
-<div
-    *ngIf="creature$ | async as creature"
-    class="attributeBox"
-    id="{{creature}}-inventory-height"
+<app-character-sheet-card
+    [showMinimizeButton]="shouldShowMinimizeButton"
+    [showTileModeButton]="true"
+    [minimized]="(isMinimized$ | async) ?? false"
+    [tileMode]="(isTileMode$ | async) ?? false"
+    (toggleMinimized)="toggleMinimized($event)"
+    (toggleTileMode)="toggleTileMode($event)"
 >
-    <header class="sectionHeader box-header">Inventory</header>
-
-    <button
-        *ngIf="!itemStore"
-        type="button"
-        class="minimized-hide list-item center-aligned"
-        (click)="setItemsMenuTarget(creature.type); toggleItemsMenu()"
-    >
-        Get Items
-    </button>
-
-    <header
-        *ngIf="creature.isCharacter()"
-        class="subsectionHeader"
-    >
-        Currency
-    </header>
-
     <div
-        *ngIf="creature.isCharacter() && character.cash as cash"
-        class="list-item"
+        *ngIf="creature$ | async as creature"
+        class="attributeBox"
+        id="{{creature}}-inventory-height"
     >
-        <strong>Platinum</strong>
-
-        <div class="value">{{cash[0]}}</div>
-
-        <strong>Gold</strong>
-
-        <div class="value">{{cash[1]}}</div>
-
-        <strong>Silver</strong>
-
-        <div class="value">{{cash[2]}}</div>
-
-        <strong>Copper</strong>
-
-        <div class="value center-aligned">{{cash[3]}}</div>
+        <header class="sectionHeader box-header">Inventory</header>
 
         <button
+            *ngIf="!itemStore"
             type="button"
-            class="center-aligned"
-            [ngbTooltip]="'Exchange coins for higher currency (no higher than Gold).'"
-            (click)="sortCash();"
+            class="minimized-hide list-item center-aligned"
+            (click)="setItemsMenuTarget(creature.type); toggleItemsMenu()"
         >
-            Sort
+            Get Items
         </button>
-    </div>
 
-    <header class="subsectionHeader">Bulk</header>
+        <header
+            *ngIf="creature.isCharacter()"
+            class="subsectionHeader"
+        >
+            Currency
+        </header>
 
-    <ng-container *ngIf="currentBulk$ | async as currentBulk">
-        <app-attribute-value
-            [title]="'Bulk'"
-            [customEffectsTarget]="{ creature: creature, target: 'Bulk' }"
-            [value]="currentBulk.result"
-            [bonuses]="currentBulk.bonuses"
-        />
-
-        <app-tags
-            [creature]="creature"
-            [objectName]="'Bulk'"
-            [showTraits]=true
-            [showFeats]=true
-            [showItems]=true
-            [showActivities]=true
-            [showConditions]=true
-            [showEffects]=true
-        />
-    </ng-container>
-
-    <ng-container *ngIf="encumberedLimit$ | async as encumberedLimit">
-        <app-attribute-value
-            [title]="'Encumbered Limit'"
-            [customEffectsTarget]="{ creature: creature, target: 'Encumbered Limit' }"
-            [value]="encumberedLimit.result"
-            [bonuses]="encumberedLimit.bonuses"
-        />
-
-        <app-tags
-            [creature]="creature"
-            [objectName]="'Encumbered Limit'"
-            [showTraits]=true
-            [showFeats]=true
-            [showItems]=true
-            [showActivities]=true
-            [showConditions]=true
-            [showEffects]=true
-        />
-    </ng-container>
-
-    <ng-container *ngIf="maxBulk$ | async as maxBulk">
-        <app-attribute-value
-            [title]="'Max Bulk'"
-            [customEffectsTarget]="{ creature: creature, target: 'Max Bulk' }"
-            [value]="maxBulk.result"
-            [bonuses]="maxBulk.bonuses"
-        />
-
-        <app-tags
-            [creature]="creature"
-            [objectName]="'Max Bulk'"
-            [showTraits]=true
-            [showFeats]=true
-            [showItems]=true
-            [showActivities]=true
-            [showConditions]=true
-            [showEffects]=true
-        />
-    </ng-container>
-
-    <ng-container *ngIf="quickCraftingParameters$() | async as quickCraftingParameters">
-        <header class="sectionHeader minimized-hide box-header">Quick Crafting</header>
-
-        <app-tags
-            [creature]="creature"
-            [objectName]="'Quick Crafting'"
-            [showTraits]=true
-            [showFeats]=true
-            [showItems]=true
-            [showActivities]=true
-            [showConditions]=true
-            [showEffects]=true
-        />
-
-        <button
-            *ngIf="quickCraftingParameters.hasSnareSpecialist"
-            type="button"
+        <div
+            *ngIf="creature.isCharacter() && character.cash as cash"
             class="list-item"
-            (click)="toggleShownList('snarespecialist')"
         >
-            <header class="sectionHeader">Snare Specialist</header>
-        </button>
+            <strong>Platinum</strong>
 
-        <ng-container *ngIf="shownList()==='snarespecialist'">
-            <div
-                *ngIf="!itemsPreparedForQuickCrafting('snarespecialist').length"
-                class="newrow"
+            <div class="value">{{cash[0]}}</div>
+
+            <strong>Gold</strong>
+
+            <div class="value">{{cash[1]}}</div>
+
+            <strong>Silver</strong>
+
+            <div class="value">{{cash[2]}}</div>
+
+            <strong>Copper</strong>
+
+            <div class="value center-aligned">{{cash[3]}}</div>
+
+            <button
+                type="button"
+                class="center-aligned"
+                [ngbTooltip]="'Exchange coins for higher currency (no higher than Gold).'"
+                (click)="sortCash();"
             >
-                You don't have any snares prepared for quick deployment.
-            </div>
+                Sort
+            </button>
+        </div>
 
-            <ng-container *ngFor="let preparedItem of itemsPreparedForQuickCrafting('snarespecialist'); trackBy:trackByIndex;">
+        <header class="subsectionHeader">Bulk</header>
+
+        <ng-container *ngIf="currentBulk$ | async as currentBulk">
+            <app-attribute-value
+                [title]="'Bulk'"
+                [customEffectsTarget]="{ creature: creature, target: 'Bulk' }"
+                [value]="currentBulk.result"
+                [bonuses]="currentBulk.bonuses"
+            />
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Bulk'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            />
+        </ng-container>
+
+        <ng-container *ngIf="encumberedLimit$ | async as encumberedLimit">
+            <app-attribute-value
+                [title]="'Encumbered Limit'"
+                [customEffectsTarget]="{ creature: creature, target: 'Encumbered Limit' }"
+                [value]="encumberedLimit.result"
+                [bonuses]="encumberedLimit.bonuses"
+            />
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Encumbered Limit'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            />
+        </ng-container>
+
+        <ng-container *ngIf="maxBulk$ | async as maxBulk">
+            <app-attribute-value
+                [title]="'Max Bulk'"
+                [customEffectsTarget]="{ creature: creature, target: 'Max Bulk' }"
+                [value]="maxBulk.result"
+                [bonuses]="maxBulk.bonuses"
+            />
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Max Bulk'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            />
+        </ng-container>
+
+        <ng-container *ngIf="quickCraftingParameters$() | async as quickCraftingParameters">
+            <header class="sectionHeader minimized-hide box-header">Quick Crafting</header>
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Quick Crafting'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            />
+
+            <button
+                *ngIf="quickCraftingParameters.hasSnareSpecialist"
+                type="button"
+                class="list-item"
+                (click)="toggleShownList('snarespecialist')"
+            >
+                <header class="sectionHeader">Snare Specialist</header>
+            </button>
+
+            <ng-container *ngIf="shownList()==='snarespecialist'">
                 <div
-                    *ngIf="'snarespecialist'+preparedItem.item.id as inventoryID"
-                    class="list-item"
+                    *ngIf="!itemsPreparedForQuickCrafting('snarespecialist').length"
+                    class="newrow"
                 >
-                    <button
-                        type="button"
-                        class="newrow sublist-toggle"
-                        [ngClass]="{'inactive-button':!preparedItem.learned.snareSpecialistAvailable}"
-                        (click)="toggleShownItem(inventoryID)"
-                    >
-                        <span>
-                            {{preparedItem.learned.snareSpecialistAvailable}}
-                                {{preparedItem.item.effectiveName$()}}
-                        </span>
-
-                        <span>
-                            {{(preparedItem.item.level) ? "Level "+preparedItem.item.level : "&nbsp;"}}
-                        </span>
-                    </button>
-
-                    <div
-                        *ngIf="shownItem()===inventoryID"
-                        class="list-item sublist lower"
-                        [ngClass]="{'inactive-list':!preparedItem.learned.snareSpecialistAvailable}"
-                    >
-                        <div
-                            *ngIf="cannotCraftReason$(preparedItem.item, preparedItem.learned, 'snarespecialist') | async as cannotCraftReason"
-                            [ngbTooltip]="cannotCraftReason.join('\n')"
-                        >
-                            <button
-                                type="button"
-                                class="newrow center-aligned"
-                                [disabled]="cannotCraftReason.length"
-                                (click)="craftItem(preparedItem.item, preparedItem.learned, 'snarespecialist')"
-                            >
-                                <span>
-                                    Deploy Snare
-                                    <app-action-icons [actionString]="(snareSpecialistActions$(preparedItem.item) | async) ?? ''" />
-                                </span>
-                            </button>
-                        </div>
-
-                        <app-item
-                            [item]=preparedItem.item
-                            [itemStore]=true
-                        />
-                    </div>
+                    You don't have any snares prepared for quick deployment.
                 </div>
+
+                <ng-container *ngFor="let preparedItem of itemsPreparedForQuickCrafting('snarespecialist'); trackBy:trackByIndex;">
+                    <div
+                        *ngIf="'snarespecialist'+preparedItem.item.id as inventoryID"
+                        class="list-item"
+                    >
+                        <button
+                            type="button"
+                            class="newrow sublist-toggle"
+                            [ngClass]="{'inactive-button':!preparedItem.learned.snareSpecialistAvailable}"
+                            (click)="toggleShownItem(inventoryID)"
+                        >
+                            <span>
+                                {{preparedItem.learned.snareSpecialistAvailable}}
+                                    {{preparedItem.item.effectiveName$()}}
+                            </span>
+
+                            <span>
+                                {{(preparedItem.item.level) ? "Level "+preparedItem.item.level : "&nbsp;"}}
+                            </span>
+                        </button>
+
+                        <div
+                            *ngIf="shownItem()===inventoryID"
+                            class="list-item sublist lower"
+                            [ngClass]="{'inactive-list':!preparedItem.learned.snareSpecialistAvailable}"
+                        >
+                            <div
+                                *ngIf="cannotCraftReason$(preparedItem.item, preparedItem.learned, 'snarespecialist') | async as cannotCraftReason"
+                                [ngbTooltip]="cannotCraftReason.join('\n')"
+                            >
+                                <button
+                                    type="button"
+                                    class="newrow center-aligned"
+                                    [disabled]="cannotCraftReason.length"
+                                    (click)="craftItem(preparedItem.item, preparedItem.learned, 'snarespecialist')"
+                                >
+                                    <span>
+                                        Deploy Snare
+                                        <app-action-icons [actionString]="(snareSpecialistActions$(preparedItem.item) | async) ?? ''" />
+                                    </span>
+                                </button>
+                            </div>
+
+                            <app-item
+                                [item]=preparedItem.item
+                                [itemStore]=true
+                            />
+                        </div>
+                    </div>
+                </ng-container>
             </ng-container>
         </ng-container>
-    </ng-container>
 
-    <header class="sectionHeader minimized-hide box-header">Items</header>
-
-    <app-tags
-        [creature]="creature"
-        [objectName]="'Inventory'"
-        [showTraits]=true
-        [showFeats]=true
-        [showItems]=true
-        [showActivities]=true
-        [showConditions]=true
-        [showEffects]=true
-    />
-
-    <div
-        *ngIf="currentInvested$ | async as currentInvested"
-        class="minimized-hide"
-    >
-        <app-attribute-value
-            [title]="'Invested'"
-            [value]="currentInvested"
-        />
-    </div>
-
-    <div
-        *ngIf="maxInvested$ | async as maxInvested"
-        class="minimized-hide"
-    >
-        <app-attribute-value
-            [title]="'Max Invested'"
-            [customEffectsTarget]="{ creature: creature, target: 'Max Invested' }"
-            [value]="maxInvested.result"
-            [bonuses]="maxInvested.bonuses"
-        />
+        <header class="sectionHeader minimized-hide box-header">Items</header>
 
         <app-tags
             [creature]="creature"
-            [objectName]="'Max Invested'"
+            [objectName]="'Inventory'"
             [showTraits]=true
             [showFeats]=true
             [showItems]=true
             [showActivities]=true
             [showConditions]=true
             [showEffects]=true
-            [specialEffects]="maxInvested.effects"
         />
-    </div>
 
-    <div
-        class="vlist"
-        cdkDropListGroup
-    >
-        <ng-container *ngFor="let inventory of creature.inventories; let inventoryIndex = index; trackBy:trackByIndex;">
-            <div
-                class="list-item"
-                [ngClass]="{'minimized-hide':inventoryIndex > 1}"
-            >
-                <header
-                    *ngIf="inventory.bulkLimit"
-                    class="sectionHeader minimized-hide newrow"
-                >
-                    {{inventoryName$(inventory) | async}}
-                    {{inventoryBulkDescription(inventory)}}
-                </header>
+        <div
+            *ngIf="currentInvested$ | async as currentInvested"
+            class="minimized-hide"
+        >
+            <app-attribute-value
+                [title]="'Invested'"
+                [value]="currentInvested"
+            />
+        </div>
 
+        <div
+            *ngIf="maxInvested$ | async as maxInvested"
+            class="minimized-hide"
+        >
+            <app-attribute-value
+                [title]="'Max Invested'"
+                [customEffectsTarget]="{ creature: creature, target: 'Max Invested' }"
+                [value]="maxInvested.result"
+                [bonuses]="maxInvested.bonuses"
+            />
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Max Invested'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+                [specialEffects]="maxInvested.effects"
+            />
+        </div>
+
+        <div
+            class="vlist"
+            cdkDropListGroup
+        >
+            <ng-container *ngFor="let inventory of creature.inventories; let inventoryIndex = index; trackBy:trackByIndex;">
                 <div
-                    *ngIf="isInventoryEmpty(inventory) && { enabled: isTileMode$ | async } as tileMode"
-                    cdkDropList
-                    id="{{inventory.id}}|blank"
-                    [ngClass]="{'icon-list':tileMode.enabled, 'vlist fullwidth':!tileMode.enabled}"
-                    [ngStyle]="{'min-height': tileMode.enabled ? null : '2em', 'display': tileMode.enabled ? null : 'flex'}"
-                    (cdkDropListDropped)="dragdropInventoryItem($event)"
+                    class="list-item"
+                    [ngClass]="{'minimized-hide':inventoryIndex > 1}"
                 >
-                </div>
+                    <header
+                        *ngIf="inventory.bulkLimit"
+                        class="sectionHeader minimized-hide newrow"
+                    >
+                        {{inventoryName$(inventory) | async}}
+                        {{inventoryBulkDescription(inventory)}}
+                    </header>
 
-                <ng-container *ngFor="let itemSet of inventory.names; trackBy:trackByIndex;">
-                    <ng-container *ngIf="sortItemSet(inventory, itemSet.key) as itemList">
-                        <header
-                            *ngIf="itemList.length"
-                            class="subsectionHeader newrow"
-                        >
-                            {{itemSet.name}}
-                        </header>
+                    <div
+                        *ngIf="isInventoryEmpty(inventory) && { enabled: isTileMode$ | async } as tileMode"
+                        cdkDropList
+                        id="{{inventory.id}}|blank"
+                        [ngClass]="{'icon-list':tileMode.enabled, 'vlist fullwidth':!tileMode.enabled}"
+                        [ngStyle]="{'min-height': tileMode.enabled ? null : '2em', 'display': tileMode.enabled ? null : 'flex'}"
+                        (cdkDropListDropped)="dragdropInventoryItem($event)"
+                    >
+                    </div>
 
-                        <div
-                            *ngIf="itemList.length && { enabled: isTileMode$ | async } as tileMode"
-                            cdkDropList
-                            id="{{inventory.id}}|{{itemSet.key}}"
-                            [ngClass]="{'icon-list':tileMode.enabled, 'vlist fullwidth':!tileMode.enabled}"
-                            [ngStyle]="{'min-height': tileMode.enabled ? null : '2em'}"
-                            (cdkDropListDropped)="dragdropInventoryItem($event)"
-                        >
-                            <ng-container *ngFor="let itemParameters of itemParameters$(itemList) | async; trackBy:trackByObjectId;">
+                    <ng-container *ngFor="let itemSet of inventory.names; trackBy:trackByIndex;">
+                        <ng-container *ngIf="sortItemSet(inventory, itemSet.key) as itemList">
+                            <header
+                                *ngIf="itemList.length"
+                                class="subsectionHeader newrow"
+                            >
+                                {{itemSet.name}}
+                            </header>
 
-                                <ng-template #ItemIconsTemplate>
-                                    <span
-                                        *ngIf="itemParameters.asEquipment?.material?.[0] as material"
-                                        [ngbTooltip]="material && material?.name"
-                                    >
-                                        <i class='ra ra-diamond'></i>
-                                    </span>
+                            <div
+                                *ngIf="itemList.length && { enabled: isTileMode$ | async } as tileMode"
+                                cdkDropList
+                                id="{{inventory.id}}|{{itemSet.key}}"
+                                [ngClass]="{'icon-list':tileMode.enabled, 'vlist fullwidth':!tileMode.enabled}"
+                                [ngStyle]="{'min-height': tileMode.enabled ? null : '2em'}"
+                                (cdkDropListDropped)="dragdropInventoryItem($event)"
+                            >
+                                <ng-container *ngFor="let itemParameters of itemParameters$(itemList) | async; trackBy:trackByObjectId;">
 
-                                    <span
-                                        *ngIf="itemParameters.asEquipment?.broken"
-                                        [ngbTooltip]="'Broken'"
-                                    >
-                                        <i class='ra ra-broken-shield'></i>
-                                    </span>
-
-                                    <span
-                                        *ngIf="itemParameters.asEquipment?.shoddy"
-                                        [ngbTooltip]="'Shoddy'"
-                                    >
-                                        <i class='ra ra-broken-bottle'></i>
-                                    </span>
-
-                                    <span
-                                        *ngIf="itemParameters.item.expiration"
-                                        [ngbTooltip]="'Temporary Item'"
-                                    >
-                                        <i class='ra ra-clockwork'></i>
-                                    </span>
-
-                                    <span
-                                        *ngIf="itemParameters.asWeapon?.large"
-                                        [ngbTooltip]="'Large Weapon'"
-                                    >
-                                        <i class='ra ra-large-hammer'></i>
-                                    </span>
-
-                                    <span
-                                        *ngIf="itemParameters.asBladeAllyChangeable?.bladeAlly"
-                                        [ngbTooltip]="'Blade Ally'"
-                                    >
-                                        <i class='ra ra-fireball-sword'></i>
-                                    </span>
-
-                                    <span
-                                        *ngIf="itemParameters.asBattleforgedChangeable?.battleforged"
-                                        [ngbTooltip]="'Battleforged'"
-                                    >
-                                        <i class='ra ra-anvil'></i>
-                                    </span>
-
-                                    <span
-                                        *ngIf="itemParameters.hasEmblazonArmament"
-                                        [ngbTooltip]="'Emblazon Armament'"
-                                    >
-                                        <i class='ra ra-fire-shield'></i>
-                                    </span>
-
-                                    <span
-                                        *ngIf="itemParameters.emblazonEnergyChoice"
-                                        [ngbTooltip]="'Emblazon Energy: ' + itemParameters.emblazonEnergyChoice"
-                                    >
-                                        <i class='ra ra-bolt-shield'></i>
-                                    </span>
-
-                                    <span
-                                        *ngIf="itemParameters.hasEmblazonAntimagic"
-                                        [ngbTooltip]="'Emblazon Antimagic'"
-                                    >
-                                        <i class='ra ra-eye-shield'></i>
-                                    </span>
-                                </ng-template>
-
-                                <ng-template #ItemTitleTemplate>
-                                    <span class="hlist left-aligned">
-                                        <span *ngIf="itemParameters.canUse !== undefined && { enabled: isTileMode$ | async } as tileMode">
-                                            <i
-                                                *ngIf="!tileMode.enabled && itemParameters.canUse === false"
-                                                class="value bi-x penalty"
-                                                [ngbTooltip]="'You are not trained with this item.'"
-                                            ></i>
-
-                                            <i
-                                                *ngIf="!tileMode.enabled && itemParameters.canUse"
-                                                class="value bi-check2 bonus"
-                                                [ngbTooltip]="'You are trained with this item.'"
-                                            ></i>
+                                    <ng-template #ItemIconsTemplate>
+                                        <span
+                                            *ngIf="itemParameters.asEquipment?.material?.[0] as material"
+                                            [ngbTooltip]="material && material?.name"
+                                        >
+                                            <i class='ra ra-diamond'></i>
                                         </span>
 
+                                        <span
+                                            *ngIf="itemParameters.asEquipment?.broken"
+                                            [ngbTooltip]="'Broken'"
+                                        >
+                                            <i class='ra ra-broken-shield'></i>
+                                        </span>
+
+                                        <span
+                                            *ngIf="itemParameters.asEquipment?.shoddy"
+                                            [ngbTooltip]="'Shoddy'"
+                                        >
+                                            <i class='ra ra-broken-bottle'></i>
+                                        </span>
+
+                                        <span
+                                            *ngIf="itemParameters.item.expiration"
+                                            [ngbTooltip]="'Temporary Item'"
+                                        >
+                                            <i class='ra ra-clockwork'></i>
+                                        </span>
+
+                                        <span
+                                            *ngIf="itemParameters.asWeapon?.large"
+                                            [ngbTooltip]="'Large Weapon'"
+                                        >
+                                            <i class='ra ra-large-hammer'></i>
+                                        </span>
+
+                                        <span
+                                            *ngIf="itemParameters.asBladeAllyChangeable?.bladeAlly"
+                                            [ngbTooltip]="'Blade Ally'"
+                                        >
+                                            <i class='ra ra-fireball-sword'></i>
+                                        </span>
+
+                                        <span
+                                            *ngIf="itemParameters.asBattleforgedChangeable?.battleforged"
+                                            [ngbTooltip]="'Battleforged'"
+                                        >
+                                            <i class='ra ra-anvil'></i>
+                                        </span>
+
+                                        <span
+                                            *ngIf="itemParameters.hasEmblazonArmament"
+                                            [ngbTooltip]="'Emblazon Armament'"
+                                        >
+                                            <i class='ra ra-fire-shield'></i>
+                                        </span>
+
+                                        <span
+                                            *ngIf="itemParameters.emblazonEnergyChoice"
+                                            [ngbTooltip]="'Emblazon Energy: ' + itemParameters.emblazonEnergyChoice"
+                                        >
+                                            <i class='ra ra-bolt-shield'></i>
+                                        </span>
+
+                                        <span
+                                            *ngIf="itemParameters.hasEmblazonAntimagic"
+                                            [ngbTooltip]="'Emblazon Antimagic'"
+                                        >
+                                            <i class='ra ra-eye-shield'></i>
+                                        </span>
+                                    </ng-template>
+
+                                    <ng-template #ItemTitleTemplate>
+                                        <span class="hlist left-aligned">
+                                            <span *ngIf="itemParameters.canUse !== undefined && { enabled: isTileMode$ | async } as tileMode">
+                                                <i
+                                                    *ngIf="!tileMode.enabled && itemParameters.canUse === false"
+                                                    class="value bi-x penalty"
+                                                    [ngbTooltip]="'You are not trained with this item.'"
+                                                ></i>
+
+                                                <i
+                                                    *ngIf="!tileMode.enabled && itemParameters.canUse"
+                                                    class="value bi-check2 bonus"
+                                                    [ngbTooltip]="'You are trained with this item.'"
+                                                ></i>
+                                            </span>
+
+                                            <ng-container *ngTemplateOutlet="ItemIconsTemplate" />
+                                            {{ ( itemParameters.item.amount !== undefined &&
+                                                itemParameters.item.amount !== 1 ) ? itemParameters.item.amount+" " : ""
+                                                }}
+                                                {{itemParameters.item.effectiveName$()}}
+                                            <span
+                                                *ngIf="itemParameters.containedItemsAmount"
+                                                class="lower"
+                                            >
+                                                contains
+                                                    {{itemParameters.containedItemsAmount}}
+                                                    {{itemParameters.containedItemsAmount === 1 ? "item" : "items"}}
+                                            </span>
+                                        </span>
+
+                                        <span
+                                            *ngIf="itemParameters.item.level"
+                                            style="flex-basis:auto;flex-grow:0"
+                                        >
+                                            Level {{itemParameters.item.level}}
+                                        </span>
+                                    </ng-template>
+
+                                    <ng-template #ItemTooltipTemplate>
                                         <ng-container *ngTemplateOutlet="ItemIconsTemplate" />
-                                        {{ ( itemParameters.item.amount !== undefined &&
-                                            itemParameters.item.amount !== 1 ) ? itemParameters.item.amount+" " : ""
-                                            }}
-                                            {{itemParameters.item.effectiveName$()}}
+                                        {{(itemParameters.item.amount !== undefined && itemParameters.item.amount
+                                            !== 1) ? itemParameters.item.amount+" " :
+                                            ""}} {{itemParameters.item.effectiveName$()}}
                                         <span
                                             *ngIf="itemParameters.containedItemsAmount"
                                             class="lower"
@@ -405,1032 +423,1010 @@
                                                 {{itemParameters.containedItemsAmount}}
                                                 {{itemParameters.containedItemsAmount === 1 ? "item" : "items"}}
                                         </span>
-                                    </span>
+                                    </ng-template>
 
-                                    <span
-                                        *ngIf="itemParameters.item.level"
-                                        style="flex-basis:auto;flex-grow:0"
-                                    >
-                                        Level {{itemParameters.item.level}}
-                                    </span>
-                                </ng-template>
+                                    <ng-template #ItemTemplate>
+                                        <header
+                                            *ngIf="isTileMode$ | async"
+                                            class="spellHeader newrow"
+                                        >
+                                            <ng-container *ngTemplateOutlet="ItemTitleTemplate" />
+                                        </header>
 
-                                <ng-template #ItemTooltipTemplate>
-                                    <ng-container *ngTemplateOutlet="ItemIconsTemplate" />
-                                    {{(itemParameters.item.amount !== undefined && itemParameters.item.amount
-                                        !== 1) ? itemParameters.item.amount+" " :
-                                        ""}} {{itemParameters.item.effectiveName$()}}
-                                    <span
-                                        *ngIf="itemParameters.containedItemsAmount"
-                                        class="lower"
-                                    >
-                                        contains
-                                            {{itemParameters.containedItemsAmount}}
-                                            {{itemParameters.containedItemsAmount === 1 ? "item" : "items"}}
-                                    </span>
-                                </ng-template>
-
-                                <ng-template #ItemTemplate>
-                                    <header
-                                        *ngIf="isTileMode$ | async"
-                                        class="spellHeader newrow"
-                                    >
-                                        <ng-container *ngTemplateOutlet="ItemTitleTemplate" />
-                                    </header>
-
-                                    <div
-                                        *ngIf="itemParameters.asArmor"
-                                        class="newrow left-aligned"
-                                    >
-                                        <span [ngClass]="{'absolute': itemParameters.asArmor.hasProficiencyChanged(itemParameters.proficiency)}">
-                                            {{ itemParameters.asArmor.title$() | async }}
-                                        </span>
-
-                                        <span *ngIf="itemParameters.asArmor.hasProficiencyChanged(itemParameters.proficiency)">
-                                            (normally {{itemParameters.asArmor.prof}})
-                                        </span>
-                                    </div>
-
-                                    <div
-                                        *ngIf="itemParameters.asWeapon"
-                                        class="newrow left-aligned"
-                                    >
-                                        <span [ngClass]="{'absolute': itemParameters.asWeapon.hasProficiencyChanged(itemParameters.proficiency)}">
-                                            {{ itemParameters.asWeapon.title({preparedProficiency:
-                                                itemParameters.proficiency}) }}
-                                        </span>
-
-                                        <span *ngIf="itemParameters.asWeapon.hasProficiencyChanged(itemParameters.proficiency)">
-                                            (normally {{itemParameters.asWeapon.prof}})
-                                        </span>
-                                    </div>
-
-                                    <div
-                                        *ngIf="itemParameters.item.expiration"
-                                        class="newrow lower"
-                                    >
-                                        <span>
-                                            <strong>Duration</strong>
-                                            {{durationDescription$(itemParameters.item.expiration) | async}}
-                                            <span *ngIf="itemParameters.item.expiresOnlyIf">
-                                                {{itemParameters.item.expiresOnlyIf === "equipped" ?
-                                                    "(The item only expires while equipped.)" :
-                                                    "(The item only expires while not equipped.)"}}
+                                        <div
+                                            *ngIf="itemParameters.asArmor"
+                                            class="newrow left-aligned"
+                                        >
+                                            <span [ngClass]="{'absolute': itemParameters.asArmor.hasProficiencyChanged(itemParameters.proficiency)}">
+                                                {{ itemParameters.asArmor.title$() | async }}
                                             </span>
-                                        </span>
-                                    </div>
 
-                                    <ng-container *ngIf="itemParameters.item.amount !== undefined && itemParameters.asImmediateStoredSpellItem">
-                                        <ng-container *ngFor="let itemSpell of itemStoredSpell(itemParameters.item); trackBy:trackByIndex;">
-                                            <app-spell-target
-                                                class="newrow vlist"
-                                                [creature]="creature"
-                                                [phrase]="!!itemParameters.asWand?.cooldown ? 'Overcharge (Cooldown ' + (durationDescription$(itemParameters.asWand?.cooldown) | async) + ') and cast' : 'Cast'"
-                                                [showActions]="true"
-                                                [spell]="itemSpell.spell"
-                                                [gain]="itemSpell.gain"
-                                                [cannotCast]="itemParameters.asEquipment?.broken ? 'The item is broken and cannot be used.' : ''"
-                                                [effectiveSpellLevel]="itemSpell.choice.level"
-                                                (castMessage)="onUseSpellCastingItem(itemParameters.item, $event.target, inventory)"
-                                            />
-                                        </ng-container>
-                                    </ng-container>
+                                            <span *ngIf="itemParameters.asArmor.hasProficiencyChanged(itemParameters.proficiency)">
+                                                (normally {{itemParameters.asArmor.prof}})
+                                            </span>
+                                        </div>
 
-                                    <ng-container *ngIf="itemParameters.asConsumable && itemParameters.item.amount !== undefined">
-                                        <button
-                                            *ngIf="itemParameters.item.amount !== undefined && (itemParameters.asGenericConsumable || itemParameters.asDrinkableConsumable)?.actions"
-                                            type="button"
-                                            class="newrow center-aligned"
-                                            [disabled]="!itemParameters.asConsumable.amount"
-                                            (click)="onUseConsumable(itemParameters.asConsumable, creature.type, inventory)"
+                                        <div
+                                            *ngIf="itemParameters.asWeapon"
+                                            class="newrow left-aligned"
+                                        >
+                                            <span [ngClass]="{'absolute': itemParameters.asWeapon.hasProficiencyChanged(itemParameters.proficiency)}">
+                                                {{ itemParameters.asWeapon.title({preparedProficiency:
+                                                    itemParameters.proficiency}) }}
+                                            </span>
+
+                                            <span *ngIf="itemParameters.asWeapon.hasProficiencyChanged(itemParameters.proficiency)">
+                                                (normally {{itemParameters.asWeapon.prof}})
+                                            </span>
+                                        </div>
+
+                                        <div
+                                            *ngIf="itemParameters.item.expiration"
+                                            class="newrow lower"
                                         >
                                             <span>
-                                                Use
-                                                <app-action-icons
-                                                    *ngIf="itemParameters.asConsumable.actions"
-                                                    [actionString]="itemParameters.asConsumable.actions"
-                                                />
-                                                {{(itemParameters.asConsumable.activationType) ?
-                                                    itemParameters.asConsumable.activationType : ""}}
+                                                <strong>Duration</strong>
+                                                {{durationDescription$(itemParameters.item.expiration) | async}}
+                                                <span *ngIf="itemParameters.item.expiresOnlyIf">
+                                                    {{itemParameters.item.expiresOnlyIf === "equipped" ?
+                                                        "(The item only expires while equipped.)" :
+                                                        "(The item only expires while not equipped.)"}}
+                                                </span>
                                             </span>
-                                        </button>
-
-                                        <ng-container *ngIf="!!itemParameters.asDrinkableConsumable && itemParameters.asDrinkableConsumable?.actions">
-                                            <button
-                                                *ngIf="(isManualMode$ | async) === false && (isAnimalCompanionAvailable$ | async)"
-                                                type="button"
-                                                class="newrow center-aligned"
-                                                [disabled]="!itemParameters.asDrinkableConsumable.amount"
-                                                (click)="onUseConsumable(itemParameters.asDrinkableConsumable, creatureTypesEnum.AnimalCompanion, inventory)"
-                                            >
-                                                <span>
-                                                    Use (Give to your animal companion)
-                                                    <app-action-icons [actionString]="itemParameters.asDrinkableConsumable.actions" />
-                                                    {{(itemParameters.asDrinkableConsumable.activationType) ?
-                                                        itemParameters.asDrinkableConsumable.activationType : ""}}
-                                                </span>
-                                            </button>
-
-                                            <button
-                                                *ngIf="(isManualMode$ | async) === false && (isFamiliarAvailable$ | async)"
-                                                type="button"
-                                                class="newrow center-aligned"
-                                                [disabled]="!itemParameters.item.amount"
-                                                (click)="onUseConsumable(itemParameters.asDrinkableConsumable, creatureTypesEnum.Familiar, inventory)"
-                                            >
-                                                <span>
-                                                    Use (Give to your familiar)
-                                                    <app-action-icons [actionString]="itemParameters.asDrinkableConsumable.actions" />
-                                                    {{(itemParameters.asDrinkableConsumable.activationType) ?
-                                                        itemParameters.asDrinkableConsumable.activationType : ""}}
-                                                </span>
-                                            </button>
-                                        </ng-container>
-                                    </ng-container>
-
-                                    <ng-template
-                                        #ContainerItemDropModal
-                                        let-dropModal
-                                    >
-                                        <div class="modal-header">
-                                            <header
-                                                class="sectionHeader modal-title"
-                                                id="modal-title"
-                                            >
-                                                <i class="ra ra-hive-emblem"></i>
-                                                Drop contained items?
-                                            </header>
-
-                                            <button
-                                                type="button"
-                                                class="close"
-                                                aria-label="close"
-                                                ngbAutofocus
-                                                (click)="dropModal.dismiss('Cross click')"
-                                            >
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
                                         </div>
 
-                                        <div class="modal-body vlist">
-                                            <div
-                                                class="fullsize-scroll-box vlist"
-                                                style="max-height: 50vh;"
-                                            >
-                                                <div class="list-item newrow left-aligned">
-                                                    This item is a container with
-                                                        {{itemParameters.containedItemsAmount}} item(s)
-                                                        currently inside. You can drop the entire pack or keep
-                                                        the contained items.
-                                                    <div class="newrow lower">
-                                                        If you choose to keep the contained items, they will
-                                                            be moved loosely into your main inventory.
-                                                    </div>
-                                                </div>
-
-                                                <button
-                                                    type="button"
-                                                    class="fullwidth btn btn-primary"
-                                                    style="background-color: rgb(var(--accent))"
-                                                    (click)="dropModal.close('Drop all')"
-                                                >
-                                                    Drop this container and all the items inside
-                                                </button>
-
-                                                <button
-                                                    type="button"
-                                                    class="fullwidth btn btn-primary"
-                                                    style="background-color: rgb(var(--accent))"
-                                                    (click)="dropModal.close('Drop one')"
-                                                >
-                                                    Drop this container, but keep the items inside
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button
-                                                type="button"
-                                                class="btn btn-outline-secondary"
-                                                (click)="dropModal.dismiss('Cancel click')"
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </ng-template>
-
-                                    <ng-template
-                                        #GrantingItemDropModal
-                                        let-dropModal
-                                    >
-                                        <div class="modal-header">
-                                            <header
-                                                class="sectionHeader modal-title"
-                                                id="modal-title"
-                                            >
-                                                <i class="ra ra-hive-emblem"></i>
-                                                Drop included items?
-                                            </header>
-
-                                            <button
-                                                type="button"
-                                                class="close"
-                                                aria-label="close"
-                                                ngbAutofocus
-                                                (click)="dropModal.dismiss('Cross click')"
-                                            >
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-
-                                        <div class="modal-body vlist">
-                                            <div
-                                                class="fullsize-scroll-box vlist"
-                                                style="max-height: 50vh;"
-                                            >
-                                                <div class="list-item newrow left-aligned">
-                                                    This item originally came with additional items attached
-                                                        or included. You can drop everything or just this item.
-                                                    <div class="newrow lower">
-                                                        If you choose to drop everything, the following
-                                                            rules apply:
-                                                    </div>
-
-                                                    <div class="newrow lower">
-                                                        <ul>
-                                                            <li>
-                                                                Items that cannot stack (most equipment and
-                                                                    some consumables) will only be dropped if
-                                                                    they were explicitly granted by this item.
-                                                            </li>
-
-                                                            <li>
-                                                                For items that can stack, you will drop as
-                                                                    many as you originally received with this
-                                                                    item.
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <button
-                                                    type="button"
-                                                    class="fullwidth btn btn-primary"
-                                                    style="background-color: rgb(var(--accent))"
-                                                    (click)="dropModal.close('Drop all')"
-                                                >
-                                                    Drop this item and all items granted by it
-                                                </button>
-
-                                                <button
-                                                    type="button"
-                                                    class="fullwidth btn btn-primary"
-                                                    style="background-color: rgb(var(--accent))"
-                                                    (click)="dropModal.close('Drop one')"
-                                                >
-                                                    Drop this item, but keep all items granted by it
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button
-                                                type="button"
-                                                class="btn btn-outline-secondary"
-                                                (click)="dropModal.dismiss('Cancel click')"
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </ng-template>
-
-                                    <!-- Upper row of buttons -->
-                                    <div class="newrow">
-                                        <ng-container *ngIf="itemParameters.asEquipment">
-                                            <ng-container *ngIf="maxInvested$ | async as maxInvested">
-                                                <ng-container *ngIf="currentInvested$ | async as currentInvested">
-                                                    <span *ngIf="canEquipItem(itemParameters.item, inventoryIndex)">
-                                                        <button
-                                                            *ngIf="!itemParameters.asEquipment.equipped"
-                                                            type="button"
-                                                            (click)="onEquipItem(itemParameters.asEquipment, inventory, true)"
-                                                        >
-                                                            Equip
-                                                        </button>
-
-                                                        <button
-                                                            *ngIf="itemParameters.asEquipment.equipped"
-                                                            type="button"
-                                                            (click)="onEquipItem(itemParameters.asEquipment, inventory, false)"
-                                                        >
-                                                            Unequip
-                                                        </button>
-                                                    </span>
-
-                                                    <span *ngIf="canInvestItem(itemParameters.item, inventoryIndex)">
-                                                        <button
-                                                            *ngIf="!itemParameters.asEquipment.invested"
-                                                            type="button"
-                                                            [disabled]="currentInvested >= maxInvested.result && !itemParameters.asEquipment.invested"
-                                                            (click)="onInvestItem(itemParameters.asEquipment, inventory, true)"
-                                                        >
-                                                            Invest
-                                                        </button>
-
-                                                        <button
-                                                            *ngIf="itemParameters.asEquipment.invested"
-                                                            type="button"
-                                                            (click)="onInvestItem(itemParameters.asEquipment, inventory, false)"
-                                                        >
-                                                            Uninvest
-                                                        </button>
-                                                    </span>
-                                                </ng-container>
+                                        <ng-container *ngIf="itemParameters.item.amount !== undefined && itemParameters.asImmediateStoredSpellItem">
+                                            <ng-container *ngFor="let itemSpell of itemStoredSpell(itemParameters.item); trackBy:trackByIndex;">
+                                                <app-spell-target
+                                                    class="newrow vlist"
+                                                    [creature]="creature"
+                                                    [phrase]="!!itemParameters.asWand?.cooldown ? 'Overcharge (Cooldown ' + (durationDescription$(itemParameters.asWand?.cooldown) | async) + ') and cast' : 'Cast'"
+                                                    [showActions]="true"
+                                                    [spell]="itemSpell.spell"
+                                                    [gain]="itemSpell.gain"
+                                                    [cannotCast]="itemParameters.asEquipment?.broken ? 'The item is broken and cannot be used.' : ''"
+                                                    [effectiveSpellLevel]="itemSpell.choice.level"
+                                                    (castMessage)="onUseSpellCastingItem(itemParameters.item, $event.target, inventory)"
+                                                />
                                             </ng-container>
                                         </ng-container>
 
-                                        <span
-                                            *ngIf="itemParameters.asStackable"
-                                            class="gap-text"
+                                        <ng-container *ngIf="itemParameters.asConsumable && itemParameters.item.amount !== undefined">
+                                            <button
+                                                *ngIf="itemParameters.item.amount !== undefined && (itemParameters.asGenericConsumable || itemParameters.asDrinkableConsumable)?.actions"
+                                                type="button"
+                                                class="newrow center-aligned"
+                                                [disabled]="!itemParameters.asConsumable.amount"
+                                                (click)="onUseConsumable(itemParameters.asConsumable, creature.type, inventory)"
+                                            >
+                                                <span>
+                                                    Use
+                                                    <app-action-icons
+                                                        *ngIf="itemParameters.asConsumable.actions"
+                                                        [actionString]="itemParameters.asConsumable.actions"
+                                                    />
+                                                    {{(itemParameters.asConsumable.activationType) ?
+                                                        itemParameters.asConsumable.activationType : ""}}
+                                                </span>
+                                            </button>
+
+                                            <ng-container *ngIf="!!itemParameters.asDrinkableConsumable && itemParameters.asDrinkableConsumable?.actions">
+                                                <button
+                                                    *ngIf="(isManualMode$ | async) === false && (isAnimalCompanionAvailable$ | async)"
+                                                    type="button"
+                                                    class="newrow center-aligned"
+                                                    [disabled]="!itemParameters.asDrinkableConsumable.amount"
+                                                    (click)="onUseConsumable(itemParameters.asDrinkableConsumable, creatureTypesEnum.AnimalCompanion, inventory)"
+                                                >
+                                                    <span>
+                                                        Use (Give to your animal companion)
+                                                        <app-action-icons [actionString]="itemParameters.asDrinkableConsumable.actions" />
+                                                        {{(itemParameters.asDrinkableConsumable.activationType) ?
+                                                            itemParameters.asDrinkableConsumable.activationType : ""}}
+                                                    </span>
+                                                </button>
+
+                                                <button
+                                                    *ngIf="(isManualMode$ | async) === false && (isFamiliarAvailable$ | async)"
+                                                    type="button"
+                                                    class="newrow center-aligned"
+                                                    [disabled]="!itemParameters.item.amount"
+                                                    (click)="onUseConsumable(itemParameters.asDrinkableConsumable, creatureTypesEnum.Familiar, inventory)"
+                                                >
+                                                    <span>
+                                                        Use (Give to your familiar)
+                                                        <app-action-icons [actionString]="itemParameters.asDrinkableConsumable.actions" />
+                                                        {{(itemParameters.asDrinkableConsumable.activationType) ?
+                                                            itemParameters.asDrinkableConsumable.activationType : ""}}
+                                                    </span>
+                                                </button>
+                                            </ng-container>
+                                        </ng-container>
+
+                                        <ng-template
+                                            #ContainerItemDropModal
+                                            let-dropModal
                                         >
-                                            <button
-                                                type="button"
-                                                [disabled]="itemParameters.asStackable.amount <= 0"
-                                                (click)="onAmountChange(itemParameters.asStackable, -1)"
-                                            >
-                                                -1
-                                            </button>
+                                            <div class="modal-header">
+                                                <header
+                                                    class="sectionHeader modal-title"
+                                                    id="modal-title"
+                                                >
+                                                    <i class="ra ra-hive-emblem"></i>
+                                                    Drop contained items?
+                                                </header>
 
-                                            <button
-                                                type="button"
-                                                (click)="onAmountChange(itemParameters.asStackable, 1)"
-                                            >
-                                                +1
-                                            </button>
-                                        </span>
+                                                <button
+                                                    type="button"
+                                                    class="close"
+                                                    aria-label="close"
+                                                    ngbAutofocus
+                                                    (click)="dropModal.dismiss('Cross click')"
+                                                >
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
 
-                                        <span *ngIf="!canEquipItem(itemParameters.item, inventoryIndex) && !canInvestItem(itemParameters.item, inventoryIndex) && !itemParameters.asStackable">
-                                            &nbsp;
-                                            <!-- This span is a placeholder that appears if no other button is valid on the left side of the Drop button -->
-                                        </span>
+                                            <div class="modal-body vlist">
+                                                <div
+                                                    class="fullsize-scroll-box vlist"
+                                                    style="max-height: 50vh;"
+                                                >
+                                                    <div class="list-item newrow left-aligned">
+                                                        This item is a container with
+                                                            {{itemParameters.containedItemsAmount}} item(s)
+                                                            currently inside. You can drop the entire pack or keep
+                                                            the contained items.
+                                                        <div class="newrow lower">
+                                                            If you choose to keep the contained items, they will
+                                                                be moved loosely into your main inventory.
+                                                        </div>
+                                                    </div>
 
-                                        <ng-container *ngIf="canDropItem(itemParameters.item)">
-                                            <span>
-                                                <app-item-target
-                                                    [item]="itemParameters.item"
-                                                    [inventory]="inventory"
-                                                    [creature]="creature"
-                                                    (moveMessage)="moveInventoryItem(itemParameters.item, inventory, $event.target, $event.amount, $event.including)"
-                                                />
-                                            </span>
-
-                                            <ng-container [ngSwitch]="showDropAllButtons(itemParameters.item)">
-                                                <span *ngSwitchCase="true">
                                                     <button
                                                         type="button"
-                                                        [ngbTooltip]="'Choose what to do with included items'"
-                                                        (click)="openGrantingOrContainerItemDropModal(GrantingItemDropModal, itemParameters.item, inventory)"
+                                                        class="fullwidth btn btn-primary"
+                                                        style="background-color: rgb(var(--accent))"
+                                                        (click)="dropModal.close('Drop all')"
                                                     >
-                                                        <i class="ra ra-hive-emblem"></i>
-                                                        Drop...
+                                                        Drop this container and all the items inside
                                                     </button>
+
+                                                    <button
+                                                        type="button"
+                                                        class="fullwidth btn btn-primary"
+                                                        style="background-color: rgb(var(--accent))"
+                                                        (click)="dropModal.close('Drop one')"
+                                                    >
+                                                        Drop this container, but keep the items inside
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-outline-secondary"
+                                                    (click)="dropModal.dismiss('Cancel click')"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </ng-template>
+
+                                        <ng-template
+                                            #GrantingItemDropModal
+                                            let-dropModal
+                                        >
+                                            <div class="modal-header">
+                                                <header
+                                                    class="sectionHeader modal-title"
+                                                    id="modal-title"
+                                                >
+                                                    <i class="ra ra-hive-emblem"></i>
+                                                    Drop included items?
+                                                </header>
+
+                                                <button
+                                                    type="button"
+                                                    class="close"
+                                                    aria-label="close"
+                                                    ngbAutofocus
+                                                    (click)="dropModal.dismiss('Cross click')"
+                                                >
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
+                                            <div class="modal-body vlist">
+                                                <div
+                                                    class="fullsize-scroll-box vlist"
+                                                    style="max-height: 50vh;"
+                                                >
+                                                    <div class="list-item newrow left-aligned">
+                                                        This item originally came with additional items attached
+                                                            or included. You can drop everything or just this item.
+                                                        <div class="newrow lower">
+                                                            If you choose to drop everything, the following
+                                                                rules apply:
+                                                        </div>
+
+                                                        <div class="newrow lower">
+                                                            <ul>
+                                                                <li>
+                                                                    Items that cannot stack (most equipment and
+                                                                        some consumables) will only be dropped if
+                                                                        they were explicitly granted by this item.
+                                                                </li>
+
+                                                                <li>
+                                                                    For items that can stack, you will drop as
+                                                                        many as you originally received with this
+                                                                        item.
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <button
+                                                        type="button"
+                                                        class="fullwidth btn btn-primary"
+                                                        style="background-color: rgb(var(--accent))"
+                                                        (click)="dropModal.close('Drop all')"
+                                                    >
+                                                        Drop this item and all items granted by it
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        class="fullwidth btn btn-primary"
+                                                        style="background-color: rgb(var(--accent))"
+                                                        (click)="dropModal.close('Drop one')"
+                                                    >
+                                                        Drop this item, but keep all items granted by it
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-outline-secondary"
+                                                    (click)="dropModal.dismiss('Cancel click')"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </ng-template>
+
+                                        <!-- Upper row of buttons -->
+                                        <div class="newrow">
+                                            <ng-container *ngIf="itemParameters.asEquipment">
+                                                <ng-container *ngIf="maxInvested$ | async as maxInvested">
+                                                    <ng-container *ngIf="currentInvested$ | async as currentInvested">
+                                                        <span *ngIf="canEquipItem(itemParameters.item, inventoryIndex)">
+                                                            <button
+                                                                *ngIf="!itemParameters.asEquipment.equipped"
+                                                                type="button"
+                                                                (click)="onEquipItem(itemParameters.asEquipment, inventory, true)"
+                                                            >
+                                                                Equip
+                                                            </button>
+
+                                                            <button
+                                                                *ngIf="itemParameters.asEquipment.equipped"
+                                                                type="button"
+                                                                (click)="onEquipItem(itemParameters.asEquipment, inventory, false)"
+                                                            >
+                                                                Unequip
+                                                            </button>
+                                                        </span>
+
+                                                        <span *ngIf="canInvestItem(itemParameters.item, inventoryIndex)">
+                                                            <button
+                                                                *ngIf="!itemParameters.asEquipment.invested"
+                                                                type="button"
+                                                                [disabled]="currentInvested >= maxInvested.result && !itemParameters.asEquipment.invested"
+                                                                (click)="onInvestItem(itemParameters.asEquipment, inventory, true)"
+                                                            >
+                                                                Invest
+                                                            </button>
+
+                                                            <button
+                                                                *ngIf="itemParameters.asEquipment.invested"
+                                                                type="button"
+                                                                (click)="onInvestItem(itemParameters.asEquipment, inventory, false)"
+                                                            >
+                                                                Uninvest
+                                                            </button>
+                                                        </span>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+
+                                            <span
+                                                *ngIf="itemParameters.asStackable"
+                                                class="gap-text"
+                                            >
+                                                <button
+                                                    type="button"
+                                                    [disabled]="itemParameters.asStackable.amount <= 0"
+                                                    (click)="onAmountChange(itemParameters.asStackable, -1)"
+                                                >
+                                                    -1
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    (click)="onAmountChange(itemParameters.asStackable, 1)"
+                                                >
+                                                    +1
+                                                </button>
+                                            </span>
+
+                                            <span *ngIf="!canEquipItem(itemParameters.item, inventoryIndex) && !canInvestItem(itemParameters.item, inventoryIndex) && !itemParameters.asStackable">
+                                                &nbsp;
+                                                <!-- This span is a placeholder that appears if no other button is valid on the left side of the Drop button -->
+                                            </span>
+
+                                            <ng-container *ngIf="canDropItem(itemParameters.item)">
+                                                <span>
+                                                    <app-item-target
+                                                        [item]="itemParameters.item"
+                                                        [inventory]="inventory"
+                                                        [creature]="creature"
+                                                        (moveMessage)="moveInventoryItem(itemParameters.item, inventory, $event.target, $event.amount, $event.including)"
+                                                    />
                                                 </span>
 
-                                                <ng-container *ngSwitchCase="false">
-                                                    <span *ngIf="itemParameters.containedItemsAmount">
+                                                <ng-container [ngSwitch]="showDropAllButtons(itemParameters.item)">
+                                                    <span *ngSwitchCase="true">
                                                         <button
                                                             type="button"
-                                                            [ngbTooltip]="'Choose what to do with contained items'"
-                                                            (click)="openGrantingOrContainerItemDropModal(ContainerItemDropModal, itemParameters.item, inventory)"
+                                                            [ngbTooltip]="'Choose what to do with included items'"
+                                                            (click)="openGrantingOrContainerItemDropModal(GrantingItemDropModal, itemParameters.item, inventory)"
                                                         >
                                                             <i class="ra ra-hive-emblem"></i>
                                                             Drop...
                                                         </button>
                                                     </span>
 
-                                                    <span *ngIf="!itemParameters.containedItemsAmount">
-                                                        <button
-                                                            type="button"
-                                                            (click)="dropInventoryItem(itemParameters.item, inventory)"
-                                                        >
-                                                            Drop
-                                                        </button>
-                                                    </span>
+                                                    <ng-container *ngSwitchCase="false">
+                                                        <span *ngIf="itemParameters.containedItemsAmount">
+                                                            <button
+                                                                type="button"
+                                                                [ngbTooltip]="'Choose what to do with contained items'"
+                                                                (click)="openGrantingOrContainerItemDropModal(ContainerItemDropModal, itemParameters.item, inventory)"
+                                                            >
+                                                                <i class="ra ra-hive-emblem"></i>
+                                                                Drop...
+                                                            </button>
+                                                        </span>
+
+                                                        <span *ngIf="!itemParameters.containedItemsAmount">
+                                                            <button
+                                                                type="button"
+                                                                (click)="dropInventoryItem(itemParameters.item, inventory)"
+                                                            >
+                                                                Drop
+                                                            </button>
+                                                        </span>
+                                                    </ng-container>
                                                 </ng-container>
                                             </ng-container>
-                                        </ng-container>
-                                    </div>
-
-                                    <!-- Lower row of buttons -->
-                                    <div
-                                        *ngIf="itemParameters.item.tradeable && effectivePrice(itemParameters.item) as effectivePrice"
-                                        class="newrow"
-                                    >
-                                        <span
-                                            *ngIf="itemParameters.stack && itemParameters.asStackable as stackable; else CannotStack"
-                                            class="gap-text"
-                                        >
-                                            <span [ngbTooltip]="(stackable.amount <= itemParameters.stack) ? 'Use the sell button to sell the last item of a stack' : 'Sell at half price'">
-                                                <button
-                                                    type="button"
-                                                    [disabled]="stackable.amount <= itemParameters.stack"
-                                                    (click)="onAmountChange(stackable, -itemParameters.stack, true)"
-                                                >
-                                                    Sell {{itemParameters.stack}}
-                                                </button>
-                                            </span>
-
-                                            <button
-                                                type="button"
-                                                [disabled]="!characterHasFunds(effectivePrice)"
-                                                (click)="onAmountChange(stackable, itemParameters.stack, true)"
-                                            >
-                                                Buy {{itemParameters.stack}}
-                                            </button>
-                                        </span>
-
-                                        <ng-template #CannotStack>
-                                            <span>
-                                                &nbsp;
-                                                <!-- This span is a placeholder that appears if no other button is valid on the left side of the Sell button -->
-                                            </span>
-                                        </ng-template>
-
-                                        <span>
-                                            <span [ngbTooltip]="(itemParameters.asEquipment?.broken || itemParameters.asEquipment?.shoddy) ? 'The item is worthless in this state' : 'Sell at half price'">
-                                                <button
-                                                    type="button"
-                                                    [disabled]="itemParameters.item.amount <= 0 || itemParameters.asEquipment?.broken || itemParameters.asEquipment?.shoddy"
-                                                    (click)="dropInventoryItem(itemParameters.item, inventory, true)"
-                                                >
-                                                    Sell
-                                                        {{showDropAllButtons(itemParameters.item)
-                                                        ? "with all parts"
-                                                        : ""}}
-                                                        {{itemParameters.containedItemsAmount
-                                                        ? "without contained items"
-                                                        : ""}}
-                                                </button>
-                                            </span>
-                                        </span>
-                                    </div>
-
-                                    <div class="list-item newrow left-aligned">
-                                        <span *ngIf="itemParameters.asEquipment">
-                                            <label for="{{itemParameters.asEquipment.id}}showname">
-                                                <div
-                                                    class="button no-animation"
-                                                    [ngClass]="{'fancy-button': itemParameters.asEquipment.showName}"
-                                                >
-                                                    <input
-                                                        class="invisible"
-                                                        type="checkbox"
-                                                        id="{{itemParameters.asEquipment.id}}showname"
-                                                        [(ngModel)]="itemParameters.asEquipment.showName"
-                                                    >
-                                                    <i class='bi-pencil-square'></i>
-                                                    Name
-                                                </div>
-                                            </label>
-                                        </span>
-
-                                        <span>
-                                            <label for="{{itemParameters.item.id}}shownotes">
-                                                <div
-                                                    class="button no-animation"
-                                                    [ngClass]="{'fancy-button': itemParameters.item.showNotes}"
-                                                >
-                                                    <input
-                                                        class="invisible"
-                                                        type="checkbox"
-                                                        id="{{itemParameters.item.id}}shownotes"
-                                                        [(ngModel)]="itemParameters.item.showNotes"
-                                                    >
-                                                    <i class='bi-pencil-square'></i>
-                                                    Notes
-                                                </div>
-                                            </label>
-                                        </span>
-
-                                        <span *ngIf="itemParameters.asRuneChangeable">
-                                            <label for="{{itemParameters.asRuneChangeable.id}}showrunes">
-                                                <div
-                                                    class="button no-animation"
-                                                    [ngClass]="{'fancy-button': itemParameters.asRuneChangeable.showRunes}"
-                                                >
-                                                    <input
-                                                        class="invisible"
-                                                        type="checkbox"
-                                                        id="{{itemParameters.asRuneChangeable.id}}showrunes"
-                                                        [(ngModel)]="itemParameters.asRuneChangeable.showRunes"
-                                                    >
-                                                    <i class='bi-pencil-square'></i>
-                                                    Runes
-                                                </div>
-                                            </label>
-                                        </span>
-
-                                        <span *ngIf="itemParameters.asStatusChangeable">
-                                            <label for="{{itemParameters.asStatusChangeable.id}}showstatus">
-                                                <div
-                                                    class="button no-animation"
-                                                    [ngClass]="{'fancy-button': itemParameters.asStatusChangeable.showStatus}"
-                                                >
-                                                    <input
-                                                        class="invisible"
-                                                        type="checkbox"
-                                                        id="{{itemParameters.asStatusChangeable.id}}showstatus"
-                                                        [(ngModel)]="itemParameters.asStatusChangeable.showStatus"
-                                                    >
-                                                    <i class='bi-pencil-square'></i>
-                                                    Status
-                                                </div>
-                                            </label>
-                                        </span>
-
-                                        <!-- Changing Name -->
-                                        <div
-                                            *ngIf="itemParameters.asEquipment"
-                                            class="list-item newrow left-aligned"
-                                            [ngbCollapse]="!itemParameters.asEquipment.showName"
-                                        >
-                                            <span>Name</span>
-
-                                            <input
-                                                aria-label="Item name"
-                                                type="textarea"
-                                                class="fullwidth"
-                                                [(ngModel)]="itemParameters.item.displayName"
-                                                (blur)="onItemChange(itemParameters.item)"
-                                            >
                                         </div>
 
-                                        <!-- Changing Notes -->
+                                        <!-- Lower row of buttons -->
                                         <div
-                                            class="list-item newrow left-aligned"
-                                            [ngbCollapse]="!itemParameters.item.showNotes"
-                                        >
-                                            <span>Notes</span>
-
-                                            <input
-                                                aria-label="Item notes"
-                                                type="textarea"
-                                                class="fullwidth"
-                                                [(ngModel)]="itemParameters.item.notes"
-                                            >
-                                        </div>
-
-                                        <!-- Changing Runes -->
-                                        <app-item-runes
-                                            *ngIf="itemParameters.asRuneChangeable"
+                                            *ngIf="itemParameters.item.tradeable && effectivePrice(itemParameters.item) as effectivePrice"
                                             class="newrow"
-                                            [ngbCollapse]="!itemParameters.asRuneChangeable.showRunes"
-                                            [item]="itemParameters.asRuneChangeable"
-                                            [itemStore]=false
-                                            [itemRoles]="itemParameters"
-                                        />
-
-                                        <!-- Changing Status -->
-                                        <div
-                                            *ngIf="itemParameters.asStatusChangeable || itemParameters.asEquipment?.broken || itemParameters.asEquipment?.shoddy"
-                                            class="list-item newrow left-aligned"
-                                            [ngbCollapse]="!(itemParameters.asStatusChangeable?.showStatus || itemParameters.asEquipment?.broken || itemParameters.asEquipment?.shoddy)"
                                         >
-                                            <span>Status</span>
-
-                                            <div
-                                                *ngIf="itemParameters.asEquipment && { allowed: isRepairAllowed(itemParameters.asEquipment) } as repairAllowedStatus"
-                                                class="newrow"
+                                            <span
+                                                *ngIf="itemParameters.stack && itemParameters.asStackable as stackable; else CannotStack"
+                                                class="gap-text"
                                             >
-                                                <span [ngbPopover]="!repairAllowedStatus.allowed ? 'To repair a broken shield, restore its hit points above the Broken Threshold.' : ''">
-                                                    <input
-                                                        type="checkbox"
-                                                        id="{{itemParameters.item.id}}broken"
-                                                        [disabled]="!repairAllowedStatus.allowed"
-                                                        [(ngModel)]="itemParameters.asEquipment.broken"
-                                                        (ngModelChange)="onItemBroken(itemParameters.asEquipment)"
+                                                <span [ngbTooltip]="(stackable.amount <= itemParameters.stack) ? 'Use the sell button to sell the last item of a stack' : 'Sell at half price'">
+                                                    <button
+                                                        type="button"
+                                                        [disabled]="stackable.amount <= itemParameters.stack"
+                                                        (click)="onAmountChange(stackable, -itemParameters.stack, true)"
                                                     >
-                                                    <label for="{{itemParameters.item.id}}broken">
-                                                        <i class='ra ra-broken-shield'></i>
-                                                        Broken
-                                                    </label>
-
-                                                    <ng-template #BrokenDescTemplate>
-                                                        <div class="newrow left-aligned popover-keepalive">
-                                                            A broken object can't be used for its normal
-                                                                function, nor does it grant bonuses - with the
-                                                                exception of armor. Broken armor still grants
-                                                                its item bonus to AC, but it also imparts a
-                                                                status penalty to AC depending on its category:
-                                                                -1 for broken light armor, -2 for broken medium
-                                                                armor, or -3 for broken heavy armor. A broken
-                                                                item still imposes penalties and limitations
-                                                                normally incurred by carrying, holding, or
-                                                                wearing it. For example, broken armor would
-                                                                still impose its Dexterity modifier cap, check
-                                                                penalty, and so forth.
-                                                        </div>
-                                                    </ng-template>
-
-                                                    <i
-                                                        class="bi-question-circle"
-                                                        [ngbPopover]="BrokenDescTemplate"
-                                                    ></i>
+                                                        Sell {{itemParameters.stack}}
+                                                    </button>
                                                 </span>
-                                            </div>
 
-                                            <div
-                                                *ngIf="itemParameters.asEquipment"
-                                                class="newrow"
-                                            >
+                                                <button
+                                                    type="button"
+                                                    [disabled]="!characterHasFunds(effectivePrice)"
+                                                    (click)="onAmountChange(stackable, itemParameters.stack, true)"
+                                                >
+                                                    Buy {{itemParameters.stack}}
+                                                </button>
+                                            </span>
+
+                                            <ng-template #CannotStack>
                                                 <span>
-                                                    <input
-                                                        type="checkbox"
-                                                        id="{{itemParameters.asEquipment.id}}shoddy"
-                                                        [(ngModel)]="itemParameters.asEquipment.shoddy"
-                                                        (ngModelChange)="onItemChange(itemParameters.asEquipment)"
-                                                    >
-                                                    <label for="{{itemParameters.asEquipment.id}}shoddy">
-                                                        <i class='ra ra-broken-bottle'></i>
-                                                        Shoddy
-                                                    </label>
-
-                                                    <ng-template #ShoddyDescTemplate>
-                                                        <div class="newrow left-aligned popover-keepalive">
-                                                            When available, a shoddy item usually costs half
-                                                                the Price of a standard item, though you can
-                                                                never sell one in any case. Attacks and checks
-                                                                involving a shoddy item take a -2 item penalty.
-                                                                This penalty also applies to any DCs that a
-                                                                shoddy item applies to (such as AC, for shoddy
-                                                                armor). A shoddy suit of armor also worsens the
-                                                                armor's check penalty by 2. A shoddy item's
-                                                                Hit Points and Broken Threshold are each half
-                                                                that of a normal item of its type.
-                                                        </div>
-                                                    </ng-template>
-
-                                                    <i
-                                                        class="bi-question-circle"
-                                                        [ngbPopover]="ShoddyDescTemplate"
-                                                    ></i>
+                                                    &nbsp;
+                                                    <!-- This span is a placeholder that appears if no other button is valid on the left side of the Sell button -->
                                                 </span>
-                                            </div>
-                                        </div>
+                                            </ng-template>
 
-                                        <div
-                                            *ngIf="itemParameters.asWeapon && (itemParameters.asWeapon?.large || (isLargeWeaponAllowed$(itemParameters.item) | async))"
-                                            class="list-item newrow"
-                                        >
                                             <span>
-                                                <input
-                                                    type="checkbox"
-                                                    id="{{itemParameters.asWeapon.id}}large"
-                                                    [(ngModel)]="itemParameters.asWeapon.large"
-                                                    (ngModelChange)=onItemChange(itemParameters.item)
-                                                >
-                                                <label for="{{itemParameters.asWeapon.id}}large">
-                                                    <i class='ra ra-large-hammer'></i>
-                                                    Large
-                                                </label>
-
-                                                <ng-template #LargeDescTemplate>
-                                                    <div class="newrow left-aligned popover-keepalive">
-                                                        You can use a weapon built for a Large creature if
-                                                            you are Small or Medium (both normally and when
-                                                            raging). If you're not Small or Medium, you can use
-                                                            a weapon built for a creature one size larger than
-                                                            you. While wielding the weapon in combat, your
-                                                            additional damage from Rage increases from 2 to 6,
-                                                            and you have the clumsy 1 condition because of its
-                                                            unwieldy size.
-                                                    </div>
-                                                </ng-template>
-
-                                                <i
-                                                    class="bi-question-circle"
-                                                    [ngbPopover]="LargeDescTemplate"
-                                                ></i>
+                                                <span [ngbTooltip]="(itemParameters.asEquipment?.broken || itemParameters.asEquipment?.shoddy) ? 'The item is worthless in this state' : 'Sell at half price'">
+                                                    <button
+                                                        type="button"
+                                                        [disabled]="itemParameters.item.amount <= 0 || itemParameters.asEquipment?.broken || itemParameters.asEquipment?.shoddy"
+                                                        (click)="dropInventoryItem(itemParameters.item, inventory, true)"
+                                                    >
+                                                        Sell
+                                                            {{showDropAllButtons(itemParameters.item)
+                                                            ? "with all parts"
+                                                            : ""}}
+                                                            {{itemParameters.containedItemsAmount
+                                                            ? "without contained items"
+                                                            : ""}}
+                                                    </button>
+                                                </span>
                                             </span>
                                         </div>
 
-                                        <div
-                                            *ngIf="itemParameters.asBladeAllyChangeable && (itemParameters.asBladeAllyChangeable?.bladeAlly || (isBladeAllyAllowed$(itemParameters.item) | async)) && { used: isBladeAllyUsed() } as bladeAllyStatus"
-                                            class="list-item newrow"
-                                        >
-                                            <div class="newrow">
-                                                <span [ngbPopover]="(!itemParameters.asBladeAllyChangeable.bladeAlly && bladeAllyStatus.used) ? 'Another item is already designated as your blade ally.' : ''">
-                                                    <input
-                                                        type="checkbox"
-                                                        id="{{itemParameters.asBladeAllyChangeable.id}}bladeally"
-                                                        [disabled]="!itemParameters.asBladeAllyChangeable.bladeAlly && bladeAllyStatus.used"
-                                                        [(ngModel)]="itemParameters.asBladeAllyChangeable.bladeAlly"
-                                                        (ngModelChange)=onItemChange(itemParameters.item)
-                                                    >
-                                                    <label for="{{itemParameters.asBladeAllyChangeable.id}}bladeally">
-                                                        <i class='ra ra-fireball-sword'></i>
-                                                        Blade Ally
-                                                    </label>
-
-                                                    <ng-template #BladeAllyDescTemplate>
-                                                        <div class="newrow left-aligned popover-keepalive">
-                                                            You can select one weapon or handwraps of mighty
-                                                                blows when you make your daily preparations. In
-                                                                your hands, the item gains the effect of a
-                                                                property rune and you also gain the weapon's
-                                                                critical specialization effect. For a champion
-                                                                following the tenets of good, choose disrupting,
-                                                                ghost touch, returning, or shifting. For a
-                                                                champion following the tenets of evil, choose
-                                                                fearsome, returning, or shifting.
-                                                        </div>
-                                                    </ng-template>
-
-                                                    <i
-                                                        class="bi-question-circle"
-                                                        [ngbPopover]="BladeAllyDescTemplate"
-                                                    ></i>
-                                                </span>
-                                            </div>
-
-                                            <app-item-blade-ally
-                                                *ngIf="itemParameters.asBladeAllyChangeable.bladeAlly"
-                                                class="list-item newrow"
-                                                [item]=itemParameters.asBladeAllyChangeable
-                                            />
-                                        </div>
-
-                                        <app-item-emblazon-armament
-                                            *ngIf="itemParameters.asEmblazonArmamentChangeable && (itemParameters.asEmblazonArmamentChangeable?.emblazonArmament || (isEmblazonArmamentAllowed$(itemParameters.item) | async))"
-                                            class="fullwidth"
-                                            [item]=itemParameters.asEmblazonArmamentChangeable
-                                        />
-
-                                        <div
-                                            *ngIf="itemParameters.asBattleforgedChangeable && (itemParameters.asBattleforgedChangeable?.battleforged || (isBattleforgedAllowed$(itemParameters.item) | async))"
-                                            class="list-item newrow"
-                                        >
-                                            <span>
-                                                <input
-                                                    type="checkbox"
-                                                    id="{{itemParameters.item.id}}battleforged"
-                                                    [(ngModel)]="itemParameters.asBattleforgedChangeable.battleforged"
-                                                    (ngModelChange)=onItemChange(itemParameters.item)
-                                                >
-                                                <label for="{{itemParameters.item.id}}battleforged">
-                                                    <i class='ra ra-anvil'></i>
-                                                    Battleforged
-                                                </label>
-
-                                                <ng-template #BattleforgedDescTemplate>
-                                                    <div class="newrow left-aligned popover-keepalive">
-                                                        You can sharpen weapons, polish armor, and apply
-                                                            special techniques to temporarily gain better
-                                                            effects from your armaments. By spending 1 hour
-                                                            working on a weapon or armor, you can grant it the
-                                                            effects of a +1 potency rune until your next daily
-                                                            preparations, gaining a +1 item bonus to attack
-                                                            rolls for a weapon or increasing armor's item bonus
-                                                            to AC by 1. This has no effect if the weapon or
-                                                            armor already had a potency rune.
-                                                    </div>
-                                                </ng-template>
-
-                                                <i
-                                                    class="bi-question-circle"
-                                                    [ngbPopover]="BattleforgedDescTemplate"
-                                                ></i>
-                                            </span>
-                                        </div>
-
-                                        <app-item-oils
-                                            *ngIf="itemParameters.item.type !== 'oils'"
-                                            class="hide-empty"
-                                            [item]=itemParameters.item
-                                            [itemStore]=false
-                                        />
-
-                                        <app-item-poisons
-                                            *ngIf="itemParameters.asWeapon"
-                                            class="hide-empty"
-                                            [item]=itemParameters.asWeapon
-                                            [itemStore]=false
-                                        />
-
-                                        <app-item-talismans
-                                            *ngIf="itemParameters.asTalismanChangeable && canApplyTalismans(itemParameters.asTalismanChangeable)"
-                                            [item]="itemParameters.asTalismanChangeable"
-                                            [itemStore]=false
-                                        />
-
-                                        <app-item-talisman-cords
-                                            *ngIf="itemParameters.asTalismanChangeable && canApplyTalismanCords(itemParameters.asTalismanChangeable)"
-                                            [item]=itemParameters.asTalismanChangeable
-                                        />
-
-                                        <app-item-aeon-stones
-                                            *ngIf="itemParameters.asWornItem && itemParameters.asWornItem?.isWayfinder"
-                                            class="list-item hide-empty"
-                                            [item]="itemParameters.asWornItem"
-                                            [itemStore]=false
-                                        />
-
-                                        <!-- Too many slotted Aeon Stones warning -->
-                                        <div
-                                            *ngIf="itemParameters.asWornItem && itemHasBlockedSlottedAeonStones(itemParameters.asWornItem)"
-                                            class="newrow list-item problem"
-                                        >
-                                            You have invested too many wayfinders with aeon stones slotted
-                                                in them. All effects of these aeon stones are disabled.
-                                        </div>
-
-                                        <ng-container *ngIf="itemParameters.asShield">
-                                            <div class="list-item newrow">
-                                                <strong>HP</strong>
-
-                                                <div class="value">
-                                                    {{itemParameters.asShield.currentHitPoints$() | async}}
-                                                </div>
-
-                                                <strong>Max HP</strong>
-
-                                                <div class="value">
-                                                    {{itemParameters.asShield.effectiveMaxHP$() | async}}
-                                                </div>
-
-                                                <strong>BT</strong>
-
-                                                <div class="value">
-                                                    {{itemParameters.asShield.effectiveBrokenThreshold$() | async}}
-                                                </div>
-                                            </div>
-
-                                            <div class="list-item newrow">
-                                                <ng-template #DamageSliderTemplate>
+                                        <div class="list-item newrow left-aligned">
+                                            <span *ngIf="itemParameters.asEquipment">
+                                                <label for="{{itemParameters.asEquipment.id}}showname">
                                                     <div
-                                                        class="popover-keepalive slider-container"
-                                                        style="min-width:25vw; max-width:100%;"
-                                                        [style.--name]="'\'Damage: ' + shieldDamage + '\''"
+                                                        class="button no-animation"
+                                                        [ngClass]="{'fancy-button': itemParameters.asEquipment.showName}"
                                                     >
                                                         <input
-                                                            aria-label="Shield damage amount slider"
-                                                            class="slider"
-                                                            type="range"
-                                                            min="0"
-                                                            max="{{itemParameters.asShield.effectiveMaxHP$() | async}}"
-                                                            [(ngModel)]="shieldDamage"
+                                                            class="invisible"
+                                                            type="checkbox"
+                                                            id="{{itemParameters.asEquipment.id}}showname"
+                                                            [(ngModel)]="itemParameters.asEquipment.showName"
                                                         >
+                                                        <i class='bi-pencil-square'></i>
+                                                        Name
                                                     </div>
-                                                </ng-template>
+                                                </label>
+                                            </span>
 
+                                            <span>
+                                                <label for="{{itemParameters.item.id}}shownotes">
+                                                    <div
+                                                        class="button no-animation"
+                                                        [ngClass]="{'fancy-button': itemParameters.item.showNotes}"
+                                                    >
+                                                        <input
+                                                            class="invisible"
+                                                            type="checkbox"
+                                                            id="{{itemParameters.item.id}}shownotes"
+                                                            [(ngModel)]="itemParameters.item.showNotes"
+                                                        >
+                                                        <i class='bi-pencil-square'></i>
+                                                        Notes
+                                                    </div>
+                                                </label>
+                                            </span>
+
+                                            <span *ngIf="itemParameters.asRuneChangeable">
+                                                <label for="{{itemParameters.asRuneChangeable.id}}showrunes">
+                                                    <div
+                                                        class="button no-animation"
+                                                        [ngClass]="{'fancy-button': itemParameters.asRuneChangeable.showRunes}"
+                                                    >
+                                                        <input
+                                                            class="invisible"
+                                                            type="checkbox"
+                                                            id="{{itemParameters.asRuneChangeable.id}}showrunes"
+                                                            [(ngModel)]="itemParameters.asRuneChangeable.showRunes"
+                                                        >
+                                                        <i class='bi-pencil-square'></i>
+                                                        Runes
+                                                    </div>
+                                                </label>
+                                            </span>
+
+                                            <span *ngIf="itemParameters.asStatusChangeable">
+                                                <label for="{{itemParameters.asStatusChangeable.id}}showstatus">
+                                                    <div
+                                                        class="button no-animation"
+                                                        [ngClass]="{'fancy-button': itemParameters.asStatusChangeable.showStatus}"
+                                                    >
+                                                        <input
+                                                            class="invisible"
+                                                            type="checkbox"
+                                                            id="{{itemParameters.asStatusChangeable.id}}showstatus"
+                                                            [(ngModel)]="itemParameters.asStatusChangeable.showStatus"
+                                                        >
+                                                        <i class='bi-pencil-square'></i>
+                                                        Status
+                                                    </div>
+                                                </label>
+                                            </span>
+
+                                            <!-- Changing Name -->
+                                            <div
+                                                *ngIf="itemParameters.asEquipment"
+                                                class="list-item newrow left-aligned"
+                                                [ngbCollapse]="!itemParameters.asEquipment.showName"
+                                            >
+                                                <span>Name</span>
+
+                                                <input
+                                                    aria-label="Item name"
+                                                    type="textarea"
+                                                    class="fullwidth"
+                                                    [(ngModel)]="itemParameters.item.displayName"
+                                                    (blur)="onItemChange(itemParameters.item)"
+                                                >
+                                            </div>
+
+                                            <!-- Changing Notes -->
+                                            <div
+                                                class="list-item newrow left-aligned"
+                                                [ngbCollapse]="!itemParameters.item.showNotes"
+                                            >
+                                                <span>Notes</span>
+
+                                                <input
+                                                    aria-label="Item notes"
+                                                    type="textarea"
+                                                    class="fullwidth"
+                                                    [(ngModel)]="itemParameters.item.notes"
+                                                >
+                                            </div>
+
+                                            <!-- Changing Runes -->
+                                            <app-item-runes
+                                                *ngIf="itemParameters.asRuneChangeable"
+                                                class="newrow"
+                                                [ngbCollapse]="!itemParameters.asRuneChangeable.showRunes"
+                                                [item]="itemParameters.asRuneChangeable"
+                                                [itemStore]=false
+                                                [itemRoles]="itemParameters"
+                                            />
+
+                                            <!-- Changing Status -->
+                                            <div
+                                                *ngIf="itemParameters.asStatusChangeable || itemParameters.asEquipment?.broken || itemParameters.asEquipment?.shoddy"
+                                                class="list-item newrow left-aligned"
+                                                [ngbCollapse]="!(itemParameters.asStatusChangeable?.showStatus || itemParameters.asEquipment?.broken || itemParameters.asEquipment?.shoddy)"
+                                            >
+                                                <span>Status</span>
+
+                                                <div
+                                                    *ngIf="itemParameters.asEquipment && { allowed: isRepairAllowed(itemParameters.asEquipment) } as repairAllowedStatus"
+                                                    class="newrow"
+                                                >
+                                                    <span [ngbPopover]="!repairAllowedStatus.allowed ? 'To repair a broken shield, restore its hit points above the Broken Threshold.' : ''">
+                                                        <input
+                                                            type="checkbox"
+                                                            id="{{itemParameters.item.id}}broken"
+                                                            [disabled]="!repairAllowedStatus.allowed"
+                                                            [(ngModel)]="itemParameters.asEquipment.broken"
+                                                            (ngModelChange)="onItemBroken(itemParameters.asEquipment)"
+                                                        >
+                                                        <label for="{{itemParameters.item.id}}broken">
+                                                            <i class='ra ra-broken-shield'></i>
+                                                            Broken
+                                                        </label>
+
+                                                        <ng-template #BrokenDescTemplate>
+                                                            <div class="newrow left-aligned popover-keepalive">
+                                                                A broken object can't be used for its normal
+                                                                    function, nor does it grant bonuses - with the
+                                                                    exception of armor. Broken armor still grants
+                                                                    its item bonus to AC, but it also imparts a
+                                                                    status penalty to AC depending on its category:
+                                                                    -1 for broken light armor, -2 for broken medium
+                                                                    armor, or -3 for broken heavy armor. A broken
+                                                                    item still imposes penalties and limitations
+                                                                    normally incurred by carrying, holding, or
+                                                                    wearing it. For example, broken armor would
+                                                                    still impose its Dexterity modifier cap, check
+                                                                    penalty, and so forth.
+                                                            </div>
+                                                        </ng-template>
+
+                                                        <i
+                                                            class="bi-question-circle"
+                                                            [ngbPopover]="BrokenDescTemplate"
+                                                        ></i>
+                                                    </span>
+                                                </div>
+
+                                                <div
+                                                    *ngIf="itemParameters.asEquipment"
+                                                    class="newrow"
+                                                >
+                                                    <span>
+                                                        <input
+                                                            type="checkbox"
+                                                            id="{{itemParameters.asEquipment.id}}shoddy"
+                                                            [(ngModel)]="itemParameters.asEquipment.shoddy"
+                                                            (ngModelChange)="onItemChange(itemParameters.asEquipment)"
+                                                        >
+                                                        <label for="{{itemParameters.asEquipment.id}}shoddy">
+                                                            <i class='ra ra-broken-bottle'></i>
+                                                            Shoddy
+                                                        </label>
+
+                                                        <ng-template #ShoddyDescTemplate>
+                                                            <div class="newrow left-aligned popover-keepalive">
+                                                                When available, a shoddy item usually costs half
+                                                                    the Price of a standard item, though you can
+                                                                    never sell one in any case. Attacks and checks
+                                                                    involving a shoddy item take a -2 item penalty.
+                                                                    This penalty also applies to any DCs that a
+                                                                    shoddy item applies to (such as AC, for shoddy
+                                                                    armor). A shoddy suit of armor also worsens the
+                                                                    armor's check penalty by 2. A shoddy item's
+                                                                    Hit Points and Broken Threshold are each half
+                                                                    that of a normal item of its type.
+                                                            </div>
+                                                        </ng-template>
+
+                                                        <i
+                                                            class="bi-question-circle"
+                                                            [ngbPopover]="ShoddyDescTemplate"
+                                                        ></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                *ngIf="itemParameters.asWeapon && (itemParameters.asWeapon?.large || (isLargeWeaponAllowed$(itemParameters.item) | async))"
+                                                class="list-item newrow"
+                                            >
                                                 <span>
-                                                    <button
-                                                        type="button"
-                                                        [disabled]="shieldDamage === 0"
-                                                        (click)="onShieldHPChange(itemParameters.asShield, shieldDamage)"
-                                                    >
-                                                        Damage
-                                                    </button>
-                                                </span>
-
-                                                <span class="hlist center-aligned">
                                                     <input
-                                                        #DamagePopover="ngbPopover"
-                                                        aria-label="Shield damage amount"
-                                                        triggers="manual"
-                                                        class="number3"
-                                                        type="number"
-                                                        maxLength="3"
-                                                        min="0"
-                                                        [ngbPopover]="DamageSliderTemplate"
-                                                        max="{{itemParameters.asShield.effectiveMaxHP$() | async}}"
-                                                        [(ngModel)]="shieldDamage"
-                                                        (focus)="DamagePopover.open()"
-                                                        (keypress)="positiveNumbersOnly($event)"
+                                                        type="checkbox"
+                                                        id="{{itemParameters.asWeapon.id}}large"
+                                                        [(ngModel)]="itemParameters.asWeapon.large"
+                                                        (ngModelChange)=onItemChange(itemParameters.item)
                                                     >
-                                                </span>
+                                                    <label for="{{itemParameters.asWeapon.id}}large">
+                                                        <i class='ra ra-large-hammer'></i>
+                                                        Large
+                                                    </label>
 
-                                                <span class="right-aligned">
-                                                    <button
-                                                        type="button"
-                                                        [disabled]="shieldDamage === 0"
-                                                        (click)="onShieldHPChange(itemParameters.asShield, -shieldDamage)"
-                                                    >
-                                                        Repair
-                                                    </button>
+                                                    <ng-template #LargeDescTemplate>
+                                                        <div class="newrow left-aligned popover-keepalive">
+                                                            You can use a weapon built for a Large creature if
+                                                                you are Small or Medium (both normally and when
+                                                                raging). If you're not Small or Medium, you can use
+                                                                a weapon built for a creature one size larger than
+                                                                you. While wielding the weapon in combat, your
+                                                                additional damage from Rage increases from 2 to 6,
+                                                                and you have the clumsy 1 condition because of its
+                                                                unwieldy size.
+                                                        </div>
+                                                    </ng-template>
+
+                                                    <i
+                                                        class="bi-question-circle"
+                                                        [ngbPopover]="LargeDescTemplate"
+                                                    ></i>
                                                 </span>
                                             </div>
-                                        </ng-container>
-                                    </div>
 
-                                    <app-item
-                                        class="lower"
-                                        [creature]="creature"
-                                        [item]=itemParameters.item
-                                        [allowActivate]="itemParameters.item.investedOrEquipped()"
-                                        [armoredSkirt]="itemParameters.asArmor?.armoredSkirt(creature)"
-                                    />
-                                </ng-template>
+                                            <div
+                                                *ngIf="itemParameters.asBladeAllyChangeable && (itemParameters.asBladeAllyChangeable?.bladeAlly || (isBladeAllyAllowed$(itemParameters.item) | async)) && { used: isBladeAllyUsed() } as bladeAllyStatus"
+                                                class="list-item newrow"
+                                            >
+                                                <div class="newrow">
+                                                    <span [ngbPopover]="(!itemParameters.asBladeAllyChangeable.bladeAlly && bladeAllyStatus.used) ? 'Another item is already designated as your blade ally.' : ''">
+                                                        <input
+                                                            type="checkbox"
+                                                            id="{{itemParameters.asBladeAllyChangeable.id}}bladeally"
+                                                            [disabled]="!itemParameters.asBladeAllyChangeable.bladeAlly && bladeAllyStatus.used"
+                                                            [(ngModel)]="itemParameters.asBladeAllyChangeable.bladeAlly"
+                                                            (ngModelChange)=onItemChange(itemParameters.item)
+                                                        >
+                                                        <label for="{{itemParameters.asBladeAllyChangeable.id}}bladeally">
+                                                            <i class='ra ra-fireball-sword'></i>
+                                                            Blade Ally
+                                                        </label>
 
-                                <ng-container *ngIf="itemParameters.item.id as inventoryID">
+                                                        <ng-template #BladeAllyDescTemplate>
+                                                            <div class="newrow left-aligned popover-keepalive">
+                                                                You can select one weapon or handwraps of mighty
+                                                                    blows when you make your daily preparations. In
+                                                                    your hands, the item gains the effect of a
+                                                                    property rune and you also gain the weapon's
+                                                                    critical specialization effect. For a champion
+                                                                    following the tenets of good, choose disrupting,
+                                                                    ghost touch, returning, or shifting. For a
+                                                                    champion following the tenets of evil, choose
+                                                                    fearsome, returning, or shifting.
+                                                            </div>
+                                                        </ng-template>
 
-                                    <ng-template #ListModeTemplate>
-                                        <div
-                                            class="list-item"
-                                            cdkDrag
-                                            [cdkDragData]="itemParameters.item"
-                                            [cdkDragDisabled]="!canDropItem(itemParameters.item)"
-                                        >
+                                                        <i
+                                                            class="bi-question-circle"
+                                                            [ngbPopover]="BladeAllyDescTemplate"
+                                                        ></i>
+                                                    </span>
+                                                </div>
+
+                                                <app-item-blade-ally
+                                                    *ngIf="itemParameters.asBladeAllyChangeable.bladeAlly"
+                                                    class="list-item newrow"
+                                                    [item]=itemParameters.asBladeAllyChangeable
+                                                />
+                                            </div>
+
+                                            <app-item-emblazon-armament
+                                                *ngIf="itemParameters.asEmblazonArmamentChangeable && (itemParameters.asEmblazonArmamentChangeable?.emblazonArmament || (isEmblazonArmamentAllowed$(itemParameters.item) | async))"
+                                                class="fullwidth"
+                                                [item]=itemParameters.asEmblazonArmamentChangeable
+                                            />
+
+                                            <div
+                                                *ngIf="itemParameters.asBattleforgedChangeable && (itemParameters.asBattleforgedChangeable?.battleforged || (isBattleforgedAllowed$(itemParameters.item) | async))"
+                                                class="list-item newrow"
+                                            >
+                                                <span>
+                                                    <input
+                                                        type="checkbox"
+                                                        id="{{itemParameters.item.id}}battleforged"
+                                                        [(ngModel)]="itemParameters.asBattleforgedChangeable.battleforged"
+                                                        (ngModelChange)=onItemChange(itemParameters.item)
+                                                    >
+                                                    <label for="{{itemParameters.item.id}}battleforged">
+                                                        <i class='ra ra-anvil'></i>
+                                                        Battleforged
+                                                    </label>
+
+                                                    <ng-template #BattleforgedDescTemplate>
+                                                        <div class="newrow left-aligned popover-keepalive">
+                                                            You can sharpen weapons, polish armor, and apply
+                                                                special techniques to temporarily gain better
+                                                                effects from your armaments. By spending 1 hour
+                                                                working on a weapon or armor, you can grant it the
+                                                                effects of a +1 potency rune until your next daily
+                                                                preparations, gaining a +1 item bonus to attack
+                                                                rolls for a weapon or increasing armor's item bonus
+                                                                to AC by 1. This has no effect if the weapon or
+                                                                armor already had a potency rune.
+                                                        </div>
+                                                    </ng-template>
+
+                                                    <i
+                                                        class="bi-question-circle"
+                                                        [ngbPopover]="BattleforgedDescTemplate"
+                                                    ></i>
+                                                </span>
+                                            </div>
+
+                                            <app-item-oils
+                                                *ngIf="itemParameters.item.type !== 'oils'"
+                                                class="hide-empty"
+                                                [item]=itemParameters.item
+                                                [itemStore]=false
+                                            />
+
+                                            <app-item-poisons
+                                                *ngIf="itemParameters.asWeapon"
+                                                class="hide-empty"
+                                                [item]=itemParameters.asWeapon
+                                                [itemStore]=false
+                                            />
+
+                                            <app-item-talismans
+                                                *ngIf="itemParameters.asTalismanChangeable && canApplyTalismans(itemParameters.asTalismanChangeable)"
+                                                [item]="itemParameters.asTalismanChangeable"
+                                                [itemStore]=false
+                                            />
+
+                                            <app-item-talisman-cords
+                                                *ngIf="itemParameters.asTalismanChangeable && canApplyTalismanCords(itemParameters.asTalismanChangeable)"
+                                                [item]=itemParameters.asTalismanChangeable
+                                            />
+
+                                            <app-item-aeon-stones
+                                                *ngIf="itemParameters.asWornItem && itemParameters.asWornItem?.isWayfinder"
+                                                class="list-item hide-empty"
+                                                [item]="itemParameters.asWornItem"
+                                                [itemStore]=false
+                                            />
+
+                                            <!-- Too many slotted Aeon Stones warning -->
+                                            <div
+                                                *ngIf="itemParameters.asWornItem && itemHasBlockedSlottedAeonStones(itemParameters.asWornItem)"
+                                                class="newrow list-item problem"
+                                            >
+                                                You have invested too many wayfinders with aeon stones slotted
+                                                    in them. All effects of these aeon stones are disabled.
+                                            </div>
+
+                                            <ng-container *ngIf="itemParameters.asShield">
+                                                <div class="list-item newrow">
+                                                    <strong>HP</strong>
+
+                                                    <div class="value">
+                                                        {{itemParameters.asShield.currentHitPoints$() | async}}
+                                                    </div>
+
+                                                    <strong>Max HP</strong>
+
+                                                    <div class="value">
+                                                        {{itemParameters.asShield.effectiveMaxHP$() | async}}
+                                                    </div>
+
+                                                    <strong>BT</strong>
+
+                                                    <div class="value">
+                                                        {{itemParameters.asShield.effectiveBrokenThreshold$() | async}}
+                                                    </div>
+                                                </div>
+
+                                                <div class="list-item newrow">
+                                                    <ng-template #DamageSliderTemplate>
+                                                        <div
+                                                            class="popover-keepalive slider-container"
+                                                            style="min-width:25vw; max-width:100%;"
+                                                            [style.--name]="'\'Damage: ' + shieldDamage + '\''"
+                                                        >
+                                                            <input
+                                                                aria-label="Shield damage amount slider"
+                                                                class="slider"
+                                                                type="range"
+                                                                min="0"
+                                                                max="{{itemParameters.asShield.effectiveMaxHP$() | async}}"
+                                                                [(ngModel)]="shieldDamage"
+                                                            >
+                                                        </div>
+                                                    </ng-template>
+
+                                                    <span>
+                                                        <button
+                                                            type="button"
+                                                            [disabled]="shieldDamage === 0"
+                                                            (click)="onShieldHPChange(itemParameters.asShield, shieldDamage)"
+                                                        >
+                                                            Damage
+                                                        </button>
+                                                    </span>
+
+                                                    <span class="hlist center-aligned">
+                                                        <input
+                                                            #DamagePopover="ngbPopover"
+                                                            aria-label="Shield damage amount"
+                                                            triggers="manual"
+                                                            class="number3"
+                                                            type="number"
+                                                            maxLength="3"
+                                                            min="0"
+                                                            [ngbPopover]="DamageSliderTemplate"
+                                                            max="{{itemParameters.asShield.effectiveMaxHP$() | async}}"
+                                                            [(ngModel)]="shieldDamage"
+                                                            (focus)="DamagePopover.open()"
+                                                            (keypress)="positiveNumbersOnly($event)"
+                                                        >
+                                                    </span>
+
+                                                    <span class="right-aligned">
+                                                        <button
+                                                            type="button"
+                                                            [disabled]="shieldDamage === 0"
+                                                            (click)="onShieldHPChange(itemParameters.asShield, -shieldDamage)"
+                                                        >
+                                                            Repair
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+
+                                        <app-item
+                                            class="lower"
+                                            [creature]="creature"
+                                            [item]=itemParameters.item
+                                            [allowActivate]="itemParameters.item.investedOrEquipped()"
+                                            [armoredSkirt]="itemParameters.asArmor?.armoredSkirt(creature)"
+                                        />
+                                    </ng-template>
+
+                                    <ng-container *ngIf="itemParameters.item.id as inventoryID">
+
+                                        <ng-template #ListModeTemplate>
+                                            <div
+                                                class="list-item"
+                                                cdkDrag
+                                                [cdkDragData]="itemParameters.item"
+                                                [cdkDragDisabled]="!canDropItem(itemParameters.item)"
+                                            >
+                                                <button
+                                                    type="button"
+                                                    aria-label="Show item"
+                                                    class="newrow sublist-toggle"
+                                                    [ngClass]="{'fancy-button':itemParameters.item.investedOrEquipped(), 'problem':itemParameters.asEquipment?.broken}"
+                                                    (click)="toggleShownItem(inventoryID)"
+                                                >
+                                                    <ng-container *ngTemplateOutlet="ItemTitleTemplate" />
+                                                </button>
+
+                                                <div
+                                                    *ngIf="shownItem()===inventoryID"
+                                                    class="list-item sublist"
+                                                    [ngClass]="{'fancy-list':itemParameters.item.investedOrEquipped(), 'problem':itemParameters.asEquipment?.broken}"
+                                                >
+                                                    <ng-container *ngTemplateOutlet="ItemTemplate" />
+                                                </div>
+                                            </div>
+                                        </ng-template>
+
+                                        <ng-container *ngIf="isTileMode$ | async; else ListModeTemplate">
                                             <button
                                                 type="button"
                                                 aria-label="Show item"
-                                                class="newrow sublist-toggle"
-                                                [ngClass]="{'fancy-button':itemParameters.item.investedOrEquipped(), 'problem':itemParameters.asEquipment?.broken}"
-                                                (click)="toggleShownItem(inventoryID)"
-                                            >
-                                                <ng-container *ngTemplateOutlet="ItemTitleTemplate" />
-                                            </button>
-
-                                            <div
-                                                *ngIf="shownItem()===inventoryID"
-                                                class="list-item sublist"
-                                                [ngClass]="{'fancy-list':itemParameters.item.investedOrEquipped(), 'problem':itemParameters.asEquipment?.broken}"
-                                            >
-                                                <ng-container *ngTemplateOutlet="ItemTemplate" />
-                                            </div>
-                                        </div>
-                                    </ng-template>
-
-                                    <ng-container *ngIf="isTileMode$ | async; else ListModeTemplate">
-                                        <button
-                                            type="button"
-                                            aria-label="Show item"
-                                            triggers="click"
-                                            cdkDrag
-                                            [stickyPopover]="ItemTemplate"
-                                            [ngClass]="{'fancy-button':itemParameters.item.investedOrEquipped(), 'problem':itemParameters.asEquipment?.broken, 'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
-                                            [cdkDragData]="itemParameters.item"
-                                            [cdkDragDisabled]="!canDropItem(itemParameters.item)"
-                                            (click)="toggleShownItem()"
-                                        >
-                                            <app-grid-icon
-                                                [updateId]="itemParameters.item.id"
+                                                triggers="click"
+                                                cdkDrag
+                                                [stickyPopover]="ItemTemplate"
                                                 [ngClass]="{'fancy-button':itemParameters.item.investedOrEquipped(), 'problem':itemParameters.asEquipment?.broken, 'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
-                                                [ngbTooltip]="ItemTooltipTemplate"
-                                                [title]="itemParameters.item.gridIconTitle()"
-                                                [detail]="'noparse|' + (itemParameters.item.level ? itemParameters.item.level.toString() : '')"
-                                                [item]="itemParameters.item"
-                                            />
-                                        </button>
+                                                [cdkDragData]="itemParameters.item"
+                                                [cdkDragDisabled]="!canDropItem(itemParameters.item)"
+                                                (click)="toggleShownItem()"
+                                            >
+                                                <app-grid-icon
+                                                    [updateId]="itemParameters.item.id"
+                                                    [ngClass]="{'fancy-button':itemParameters.item.investedOrEquipped(), 'problem':itemParameters.asEquipment?.broken, 'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
+                                                    [ngbTooltip]="ItemTooltipTemplate"
+                                                    [title]="itemParameters.item.gridIconTitle()"
+                                                    [detail]="'noparse|' + (itemParameters.item.level ? itemParameters.item.level.toString() : '')"
+                                                    [item]="itemParameters.item"
+                                                />
+                                            </button>
+                                        </ng-container>
                                     </ng-container>
                                 </ng-container>
-                            </ng-container>
-                        </div>
+                            </div>
+                        </ng-container>
                     </ng-container>
-                </ng-container>
 
-                <!-- Miscellaneous Items -->
-                <header class="subsectionHeader minimized-hide">Miscellaneous Items</header>
+                    <!-- Miscellaneous Items -->
+                    <header class="subsectionHeader minimized-hide">Miscellaneous Items</header>
 
-                <button
-                    type="button"
-                    class="minimized-hide newrow center-aligned"
-                    (click)="addNewOtherItem(inventory)"
-                >
-                    Add
-                </button>
-
-                <div
-                    *ngFor="let item of inventory.otheritems; let index = index; trackBy:trackByIndex;"
-                    class="minimized-hide list-item"
-                >
-                    <strong>Name</strong>
-
-                    <input
-                        aria-label="Item name"
-                        type="text"
-                        id="miscellaneousItemName{{inventoryIndex}}_{{index}}"
-                        [(ngModel)]="item.name"
-                    >
-                    <strong>Bulk</strong>
-
-                    <input
-                        aria-label="Item bulk"
-                        class="number2"
-                        id="miscellaneousItemBulk{{inventoryIndex}}_{{index}}"
-                        [ngModel]="item.bulk"
-                        (blur)="validateBulk(item)"
-                        (beforeinput)="bulkOnlyInputValidation($event, item.bulk)"
-                        (ngModelChange)="item.bulk = $event.toUpperCase()"
-                    >
                     <button
                         type="button"
-                        (click)="removeOtherItem(item, inventory)"
+                        class="minimized-hide newrow center-aligned"
+                        (click)="addNewOtherItem(inventory)"
                     >
-                        Drop
+                        Add
                     </button>
+
+                    <div
+                        *ngFor="let item of inventory.otheritems; let index = index; trackBy:trackByIndex;"
+                        class="minimized-hide list-item"
+                    >
+                        <strong>Name</strong>
+
+                        <input
+                            aria-label="Item name"
+                            type="text"
+                            id="miscellaneousItemName{{inventoryIndex}}_{{index}}"
+                            [(ngModel)]="item.name"
+                        >
+                        <strong>Bulk</strong>
+
+                        <input
+                            aria-label="Item bulk"
+                            class="number2"
+                            id="miscellaneousItemBulk{{inventoryIndex}}_{{index}}"
+                            [ngModel]="item.bulk"
+                            (blur)="validateBulk(item)"
+                            (beforeinput)="bulkOnlyInputValidation($event, item.bulk)"
+                            (ngModelChange)="item.bulk = $event.toUpperCase()"
+                        >
+                        <button
+                            type="button"
+                            (click)="removeOtherItem(item, inventory)"
+                        >
+                            Drop
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </ng-container>
+            </ng-container>
+        </div>
     </div>
-</div>
+</app-character-sheet-card>

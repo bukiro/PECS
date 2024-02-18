@@ -5,7 +5,7 @@ import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap } from 'rxjs';
 import { Activity } from 'src/app/classes/Activity';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
@@ -18,9 +18,8 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { deepDistinctUntilChanged, propMap$ } from 'src/libs/shared/util/observableUtils';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 interface ActivitySet {
     name: string;
@@ -44,8 +43,9 @@ interface ActivityParameter {
     styleUrls: ['./activities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActivitiesComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
+export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 
+    public isMinimized$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
 
     private _showActivity = '';
@@ -83,18 +83,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCardComponent) impleme
                     ),
                 ),
                 distinctUntilChanged(),
-                tap(minimized => this._updateMinimized(minimized)),
-                // If the button is hidden, another subscription ensures that the pipe is run.
-                // shareReplay prevents it from running twice if the button is not hidden.
-                shareReplay({ refCount: true, bufferSize: 1 }),
             );
-
-        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
-        this.isMinimized$
-            .pipe(
-                takeUntilDestroyed(),
-            )
-            .subscribe();
 
         this.isTileMode$ = propMap$(SettingsService.settings$, 'activitiesTileMode$')
             .pipe(

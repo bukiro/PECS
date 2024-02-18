@@ -1,9 +1,8 @@
 /* eslint-disable complexity */
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, Input } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Condition } from 'src/app/classes/Condition';
-import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { ItemProperty } from 'src/app/classes/ItemProperty';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Creature } from 'src/app/classes/Creature';
@@ -17,7 +16,7 @@ import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluatio
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import {
     combineLatest,
-    debounceTime,
+    delay,
     distinctUntilChanged,
     map,
     Observable,
@@ -72,6 +71,9 @@ interface ConditionType {
 })
 export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
+    @Input()
+    public show = false;
+
     public endOn: TimePeriods.NoTurn | TimePeriods.HalfTurn = TimePeriods.HalfTurn;
     public value = 1;
     public heightened = 1;
@@ -125,12 +127,10 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemsDataService: ItemsDataService,
-        private readonly _timeService: TimeService,
         private readonly _evaluationService: EvaluationService,
         private readonly _customEffectPropertiesService: EffectPropertiesDataService,
         private readonly _durationsService: DurationsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
-        private readonly _creatureService: CreatureService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _featsDataService: FeatsDataService,
@@ -152,7 +152,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
                     ? of(isMenuOpen)
                     : of(isMenuOpen)
                         .pipe(
-                            debounceTime(Defaults.closingMenuClearDelay),
+                            delay(Defaults.closingMenuClearDelay),
                         ),
                 ),
             );

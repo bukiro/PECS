@@ -1,11 +1,11 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Item } from 'src/app/classes/Item';
 import { Character } from 'src/app/classes/Character';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { Consumable } from 'src/app/classes/Consumable';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, debounceTime, distinctUntilChanged, map, Observable, of, shareReplay, switchMap } from 'rxjs';
+import { combineLatest, delay, distinctUntilChanged, map, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -49,6 +49,9 @@ interface ItemParameters extends ItemRoles {
 })
 export class CraftingComponent extends TrackByMixin(BaseClass) {
 
+    @Input()
+    public show = false;
+
     public wordFilter = '';
     public sorting: SortingOption = 'sortLevel';
     public range = 0;
@@ -88,7 +91,7 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
                     ? of(isMenuOpen)
                     : of(isMenuOpen)
                         .pipe(
-                            debounceTime(Defaults.closingMenuClearDelay),
+                            delay(Defaults.closingMenuClearDelay),
                         ),
                 ),
             );

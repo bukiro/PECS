@@ -1,15 +1,14 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { combineLatest, distinctUntilChanged, Observable, shareReplay, switchMap, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, Observable, switchMap } from 'rxjs';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService, AbilityLiveValue } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 @Component({
     selector: 'app-abilities',
@@ -17,8 +16,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     styleUrls: ['./abilities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AbilitiesComponent extends TrackByMixin(BaseCardComponent) {
+export class AbilitiesComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
+    public isMinimized$: Observable<boolean>;
     public readonly abilityValues$: Observable<Array<AbilityLiveValue>>;
 
     constructor(
@@ -42,18 +42,7 @@ export class AbilitiesComponent extends TrackByMixin(BaseCardComponent) {
                     ),
                 ),
                 distinctUntilChanged(),
-                tap(minimized => this._updateMinimized(minimized)),
-                // If the button is hidden, another subscription ensures that the pipe is run.
-                // shareReplay prevents it from running twice if the button is not hidden.
-                shareReplay({ refCount: true, bufferSize: 1 }),
             );
-
-        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
-        this.isMinimized$
-            .pipe(
-                takeUntilDestroyed(),
-            )
-            .subscribe();
 
         this.abilityValues$ = this.creature$
             .pipe(

@@ -11,26 +11,28 @@
 
 <!-- Slide-in menus -->
 
-<app-items [@slideInOut]="(sideMenuState$ | async) === menuNames.ItemsMenu ? 'in' : 'out'" />
+<app-items class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.ItemsMenu" />
 
-<app-crafting [@slideInOut]="(sideMenuState$ | async) === menuNames.CraftingMenu ? 'in' : 'out'" />
+<app-crafting class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.CraftingMenu" />
 
-<app-spell-selection [@slideInOut]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu? 'in' : 'out'" />
+<app-spell-selection class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu" />
 
-<app-spell-library [@slideInOut]="(sideMenuState$ | async) === menuNames.SpellLibraryMenu? 'in' : 'out'" />
+<app-spell-library class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.SpellLibraryMenu" />
 
-<app-conditions [@slideInOut]="(sideMenuState$ | async) === menuNames.ConditionsMenu ? 'in' : 'out'" />
+<app-conditions class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.ConditionsMenu" />
 
-<app-character-creation [@slideInOut]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu ? 'in' : 'out'" />
+<app-character-creation class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu" />
 
 <app-animal-companion
     *ngIf="isAnimalCompanionAvailable$ | async"
-    [@slideInOut]="(sideMenuState$ | async) === menuNames.CompanionMenu? 'in' : 'out'"
+    class="fly-in-menu"
+    [show]="(sideMenuState$ | async) === menuNames.CompanionMenu"
 />
 
 <app-familiar
     *ngIf="isFamiliarAvailable$ | async"
-    [@slideInOut]="(sideMenuState$ | async) === menuNames.FamiliarMenu ? 'in' : 'out'"
+    class="fly-in-menu"
+    [show]="(sideMenuState$ | async) === menuNames.FamiliarMenu"
 />
 
-<app-dice [@slideInOutVert]="(topMenuState$ | async) === menuNames.DiceMenu ? 'in' : 'out'" />
+<app-dice [show]="(topMenuState$ | async) === menuNames.DiceMenu" />

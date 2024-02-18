@@ -1,123 +1,125 @@
-<app-dialog-header
-    #Header
-    [title]="title"
-    [close]="close"
-/>
+<app-character-sheet-card>
+    <app-dialog-header
+        #Header
+        [title]="title"
+        [close]="close"
+    />
 
-<div class="content">
+    <div class="content">
 
-    <p>
-        Select all effects you want to apply. All other effects will be discarded.
-    </p>
+        <p>
+            Select all effects you want to apply. All other effects will be discarded.
+        </p>
 
-    <div class="content__header">
-        <app-checkbox-input
-            id="messagesSelectAll"
-            [ngModel]="areAllMessagesSelected()"
-            (ngModelChange)="onSelectAllMessages($event)"
-        />
+        <div class="content__header">
+            <app-checkbox-input
+                id="messagesSelectAll"
+                [ngModel]="areAllMessagesSelected()"
+                (ngModelChange)="onSelectAllMessages($event)"
+            />
 
-        <label for="messagesSelectAll">
-            <strong>Select all</strong>
-        </label>
+            <label for="messagesSelectAll">
+                <strong>Select all</strong>
+            </label>
+        </div>
+
+        <div class="content__list">
+            <ng-container *ngFor="let enriched of enrichedMessages$ | async; trackBy:trackByIndex">
+
+                <div class="list-item gridicon-fullsizebox">
+                    <app-checkbox-input
+                        id="message{{enriched.message.id}}"
+                        [(ngModel)]="enriched.message.selected"
+                    />
+
+                    <label for="message{{enriched.message.id}}">
+                        <div class="newrow left-aligned">
+                            <i
+                                *ngIf="enriched.message.offeredItem.length"
+                                class="ra ra-sword"
+                            ></i>
+
+                            <i
+                                *ngIf="enriched.message.gainCondition.length"
+                                class="ra ra-splash"
+                            ></i>
+
+                            <i
+                                *ngIf="enriched.message.gainCondition.length && enriched.message.activateCondition"
+                                class="bi-play-circle"
+                            ></i>
+
+                            <i
+                                *ngIf="enriched.message.gainCondition.length && !enriched.message.activateCondition"
+                                class="bi-stop-circle"
+                            ></i>
+
+                            <i
+                                *ngIf="enriched.messageTargetCreature.type==='Character'"
+                                class="ra ra-player"
+                            ></i>
+
+                            <i
+                                *ngIf="enriched.messageTargetCreature.type==='Companion'"
+                                class="ra ra-wolf-howl"
+                            ></i>
+
+                            <i
+                                *ngIf="enriched.messageTargetCreature.type==='Familiar'"
+                                class="ra ra-raven"
+                            ></i>
+
+                            <ng-container *ngIf="enriched.message.gainCondition.length">
+                                <strong>
+                                    {{
+                                        enriched.message.gainCondition[0].name
+                                        + (
+                                            enriched.message.gainCondition[0].choice
+                                                ? ": " + enriched.message.gainCondition[0].choice
+                                                : ""
+                                        )
+                                    }}
+                                </strong>
+                                {{enriched.conditionMessageDurationDescription}}
+                            </ng-container>
+
+                            <ng-container *ngIf="enriched.message.offeredItem.length">
+                                <strong>
+                                    {{
+                                        (
+                                            enriched.message.itemAmount !== 1
+                                                ? enriched.message.itemAmount + " "
+                                                : ""
+                                        ) + enriched.message.offeredItem[0].name
+                                    }}
+                                </strong>
+                                {{enriched.itemMessageIncludedAmount}}
+                            </ng-container>
+                        </div>
+
+                        <div class="text-small">
+                            Sent{{enriched.messageSenderName ? " by " + enriched.messageSenderName : ""}} at {{enriched.message.time}}
+                        </div>
+                    </label>
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="content__options">
+            <app-label-input-pair
+                label="Keep checking automatically"
+                type="switch"
+                [sublines]="['Can be turned off in settings']"
+                [(ngModel)]="character.settings.checkMessagesAutomatically"
+            />
+        </div>
     </div>
 
-    <div class="content__list">
-        <ng-container *ngFor="let enriched of enrichedMessages$ | async; trackBy:trackByIndex">
-
-            <div class="list-item gridicon-fullsizebox">
-                <app-checkbox-input
-                    id="message{{enriched.message.id}}"
-                    [(ngModel)]="enriched.message.selected"
-                />
-
-                <label for="message{{enriched.message.id}}">
-                    <div class="newrow left-aligned">
-                        <i
-                            *ngIf="enriched.message.offeredItem.length"
-                            class="ra ra-sword"
-                        ></i>
-
-                        <i
-                            *ngIf="enriched.message.gainCondition.length"
-                            class="ra ra-splash"
-                        ></i>
-
-                        <i
-                            *ngIf="enriched.message.gainCondition.length && enriched.message.activateCondition"
-                            class="bi-play-circle"
-                        ></i>
-
-                        <i
-                            *ngIf="enriched.message.gainCondition.length && !enriched.message.activateCondition"
-                            class="bi-stop-circle"
-                        ></i>
-
-                        <i
-                            *ngIf="enriched.messageTargetCreature.type==='Character'"
-                            class="ra ra-player"
-                        ></i>
-
-                        <i
-                            *ngIf="enriched.messageTargetCreature.type==='Companion'"
-                            class="ra ra-wolf-howl"
-                        ></i>
-
-                        <i
-                            *ngIf="enriched.messageTargetCreature.type==='Familiar'"
-                            class="ra ra-raven"
-                        ></i>
-
-                        <ng-container *ngIf="enriched.message.gainCondition.length">
-                            <strong>
-                                {{
-                                    enriched.message.gainCondition[0].name
-                                    + (
-                                        enriched.message.gainCondition[0].choice
-                                            ? ": " + enriched.message.gainCondition[0].choice
-                                            : ""
-                                    )
-                                }}
-                            </strong>
-                            {{enriched.conditionMessageDurationDescription}}
-                        </ng-container>
-
-                        <ng-container *ngIf="enriched.message.offeredItem.length">
-                            <strong>
-                                {{
-                                    (
-                                        enriched.message.itemAmount !== 1
-                                            ? enriched.message.itemAmount + " "
-                                            : ""
-                                    ) + enriched.message.offeredItem[0].name
-                                }}
-                            </strong>
-                            {{enriched.itemMessageIncludedAmount}}
-                        </ng-container>
-                    </div>
-
-                    <div class="text-small">
-                        Sent{{enriched.messageSenderName ? " by " + enriched.messageSenderName : ""}} at {{enriched.message.time}}
-                    </div>
-                </label>
-            </div>
-        </ng-container>
-    </div>
-
-    <div class="content__options">
-        <app-label-input-pair
-            label="Keep checking automatically"
-            type="switch"
-            [sublines]="['Can be turned off in settings']"
-            [(ngModel)]="character.settings.checkMessagesAutomatically"
-        />
-    </div>
-</div>
-
-<app-dialog-footer
-    #Footer
-    [cancelLabel]="cancelLabel"
-    [buttons]="buttons"
-    [close]="close"
-    [hideCancel]="hideCancel"
-/>
+    <app-dialog-footer
+        #Footer
+        [cancelLabel]="cancelLabel"
+        [buttons]="buttons"
+        [close]="close"
+        [hideCancel]="hideCancel"
+    />
+</app-character-sheet-card>

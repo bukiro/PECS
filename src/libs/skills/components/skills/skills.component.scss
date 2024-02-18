@@ -1,9 +1,1 @@
 @import 'utilities';
-
-:host {
-    @include character-sheet-card;
-}
-
-.corner-button-tray {
-    @include corner-button-tray-right;
-}

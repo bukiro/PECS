@@ -9,6 +9,7 @@ import { SpellModule } from 'src/libs/shared/spell/spell.module';
 import { TraitModule } from 'src/libs/shared/ui/trait/trait.module';
 import { GridIconModule } from 'src/libs/shared/ui/grid-icon/grid-icon.module';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
         TraitModule,
         GridIconModule,
         ButtonModule,
+        FlyInMenuComponent,
     ],
     declarations: [
         SpellLibraryComponent,

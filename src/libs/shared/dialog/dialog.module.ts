@@ -4,9 +4,10 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { ButtonModule } from '../ui/button/button.module';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { LogoModule } from '../ui/logo/logo.module';
-import { DialogComponent } from './components/dialog/dialog.component';
 import { DialogHeaderComponent } from './components/dialog-header/dialog-header.component';
 import { DialogFooterComponent } from './components/dialog-footer/dialog-footer.component';
+import { CornerButtonTrayComponent } from '../ui/corner-button-tray/corner-button-tray.component';
+import { CharacterSheetCardComponent } from '../ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
     imports: [
@@ -16,11 +17,12 @@ import { DialogFooterComponent } from './components/dialog-footer/dialog-footer.
 
         ButtonModule,
         LogoModule,
+        CornerButtonTrayComponent,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         DialogHeaderComponent,
         DialogFooterComponent,
-        DialogComponent,
         ConfirmationDialogComponent,
     ],
     exports: [

@@ -1,8 +1,10 @@
 @import '_utilities';
 
-:host {
+.card {
     max-width: 90vw;
     max-height: 90vh;
+
+    overflow-y: auto;
 
     @media (max-width: $screen-width-narrow) {
         max-width: 100vw;
@@ -15,7 +17,8 @@
 }
 
 .character-selection {
-    @include character-sheet-card;
+    @include flex-column-center;
+    @include flex-stretch-cross-axis;
 
     height: 100%;
     width: 100%;
@@ -31,32 +34,35 @@
 
     &__content {
         @include flex-column-center;
-        align-items: stretch;
+        @include flex-stretch-cross-axis;
 
         overflow-y: hidden;
 
         gap: $spacing-s;
     }
-}
 
-.character-selection__button {
-    flex-shrink: 0;
+    &__button {
+        flex-shrink: 0;
+        padding: 0 $spacing-s;
 
-    .new-character-button {
-        @include flex-row-start;
-        @include flex-center-cross-axis;
+        .new-character-button {
+            @include flex-row-start;
+            @include flex-center-cross-axis;
 
-        gap: $spacing-s;
+            gap: $spacing-s;
 
-        .icon {
-            display: inline-block;
-            font-size: 2rem;
-            width: 3rem;
-            height: 3rem;
-            margin: $spacing-xs;
+            .icon {
+                display: inline-block;
+                font-size: 2rem;
+                width: 3rem;
+                height: 3rem;
+                margin: $spacing-xs;
+            }
         }
     }
 }
+
+
 
 .savegames {
     @include flex-column-center;
@@ -84,13 +90,12 @@
             }
 
             &--delete {
-                @include background-color-penalty;
-
                 flex-shrink: 0;
 
                 .icon {
                     display: inline-block;
                     font-size: 2rem;
+                    height: 3rem;
                     width: 3rem;
                 }
             }

@@ -1,0 +1,19 @@
+<app-corner-button-tray
+    [showMinimizeButton]="showMinimizeButton"
+    [minimized]="minimized"
+    [showTileModeButton]="showTileModeButton"
+    [tileMode]="tileMode"
+    (toggleMinimized)="toggleMinimized.emit($event)"
+    (toggleTileMode)="toggleTileMode.emit($event)"
+>
+    <ng-content select="buttons"/>
+</app-corner-button-tray>
+
+<header
+    *ngIf="title"
+    class="header"
+>
+    {{ title }}
+</header>
+
+<ng-content />

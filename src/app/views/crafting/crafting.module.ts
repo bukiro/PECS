@@ -9,6 +9,7 @@ import { GridIconModule } from 'src/libs/shared/ui/grid-icon/grid-icon.module';
 import { InventoryModule } from 'src/libs/inventory/inventory.module';
 import { CraftingComponent } from './crafting.component';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
         GridIconModule,
         InventoryModule,
         ButtonModule,
+        FlyInMenuComponent,
     ],
     declarations: [
         CraftingComponent,

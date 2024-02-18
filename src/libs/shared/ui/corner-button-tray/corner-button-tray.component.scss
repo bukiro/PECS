@@ -1,20 +1,32 @@
 @import 'utilities';
 
 :host {
+    @include flex-row-start;
+
+    position: absolute;
+    top: -$spacing-xs;
+    right: -$spacing-xs;
+
+    flex-direction: row-reverse;
+    gap: $spacing-xs;
+}
+
+.button {
     height: 2rem;
     width: 2rem;
+}
 
+.tile-mode-button {
     .content {
         width: 100%;
         height: 100%;
         display: inline-block;
-        padding: $spacing-xs;
-        overflow: hidden;
+        position: relative;
     }
 
     .icon {
-        width: 100%;
-        height: 100%;
+        position: absolute;
+        inset: $spacing-xs;
         display: grid;
         grid-template-columns: 100%;
         grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -26,12 +38,11 @@
             border-radius: $spacing-xxs;
         }
     }
-}
 
-:host(.toggled) {
-    .icon {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-
+    &--toggled {
+        .icon {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
     }
 }

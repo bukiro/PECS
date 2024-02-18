@@ -2,6 +2,7 @@
 
 :host {
     @include flex-column-center;
+    @include flex-stretch-cross-axis;
 
     height: 100%;
     width: 100%;
@@ -19,6 +20,7 @@
 
     &__column {
         @include flex-column-center;
+        @include flex-stretch-cross-axis;
 
         flex: 1 1 100%;
 
@@ -33,7 +35,5 @@
 }
 
 .character-sheet-card {
-    @include character-sheet-card;
-
     @include flex-row-center;
 }

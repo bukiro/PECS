@@ -15,12 +15,8 @@
         @include text-large;
     }
 
-    .corner-button-tray {
-        @include corner-button-tray-right;
-
-        app-button {
-            height: 2rem;
-            width: 2rem;
-        }
+    .close-button {
+        height: 2rem;
+        width: 2rem;
     }
 }

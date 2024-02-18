@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, HostBinding, ViewChild } from '@angular/core';
+import { AfterViewInit, Directive, HostBinding, ViewChild } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
@@ -8,12 +8,7 @@ import { DialogHeaderComponent } from '../dialog-header/dialog-header.component'
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-@Component({
-    selector: 'app-dialog',
-    template: '',
-    styleUrls: ['./dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-})
+@Directive()
 export class DialogComponent extends TrackByMixin(BaseClass) implements AfterViewInit {
 
     @ViewChild('Header')

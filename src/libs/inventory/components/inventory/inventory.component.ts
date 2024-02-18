@@ -32,7 +32,6 @@ import {
     Subscription,
     switchMap,
     take,
-    tap,
 } from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
@@ -70,13 +69,12 @@ import { MessageSendingService } from 'src/libs/shared/services/message-sending/
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { Store } from '@ngrx/store';
 import { InvestedLiveValue, InvestedService } from 'src/libs/shared/services/invested/invested.service';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -97,7 +95,7 @@ interface ItemParameters extends ItemRoles {
     styleUrls: ['./inventory.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InventoryComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
+export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 
     @Input()
     public itemStore = false;
@@ -105,6 +103,7 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
     public shieldDamage = 0;
     public creatureTypesEnum = CreatureTypes;
 
+    public isMinimized$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
     public isManualMode$: Observable<boolean>;
     public currentBulk$: Observable<BulkLiveValue>;
@@ -170,18 +169,7 @@ export class InventoryComponent extends TrackByMixin(BaseCardComponent) implemen
                     ),
                 ),
                 distinctUntilChanged(),
-                tap(minimized => this._updateMinimized(minimized)),
-                // If the button is hidden, another subscription ensures that the pipe is run.
-                // shareReplay prevents it from running twice if the button is not hidden.
-                shareReplay({ refCount: true, bufferSize: 1 }),
             );
-
-        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
-        this.isMinimized$
-            .pipe(
-                takeUntilDestroyed(),
-            )
-            .subscribe();
 
         this.isTileMode$ = propMap$(SettingsService.settings$, 'inventoryTileMode$')
             .pipe(

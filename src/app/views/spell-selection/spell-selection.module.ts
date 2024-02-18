@@ -9,6 +9,7 @@ import { SpellSelectionComponent } from './spell-selection.component';
 import { TagsModule } from 'src/libs/shared/tags/tags.module';
 import { SpellChoiceModule } from 'src/libs/shared/spell-choice/spell-choice.module';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
         TagsModule,
         SpellChoiceModule,
         ButtonModule,
+        FlyInMenuComponent,
     ],
     declarations: [
         SpellSelectionComponent,

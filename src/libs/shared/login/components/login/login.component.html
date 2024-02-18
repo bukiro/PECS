@@ -1,40 +1,43 @@
 <ng-container *ngIf="loadingStatus">
-    <form
-        class="login-form"
-        [formGroup]="passwordForm"
-    >
-        <div class="login-form__header text-large">
-            <app-logo />
-            <div class="text-large">Password Required</div>
-        </div>
-
-        <p>
-            Please enter the password for this PECS server
-        </p>
-
-        <app-text-input
-            #PasswordInput
-            class="login-form__input"
-            placeholder="Password"
-            label="Password"
-            formControlName="password"
-            password
-            (keyDown.enter)="passwordForm.valid ? login() : null"
-        />
-
-        <p
-            *ngIf="loadingStatus.message"
-            class="login-form__message"
+    <app-character-sheet-card>
+        <form
+            class="login-form"
+            [formGroup]="passwordForm"
         >
-            {{loadingStatus.message}}
-        </p>
+            <div class="login-form__header text-large">
+                <app-logo />
+                <div class="text-large">Password Required</div>
+            </div>
 
-        <app-button
-            label="Login"
-            [disabled]="passwordForm.invalid"
-            (clicked)="login()"
-        >
-            Login
-        </app-button>
-    </form>
+            <p>
+                Please enter the password for this PECS server
+            </p>
+
+            <app-text-input
+                #PasswordInput
+                class="login-form__input"
+                placeholder="Password"
+                label="Password"
+                formControlName="password"
+                password
+                (keyDown.enter)="passwordForm.valid ? login() : null"
+            />
+
+            <p
+                *ngIf="loadingStatus.message"
+                class="login-form__message"
+            >
+                {{loadingStatus.message}}
+            </p>
+
+            <app-button
+                label="Login"
+                [disabled]="passwordForm.invalid"
+                (clicked)="login()"
+            >
+                Login
+            </app-button>
+        </form>
+    </app-character-sheet-card>
+
 </ng-container>

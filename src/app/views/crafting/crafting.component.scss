@@ -1,10 +1,1 @@
 @import 'utilities';
-
-:host {
-    @include side-menu-left;
-}
-
-.corner-button-tray {
-    @include corner-button-tray-right;
-}
-

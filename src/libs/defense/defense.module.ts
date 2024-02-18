@@ -11,6 +11,7 @@ import { TraitModule } from '../shared/ui/trait/trait.module';
 import { QuickdiceModule } from '../shared/quickdice/quickdice.module';
 import { SkillModule } from '../shared/skill/skill.module';
 import { ButtonModule } from '../shared/ui/button/button.module';
+import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { ButtonModule } from '../shared/ui/button/button.module';
         QuickdiceModule,
         SkillModule,
         ButtonModule,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         DefenseComponent,

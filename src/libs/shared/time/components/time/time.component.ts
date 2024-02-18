@@ -5,7 +5,7 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { TimeBlockingService } from 'src/libs/shared/time/services/time-blocking/time-blocking.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 import { CircularMenuOption } from 'src/libs/shared/ui/circular-menu';
 import { TurnService } from '../../services/turn/turn.service';
 
@@ -24,7 +24,7 @@ const timePassingDurations = [
     styleUrls: ['./time.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimeComponent extends TrackByMixin(BaseCardComponent) {
+export class TimeComponent extends TrackByMixin(CharacterSheetCardComponent) {
 
     @Input()
     public showTurn = true;

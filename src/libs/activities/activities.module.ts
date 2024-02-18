@@ -12,6 +12,7 @@ import { ActivityModule } from '../shared/activity/activity.module';
 import { FeatChoiceModule } from '../shared/feat-choice/feat-choice.module';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from '../shared/ui/button/button.module';
+import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
     imports: [
@@ -30,6 +31,7 @@ import { ButtonModule } from '../shared/ui/button/button.module';
         ActivityModule,
         FeatChoiceModule,
         ButtonModule,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         ActivitiesComponent,

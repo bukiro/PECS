@@ -1,61 +1,59 @@
-<div class="corner-button-tray">
-    <app-minimize-button
-        *ngIf="shouldShowMinimizeButton"
-        [ngModel]="(isMinimized$ | async) ?? false"
-        (ngModelChange)="toggleMinimized($event)"
-    />
-</div>
-
-<div
-    class="attributeBox"
-    id="{{creature}}-abilities-height"
+<app-character-sheet-card
+    [showMinimizeButton]="shouldShowMinimizeButton"
+    [minimized]="(isMinimized$ | async) ?? false"
+    (toggleMinimized)="toggleMinimized($event)"
 >
-    <header class="sectionHeader box-header">Abilities</header>
+    <div
+        class="attributeBox"
+        id="{{creature}}-abilities-height"
+    >
+        <header class="sectionHeader box-header">Abilities</header>
 
-    <ng-container *ngFor="let ability of abilityValues$ | async; trackBy:trackByIndex;">
+        <ng-container *ngFor="let ability of abilityValues$ | async; trackBy:trackByIndex;">
 
-        <div class="list-item minimized-hide">
-            <app-attribute-value
-                [title]="ability.ability.name"
-                [customEffectsTarget]="{ creature: creature, target: ability.ability.name }"
-                [value]="ability.value.result"
-                [bonuses]="ability.value.bonuses"
-            />
+            <div class="list-item minimized-hide">
+                <app-attribute-value
+                    [title]="ability.ability.name"
+                    [customEffectsTarget]="{ creature: creature, target: ability.ability.name }"
+                    [value]="ability.value.result"
+                    [bonuses]="ability.value.bonuses"
+                />
 
-            <app-tags
-                *ngIf="(isMinimized$ | async) === false"
-                [creature]="creature"
-                [objectName]="ability.ability.name"
-                [showTraits]="true"
-                [showFeats]="true"
-                [showItems]="true"
-                [showActivities]="true"
-                [showConditions]="true"
-                [showEffects]="true"
-            />
-        </div>
+                <app-tags
+                    *ngIf="(isMinimized$ | async) === false"
+                    [creature]="creature"
+                    [objectName]="ability.ability.name"
+                    [showTraits]="true"
+                    [showFeats]="true"
+                    [showItems]="true"
+                    [showActivities]="true"
+                    [showConditions]="true"
+                    [showEffects]="true"
+                />
+            </div>
 
-        <div
-            class="list-item"
-            [ngClass]="{'minimized-hide':(ability.mod.result === 0)}"
-        >
-            <app-attribute-value
-                [title]="ability.ability.name + ' Modifier'"
-                [customEffectsTarget]="{ creature: creature, target: ability.ability.name + ' Modifier' }"
-                [value]="ability.mod.result"
-                [bonuses]="ability.mod.bonuses"
-            />
+            <div
+                class="list-item"
+                [ngClass]="{'minimized-hide':(ability.mod.result === 0)}"
+            >
+                <app-attribute-value
+                    [title]="ability.ability.name + ' Modifier'"
+                    [customEffectsTarget]="{ creature: creature, target: ability.ability.name + ' Modifier' }"
+                    [value]="ability.mod.result"
+                    [bonuses]="ability.mod.bonuses"
+                />
 
-            <app-tags
-                [creature]="creature"
-                [objectName]="ability.ability.name + ' Modifier'"
-                [showTraits]="true"
-                [showFeats]="true"
-                [showItems]="true"
-                [showActivities]="true"
-                [showConditions]="true"
-                [showEffects]="true"
-            />
-        </div>
-    </ng-container>
-</div>
+                <app-tags
+                    [creature]="creature"
+                    [objectName]="ability.ability.name + ' Modifier'"
+                    [showTraits]="true"
+                    [showFeats]="true"
+                    [showItems]="true"
+                    [showActivities]="true"
+                    [showConditions]="true"
+                    [showEffects]="true"
+                />
+            </div>
+        </ng-container>
+    </div>
+</app-character-sheet-card>

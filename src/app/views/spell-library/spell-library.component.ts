@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, Input } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
@@ -7,7 +7,7 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, debounceTime, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap } from 'rxjs';
+import { combineLatest, delay, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap } from 'rxjs';
 import { Trait } from 'src/app/classes/Trait';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Character } from 'src/app/classes/Character';
@@ -48,6 +48,9 @@ interface ComponentParameters {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+
+    @Input()
+    public show = false;
 
     public id = 0;
     public hover = 0;
@@ -92,7 +95,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
                     ? of(isMenuOpen)
                     : of(isMenuOpen)
                         .pipe(
-                            debounceTime(Defaults.closingMenuClearDelay),
+                            delay(Defaults.closingMenuClearDelay),
                         ),
                 ),
             );

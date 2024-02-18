@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
@@ -19,7 +19,7 @@ import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import {
     combineLatest,
-    debounceTime,
+    delay,
     distinctUntilChanged,
     map,
     Observable,
@@ -59,7 +59,7 @@ import { Store } from '@ngrx/store';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { selectItemsMenuTarget, selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 import { ScrollSavantService } from 'src/libs/shared/services/spell-savant/spell-savant.service';
-import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/creature-component/base-creature-element.component';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
@@ -97,6 +97,9 @@ interface AvailableForLearningParameters {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
+
+    @Input()
+    public show = false;
 
     public wordFilter = '';
     public sorting: SortingOption = 'sortLevel';
@@ -153,7 +156,7 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
                     ? of(isMenuOpen)
                     : of(isMenuOpen)
                         .pipe(
-                            debounceTime(Defaults.closingMenuClearDelay),
+                            delay(Defaults.closingMenuClearDelay),
                         ),
                 ),
             );

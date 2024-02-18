@@ -6,7 +6,7 @@ import { Speed } from 'src/app/classes/Speed';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, Subscription, switchMap } from 'rxjs';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -19,12 +19,11 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { Store } from '@ngrx/store';
 import { selectEffects } from 'src/libs/store/effects';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 interface SpeedParameters {
     name: string;
@@ -41,10 +40,11 @@ interface SpeedParameters {
     styleUrls: ['./skills.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkillsComponent extends TrackByMixin(BaseCardComponent) implements OnInit, OnDestroy {
+export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 
     public character$ = CreatureService.character$;
 
+    public isMinimized$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
 
     private _showList = '';
@@ -82,18 +82,8 @@ export class SkillsComponent extends TrackByMixin(BaseCardComponent) implements 
                         }),
                     ),
                 ),
-                tap(minimized => this._updateMinimized(minimized)),
-                // If the button is hidden, another subscription ensures that the pipe is run.
-                // shareReplay prevents it from running twice if the button is not hidden.
-                shareReplay({ refCount: true, bufferSize: 1 }),
+                distinctUntilChanged(),
             );
-
-        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
-        this.isMinimized$
-            .pipe(
-                takeUntilDestroyed(),
-            )
-            .subscribe();
 
         this.isTileMode$ = propMap$(SettingsService.settings$, 'skillsTileMode$')
             .pipe(

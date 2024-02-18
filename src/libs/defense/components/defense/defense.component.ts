@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { Armor } from 'src/app/classes/Armor';
@@ -10,7 +10,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Trait } from 'src/app/classes/Trait';
 import { Skill } from 'src/app/classes/Skill';
@@ -26,12 +26,11 @@ import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { deepDistinctUntilChanged, propMap$ } from 'src/libs/shared/util/observableUtils';
 import { Creature } from 'src/app/classes/Creature';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 interface ComponentParameters {
     ACSources: ACForDisplay;
@@ -46,14 +45,14 @@ interface ComponentParameters {
     styleUrls: ['./defense.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DefenseComponent extends TrackByMixin(BaseCardComponent) {
+export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     public shieldDamage = 0;
 
+    public isMinimized$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _traitsDataService: TraitsDataService,
@@ -83,18 +82,7 @@ export class DefenseComponent extends TrackByMixin(BaseCardComponent) {
                     ),
                 ),
                 distinctUntilChanged(),
-                tap(minimized => this._updateMinimized(minimized)),
-                // If the button is hidden, another subscription ensures that the pipe is run.
-                // shareReplay prevents it from running twice if the button is not hidden.
-                shareReplay({ refCount: true, bufferSize: 1 }),
             );
-
-        // Subscribe to the minimized pipe in case the button is hidden and not subscribing.
-        this.isMinimized$
-            .pipe(
-                takeUntilDestroyed(),
-            )
-            .subscribe();
 
         this.isTileMode$ = propMap$(SettingsService.settings$, 'activitiesTileMode$')
             .pipe(

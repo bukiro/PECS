@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { DescriptionModule } from 'src/libs/shared/ui/description/description.module';
 import { EffectsModule } from 'src/libs/effects/effects.module';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
         DescriptionModule,
         EffectsModule,
         ButtonModule,
+        FlyInMenuComponent,
     ],
     declarations: [
         ConditionsComponent,

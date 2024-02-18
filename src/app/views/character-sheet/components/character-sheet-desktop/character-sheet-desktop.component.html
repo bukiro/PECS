@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<div class="character-sheet-card filter-buttons">
+<app-character-sheet-card class="character-sheet-card filter-buttons">
     <app-button
         class="filter-buttons__button"
         [toggled]="shownMode === 'All'"
@@ -47,7 +47,7 @@
     >
         Conditions & Effects
     </app-button>
-</div>
+</app-character-sheet-card>
 
 <ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
     <app-effects />

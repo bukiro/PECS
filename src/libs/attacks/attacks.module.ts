@@ -13,6 +13,7 @@ import { AttacksComponent } from './components/attacks/attacks.component';
 import { DescriptionModule } from '../shared/ui/description/description.module';
 import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
 import { ButtonModule } from '../shared/ui/button/button.module';
+import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import { ButtonModule } from '../shared/ui/button/button.module';
         DescriptionModule,
         GridIconModule,
         ButtonModule,
+        CharacterSheetCardComponent,
     ],
     declarations: [
         AttacksComponent,

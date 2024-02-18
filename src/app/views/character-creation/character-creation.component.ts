@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CharacterClass } from 'src/app/classes/CharacterClass';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
@@ -33,7 +33,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import {
     BehaviorSubject,
     combineLatest,
-    debounceTime,
+    delay,
     distinctUntilChanged,
     map,
     Observable,
@@ -42,7 +42,6 @@ import {
     Subscription,
     switchMap,
     take,
-    tap,
 } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -86,12 +85,12 @@ import { InputValidationService } from 'src/libs/shared/services/input-validatio
 import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
-import { BaseCardComponent } from 'src/libs/shared/util/components/base-card/base-card.component';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { Store } from '@ngrx/store';
 import { selectCharacterMenuClosedOnce, selectGmMode } from 'src/libs/store/app/app.selectors';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -101,7 +100,10 @@ type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id:
     styleUrls: ['./character-creation.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseCardComponent)) implements OnInit, OnDestroy {
+export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseCreatureElementComponent)) implements OnInit, OnDestroy {
+
+    @Input()
+    public show = false;
 
     public character = CreatureService.character;
     public newClass: CharacterClass = new CharacterClass();
@@ -119,6 +121,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public animalCompanion$: Observable<AnimalCompanion>;
     public familiar$: Observable<Familiar>;
+    public isMinimized$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
     public isMenuOpen$: Observable<boolean>;
     public partyNames$: Observable<Array<string>>;
@@ -235,7 +238,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                     ? of(isMenuOpen)
                     : of(isMenuOpen)
                         .pipe(
-                            debounceTime(Defaults.closingMenuClearDelay),
+                            delay(Defaults.closingMenuClearDelay),
                         ),
                 ),
             );
@@ -243,7 +246,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this.isMinimized$ = propMap$(SettingsService.settings$, 'characterMinimized$')
             .pipe(
                 distinctUntilChanged(),
-                tap(minimized => this._updateMinimized(minimized)),
             );
 
         this.isTileMode$ = propMap$(SettingsService.settings$, 'characterTileMode$')
