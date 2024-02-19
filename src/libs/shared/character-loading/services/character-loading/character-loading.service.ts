@@ -25,6 +25,7 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
+import { AuthService } from 'src/libs/shared/services/auth/auth.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -39,6 +40,7 @@ export class CharacterLoadingService {
 
     constructor(
         private readonly _httpClient: HttpClient,
+        private readonly _authService: AuthService,
         private readonly _configService: ConfigService,
         private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
@@ -50,7 +52,6 @@ export class CharacterLoadingService {
         private readonly _toastService: ToastService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _basicEquipmentService: BasicEquipmentService,
-        private readonly _recastService: RecastService,
         private readonly _savegamesService: SavegamesService,
         private readonly _creatureService: CreatureService,
         private readonly _store$: Store,
@@ -227,7 +228,7 @@ export class CharacterLoadingService {
         return this._httpClient.get<Array<Partial<Character>>>(
             `${ this._configService.dataServiceURL }/loadCharacter/${ id }`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
+            { headers: new HttpHeaders({ 'x-access-Token': this._authService.xAccessToken }) },
         );
     }
 

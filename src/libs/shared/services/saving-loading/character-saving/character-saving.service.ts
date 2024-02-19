@@ -19,6 +19,7 @@ import { HistorySavingLoadingService } from '../history-saving-loading/history-s
 import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
 import { CharacterClass } from 'src/app/classes/CharacterClass';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
+import { AuthService } from '../../auth/auth.service';
 
 interface SaveCharacterResponse {
     result: { n: number; ok: number };
@@ -32,6 +33,7 @@ export class CharacterSavingService {
 
     constructor(
         private readonly _httpClient: HttpClient,
+        private readonly _authService: AuthService,
         private readonly _configService: ConfigService,
         private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
@@ -206,7 +208,7 @@ export class CharacterSavingService {
             `${ this._configService.dataServiceURL }/saveCharacter`,
             savegame,
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
+            { headers: new HttpHeaders({ 'x-access-Token': this._authService.xAccessToken }) },
         );
     }
 

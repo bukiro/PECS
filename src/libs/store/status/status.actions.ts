@@ -5,6 +5,11 @@ export const closeCharacter = createAction(
     '[STATUS] Close character',
 );
 
+export const setAuthStatus = createAction(
+    '[STATUS] Set auth status',
+    props<{ status: ApiStatus }>(),
+);
+
 export const setConfigStatus = createAction(
     '[STATUS] Set config status',
     props<{ status: ApiStatus }>(),

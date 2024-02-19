@@ -17,7 +17,6 @@ import {
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { ConfigService } from '../config/config.service';
 import { MessagePropertiesService } from '../message-properties/message-properties.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 import { RecastService } from '../recast/recast.service';
@@ -27,6 +26,7 @@ import { sortAlphaNum } from '../../util/sortUtils';
 import { HttpStatusCode } from '@angular/common/http';
 import { propMap$ } from '../../util/observableUtils';
 import { PlayerMessageInterface } from 'src/app/classes/PlayerMessageInterface';
+import { AuthService } from '../auth/auth.service';
 
 const ignoredMessageTTL = 5000;
 
@@ -42,7 +42,7 @@ export class MessagesService {
     private readonly _cleanupIgnoredMessagesNow$ = new BehaviorSubject<true>(true);
 
     constructor(
-        private readonly _configService: ConfigService,
+        private readonly _authService: AuthService,
         private readonly _toastService: ToastService,
         private readonly _messagePropertiesService: MessagePropertiesService,
         private readonly _psp: ProcessingServiceProvider,
@@ -50,9 +50,9 @@ export class MessagesService {
     ) {
         this._cleanupIgnoredMessagesNow$
             .pipe(
-                withLatestFrom(this._configService.isReady$),
+                withLatestFrom(this._authService.isReady$),
                 withLatestFrom(this._cleaningUpIgnoredMessages$),
-                filter(([[_, ready], cleaningUp]) => !!ready && !cleaningUp),
+                filter(([[_, isLoggedIn], cleaningUp]) => !!isLoggedIn && !cleaningUp),
                 // Cleanup ignored messages on the database, but keep a buffer of 5 seconds to collect a few.
                 debounceTime(ignoredMessageTTL),
             )
@@ -130,7 +130,7 @@ export class MessagesService {
         // - automatic checking is enabled
 
         combineLatest([
-            this._configService.isReady$,
+            this._authService.isReady$,
             CreatureService.character$
                 .pipe(
                     switchMap(character => character.partyName$),
@@ -139,8 +139,8 @@ export class MessagesService {
             propMap$(SettingsService.settings$, 'checkMessagesAutomatically$'),
         ])
             .pipe(
-                switchMap(([ready, partyName, manualMode, checkAutomatically]) =>
-                    (ready && !manualMode && !!partyName && checkAutomatically)
+                switchMap(([loggedIn, partyName, manualMode, checkAutomatically]) =>
+                    (loggedIn && !manualMode && !!partyName && checkAutomatically)
                         ? interval(millisecondsInSecond)
                         : NEVER,
                 ),

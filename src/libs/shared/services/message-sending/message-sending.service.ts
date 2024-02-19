@@ -21,6 +21,7 @@ import { Store } from '@ngrx/store';
 import { selectGmMode } from 'src/libs/store/app/app.selectors';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { PlayerMessageInterface } from 'src/app/classes/PlayerMessageInterface';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
     providedIn: 'root',
@@ -28,6 +29,7 @@ import { PlayerMessageInterface } from 'src/app/classes/PlayerMessageInterface';
 export class MessageSendingService {
 
     constructor(
+        private readonly _authService: AuthService,
         private readonly _configService: ConfigService,
         private readonly _savegamesService: SavegamesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
@@ -35,7 +37,6 @@ export class MessageSendingService {
         private readonly _toastService: ToastService,
         private readonly _itemTransferService: ItemTransferService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
-        private readonly _recastService: RecastService,
         private readonly _messagePropertiesService: MessagePropertiesService,
         private readonly _store$: Store,
     ) { }
@@ -44,7 +45,7 @@ export class MessageSendingService {
         zip([
             this._store$.select(selectGmMode),
             SettingsService.settings.manualMode$,
-            this._configService.isReady$,
+            this._authService.isReady$,
         ])
             .pipe(
                 take(1),
@@ -107,7 +108,7 @@ export class MessageSendingService {
         zip([
             this._store$.select(selectGmMode),
             SettingsService.settings.manualMode$,
-            this._configService.isReady$,
+            this._authService.isReady$,
             this._creatureAvailabilityService.allAvailableCreatures$(),
         ])
             .pipe(
@@ -190,7 +191,7 @@ export class MessageSendingService {
         zip([
             this._store$.select(selectGmMode),
             SettingsService.settings.manualMode$,
-            this._configService.isReady$,
+            this._authService.isReady$,
         ])
             .pipe(
                 take(1),
@@ -263,7 +264,7 @@ export class MessageSendingService {
         zip([
             this._store$.select(selectGmMode),
             SettingsService.settings.manualMode$,
-            this._configService.isReady$,
+            this._authService.isReady$,
         ])
             .pipe(
                 take(1),

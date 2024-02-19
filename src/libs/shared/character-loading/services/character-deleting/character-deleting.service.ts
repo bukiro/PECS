@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { SavegamesService } from '../../../services/saving-loading/savegames/savegames.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { AuthService } from 'src/libs/shared/services/auth/auth.service';
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +13,7 @@ export class CharacterDeletingService {
 
     constructor(
         private readonly _httpClient: HttpClient,
+        private readonly _authService: AuthService,
         private readonly _configService: ConfigService,
         private readonly _toastService: ToastService,
         private readonly _savegamesService: SavegamesService,
@@ -43,7 +45,7 @@ export class CharacterDeletingService {
             `${ this._configService.dataServiceURL }/deleteCharacter`,
             { id },
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
+            { headers: new HttpHeaders({ 'x-access-Token': this._authService.xAccessToken }) },
         );
     }
 

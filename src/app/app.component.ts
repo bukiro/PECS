@@ -35,7 +35,7 @@ export class AppComponent {
             _store$.select(selectStatus)
                 .pipe(
                     map(statuses =>
-                        ([statuses.config, statuses.data, statuses.savegames, statuses.character])
+                        ([statuses.config, statuses.auth, statuses.data, statuses.savegames, statuses.character])
                             .find(status => status.key !== ApiStatusKey.Ready)
                         ?? { key: ApiStatusKey.Ready },
                     ),

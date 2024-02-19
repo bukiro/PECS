@@ -46,12 +46,13 @@ import { filter, take } from 'rxjs';
 import { DocumentStyleService } from '../document-style/document-style.service';
 import { ConfigService } from '../config/config.service';
 import { Store } from '@ngrx/store';
-import { selectDataStatus } from 'src/libs/store/status/status.selectors';
+import { selectConfigStatus, selectDataStatus } from 'src/libs/store/status/status.selectors';
 import { setDataStatus } from 'src/libs/store/status/status.actions';
 import { closeAllMenus } from 'src/libs/store/menu/menu.actions';
 import { AnimalCompanionLevelsService } from '../animal-companion-level/animal-companion-level.service';
 import { EquipmentPropertiesService } from '../equipment-properties/equipment-properties.service';
 import { ItemTraitsService } from '../item-traits/item-traits.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
     providedIn: 'root',
@@ -64,6 +65,7 @@ export class AppInitService {
         _extensionsService: DataService,
         _documentStyleService: DocumentStyleService,
         _animalCompanionLevelsService: AnimalCompanionLevelsService,
+        private readonly _authService: AuthService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -136,6 +138,16 @@ export class AppInitService {
             this._spellActivityProcessingSharedService,
             this._spellProcessingService,
         );
+
+        this._store$.select(selectConfigStatus)
+            .pipe(
+                filter(configStatus => configStatus.key === ApiStatusKey.Ready),
+                take(1),
+            )
+            .subscribe(() => {
+                // Initialize the auth service after the config service.
+                this._authService.initialize();
+            });
 
         this._store$.select(selectDataStatus)
             .pipe(

@@ -27,7 +27,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Activity } from 'src/app/classes/Activity';
 import { Domain } from 'src/app/classes/Domain';
-import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import {
@@ -146,7 +145,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
-        private readonly _configService: ConfigService,
         private readonly _classesDataService: ClassesDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _historyDataService: HistoryDataService,
@@ -384,14 +382,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
         this._refreshService.processPreparedChanges();
-    }
-
-    public onRetryDatabaseConnection(): void {
-        this._savegamesService.reset();
-    }
-
-    public onRetryLogin(): void {
-        this._configService.login('');
     }
 
     public saveCharacterToDB(): void {

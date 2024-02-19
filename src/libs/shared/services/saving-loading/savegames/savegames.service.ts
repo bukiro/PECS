@@ -6,11 +6,14 @@ import { BehaviorSubject, distinctUntilChanged, finalize, Observable, tap } from
 import { ConfigService } from '../../config/config.service';
 import { ApiStatusKey } from 'src/libs/shared/definitions/apiStatusKey';
 import { Store } from '@ngrx/store';
-import { selectConfigStatus } from 'src/libs/store/status/status.selectors';
+import { selectAuthStatus } from 'src/libs/store/status/status.selectors';
 import { setSavegamesStatus } from 'src/libs/store/status/status.actions';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { AuthService } from '../../auth/auth.service';
+import { CharacterClass } from 'src/app/classes/CharacterClass';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-type DatabaseCharacter = Partial<Character> & { _id: string; id: string };
+type DatabaseCharacter = DeepPartial<Character> & { _id: string; id: string };
 
 @Injectable({
     providedIn: 'root',
@@ -24,11 +27,12 @@ export class SavegamesService {
 
     constructor(
         private readonly _http: HttpClient,
+        private readonly _authService: AuthService,
         private readonly _configService: ConfigService,
         private readonly _toastService: ToastService,
         private readonly _store$: Store,
     ) {
-        _store$.select(selectConfigStatus)
+        _store$.select(selectAuthStatus)
             .pipe(
                 distinctUntilChanged(),
             )
@@ -80,7 +84,7 @@ export class SavegamesService {
         return this._http.get<Array<DatabaseCharacter>>(
             `${ this._configService.dataServiceURL }/listCharacters`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
+            { headers: new HttpHeaders({ 'x-access-Token': this._authService.xAccessToken }) },
         );
     }
 
@@ -100,35 +104,13 @@ export class SavegamesService {
             });
 
             if (savegame.class) {
-                parsedSavegame.class = savegame.class.name || '';
+                parsedSavegame.class = savegame.class.name;
 
-                if (savegame.class.levels?.[1]?.featChoices?.length) {
-                    savegame.class.levels[1].featChoices
-                        .filter(choice =>
-                            choice.specialChoice &&
-                            !choice.autoSelectIfPossible &&
-                            choice.feats?.length === 1 &&
-                            choice.available === 1 &&
-                            choice.source === savegame.class?.name,
-                        )
-                        .forEach(choice => {
-                            let choiceName = choice.feats[0].name.split(':')[0];
+                parsedSavegame.classChoice = this._buildClassChoice(savegame.class);
 
-                            if (!choiceName.includes('School') && choiceName.includes(choice.type)) {
-                                choiceName = choiceName.substring(0, choiceName.length - choice.type.length - 1);
-                            }
+                parsedSavegame.ancestry = savegame.class.ancestry?.name;
 
-                            parsedSavegame.classChoice = choiceName;
-                        });
-                }
-
-                if (savegame.class.ancestry) {
-                    parsedSavegame.ancestry = savegame.class.ancestry.name || '';
-                }
-
-                if (savegame.class.heritage) {
-                    parsedSavegame.heritage = savegame.class.heritage.name || '';
-                }
+                parsedSavegame.heritage = savegame.class.heritage?.name;
 
                 // Checking the class is a shortcut to indicate whether the animal companion is initialized or a placeholder.
                 if (savegame.class.animalCompanion?.class) {
@@ -141,11 +123,36 @@ export class SavegamesService {
                     parsedSavegame.familiarName = savegame.class.familiar.name || savegame.class.familiar.type;
                     parsedSavegame.familiarId = savegame.class.familiar.id;
                 }
-
             }
 
             return parsedSavegame;
         });
+    }
+
+    private _buildClassChoice(savegameClass: DeepPartial<CharacterClass>): string | undefined {
+        let classChoice;
+
+        if (savegameClass.levels?.[1]?.featChoices?.length) {
+            savegameClass.levels[1].featChoices
+                .filter(choice =>
+                    choice?.specialChoice &&
+                    !choice?.autoSelectIfPossible &&
+                    choice?.feats?.length === 1 &&
+                    choice?.available === 1 &&
+                    choice?.source === savegameClass?.name,
+                )
+                .forEach(choice => {
+                    let choiceName = choice?.feats?.[0]?.name?.split(':')?.[0];
+
+                    if (choice?.type && !choiceName?.includes('School') && choiceName?.includes(choice.type)) {
+                        choiceName = choiceName.substring(0, choiceName.length - choice.type.length - 1);
+                    }
+
+                    classChoice = choiceName;
+                });
+        }
+
+        return classChoice;
     }
 
 }

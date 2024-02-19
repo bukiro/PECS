@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiStatus } from 'src/libs/shared/definitions/interfaces/api-status';
-import { ConfigService } from 'src/libs/shared/services/config/config.service';
+import { AuthService } from 'src/libs/shared/services/auth/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -20,7 +20,7 @@ export class LoginComponent implements AfterViewInit {
     public passwordForm: FormGroup<{ password: FormControl<string | null> }>;
 
     constructor(
-        private readonly _configService: ConfigService,
+        private readonly _authService: AuthService,
     ) {
         this.passwordForm = new FormGroup({
             password: new FormControl<string>(
@@ -31,7 +31,7 @@ export class LoginComponent implements AfterViewInit {
     }
 
     public login(): void {
-        this._configService.login(this.passwordForm.value.password ?? '');
+        this._authService.login(this.passwordForm.value.password ?? '');
     }
 
     public ngAfterViewInit(): void {

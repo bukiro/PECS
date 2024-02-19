@@ -11,6 +11,11 @@ export const selectStatus = createSelector(
     state => state,
 );
 
+export const selectAuthStatus = createSelector(
+    selectStatusFeature,
+    state => state.auth,
+);
+
 export const selectConfigStatus = createSelector(
     selectStatusFeature,
     state => state.config,
