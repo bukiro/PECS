@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <app-character-sheet-card class="character-sheet-card filter-buttons">
     <app-button
-        noOutline
+        tabLike
         class="filter-buttons__button"
         [toggled]="shownMode === 'All'"
         (clicked)="toggleShownMode('All')"
@@ -10,7 +10,7 @@
     </app-button>
 
     <app-button
-        noOutline
+        tabLike
         class="filter-buttons__button"
         [toggled]="shownMode === 'Encounter'"
         (click)="toggleShownMode('Encounter')"
@@ -19,7 +19,7 @@
     </app-button>
 
     <app-button
-        noOutline
+        tabLike
         class="filter-buttons__button"
         [toggled]="shownMode === 'Exploration'"
         (click)="toggleShownMode('Exploration')"
@@ -28,7 +28,7 @@
     </app-button>
 
     <app-button
-        noOutline
+        tabLike
         class="filter-buttons__button"
         [toggled]="shownMode === 'Downtime'"
         (click)="toggleShownMode('Downtime')"
@@ -37,7 +37,7 @@
     </app-button>
 
     <app-button
-        noOutline
+        tabLike
         class="filter-buttons__button"
         [toggled]="shownMode === 'Inventory'"
         (click)="toggleShownMode('Inventory')"
@@ -46,7 +46,7 @@
     </app-button>
 
     <app-button
-        noOutline
+        tabLike
         class="filter-buttons__button"
         [toggled]="shownMode === 'ConditionsEffects'"
         (click)="toggleShownMode('ConditionsEffects')"

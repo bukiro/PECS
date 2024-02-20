@@ -48,6 +48,9 @@ export class ButtonComponent {
     @HostBinding('class.circle')
     public isCircle?: boolean;
 
+    @HostBinding('class.tab-like')
+    public isTabLike?: boolean;
+
     @HostBinding('class.left-aligned')
     private _isLeftAligned = false;
 
@@ -109,6 +112,11 @@ export class ButtonComponent {
     @Input()
     public set circle(circle: boolean | string | undefined) {
         this.isCircle = forceBooleanFromInput(circle);
+    }
+
+    @Input()
+    public set tabLike(tabLike: boolean | string | undefined) {
+        this.isTabLike = forceBooleanFromInput(tabLike);
     }
 
     @Input()

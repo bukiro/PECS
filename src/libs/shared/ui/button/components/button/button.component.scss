@@ -125,7 +125,6 @@
                 border-color: transparent;
             }
         }
-
     }
 
     &.compact:not(.tight) {
@@ -150,12 +149,6 @@
                 @include box-shadow-glow;
                 transform: translate(0, 2px);
             }
-
-            &:active {
-                .button__content {
-                    transform: translate(0, 5px);
-                }
-            }
         }
     }
 
@@ -163,6 +156,42 @@
         .button {
             &__content {
                 @include border-circle;
+            }
+        }
+    }
+
+    &.tab-like {
+        .button {
+            &__content {
+                border: none;
+                border-left: solid 1px $color-accent;
+                border-right: solid 1px $color-accent;
+                border-radius: 0;
+            }
+        }
+
+        &.toggled {
+            .button {
+                &__content {
+                    border-left: solid 1px currentColor;
+                    border-right: solid 1px currentColor;
+                }
+            }
+        }
+
+        &:first-of-type {
+            .button {
+                &__content {
+                    border-left: none;
+                }
+            }
+        }
+
+        &:last-of-type {
+            .button {
+                &__content {
+                    border-right: none;
+                }
             }
         }
     }

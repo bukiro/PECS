@@ -3,22 +3,5 @@
 .filter-buttons {
     &__button {
         flex: 1 1 0;
-
-        border-left: solid 1px $color-accent;
-        border-right: solid 1px $color-accent;
-        border-radius: 0;
-
-        &.toggled {
-            border-left: solid 1px currentColor;
-            border-right: solid 1px currentColor;
-        }
-
-        &:first-child {
-            border-left: none;
-        }
-
-        &:last-child {
-            border-right: none;
-        }
     }
 }
