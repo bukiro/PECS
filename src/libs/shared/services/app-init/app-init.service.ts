@@ -42,17 +42,17 @@ import { TraitsDataService } from '../data/traits-data.service';
 import { DisplayService } from '../display/display.service';
 import { MessagesService } from '../messages/messages.service';
 import { ApiStatusKey } from '../../definitions/apiStatusKey';
-import { filter, take } from 'rxjs';
 import { DocumentStyleService } from '../document-style/document-style.service';
 import { ConfigService } from '../config/config.service';
 import { Store } from '@ngrx/store';
-import { selectConfigStatus, selectDataStatus } from 'src/libs/store/status/status.selectors';
+import { selectConfigStatus, selectDataStatus, selectStatus } from 'src/libs/store/status/status.selectors';
 import { setDataStatus } from 'src/libs/store/status/status.actions';
 import { closeAllMenus } from 'src/libs/store/menu/menu.actions';
 import { AnimalCompanionLevelsService } from '../animal-companion-level/animal-companion-level.service';
 import { EquipmentPropertiesService } from '../equipment-properties/equipment-properties.service';
 import { ItemTraitsService } from '../item-traits/item-traits.service';
 import { AuthService } from '../auth/auth.service';
+import { filter, take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -145,8 +145,18 @@ export class AppInitService {
                 take(1),
             )
             .subscribe(() => {
-                // Initialize the auth service after the config service.
+                // Initialize the auth service when the config service is ready.
                 this._authService.initialize();
+            });
+
+        this._store$.select(selectStatus)
+            .pipe(
+                filter(({ auth, savegames }) => auth.key === ApiStatusKey.Ready && savegames.key === ApiStatusKey.Ready),
+                take(1),
+            )
+            .subscribe(() => {
+                // Initialize the loading service when the auth and savegames services are ready.
+                this._characterLoadingService.initialize(this.reset.bind(this));
             });
 
         this._store$.select(selectDataStatus)
@@ -198,7 +208,6 @@ export class AppInitService {
                 this._creatureConditionsService.initialize(
                     this._evaluationService,
                 );
-                this._characterLoadingService.initialize(this.reset.bind(this));
             });
     }
 

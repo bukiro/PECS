@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ApiStatusKey } from '../../definitions/apiStatusKey';
 import { Store } from '@ngrx/store';
 import { selectAuthStatus } from 'src/libs/store/status/status.selectors';
 import { setAuthStatus } from 'src/libs/store/status/status.actions';
 import { ConfigService } from '../config/config.service';
+import { TokenService } from '../token/token.service';
 
 interface LoginToken {
     token: string | false;
@@ -16,8 +17,6 @@ interface LoginToken {
     providedIn: 'root',
 })
 export class AuthService {
-
-    public updateVersionAvailable$ = new BehaviorSubject<string>('');
     public isReady$: Observable<boolean>;
 
     private _xAccessToken: string | undefined = undefined;
@@ -27,6 +26,7 @@ export class AuthService {
     constructor(
         private readonly _httpClient: HttpClient,
         private readonly _configService: ConfigService,
+        private readonly _tokenService: TokenService,
         private readonly _store$: Store,
     ) {
         this.isReady$ = _store$.select(selectAuthStatus)
@@ -41,7 +41,7 @@ export class AuthService {
 
     // Verify the stored token, if any. If no token, find out whether a password is needed.
     public initialize(): void {
-        this._xAccessToken = this._getLocalToken();
+        this._xAccessToken = this._tokenService.getAccessToken();
 
         if (this._xAccessToken) {
             this._verifyLogin(this._xAccessToken);
@@ -66,7 +66,7 @@ export class AuthService {
                 next: result => {
                     if (result.token) {
                         this._xAccessToken = result.token;
-                        this._setLocalToken(result.token);
+                        this._tokenService.setAccessToken(result.token);
                         this._store$.dispatch(setAuthStatus({ status: { key: ApiStatusKey.Ready } }));
                     } else {
                         if (password) {
@@ -97,7 +97,7 @@ export class AuthService {
     public logout(notification = ''): void {
         this._store$.dispatch(setAuthStatus({ status: { key: ApiStatusKey.NotLoggedIn, message: notification } }));
         this._xAccessToken = '';
-        this._setLocalToken();
+        this._tokenService.setAccessToken();
     }
 
     private _verifyLogin(token: string): void {
@@ -145,18 +145,6 @@ export class AuthService {
                     }));
                 },
             });
-    }
-
-    private _getLocalToken(): string | undefined {
-        return window.localStorage.getItem(this._accessTokenKey) || undefined;
-    }
-
-    private _setLocalToken(token?: string): void {
-        if (token) {
-            window.localStorage.setItem(this._accessTokenKey, token || '');
-        } else {
-            window.localStorage.removeItem(this._accessTokenKey);
-        }
     }
 
     private _httpLogin(password = ''): Observable<LoginToken> {

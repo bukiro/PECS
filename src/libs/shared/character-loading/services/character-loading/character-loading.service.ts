@@ -26,6 +26,7 @@ import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { AuthService } from 'src/libs/shared/services/auth/auth.service';
+import { TokenService } from 'src/libs/shared/services/token/token.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -42,6 +43,7 @@ export class CharacterLoadingService {
         private readonly _httpClient: HttpClient,
         private readonly _authService: AuthService,
         private readonly _configService: ConfigService,
+        private readonly _tokenService: TokenService,
         private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
@@ -104,6 +106,17 @@ export class CharacterLoadingService {
 
     public initialize(resetApp: () => void): void {
         this._resetApp = resetApp;
+
+        this._loadSessionCharacter();
+    }
+
+    private _loadSessionCharacter(): void {
+        const sessionCharacterId = this._tokenService.getSessionCharacterId();
+        const savegames = this._savegamesService.savegames;
+
+        if (savegames.some(savegame => savegame.id === sessionCharacterId)) {
+            this.loadOrResetCharacter(sessionCharacterId);
+        }
     }
 
     private _finishLoading(newCharacter: Character, loadAsGm = false): void {
@@ -124,12 +137,15 @@ export class CharacterLoadingService {
 
         this._setAllReady();
 
+        this._tokenService.writeSessionCharacterId(character.id);
+
         this._refreshAfterLoading();
     }
 
     private _cancelLoading(): void {
         this._store$.dispatch(setCharacterStatus({ status: { key: ApiStatusKey.NoCharacter } }));
         this._creatureService.resetCharacter(new Character());
+        this._tokenService.writeSessionCharacterId();
 
         this._refreshAfterLoading();
     }
