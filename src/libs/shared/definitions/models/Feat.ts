@@ -71,45 +71,45 @@ const { assign, forExport } = setupSerializationWithHelpers<Feat>({
         'complexreq',
         'abilityreq',
     ],
-    exportableArrays: {
+    serializableArrays: {
         effects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         changeProficiency:
-            () => obj => ProficiencyChange.from({ ...obj }),
+            () => obj => ProficiencyChange.from(obj),
         copyProficiency:
-            () => obj => ProficiencyCopy.from({ ...obj }),
+            () => obj => ProficiencyCopy.from(obj),
         bloodMagic:
-            () => obj => BloodMagic.from({ ...obj }),
+            () => obj => BloodMagic.from(obj),
         gainAbilityChoice:
-            () => obj => AbilityChoice.from({ ...obj }),
+            () => obj => AbilityChoice.from(obj),
         gainSpecialization:
-            () => obj => SpecializationGain.from({ ...obj }),
+            () => obj => SpecializationGain.from(obj),
         gainConditions:
-            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+            recastFns => obj => ConditionGain.from(obj, recastFns),
         gainFeatChoice:
-            () => obj => FeatChoice.from({ ...obj }),
+            () => obj => FeatChoice.from(obj),
         gainFormulaChoice:
-            () => obj => FormulaChoice.from({ ...obj }),
+            () => obj => FormulaChoice.from(obj),
         gainHeritage:
-            () => obj => HeritageGain.from({ ...obj }),
+            () => obj => HeritageGain.from(obj),
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
         gainLanguages:
-            () => obj => LanguageGain.from({ ...obj }),
+            () => obj => LanguageGain.from(obj),
         gainLoreChoice:
-            () => obj => LoreChoice.from({ ...obj }),
+            () => obj => LoreChoice.from(obj),
         gainSkillChoice:
-            () => obj => SkillChoice.from({ ...obj }),
+            () => obj => SkillChoice.from(obj),
         gainSpellCasting:
-            recastFns => obj => SpellCasting.from({ ...obj }, recastFns),
+            recastFns => obj => SpellCasting.from(obj, recastFns),
         gainSpellChoice:
-            () => obj => SpellChoice.from({ ...obj }),
+            () => obj => SpellChoice.from(obj),
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
         onceEffects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         allowSignatureSpells:
-            () => obj => SignatureSpellGain.from({ ...obj }),
+            () => obj => SignatureSpellGain.from(obj),
     },
 });
 

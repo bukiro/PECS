@@ -33,10 +33,10 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<Shield>(
     primitiveObjects: [
         'emblazonArmament',
     ],
-    exportableArrays: {
+    serializableArrays: {
         // Treat all materials on Shield as ShieldMaterial.
         material:
-            () => obj => ShieldMaterial.from({ ...obj }),
+            () => obj => ShieldMaterial.from(obj),
     },
 });
 

@@ -38,23 +38,23 @@ const { assign, forExport } = setupSerializationWithHelpers<Creature>({
     primitiveObjectArrays: [
         'skillNotes',
     ],
-    exportables: {
+    serializables: {
         health:
-            () => obj => Health.from({ ...obj }),
+            () => obj => Health.from(obj),
     },
-    exportableArrays: {
+    serializableArrays: {
         conditions:
-            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+            recastFns => obj => ConditionGain.from(obj, recastFns),
         customSkills:
-            () => obj => Skill.from({ ...obj }),
+            () => obj => Skill.from(obj),
         effects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         ignoredEffects:
-            () => obj => Effect.from({ ...obj }),
+            () => obj => Effect.from(obj),
         inventories:
-            recastFns => obj => ItemCollection.from({ ...obj }, recastFns),
+            recastFns => obj => ItemCollection.from(obj, recastFns),
         speeds:
-            () => obj => Speed.from({ ...obj }),
+            () => obj => Speed.from(obj),
     },
 });
 

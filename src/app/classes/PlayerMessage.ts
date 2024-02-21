@@ -27,17 +27,17 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<PlayerMe
         'turnChange',
         'ttl',
     ],
-    exportableArrays: {
+    serializableArrays: {
         gainCondition:
-            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+            recastFns => obj => ConditionGain.from(obj, recastFns),
     },
-    messageExportableArrays: {
+    messageSerializableArrays: {
         offeredItem:
-            recastFns => obj => recastFns.getItemPrototype({ ...obj }, { type: obj?.type }).with({ ...obj }, recastFns),
+            recastFns => obj => recastFns.getItemPrototype(obj, { type: obj?.type }).with(obj, recastFns),
         includedItems:
-            recastFns => obj => recastFns.getItemPrototype({ ...obj }, { type: obj?.type }).with({ ...obj }, recastFns),
+            recastFns => obj => recastFns.getItemPrototype(obj, { type: obj?.type }).with(obj, recastFns),
         includedInventories:
-            recastFns => obj => ItemCollection.from({ ...obj }, recastFns),
+            recastFns => obj => ItemCollection.from(obj, recastFns),
     },
 });
 

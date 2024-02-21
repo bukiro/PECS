@@ -62,23 +62,23 @@ const { assign, forExport } = setupSerializationWithHelpers<Activity>({
         'showActivities',
         'traits',
     ],
-    exportableArrays: {
+    serializableArrays: {
         castSpells:
-            () => obj => SpellCast.from({ ...obj }),
+            () => obj => SpellCast.from(obj),
         gainConditions:
-            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+            recastFns => obj => ConditionGain.from(obj, recastFns),
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
         heightenedDescs:
-            () => obj => HeightenedDescSet.from({ ...obj }),
+            () => obj => HeightenedDescSet.from(obj),
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
         onceEffects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         showSpells:
-            () => obj => SpellCast.from({ ...obj }),
+            () => obj => SpellCast.from(obj),
         targetNumbers:
-            () => obj => SpellTargetNumber.from({ ...obj }),
+            () => obj => SpellTargetNumber.from(obj),
     },
 });
 

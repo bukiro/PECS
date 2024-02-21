@@ -59,13 +59,13 @@ const { assign, forExport } = setupSerializationWithHelpers<ConditionGain>({
         'conditionChoiceFilter',
         'selectedOtherConditions',
     ],
-    exportableArrays: {
+    serializableArrays: {
         gainActivities:
             recastFns => obj => ActivityGain.from({
-                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+                ...obj, originalActivity: recastFns.getOriginalActivity(obj),
             }),
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
     },
 });
 

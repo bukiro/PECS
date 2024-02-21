@@ -42,9 +42,9 @@ const { assign, forExport } = setupSerialization<SpellChoice>({
         'traitFilter',
         'spellBlending',
     ],
-    exportableArrays: {
+    serializableArrays: {
         spells:
-            () => obj => SpellGain.from({ ...obj }),
+            () => obj => SpellGain.from(obj),
     },
 });
 

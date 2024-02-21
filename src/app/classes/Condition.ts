@@ -73,35 +73,35 @@ const { assign, forExport } = setupSerializationWithHelpers<Condition>({
         'pauseConditions',
         'selectOtherConditions',
     ],
-    exportableArrays: {
+    serializableArrays: {
         attackRestrictions:
-            () => obj => AttackRestriction.from({ ...obj }),
+            () => obj => AttackRestriction.from(obj),
         choices:
-            () => obj => ConditionChoice.from({ ...obj }),
+            () => obj => ConditionChoice.from(obj),
         defaultDurations:
-            () => obj => ConditionDuration.from({ ...obj }),
+            () => obj => ConditionDuration.from(obj),
         effects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         endEffects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         gainActivities:
             recastFns => obj => ActivityGain.from({
-                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+                ...obj, originalActivity: recastFns.getOriginalActivity(obj),
             }),
         gainConditions:
-            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+            recastFns => obj => ConditionGain.from(obj, recastFns),
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
         heightenedDescs:
-            () => obj => HeightenedDescSet.from({ ...obj }),
+            () => obj => HeightenedDescSet.from(obj),
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
         nextCondition:
-            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+            recastFns => obj => ConditionGain.from(obj, recastFns),
         onceEffects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         senses:
-            () => obj => SenseGain.from({ ...obj }),
+            () => obj => SenseGain.from(obj),
     },
 });
 

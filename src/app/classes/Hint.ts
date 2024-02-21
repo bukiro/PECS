@@ -23,11 +23,11 @@ const { assign, forExport } = setupSerialization<Hint>({
     primitiveObjectArrays: [
         'replaceSource',
     ],
-    exportableArrays: {
+    serializableArrays: {
         effects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         heightenedDescs:
-            () => obj => HeightenedDescSet.from({ ...obj }),
+            () => obj => HeightenedDescSet.from(obj),
     },
 });
 

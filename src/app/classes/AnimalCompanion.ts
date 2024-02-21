@@ -19,9 +19,9 @@ const { assign, forExport } = setupSerializationWithHelpers<AnimalCompanion>({
     primitives: [
         'species',
     ],
-    exportables: {
+    serializables: {
         class:
-            recastFns => obj => AnimalCompanionClass.from({ ...obj }, recastFns),
+            recastFns => obj => AnimalCompanionClass.from(obj, recastFns),
     },
 });
 

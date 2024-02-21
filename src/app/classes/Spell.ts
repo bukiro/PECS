@@ -51,15 +51,15 @@ const { assign, forExport } = setupSerializationWithHelpers<Spell>({
     primitiveObjectArrays: [
         'heightened',
     ],
-    exportableArrays: {
+    serializableArrays: {
         gainConditions:
-            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+            recastFns => obj => ConditionGain.from(obj, recastFns),
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
         heightenedDescs:
-            () => obj => HeightenedDescSet.from({ ...obj }),
+            () => obj => HeightenedDescSet.from(obj),
         showSpells:
-            () => obj => SpellCast.from({ ...obj }),
+            () => obj => SpellCast.from(obj),
     },
 });
 

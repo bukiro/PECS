@@ -21,17 +21,17 @@ const { assign, forExport } = setupSerialization<Heritage>({
         'senses',
         'traits',
     ],
-    exportableArrays: {
+    serializableArrays: {
         featChoices:
-            () => obj => FeatChoice.from({ ...obj }),
+            () => obj => FeatChoice.from(obj),
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
         skillChoices:
-            () => obj => SkillChoice.from({ ...obj }),
+            () => obj => SkillChoice.from(obj),
         spellChoices:
-            () => obj => SpellChoice.from({ ...obj }),
+            () => obj => SpellChoice.from(obj),
         subTypes:
-            () => obj => Heritage.from({ ...obj }),
+            () => obj => Heritage.from(obj),
     },
 });
 

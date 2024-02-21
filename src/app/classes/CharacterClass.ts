@@ -47,39 +47,39 @@ const { assign, forExport } = setupSerializationWithHelpers<CharacterClass>({
     primitiveObjectArrays: [
         'desc',
     ],
-    exportables: {
+    serializables: {
         ancestry:
-            () => obj => Ancestry.from({ ...obj }),
+            () => obj => Ancestry.from(obj),
         animalCompanion:
-            recastFns => obj => AnimalCompanion.from({ ...obj }, recastFns),
+            recastFns => obj => AnimalCompanion.from(obj, recastFns),
         background:
-            () => obj => Background.from({ ...obj }),
+            () => obj => Background.from(obj),
         familiar:
-            recastFns => obj => Familiar.from({ ...obj }, recastFns),
+            recastFns => obj => Familiar.from(obj, recastFns),
         heritage:
-            () => obj => Heritage.from({ ...obj }),
+            () => obj => Heritage.from(obj),
     },
-    exportableArrays: {
+    serializableArrays: {
         activities:
             recastFns => obj => ActivityGain.from({
-                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+                ...obj, originalActivity: recastFns.getOriginalActivity(obj),
             }),
         customSkills:
-            () => obj => Skill.from({ ...obj }),
+            () => obj => Skill.from(obj),
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
         levels:
-            () => obj => ClassLevel.from({ ...obj }),
+            () => obj => ClassLevel.from(obj),
         formulaBook:
-            () => obj => FormulaLearned.from({ ...obj }),
+            () => obj => FormulaLearned.from(obj),
         additionalHeritages:
-            () => obj => AdditionalHeritage.from({ ...obj }),
+            () => obj => AdditionalHeritage.from(obj),
         featData:
-            () => obj => FeatData.from({ ...obj }),
+            () => obj => FeatData.from(obj),
         languages:
-            () => obj => LanguageGain.from({ ...obj }),
+            () => obj => LanguageGain.from(obj),
         spellCasting:
-            recastFns => obj => SpellCasting.from({ ...obj }, recastFns),
+            recastFns => obj => SpellCasting.from(obj, recastFns),
     },
 });
 

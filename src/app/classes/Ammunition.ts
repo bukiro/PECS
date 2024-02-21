@@ -12,9 +12,9 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<Ammuniti
         'actions',
         'ammunition',
     ],
-    exportableArrays: {
+    serializableArrays: {
         activities:
-            recastFns => obj => ItemActivity.from({ ...obj }, recastFns),
+            recastFns => obj => ItemActivity.from(obj, recastFns),
     },
 });
 

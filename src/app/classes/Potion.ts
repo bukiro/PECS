@@ -7,9 +7,9 @@ import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
 const { assign, forExport, forMessage } = setupSerialization<Potion>({
-    exportableArrays: {
+    serializableArrays: {
         castSpells:
-            () => obj => SpellCast.from({ ...obj }),
+            () => obj => SpellCast.from(obj),
     },
 });
 

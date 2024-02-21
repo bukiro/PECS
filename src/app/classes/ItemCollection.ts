@@ -70,98 +70,98 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<ItemColl
         'touched',
         'bulkLimit',
     ],
-    messageExportableArrays: {
+    messageSerializableArrays: {
         adventuringgear:
             recastFns => obj =>
-                recastFns.getItemPrototype<AdventuringGear>({ ...obj }, { type: 'adventuringgear' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<AdventuringGear>(obj, { type: 'adventuringgear' })
+                    .with(obj, recastFns),
         alchemicalbombs:
             recastFns => obj =>
-                recastFns.getItemPrototype<AlchemicalBomb>({ ...obj }, { type: 'alchemicalbombs' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<AlchemicalBomb>(obj, { type: 'alchemicalbombs' })
+                    .with(obj, recastFns),
         alchemicalelixirs:
             recastFns => obj =>
-                recastFns.getItemPrototype<AlchemicalElixir>({ ...obj }, { type: 'alchemicalelixirs' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<AlchemicalElixir>(obj, { type: 'alchemicalelixirs' })
+                    .with(obj, recastFns),
         alchemicalpoisons:
             recastFns => obj =>
-                recastFns.getItemPrototype<AlchemicalPoison>({ ...obj }, { type: 'alchemicalpoisons' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<AlchemicalPoison>(obj, { type: 'alchemicalpoisons' })
+                    .with(obj, recastFns),
         alchemicaltools:
             recastFns => obj =>
-                recastFns.getItemPrototype<AlchemicalTool>({ ...obj }, { type: 'alchemicaltools' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<AlchemicalTool>(obj, { type: 'alchemicaltools' })
+                    .with(obj, recastFns),
         ammunition:
             recastFns => obj =>
-                recastFns.getItemPrototype<Ammunition>({ ...obj }, { type: 'ammunition' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<Ammunition>(obj, { type: 'ammunition' })
+                    .with(obj, recastFns),
         armorrunes:
             recastFns => obj =>
-                recastFns.getItemPrototype<ArmorRune>({ ...obj }, { type: 'armorrunes' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<ArmorRune>(obj, { type: 'armorrunes' })
+                    .with(obj, recastFns),
         armors:
             recastFns => obj =>
-                recastFns.getItemPrototype<Armor>({ ...obj }, { type: 'armors' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<Armor>(obj, { type: 'armors' })
+                    .with(obj, recastFns),
         helditems:
             recastFns => obj =>
-                recastFns.getItemPrototype<HeldItem>({ ...obj }, { type: 'helditems' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<HeldItem>(obj, { type: 'helditems' })
+                    .with(obj, recastFns),
         materialitems:
             recastFns => obj =>
-                recastFns.getItemPrototype<MaterialItem>({ ...obj }, { type: 'materialitems' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<MaterialItem>(obj, { type: 'materialitems' })
+                    .with(obj, recastFns),
         oils:
             recastFns => obj =>
-                recastFns.getItemPrototype<Oil>({ ...obj }, { type: 'oils' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<Oil>(obj, { type: 'oils' })
+                    .with(obj, recastFns),
         otherconsumables:
             recastFns => obj =>
-                recastFns.getItemPrototype<OtherConsumable>({ ...obj }, { type: 'otherconsumables' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<OtherConsumable>(obj, { type: 'otherconsumables' })
+                    .with(obj, recastFns),
         otherconsumablesbombs:
             recastFns => (obj =>
-                recastFns.getItemPrototype<OtherConsumableBomb>({ ...obj }, { type: 'otherconsumablesbombs' })
-                    .with({ ...obj }, recastFns)
+                recastFns.getItemPrototype<OtherConsumableBomb>(obj, { type: 'otherconsumablesbombs' })
+                    .with(obj, recastFns)
             ),
         otheritems:
-            () => obj => OtherItem.from({ ...obj }),
+            () => obj => OtherItem.from(obj),
         potions:
             recastFns => obj =>
-                recastFns.getItemPrototype<Potion>({ ...obj }, { type: 'potions' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<Potion>(obj, { type: 'potions' })
+                    .with(obj, recastFns),
         scrolls:
             recastFns => obj =>
-                recastFns.getItemPrototype<Scroll>({ ...obj }, { type: 'scrolls' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<Scroll>(obj, { type: 'scrolls' })
+                    .with(obj, recastFns),
         shields:
             recastFns => obj =>
-                recastFns.getItemPrototype<Shield>({ ...obj }, { type: 'shields' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<Shield>(obj, { type: 'shields' })
+                    .with(obj, recastFns),
         snares:
             recastFns => obj =>
-                recastFns.getItemPrototype<Snare>({ ...obj }, { type: 'snares' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<Snare>(obj, { type: 'snares' })
+                    .with(obj, recastFns),
         talismans:
             recastFns => obj =>
-                recastFns.getItemPrototype<Talisman>({ ...obj }, { type: 'talismans' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<Talisman>(obj, { type: 'talismans' })
+                    .with(obj, recastFns),
         wands:
             recastFns => obj =>
-                recastFns.getItemPrototype<Wand>({ ...obj }, { type: 'wands' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<Wand>(obj, { type: 'wands' })
+                    .with(obj, recastFns),
         weaponrunes:
             recastFns => obj =>
-                recastFns.getItemPrototype<WeaponRune>({ ...obj }, { type: 'weaponrunes' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<WeaponRune>(obj, { type: 'weaponrunes' })
+                    .with(obj, recastFns),
         weapons:
             recastFns => obj =>
-                recastFns.getItemPrototype<Weapon>({ ...obj }, { type: 'weapons' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<Weapon>(obj, { type: 'weapons' })
+                    .with(obj, recastFns),
         wornitems:
             recastFns => obj =>
-                recastFns.getItemPrototype<WornItem>({ ...obj }, { type: 'wornitems' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<WornItem>(obj, { type: 'wornitems' })
+                    .with(obj, recastFns),
     },
 });
 

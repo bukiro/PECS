@@ -10,11 +10,11 @@ const { assign, forExport } = setupSerialization<Specialization>({
         'name',
         'type',
     ],
-    exportableArrays: {
+    serializableArrays: {
         effects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
     },
 });
 

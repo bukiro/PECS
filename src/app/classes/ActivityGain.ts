@@ -31,13 +31,13 @@ const { assign, forExport } = setupSerialization<ActivityGain>({
         'effectChoices',
         'spellEffectChoices',
     ],
-    exportableArrays: {
+    serializableArrays: {
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
         castSpells:
-            () => obj => SpellCast.from({ ...obj }),
+            () => obj => SpellCast.from(obj),
         targets:
-            () => obj => SpellTarget.from({ ...obj }),
+            () => obj => SpellTarget.from(obj),
     },
 });
 

@@ -10,15 +10,15 @@ const { assign, forExport } = setupSerialization<ClassLevel>({
     primitives: [
         'number',
     ],
-    exportableArrays: {
+    serializableArrays: {
         abilityChoices:
-            () => obj => AbilityChoice.from({ ...obj }),
+            () => obj => AbilityChoice.from(obj),
         featChoices:
-            () => obj => FeatChoice.from({ ...obj }),
+            () => obj => FeatChoice.from(obj),
         loreChoices:
-            () => obj => LoreChoice.from({ ...obj }),
+            () => obj => LoreChoice.from(obj),
         skillChoices:
-            () => obj => SkillChoice.from({ ...obj }),
+            () => obj => SkillChoice.from(obj),
     },
 });
 

@@ -86,15 +86,15 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<Item>({
         'traitActivations',
         'data',
     ],
-    exportableArrays: {
+    serializableArrays: {
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
         storedSpells:
-            () => obj => SpellChoice.from({ ...obj }),
+            () => obj => SpellChoice.from(obj),
     },
-    messageExportableArrays: {
+    messageSerializableArrays: {
         oilsApplied:
-            recastFns => obj => recastFns.getItemPrototype<Oil>({ ...obj }, { type: 'oils' }).with({ ...obj }, recastFns),
+            recastFns => obj => recastFns.getItemPrototype<Oil>(obj, { type: 'oils' }).with(obj, recastFns),
     },
 });
 

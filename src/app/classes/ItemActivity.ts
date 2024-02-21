@@ -30,9 +30,9 @@ const { assign, forExport } = setupSerialization<ItemActivity>({
         'effectChoices',
         'spellEffectChoices',
     ],
-    exportableArrays: {
+    serializableArrays: {
         targets:
-            () => obj => SpellTarget.from({ ...obj }),
+            () => obj => SpellTarget.from(obj),
     },
 });
 

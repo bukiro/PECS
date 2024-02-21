@@ -17,9 +17,9 @@ const { assign, forExport } = setupSerialization<SpellCast>({
     primitiveObjectArrays: [
         'overrideChoices',
     ],
-    exportables: {
+    serializables: {
         spellGain:
-            () => obj => SpellGain.from({ ...obj }),
+            () => obj => SpellGain.from(obj),
     },
 });
 

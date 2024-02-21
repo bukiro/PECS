@@ -10,15 +10,15 @@ const { assign, forExport } = setupSerialization<AnimalCompanionSpecialization>(
     primitives: [
         'desc', 'level', 'name', 'sourceBook',
     ],
-    exportableArrays: {
+    serializableArrays: {
         abilityChoices:
-            () => obj => AbilityChoice.from({ ...obj }),
+            () => obj => AbilityChoice.from(obj),
         effects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
         skillChoices:
-            () => obj => SkillChoice.from({ ...obj }),
+            () => obj => SkillChoice.from(obj),
     },
 });
 

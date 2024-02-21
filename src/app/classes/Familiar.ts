@@ -22,9 +22,9 @@ const { assign, forExport } = setupSerializationWithHelpers<Familiar>({
         'senses',
         'traits',
     ],
-    exportableArrays: {
+    serializableArrays: {
         customSkills:
-            () => obj => Skill.from({ ...obj }),
+            () => obj => Skill.from(obj),
     },
 });
 

@@ -28,9 +28,9 @@ const { assign, forExport, forMessage } = setupSerialization<Material>({
         'removeTraits',
         'traits',
     ],
-    exportableArrays: {
+    serializableArrays: {
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
     },
 });
 

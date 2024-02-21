@@ -40,15 +40,17 @@ const { assign, forExport } = setupSerializationWithHelpers<Character>({
         'ignoredMessages',
         'baseValues',
     ],
-    exportables: {
+    serializables: {
         class:
-            recastFns => obj => CharacterClass.from({ ...obj }, recastFns),
+            recastFns => obj => CharacterClass.from(obj, recastFns),
         settings:
-            () => obj => Settings.from({ ...obj }),
+            // TO-DO: getters aren't included in spread, so values are missing here (and likely in many other places)
+            // Does the obj get mutated in this process? I don't think so - needs to be tested.
+            () => obj => Settings.from(obj),
     },
-    exportableArrays: {
+    serializableArrays: {
         customFeats:
-            recastFns => obj => Feat.from({ ...obj }, recastFns),
+            recastFns => obj => Feat.from(obj, recastFns),
     },
 });
 

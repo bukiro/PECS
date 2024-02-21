@@ -5,9 +5,9 @@ import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
 const { assign, forExport } = setupSerialization<ConditionEffectsObject>({
-    exportableArrays: {
+    serializableArrays: {
         effects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
     },
 });
 

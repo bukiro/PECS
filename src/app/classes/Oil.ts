@@ -26,17 +26,19 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<Oil>({
     primitiveArrays: [
         'targets',
     ],
-    messageExportables: {
+    messageSerializable: {
         runeEffect:
             recastFns => obj =>
-                recastFns.getItemPrototype<WeaponRune>({ ...obj }, { type: 'weaponrunes' })
-                    .with({ ...obj }, recastFns),
+                obj
+                    ? recastFns.getItemPrototype<WeaponRune>(obj, { type: 'weaponrunes' })
+                        .with(obj, recastFns)
+                    : undefined,
     },
-    exportableArrays: {
+    serializableArrays: {
         castSpells:
-            () => obj => SpellCast.from({ ...obj }),
+            () => obj => SpellCast.from(obj),
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
     },
 });
 

@@ -14,15 +14,15 @@ const { assign, forExport } = setupSerializationWithHelpers<AnimalCompanionClass
     primitives: [
         'hitPoints',
     ],
-    exportables: {
+    serializables: {
         ancestry:
-            recastFns => obj => AnimalCompanionAncestry.from({ ...obj }, recastFns),
+            recastFns => obj => AnimalCompanionAncestry.from(obj, recastFns),
     },
-    exportableArrays: {
+    serializableArrays: {
         levels:
-            () => obj => AnimalCompanionLevel.from({ ...obj }),
+            () => obj => AnimalCompanionLevel.from(obj),
         specializations:
-            () => obj => AnimalCompanionSpecialization.from({ ...obj }),
+            () => obj => AnimalCompanionSpecialization.from(obj),
     },
 });
 

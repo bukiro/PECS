@@ -16,9 +16,9 @@ const { assign, forExport } = setupSerialization<Ancestry>({
     primitiveObjectArrays: [
         'desc', 'speeds',
     ],
-    exportableArrays: {
+    serializableArrays: {
         abilityChoices:
-            () => obj => AbilityChoice.from({ ...obj }),
+            () => obj => AbilityChoice.from(obj),
     },
 });
 

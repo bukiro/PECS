@@ -18,19 +18,19 @@ const { assign, forExport } = setupSerializationWithHelpers<AnimalCompanionAnces
     primitiveObjectArrays: [
         'speeds',
     ],
-    exportableArrays: {
+    serializableArrays: {
         abilityChoices:
-            () => obj => AbilityChoice.from({ ...obj }),
+            () => obj => AbilityChoice.from(obj),
         activities:
             recastFns => obj => ActivityGain.from({
-                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+                ...obj, originalActivity: recastFns.getOriginalActivity(obj),
             }),
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
         skillChoices:
-            () => obj => SkillChoice.from({ ...obj }),
+            () => obj => SkillChoice.from(obj),
     },
 });
 

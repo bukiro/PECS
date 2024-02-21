@@ -24,15 +24,15 @@ const { assign, forExport } = setupSerializationWithHelpers<Trait>({
         'extraActivations',
         'sourceBook',
     ],
-    exportableArrays: {
+    serializableArrays: {
         gainActivities:
             recastFns => obj => ActivityGain.from({
-                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+                ...obj, originalActivity: recastFns.getOriginalActivity(obj),
             }),
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
         objectEffects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
     },
 });
 

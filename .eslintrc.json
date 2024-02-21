@@ -230,6 +230,11 @@
             ],
             "parserOptions": {
                 "project": "./tsconfig.spec.json"
+            },
+            "rules": {
+                "@typescript-eslint/no-magic-numbers": [
+                    "off"
+                ]
             }
         }
     ],

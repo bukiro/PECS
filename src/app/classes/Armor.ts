@@ -26,17 +26,17 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<Armor>({
         'strength',
         'battleforged',
     ],
-    exportableArrays: {
+    serializableArrays: {
         // Treat all materials on Armor as ArmorMaterial.
         material:
-            () => obj => ArmorMaterial.from({ ...obj }),
+            () => obj => ArmorMaterial.from(obj),
     },
-    messageExportableArrays: {
+    messageSerializableArrays: {
         // Treat all propertyRunes on Armor as ArmorRune.
         propertyRunes:
             recastFns => obj =>
-                recastFns.getItemPrototype<ArmorRune>({ ...obj }, { type: 'armorrunes' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<ArmorRune>(obj, { type: 'armorrunes' })
+                    .with(obj, recastFns),
     },
 });
 

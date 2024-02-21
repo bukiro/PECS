@@ -44,31 +44,31 @@ const { assign, forExport } = setupSerializationWithHelpers<Equipment>({
         'gainSenses',
         'choices',
     ],
-    exportableArrays: {
+    serializableArrays: {
         effects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         gainActivities:
             recastFns => obj => ActivityGain.from({
-                ...obj, originalActivity: recastFns.getOriginalActivity({ ...obj }),
+                ...obj, originalActivity: recastFns.getOriginalActivity(obj),
             }),
         gainInventory:
-            () => obj => InventoryGain.from({ ...obj }),
+            () => obj => InventoryGain.from(obj),
         gainConditions:
-            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+            recastFns => obj => ConditionGain.from(obj, recastFns),
         gainSpells:
-            () => obj => SpellChoice.from({ ...obj }),
+            () => obj => SpellChoice.from(obj),
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
         activities:
-            recastFns => obj => ItemActivity.from({ ...obj }, recastFns),
+            recastFns => obj => ItemActivity.from(obj, recastFns),
     },
-    messageExportableArrays: {
+    messageSerializableArrays: {
         talismans:
-            recastFns => obj => recastFns.getItemPrototype<Talisman>({ ...obj }, { type: 'talismans' }).with({ ...obj }, recastFns),
+            recastFns => obj => recastFns.getItemPrototype<Talisman>(obj, { type: 'talismans' }).with(obj, recastFns),
         talismanCords:
-            recastFns => obj => recastFns.getItemPrototype<WornItem>({ ...obj }, { type: 'wornitems' }).with({ ...obj }, recastFns),
+            recastFns => obj => recastFns.getItemPrototype<WornItem>(obj, { type: 'wornitems' }).with(obj, recastFns),
         bladeAllyRunes:
-            recastFns => obj => recastFns.getItemPrototype<WeaponRune>({ ...obj }, { type: 'weaponrunes' }).with({ ...obj }, recastFns),
+            recastFns => obj => recastFns.getItemPrototype<WeaponRune>(obj, { type: 'weaponrunes' }).with(obj, recastFns),
     },
 });
 

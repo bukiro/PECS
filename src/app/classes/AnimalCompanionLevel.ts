@@ -8,11 +8,11 @@ const { assign, forExport } = setupSerialization<AnimalCompanionLevel>({
     primitives: [
         'extraDamage', 'name', 'number', 'sizeChange', 'sourceBook',
     ],
-    exportableArrays: {
+    serializableArrays: {
         abilityChoices:
-            () => obj => AbilityChoice.from({ ...obj }),
+            () => obj => AbilityChoice.from(obj),
         skillChoices:
-            () => obj => SkillChoice.from({ ...obj }),
+            () => obj => SkillChoice.from(obj),
     },
 });
 

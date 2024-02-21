@@ -19,15 +19,15 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<Rune>({
     primitiveArrays: [
         'traits',
     ],
-    exportableArrays: {
+    serializableArrays: {
         activities:
-            recastFns => obj => ItemActivity.from({ ...obj }, recastFns),
+            recastFns => obj => ItemActivity.from(obj, recastFns),
         hints:
-            () => obj => Hint.from({ ...obj }),
+            () => obj => Hint.from(obj),
         effects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
         loreChoices:
-            () => obj => LoreChoice.from({ ...obj }),
+            () => obj => LoreChoice.from(obj),
     },
 });
 

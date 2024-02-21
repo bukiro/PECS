@@ -12,11 +12,11 @@ const { assign, forExport } = setupSerializationWithHelpers<Consumable>({
         'activationType',
         'stack',
     ],
-    exportableArrays: {
+    serializableArrays: {
         gainConditions:
-            recastFns => obj => ConditionGain.from({ ...obj }, recastFns),
+            recastFns => obj => ConditionGain.from(obj, recastFns),
         onceEffects:
-            () => obj => EffectGain.from({ ...obj }),
+            () => obj => EffectGain.from(obj),
     },
 });
 

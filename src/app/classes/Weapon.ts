@@ -42,19 +42,19 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<Weapon>(
     primitiveObjects: [
         'emblazonArmament',
     ],
-    exportableArrays: {
+    serializableArrays: {
         material:
-            () => obj => WeaponMaterial.from({ ...obj }),
+            () => obj => WeaponMaterial.from(obj),
     },
-    messageExportableArrays: {
+    messageSerializableArrays: {
         propertyRunes:
             recastFns => obj =>
-                recastFns.getItemPrototype<WeaponRune>({ ...obj }, { type: 'weaponrunes' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<WeaponRune>(obj, { type: 'weaponrunes' })
+                    .with(obj, recastFns),
         poisonsApplied:
             recastFns => obj =>
-                recastFns.getItemPrototype<AlchemicalPoison>({ ...obj }, { type: 'alchemicalpoisons' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<AlchemicalPoison>(obj, { type: 'alchemicalpoisons' })
+                    .with(obj, recastFns),
     },
 });
 

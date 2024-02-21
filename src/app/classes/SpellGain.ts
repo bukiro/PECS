@@ -28,11 +28,11 @@ const { assign, forExport } = setupSerialization<SpellGain>({
         'overrideChoices',
         'effectChoices',
     ],
-    exportableArrays: {
+    serializableArrays: {
         gainItems:
-            () => obj => ItemGain.from({ ...obj }),
+            () => obj => ItemGain.from(obj),
         targets:
-            () => obj => SpellTarget.from({ ...obj }),
+            () => obj => SpellTarget.from(obj),
     },
 });
 

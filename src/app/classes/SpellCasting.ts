@@ -28,11 +28,11 @@ const { assign, forExport } = setupSerializationWithHelpers<SpellCasting>({
         'traditionFilter',
         'bondedItemCharges',
     ],
-    exportableArrays: {
+    serializableArrays: {
         scrollSavant:
-            recastFns => obj => Scroll.from({ ...obj }, recastFns),
+            recastFns => obj => Scroll.from(obj, recastFns),
         spellChoices:
-            () => obj => SpellChoice.from({ ...obj }),
+            () => obj => SpellChoice.from(obj),
     },
 });
 

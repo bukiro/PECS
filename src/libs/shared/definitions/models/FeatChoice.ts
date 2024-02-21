@@ -28,9 +28,9 @@ const { assign, forExport } = setupSerialization<FeatChoice>({
     primitiveObjectArrays: [
         'ignoreRequirements',
     ],
-    exportableArrays: {
+    serializableArrays: {
         feats:
-            () => obj => FeatTaken.from({ ...obj }),
+            () => obj => FeatTaken.from(obj),
     },
 });
 

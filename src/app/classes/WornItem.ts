@@ -35,19 +35,19 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<WornItem
     primitiveObjectArrays: [
         'isRingOfWizardry',
     ],
-    exportableArrays: {
+    serializableArrays: {
         gainLanguages:
-            () => obj => LanguageGain.from({ ...obj }),
+            () => obj => LanguageGain.from(obj),
     },
-    messageExportableArrays: {
+    messageSerializableArrays: {
         aeonStones:
             recastFns => obj =>
-                recastFns.getItemPrototype<WornItem>({ ...obj }, { type: 'wornitems' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<WornItem>(obj, { type: 'wornitems' })
+                    .with(obj, recastFns),
         propertyRunes:
             recastFns => obj =>
-                recastFns.getItemPrototype<WeaponRune>({ ...obj }, { type: 'weaponrunes' })
-                    .with({ ...obj }, recastFns),
+                recastFns.getItemPrototype<WeaponRune>(obj, { type: 'weaponrunes' })
+                    .with(obj, recastFns),
     },
 });
 

@@ -25,9 +25,9 @@ const { assign, forExport } = setupSerialization<Deity>({
         'domains',
         'alternateDomains',
     ],
-    exportableArrays: {
+    serializableArrays: {
         clericSpells:
-            () => obj => SpellCast.from({ ...obj }),
+            () => obj => SpellCast.from(obj),
     },
 });
 
