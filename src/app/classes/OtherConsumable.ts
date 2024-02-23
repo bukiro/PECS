@@ -21,4 +21,8 @@ export class OtherConsumable extends Consumable implements MessageSerializable<O
     public clone(recastFns: RecastFns): OtherConsumable {
         return OtherConsumable.from(this, recastFns);
     }
+
+    public isEqual(compared: Partial<OtherConsumable>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options);
+    }
 }

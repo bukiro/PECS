@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<Health>({
+const { assign, forExport, isEqual } = setupSerialization<Health>({
     primitives: [
         'damage',
         'manualWounded',
@@ -40,5 +40,9 @@ export class Health implements Serializable<Health> {
 
     public clone(): Health {
         return Health.from(this);
+    }
+
+    public isEqual(compared: Partial<Health>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

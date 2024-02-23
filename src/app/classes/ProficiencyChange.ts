@@ -3,7 +3,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<ProficiencyChange>({
+const { assign, forExport, isEqual } = setupSerialization<ProficiencyChange>({
     primitives: [
         'result',
         'proficiency',
@@ -41,5 +41,9 @@ export class ProficiencyChange implements Serializable<ProficiencyChange> {
 
     public clone(): ProficiencyChange {
         return ProficiencyChange.from(this);
+    }
+
+    public isEqual(compared: Partial<ProficiencyChange>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

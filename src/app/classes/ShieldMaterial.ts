@@ -3,7 +3,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<ShieldMaterial>({
+const { assign, forExport, isEqual } = setupSerialization<ShieldMaterial>({
     primitives: [
         'hardness',
         'hitpoints',
@@ -36,6 +36,10 @@ export class ShieldMaterial extends Material implements Serializable<ShieldMater
 
     public clone(): ShieldMaterial {
         return ShieldMaterial.from(this);
+    }
+
+    public isEqual(compared: Partial<ShieldMaterial>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isShieldMaterial(): this is ShieldMaterial {

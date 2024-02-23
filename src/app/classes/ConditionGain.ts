@@ -7,7 +7,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerializationWithHelpers<ConditionGain>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<ConditionGain>({
     primitives: [
         'addValue',
         'addValueUpperLimit',
@@ -246,5 +246,9 @@ export class ConditionGain implements Serializable<ConditionGain> {
 
     public clone(recastFns: RecastFns): ConditionGain {
         return ConditionGain.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<ConditionGain>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

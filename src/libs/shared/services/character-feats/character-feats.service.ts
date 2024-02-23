@@ -16,7 +16,7 @@ import {
 import { addFeatAtLevel, removeFeatAtLevel } from 'src/libs/store/feats/feats.actions';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
-import { deepDistinctUntilChanged } from '../../util/observableUtils';
+import { isEqualArray, isEqualPrimitiveObject, isEqualSerializable } from '../../util/compare-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -52,7 +52,9 @@ export class CharacterFeatsService {
     ): Observable<Array<Feat>> {
         return this._store$.select(selectAllCharacterFeats)
             .pipe(
-                deepDistinctUntilChanged(),
+                distinctUntilChanged((previous, current) =>
+                    isEqualPrimitiveObject(previous.keys(), current.keys()),
+                ),
                 map(allFeats => {
                     // If a name is given and other filters are disabled,
                     // we can just get the feat or feature from the map.
@@ -83,7 +85,12 @@ export class CharacterFeatsService {
     ): Observable<Array<{ levelNumber: number; gain: FeatTaken; feat: Feat }>> {
         return this._store$.select(selectAllCharacterFeatsTaken)
             .pipe(
-                deepDistinctUntilChanged(),
+                distinctUntilChanged(isEqualArray((previous, current) =>
+                    previous.feat.name === current.feat.name
+                    && previous.levelNumber === current.levelNumber
+                    && previous.temporary === current.temporary
+                    && isEqualSerializable(previous.gain, current.gain),
+                )),
                 map(allFeatsTaken => allFeatsTaken
                     .filter(taken =>
                         (!minLevelNumber || (taken.levelNumber >= minLevelNumber))
@@ -142,7 +149,9 @@ export class CharacterFeatsService {
         return CharacterFlatteningService.levelOrCurrent$(levelNumber)
             .pipe(
                 switchMap(level => this._store$.select(selectAllCharacterFeatsAtLevel(level))),
-                deepDistinctUntilChanged(),
+                distinctUntilChanged(isEqualArray((previous, current) =>
+                    previous.name === current.name,
+                )),
             );
     }
 
@@ -153,7 +162,9 @@ export class CharacterFeatsService {
         return CharacterFlatteningService.levelOrCurrent$(levelNumber)
             .pipe(
                 switchMap(level => this._store$.select(selectAllCharacterFeatsTakenAtLevel(level))),
-                deepDistinctUntilChanged(),
+                distinctUntilChanged(isEqualArray((previous, current) =>
+                    previous.name === current.name,
+                )),
             );
     }
 

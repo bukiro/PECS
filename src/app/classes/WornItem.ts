@@ -19,7 +19,7 @@ export interface RingOfWizardrySlot {
     level: number;
 }
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<WornItem>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<WornItem>({
     primitives: [
         'isDoublingRings',
         'isHandwrapsOfMightyBlows',
@@ -180,6 +180,10 @@ export class WornItem extends Equipment implements MessageSerializable<WornItem>
 
     public clone(recastFns: RecastFns): WornItem {
         return WornItem.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<WornItem>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isWornItem(): this is WornItem { return true; }

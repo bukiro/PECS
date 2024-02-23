@@ -21,7 +21,7 @@ import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-const { assign, forExport } = setupSerializationWithHelpers<Equipment>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<Equipment>({
     primitives: [
         'allowEquippable',
         'equippable',
@@ -262,6 +262,10 @@ export abstract class Equipment extends Item {
             ...super.forExport(),
             ...forExport(this),
         };
+    }
+
+    public isEqual(compared: Partial<Equipment>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isEquipment(): this is Equipment { return true; }

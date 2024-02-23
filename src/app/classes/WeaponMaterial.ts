@@ -3,7 +3,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<WeaponMaterial>({
+const { assign, forExport, isEqual } = setupSerialization<WeaponMaterial>({
     primitives: [
         'criticalHint',
     ],
@@ -32,6 +32,10 @@ export class WeaponMaterial extends Material implements Serializable<WeaponMater
 
     public clone(): WeaponMaterial {
         return WeaponMaterial.from(this);
+    }
+
+    public isEqual(compared: Partial<WeaponMaterial>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isWeaponMaterial(): this is WeaponMaterial {

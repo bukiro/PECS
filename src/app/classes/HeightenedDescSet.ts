@@ -3,7 +3,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { HeightenedDesc } from './HeightenedDesc';
 
-const { assign, forExport } = setupSerialization<HeightenedDescSet>({
+const { assign, forExport, isEqual } = setupSerialization<HeightenedDescSet>({
     primitives: [
         'level',
     ],
@@ -34,5 +34,9 @@ export class HeightenedDescSet implements Serializable<HeightenedDescSet> {
 
     public clone(): HeightenedDescSet {
         return HeightenedDescSet.from(this);
+    }
+
+    public isEqual(compared: Partial<HeightenedDescSet>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

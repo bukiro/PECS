@@ -5,7 +5,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
 
-const { assign, forExport } = setupSerialization<Hint>({
+const { assign, forExport, isEqual } = setupSerialization<Hint>({
     // We want the active hints to be reset when loading characters.
     // active1 through active5 are not included in importing and exporting.
     primitives: [
@@ -85,6 +85,10 @@ export class Hint implements Serializable<Hint> {
 
     public clone(): Hint {
         return Hint.from(this);
+    }
+
+    public isEqual(compared: Partial<Hint>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public deactivateAll(): void {

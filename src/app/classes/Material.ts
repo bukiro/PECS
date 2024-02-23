@@ -9,7 +9,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 
 const defaultCraftingRequirement = 4;
 
-const { assign, forExport, forMessage } = setupSerialization<Material>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<Material>({
     primitives: [
         'bulkPrice',
         'bulkModifier',
@@ -70,6 +70,10 @@ export abstract class Material implements Serializable<Material> {
         return {
             ...forMessage(this),
         };
+    }
+
+    public isEqual(compared: Partial<Material>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public isArmorMaterial(): this is ArmorMaterial {

@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<FormulaLearned>({
+const { assign, forExport, isEqual } = setupSerialization<FormulaLearned>({
     primitives: [
         'id',
         'source',
@@ -35,5 +35,9 @@ export class FormulaLearned implements Serializable<FormulaLearned> {
 
     public clone(): FormulaLearned {
         return FormulaLearned.from(this);
+    }
+
+    public isEqual(compared: Partial<FormulaLearned>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

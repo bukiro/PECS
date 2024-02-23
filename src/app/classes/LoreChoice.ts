@@ -4,7 +4,7 @@ import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-const { assign, forExport } = setupSerialization<LoreChoice>({
+const { assign, forExport, isEqual } = setupSerialization<LoreChoice>({
     primitives: [
         'available',
         'id',
@@ -51,6 +51,10 @@ export class LoreChoice extends SkillChoice implements Serializable<LoreChoice> 
 
     public clone(): LoreChoice {
         return LoreChoice.from(this);
+    }
+
+    public isEqual(compared: Partial<LoreChoice>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isLoreChoice(): this is LoreChoice {

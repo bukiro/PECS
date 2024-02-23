@@ -5,7 +5,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerialization<HeldItem>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<HeldItem>({
     primitives: [
         'usage',
     ],
@@ -46,5 +46,9 @@ export class HeldItem extends Equipment implements MessageSerializable<HeldItem>
 
     public clone(recastFns: RecastFns): HeldItem {
         return HeldItem.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<HeldItem>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 }

@@ -9,7 +9,7 @@ import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
-const { assign, forExport } = setupSerialization<ItemActivity>({
+const { assign, forExport, isEqual } = setupSerialization<ItemActivity>({
     primitives: [
         'sharedChargesID',
         'exclusiveActivityID',
@@ -170,6 +170,10 @@ export class ItemActivity extends Activity implements ActivityGainInterface, Ser
 
     public clone(recastFns: RecastFns): ItemActivity {
         return ItemActivity.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<ItemActivity>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isOwnActivity(): this is Activity {

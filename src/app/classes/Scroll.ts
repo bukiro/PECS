@@ -23,6 +23,10 @@ export class Scroll extends Consumable implements MessageSerializable<Scroll> {
         return Scroll.from(this, recastFns);
     }
 
+    public isEqual(compared: Partial<Scroll>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options);
+    }
+
     public isScroll(): this is Scroll { return true; }
 
     public effectiveName$(): Observable<string> {

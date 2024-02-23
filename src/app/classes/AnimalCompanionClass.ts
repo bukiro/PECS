@@ -10,7 +10,7 @@ import { setupSerializationWithHelpers } from 'src/libs/shared/util/serializatio
 
 const AnimalCompanionDefaultHitPoints = 6;
 
-const { assign, forExport } = setupSerializationWithHelpers<AnimalCompanionClass>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<AnimalCompanionClass>({
     primitives: [
         'hitPoints',
     ],
@@ -82,5 +82,9 @@ export class AnimalCompanionClass implements Serializable<AnimalCompanionClass> 
 
     public clone(recastFns: RecastFns): AnimalCompanionClass {
         return AnimalCompanionClass.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<AnimalCompanionClass>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

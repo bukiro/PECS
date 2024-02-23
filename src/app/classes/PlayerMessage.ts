@@ -9,7 +9,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<PlayerMessage>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<PlayerMessage>({
     primitives: [
         'id',
         'recipientId',
@@ -106,5 +106,9 @@ export class PlayerMessage implements PlayerMessageInterface, MessageSerializabl
 
     public clone(recastFns: RecastFns): PlayerMessage {
         return PlayerMessage.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<PlayerMessage>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

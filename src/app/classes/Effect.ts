@@ -4,7 +4,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<Effect>({
+const { assign, forExport, isEqual } = setupSerialization<Effect>({
     primitives: [
         'applied',
         'creature',
@@ -126,6 +126,10 @@ export class Effect implements Serializable<Effect> {
 
     public clone(): Effect {
         return Effect.from(this);
+    }
+
+    public isEqual(compared: Partial<Effect>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public isAbsoluteEffect(): this is AbsoluteEffect {

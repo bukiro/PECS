@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<SenseGain>({
+const { assign, forExport, isEqual } = setupSerialization<SenseGain>({
     primitives: [
         'name',
         'excluding',
@@ -36,5 +36,9 @@ export class SenseGain implements Serializable<SenseGain> {
 
     public clone(): SenseGain {
         return SenseGain.from(this);
+    }
+
+    public isEqual(compared: Partial<SenseGain>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

@@ -12,7 +12,7 @@ const defaultSpellbookCantripSlots = 10;
 const defaultSpellbookFirstLevelSlots = 5;
 const defaultSpellbookOtherLevelsSlots = 2;
 
-const { assign, forExport } = setupSerializationWithHelpers<SpellCasting>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<SpellCasting>({
     primitives: [
         'className',
         'ability',
@@ -141,5 +141,9 @@ export class SpellCasting implements Serializable<SpellCasting> {
 
     public clone(recastFns: RecastFns): SpellCasting {
         return SpellCasting.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<SpellCasting>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

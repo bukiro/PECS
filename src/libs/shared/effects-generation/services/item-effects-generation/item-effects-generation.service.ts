@@ -7,8 +7,8 @@ import { Specialization } from 'src/app/classes/Specialization';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
-import { deepDistinctUntilChanged } from 'src/libs/shared/util/observableUtils';
+import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
+import { isEqualArray, isEqualSerializable, isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -110,7 +110,15 @@ export class ItemEffectsGenerationService {
 
                     return { objects, hintSets };
                 }),
-                deepDistinctUntilChanged(),
+                distinctUntilChanged((previous, current) =>
+                    isEqualSerializableArray(previous.objects, current.objects)
+                    && isEqualArray<HintEffectsObject>((previousObj, currentObj) =>
+                        previousObj.objectName === currentObj.objectName
+                        && isEqualSerializable(previousObj.hint, currentObj.hint)
+                        && isEqualSerializable(previousObj.parentItem, currentObj.parentItem)
+                        && isEqualSerializable(previousObj.parentConditionGain, currentObj.parentConditionGain),
+                    )(previous.hintSets, current.hintSets),
+                ),
             );
 
 
@@ -144,7 +152,7 @@ export class ItemEffectsGenerationService {
                         .concat(...specializations)
                         .concat(propertyRunes),
                 ),
-                deepDistinctUntilChanged(),
+                distinctUntilChanged(isEqualSerializableArray),
             );
     }
 
@@ -155,7 +163,7 @@ export class ItemEffectsGenerationService {
                     [wornItem]
                         .concat(aeonStones),
                 ),
-                deepDistinctUntilChanged(),
+                distinctUntilChanged(isEqualSerializableArray),
             );
     }
 

@@ -5,7 +5,7 @@ import { DeepPartial } from '../types/deepPartial';
 
 type FeatDataValue = string | number | boolean | Array<string> | Array<number> | null;
 
-const { assign, forExport } = setupSerialization<FeatData>({
+const { assign, forExport, isEqual } = setupSerialization<FeatData>({
     primitives: [
         'level',
         'featName',
@@ -66,6 +66,10 @@ export class FeatData implements Serializable<FeatData> {
 
     public clone(): FeatData {
         return FeatData.from(this);
+    }
+
+    public isEqual(compared: Partial<FeatData>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public setValue(key: string, input: FeatDataValue | Event): void {

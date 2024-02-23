@@ -3,7 +3,7 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<ProficiencyCopy>({
+const { assign, forExport, isEqual } = setupSerialization<ProficiencyCopy>({
     primitives: [
         'name',
         'type',
@@ -40,5 +40,9 @@ export class ProficiencyCopy implements Serializable<ProficiencyCopy> {
 
     public clone(): ProficiencyCopy {
         return ProficiencyCopy.from(this);
+    }
+
+    public isEqual(compared: Partial<ProficiencyCopy>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

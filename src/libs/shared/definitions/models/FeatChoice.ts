@@ -6,7 +6,7 @@ import { DeepPartial } from '../types/deepPartial';
 import { FeatIgnoreRequirements } from './featIgnoreRequirements';
 import { FeatTaken } from './FeatTaken';
 
-const { assign, forExport } = setupSerialization<FeatChoice>({
+const { assign, forExport, isEqual } = setupSerialization<FeatChoice>({
     primitives: [
         'available',
         'bonus',
@@ -125,5 +125,9 @@ export class FeatChoice implements Serializable<FeatChoice> {
 
     public clone(): FeatChoice {
         return FeatChoice.from(this);
+    }
+
+    public isEqual(compared: Partial<FeatChoice>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

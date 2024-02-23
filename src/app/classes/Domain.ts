@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<Domain>({
+const { assign, forExport, isEqual } = setupSerialization<Domain>({
     primitives: [
         'name',
         'desc',
@@ -37,5 +37,9 @@ export class Domain implements Serializable<Domain> {
 
     public clone(): Domain {
         return Domain.from(this);
+    }
+
+    public isEqual(compared: Partial<Domain>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

@@ -6,7 +6,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<AnimalCompanionSpecialization>({
+const { assign, forExport, isEqual } = setupSerialization<AnimalCompanionSpecialization>({
     primitives: [
         'desc', 'level', 'name', 'sourceBook',
     ],
@@ -51,5 +51,9 @@ export class AnimalCompanionSpecialization implements Serializable<AnimalCompani
 
     public clone(): AnimalCompanionSpecialization {
         return AnimalCompanionSpecialization.from(this);
+    }
+
+    public isEqual(compared: Partial<AnimalCompanionSpecialization>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

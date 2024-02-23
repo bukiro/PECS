@@ -23,7 +23,7 @@ import { Serializable } from '../interfaces/serializable';
 import { DeepPartial } from '../types/deepPartial';
 import { RecastFns } from '../interfaces/recastFns';
 
-const { assign, forExport } = setupSerializationWithHelpers<Feat>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<Feat>({
     primitives: [
         'access',
         'weaponfeatbase',
@@ -237,5 +237,9 @@ export class Feat implements Serializable<Feat> {
 
     public clone(recastFns: RecastFns): Feat {
         return Feat.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Feat>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

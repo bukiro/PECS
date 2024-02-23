@@ -3,7 +3,7 @@ import { DeepPartial } from '../types/deepPartial';
 import { setupSerialization } from '../../util/serialization';
 import { Serializable } from '../interfaces/serializable';
 
-const { assign, forExport } = setupSerialization<FeatTaken>({
+const { assign, forExport, isEqual } = setupSerialization<FeatTaken>({
     primitives: [
         'automatic',
         'name',
@@ -42,6 +42,10 @@ export class FeatTaken implements Serializable<FeatTaken> {
 
     public clone(): FeatTaken {
         return FeatTaken.from(this);
+    }
+
+    public isEqual(compared: Partial<FeatTaken>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public isFeature(className: string): boolean {

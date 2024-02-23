@@ -7,7 +7,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<ArmorRune>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<ArmorRune>({
     primitives: [
         'resilient',
         'nonmetallic',
@@ -58,6 +58,10 @@ export class ArmorRune extends Rune implements MessageSerializable<ArmorRune> {
 
     public clone(recastFns: RecastFns): ArmorRune {
         return ArmorRune.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<ArmorRune>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isArmorRune(): this is ArmorRune {

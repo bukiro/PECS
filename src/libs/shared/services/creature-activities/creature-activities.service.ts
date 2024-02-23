@@ -10,9 +10,9 @@ import { HintEffectsObject } from '../../effects-generation/definitions/interfac
 import { sortAlphaNum } from '../../util/sortUtils';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { TraitsDataService } from '../data/traits-data.service';
-import { Observable, combineLatest, map } from 'rxjs';
-import { deepDistinctUntilChanged } from '../../util/observableUtils';
+import { Observable, combineLatest, distinctUntilChanged, map } from 'rxjs';
 import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types';
+import { isEqualSerializableArray } from '../../util/compare-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -213,7 +213,7 @@ export class CreatureActivitiesService {
     public collectActivityEffectHints$(creature: Creature): Observable<Array<HintEffectsObject>> {
         return this.creatureOwnedActivities$(creature, creature.level, true)
             .pipe(
-                deepDistinctUntilChanged(),
+                distinctUntilChanged(isEqualSerializableArray),
                 map(activities =>
                     activities
                         .filter(activity => activity.active)

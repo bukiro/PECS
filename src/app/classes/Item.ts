@@ -44,7 +44,7 @@ export interface ItemData {
     type: 'string' | 'boolean';
 }
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<Item>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Item>({
     primitives: [
         'access',
         'allowEquippable',
@@ -304,6 +304,10 @@ export abstract class Item implements Serializable<Item> {
             // Messages don't include trait activations, as the recipient may want to activate them differently.
             traitActivations: [],
         };
+    }
+
+    public isEqual(compared: Partial<Item>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public canCastSpells(): this is Oil | Potion { return false; }

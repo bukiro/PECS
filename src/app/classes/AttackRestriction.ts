@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<AttackRestriction>({
+const { assign, forExport, isEqual } = setupSerialization<AttackRestriction>({
     primitives: [
         'name', 'special', 'excluding',
     ],
@@ -37,5 +37,9 @@ export class AttackRestriction implements Serializable<AttackRestriction> {
 
     public clone(): AttackRestriction {
         return AttackRestriction.from(this);
+    }
+
+    public isEqual(compared: Partial<AttackRestriction>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

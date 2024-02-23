@@ -16,7 +16,7 @@ enum ShoddyPenalties {
 const shieldAllyBonus = 2;
 const emblazonArmamentBonus = 1;
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<Shield>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Shield>({
     primitives: [
         'moddable',
         'acbonus',
@@ -129,6 +129,10 @@ export class Shield extends Equipment implements MessageSerializable<Shield> {
 
     public clone(recastFns: RecastFns): Shield {
         return Shield.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Shield>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isShield(): this is Shield { return true; }

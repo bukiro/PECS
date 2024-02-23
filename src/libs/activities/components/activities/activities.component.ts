@@ -18,8 +18,9 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { deepDistinctUntilChanged, propMap$ } from 'src/libs/shared/util/observableUtils';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
+import { isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
 
 interface ActivitySet {
     name: string;
@@ -261,7 +262,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
 
         return this._creatureActivitiesService.creatureOwnedActivities$(this.creature)
             .pipe(
-                deepDistinctUntilChanged(),
+                distinctUntilChanged(isEqualSerializableArray),
                 map(gains => {
                     const activitySets: Array<ActivitySet> = [];
                     const uniques: Array<string> = [];

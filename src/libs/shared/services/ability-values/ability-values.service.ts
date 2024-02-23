@@ -7,9 +7,9 @@ import { abilityModFromAbilityValue } from '../../util/abilityUtils';
 import { AbilitiesDataService } from '../data/abilities-data.service';
 import { BonusDescription } from '../../ui/bonus-list';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { addBonusDescriptionFromEffect } from '../../util/bonusDescriptionUtils';
-import { deepDistinctUntilChanged } from '../../util/observableUtils';
+import { isEqualPrimitiveObject, isEqualSerializableArrayWithoutId } from '../../util/compare-utils';
 
 const abilityBoostWeightFull = 2;
 const abilityBoostWeightHalf = 1;
@@ -132,6 +132,9 @@ export class AbilityValuesService {
             return of({ result: 0, bonuses: [] });
         } else {
             const ability = this._normalizeAbilityOrName(abilityOrName);
+            const baseValueIndex = 0;
+            const absolutesIndex = 1;
+            const relativesIndex = 2;
 
             return combineLatest([
                 (
@@ -143,7 +146,11 @@ export class AbilityValuesService {
                 this._creatureEffectsService.relativeEffectsOnThis$(creature, ability.name),
             ])
                 .pipe(
-                    deepDistinctUntilChanged(),
+                    distinctUntilChanged((previous, current) =>
+                        isEqualPrimitiveObject(previous[baseValueIndex], current[baseValueIndex])
+                        && isEqualSerializableArrayWithoutId(previous[absolutesIndex], current[absolutesIndex])
+                        && isEqualSerializableArrayWithoutId(previous[relativesIndex], current[relativesIndex]),
+                    ),
                     map(([effectiveBaseValue, absolutes, relatives]) => {
                         let result: number = effectiveBaseValue.result;
                         let bonuses = effectiveBaseValue.bonuses;

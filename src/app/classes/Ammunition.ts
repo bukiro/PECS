@@ -7,7 +7,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<Ammunition>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Ammunition>({
     primitives: [
         'actions',
         'ammunition',
@@ -57,6 +57,10 @@ export class Ammunition extends Consumable implements MessageSerializable<Ammuni
 
     public clone(recastFns: RecastFns): Ammunition {
         return Ammunition.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Ammunition>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isAmmunition(): this is Ammunition { return true; }

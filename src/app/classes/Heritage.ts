@@ -6,7 +6,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-const { assign, forExport } = setupSerialization<Heritage>({
+const { assign, forExport, isEqual } = setupSerialization<Heritage>({
     primitives: [
         'desc',
         'displayOnly',
@@ -72,5 +72,9 @@ export class Heritage implements Serializable<Heritage> {
 
     public clone(): Heritage {
         return Heritage.from(this);
+    }
+
+    public isEqual(compared: Partial<Heritage>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

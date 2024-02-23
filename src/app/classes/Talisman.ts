@@ -5,7 +5,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerialization<Talisman>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<Talisman>({
     primitives: [
         'critfailure',
         'critsuccess',
@@ -64,6 +64,10 @@ export class Talisman extends Consumable implements MessageSerializable<Talisman
 
     public clone(recastFns: RecastFns): Talisman {
         return Talisman.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Talisman>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public hasSuccessResults(): this is Talisman { return true; }

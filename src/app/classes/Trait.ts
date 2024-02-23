@@ -14,7 +14,7 @@ import { setupSerializationWithHelpers } from 'src/libs/shared/util/serializatio
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-const { assign, forExport } = setupSerializationWithHelpers<Trait>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<Trait>({
     primitives: [
         'desc',
         'effectDesc',
@@ -81,6 +81,10 @@ export class Trait implements Serializable<Trait> {
 
     public clone(recastFns: RecastFns): Trait {
         return Trait.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Trait>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     /**

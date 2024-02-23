@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<LanguageGain>({
+const { assign, forExport, isEqual } = setupSerialization<LanguageGain>({
     primitives: [
         'name',
         'source',
@@ -37,5 +37,9 @@ export class LanguageGain implements Serializable<LanguageGain> {
 
     public clone(): LanguageGain {
         return LanguageGain.from(this);
+    }
+
+    public isEqual(compared: Partial<LanguageGain>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

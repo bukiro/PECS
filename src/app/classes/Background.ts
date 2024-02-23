@@ -6,7 +6,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<Background>({
+const { assign, forExport, isEqual } = setupSerialization<Background>({
     primitives: [
         'desc',
         'feat',
@@ -79,5 +79,9 @@ export class Background implements Serializable<Background> {
 
     public clone(): Background {
         return Background.from(this);
+    }
+
+    public isEqual(compared: Partial<Background>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

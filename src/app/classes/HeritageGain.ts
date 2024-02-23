@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<HeritageGain>({
+const { assign, forExport, isEqual } = setupSerialization<HeritageGain>({
     primitives: [
         'ancestry',
         'source',
@@ -31,5 +31,9 @@ export class HeritageGain implements Serializable<HeritageGain> {
 
     public clone(): HeritageGain {
         return HeritageGain.from(this);
+    }
+
+    public isEqual(compared: Partial<HeritageGain>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

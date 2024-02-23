@@ -3,7 +3,7 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<BloodMagic>({
+const { assign, forExport, isEqual } = setupSerialization<BloodMagic>({
     primitives: [
         'condition', 'duration', 'neutralPhrase',
     ],
@@ -38,5 +38,9 @@ export class BloodMagic implements Serializable<BloodMagic> {
 
     public clone(): BloodMagic {
         return BloodMagic.from(this);
+    }
+
+    public isEqual(compared: Partial<BloodMagic>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

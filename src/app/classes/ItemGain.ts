@@ -5,7 +5,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<ItemGain>({
+const { assign, forExport, isEqual } = setupSerialization<ItemGain>({
     primitives: [
         'amount',
         'amountPerLevel',
@@ -89,6 +89,10 @@ export class ItemGain implements Serializable<ItemGain> {
 
     public clone(): ItemGain {
         return ItemGain.from(this);
+    }
+
+    public isEqual(compared: Partial<ItemGain>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public isMatchingItem(item: Item): boolean {

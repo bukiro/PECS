@@ -5,7 +5,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerialization<Snare>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<Snare>({
     primitives: [
         'critfailure',
         'critsuccess',
@@ -53,6 +53,10 @@ export class Snare extends Consumable implements MessageSerializable<Snare> {
 
     public clone(recastFns: RecastFns): Snare {
         return Snare.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Snare>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isSnare(): this is Snare { return true; }

@@ -3,7 +3,7 @@ import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Heritage } from './Heritage';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
-const { assign, forExport } = setupSerialization<AdditionalHeritage>({
+const { assign, forExport, isEqual } = setupSerialization<AdditionalHeritage>({
     primitives: [
         'source',
         'charLevelAvailable',
@@ -35,5 +35,9 @@ export class AdditionalHeritage extends Heritage implements Serializable<Additio
 
     public clone(): AdditionalHeritage {
         return AdditionalHeritage.from(this);
+    }
+
+    public isEqual(compared: Partial<AdditionalHeritage>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 }

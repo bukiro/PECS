@@ -16,7 +16,7 @@ import { setupSerializationWithHelpers } from 'src/libs/shared/util/serializatio
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<Weapon>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Weapon>({
     primitives: [
         'type',
         'moddable',
@@ -235,6 +235,10 @@ export class Weapon extends Equipment implements MessageSerializable<Weapon> {
 
     public clone(recastFns: RecastFns): Weapon {
         return Weapon.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Weapon>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isWeapon(): this is Weapon { return true; }

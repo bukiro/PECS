@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<ConditionDuration>({
+const { assign, forExport, isEqual } = setupSerialization<ConditionDuration>({
     primitives: [
         'duration',
         'minLevel',
@@ -31,5 +31,9 @@ export class ConditionDuration implements Serializable<ConditionDuration> {
 
     public clone(): ConditionDuration {
         return ConditionDuration.from(this);
+    }
+
+    public isEqual(compared: Partial<ConditionDuration>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

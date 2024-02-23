@@ -5,7 +5,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerialization<AdventuringGear>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<AdventuringGear>({
     primitives: [
         'equippable',
         'hands',
@@ -57,6 +57,10 @@ export class AdventuringGear extends Equipment implements MessageSerializable<Ad
 
     public clone(recastFns: RecastFns): AdventuringGear {
         return AdventuringGear.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<AdventuringGear>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isAdventuringGear(): this is AdventuringGear { return true; }

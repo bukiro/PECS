@@ -10,8 +10,8 @@ import { Item } from 'src/app/classes/Item';
 import { Material } from 'src/app/classes/Material';
 import { WornItem } from 'src/app/classes/WornItem';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
-import { deepDistinctUntilChangedWithoutID } from 'src/libs/shared/util/observableUtils';
+import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
+import { isEqualSerializableArrayWithoutId } from 'src/libs/shared/util/compare-utils';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -164,7 +164,7 @@ export class ObjectEffectsGenerationService {
                 map(effects =>
                     effects.filter((effect): effect is Effect => !!effect),
                 ),
-                deepDistinctUntilChangedWithoutID(),
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
             );
     }
 

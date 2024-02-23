@@ -4,7 +4,7 @@ import { maxSkillLevel } from 'src/libs/shared/definitions/skillLevels';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<SkillChoice>({
+const { assign, forExport, isEqual } = setupSerialization<SkillChoice>({
     primitives: [
         'available',
         'bonus',
@@ -81,5 +81,9 @@ export class SkillChoice implements Serializable<SkillChoice> {
 
     public clone(): SkillChoice {
         return SkillChoice.from(this);
+    }
+
+    public isEqual(compared: Partial<SkillChoice>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

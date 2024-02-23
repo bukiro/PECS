@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<Speed>({
+const { assign, forExport, isEqual } = setupSerialization<Speed>({
     primitives: [
         'source',
         'name',
@@ -33,5 +33,9 @@ export class Speed implements Serializable<Speed> {
 
     public clone(): Speed {
         return Speed.from(this);
+    }
+
+    public isEqual(compared: Partial<Speed>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

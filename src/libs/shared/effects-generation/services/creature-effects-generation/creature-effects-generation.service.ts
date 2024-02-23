@@ -6,10 +6,11 @@ import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-da
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { Observable, combineLatest, map, of } from 'rxjs';
+import { Observable, combineLatest, distinctUntilChanged, map, of } from 'rxjs';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { deepDistinctUntilChanged, propMap$ } from 'src/libs/shared/util/observableUtils';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { Familiar } from 'src/app/classes/Familiar';
+import { isEqualArray, isEqualSerializable, isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
 
 interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;
@@ -47,7 +48,15 @@ export class CreatureEffectsGenerationService {
             });
         })()
             .pipe(
-                deepDistinctUntilChanged(),
+                distinctUntilChanged((previous, current) =>
+                    isEqualSerializableArray(previous.feats, current.feats)
+                    && isEqualArray<HintEffectsObject>((previousObj, currentObj) =>
+                        previousObj.objectName === currentObj.objectName
+                        && isEqualSerializable(previousObj.hint, currentObj.hint)
+                        && isEqualSerializable(previousObj.parentItem, currentObj.parentItem)
+                        && isEqualSerializable(previousObj.parentConditionGain, currentObj.parentConditionGain),
+                    )(previous.hintSets, current.hintSets),
+                ),
             );
 
 

@@ -10,7 +10,7 @@ import { setupSerializationWithHelpers } from 'src/libs/shared/util/serializatio
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<Rune>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Rune>({
     primitives: [
         'desc',
         'potency',
@@ -83,6 +83,10 @@ export abstract class Rune extends Item implements Serializable<Rune> {
             ...super.forMessage(),
             ...forMessage(this),
         };
+    }
+
+    public isEqual(compared: Partial<Rune>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public canStack(): boolean {

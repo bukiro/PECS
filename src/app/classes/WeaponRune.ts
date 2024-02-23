@@ -5,7 +5,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerialization<WeaponRune>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<WeaponRune>({
     primitives: [
         'alignmentPenalty',
         'critfailure',
@@ -77,6 +77,10 @@ export class WeaponRune extends Rune implements MessageSerializable<WeaponRune> 
 
     public clone(recastFns: RecastFns): WeaponRune {
         return WeaponRune.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<WeaponRune>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isWeaponRune(): this is WeaponRune {

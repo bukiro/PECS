@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<Savegame>({
+const { assign, forExport, isEqual } = setupSerialization<Savegame>({
     primitives: [
         'name',
         'dbId',
@@ -53,5 +53,9 @@ export class Savegame implements Serializable<Savegame> {
 
     public clone(): Savegame {
         return Savegame.from(this);
+    }
+
+    public isEqual(compared: Partial<Savegame>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

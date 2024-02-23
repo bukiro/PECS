@@ -6,7 +6,7 @@ import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
-const { assign, forExport, forMessage } = setupSerialization<Potion>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<Potion>({
     serializableArrays: {
         castSpells:
             () => obj => SpellCast.from(obj),
@@ -45,5 +45,9 @@ export class Potion extends Consumable implements MessageSerializable<Potion> {
 
     public clone(recastFns: RecastFns): Potion {
         return Potion.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Potion>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 }

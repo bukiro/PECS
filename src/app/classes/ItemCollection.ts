@@ -62,7 +62,7 @@ const itemListsKeys: Array<ItemTypes> = [
     'wornitems',
 ];
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<ItemCollection>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<ItemCollection>({
     primitives: [
         'bulkReduction',
         'id',
@@ -505,6 +505,10 @@ export class ItemCollection implements MessageSerializable<ItemCollection> {
 
     public clone(recastFns: RecastFns): ItemCollection {
         return ItemCollection.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<ItemCollection>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public allEquipment(): Array<Equipment> {

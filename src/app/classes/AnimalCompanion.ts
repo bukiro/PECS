@@ -15,7 +15,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 
-const { assign, forExport } = setupSerializationWithHelpers<AnimalCompanion>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<AnimalCompanion>({
     primitives: [
         'species',
     ],
@@ -87,6 +87,10 @@ export class AnimalCompanion extends Creature implements Serializable<AnimalComp
 
     public clone(recastFns: RecastFns): AnimalCompanion {
         return AnimalCompanion.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<AnimalCompanion>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isAnimalCompanion(): this is AnimalCompanion {

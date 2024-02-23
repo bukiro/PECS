@@ -6,7 +6,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 
-const { assign, forExport } = setupSerialization<Ancestry>({
+const { assign, forExport, isEqual } = setupSerialization<Ancestry>({
     primitives: [
         'disabled', 'warning', 'baseLanguages', 'hitPoints', 'name', 'sourceBook', 'size',
     ],
@@ -72,5 +72,9 @@ export class Ancestry implements Serializable<Ancestry> {
 
     public clone(): Ancestry {
         return Ancestry.from(this);
+    }
+
+    public isEqual(compared: Partial<Ancestry>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<ConditionChoice>({
+const { assign, forExport, isEqual } = setupSerialization<ConditionChoice>({
     primitives: [
         'name',
         'defaultDuration',
@@ -49,5 +49,9 @@ export class ConditionChoice implements Serializable<ConditionChoice> {
 
     public clone(): ConditionChoice {
         return ConditionChoice.from(this);
+    }
+
+    public isEqual(compared: Partial<ConditionChoice>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

@@ -6,7 +6,7 @@ import { setupSerializationWithHelpers } from 'src/libs/shared/util/serializatio
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
-const { assign, forExport } = setupSerializationWithHelpers<Consumable>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<Consumable>({
     primitives: [
         'actions',
         'activationType',
@@ -55,6 +55,10 @@ export abstract class Consumable extends Item implements Serializable<Consumable
             ...super.forExport(),
             ...forExport(this),
         };
+    }
+
+    public isEqual(compared: Partial<Consumable>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isConsumable(): this is Consumable { return true; }

@@ -54,12 +54,13 @@ export const setupSerialization = <T extends object>(properties: {
     assign: (obj: T, values: DeepPartial<T>) => void;
     forExport: (obj: T) => DeepPartial<T>;
     forMessage: (obj: T) => DeepPartial<T>;
+    isEqual: (a: T, b: Partial<T>, options?: { withoutId?: boolean }) => boolean;
 } => ({
     assign: (obj: T, values: DeepPartial<T>) => {
-        forImport.primitiveProperties<T>(obj, values, properties.primitives ?? []);
-        forImport.primitiveArrayProperties<T>(obj, values, properties.primitiveArrays ?? []);
-        forImport.primitiveObjectProperties<T>(obj, values, properties.primitiveObjects ?? []);
-        forImport.primitiveObjectArrayProperties<T>(obj, values, properties.primitiveObjectArrays ?? []);
+        forImport.primitiveProperties<T>(obj, values, properties.primitives);
+        forImport.primitiveArrayProperties<T>(obj, values, properties.primitiveArrays);
+        forImport.primitiveObjectProperties<T>(obj, values, properties.primitiveObjects);
+        forImport.primitiveObjectArrayProperties<T>(obj, values, properties.primitiveObjectArrays);
 
         forEachMember(properties.serializables ?? {}, (key, fn) => {
             if (fn) {
@@ -107,25 +108,34 @@ export const setupSerialization = <T extends object>(properties: {
         });
     },
     forExport: (obj: T) => ({
-        ...forExport.primitiveProperties(obj, properties.primitives ?? []),
-        ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays ?? []),
-        ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects ?? []),
-        ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays ?? []),
-        ...forExport.serializableProperties(obj, properties.serializables ?? {}),
-        ...forExport.serializableArrayProperties(obj, properties.serializableArrays ?? {}),
-        ...forExport.serializableProperties(obj, properties.messageSerializables ?? {}),
-        ...forExport.serializableArrayProperties(obj, properties.messageSerializableArrays ?? {}),
+        ...forExport.primitiveProperties(obj, properties.primitives),
+        ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays),
+        ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects),
+        ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays),
+        ...forExport.serializableProperties(obj, properties.serializables),
+        ...forExport.serializableArrayProperties(obj, properties.serializableArrays),
+        ...forExport.serializableProperties(obj, properties.messageSerializables),
+        ...forExport.serializableArrayProperties(obj, properties.messageSerializableArrays),
     }),
     forMessage: (obj: T) => ({
-        ...forExport.primitiveProperties(obj, properties.primitives ?? []),
-        ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays ?? []),
-        ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects ?? []),
-        ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays ?? []),
-        ...forExport.serializableProperties(obj, properties.serializables ?? {}),
-        ...forExport.serializableArrayProperties(obj, properties.serializableArrays ?? {}),
-        ...forExport.messageSerializableProperties(obj, properties.messageSerializables ?? {}),
-        ...forExport.messageSerializableArrayProperties(obj, properties.messageSerializableArrays ?? {}),
+        ...forExport.primitiveProperties(obj, properties.primitives),
+        ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays),
+        ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects),
+        ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays),
+        ...forExport.serializableProperties(obj, properties.serializables),
+        ...forExport.serializableArrayProperties(obj, properties.serializableArrays),
+        ...forExport.messageSerializableProperties(obj, properties.messageSerializables),
+        ...forExport.messageSerializableArrayProperties(obj, properties.messageSerializableArrays),
     }),
+    isEqual: (a: T, b: Partial<T>, options?: { withoutId?: boolean }) =>
+        isEqual.primitiveProperties(a, b, properties.primitives, options?.withoutId)
+        && isEqual.primitiveArrayProperties(a, b, properties.primitiveArrays)
+        && isEqual.primitiveObjectProperties(a, b, properties.primitiveObjects)
+        && isEqual.primitiveObjectArrayProperties(a, b, properties.primitiveObjectArrays)
+        && isEqual.serializableProperties(a, b, properties.serializables)
+        && isEqual.serializableArrayProperties(a, b, properties.serializableArrays)
+        && isEqual.serializableProperties(a, b, properties.messageSerializables)
+        && isEqual.serializableArrayProperties(a, b, properties.messageSerializableArrays),
 });
 
 export const setupSerializationWithHelpers = <T extends object>(properties: {
@@ -135,18 +145,19 @@ export const setupSerializationWithHelpers = <T extends object>(properties: {
     primitiveObjectArrays?: Array<PrimitiveObjectArrayKey<T>>;
     serializables?: SerializableSetWithHelpers<T>;
     serializableArrays?: SerializableArraySetWithHelpers<T>;
-    messageSerializable?: SerializableSetWithHelpers<T>;
+    messageSerializables?: SerializableSetWithHelpers<T>;
     messageSerializableArrays?: SerializableArraySetWithHelpers<T>;
 }): {
     assign: (obj: T, values: DeepPartial<T>, recastFns: RecastFns) => void;
     forExport: (obj: T) => DeepPartial<T>;
     forMessage: (obj: T) => DeepPartial<T>;
+    isEqual: (a: T, b: Partial<T>, options?: { withoutId?: boolean }) => boolean;
 } => ({
     assign: (obj: T, values: DeepPartial<T>, recastFns: RecastFns) => {
-        forImport.primitiveProperties<T>(obj, values, properties.primitives ?? []);
-        forImport.primitiveArrayProperties<T>(obj, values, properties.primitiveArrays ?? []);
-        forImport.primitiveObjectProperties<T>(obj, values, properties.primitiveObjects ?? []);
-        forImport.primitiveObjectArrayProperties<T>(obj, values, properties.primitiveObjectArrays ?? []);
+        forImport.primitiveProperties<T>(obj, values, properties.primitives);
+        forImport.primitiveArrayProperties<T>(obj, values, properties.primitiveArrays);
+        forImport.primitiveObjectProperties<T>(obj, values, properties.primitiveObjects);
+        forImport.primitiveObjectArrayProperties<T>(obj, values, properties.primitiveObjectArrays);
 
         forEachMember(properties.serializables ?? {}, (key, fn) => {
             if (fn) {
@@ -172,7 +183,7 @@ export const setupSerializationWithHelpers = <T extends object>(properties: {
             }
         });
 
-        forEachMember(properties.messageSerializable ?? {}, (key, fn) => {
+        forEachMember(properties.messageSerializables ?? {}, (key, fn) => {
             if (fn) {
                 forImport.serializablePropertyWithHelpers(
                     obj,
@@ -197,25 +208,34 @@ export const setupSerializationWithHelpers = <T extends object>(properties: {
         });
     },
     forExport: (obj: T) => ({
-        ...forExport.primitiveProperties(obj, properties.primitives ?? []),
-        ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays ?? []),
-        ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects ?? []),
-        ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays ?? []),
-        ...forExport.serializableProperties(obj, properties.serializables ?? {}),
-        ...forExport.serializableArrayProperties(obj, properties.serializableArrays ?? {}),
-        ...forExport.serializableProperties(obj, properties.messageSerializable ?? {}),
-        ...forExport.serializableArrayProperties(obj, properties.messageSerializableArrays ?? {}),
+        ...forExport.primitiveProperties(obj, properties.primitives),
+        ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays),
+        ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects),
+        ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays),
+        ...forExport.serializableProperties(obj, properties.serializables),
+        ...forExport.serializableArrayProperties(obj, properties.serializableArrays),
+        ...forExport.serializableProperties(obj, properties.messageSerializables),
+        ...forExport.serializableArrayProperties(obj, properties.messageSerializableArrays),
     }),
     forMessage: (obj: T) => ({
-        ...forExport.primitiveProperties(obj, properties.primitives ?? []),
-        ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays ?? []),
-        ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects ?? []),
-        ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays ?? []),
-        ...forExport.serializableProperties(obj, properties.serializables ?? {}),
-        ...forExport.serializableArrayProperties(obj, properties.serializableArrays ?? {}),
-        ...forExport.messageSerializableProperties(obj, properties.messageSerializable ?? {}),
-        ...forExport.messageSerializableArrayProperties(obj, properties.messageSerializableArrays ?? {}),
+        ...forExport.primitiveProperties(obj, properties.primitives),
+        ...forExport.primitiveArrayProperties(obj, properties.primitiveArrays),
+        ...forExport.primitiveObjectProperties(obj, properties.primitiveObjects),
+        ...forExport.primitiveObjectArrayProperties(obj, properties.primitiveObjectArrays),
+        ...forExport.serializableProperties(obj, properties.serializables),
+        ...forExport.serializableArrayProperties(obj, properties.serializableArrays),
+        ...forExport.messageSerializableProperties(obj, properties.messageSerializables),
+        ...forExport.messageSerializableArrayProperties(obj, properties.messageSerializableArrays),
     }),
+    isEqual: (a: T, b: Partial<T>, options?: { withoutId?: boolean }) =>
+        isEqual.primitiveProperties(a, b, properties.primitives, options?.withoutId)
+        && isEqual.primitiveArrayProperties(a, b, properties.primitiveArrays)
+        && isEqual.primitiveObjectProperties(a, b, properties.primitiveObjects)
+        && isEqual.primitiveObjectArrayProperties(a, b, properties.primitiveObjectArrays)
+        && isEqual.serializableProperties(a, b, properties.serializables)
+        && isEqual.serializableArrayProperties(a, b, properties.serializableArrays)
+        && isEqual.serializableProperties(a, b, properties.messageSerializables)
+        && isEqual.serializableArrayProperties(a, b, properties.messageSerializableArrays),
 });
 
 namespace forImport {
@@ -223,7 +243,7 @@ namespace forImport {
         <T extends object>(
             obj: T,
             values: DeepPartial<T>,
-            keys: Array<PrimitiveKey<T>>,
+            keys: Array<PrimitiveKey<T>> = [],
         ): void => {
             for (const key of keys) {
                 const value = values[key];
@@ -238,7 +258,7 @@ namespace forImport {
         <T extends object>(
             obj: T,
             values: DeepPartial<T>,
-            keys: Array<PrimitiveArrayKey<T>>,
+            keys: Array<PrimitiveArrayKey<T>> = [],
         ): void => {
             keys.forEach(key => {
                 const value = values[key];
@@ -253,7 +273,7 @@ namespace forImport {
         <T extends object>(
             obj: T,
             values: DeepPartial<T>,
-            keys: Array<PrimitiveObjectKey<T>>,
+            keys: Array<PrimitiveObjectKey<T>> = [],
         ): void => {
             for (const key of keys) {
                 const value = values[key];
@@ -268,7 +288,7 @@ namespace forImport {
         <T extends object>(
             obj: T,
             values: DeepPartial<T>,
-            keys: Array<PrimitiveObjectArrayKey<T>>,
+            keys: Array<PrimitiveObjectArrayKey<T>> = [],
         ): void => {
             for (const key of keys) {
                 const value = values[key];
@@ -348,7 +368,7 @@ export namespace forExport {
     export const primitiveProperties =
         <T extends object>(
             obj: T,
-            keys: Array<PrimitiveKey<T>>,
+            keys: Array<PrimitiveKey<T>> = [],
         ): DeepPartial<T> =>
             keys.reduce(
                 (previous, current) => ({
@@ -360,7 +380,7 @@ export namespace forExport {
     export const primitiveArrayProperties =
         <T extends object>(
             obj: T,
-            keys: Array<PrimitiveArrayKey<T>>,
+            keys: Array<PrimitiveArrayKey<T>> = [],
         ): DeepPartial<T> =>
             keys.reduce(
                 (previous, current) => ({
@@ -372,7 +392,7 @@ export namespace forExport {
     export const primitiveObjectProperties =
         <T extends object>(
             obj: T,
-            keys: Array<PrimitiveObjectKey<T>>,
+            keys: Array<PrimitiveObjectKey<T>> = [],
         ): DeepPartial<T> =>
             keys.reduce(
                 (previous, current) => ({
@@ -384,7 +404,7 @@ export namespace forExport {
     export const primitiveObjectArrayProperties =
         <T extends object>(
             obj: T,
-            keys: Array<PrimitiveObjectArrayKey<T>>,
+            keys: Array<PrimitiveObjectArrayKey<T>> = [],
         ): DeepPartial<T> =>
             keys.reduce(
                 (previous, current) => ({
@@ -396,7 +416,7 @@ export namespace forExport {
     export const serializableProperties =
         <T extends object>(
             obj: T,
-            keySets: AnySerializableSet<T>,
+            keySets: AnySerializableSet<T> = {},
         ): DeepPartial<T> =>
             (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
@@ -409,7 +429,7 @@ export namespace forExport {
     export const serializableArrayProperties =
         <T extends object>(
             obj: T,
-            keySets: AnySerializableArraySet<T>,
+            keySets: AnySerializableArraySet<T> = {},
         ): DeepPartial<T> =>
             (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
@@ -422,7 +442,7 @@ export namespace forExport {
     export const messageSerializableProperties =
         <T extends object>(
             obj: T,
-            keySets: AnySerializableSet<T>,
+            keySets: AnySerializableSet<T> = {},
         ): DeepPartial<T> =>
             (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
@@ -435,7 +455,7 @@ export namespace forExport {
     export const messageSerializableArrayProperties =
         <T extends object>(
             obj: T,
-            keySets: AnySerializableArraySet<T>,
+            keySets: AnySerializableArraySet<T> = {},
         ): DeepPartial<T> =>
             (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
@@ -444,4 +464,154 @@ export namespace forExport {
                         [current]: [...(obj[current] as Array<MessageSerializable<unknown>>).map(member => member.forMessage())],
                     }), {},
                 );
+}
+
+namespace isEqual {
+    export const primitiveProperties =
+        <T extends object>(
+            a: T,
+            b: Partial<T>,
+            keys: Array<PrimitiveKey<T>> = [],
+            withoutId?: boolean,
+        ): boolean => keys
+            .filter(key => withoutId ? key !== 'id' : true)
+            .every(key => a[key] === b[key]);
+
+    export const primitiveArrayProperties =
+        <T extends object>(
+            a: T,
+            b: Partial<T>,
+            keys: Array<PrimitiveArrayKey<T>> = [],
+        ): boolean => keys.every(key => {
+            const valuesA = a[key];
+            const valuesB = b[key];
+
+            if (!!valuesA !== !!valuesB) {
+                return false;
+            }
+
+            if (!valuesA && !valuesB) {
+                return true;
+            }
+
+            if (Array.isArray(valuesA) && Array.isArray(valuesB)) {
+                if (valuesA.length !== valuesB.length) {
+                    return false;
+                }
+
+                return valuesA.every((_, index) => valuesA[index] === valuesB[index]);
+            }
+        });
+
+    export const primitiveObjectProperties =
+        <T extends object>(
+            a: T,
+            b: Partial<T>,
+            keys: Array<PrimitiveObjectKey<T>> = [],
+        ): boolean => keys.every(key => {
+            const valueA = a[key];
+            const valueB = b[key];
+
+            if (!!valueA !== !!valueB) {
+                return false;
+            }
+
+            if (!valueA && !valueB) {
+                return true;
+            }
+
+            if (typeof valueA !== typeof valueB) {
+                return false;
+            }
+
+            if (typeof valueA === 'object' && typeof valueB === 'object') {
+                return JSON.stringify(valueA) === JSON.stringify(valueB);
+            }
+
+            return false;
+        });
+
+    export const primitiveObjectArrayProperties =
+        <T extends object>(
+            a: T,
+            b: Partial<T>,
+            keys: Array<PrimitiveObjectArrayKey<T>> = [],
+        ): boolean => keys.every(key => {
+            const valuesA = a[key];
+            const valuesB = b[key];
+
+            if (!!valuesA !== !!valuesB) {
+                return false;
+            }
+
+            if (!valuesA && !valuesB) {
+                return true;
+            }
+
+            if (Array.isArray(valuesA) && Array.isArray(valuesB)) {
+                if (valuesA.length !== valuesB.length) {
+                    return false;
+                }
+
+                return valuesA.every((_, index) =>
+                    JSON.stringify(valuesA[index]) === JSON.stringify(valuesB[index]),
+                );
+            }
+
+            return false;
+        });
+
+    export const serializableProperties =
+        <T extends object>(
+            a: T,
+            b: Partial<T>,
+            keySets: AnySerializableSet<T> = {},
+        ): boolean =>
+            (Object.keys(keySets) as Array<keyof typeof keySets>)
+                .every(key => {
+                    const valueA = a[key] as Serializable<unknown>;
+                    const valueB = b[key] as Serializable<unknown>;
+
+                    if (!!valueA !== !!valueB) {
+                        return false;
+                    }
+
+                    if (!valueA && !valueB) {
+                        return true;
+                    }
+
+                    return valueA.isEqual(valueB);
+                });
+
+    export const serializableArrayProperties =
+        <T extends object>(
+            a: T,
+            b: Partial<T>,
+            keySets: AnySerializableArraySet<T> = {},
+        ): boolean =>
+            (Object.keys(keySets) as Array<keyof typeof keySets>)
+                .every(key => {
+                    const valuesA = a[key] as Array<Serializable<unknown>>;
+                    const valuesB = b[key] as Array<Serializable<unknown>> | undefined;
+
+                    if (!!valuesA !== !!valuesB) {
+                        return false;
+                    }
+
+                    if (!valuesA && !valuesB) {
+                        return true;
+                    }
+
+                    if (Array.isArray(valuesA) && Array.isArray(valuesB)) {
+                        if (valuesA.length !== valuesB.length) {
+                            return false;
+                        }
+
+                        return valuesA.every((_, index) =>
+                            valuesA[index].isEqual(valuesB[index]),
+                        );
+                    }
+
+                    return false;
+                });
 }

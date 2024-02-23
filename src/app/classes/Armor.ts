@@ -13,7 +13,7 @@ import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/seri
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<Armor>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Armor>({
     primitives: [
         'armorBase',
         'dexcap',
@@ -156,6 +156,10 @@ export class Armor extends Equipment implements MessageSerializable<Armor> {
 
     public clone(recastFns: RecastFns): Armor {
         return Armor.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Armor>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isArmor(): this is Armor { return true; }

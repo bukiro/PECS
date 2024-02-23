@@ -23,7 +23,7 @@ import { setupSerializationWithHelpers } from 'src/libs/shared/util/serializatio
 
 interface IgnoredMessage { id: string; ttl: number }
 
-const { assign, forExport } = setupSerializationWithHelpers<Character>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<Character>({
     primitives: [
         'appVersionMajor',
         'appVersion',
@@ -198,6 +198,10 @@ export class Character extends Creature implements Serializable<Character> {
 
     public clone(recastFns: RecastFns): Character {
         return Character.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Character>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isCharacter(): this is Character {

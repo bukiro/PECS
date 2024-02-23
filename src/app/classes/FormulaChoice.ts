@@ -18,4 +18,8 @@ export class FormulaChoice implements Serializable<FormulaChoice> {
     public clone(): FormulaChoice {
         return FormulaChoice.from(this);
     }
+
+    public isEqual(compared: Partial<FormulaChoice>, options?: { withoutId?: boolean }): boolean {
+        return this === compared;
+    }
 }

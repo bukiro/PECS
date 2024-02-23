@@ -6,7 +6,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerialization<AlchemicalBomb>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<AlchemicalBomb>({
     primitives: [
         'actions',
         'activationType',
@@ -56,6 +56,10 @@ export class AlchemicalBomb extends Weapon implements MessageSerializable<Alchem
 
     public clone(recastFns: RecastFns): AlchemicalBomb {
         return AlchemicalBomb.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<AlchemicalBomb>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isAlchemicalBomb(): this is AlchemicalBomb { return true; }

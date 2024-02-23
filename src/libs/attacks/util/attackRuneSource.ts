@@ -1,9 +1,9 @@
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
-import { deepDistinctUntilChanged } from 'src/libs/shared/util/observableUtils';
+import { isEqualArray, isEqualSerializable, isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
 
 export interface RuneSourceSet {
     forFundamentalRunes: Weapon | WornItem;
@@ -24,7 +24,7 @@ export interface RuneSourceSet {
 export const attackRuneSource$ = (weapon: Weapon, creature: Creature, range: string): Observable<RuneSourceSet> =>
     creature.inventories[0].activeWornItems$
         .pipe(
-            deepDistinctUntilChanged(),
+            distinctUntilChanged(isEqualSerializableArray),
             switchMap(activeWornItems => {
                 let runeSource: RuneSourceSet = { forFundamentalRunes: weapon, forPropertyRunes: weapon };
 
@@ -53,11 +53,21 @@ export const attackRuneSource$ = (weapon: Weapon, creature: Creature, range: str
                                             map(data => ({ item, data })),
                                         ),
                                 ),
-                        ),
-                        creature.inventories[0].equippedWeapons$,
+                        )
+                            .pipe(
+                                distinctUntilChanged(
+                                    isEqualArray((a, b) =>
+                                        JSON.parse(JSON.stringify(a.data)) === JSON.parse(JSON.stringify(b.data))
+                                        && isEqualSerializable(a.item, b.item),
+                                    ),
+                                ),
+                            ),
+                        creature.inventories[0].equippedWeapons$
+                            .pipe(
+                                distinctUntilChanged(isEqualSerializableArray),
+                            ),
                     ])
                         .pipe(
-                            deepDistinctUntilChanged(),
                             map(([doublingRingsDataSets, equippedWeapons]) => {
                                 const matchingDataSet =
                                     doublingRingsDataSets

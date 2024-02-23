@@ -6,7 +6,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<Wand>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Wand>({
     primitives: [
         'actions',
         'frequency',
@@ -59,6 +59,10 @@ export class Wand extends Equipment implements MessageSerializable<Wand> {
 
     public clone(recastFns: RecastFns): Wand {
         return Wand.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Wand>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isWand(): this is Wand { return true; }

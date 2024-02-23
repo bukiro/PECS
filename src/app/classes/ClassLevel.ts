@@ -6,7 +6,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<ClassLevel>({
+const { assign, forExport, isEqual } = setupSerialization<ClassLevel>({
     primitives: [
         'number',
     ],
@@ -48,6 +48,10 @@ export class ClassLevel implements Serializable<ClassLevel> {
 
     public clone(): ClassLevel {
         return ClassLevel.from(this);
+    }
+
+    public isEqual(compared: Partial<ClassLevel>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public addAbilityChoice(newChoice: AbilityChoice): AbilityChoice {

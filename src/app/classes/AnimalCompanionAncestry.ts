@@ -8,7 +8,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerializationWithHelpers<AnimalCompanionAncestry>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<AnimalCompanionAncestry>({
     primitives: [
         'desc', 'hitPoints', 'name', 'size', 'sourceBook', 'specialdesc', 'supportBenefit',
     ],
@@ -72,5 +72,9 @@ export class AnimalCompanionAncestry implements Serializable<AnimalCompanionAnce
 
     public clone(recastFns: RecastFns): AnimalCompanionAncestry {
         return AnimalCompanionAncestry.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<AnimalCompanionAncestry>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

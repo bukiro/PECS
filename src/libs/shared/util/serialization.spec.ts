@@ -2,7 +2,7 @@ import { MessageSerializable } from '../definitions/interfaces/serializable';
 import { DeepPartial } from '../definitions/types/deepPartial';
 import { setupSerialization } from './serialization';
 
-const { assign, forExport, forMessage } = setupSerialization<SerializationTestClass>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<SerializationTestClass>({
     primitives: [
         'stringProperty',
         'numberProperty',
@@ -91,6 +91,10 @@ class SerializationTestClass implements MessageSerializable<SerializationTestCla
 
     public clone(): SerializationTestClass {
         return SerializationTestClass.from(this);
+    }
+
+    public isEqual(compared: Partial<SerializationTestClass>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }
 

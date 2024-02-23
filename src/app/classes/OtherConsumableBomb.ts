@@ -22,5 +22,9 @@ export class OtherConsumableBomb extends AlchemicalBomb implements MessageSerial
         return OtherConsumableBomb.from(this, recastFns);
     }
 
+    public isEqual(compared: Partial<OtherConsumableBomb>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options);
+    }
+
     public isOtherConsumableBomb(): this is OtherConsumableBomb { return true; }
 }

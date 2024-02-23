@@ -85,7 +85,6 @@ export class CharacterLanguagesService {
     private _languagesFromFeats$(character: Character): Observable<Array<LanguageSource>> {
         return this._characterFeatsService.characterFeatsTakenWithContext$()
             .pipe(
-                deepDistinctUntilChanged(),
                 switchMap(featsTaken => combineLatest(
                     featsTaken
                         .map(featTaken =>
@@ -343,7 +342,6 @@ export class CharacterLanguagesService {
                     this._languagesFromFeats$(character),
                     this._languagesFromEffects$(character),
                 ])),
-                deepDistinctUntilChanged(),
             )
             .subscribe(([
                 characterClass,
@@ -352,6 +350,9 @@ export class CharacterLanguagesService {
                 languagesFromFeats,
                 languagesFromEffects,
             ]) => {
+                // TO-DO: This never seems to run? And if it did, it would mutate the class and run again right away.
+                //   This needs to be looked at very carefully.
+
                 // Collect everything that gives you free languages, and the level on which it happens.
                 // This will allow us to mark languages as available depending on their level.
                 const languageSources = new Array<LanguageSource>()

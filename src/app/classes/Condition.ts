@@ -37,7 +37,7 @@ export interface OtherConditionSelection {
     typeFilter?: Array<string>;
 }
 
-const { assign, forExport } = setupSerializationWithHelpers<Condition>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<Condition>({
     primitives: [
         'name',
         'type',
@@ -235,6 +235,10 @@ export class Condition implements Serializable<Condition> {
 
     public clone(recastFns: RecastFns): Condition {
         return Condition.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Condition>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public conditionOverrides(gain?: ConditionGain): Array<ConditionOverride> {

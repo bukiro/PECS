@@ -21,4 +21,8 @@ export class AlchemicalTool extends Consumable implements MessageSerializable<Al
     public clone(recastFns: RecastFns): AlchemicalTool {
         return AlchemicalTool.from(this, recastFns);
     }
+
+    public isEqual(compared: Partial<AlchemicalTool>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options);
+    }
 }

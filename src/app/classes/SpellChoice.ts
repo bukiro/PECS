@@ -7,7 +7,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<SpellChoice>({
+const { assign, forExport, isEqual } = setupSerialization<SpellChoice>({
     primitives: [
         'available',
         'dynamicAvailable',
@@ -181,6 +181,10 @@ export class SpellChoice implements Serializable<SpellChoice> {
 
     public clone(): SpellChoice {
         return SpellChoice.from(this);
+    }
+
+    public isEqual(compared: Partial<SpellChoice>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public addSpell(

@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<Skill>({
+const { assign, forExport, isEqual } = setupSerialization<Skill>({
     primitives: [
         'notes',
         'showNotes',
@@ -46,5 +46,9 @@ export class Skill implements Serializable<Skill> {
 
     public clone(): Skill {
         return Skill.from(this);
+    }
+
+    public isEqual(compared: Partial<Skill>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

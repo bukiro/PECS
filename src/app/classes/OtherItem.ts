@@ -2,7 +2,7 @@ import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/seri
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerialization<OtherItem>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<OtherItem>({
     primitives: [
         'name',
         'bulk',
@@ -38,5 +38,9 @@ export class OtherItem implements MessageSerializable<OtherItem>{
 
     public clone(): OtherItem {
         return OtherItem.from(this);
+    }
+
+    public isEqual(compared: Partial<OtherItem>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

@@ -24,10 +24,10 @@ import { AlwaysShowingEffectNames, AlwaysShowingWildcardEffectNames } from '../.
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { Observable, combineLatest, map, of, switchMap, tap } from 'rxjs';
+import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
 import { Trait } from 'src/app/classes/Trait';
-import { deepDistinctUntilChanged, deepDistinctUntilChangedWithoutID } from 'src/libs/shared/util/observableUtils';
 import { resilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
+import { isEqualSerializableArray, isEqualSerializableArrayWithoutId } from 'src/libs/shared/util/compare-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -101,7 +101,7 @@ export class EffectsGenerationService {
                         .concat(...otherCreatureEffectLists)
                         .filter(effect => effect.creature === creature.id),
                 ),
-                deepDistinctUntilChangedWithoutID(),
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
             );
     }
 
@@ -113,7 +113,7 @@ export class EffectsGenerationService {
                 .filter(trait => trait.hints.length)
                 .map(trait => trait.itemsWithThisTrait$(creature)
                     .pipe(
-                        deepDistinctUntilChanged(),
+                        distinctUntilChanged(isEqualSerializableArray),
                         map(itemsWithTrait =>
                             itemsWithTrait.length
                                 ? trait
@@ -922,7 +922,7 @@ export class EffectsGenerationService {
                     // Add back the effects that affect another creature.
                     return effects.concat(effectsForOthers);
                 }),
-                deepDistinctUntilChangedWithoutID(),
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 tap(effects => {
                     // Replace the global effects.
                     // This may cause observables involved in the effect generation to update and restart the process.

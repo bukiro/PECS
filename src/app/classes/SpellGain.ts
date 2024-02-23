@@ -6,7 +6,7 @@ import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
-const { assign, forExport } = setupSerialization<SpellGain>({
+const { assign, forExport, isEqual } = setupSerialization<SpellGain>({
     primitives: [
         'active',
         'activeCooldown',
@@ -91,5 +91,9 @@ export class SpellGain implements Serializable<SpellGain> {
 
     public clone(): SpellGain {
         return SpellGain.from(this);
+    }
+
+    public isEqual(compared: Partial<SpellGain>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

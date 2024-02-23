@@ -2,7 +2,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<SignatureSpellGain>({
+const { assign, forExport, isEqual } = setupSerialization<SignatureSpellGain>({
     primitives: [
         'className',
         'available',
@@ -33,5 +33,9 @@ export class SignatureSpellGain implements Serializable<SignatureSpellGain> {
 
     public clone(): SignatureSpellGain {
         return SignatureSpellGain.from(this);
+    }
+
+    public isEqual(compared: Partial<SignatureSpellGain>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

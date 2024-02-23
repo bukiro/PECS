@@ -3,7 +3,7 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<SpecializationGain>({
+const { assign, forExport, isEqual } = setupSerialization<SpecializationGain>({
     primitives: [
         'minLevel',
         'bladeAlly',
@@ -50,5 +50,9 @@ export class SpecializationGain implements Serializable<SpecializationGain> {
 
     public clone(): SpecializationGain {
         return SpecializationGain.from(this);
+    }
+
+    public isEqual(compared: Partial<SpecializationGain>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

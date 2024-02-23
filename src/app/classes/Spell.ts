@@ -11,7 +11,7 @@ import { setupSerializationWithHelpers } from 'src/libs/shared/util/serializatio
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-const { assign, forExport } = setupSerializationWithHelpers<Spell>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<Spell>({
     primitives: [
         'actions',
         'allowReturnFocusPoint',
@@ -165,6 +165,10 @@ export class Spell implements Serializable<Spell> {
 
     public clone(recastFns: RecastFns): Spell {
         return Spell.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Spell>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public activationTraits(): Array<string> {

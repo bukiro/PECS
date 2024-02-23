@@ -11,7 +11,7 @@ import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
-const { assign, forExport } = setupSerialization<ActivityGain>({
+const { assign, forExport, isEqual } = setupSerialization<ActivityGain>({
     primitives: [
         'active',
         'activeCooldown',
@@ -166,6 +166,10 @@ export class ActivityGain implements ActivityGainInterface, Serializable<Activit
 
     public clone(): ActivityGain {
         return ActivityGain.from(this);
+    }
+
+    public isEqual(compared: Partial<ActivityGain>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public isOwnActivity(): this is Activity {

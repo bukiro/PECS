@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map } from 'rxjs';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureService } from '../creature/creature.service';
-import { deepDistinctUntilChanged } from '../../util/observableUtils';
 import { DeepPartial } from '../../definitions/types/deepPartial';
+import { isEqualArray } from '../../util/compare-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -77,7 +77,7 @@ export class AnimalCompanionLevelsService {
                             feat.gainAnimalCompanion,
                         ),
                     ),
-                    deepDistinctUntilChanged(),
+                    distinctUntilChanged(isEqualArray((previous, current) => previous.name === current.name)),
                 ),
         ])
             .subscribe(([companion, companionGainingFeats]) => {

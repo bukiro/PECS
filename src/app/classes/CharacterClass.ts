@@ -27,7 +27,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerializationWithHelpers<CharacterClass>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<CharacterClass>({
     primitives: [
         'disabled',
         'warning',
@@ -252,6 +252,10 @@ export class CharacterClass implements Serializable<CharacterClass> {
 
     public clone(recastFns: RecastFns): CharacterClass {
         return CharacterClass.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<CharacterClass>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     /**

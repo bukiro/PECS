@@ -8,7 +8,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerializationWithHelpers<Oil>({
+const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Oil>({
     primitives: [
         'critfailure',
         'critsuccess',
@@ -26,7 +26,7 @@ const { assign, forExport, forMessage } = setupSerializationWithHelpers<Oil>({
     primitiveArrays: [
         'targets',
     ],
-    messageSerializable: {
+    messageSerializables: {
         runeEffect:
             recastFns => obj =>
                 obj
@@ -100,6 +100,10 @@ export class Oil extends Consumable implements MessageSerializable<Oil> {
 
     public clone(recastFns: RecastFns): Oil {
         return Oil.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Oil>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isOil(): this is Oil { return true; }

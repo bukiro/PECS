@@ -13,7 +13,7 @@ import { setupSerializationWithHelpers } from 'src/libs/shared/util/serializatio
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 
-const { assign, forExport } = setupSerializationWithHelpers<Familiar>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<Familiar>({
     primitives: [
         'originClass',
         'species',
@@ -71,6 +71,10 @@ export class Familiar extends Creature implements Serializable<Familiar> {
 
     public clone(recastFns: RecastFns): Familiar {
         return Familiar.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<Familiar>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isFamiliar(): this is Familiar {

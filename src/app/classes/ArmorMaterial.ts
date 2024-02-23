@@ -3,7 +3,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<ArmorMaterial>({
+const { assign, forExport, isEqual } = setupSerialization<ArmorMaterial>({
     primitives: [
         'strengthScoreModifier',
         'skillPenaltyModifier',
@@ -37,6 +37,10 @@ export class ArmorMaterial extends Material implements Serializable<ArmorMateria
 
     public clone(): ArmorMaterial {
         return ArmorMaterial.from(this);
+    }
+
+    public isEqual(compared: Partial<ArmorMaterial>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isArmorMaterial(): this is ArmorMaterial {

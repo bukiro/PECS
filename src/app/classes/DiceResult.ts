@@ -3,7 +3,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<DiceResult>({
+const { assign, forExport, isEqual } = setupSerialization<DiceResult>({
     primitives: [
         'diceNum',
         'diceSize',
@@ -45,5 +45,9 @@ export class DiceResult implements Serializable<DiceResult> {
 
     public clone(): DiceResult {
         return DiceResult.from(this);
+    }
+
+    public isEqual(compared: Partial<DiceResult>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 }

@@ -5,7 +5,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport, forMessage } = setupSerialization<AlchemicalElixir>({
+const { assign, forExport, forMessage, isEqual } = setupSerialization<AlchemicalElixir>({
     primitives: [
         'benefit',
         'drawback',
@@ -53,6 +53,10 @@ export class AlchemicalElixir extends Consumable implements MessageSerializable<
 
     public clone(recastFns: RecastFns): AlchemicalElixir {
         return AlchemicalElixir.from(this, recastFns);
+    }
+
+    public isEqual(compared: Partial<AlchemicalElixir>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
     }
 
     public isAlchemicalElixir(): this is AlchemicalElixir { return true; }

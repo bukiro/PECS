@@ -27,7 +27,7 @@ export interface SkillNotes {
     notes: string;
 }
 
-const { assign, forExport } = setupSerializationWithHelpers<Creature>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<Creature>({
     primitives: [
         'id',
         'notes',
@@ -166,6 +166,10 @@ export abstract class Creature implements Serializable<Creature> {
         return {
             ...forExport(this),
         };
+    }
+
+    public isEqual(compared: Partial<Creature>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public isAnimalCompanion(): this is AnimalCompanion {

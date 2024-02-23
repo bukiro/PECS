@@ -21,4 +21,8 @@ export class MaterialItem extends Item implements MessageSerializable<MaterialIt
     public clone(recastFns: RecastFns): MaterialItem {
         return MaterialItem.from(this, recastFns);
     }
+
+    public isEqual(compared: Partial<MaterialItem>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options);
+    }
 }

@@ -26,7 +26,7 @@ export enum ActivityTargetOptions {
     Null = '',
 }
 
-const { assign, forExport } = setupSerializationWithHelpers<Activity>({
+const { assign, forExport, isEqual } = setupSerializationWithHelpers<Activity>({
     primitives: [
         'actions',
         'activationType',
@@ -219,6 +219,10 @@ export class Activity implements Serializable<Activity> {
         return Activity.from(this, recastFns);
     }
 
+    public isEqual(compared: Partial<Activity>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
+    }
+
     public clearTemporaryValues(): Activity {
         this.effectiveCooldownByCreature$.clear();
         this.effectiveMaxChargesByCreature$.clear();
@@ -250,7 +254,8 @@ export class Activity implements Serializable<Activity> {
     }
 
     public canActivate$(creature: Creature): Observable<boolean> {
-        //Test any circumstance under which this can be activated
+        // Test whether activating this activity would make any difference in the app.
+        // Does not test whether it is currently available.
         return (
             this.traits.includes('Stance')
             || !!this.gainItems.length

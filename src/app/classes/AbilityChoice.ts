@@ -4,7 +4,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
-const { assign, forExport } = setupSerialization<AbilityChoice>({
+const { assign, forExport, isEqual } = setupSerialization<AbilityChoice>({
     primitives: [
         'available', 'baseValuesLost', 'id', 'infoOnly', 'source', 'type', 'bonus',
     ],
@@ -48,6 +48,10 @@ export class AbilityChoice implements Serializable<AbilityChoice> {
 
     public clone(): AbilityChoice {
         return AbilityChoice.from(this);
+    }
+
+    public isEqual(compared: Partial<AbilityChoice>, options?: { withoutId?: boolean }): boolean {
+        return isEqual(this, compared, options);
     }
 
     public maxAvailable(character: Character): number {
