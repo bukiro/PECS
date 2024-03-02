@@ -7,7 +7,7 @@ import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-da
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, map, of, shareReplay, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, filter, map, of, shareReplay, switchMap } from 'rxjs';
 import { Trait } from 'src/app/classes/Trait';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -99,7 +99,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
     public readonly shouldHideChoice$: Observable<boolean>;
     public readonly availableFeatsCount$: Observable<number>;
 
-    private _choice!: FeatChoice;
+    private _choice?: FeatChoice;
     private _creature: CharacterModel | Familiar = CreatureService.character;
     private _levelNumber!: number;
     private _showUnavailableFeats = true;
@@ -111,7 +111,8 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
     private _uncollapseSubFeat = '';
 
     private readonly _creature$: BehaviorSubject<CharacterModel | Familiar>;
-    private readonly _choice$: BehaviorSubject<FeatChoice>;
+    private readonly _innerChoice$: BehaviorSubject<FeatChoice | undefined>;
+    private readonly _choice$: Observable<FeatChoice>;
     private readonly _levelNumber$: BehaviorSubject<number>;
     private readonly _showUnavailableFeats$ = new BehaviorSubject(this._showUnavailableFeats);
     private readonly _showLowerLevelFeats$ = new BehaviorSubject(this._showLowerLevelFeats);
@@ -132,8 +133,13 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
         super();
 
         this._creature$ = new BehaviorSubject(this._creature);
-        this._choice$ = new BehaviorSubject(this._choice);
+        this._innerChoice$ = new BehaviorSubject(this._choice);
         this._levelNumber$ = new BehaviorSubject(this._levelNumber);
+
+        this._choice$ = this._innerChoice$
+            .pipe(
+                filter((choice): choice is FeatChoice => !!choice),
+            );
 
         this.allowedFeatsAmount$ =
             this._createAllowedFeatsAmountObservable$()
@@ -208,14 +214,14 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
         this._creature$.next(this._creature);
     }
 
-    public get choice(): FeatChoice {
+    public get choice(): FeatChoice | undefined {
         return this._choice;
     }
 
     @Input({ required: true })
     public set choice(value: FeatChoice) {
         this._choice = value;
-        this._choice$.next(this._choice);
+        this._innerChoice$.next(this._choice);
     }
 
     public get levelNumber(): number {
@@ -904,7 +910,10 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
     private _createAllowedFeatsAmountObservable$(): Observable<number> {
         return combineLatest([
             this._creature$,
-            this._choice$,
+            this._choice$
+                .pipe(
+                    filter(choice => !!choice),
+                ),
         ])
             .pipe(
                 switchMap(([creature, choice]) =>

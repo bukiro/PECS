@@ -1,382 +1,384 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="(choice.source+choice.id) as listId">
-    <ng-container *ngIf="allowedFeatsAmount$ | async as allowedFeatsAmount">
-        <ng-container *ngIf="buttonTitle$ as buttonTitle">
-            <div
-                *ngIf="allowedFeatsAmount > 0 && (shouldHideChoice$ | async) === false"
-                class="featchoice-container"
-                [ngClass]="{'list-item': showTitle && !isTileMode, 'vlist': !showTitle, 'problem':((areAnyFeatsIllegal$ | async) || choice.feats.length > allowedFeatsAmount), 'minimized-hide':(allowedFeatsAmount === choice.feats.length)}"
-            >
-                <!-- Choice button shows in title mode -->
-                <!-- List mode button -->
-                <button
-                    *ngIf="showTitle && (!isTileMode || showContent)"
-                    type="button"
-                    class="newrow left-aligned sublist-toggle"
-                    [ngClass]="{'fancy-button choicecleared':(allowedFeatsAmount === choice.feats.length), 'featchoice':!choice.specialChoice && !choice.showOnSheet && (choice.type !== 'Familiar'), 'specialchoice':choice.specialChoice && !choice.showOnSheet, 'activechoice':shownChoice()===listId && (!choice.showOnSheet && (choice.type !== 'Familiar'))}"
-                    (click)="toggleShownList(listId)"
-                >
-                    {{buttonTitle}}
-                </button>
-
-                <!-- Tile mode button -->
-                <button
-                    *ngIf="showTitle && !showContent && isTileMode"
-                    type="button"
-                    aria-label="Show feat choice"
-                    [ngClass]="{'fancy-button choicecleared':(allowedFeatsAmount === choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice, 'activechoice':shownChoice()===listId}"
-                    (click)="toggleShownList(listId)"
-                >
-                    <app-grid-icon
-                        [ngbTooltip]="buttonTitle$ | async"
-                        [superTitle]="allowedFeatsAmount.toString()"
-                        [title]="gridIconTitle(allowedFeatsAmount, choice)"
-                        [detail]="(allowedFeatsAmount === 1 && choice.feats.length) ? (choice.feats[0].name.split(': ')[1] || '') : ''"
-                        [ngClass]="{'fancy-button':(allowedFeatsAmount === choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice}"
-                        [subTitle]="choice.feats.length ? '' : choice.type.split(' ')[choice.type.split(' ').length-1].substr(0,8)"
-                    />
-                </button>
-
-                <!-- Choice title shows above content in content only mode -->
+<ng-container *ngIf="choice">
+    <ng-container *ngIf="(choice ? choice.source+choice.id : '') as listId">
+        <ng-container *ngIf="allowedFeatsAmount$ | async as allowedFeatsAmount">
+            <ng-container *ngIf="buttonTitle$ as buttonTitle">
                 <div
-                    *ngIf="!showTitle"
-                    class="newrow list-item padding-8 center-aligned"
+                    *ngIf="allowedFeatsAmount > 0 && (shouldHideChoice$ | async) === false"
+                    class="featchoice-container"
+                    [ngClass]="{'list-item': showTitle && !isTileMode, 'vlist': !showTitle, 'problem':((areAnyFeatsIllegal$ | async) || choice.feats.length > allowedFeatsAmount), 'minimized-hide':(allowedFeatsAmount === choice.feats.length)}"
                 >
-                    <header class="box-header sectionHeader">{{buttonTitle}}</header>
+                    <!-- Choice button shows in title mode -->
+                    <!-- List mode button -->
+                    <button
+                        *ngIf="showTitle && (!isTileMode || showContent)"
+                        type="button"
+                        class="newrow left-aligned sublist-toggle"
+                        [ngClass]="{'fancy-button choicecleared':(allowedFeatsAmount === choice.feats.length), 'featchoice':!choice.specialChoice && !choice.showOnSheet && (choice.type !== 'Familiar'), 'specialchoice':choice.specialChoice && !choice.showOnSheet, 'activechoice':shownChoice()===listId && (!choice.showOnSheet && (choice.type !== 'Familiar'))}"
+                        (click)="toggleShownList(listId)"
+                    >
+                        {{buttonTitle}}
+                    </button>
 
-                    <div class="newrow center-aligned">
-                        <span>
-                            <button
-                                *ngIf="choice.bonus"
-                                type="button"
-                                class="center-aligned"
-                                (click)="removeBonusFeatChoice(choice)"
-                            >
-                                Remove bonus feat choice
-                            </button>
-                        </span>
+                    <!-- Tile mode button -->
+                    <button
+                        *ngIf="showTitle && !showContent && isTileMode"
+                        type="button"
+                        aria-label="Show feat choice"
+                        [ngClass]="{'fancy-button choicecleared':(allowedFeatsAmount === choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice, 'activechoice':shownChoice()===listId}"
+                        (click)="toggleShownList(listId)"
+                    >
+                        <app-grid-icon
+                            [ngbTooltip]="buttonTitle$ | async"
+                            [superTitle]="allowedFeatsAmount.toString()"
+                            [title]="gridIconTitle(allowedFeatsAmount, choice)"
+                            [detail]="(allowedFeatsAmount === 1 && choice.feats.length) ? (choice.feats[0].name.split(': ')[1] || '') : ''"
+                            [ngClass]="{'fancy-button':(allowedFeatsAmount === choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice}"
+                            [subTitle]="choice.feats.length ? '' : choice.type.split(' ')[choice.type.split(' ').length-1].substr(0,8)"
+                        />
+                    </button>
+
+                    <!-- Choice title shows above content in content only mode -->
+                    <div
+                        *ngIf="!showTitle"
+                        class="newrow list-item padding-8 center-aligned"
+                    >
+                        <header class="box-header sectionHeader">{{buttonTitle}}</header>
+
+                        <div class="newrow center-aligned">
+                            <span>
+                                <button
+                                    *ngIf="choice.bonus"
+                                    type="button"
+                                    class="center-aligned"
+                                    (click)="removeBonusFeatChoice(choice)"
+                                >
+                                    Remove bonus feat choice
+                                </button>
+                            </span>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Choice content shows in content mode -->
-                <div
-                    *ngIf="showContent && shownChoice()===listId"
-                    class="list-item"
-                    id="{{!showTitle ? 'choiceArea' : ''}}"
-                    [ngClass]="{'sublist':showTitle, 'fancy-list':showTitle && (allowedFeatsAmount === choice.feats.length), 'featchoice':showTitle && !choice.specialChoice && !choice.showOnSheet && (choice.type !== 'Familiar'), 'specialchoice': showTitle && choice.specialChoice && !choice.showOnSheet}"
-                >
-                    <!-- Filter -->
-                    <div class="list-item lower">
-                        <strong>Filter</strong>
+                    <!-- Choice content shows in content mode -->
+                    <div
+                        *ngIf="showContent && shownChoice()===listId"
+                        class="list-item"
+                        id="{{!showTitle ? 'choiceArea' : ''}}"
+                        [ngClass]="{'sublist':showTitle, 'fancy-list':showTitle && (allowedFeatsAmount === choice.feats.length), 'featchoice':showTitle && !choice.specialChoice && !choice.showOnSheet && (choice.type !== 'Familiar'), 'specialchoice': showTitle && choice.specialChoice && !choice.showOnSheet}"
+                    >
+                        <!-- Filter -->
+                        <div class="list-item lower">
+                            <strong>Filter</strong>
 
-                        <div class="list-item gridicon-fullsizebox">
-                            <input
-                                class="character-choice"
-                                id="unavailableFeats"
-                                type="checkbox"
-                                [(ngModel)]="showUnavailableFeats"
-                            >
-                            <label for="unavailableFeats">
-                                <strong>
-                                    Show unavailable {{choice.specialChoice ? 'options' : 'feats'}}
-                                </strong>
-                            </label>
-                        </div>
-
-                        <div
-                            *ngIf="!choice.specialChoice && choice.type !== 'Familiar'"
-                            class="list-item gridicon-fullsizebox"
-                        >
-                            <input
-                                class="character-choice"
-                                id="lowerLevelFeats"
-                                type="checkbox"
-                                [(ngModel)]="showLowerLevelFeats"
-                            >
-                            <label for="lowerLevelFeats">
-                                <strong>Show lower level feats</strong>
-                            </label>
-                        </div>
-
-                        <div
-                            *ngIf="!choice.specialChoice && choice.type !== 'Familiar'"
-                            class="fullwidth"
-                            [ngbCollapse]="!showUnavailableFeats"
-                        >
                             <div class="list-item gridicon-fullsizebox">
                                 <input
                                     class="character-choice"
-                                    id="higherLevelFeats"
+                                    id="unavailableFeats"
                                     type="checkbox"
-                                    [(ngModel)]="showHigherLevelFeats"
+                                    [(ngModel)]="showUnavailableFeats"
                                 >
-                                <label for="higherLevelFeats">
-                                    <strong>Show higher level feats</strong>
+                                <label for="unavailableFeats">
+                                    <strong>
+                                        Show unavailable {{choice.specialChoice ? 'options' : 'feats'}}
+                                    </strong>
+                                </label>
+                            </div>
+
+                            <div
+                                *ngIf="!choice.specialChoice && choice.type !== 'Familiar'"
+                                class="list-item gridicon-fullsizebox"
+                            >
+                                <input
+                                    class="character-choice"
+                                    id="lowerLevelFeats"
+                                    type="checkbox"
+                                    [(ngModel)]="showLowerLevelFeats"
+                                >
+                                <label for="lowerLevelFeats">
+                                    <strong>Show lower level feats</strong>
+                                </label>
+                            </div>
+
+                            <div
+                                *ngIf="!choice.specialChoice && choice.type !== 'Familiar'"
+                                class="fullwidth"
+                                [ngbCollapse]="!showUnavailableFeats"
+                            >
+                                <div class="list-item gridicon-fullsizebox">
+                                    <input
+                                        class="character-choice"
+                                        id="higherLevelFeats"
+                                        type="checkbox"
+                                        [(ngModel)]="showHigherLevelFeats"
+                                    >
+                                    <label for="higherLevelFeats">
+                                        <strong>Show higher level feats</strong>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div
+                                *ngIf="!choice.specialChoice && choice.type !== 'Familiar'"
+                                class="list-item gridicon-fullsizebox"
+                            >
+                                <input
+                                    class="character-choice"
+                                    id="archetypeFeats"
+                                    type="checkbox"
+                                    [(ngModel)]="showArchetypeFeats"
+                                >
+                                <label for="archetypeFeats">
+                                    <strong>Show archetype feats</strong>
                                 </label>
                             </div>
                         </div>
 
-                        <div
-                            *ngIf="!choice.specialChoice && choice.type !== 'Familiar'"
-                            class="list-item gridicon-fullsizebox"
-                        >
-                            <input
-                                class="character-choice"
-                                id="archetypeFeats"
-                                type="checkbox"
-                                [(ngModel)]="showArchetypeFeats"
+                        <!-- End Filter -->
+                        <ng-container *ngIf="availableFeats$ | async as featParametersList">
+                            <div
+                                *ngIf="((availableFeatsCount$ | async) ?? 0) < allowedFeatsAmount"
+                                class="list-item"
                             >
-                            <label for="archetypeFeats">
-                                <strong>Show archetype feats</strong>
-                            </label>
-                        </div>
-                    </div>
+                                <span>
+                                    There are fewer results available than you are allowed to take. This may be due to a
+                                    choice with limited options, and it might be intended at this time.
+                                </span>
 
-                    <!-- End Filter -->
-                    <ng-container *ngIf="availableFeats$ | async as featParametersList">
-                        <div
-                            *ngIf="((availableFeatsCount$ | async) ?? 0) < allowedFeatsAmount"
-                            class="list-item"
-                        >
-                            <span>
-                                There are fewer results available than you are allowed to take. This may be due to a
-                                choice with limited options, and it might be intended at this time.
-                            </span>
+                                <span *ngIf="!showHigherLevelFeats || !showLowerLevelFeats">
+                                    More results may be found if you allow
+                                    lower and higher level feats.
+                                </span>
 
-                            <span *ngIf="!showHigherLevelFeats || !showLowerLevelFeats">
-                                More results may be found if you allow
-                                lower and higher level feats.
-                            </span>
+                                <span *ngIf="choice.showOnCurrentLevel">
+                                    This feat choice is always available on your current
+                                    character level. This could change the number of available feats at a later time.
+                                </span>
+                            </div>
 
-                            <span *ngIf="choice.showOnCurrentLevel">
-                                This feat choice is always available on your current
-                                character level. This could change the number of available feats at a later time.
-                            </span>
-                        </div>
-
-                        <ng-container *ngFor="let featParameters of featParametersList; trackBy:trackByFeat;">
-                            <ng-template #FeatChoiceDetailTemplate>
-                                <div class="newrow">
-                                    <header class="spellHeader">
-                                        {{featParameters.feat.displayName ||
-                                        featParameters.feat.name}}
-                                    </header>
-
+                            <ng-container *ngFor="let featParameters of featParametersList; trackBy:trackByFeat;">
+                                <ng-template #FeatChoiceDetailTemplate>
                                     <div class="newrow">
-                                        <label>
-                                            <div
-                                                *ngIf="!featParameters.feat.subTypes && featParameters.available"
-                                                class="button newrow no-animation"
-                                                [ngClass]="{'fancy-button':featParameters.taken, 'disabled':featParameters.disabled}"
-                                            >
+                                        <header class="spellHeader">
+                                            {{featParameters.feat.displayName ||
+                                            featParameters.feat.name}}
+                                        </header>
 
-                                                <input
-                                                    type="checkbox"
-                                                    hidden
-                                                    [checked]="featParameters.checked"
-                                                    [disabled]="featParameters.disabled"
-                                                    (change)="onFeatTaken(featParameters.feat, $event, choice, allowedFeatsAmount, false)"
+                                        <div class="newrow">
+                                            <label>
+                                                <div
+                                                    *ngIf="!featParameters.feat.subTypes && featParameters.available"
+                                                    class="button newrow no-animation"
+                                                    [ngClass]="{'fancy-button':featParameters.taken, 'disabled':featParameters.disabled}"
                                                 >
-                                                {{featParameters.taken ? "Remove" : "Choose"}}
-                                            </div>
-                                        </label>
-                                    </div>
 
-                                    <div class="newrow left-aligned">
-                                        <cite
-                                            *ngFor="let reason of featParameters.cannotTake; trackBy:trackByIndex;"
-                                            class="problem"
-                                            [ngbPopover]="reason.explain"
-                                        >
-                                            {{reason.reason}}
-                                        </cite>
-                                    </div>
-
-                                    <app-feat
-                                        class="newrow"
-                                        [feat]="featParameters.feat"
-                                        [featChoiceRequirementResults]="featParameters.featRequirementResults"
-                                        [choice]="choice"
-                                        [levelNumber]="levelNumber"
-                                        [featLevel]="(featLevel$ | async) ?? levelNumber"
-                                    />
-
-                                    <!-- Subfeats -->
-                                    <ng-container *ngFor="let subFeatParameters of featParameters.subFeats; trackBy:trackBySubType;">
-
-                                        <div
-                                            class="newrow list-item"
-                                            style="justify-content: flex-end;"
-                                            [ngClass]="{'selected':(subFeatParameters.taken && true), 'unavailable':(!subFeatParameters.available)}"
-                                        >
-                                            <div
-                                                *ngIf="(choice.id+subFeatParameters.feat.name+'desc') as subItemID"
-                                                class="newrow left-aligned"
-                                            >
-                                                <span
-                                                    class="gridicon-fullsizebox"
-                                                    style="flex-grow: 1;"
-                                                >
                                                     <input
-                                                        *ngIf="subFeatParameters.available"
-                                                        aria-label="Take feat"
                                                         type="checkbox"
-                                                        class="character-choice"
-                                                        id="{{choice.id+subFeatParameters.feat.name}}"
-                                                        [checked]="subFeatParameters.checked"
-                                                        [disabled]="subFeatParameters.disabled"
-                                                        (change)="onFeatTaken(subFeatParameters.feat, $event, choice, allowedFeatsAmount, false)"
+                                                        hidden
+                                                        [checked]="featParameters.checked"
+                                                        [disabled]="featParameters.disabled"
+                                                        (change)="onFeatTaken(featParameters.feat, $event, choice, allowedFeatsAmount, false)"
                                                     >
-                                                    <span>
-                                                        <strong>{{subFeatParameters.feat.subType}}</strong>
+                                                    {{featParameters.taken ? "Remove" : "Choose"}}
+                                                </div>
+                                            </label>
+                                        </div>
 
-                                                        <span
-                                                            *ngIf="subFeatParameters.taken && subFeatParameters.taken.automatic"
-                                                            class="lower"
+                                        <div class="newrow left-aligned">
+                                            <cite
+                                                *ngFor="let reason of featParameters.cannotTake; trackBy:trackByIndex;"
+                                                class="problem"
+                                                [ngbPopover]="reason.explain"
+                                            >
+                                                {{reason.reason}}
+                                            </cite>
+                                        </div>
+
+                                        <app-feat
+                                            class="newrow"
+                                            [feat]="featParameters.feat"
+                                            [featChoiceRequirementResults]="featParameters.featRequirementResults"
+                                            [choice]="choice"
+                                            [levelNumber]="levelNumber"
+                                            [featLevel]="(featLevel$ | async) ?? levelNumber"
+                                        />
+
+                                        <!-- Subfeats -->
+                                        <ng-container *ngFor="let subFeatParameters of featParameters.subFeats; trackBy:trackBySubType;">
+
+                                            <div
+                                                class="newrow list-item"
+                                                style="justify-content: flex-end;"
+                                                [ngClass]="{'selected':(subFeatParameters.taken && true), 'unavailable':(!subFeatParameters.available)}"
+                                            >
+                                                <div
+                                                    *ngIf="(choice.id+subFeatParameters.feat.name+'desc') as subItemID"
+                                                    class="newrow left-aligned"
+                                                >
+                                                    <span
+                                                        class="gridicon-fullsizebox"
+                                                        style="flex-grow: 1;"
+                                                    >
+                                                        <input
+                                                            *ngIf="subFeatParameters.available"
+                                                            aria-label="Take feat"
+                                                            type="checkbox"
+                                                            class="character-choice"
+                                                            id="{{choice.id+subFeatParameters.feat.name}}"
+                                                            [checked]="subFeatParameters.checked"
+                                                            [disabled]="subFeatParameters.disabled"
+                                                            (change)="onFeatTaken(subFeatParameters.feat, $event, choice, allowedFeatsAmount, false)"
                                                         >
-                                                            Taken automatically
+                                                        <span>
+                                                            <strong>{{subFeatParameters.feat.subType}}</strong>
+
+                                                            <span
+                                                                *ngIf="subFeatParameters.taken && subFeatParameters.taken.automatic"
+                                                                class="lower"
+                                                            >
+                                                                Taken automatically
+                                                            </span>
                                                         </span>
                                                     </span>
-                                                </span>
 
-                                                <button
-                                                    *ngIf="subFeatParameters.feat.canDelete"
-                                                    type="button"
-                                                    [disabled]="subFeatParameters.checked"
-                                                    (click)="removeObsoleteCustomFeat(subFeatParameters.feat)"
-                                                >
-                                                    Delete
-                                                </button>
-
-                                                <button
-                                                    type="button"
-                                                    [ngClass]="{'fancy-button':shownSubFeat()===subItemID}"
-                                                    (click)="toggleShownSubFeat(subItemID)"
-                                                >
-                                                    {{shownSubFeat()===subItemID ? "Hide" :
-                                                    "Show"}} Description
-                                                </button>
-
-                                                <div [ngbCollapse]="uncollapsedSubFeat()!==subItemID">
-                                                    <div
-                                                        *ngIf="shownSubFeat()===subItemID || uncollapsedSubFeat()!==subItemID"
-                                                        class="newrow"
+                                                    <button
+                                                        *ngIf="subFeatParameters.feat.canDelete"
+                                                        type="button"
+                                                        [disabled]="subFeatParameters.checked"
+                                                        (click)="removeObsoleteCustomFeat(subFeatParameters.feat)"
                                                     >
+                                                        Delete
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        [ngClass]="{'fancy-button':shownSubFeat()===subItemID}"
+                                                        (click)="toggleShownSubFeat(subItemID)"
+                                                    >
+                                                        {{shownSubFeat()===subItemID ? "Hide" :
+                                                        "Show"}} Description
+                                                    </button>
+
+                                                    <div [ngbCollapse]="uncollapsedSubFeat()!==subItemID">
                                                         <div
-                                                            *ngIf="subFeatParameters.available"
-                                                            class="button newrow no-animation"
-                                                            [ngClass]="{'fancy-button':subFeatParameters.taken, 'disabled':subFeatParameters.disabled}"
-                                                        >
-                                                            <label>
-                                                                <input
-                                                                    type="checkbox"
-                                                                    hidden
-                                                                    [checked]="subFeatParameters.checked"
-                                                                    [disabled]="subFeatParameters.disabled"
-                                                                    (change)="onFeatTaken(subFeatParameters.feat, $event, choice, allowedFeatsAmount, false)"
-                                                                >
-                                                                {{subFeatParameters.checked
-                                                                ?
-                                                                "Remove" : "Choose"}}
-                                                            </label>
-                                                        </div>
-
-                                                        <div class="newrow left-aligned">
-                                                            <cite
-                                                                *ngFor="let reason of subFeatParameters.cannotTake; trackBy:trackByIndex;"
-                                                                class="problem"
-                                                                [ngbPopover]="reason.explain"
-                                                            >
-                                                                {{reason.reason}}
-                                                            </cite>
-                                                        </div>
-
-                                                        <app-feat
+                                                            *ngIf="shownSubFeat()===subItemID || uncollapsedSubFeat()!==subItemID"
                                                             class="newrow"
-                                                            [feat]="subFeatParameters.feat"
-                                                            [featChoiceRequirementResults]="subFeatParameters.featRequirementResults"
-                                                            [choice]="choice"
-                                                            [levelNumber]="levelNumber"
-                                                            [featLevel]="(featLevel$ | async) ?? levelNumber"
-                                                        />
+                                                        >
+                                                            <div
+                                                                *ngIf="subFeatParameters.available"
+                                                                class="button newrow no-animation"
+                                                                [ngClass]="{'fancy-button':subFeatParameters.taken, 'disabled':subFeatParameters.disabled}"
+                                                            >
+                                                                <label>
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        hidden
+                                                                        [checked]="subFeatParameters.checked"
+                                                                        [disabled]="subFeatParameters.disabled"
+                                                                        (change)="onFeatTaken(subFeatParameters.feat, $event, choice, allowedFeatsAmount, false)"
+                                                                    >
+                                                                    {{subFeatParameters.checked
+                                                                    ?
+                                                                    "Remove" : "Choose"}}
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="newrow left-aligned">
+                                                                <cite
+                                                                    *ngFor="let reason of subFeatParameters.cannotTake; trackBy:trackByIndex;"
+                                                                    class="problem"
+                                                                    [ngbPopover]="reason.explain"
+                                                                >
+                                                                    {{reason.reason}}
+                                                                </cite>
+                                                            </div>
+
+                                                            <app-feat
+                                                                class="newrow"
+                                                                [feat]="subFeatParameters.feat"
+                                                                [featChoiceRequirementResults]="subFeatParameters.featRequirementResults"
+                                                                [choice]="choice"
+                                                                [levelNumber]="levelNumber"
+                                                                [featLevel]="(featLevel$ | async) ?? levelNumber"
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                            </ng-template>
-
-                            <div
-                                class="list-item gridicon-fullsizebox"
-                                [ngClass]="{'unavailable':(!featParameters.available), 'selected':(featParameters.taken || featParameters.subFeatsTaken.length)}"
-                            >
-                                <input
-                                    *ngIf="!featParameters.feat.subTypes"
-                                    aria-label="Take feat"
-                                    class="character-choice"
-                                    type="checkbox"
-                                    id="{{featParameters.feat.name}}"
-                                    [checked]="featParameters.checked"
-                                    [disabled]="featParameters.disabled || !featParameters.available"
-                                    (change)="onFeatTaken(featParameters.feat, $event, choice, allowedFeatsAmount, false)"
-                                >
-                                <button
-                                    *ngIf="featParameters.feat.subTypes"
-                                    type="button"
-                                    class="character-choice"
-                                    [ngClass]="{'fancy-button':featParameters.checked, 'inactive-button':(!featParameters.checked && !featParameters.available)}"
-                                    (click)="FeatChoiceDetailPopover.toggle()"
-                                >
-                                    +
-                                </button>
+                                        </ng-container>
+                                    </div>
+                                </ng-template>
 
                                 <div
-                                    #FeatChoiceDetailPopover="ngbPopover"
-                                    class="gridicon-fullsizebox"
-                                    triggers="click"
-                                    [ngbPopover]="FeatChoiceDetailTemplate"
+                                    class="list-item gridicon-fullsizebox"
+                                    [ngClass]="{'unavailable':(!featParameters.available), 'selected':(featParameters.taken || featParameters.subFeatsTaken.length)}"
                                 >
-                                    <app-grid-icon
-                                        [title]="featParameters.feat.displayName || featParameters.feat.name"
-                                        [detail]="featParameters.feat.traits.includes('Rare') ? 'Rare' : (featParameters.feat.traits.includes('Uncommon') ? 'Uncommon' : '')"
-                                    />
+                                    <input
+                                        *ngIf="!featParameters.feat.subTypes"
+                                        aria-label="Take feat"
+                                        class="character-choice"
+                                        type="checkbox"
+                                        id="{{featParameters.feat.name}}"
+                                        [checked]="featParameters.checked"
+                                        [disabled]="featParameters.disabled || !featParameters.available"
+                                        (change)="onFeatTaken(featParameters.feat, $event, choice, allowedFeatsAmount, false)"
+                                    >
+                                    <button
+                                        *ngIf="featParameters.feat.subTypes"
+                                        type="button"
+                                        class="character-choice"
+                                        [ngClass]="{'fancy-button':featParameters.checked, 'inactive-button':(!featParameters.checked && !featParameters.available)}"
+                                        (click)="FeatChoiceDetailPopover.toggle()"
+                                    >
+                                        +
+                                    </button>
 
-                                    <header class="sectionHeader">
-                                        <span
-                                            triggers="hover"
-                                            [ngbTooltip]="(!FeatChoiceDetailPopover.isOpen()) ? featParameters.feat.shortdesc : ''"
-                                            [openDelay]=100
-                                        >
-                                            {{["General", "Skill"].includes(choice.type) &&
-                                            featParameters.feat.skillreq.length === 1 ? "(" +
-                                            featParameters.feat.skillreq[0].skill + ") " :
-                                            ""}}{{featParameters.feat.displayName || featParameters.feat.name}}
-                                        </span>
+                                    <div
+                                        #FeatChoiceDetailPopover="ngbPopover"
+                                        class="gridicon-fullsizebox"
+                                        triggers="click"
+                                        [ngbPopover]="FeatChoiceDetailTemplate"
+                                    >
+                                        <app-grid-icon
+                                            [title]="featParameters.feat.displayName || featParameters.feat.name"
+                                            [detail]="featParameters.feat.traits.includes('Rare') ? 'Rare' : (featParameters.feat.traits.includes('Uncommon') ? 'Uncommon' : '')"
+                                        />
 
-                                        <span
-                                            *ngIf="featParameters.taken && featParameters.taken.automatic"
-                                            class="lower"
-                                        >
-                                            Taken automatically
-                                        </span>
+                                        <header class="sectionHeader">
+                                            <span
+                                                triggers="hover"
+                                                [ngbTooltip]="(!FeatChoiceDetailPopover.isOpen()) ? featParameters.feat.shortdesc : ''"
+                                                [openDelay]=100
+                                            >
+                                                {{["General", "Skill"].includes(choice.type) &&
+                                                featParameters.feat.skillreq.length === 1 ? "(" +
+                                                featParameters.feat.skillreq[0].skill + ") " :
+                                                ""}}{{featParameters.feat.displayName || featParameters.feat.name}}
+                                            </span>
 
-                                        <cite *ngIf="featParameters.feat.levelreq">Level {{featParameters.feat.levelreq}}</cite>
+                                            <span
+                                                *ngIf="featParameters.taken && featParameters.taken.automatic"
+                                                class="lower"
+                                            >
+                                                Taken automatically
+                                            </span>
 
-                                        <ng-container *ngFor="let trait of ['Rare', 'Uncommon', 'Dedication']; trackBy:trackByIndex">
-                                            <app-trait
-                                                *ngIf="featParameters.feat.traits.includes(trait)"
-                                                [name]="trait"
-                                                [trait]="traitFromName(trait)"
-                                            />
-                                        </ng-container>
-                                    </header>
+                                            <cite *ngIf="featParameters.feat.levelreq">Level {{featParameters.feat.levelreq}}</cite>
+
+                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon', 'Dedication']; trackBy:trackByIndex">
+                                                <app-trait
+                                                    *ngIf="featParameters.feat.traits.includes(trait)"
+                                                    [name]="trait"
+                                                    [trait]="traitFromName(trait)"
+                                                />
+                                            </ng-container>
+                                        </header>
+                                    </div>
                                 </div>
-                            </div>
+                            </ng-container>
                         </ng-container>
-                    </ng-container>
+                    </div>
                 </div>
-            </div>
+            </ng-container>
         </ng-container>
     </ng-container>
 </ng-container>
