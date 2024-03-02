@@ -521,9 +521,14 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
             weapon.melee
                 ? this._attacksService.attack$(weapon, this.creature, 'melee')
                 : of(undefined),
-            (weapon.ranged || weapon.traits.find(trait => trait.includes('Thrown')))
-                ? this._attacksService.attack$(weapon, this.creature, 'ranged')
-                : of(undefined),
+            weapon.shouldShowAsRanged$
+                .pipe(
+                    switchMap(shouldShowAsRanged =>
+                        shouldShowAsRanged
+                            ? this._attacksService.attack$(weapon, this.creature, 'ranged')
+                            : of(undefined),
+                    ),
+                ),
         ])
             .pipe(
                 map(results =>

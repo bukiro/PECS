@@ -114,6 +114,8 @@ export class Weapon extends Equipment implements MessageSerializable<Weapon> {
     public readonly weaponMaterial$: Observable<Array<WeaponMaterial>>;
     public readonly weaponRunes$: Observable<Array<WeaponRune>>;
 
+    public readonly shouldShowAsRanged$: Observable<boolean>;
+
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = strikingTitleFromLevel;
 
     private _battleforged = false;
@@ -139,6 +141,20 @@ export class Weapon extends Equipment implements MessageSerializable<Weapon> {
             .pipe(
                 map(runes => runes.filter((rune): rune is WeaponRune => rune.isWeaponRune())),
             );
+        // The weapon should show as a ranged attack if it currently has the Thrown trait,
+        // or if it is ranged and never had the Thrown trait.
+        // If it had the Thrown trait and doesn't have it now, it should not show.
+        this.shouldShowAsRanged$ =
+            this.effectiveTraits$
+                .pipe(
+                    map(effectiveTraits =>
+                        effectiveTraits.some(trait => trait.includes('Thrown'))
+                        || (
+                            !!this.ranged
+                            && !this.traits.some(trait => trait.includes('Thrown'))
+                        ),
+                    ),
+                );
     }
 
     public get battleforged(): boolean {
