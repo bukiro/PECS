@@ -22,7 +22,23 @@ export class TraitsDataService {
     }
 
     public traitFromName(name: string): Trait {
-        //Returns a named trait from the map.
+        // Returns a named trait from the map.
+
+        // Because traits can be dynamic, any trait with a space in the name has to be tried in all combinations,
+        // e.g. "Two-Hand d12" is tried as "Two-Hand d12" and as "Two-Hand".
+        if (name.includes(' ')) {
+            const split = name.split(' ');
+
+            for (let length = split.length; length > 0; length--) {
+                const combination = split.slice(0, length).join(' ');
+                const trait = this._traitsMap.get(combination.toLowerCase());
+
+                if (trait) {
+                    return trait;
+                }
+            }
+        }
+
         return this._traitsMap.get(name.toLowerCase()) || this._replacementTrait(name);
     }
 
