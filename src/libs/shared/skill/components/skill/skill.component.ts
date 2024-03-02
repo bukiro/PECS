@@ -158,6 +158,7 @@ export class SkillComponent extends TrackByMixin(BaseClass) implements OnInit, O
                 if ([
                     'individualskills',
                     'all',
+                    'allskills',
                     this.creature.type.toLowerCase(),
                     this.skill.name.toLowerCase(),
                 ].includes(target.toLowerCase())) {
@@ -171,6 +172,7 @@ export class SkillComponent extends TrackByMixin(BaseClass) implements OnInit, O
                 if (stringEqualsCaseInsensitive(view.creature, this.creature.type) &&
                     (
                         view.target === 'all' ||
+                        view.target === 'allskills' ||
                         (view.target === 'individualskills' &&
                             (
                                 [

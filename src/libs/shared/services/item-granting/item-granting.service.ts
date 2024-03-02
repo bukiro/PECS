@@ -155,7 +155,7 @@ export class ItemGrantingService {
         } else {
             creature.inventories.forEach(inv => {
                 if (!hasUsedAmount) {
-                    inv.itemsOfType(itemGain.type)
+                    inv.itemsOfType(itemGain.type.toLowerCase())
                         .filter(item =>
                             options.requireGrantedItemID
                                 ? itemGain.isMatchingExistingItem(item)
