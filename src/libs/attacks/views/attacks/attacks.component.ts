@@ -46,6 +46,7 @@ import { ItemActivationService } from 'src/libs/shared/services/item-activation/
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
 import { Oil } from 'src/app/classes/Oil';
+import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -87,6 +88,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _itemActivationService: ItemActivationService,
         private readonly _skillsDataService: SkillsDataService,
+        private readonly _itemTraitsService: ItemTraitsService,
         public trackers: Trackers,
     ) { }
 
@@ -390,6 +392,15 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     public attacksOfWeapon(weapon: Weapon): Array<AttackResult> {
+        this._itemTraitsService.cacheItemEffectiveTraits(weapon, { creature: this._currentCreature });
+
+        const hasLostThrown =
+            weapon.traits.some(trait => trait.includes('Thrown'))
+            && !weapon.$traits.some(trait => trait.includes('Thrown'));
+
+        const hasThrown =
+            weapon.$traits.some(trait => trait.includes('Thrown'));
+
         return new Array<AttackResult>()
             .concat(
                 weapon.melee
@@ -397,7 +408,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                     : [],
             )
             .concat(
-                (weapon.ranged || weapon.traits.find(trait => trait.includes('Thrown')))
+                ((weapon.ranged && !hasLostThrown) || hasThrown)
                     ? [this._attacksService.attack(weapon, this._currentCreature, 'ranged')]
                     : [],
             );

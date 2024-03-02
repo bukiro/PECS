@@ -61,8 +61,6 @@ export class AttacksService {
         const runeSource = attackRuneSource(weapon, creature, range);
         const skillLevel = this._weaponPropertiesService.profLevel(weapon, creature, runeSource.propertyRunes);
 
-        this._itemTraitsService.cacheItemEffectiveTraits(weapon, { creature });
-
         const traits = weapon.$traits;
 
         if (skillLevel) {
