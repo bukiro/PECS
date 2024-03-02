@@ -935,6 +935,67 @@
         "prof": "Martial Weapons"
     },
     {
+        "name": "Fighter's Fork",
+        "displayName": "Fighter's Fork",
+        "id": "7e20d720-6437-4b39-8b5e-62a335f456cd",
+        "desc": "This +1 trident, usually engraved with a decorative pattern resembling fish scales, is a common weapon among warriors of aquatic ancestries.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
+        "price": 5000,
+        "traits": [
+            "Magical",
+            "Transmutation",
+            "Thrown 20 ft."
+        ],
+        "dicesize": 8,
+        "dmgType": "P",
+        "group": "Spear",
+        "hands": 1,
+        "melee": 5,
+        "moddable": false,
+        "potencyRune": 1,
+        "prof": "Martial Weapons",
+        "ranged": 20,
+        "usage": "held in 1 or 2 hands",
+        "weaponBase": "Trident",
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "desc": "You extend or shorten the trident's haft. When extended, the trident requires two hands to wield and gains the reach trait, but loses the trident's normal thrown trait.",
+                "name": "Fighter's Fork",
+                "source": "7e20d720-6437-4b39-8b5e-62a335f456cd",
+                "target": "object",
+                "traits": [
+                    "Magical",
+                    "Transmutation"
+                ],
+                "inputRequired": "The status can be changed on the weapon's hint."
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You extend or shorten the trident's haft. When extended, the trident requires two hands to wield and gains the reach trait, but loses the trident's normal thrown trait.",
+                "showon": "Fighter's Fork",
+                "effects": [
+                    {
+                        "affected": "Fighter's Fork Gain Trait",
+                        "title": "'Reach'",
+                        "toggle": true,
+                        "show": false
+                    },
+                    {
+                        "affected": "Fighter's Fork Lose Trait",
+                        "title": "'Thrown 20 ft.'",
+                        "toggle": true,
+                        "show": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "name": "Filcher's Fork",
         "id": "0869325b-8daa-11ea-abca-ffb46fbada73",
         "desc": "This halfling weapon looks like a long, two-pronged fork and is used as both a weapon and a cooking implement.",
@@ -2083,6 +2144,7 @@
         "prof": "Simple/Martial Weapons",
         "activities": [
             {
+                "actions": "1A",
                 "activationType": "Interact",
                 "desc": "You cause the twigs to rapidly grow or contract, reshaping into a +1 striking staff, a +1 striking bo staff, or its disc form. In its disc form, it has negligible Bulk and must be held in one hand to be activated. In the other forms, it has the same Bulk as a normal weapon of its type. You can switch your grip as part of the activation.\n\nWhen you expand the item, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
                 "exclusiveActivityID": 1,
@@ -2102,6 +2164,7 @@
                 ]
             },
             {
+                "actions": "1A",
                 "activationType": "Interact",
                 "desc": "You cause the twigs to rapidly grow or contract, reshaping into a +1 striking staff, a +1 striking bo staff, or its disc form. In its disc form, it has negligible Bulk and must be held in one hand to be activated. In the other forms, it has the same Bulk as a normal weapon of its type. You can switch your grip as part of the activation.\n\nWhen you expand the item, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
                 "exclusiveActivityID": 1,
