@@ -111,6 +111,7 @@ export class CharacterHeritageChangeService {
             });
 
             level.skillChoices = level.skillChoices.filter(choice => choice.source !== heritage.name);
+            level.featChoices = level.featChoices.filter(choice => choice.source !== heritage.name);
 
             // Also remove the 5th level skill increase from Skilled Heritage if you are removing Skilled Heritage.
             // It is a basic skill increase and doesn't need processing.

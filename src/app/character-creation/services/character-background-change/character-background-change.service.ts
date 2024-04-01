@@ -53,6 +53,7 @@ export class CharacterBackgroundChangeService {
                     this._psp.featProcessingService?.processFeat(undefined, false, { creature: character, gain, choice, level });
                 });
             });
+
             level.featChoices = level.featChoices.filter(choice => choice.source !== 'Background');
 
             //Remove all Lores

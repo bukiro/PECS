@@ -67,6 +67,8 @@ export class CharacterAncestryChangeService {
                 });
             });
 
+            level.featChoices = level.featChoices.filter(choice => choice.source !== 'Ancestry');
+
             //Remove all Adopted Ancestry feats
             characterClass.levels.forEach(classLevel => {
                 classLevel.featChoices.forEach(choice => {
