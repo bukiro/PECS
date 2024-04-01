@@ -61,9 +61,9 @@ export class CharacterAncestryChangeService {
             });
 
             //We must specifically un-take the ancestry's feats to undo their effects.
-            ancestry.featChoices.filter(choice => choice.available).forEach(choice => {
-                choice.feats.forEach(gain => {
-                    this._featTakingService.takeFeat(character, undefined, gain.name, false, choice, gain.locked);
+            level.featChoices.filter(choice => choice.source === 'Ancestry').forEach(choice => {
+                choice.feats.forEach(feat => {
+                    this._featTakingService.takeFeat(character, undefined, feat.name, false, choice, feat.locked);
                 });
             });
 

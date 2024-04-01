@@ -104,9 +104,9 @@ export class CharacterHeritageChangeService {
 
             // Many feats get specially processed when taken.
             // We can't just delete these feats, but must specifically un-take them to undo their effects.
-            heritage.featChoices.filter(choice => choice.available).forEach(choice => {
+            level.featChoices.filter(choice => choice.source === heritage.name).forEach(choice => {
                 choice.feats.forEach(feat => {
-                    this._featTakingService.takeFeat(character, undefined, feat.name, false, choice, false);
+                    this._featTakingService.takeFeat(character, undefined, feat.name, false, choice, feat.locked);
                 });
             });
 

@@ -8,6 +8,7 @@ import { CreatureService } from 'src/app/services/character.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
+import { FeatTakingService } from '../feat-taking/feat-taking.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,6 +19,7 @@ export class CharacterBackgroundChangeService {
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _skillsDataService: SkillsDataService,
+        private readonly _featTakingService: FeatTakingService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
@@ -49,8 +51,8 @@ export class CharacterBackgroundChangeService {
             //Many feats get specially processed when taken.
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
-                choice.feats.forEach(gain => {
-                    this._psp.featProcessingService?.processFeat(undefined, false, { creature: character, gain, choice, level });
+                choice.feats.forEach(feat => {
+                    this._featTakingService.takeFeat(character, undefined, feat.name, false, choice, feat.locked);
                 });
             });
 
