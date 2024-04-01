@@ -87,9 +87,7 @@ export class CharacterBackgroundChangeService {
             level.featChoices.push(...background.featChoices);
             level.loreChoices.push(...background.loreChoices);
 
-            //Some feats get specially processed when taken.
-            //We have to explicitly take these feats to process them.
-            //So we remove them and then "take" them again.
+            //Process the new feat choices.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
                     this._psp.featProcessingService?.processFeat(undefined, true, { creature: character, gain, choice, level });

@@ -96,6 +96,7 @@ export class CharacterAncestryChangeService {
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
 
             level.abilityChoices.push(...ancestry.abilityChoices);
+            level.featChoices.push(...ancestry.featChoices);
 
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
 
@@ -104,11 +105,10 @@ export class CharacterAncestryChangeService {
                 this._itemGrantingService.grantGrantedItem(freeItem, character);
             });
 
-            //Many feats get specially processed when taken.
-            //We have to explicitly take these feats to process them.
-            ancestry.featChoices.forEach(choice => {
+            //Process the new feat choices.
+            level.featChoices.filter(choice => choice.source === 'Ancestry').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featTakingService.takeFeat(character, undefined, gain.name, true, choice, gain.locked);
+                    this._psp.featProcessingService?.processFeat(undefined, true, { creature: character, gain, choice, level });
                 });
             });
         }

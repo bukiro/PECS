@@ -183,17 +183,17 @@ export class CharacterHeritageChangeService {
             ancestry.traits.push(...heritage.traits);
             ancestry.ancestries.push(...heritage.ancestries);
             level.skillChoices.push(...heritage.skillChoices);
+            level.featChoices.push(...heritage.featChoices);
 
             // Grant all items and save their id in the ItemGain.
             heritage.gainItems.forEach(freeItem => {
                 this._itemGrantingService.grantGrantedItem(freeItem, character);
             });
 
-            // Many feats get specially processed when taken.
-            // We have to explicitly take these feats to process them.
+            //Process the new feat choices.
             level.featChoices.filter(choice => choice.source === heritage.name).forEach(choice => {
-                choice.feats.forEach(feat => {
-                    this._featTakingService.takeFeat(character, undefined, feat.name, true, choice, feat.locked);
+                choice.feats.forEach(gain => {
+                    this._psp.featProcessingService?.processFeat(undefined, true, { creature: character, gain, choice, level });
                 });
             });
 
