@@ -189,7 +189,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.activeSkillChoiceContent$ = this._activeChoiceContent$
             .pipe(
                 map(content =>
-                    content?.choice instanceof SkillChoice
+                    content?.choice instanceof SkillChoice && !(content.choice instanceof LoreChoice)
                         ? content as { name: string; levelNumber: number; choice: SkillChoice }
                         : undefined,
                 ),
