@@ -836,6 +836,11 @@
         "actions": "Reaction",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
+        "traits": [
+            "Barbarian",
+            "Champion",
+            "Fighter"
+        ],
         "trigger": "A creature within your reach uses a manipulate action or a move action, makes a ranged attack, or leaves a square during a move action it's using.",
         "target": "other",
         "desc": "You lash out at a foe that leaves an opening. Make a melee Strike against the triggering creature. If your attack is a critical hit and the trigger was a manipulate action, you disrupt that action. This Strike doesn't count toward your multiple attack penalty, and your multiple attack penalty doesn't apply to this Strike."
@@ -5323,5 +5328,37 @@
         "cooldown": 10,
         "target": "other",
         "desc": "Dense, twitching creepers sprout from every surface and fill any bodies of water in the area. Once per round, you can make a vine lash out from any square within the expanse of creepers by using a single action, which has the concentrate trait. This vine has a 15-foot reach. Make a melee spell attack roll against the target; on a success, the vine pulls the target into the creepers and makes it immobilized for 1 round or until the creature Escapes (against your spell DC), whichever comes first."
+    },
+    {
+        "name": "Divine Grace",
+        "actions": "Reaction",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "traits": [
+            "Champion"
+        ],
+        "trigger": "You attempt a save against a spell, before you roll.",
+        "target": "self",
+        "showonSkill": "Fortitude, Reflex, Will",
+        "desc": "You call upon your deity's grace, gaining a +2 circumstance bonus to the save.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Divine Grace"
+            }
+        ]
+    },
+    {
+        "name": "Mercy",
+        "actions": "1A",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "traits": [
+            "Champion",
+            "Concentrate",
+            "Metamagic"
+        ],
+        "target": "self",
+        "desc": "Your touch relieves fear and restores movement. If the next action you use is to cast lay on hands, you can attempt to counteract a fear effect or an effect imposing the paralyzed condition on the target, in addition to the other benefits of lay on hands."
     }
 ]
