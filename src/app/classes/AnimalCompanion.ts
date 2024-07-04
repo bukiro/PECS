@@ -1,7 +1,7 @@
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
-import { AbilityBoostInterface } from 'src/app/classes/AbilityBoostInterface';
+import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ability-boost';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
@@ -153,9 +153,9 @@ export class AnimalCompanion extends Creature implements Serializable<AnimalComp
         source = '',
         sourceId = '',
         locked: boolean | undefined = undefined,
-    ): Array<AbilityBoostInterface> {
+    ): Array<AbilityBoost> {
         if (this.class) {
-            const boosts: Array<AbilityBoostInterface> = [];
+            const boosts: Array<AbilityBoost> = [];
             // When animal companion levels are checked for ability boosts,
             // we don't care about the character level - so we use the companion's level here.
             const levels: Array<AnimalCompanionLevel | AnimalCompanionAncestry> =

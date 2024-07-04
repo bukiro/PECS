@@ -4,7 +4,7 @@ import { Effect } from 'src/app/classes/Effect';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { BonusDescription } from '../../ui/bonus-list';
 import { Observable, combineLatest, map } from 'rxjs';
-import { addBonusDescriptionFromEffect } from '../../util/bonusDescriptionUtils';
+import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 
 export interface InvestedLiveValue {

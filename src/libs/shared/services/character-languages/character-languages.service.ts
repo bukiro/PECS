@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ObjectEffectsGenerationService } from '../../effects-generation/services/object-effects-generation/object-effects-generation';
-import { abilityModFromAbilityValue } from '../../util/abilityUtils';
+import { abilityModFromAbilityValue } from '../../util/ability-base-value-utils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';

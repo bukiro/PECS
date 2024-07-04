@@ -10,7 +10,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
-import { AbilityBoostInterface } from './AbilityBoostInterface';
+import { AbilityBoost } from '../../libs/shared/definitions/creature-properties/ability-boost';
 import { SkillIncrease } from './SkillIncrease';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject, Observable, combineLatest, map, switchMap } from 'rxjs';
@@ -204,7 +204,7 @@ export abstract class Creature implements Serializable<Creature> {
         source?: string,
         sourceId?: string,
         locked?: boolean,
-    ): Array<AbilityBoostInterface>;
+    ): Array<AbilityBoost>;
 
     public abstract skillIncreases(
         minLevelNumber: number,

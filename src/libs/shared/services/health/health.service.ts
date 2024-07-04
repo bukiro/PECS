@@ -6,7 +6,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { SettingsService } from '../settings/settings.service';
-import { abilityModFromAbilityValue } from '../../util/abilityUtils';
+import { abilityModFromAbilityValue } from '../../util/ability-base-value-utils';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap, take, tap } from 'rxjs';
 import { propMap$ } from '../../util/observableUtils';

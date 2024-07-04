@@ -1,1 +1,1 @@
-export * from './definitions/interfaces/bonus-description';
+export * from '../../definitions/bonuses/bonus-description';

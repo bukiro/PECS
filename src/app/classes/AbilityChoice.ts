@@ -1,5 +1,6 @@
-import { AbilityBoostInterface } from 'src/app/classes/AbilityBoostInterface';
+
 import { Character } from 'src/app/classes/Character';
+import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ability-boost';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
@@ -28,7 +29,7 @@ export class AbilityChoice implements Serializable<AbilityChoice> {
 
     public filter: Array<string> = [];
 
-    public boosts: Array<AbilityBoostInterface> = [];
+    public boosts: Array<AbilityBoost> = [];
 
     public static from(values: DeepPartial<AbilityChoice>): AbilityChoice {
         return new AbilityChoice().with(values);

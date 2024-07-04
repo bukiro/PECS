@@ -3,7 +3,7 @@ import { Skill } from 'src/app/classes/Skill';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureSizes } from 'src/libs/shared/definitions/creatureSizes';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { AbilityBoostInterface } from './AbilityBoostInterface';
+import { AbilityBoost } from '../../libs/shared/definitions/creature-properties/ability-boost';
 import { SkillIncrease } from './SkillIncrease';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
@@ -110,7 +110,7 @@ export class Familiar extends Creature implements Serializable<Familiar> {
         return { result: sum, explain: explain.trim() };
     }
 
-    public abilityBoosts(): Array<AbilityBoostInterface> { return []; }
+    public abilityBoosts(): Array<AbilityBoost> { return []; }
 
     public skillIncreases(): Array<SkillIncrease> { return []; }
 }

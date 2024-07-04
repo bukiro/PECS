@@ -50,14 +50,15 @@ import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Alignments } from 'src/libs/shared/definitions/alignments';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { Trait } from 'src/app/classes/Trait';
-import { AbilityBoostInterface } from 'src/app/classes/AbilityBoostInterface';
+import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ability-boost';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { Skill } from 'src/app/classes/Skill';
 import { creatureSizeName } from 'src/libs/shared/util/creatureUtils';
-import { abilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
+import { abilityModFromAbilityValue } from 'src/libs/shared/util/ability-base-value-utils';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { Weapon } from 'src/app/classes/Weapon';
-import { AbilityBaseValue, AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { AbilityBaseValueAggregate } from 'src/libs/shared/definitions/display-aggregates/ability-base-value-aggregate';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-companion-ancestry/animal-companion-ancestry.service';
 import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
 import { CharacterClassChangeService } from 'src/libs/character-creation/services/character-class-change/character-class-change.service';
@@ -620,7 +621,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public abilityBaseValue$(
         ability: Ability,
         levelNumber: number,
-    ): Observable<AbilityBaseValue> {
+    ): Observable<AbilityBaseValueAggregate> {
         return this._abilityValuesService.baseValue$(ability, this.character, levelNumber);
     }
 
@@ -793,7 +794,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         source = '',
         sourceId = '',
         locked?: boolean,
-    ): Array<AbilityBoostInterface> {
+    ): Array<AbilityBoost> {
         return this.character.abilityBoosts(levelNumber, levelNumber, abilityName, type, source, sourceId, locked);
     }
 

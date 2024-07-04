@@ -18,7 +18,7 @@ import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
 import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonusDescriptionUtils';
+import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-uils';
 
 export interface AttackResult {
     range: 'ranged' | 'melee';

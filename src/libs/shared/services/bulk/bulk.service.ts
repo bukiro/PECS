@@ -7,7 +7,7 @@ import { CreaturePropertiesService } from '../creature-properties/creature-prope
 import { InventoryPropertiesService } from '../inventory-properties/inventory-properties.service';
 import { BonusDescription } from '../../ui/bonus-list';
 import { Observable, combineLatest, map, take, tap, zip } from 'rxjs';
-import { addBonusDescriptionFromEffect } from '../../util/bonusDescriptionUtils';
+import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
 
 export interface BulkLiveValue {
     result: number;

@@ -7,7 +7,6 @@ import { combineLatest, map, Observable, of, Subscription, switchMap } from 'rxj
 import { skillLevelName } from 'src/libs/shared/util/skillUtils';
 import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { Character } from 'src/app/classes/Character';
-import { abilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -18,6 +17,7 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { abilityModFromAbilityValue } from 'src/libs/shared/util/ability-base-value-utils';
 
 interface SkillChoiceParameters {
     listId: string;

@@ -5,7 +5,6 @@ import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Settings } from 'src/app/classes/Settings';
 import { Creature } from 'src/app/classes/Creature';
-import { AbilityBoostInterface } from 'src/app/classes/AbilityBoostInterface';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
@@ -20,6 +19,8 @@ import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { AbilityBaseValueSetting } from 'src/libs/shared/definitions/creature-properties/ability-base-value-setting';
+import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ability-boost';
 
 interface IgnoredMessage { id: string; ttl: number }
 
@@ -81,7 +82,7 @@ export class Character extends Creature implements Serializable<Character> {
     private _experiencePoints = 0;
     private _partyName = '';
 
-    private readonly _baseValues = new OnChangeArray<{ name: string; baseValue: number }>();
+    private readonly _baseValues = new OnChangeArray<AbilityBaseValueSetting>();
 
     private _class: CharacterClass = new CharacterClass();
     private _settings: Settings = new Settings();
@@ -168,11 +169,11 @@ export class Character extends Creature implements Serializable<Character> {
         this.settings$.next(this._settings);
     }
 
-    public get baseValues(): OnChangeArray<{ name: string; baseValue: number }> {
+    public get baseValues(): OnChangeArray<AbilityBaseValueSetting> {
         return this._baseValues;
     }
 
-    public set baseValues(value: Array<{ name: string; baseValue: number }>) {
+    public set baseValues(value: Array<AbilityBaseValueSetting>) {
         this._baseValues.setValues(...value);
     }
 
@@ -256,9 +257,9 @@ export class Character extends Creature implements Serializable<Character> {
         source = '',
         sourceId = '',
         locked: boolean | undefined = undefined,
-    ): Array<AbilityBoostInterface> {
+    ): Array<AbilityBoost> {
         if (this.class) {
-            const boosts: Array<AbilityBoostInterface> = [];
+            const boosts: Array<AbilityBoost> = [];
             const levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
 
             levels.forEach(level => {

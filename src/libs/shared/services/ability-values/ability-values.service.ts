@@ -2,28 +2,23 @@ import { Injectable } from '@angular/core';
 import { Ability } from 'src/app/classes/Ability';
 import { Creature } from 'src/app/classes/Creature';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { Defaults } from '../../definitions/defaults';
-import { abilityModFromAbilityValue } from '../../util/abilityUtils';
+import {
+    abilityBaseValueFromCreature,
+    abilityModFromAbilityValue,
+    mapAbilityBoostsToBaseValueAggregate,
+} from '../../util/ability-base-value-utils';
 import { AbilitiesDataService } from '../data/abilities-data.service';
 import { BonusDescription } from '../../ui/bonus-list';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
-import { addBonusDescriptionFromEffect } from '../../util/bonusDescriptionUtils';
+import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
 import { isEqualPrimitiveObject, isEqualSerializableArrayWithoutId } from '../../util/compare-utils';
-
-const abilityBoostWeightFull = 2;
-const abilityBoostWeightHalf = 1;
-const abilityBoostWeightBreakpoint = 18;
+import { AbilityBaseValueAggregate } from '../../definitions/display-aggregates/ability-base-value-aggregate';
 
 export interface AbilityLiveValue {
     ability: Ability;
     value: AbilityValue;
     mod: AbilityMod;
-}
-
-export interface AbilityBaseValue {
-    result: number;
-    bonuses: Array<BonusDescription>;
 }
 
 export interface AbilityValue {
@@ -72,25 +67,18 @@ export class AbilityValuesService {
         abilityOrName: Ability | string,
         creature: Creature,
         charLevel?: number,
-    ): Observable<AbilityBaseValue> {
+    ): Observable<AbilityBaseValueAggregate> {
         if (creature.isFamiliar()) {
             return of({ result: 0, bonuses: [] });
         } else {
             const ability = this._normalizeAbilityOrName(abilityOrName);
 
             //Get manual baseValues for the character if they exist, otherwise 10
-            let result = Defaults.abilityBaseValue;
-
-            if (creature.isCharacter() && creature.baseValues.length) {
-                creature.baseValues.filter(ownValue => ownValue.name === ability.name).forEach(ownValue => {
-                    result = ownValue.baseValue;
-                });
-            }
+            const baseValue = abilityBaseValueFromCreature(ability.name, creature);
 
             return CharacterFlatteningService.levelOrCurrent$(charLevel)
                 .pipe(
                     map(effectiveLevel => {
-                        const bonuses = new Array<BonusDescription>({ title: 'Base Value', value: `${ result }` });
                         //Get any boosts from the character and sum them up
                         //Boosts are +2 until 18, then +1 for Character
                         //Boosts are always +2 for Companion
@@ -98,24 +86,15 @@ export class AbilityValuesService {
                         //Infos are not processed.
                         //TO-DO: Probably make reactive?
                         const boosts = creature.abilityBoosts(0, effectiveLevel, ability.name);
+                        const isCharacter = creature.isCharacter();
 
-                        boosts.forEach(boost => {
-                            if (boost.type === 'Boost') {
-                                const weight = (
-                                    result < abilityBoostWeightBreakpoint || creature.isAnimalCompanion()
-                                        ? abilityBoostWeightFull
-                                        : abilityBoostWeightHalf
-                                );
-
-                                result += weight;
-                                bonuses.push({ title: `${ boost.source }`, value: `${ weight }` });
-                            } else if (boost.type === 'Flaw') {
-                                result -= abilityBoostWeightFull;
-                                bonuses.push({ title: `${ boost.source }`, value: `-${ abilityBoostWeightFull }` });
-                            }
-                        });
-
-                        return { result, bonuses };
+                        return mapAbilityBoostsToBaseValueAggregate(
+                            boosts,
+                            {
+                                startingValue: baseValue,
+                                startingBonusDescriptions: [{ title: 'Base Value', value: `${ baseValue }` }],
+                                isCharacter,
+                            });
                     }),
                 );
         }
@@ -125,32 +104,28 @@ export class AbilityValuesService {
         abilityOrName: Ability | string,
         creature: Creature,
         charLevel?: number,
-        baseValue?: AbilityBaseValue,
+        baseValue?: AbilityBaseValueAggregate,
     ): Observable<AbilityValue> {
         //Calculates the ability with all active effects
         if (creature.isFamiliar()) {
             return of({ result: 0, bonuses: [] });
         } else {
             const ability = this._normalizeAbilityOrName(abilityOrName);
-            const baseValueIndex = 0;
-            const absolutesIndex = 1;
-            const relativesIndex = 2;
 
             return combineLatest([
                 (
                     baseValue
                         ? of(baseValue)
                         : this.baseValue$(abilityOrName, creature, charLevel)
-                ),
-                this._creatureEffectsService.absoluteEffectsOnThis$(creature, ability.name),
-                this._creatureEffectsService.relativeEffectsOnThis$(creature, ability.name),
+
+                )
+                    .pipe(distinctUntilChanged<AbilityBaseValueAggregate>(isEqualPrimitiveObject)),
+                this._creatureEffectsService.absoluteEffectsOnThis$(creature, ability.name)
+                    .pipe(distinctUntilChanged(isEqualSerializableArrayWithoutId)),
+                this._creatureEffectsService.relativeEffectsOnThis$(creature, ability.name)
+                    .pipe(distinctUntilChanged(isEqualSerializableArrayWithoutId)),
             ])
                 .pipe(
-                    distinctUntilChanged((previous, current) =>
-                        isEqualPrimitiveObject(previous[baseValueIndex], current[baseValueIndex])
-                        && isEqualSerializableArrayWithoutId(previous[absolutesIndex], current[absolutesIndex])
-                        && isEqualSerializableArrayWithoutId(previous[relativesIndex], current[relativesIndex]),
-                    ),
                     map(([effectiveBaseValue, absolutes, relatives]) => {
                         let result: number = effectiveBaseValue.result;
                         let bonuses = effectiveBaseValue.bonuses;
@@ -185,11 +160,16 @@ export class AbilityValuesService {
             const ability = this._normalizeAbilityOrName(abilityOrName);
 
             return combineLatest([
-                value
-                    ? of(value)
-                    : this.value$(abilityOrName, creature, charLevel),
-                this._creatureEffectsService.absoluteEffectsOnThis$(creature, `${ ability.name } Modifier`),
-                this._creatureEffectsService.relativeEffectsOnThis$(creature, `${ ability.name } Modifier`),
+                (
+                    value
+                        ? of(value)
+                        : this.value$(abilityOrName, creature, charLevel)
+                )
+                    .pipe(distinctUntilChanged<AbilityValue>(isEqualPrimitiveObject)),
+                this._creatureEffectsService.absoluteEffectsOnThis$(creature, `${ ability.name } Modifier`)
+                    .pipe(distinctUntilChanged(isEqualSerializableArrayWithoutId)),
+                this._creatureEffectsService.relativeEffectsOnThis$(creature, `${ ability.name } Modifier`)
+                    .pipe(distinctUntilChanged(isEqualSerializableArrayWithoutId)),
             ])
                 .pipe(
                     map(([abilityValue, absolutes, relatives]) => {

@@ -1,4 +1,4 @@
-export interface AbilityBoostInterface {
+export interface AbilityBoost {
     name: string;
     type: string;
     source: string;

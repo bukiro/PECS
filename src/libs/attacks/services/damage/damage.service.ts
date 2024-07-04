@@ -22,7 +22,7 @@ import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-arma
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
 import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
-import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonusDescriptionUtils';
+import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-uils';
 import { strikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { ExtraDamageService } from './extra-damage.service';

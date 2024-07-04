@@ -14,7 +14,7 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 import { SkillsDataService } from '../data/skills-data.service';
 import { BonusDescription } from '../../ui/bonus-list';
 import { signNumber } from '../../util/numberUtils';
-import { addBonusDescriptionFromEffect } from '../../util/bonusDescriptionUtils';
+import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
 import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
 import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
