@@ -158,7 +158,7 @@
                         </ng-container>
                     </div>
                 </div>
-                <div class="charactersheet-column" [ngClass]="{'mobile-hide': shownContent() === null}">
+                <div class="charactersheet-column" [ngClass]="{'mobile-hide': !shownContent()}">
                     <div id="spells-choiceArea-top" style="margin-top:-.3em;"></div>
                     <!--Spell Choice content-->
                     <ng-container *ngIf="activeChoiceContent() as choiceContent">
