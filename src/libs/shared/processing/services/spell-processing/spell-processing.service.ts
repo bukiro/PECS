@@ -40,7 +40,7 @@ export class SpellProcessingService {
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
-    //TO-DO: Verify if this actually transforms the gain, even in an observable
+    //TODO: Verify if this actually transforms the gain, even in an observable
     public processSpell(
         spell: Spell,
         activated: boolean,

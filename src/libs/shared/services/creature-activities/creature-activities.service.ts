@@ -24,7 +24,7 @@ export class CreatureActivitiesService {
         private readonly _traitsDataService: TraitsDataService,
     ) { }
 
-    //TO-DO: This will not update properly until every source is made async.
+    //TODO: This will not update properly until every source is made async.
     public creatureOwnedActivities$(
         creature: Creature,
         levelNumber: number = creature.level,

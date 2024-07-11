@@ -263,7 +263,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
             );
     }
 
-    //TO-DO: There is some duplicate code between this and _canSpellBeLearned.
+    //TODO: There is some duplicate code between this and _canSpellBeLearned.
     // Can the calculations be run once and the result reused?
     // Generally the spell learning could stand to be more abstracted and reusable.
     public availableForLearningDescription$(

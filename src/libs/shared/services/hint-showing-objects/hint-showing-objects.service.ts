@@ -256,7 +256,7 @@ export class HintShowingObjectsService {
 
         const hasTooManySlottedAeonStones = creature.isCharacter() && creature.hasTooManySlottedAeonStones();
 
-        //TO-DO: Verify that these nested combineLatest calls actually work.
+        //TODO: Verify that these nested combineLatest calls actually work.
         return creature.inventories.values$
             .pipe(
                 switchMap(inventories => combineLatest(

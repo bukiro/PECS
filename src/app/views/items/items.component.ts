@@ -107,7 +107,7 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     public creatureTypesEnum = CreatureTypes;
     public newItemType?: keyof ItemCollection;
-    //TO-DO: Make new Item creation a separate component (a wizard would be nice)
+    //TODO: Make new Item creation a separate component (a wizard would be nice)
     public newItem: Equipment | Consumable | null = null;
 
     public isTileMode$: Observable<boolean>;
@@ -200,7 +200,7 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
         SettingsService.settings.craftingTileMode = !isTileMode;
     }
 
-    //TO-DO: create list and pagination component for these lists
+    //TODO: create list and pagination component for these lists
     public incRange(amount: number): void {
         this.range += amount;
     }

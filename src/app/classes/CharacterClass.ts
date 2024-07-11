@@ -261,7 +261,7 @@ export class CharacterClass implements Serializable<CharacterClass> {
     /**
      * Gets featdata for a specific feat and source in a specific level range.
      * As this is an observable, the result is immutable. To change featdata, use filteredFeatDataSnapshot.
-     * //TO-DO: Is this actually true? Tests say no?
+     * //TODO: Is this actually true? Tests say no?
      *
      * @param minLevel
      * @param maxLevel

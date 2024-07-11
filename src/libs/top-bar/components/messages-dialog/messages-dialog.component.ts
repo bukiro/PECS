@@ -124,7 +124,7 @@ export class MessagesDialogComponent extends TrackByMixin(DialogComponent) imple
         }
     }
 
-    //TO-DO: instead of updating the BehaviorSubject, make enrichedMessages$ an observable that uses this as a pipe.
+    //TODO: instead of updating the BehaviorSubject, make enrichedMessages$ an observable that uses this as a pipe.
     private _enrichMessages(messages: Array<PlayerMessage>): void {
         zip(
             messages.map(message => zip([

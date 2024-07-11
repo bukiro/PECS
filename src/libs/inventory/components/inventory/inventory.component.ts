@@ -778,7 +778,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
         }
     }
 
-    //TO-DO: CraftingComponent has the same method. Maybe a CraftingService?
+    //TODO: CraftingComponent has the same method. Maybe a CraftingService?
     public cannotCraftReason$(item: Item, learned: FormulaLearned, type: string): Observable<Array<string>> {
         //Return any reasons why you cannot craft an item.
         const character: Character = this.character;

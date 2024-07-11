@@ -352,7 +352,7 @@ export class HealthService {
                             ? of()
                             : combineLatest([
                                 this.maxDying$(creature),
-                                //TO-DO: dying needs to be async, or else this won't ever update.
+                                //TODO: dying needs to be async, or else this won't ever update.
                                 of(this.dying(creature)),
                             ])
                                 .pipe(

@@ -1,4 +1,4 @@
-//TO-DO: Clean up all these different lookup functions; I'm sure we don't need them all?
+//TODO: Clean up all these different lookup functions; I'm sure we don't need them all?
 import { Injectable } from '@angular/core';
 import * as json_feats from 'src/assets/json/feats';
 import * as json_features from 'src/assets/json/features';

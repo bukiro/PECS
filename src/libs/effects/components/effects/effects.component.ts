@@ -127,7 +127,7 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
             .sort((a, b) => sortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
-    //TO-DO: Add an explanation why these are hidden.
+    //TODO: Add an explanation why these are hidden.
     public hiddenEffects(effects: Array<Effect>): Array<Effect> {
         return effects
             .filter(effect => effect.creature === this.creature.id && effect.applied && !effect.displayed)

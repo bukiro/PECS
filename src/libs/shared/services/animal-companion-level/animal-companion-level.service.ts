@@ -54,7 +54,7 @@ export class AnimalCompanionLevelsService {
         }
     }
 
-    //TO-DO: Check if this runs everytime it should.
+    //TODO: Check if this runs everytime it should.
     /**
      * Keeps track of all taken feats at the current character level that grow the animal companion,
      * then sets the companion level to the highest option (or 1).

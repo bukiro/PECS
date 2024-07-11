@@ -169,7 +169,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
         this._viewChangeSubscription?.unsubscribe();
     }
 
-    //TO-DO: Pretty sure this should be async.
+    //TODO: Pretty sure this should be async.
     public languages(): string {
         return CreatureService.character.class.languages
             .filter(language => (!language.level || language.level <= CreatureService.character.level) && language.name)

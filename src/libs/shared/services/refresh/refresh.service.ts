@@ -46,7 +46,7 @@ export class RefreshService {
         return this._detailChanged$;
     }
 
-    //TO-DO: Make this lowercase so the subscriptions don't have to (and then cleanup the subscriptions)
+    //TODO: Make this lowercase so the subscriptions don't have to (and then cleanup the subscriptions)
     public setComponentChanged(target = 'all'): void {
         if (['character', 'companion', 'familiar', 'all'].includes(target.toLowerCase())) {
             this._clearPreparedChanges(target);
@@ -186,7 +186,7 @@ export class RefreshService {
             this.prepareChangesByHints(creature, trait.hints);
         });
 
-        //TO-DO: Group these weapons with an item method, something like 'affectsAttackComponent'.
+        //TODO: Group these weapons with an item method, something like 'affectsAttackComponent'.
         if (
             item.isAlchemicalBomb() ||
             item.isOtherConsumableBomb() ||

@@ -308,7 +308,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
         this._viewChangeSubscription?.unsubscribe();
     }
 
-    //TO-DO: This method and others are also used in the spellbook. Can they be centralized, e.g. in the SpellCasting class?
+    //TODO: This method and others are also used in the spellbook. Can they be centralized, e.g. in the SpellCasting class?
     // (Let's try to avoid passing services into the models in the future, though.)
     private _maxSpellLevelOfCasting$(
         casting: SpellCasting,

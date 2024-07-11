@@ -101,7 +101,7 @@ export class Weapon extends Equipment implements MessageSerializable<Weapon> {
 
     /** Shoddy weapons take a -2 penalty to attacks. */
     public effectiveShoddy$ = new BehaviorSubject<ShoddyPenalties>(ShoddyPenalties.NotShoddy);
-    //TO-DO: This should be a true observable and update when it has reason to.
+    //TODO: This should be a true observable and update when it has reason to.
     // I'm not sure how, because it relies on the deity service.
     public effectiveEmblazonArmament$ = new BehaviorSubject<EmblazonArmamentSet | undefined>(undefined);
 

@@ -35,7 +35,7 @@ export class TypeService {
         return prototype;
     }
 
-    //TO-DO: Implement a merging mechanism for classes comparable to .with().
+    //TODO: Implement a merging mechanism for classes comparable to .with().
     // Alternatively, verify that it isn't needed.
     // Should arrays be replaced or merged in .with()?
     /**

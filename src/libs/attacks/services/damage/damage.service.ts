@@ -962,7 +962,7 @@ export class DamageService {
 
         context.traits.forEach(trait => {
             // Reduce traits like "Thrown 20 ft." to "Thrown".
-            //TO-DO: May cause trouble in the future if a trait has multiple words and a range, like "Ranged Trip 30 ft."
+            //TODO: May cause trouble in the future if a trait has multiple words and a range, like "Ranged Trip 30 ft."
             if (trait.includes(' ft')) {
                 effectPhrasesDamagePerDie.push(`${ trait.split(' ')[0] } Damage per Die`);
             } else {

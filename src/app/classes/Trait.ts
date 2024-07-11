@@ -169,7 +169,7 @@ export class Trait implements Serializable<Trait> {
                     let valueNumerical = 0;
 
                     try {
-                        //TO-DO: replace eval with system similar to featrequirements
+                        //TODO: replace eval with system similar to featrequirements
                         // eslint-disable-next-line no-eval
                         value = eval(effect.value).toString();
 
@@ -184,7 +184,7 @@ export class Trait implements Serializable<Trait> {
 
                     if (effect.setValue) {
                         try {
-                            //TO-DO: replace eval with system similar to featrequirements
+                            //TODO: replace eval with system similar to featrequirements
                             // eslint-disable-next-line no-eval
                             setValue = eval(effect.setValue).toString();
                         } catch (error) {

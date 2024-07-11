@@ -172,7 +172,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
             );
     }
 
-    //TO-DO: customskills() should become async.
+    //TODO: customskills() should become async.
     public classDCs$(): Observable<Array<Skill>> {
         return combineLatest(
             this._skillsDataService

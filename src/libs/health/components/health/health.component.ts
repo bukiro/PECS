@@ -325,7 +325,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
             );
     }
 
-    //TO-DO: This should come as part of the respective value instead of separately.
+    //TODO: This should come as part of the respective value instead of separately.
     public doAbsoluteEffectsExistOnThis$(name: string): Observable<boolean> {
         return this._creatureEffectsService.absoluteEffectsOnThis$(this.creature, name)
             .pipe(
@@ -333,12 +333,12 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
             );
     }
 
-    //TO-DO: This should come as part of the respective value instead of separately.
+    //TODO: This should come as part of the respective value instead of separately.
     public doBonusEffectsExistOnThis$(name: string): Observable<boolean> {
         return this._creatureEffectsService.doBonusEffectsExistOnThis$(this.creature, name);
     }
 
-    //TO-DO: This should come as part of the respective value instead of separately.
+    //TODO: This should come as part of the respective value instead of separately.
     public doPenaltyEffectsExistOnThis$(name: string): Observable<boolean> {
         return this._creatureEffectsService.doPenaltyEffectsExistOnThis$(this.creature, name);
     }

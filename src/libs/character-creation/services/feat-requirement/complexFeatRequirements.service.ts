@@ -230,7 +230,7 @@ export class ComplexFeatRequirementsService {
             return of(true);
         }
 
-        //TO-DO: Make reactive.
+        //TODO: Make reactive.
         return of(
             complexreq.countLores?.map(lorereq => {
                 const allLores = Array.from(new Set(
@@ -595,7 +595,7 @@ export class ComplexFeatRequirementsService {
             return of(true);
         }
 
-        //TO-DO: Make reactive.
+        //TODO: Make reactive.
         return of(
             context.character.class.learnedSpells(),
         )

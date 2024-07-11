@@ -484,7 +484,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
         return this._spellsDataService.spellFromName(name);
     }
 
-    //TO-DO: Verify that this mutates the effectChoices properly (and generally works).
+    //TODO: Verify that this mutates the effectChoices properly (and generally works).
     public spellConditions$(
         spell: Spell,
         levelNumber: number,

@@ -84,7 +84,7 @@ export class AbilityValuesService {
                         //Boosts are always +2 for Companion
                         //Flaws are always -2
                         //Infos are not processed.
-                        //TO-DO: Probably make reactive?
+                        //TODO: Probably make reactive?
                         const boosts = creature.abilityBoosts(0, effectiveLevel, ability.name);
                         const isCharacter = creature.isCharacter();
 

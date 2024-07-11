@@ -126,7 +126,7 @@ export class SpellPropertiesService {
                     //If needed, calculate the dynamic effective spell level.
                     if (context.gain.dynamicEffectiveSpellLevel) {
                         try {
-                            //TO-DO: replace eval with system similar to featrequirements
+                            //TODO: replace eval with system similar to featrequirements
                             // eslint-disable-next-line no-eval
                             level = parseInt(eval(context.gain.dynamicEffectiveSpellLevel), 10);
                         } catch (e) {

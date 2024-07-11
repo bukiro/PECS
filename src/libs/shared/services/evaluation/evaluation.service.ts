@@ -70,7 +70,7 @@ export class EvaluationService {
         private readonly _skillsDataService: SkillsDataService,
     ) { }
 
-    //TO-DO: Turn this into an async function that doesn't use eval. Something like the complex feat requirements system.
+    //TODO: Turn this into an async function that doesn't use eval. Something like the complex feat requirements system.
     /**
      * Evaluate formulas from json strings that are used for effects and condition prerequisites.
      * These formulas are written out javascript functions that use specific values and functions defined here.
@@ -290,7 +290,7 @@ export class EvaluationService {
                         // and it seems closer to the intention - that is, I think that
                         // "Athletics modifier of x, unless your own Athletics modifier is higher"
                         // probably refers to the modifier before at least circumstance and status effects.
-                        //TO-DO: item effects should probably still apply? But then we need to guard against flipflopping effects.
+                        //TODO: item effects should probably still apply? But then we need to guard against flipflopping effects.
                         this._skillValuesService.baseValue$(skillName, Creature, Level)
                             .pipe(
                                 map(value => ({ skill: skillName, value })),

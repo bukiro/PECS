@@ -105,7 +105,7 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
         SettingsService.settings.craftingTileMode = isTileMode;
     }
 
-    //TO-DO: create list and pagination component for these lists
+    //TODO: create list and pagination component for these lists
     public incRange(amount: number): void {
         this.range += amount;
     }

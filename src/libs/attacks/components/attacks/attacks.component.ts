@@ -545,7 +545,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         const creature = this.creature;
         const character = CreatureService.character;
 
-        //TO-DO: Shouldn't it be the character that has Hunt Prey active?
+        //TODO: Shouldn't it be the character that has Hunt Prey active?
         const hasCondition = (conditionCreature: Creature, name: string): boolean => (
             !!this._creatureConditionsService.currentCreatureConditions(conditionCreature, { name }, { readonly: true }).length
         );

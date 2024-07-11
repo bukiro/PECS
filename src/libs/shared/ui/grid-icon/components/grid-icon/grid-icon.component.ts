@@ -30,7 +30,7 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 })
 export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 
-    //TO-DO: This component should be much dumber.
+    //TODO: This component should be much dumber.
     // Create wrappers for the different objects that build a gridIcon, and let them create the title, subTitle, superTitle etc.
 
     @Input()
@@ -449,7 +449,7 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
         // Show condition value, and show effect values over 2 characters, trimmed to 6 characters.
         if (this.condition) {
             return combineLatest([
-                //TO-DO: Make reactive
+                //TODO: Make reactive
                 of(this.condition.value),
                 of(this.condition.duration),
             ])

@@ -295,7 +295,7 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
             );
     }
 
-    //TO-DO: Verify that effectChoices is properly mutated.
+    //TODO: Verify that effectChoices is properly mutated.
     public spellConditions$(
         spell: Spell,
         spellLevel: number,

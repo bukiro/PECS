@@ -362,7 +362,7 @@ export abstract class Item implements Serializable<Item> {
         return this.subType[0] || '';
     }
 
-    //TO-DO: Make reactive
+    //TODO: Make reactive
     public activatedTraitsActivations(): Array<TraitActivation> {
         return this.traitActivations.filter(activation => activation.active || activation.active2 || activation.active3);
     }

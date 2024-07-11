@@ -89,7 +89,7 @@ export class ActivityContentComponent extends TrackByMixin(BaseClass) implements
         return this.activity.castSpells;
     }
 
-    //TO-DO: Verify that this mutates the spellEffectChoices properly (and generally works).
+    //TODO: Verify that this mutates the spellEffectChoices properly (and generally works).
     public spellConditions$(
         spellCast: SpellCast,
         spellCastIndex: number,
