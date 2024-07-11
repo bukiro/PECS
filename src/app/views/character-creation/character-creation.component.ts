@@ -205,7 +205,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this.activeSkillChoiceContent$ = this._activeChoiceContent$
             .pipe(
                 map(content =>
-                    content?.choice instanceof SkillChoice
+                    content?.choice instanceof SkillChoice && !(content.choice instanceof LoreChoice)
                         ? content as { name: string; levelNumber: number; choice: SkillChoice }
                         : undefined,
                 ),

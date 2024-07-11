@@ -21015,7 +21015,7 @@
         ],
         "levelreq": 6,
         "featreq": [
-            "Divine Ally (Shield)"
+            "Divine Ally: Shield Ally"
         ]
     },
     {
@@ -37209,6 +37209,53 @@
                     }
                 ]
             }
+        ]
+    },
+    {
+        "name": "Divine Grace",
+        "desc": "You call upon your deity's grace, gaining a +2 circumstance bonus to a save.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Divine Grace"
+        ]
+    },
+    {
+        "name": "Mercy",
+        "desc": "Your touch relieves fear and restores movement.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "traits": [
+            "Champion",
+            "Concentrate",
+            "Metamagic"
+        ],
+        "levelreq": 4,
+        "complexreqdesc": "devotion spell (lay on hands)",
+        "complexreq": [
+            {
+                "countSpells": [
+                    {
+                        "query": {
+                            "anyOfNames": "Lay on Hands",
+                            "ofSpellCasting": {
+                                "castingType": "Focus",
+                                "className": "Champion"
+                            }
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ],
+        "gainActivities": [
+            "Mercy"
         ]
     },
     {

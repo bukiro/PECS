@@ -26,7 +26,6 @@ export class LoreChoice extends SkillChoice implements Serializable<LoreChoice> 
     public loreDesc = '';
     public loreName = '';
     public maxRank = 0;
-    public source = '';
 
     public increases: Array<SkillIncrease> = [];
 

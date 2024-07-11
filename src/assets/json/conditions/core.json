@@ -4992,6 +4992,28 @@
         "hide": true
     },
     {
+        "name": "Divine Grace",
+        "desc": "You have called upon your deity's grace, gaining a +2 circumstance bonus to the next save.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Saving Throws",
+                "show": true,
+                "type": "circumstance",
+                "value": "2"
+            }
+        ]
+    },
+    {
         "name": "Arsenic",
         "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "sourceBook": "Core Rulebook",

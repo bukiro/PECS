@@ -102,13 +102,14 @@ export class CharacterHeritageChangeService {
 
             // Many feats get specially processed when taken.
             // We can't just delete these feats, but must specifically un-take them to undo their effects.
-            heritage.featChoices.filter(choice => choice.available).forEach(choice => {
+            level.featChoices.filter(choice => choice.source === heritage.name).forEach(choice => {
                 choice.feats.forEach(feat => {
-                    this._featTakingService.takeFeat(character, undefined, feat.name, false, choice, false);
+                    this._featTakingService.takeFeat(character, undefined, feat.name, false, choice, feat.locked);
                 });
             });
 
             level.skillChoices = level.skillChoices.filter(choice => choice.source !== heritage.name);
+            level.featChoices = level.featChoices.filter(choice => choice.source !== heritage.name);
 
             // Also remove the 5th level skill increase from Skilled Heritage if you are removing Skilled Heritage.
             // It is a basic skill increase and doesn't need processing.
@@ -181,17 +182,17 @@ export class CharacterHeritageChangeService {
             ancestry.traits.push(...heritage.traits);
             ancestry.ancestries.push(...heritage.ancestries);
             level.skillChoices.push(...heritage.skillChoices);
+            level.featChoices.push(...heritage.featChoices);
 
             // Grant all items and save their id in the ItemGain.
             heritage.gainItems.forEach(freeItem => {
                 this._itemGrantingService.grantGrantedItem(freeItem, character);
             });
 
-            // Many feats get specially processed when taken.
-            // We have to explicitly take these feats to process them.
+            //Process the new feat choices.
             level.featChoices.filter(choice => choice.source === heritage.name).forEach(choice => {
-                choice.feats.forEach(feat => {
-                    this._featTakingService.takeFeat(character, undefined, feat.name, true, choice, feat.locked);
+                choice.feats.forEach(gain => {
+                    this._psp.featProcessingService?.processFeat(undefined, true, { creature: character, gain, choice, level });
                 });
             });
 

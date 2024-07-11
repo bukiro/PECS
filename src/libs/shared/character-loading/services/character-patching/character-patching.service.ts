@@ -689,7 +689,7 @@ export class CharacterPatchingService {
                     ) {
                         choice.dynamicAvailable =
                             '(choice.level > Highest_Spell_Level() - 2) ? choice.available '
-                            + ': Math.max(choice.available + Has_Feat(\'Arcane Breadth\'), 0)';
+                            + ': Math.max(choice.available + (Has_Feat(\'Arcane Breadth\') ? 1 : 0), 0)';
                     } else if (
                         [
                             'Feat: Basic Bard Spellcasting',
@@ -699,7 +699,7 @@ export class CharacterPatchingService {
                     ) {
                         choice.dynamicAvailable =
                             '(choice.level > Highest_Spell_Level() - 2) ? choice.available '
-                            + ': Math.max(choice.available + Has_Feat(\'Occult Breadth\'), 0)';
+                            + ': Math.max(choice.available + (Has_Feat(\'Occult Breadth\') ? 1 : 0), 0)';
                     } else if (
                         [
                             'Feat: Basic Druid Spellcasting',
@@ -709,7 +709,7 @@ export class CharacterPatchingService {
                     ) {
                         choice.dynamicAvailable =
                             '(choice.level > Highest_Spell_Level() - 2) ? choice.available '
-                            + ': Math.max(choice.available + Has_Feat(\'Primal Breadth\'), 0)';
+                            + ': Math.max(choice.available + (Has_Feat(\'Primal Breadth\') ? 1 : 0), 0)';
                     } else if (
                         [
                             'Feat: Basic Sorcerer Spellcasting',
@@ -719,7 +719,7 @@ export class CharacterPatchingService {
                     ) {
                         choice.dynamicAvailable =
                             '(choice.level > Highest_Spell_Level() - 2) ? choice.available '
-                            + ': Math.max(choice.available + Has_Feat(\'Bloodline Breadth\'), 0)';
+                            + ': Math.max(choice.available + (Has_Feat(\'Bloodline Breadth\') ? 1 : 0), 0)';
                     }
                 });
             });
