@@ -238,7 +238,7 @@
 
                     <div
                         class="character-sheet-column"
-                        [ngClass]="{'mobile-hide': shownContent() === null}"
+                        [ngClass]="{'mobile-hide': !shownContent()}"
                     >
                         <div
                             id="spells-choiceArea-top"
