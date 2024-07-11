@@ -57,7 +57,7 @@ export class CharacterClassChangeService {
         //Many feats get specially processed when taken.
         //We can't just delete these feats, but must specifically undo their effects.
         characterClass.levels.forEach(level => {
-            level.featChoices.filter(choice => choice.available).forEach(choice => {
+            level.featChoices.forEach(choice => {
                 choice.feats.forEach(gain => {
                     this._psp.featProcessingService?.processFeat(undefined, false, { creature: character, gain, choice, level });
                 });
