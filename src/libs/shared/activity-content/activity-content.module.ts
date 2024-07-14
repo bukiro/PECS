@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActionIconsModule } from '../ui/action-icons/action-icons.module';
-import { ActivityContentComponent } from './components/activityContent/activity-content.component';
+import { ActivityContentComponent } from './components/activity-content/activity-content.component';
 import { FormsModule } from '@angular/forms';
 import { TraitModule } from '../ui/trait/trait.module';
 import { DescriptionModule } from '../ui/description/description.module';

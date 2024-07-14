@@ -1,4 +1,4 @@
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
 import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';

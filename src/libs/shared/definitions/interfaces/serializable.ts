@@ -1,5 +1,5 @@
 import { DeepPartial } from '../types/deep-partial';
-import { RecastFns } from './recastFns';
+import { RecastFns } from './recast-fns';
 
 export interface Serializable<T> {
     with: ((values: Partial<T>, recastFns?: RecastFns) => T) | ((values: Partial<T>, recastFns: RecastFns) => T);

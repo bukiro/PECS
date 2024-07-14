@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { BehaviorSubject, Observable, distinctUntilChanged, tap, map, of } from 'rxjs';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { ItemGainOnOptions } from 'src/libs/shared/definitions/item-gain-options';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';

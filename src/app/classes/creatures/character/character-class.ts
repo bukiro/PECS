@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';

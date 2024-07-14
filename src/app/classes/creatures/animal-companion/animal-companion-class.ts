@@ -1,7 +1,7 @@
 import { AnimalCompanionLevel } from 'src/app/classes/creatures/animal-companion/animal-companion-level';
 import { AnimalCompanionAncestry } from 'src/app/classes/creatures/animal-companion/animal-companion-ancestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { BehaviorSubject } from 'rxjs';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';

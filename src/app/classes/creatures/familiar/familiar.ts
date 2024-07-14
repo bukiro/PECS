@@ -3,7 +3,7 @@ import { CreatureSizes } from 'src/libs/shared/definitions/creature-sizes';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creature-type-ids';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';

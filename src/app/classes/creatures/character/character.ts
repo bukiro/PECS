@@ -5,7 +5,7 @@ import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ab
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creature-type-ids';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';

@@ -15,7 +15,7 @@ import { BloodMagic } from 'src/app/classes/spells/blood-magic';
 import { SignatureSpellGain } from 'src/app/classes/spells/signature-spell-gain';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { setupSerializationWithHelpers } from '../../util/serialization';
-import { RecastFns } from '../interfaces/recastFns';
+import { RecastFns } from '../interfaces/recast-fns';
 import { DeepPartial } from '../types/deep-partial';
 import { FeatChoice } from './feat-choice';
 import { FeatIgnoreRequirements } from './feat-ignore-requirements';

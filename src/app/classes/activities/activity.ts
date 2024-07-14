@@ -1,5 +1,6 @@
+/* eslint-disable complexity */
 import { Observable, of, combineLatest, map } from 'rxjs';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';

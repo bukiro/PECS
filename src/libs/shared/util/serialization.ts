@@ -1,5 +1,5 @@
 import { Serializable, MessageSerializable } from '../definitions/interfaces/serializable';
-import { RecastFns } from '../definitions/interfaces/recastFns';
+import { RecastFns } from '../definitions/interfaces/recast-fns';
 import { DeepPartial } from '../definitions/types/deep-partial';
 import { forEachMember } from './object-utils';
 

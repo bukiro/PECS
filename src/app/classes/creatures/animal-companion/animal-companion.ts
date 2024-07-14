@@ -2,7 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ability-boost';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creature-type-ids';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';

@@ -1,6 +1,6 @@
 import { Item } from 'src/app/classes/items/item';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 

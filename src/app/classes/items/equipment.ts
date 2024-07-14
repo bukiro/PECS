@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable, combineLatest, map, of } from 'rxjs';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basic-rune-levels';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/hint-effects-object';

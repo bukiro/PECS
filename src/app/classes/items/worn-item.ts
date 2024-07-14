@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable, map, combineLatest } from 'rxjs';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basic-rune-levels';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { MaxSpellLevel } from 'src/libs/shared/definitions/spell-levels';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';

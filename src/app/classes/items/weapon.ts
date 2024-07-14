@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basic-rune-levels';
 import { DiceSizes } from 'src/libs/shared/definitions/dice-sizes';
 import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/emblazon-armament-set';
-import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddy-penalties';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
