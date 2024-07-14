@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ConfigService } from '../config/config.service';
-import { PlayerMessageInterface } from 'src/app/classes/PlayerMessageInterface';
+import { PlayerMessageBase } from 'src/app/classes/api/player-message-base';
 import { AuthService } from '../auth/auth.service';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +24,7 @@ export class MessagesApiService {
         );
     }
 
-    public sendMessagesToConnector$(messages: Array<PlayerMessageInterface>): Observable<object> {
+    public sendMessagesToConnector$(messages: Array<PlayerMessageBase>): Observable<object> {
         return this._httpClient.post(
             `${ this._configService.dataServiceURL }/saveMessages/`,
             messages,
@@ -33,8 +33,8 @@ export class MessagesApiService {
         );
     }
 
-    public loadMessagesFromConnector$(recipientId: string): Observable<Array<PlayerMessageInterface>> {
-        return this._httpClient.get<Array<PlayerMessageInterface>>(
+    public loadMessagesFromConnector$(recipientId: string): Observable<Array<PlayerMessageBase>> {
+        return this._httpClient.get<Array<PlayerMessageBase>>(
             `${ this._configService.dataServiceURL }/loadMessages/${ recipientId }`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._authService.xAccessToken }) },

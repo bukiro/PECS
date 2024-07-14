@@ -1,9 +1,10 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { DiceResult } from 'src/app/classes/DiceResult';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { DiceResult } from 'src/app/classes/dice/dice-result';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { CreatureService } from '../creature/creature.service';
 import { SettingsService } from '../settings/settings.service';
-import { Creature } from 'src/app/classes/Creature';
 
 /**
  * Attempt to match the relevant properties of a Foundry VTT Roll object.

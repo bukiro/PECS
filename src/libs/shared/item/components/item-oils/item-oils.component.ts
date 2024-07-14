@@ -1,20 +1,21 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Item } from 'src/app/classes/Item';
-import { Oil } from 'src/app/classes/Oil';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { Weapon } from 'src/app/classes/Weapon';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Character } from 'src/app/classes/Character';
+/* eslint-disable complexity */
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { Oil } from 'src/app/classes/items/oil';
+import { Weapon } from 'src/app/classes/items/weapon';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
+import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
-import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { Observable } from 'rxjs';
 
 interface OilSet {
     oil: Oil;

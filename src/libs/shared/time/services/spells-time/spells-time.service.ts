@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Spell } from 'src/app/classes/Spell';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { take } from 'rxjs';
+import { Spell } from 'src/app/classes/spells/spell';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
-import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
+import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
-import { take } from 'rxjs';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 
 @Injectable({
     providedIn: 'root',

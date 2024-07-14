@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
+import { take, switchMap, zip, map } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
-import { Activity } from 'src/app/classes/Activity';
-import { Creature } from 'src/app/classes/Creature';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
-import { map, switchMap, take, zip } from 'rxjs';
-import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

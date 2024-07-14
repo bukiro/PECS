@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Ability } from 'src/app/classes/Ability';
-import { Creature } from 'src/app/classes/Creature';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { Observable, switchMap, map, of, combineLatest, distinctUntilChanged } from 'rxjs';
+import { Ability } from 'src/app/classes/abilities/ability';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { AbilityBaseValueAggregate } from '../../definitions/display-aggregates/ability-base-value-aggregate';
+import { BonusDescription } from '../../ui/bonus-list';
 import {
     abilityBaseValueFromCreature,
-    abilityModFromAbilityValue,
     mapAbilityBoostsToBaseValueAggregate,
+    abilityModFromAbilityValue,
 } from '../../util/ability-base-value-utils';
-import { AbilitiesDataService } from '../data/abilities-data.service';
-import { BonusDescription } from '../../ui/bonus-list';
-import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
-import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
 import { isEqualPrimitiveObject, isEqualSerializableArrayWithoutId } from '../../util/compare-utils';
-import { AbilityBaseValueAggregate } from '../../definitions/display-aggregates/ability-base-value-aggregate';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { AbilitiesDataService } from '../data/abilities-data.service';
 
 export interface AbilityLiveValue {
     ability: Ability;

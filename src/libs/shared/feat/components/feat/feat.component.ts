@@ -1,19 +1,19 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { BehaviorSubject, Observable, switchMap, of, map } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { Trait } from 'src/app/classes/hints/trait';
+import { Spell } from 'src/app/classes/spells/spell';
+import { FeatRequirementsService } from 'src/libs/character-creation/services/feat-requirement/featRequirements.service';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
-import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { Trait } from 'src/app/classes/Trait';
-import { spellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
-import { Activity } from 'src/app/classes/Activity';
-import { Spell } from 'src/app/classes/Spell';
-import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { FeatRequirementsService } from 'src/libs/character-creation/services/feat-requirement/featRequirements.service';
 import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequirements';
+import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
+import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
+import { spellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BehaviorSubject, Observable, map, of, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-feat',

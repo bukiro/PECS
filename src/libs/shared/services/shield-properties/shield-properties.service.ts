@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { Shield } from 'src/app/classes/Shield';
+import { Observable, combineLatest, distinctUntilChanged, tap, switchMap, of, map } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Shield } from 'src/app/classes/items/shield';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
 import { EquipmentPropertiesSharedService } from '../equipment-properties-shared/equipment-properties-shared.service';
 
 @Injectable({

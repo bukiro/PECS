@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Deity } from 'src/app/classes/Deity';
-import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { Observable, map, of, shareReplay, switchMap } from 'rxjs';
-import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
-import { propMap$ } from '../../util/observableUtils';
+import { Observable, switchMap, of, shareReplay, map } from 'rxjs';
+import { Deity } from 'src/app/classes/deities/deity';
 import { Defaults } from '../../definitions/defaults';
+import { propMap$ } from '../../util/observableUtils';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 
 @Injectable({
     providedIn: 'root',

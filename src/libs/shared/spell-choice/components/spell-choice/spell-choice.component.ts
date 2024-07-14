@@ -1,34 +1,34 @@
-/* eslint-disable max-lines */
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Spell } from 'src/app/classes/Spell';
-import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { SpellGain } from 'src/app/classes/SpellGain';
-import { SpellLearned } from 'src/app/classes/SpellLearned';
-import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, map, Observable, of, Subscription, switchMap, tap, zip } from 'rxjs';
-import { Character } from 'src/app/classes/Character';
-import { Trait } from 'src/app/classes/Trait';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { Subscription, Observable, combineLatest, switchMap, map, of, zip, tap } from 'rxjs';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Trait } from 'src/app/classes/hints/trait';
+import { SignatureSpellGain } from 'src/app/classes/spells/signature-spell-gain';
+import { Spell } from 'src/app/classes/spells/spell';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
+import { SpellLearned } from 'src/app/classes/spells/spell-learned';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { capitalize, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { spellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
-import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
+import { spellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { stringsIncludeCaseInsensitive, capitalize } from 'src/libs/shared/util/stringUtils';
+
 
 interface SpellSet {
     spell: Spell;

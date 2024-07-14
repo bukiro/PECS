@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { Armor } from 'src/app/classes/Armor';
-import { Shield } from 'src/app/classes/Shield';
-import { WornItem } from 'src/app/classes/WornItem';
-import { Equipment } from 'src/app/classes/Equipment';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 import { Observable, map } from 'rxjs';
-import { Weapon } from 'src/app/classes/Weapon';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Armor } from 'src/app/classes/items/armor';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { Shield } from 'src/app/classes/items/shield';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WornItem } from 'src/app/classes/items/worn-item';
+import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
+import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

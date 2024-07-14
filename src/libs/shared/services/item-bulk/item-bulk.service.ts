@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Consumable } from 'src/app/classes/Consumable';
-import { Creature } from 'src/app/classes/Creature';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Item } from 'src/app/classes/Item';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { OtherConsumable } from 'src/app/classes/OtherConsumable';
-import { CutOffDecimals } from 'src/libs/shared/util/numberUtils';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Consumable } from 'src/app/classes/items/consumable';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { OtherConsumable } from 'src/app/classes/items/other-consumable';
+import { CutOffDecimals } from '../../util/numberUtils';
 
 @Injectable({
     providedIn: 'root',

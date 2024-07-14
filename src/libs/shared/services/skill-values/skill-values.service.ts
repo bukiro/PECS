@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
-import { Creature } from 'src/app/classes/Creature';
-import { Effect } from 'src/app/classes/Effect';
-import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
-import { Skill } from 'src/app/classes/Skill';
-import { SkillIncrease } from 'src/app/classes/SkillIncrease';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from 'src/libs/shared/definitions/skillLevels';
-import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { SkillsDataService } from '../data/skills-data.service';
-import { BonusDescription } from '../../ui/bonus-list';
-import { signNumber } from '../../util/numberUtils';
-import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
-import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
-import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
-import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { Observable, switchMap, map, of, combineLatest } from 'rxjs';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect } from 'src/app/classes/effects/effect';
+import { Skill } from 'src/app/classes/skills/skill';
+import { SkillIncrease } from 'src/app/classes/skills/skill-increase';
 import { BonusTypes } from '../../definitions/bonusTypes';
+import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from '../../definitions/skillLevels';
+import { BonusDescription } from '../../ui/bonus-list';
+import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
+import { signNumber } from '../../util/numberUtils';
+import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
+import { AbilityValuesService } from '../ability-values/ability-values.service';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { CreatureService } from '../creature/creature.service';
+import { SkillsDataService } from '../data/skills-data.service';
+import { ProficiencyCopyGain } from 'src/app/classes/character-creation/proficiency-copy-gain';
 
 const DCBasis = 10;
 
@@ -223,7 +223,7 @@ export class SkillValuesService {
                                                 );
                                         }
 
-                                        const proficiencyCopies: Array<ProficiencyCopy> = [];
+                                        const proficiencyCopies: Array<ProficiencyCopyGain> = [];
 
                                         // Collect all the available proficiency copy instructions,
                                         // (i.e. "Whenever you gain a class feature that grants you expert or greater proficiency
@@ -245,7 +245,7 @@ export class SkillValuesService {
                                         // highest weapon or unarmed procifiency that you have.
                                         if (skill.name === 'Highest Attack Proficiency') {
                                             proficiencyCopies.push(
-                                                ProficiencyCopy.from({
+                                                ProficiencyCopyGain.from({
                                                     name: 'Highest Attack Proficiency',
                                                     type: 'Weapon Proficiency',
                                                     featuresOnly: false,

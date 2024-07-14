@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Trait } from 'src/app/classes/Trait';
+import { BehaviorSubject, Observable, switchMap, of, combineLatest, map } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Trait } from 'src/app/classes/hints/trait';
 import * as json_traits from 'src/assets/json/traits';
-import { Creature } from 'src/app/classes/Creature';
-import { DataLoadingService } from './data-loading.service';
 import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
-import { BehaviorSubject, Observable, combineLatest, map, of, switchMap } from 'rxjs';
 import { RecastService } from '../recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',

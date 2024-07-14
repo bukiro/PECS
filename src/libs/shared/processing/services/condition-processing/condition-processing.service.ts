@@ -1,14 +1,16 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Condition } from 'src/app/classes/Condition';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { EffectGain } from 'src/app/classes/EffectGain';
+import { take, Observable, map, of } from 'rxjs';
+import { Condition } from 'src/app/classes/conditions/condition';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { EffectGain } from 'src/app/classes/effects/effect-gain';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
@@ -20,7 +22,6 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { Observable, map, of, take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -40,7 +41,6 @@ export class ConditionProcessingService {
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _onceEffectsService: OnceEffectsService,
-        private readonly _recastService: RecastService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 

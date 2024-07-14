@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
-import { Weapon } from 'src/app/classes/Weapon';
-import { WornItem } from 'src/app/classes/WornItem';
+import { Observable, of, map, combineLatest, switchMap, distinctUntilChanged, tap } from 'rxjs';
+import { ProficiencyChange } from 'src/app/classes/character-creation/proficiency-change';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WornItem } from 'src/app/classes/items/worn-item';
+import { Skill } from 'src/app/classes/skills/skill';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { maxSkillLevel, skillLevelBaseStep } from '../../definitions/skillLevels';
 import { WeaponProficiencies } from '../../definitions/weaponProficiencies';
-import { SkillValuesService } from '../skill-values/skill-values.service';
+import { stringsIncludeCaseInsensitive } from '../../util/stringUtils';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { SkillsDataService } from '../data/skills-data.service';
-import { combineLatest, Observable, of, switchMap, map, distinctUntilChanged, tap } from 'rxjs';
-import { Skill } from 'src/app/classes/Skill';
-import { stringsIncludeCaseInsensitive } from '../../util/stringUtils';
 import { EquipmentPropertiesSharedService } from '../equipment-properties-shared/equipment-properties-shared.service';
+import { SkillValuesService } from '../skill-values/skill-values.service';
 
 @Injectable({
     providedIn: 'root',

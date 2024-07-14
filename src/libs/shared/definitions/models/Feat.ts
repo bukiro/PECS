@@ -1,27 +1,28 @@
-import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { FormulaChoice } from 'src/app/classes/FormulaChoice';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { SpecializationGain } from 'src/app/classes/SpecializationGain';
-import { AbilityChoice } from 'src/app/classes/AbilityChoice';
-import { ItemGain } from 'src/app/classes/ItemGain';
-import { LoreChoice } from 'src/app/classes/LoreChoice';
-import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
-import { HeritageGain } from 'src/app/classes/HeritageGain';
-import { Hint } from 'src/app/classes/Hint';
-import { BloodMagic } from 'src/app/classes/BloodMagic';
-import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
-import { LanguageGain } from 'src/app/classes/LanguageGain';
-import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
-import { EffectGain } from 'src/app/classes/EffectGain';
+import { SpecializationGain } from 'src/app/classes/attacks/specialization-gain';
+import { AbilityChoice } from 'src/app/classes/character-creation/ability-choice';
+import { FormulaChoice } from 'src/app/classes/character-creation/formula-choice';
+import { LoreChoice } from 'src/app/classes/character-creation/lore-choice';
+import { ProficiencyChange } from 'src/app/classes/character-creation/proficiency-change';
+import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { HeritageGain } from 'src/app/classes/creatures/character/heritage-gain';
+import { LanguageGain } from 'src/app/classes/creatures/character/language-gain';
+import { EffectGain } from 'src/app/classes/effects/effect-gain';
+import { Hint } from 'src/app/classes/hints/hint';
+import { ItemGain } from 'src/app/classes/items/item-gain';
+import { BloodMagic } from 'src/app/classes/spells/blood-magic';
+import { SignatureSpellGain } from 'src/app/classes/spells/signature-spell-gain';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
+import { setupSerializationWithHelpers } from '../../util/serialization';
+import { RecastFns } from '../interfaces/recastFns';
+import { DeepPartial } from '../types/deepPartial';
+import { FeatChoice } from './FeatChoice';
 import { FeatIgnoreRequirements } from './featIgnoreRequirements';
 import { FeatRequirements } from './featRequirements';
-import { setupSerializationWithHelpers } from '../../util/serialization';
 import { Serializable } from '../interfaces/serializable';
-import { DeepPartial } from '../types/deepPartial';
-import { RecastFns } from '../interfaces/recastFns';
+import { ProficiencyCopyGain } from 'src/app/classes/character-creation/proficiency-copy-gain';
+
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<Feat>({
     primitives: [
@@ -77,7 +78,7 @@ const { assign, forExport, isEqual } = setupSerializationWithHelpers<Feat>({
         changeProficiency:
             () => obj => ProficiencyChange.from(obj),
         copyProficiency:
-            () => obj => ProficiencyCopy.from(obj),
+            () => obj => ProficiencyCopyGain.from(obj),
         bloodMagic:
             () => obj => BloodMagic.from(obj),
         gainAbilityChoice:
@@ -188,7 +189,7 @@ export class Feat implements Serializable<Feat> {
 
     public effects: Array<EffectGain> = [];
     public changeProficiency: Array<ProficiencyChange> = [];
-    public copyProficiency: Array<ProficiencyCopy> = [];
+    public copyProficiency: Array<ProficiencyCopyGain> = [];
     public bloodMagic: Array<BloodMagic> = [];
     public gainAbilityChoice: Array<AbilityChoice> = [];
     public gainSpecialization: Array<SpecializationGain> = [];

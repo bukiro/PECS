@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { LoreChoice } from 'src/app/classes/LoreChoice';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
+import { zip, take, Observable, tap, switchMap, of } from 'rxjs';
+import { LoreChoice } from 'src/app/classes/character-creation/lore-choice';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -8,7 +9,6 @@ import { CharacterLoreService } from 'src/libs/shared/services/character-lore/ch
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { FeatProcessingContext } from './feat-processing.service';
-import { Observable, of, switchMap, take, tap, zip } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Deity } from 'src/app/classes/Deity';
+import { Deity } from 'src/app/classes/deities/deity';
 import * as json_deities from 'src/assets/json/deities';
 import * as json_domains from 'src/assets/json/domains';
-import { Domain } from 'src/app/classes/Domain';
+import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
 import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { Domain } from 'src/app/classes/deities/domain';
 
 @Injectable({
     providedIn: 'root',

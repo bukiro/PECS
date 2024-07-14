@@ -1,21 +1,21 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, Input } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { DiceService } from 'src/libs/shared/services/dice/dice.service';
-import { DiceResult } from 'src/app/classes/DiceResult';
-import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, delay, distinctUntilChanged, map, Observable, of, Subscription, switchMap } from 'rxjs';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription, map, distinctUntilChanged, switchMap, of, delay, combineLatest } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { DiceResult } from 'src/app/classes/dice/dice-result';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { HealthService } from 'src/libs/shared/services/health/health.service';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { DiceService } from 'src/libs/shared/services/dice/dice.service';
+import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
+import { HealthService } from 'src/libs/shared/services/health/health.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { Store } from '@ngrx/store';
-import { selectTopMenu } from 'src/libs/store/menu/menu.selectors';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { toggleTopMenu } from 'src/libs/store/menu/menu.actions';
+import { selectTopMenu } from 'src/libs/store/menu/menu.selectors';
 
 const defaultDiceNum = 5;
 

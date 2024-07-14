@@ -1,15 +1,15 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, combineLatest, of, map, take } from 'rxjs';
-import { Creature } from 'src/app/classes/Creature';
-import { Effect } from 'src/app/classes/Effect';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Hint } from 'src/app/classes/Hint';
-import { Item } from 'src/app/classes/Item';
-import { Rune } from 'src/app/classes/Rune';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { Observable, BehaviorSubject, of, map, combineLatest, take } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect } from 'src/app/classes/effects/effect';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { Rune } from 'src/app/classes/items/rune';
+import { CreatureTypes } from '../../definitions/creatureTypes';
+import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
 import { TraitsDataService } from '../data/traits-data.service';
+import { Hint } from 'src/app/classes/hints/hint';
 
 interface DetailToChange {
     creature: CreatureTypes | '';

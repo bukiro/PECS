@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Spell } from 'src/app/classes/Spell';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { Spell } from 'src/app/classes/spells/spell';
 import * as json_spells from 'src/assets/json/spells';
-import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { SpellTraditions } from '../../definitions/spellTraditions';
+import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
 import { RecastService } from '../recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',

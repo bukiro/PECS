@@ -1,26 +1,27 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { Activity } from 'src/app/classes/Activity';
-import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
-import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { ConditionSet } from 'src/app/classes/ConditionSet';
-import { Shield } from 'src/app/classes/Shield';
-import { Specialization } from 'src/app/classes/Specialization';
+import { Observable, map, combineLatest, switchMap, of } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { Specialization } from 'src/app/classes/attacks/specialization';
+import { AnimalCompanionAncestry } from 'src/app/classes/creatures/animal-companion/animal-companion-ancestry';
+import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Shield } from 'src/app/classes/items/shield';
+import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types';
+import { EmblazonArmamentSet } from '../../definitions/interfaces/emblazon-armament-set';
+import { Feat } from '../../definitions/models/Feat';
 import { HintShowingItem } from '../../definitions/types/hintShowingItem';
+import { propMap$ } from '../../util/observableUtils';
 import { ArmorPropertiesService } from '../armor-properties/armor-properties.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { CreatureService } from '../creature/creature.service';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { FamiliarsDataService } from '../data/familiars-data.service';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
-import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
-import { propMap$ } from '../../util/observableUtils';
-import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types';
-import { EmblazonArmamentSet } from '../../definitions/interfaces/emblazon-armament-set';
+import { ConditionGainSet } from 'src/app/classes/conditions/condition-gain-set';
 
 @Injectable({
     providedIn: 'root',
@@ -157,16 +158,16 @@ export class HintShowingObjectsService {
             );
     }
 
-    public creatureConditionsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<ConditionSet> {
+    public creatureConditionsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<ConditionGainSet> {
         const character = CreatureService.character;
 
         return this._creatureConditionsService.currentCreatureConditions(creature)
             .filter(conditionGain => conditionGain.apply)
             .map(conditionGain =>
-                new ConditionSet(this._conditionsDataService.conditionFromName(conditionGain.name), conditionGain),
+                new ConditionGainSet(this._conditionsDataService.conditionFromName(conditionGain.name), conditionGain),
             )
-            .filter(conditionSet =>
-                conditionSet.condition.hints.find(hint =>
+            .filter(conditionGainSet =>
+                conditionGainSet.condition.hints.find(hint =>
                     (hint.minLevel ? character.level >= hint.minLevel : true) &&
                     hint.showon?.split(',').find(showon =>
                         objectName.trim().toLowerCase() === 'all' ||

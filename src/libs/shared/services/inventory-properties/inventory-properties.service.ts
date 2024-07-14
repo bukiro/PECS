@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Creature } from 'src/app/classes/Creature';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
 
 @Injectable({
     providedIn: 'root',

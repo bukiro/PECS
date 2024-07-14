@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { Observable, map, of, switchMap } from 'rxjs';
-import { CharacterDeitiesService } from '../character-deities/character-deities.service';
-import { Shield } from 'src/app/classes/Shield';
-import { Weapon } from 'src/app/classes/Weapon';
+import { Observable, switchMap, of, map } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Shield } from 'src/app/classes/items/shield';
+import { Weapon } from 'src/app/classes/items/weapon';
 import { EmblazonArmamentSet } from '../../definitions/interfaces/emblazon-armament-set';
 import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
+import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 
 @Injectable({
     providedIn: 'root',

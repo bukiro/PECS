@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AbilityChoice } from 'src/app/classes/AbilityChoice';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { AbilityChoice } from 'src/app/classes/character-creation/ability-choice';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

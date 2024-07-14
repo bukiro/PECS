@@ -1,24 +1,25 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Talisman } from 'src/app/classes/Talisman';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Weapon } from 'src/app/classes/Weapon';
-import { Armor } from 'src/app/classes/Armor';
-import { Shield } from 'src/app/classes/Shield';
-import { WornItem } from 'src/app/classes/WornItem';
-import { Character } from 'src/app/classes/Character';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+/* eslint-disable complexity */
+import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Armor } from 'src/app/classes/items/armor';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { Shield } from 'src/app/classes/items/shield';
+import { Talisman } from 'src/app/classes/items/talisman';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
-import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
+import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { Observable } from 'rxjs';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 
 interface TalismanOption {
     talisman: Talisman;

@@ -1,19 +1,20 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { AbsoluteEffect, Effect, RelativeEffect } from 'src/app/classes/Effect';
-import { Shield } from 'src/app/classes/Shield';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { Observable, map, combineLatest, switchMap, of } from 'rxjs';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect, AbsoluteEffect, RelativeEffect } from 'src/app/classes/effects/effect';
+import { Shield } from 'src/app/classes/items/shield';
 import { BonusTypes } from '../../definitions/bonusTypes';
+import { AbilityValuesService } from '../ability-values/ability-values.service';
+import { ArmorPropertiesService } from '../armor-properties/armor-properties.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
+import { CreatureService } from '../creature/creature.service';
 import { RecastService } from '../recast/recast.service';
+import { RefreshService } from '../refresh/refresh.service';
 
 export interface ACForDisplay {
     bonuses$: Observable<boolean>;

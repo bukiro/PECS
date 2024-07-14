@@ -1,27 +1,29 @@
-import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
-import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { Effect } from 'src/app/classes/Effect';
-import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
+/* eslint-disable complexity */
+import { Component, ChangeDetectionStrategy, OnInit, OnChanges, OnDestroy, Input, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Observable, Subscription, map, combineLatest, of } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { Specialization } from 'src/app/classes/attacks/specialization';
+import { ConditionGainSet } from 'src/app/classes/conditions/condition-gain-set';
+import { AnimalCompanionAncestry } from 'src/app/classes/creatures/animal-companion/animal-companion-ancestry';
+import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect } from 'src/app/classes/effects/effect';
+import { Trait } from 'src/app/classes/hints/trait';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, map, Observable, of, Subscription } from 'rxjs';
-import { Specialization } from 'src/app/classes/Specialization';
-import { Activity } from 'src/app/classes/Activity';
-import { Creature } from 'src/app/classes/Creature';
-import { Trait } from 'src/app/classes/Trait';
 import { HintShowingItem } from 'src/libs/shared/definitions/types/hintShowingItem';
-import { ConditionSet } from 'src/app/classes/ConditionSet';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+
 
 interface TagCollection {
-    conditions: Array<{ setName: string; conditionSets: Array<ConditionSet> }>;
+    conditions: Array<{ setName: string; conditionSets: Array<ConditionGainSet> }>;
 }
 
 @Component({
@@ -271,7 +273,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
         }
     }
 
-    private _conditionsShowingHintsOnThis(name: string): Array<ConditionSet> {
+    private _conditionsShowingHintsOnThis(name: string): Array<ConditionGainSet> {
         if (this.showConditions && name) {
             return this._hintShowingObjectsService.creatureConditionsShowingHintsOnThis(this.creature, name)
                 .sort((a, b) => sortAlphaNum(a.condition.name, b.condition.name));

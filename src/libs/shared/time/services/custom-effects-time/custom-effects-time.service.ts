@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({

@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Creature } from 'src/app/classes/Creature';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 
 /**

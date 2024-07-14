@@ -1,9 +1,9 @@
-import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
-import { Creature } from 'src/app/classes/Creature';
-import { Weapon } from 'src/app/classes/Weapon';
-import { WornItem } from 'src/app/classes/WornItem';
+import { Observable, distinctUntilChanged, switchMap, combineLatest, map, of } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
-import { isEqualArray, isEqualSerializable, isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
+import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
 
 export interface RuneSourceSet {
     forFundamentalRunes: Weapon | WornItem;

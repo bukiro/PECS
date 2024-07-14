@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Activity, ActivityTargetOptions } from 'src/app/classes/Activity';
-import { Creature } from 'src/app/classes/Creature';
-import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
-import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
-import { Spell } from 'src/app/classes/Spell';
-import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { Observable, of, combineLatest, map, shareReplay } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ActivityTargetOption } from 'src/app/classes/activities/activity-target-options';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { HeightenedDescriptionVariableCollection } from 'src/app/classes/spells/heightened-description-variable-collection';
+import { Spell } from 'src/app/classes/spells/spell';
+import { SpellTargetNumber } from 'src/app/classes/spells/spell-target-number';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { Observable, combineLatest, map, of, shareReplay } from 'rxjs';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { HeightenedDescriptionVariable } from 'src/app/classes/spells/heightened-description-variable';
 
 @Injectable({
     providedIn: 'root',
@@ -21,7 +22,7 @@ export class ActivityPropertiesService {
 
     public allowedTargetNumber$(activity: Activity | Spell, levelNumber: number): Observable<number> {
         //You can select any number of targets for an area spell.
-        if (activity.target === ActivityTargetOptions.Area) {
+        if (activity.target === ActivityTargetOption.Area) {
             return of(-1);
         }
 
@@ -106,7 +107,7 @@ export class ActivityPropertiesService {
                     );
             }
         } else {
-            if (activity.target === ActivityTargetOptions.Ally) {
+            if (activity.target === ActivityTargetOption.Ally) {
                 return of(1);
             } else {
                 return of(0);
@@ -224,7 +225,7 @@ export class ActivityPropertiesService {
         // retrieve the appropriate description set for this level and replace the variables with the included strings.
         let heightenedText = text;
 
-        this._effectiveDescriptionSet(activity, levelNumber).descs.forEach((descVar: HeightenedDesc) => {
+        this._effectiveDescriptionSet(activity, levelNumber).descs.forEach((descVar: HeightenedDescriptionVariable) => {
             const regex = new RegExp(descVar.variable, 'g');
 
             heightenedText = heightenedText.replace(regex, (descVar.value || ''));
@@ -233,7 +234,7 @@ export class ActivityPropertiesService {
         return heightenedText;
     }
 
-    private _effectiveDescriptionSet(activity: Activity, levelNumber: number): HeightenedDescSet {
+    private _effectiveDescriptionSet(activity: Activity, levelNumber: number): HeightenedDescriptionVariableCollection {
         //This descends from levelnumber downwards and returns the first description set with a matching level.
         //A description set contains variable names and the text to replace them with.
         if (activity.heightenedDescs.length) {
@@ -248,7 +249,7 @@ export class ActivityPropertiesService {
             }
         }
 
-        return new HeightenedDescSet();
+        return new HeightenedDescriptionVariableCollection();
     }
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Item } from 'src/app/classes/Item';
-import { ActivityLookupFn, ItemPrototypeFn, RecastFns } from '../../definitions/interfaces/recastFns';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { Item } from 'src/app/classes/items/item';
+import { RecastFns, ItemPrototypeFn, ActivityLookupFn } from '../../definitions/interfaces/recastFns';
 import { DeepPartial } from '../../definitions/types/deepPartial';
 
 @Injectable({

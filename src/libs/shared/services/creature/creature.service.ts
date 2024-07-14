@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Familiar } from 'src/app/classes/Familiar';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { ApiStatusKey } from '../../definitions/apiStatusKey';
 import { Store } from '@ngrx/store';
 import { setCharacterStatus } from 'src/libs/store/status/status.actions';
 import { resetCharacter } from 'src/libs/store/character/character.actions';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
 
 @Injectable({
     providedIn: 'root',

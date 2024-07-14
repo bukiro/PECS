@@ -1,20 +1,21 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Condition, ConditionOverride } from 'src/app/classes/Condition';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Item } from 'src/app/classes/Item';
-import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { creatureTypeIDFromType } from 'src/libs/shared/util/creatureUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { ConditionEffectsObject } from 'src/app/classes/ConditionEffectsObject';
-import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
-import { RecastService } from '../recast/recast.service';
+import { Observable, of, map } from 'rxjs';
+import { Condition, ConditionOverride } from 'src/app/classes/conditions/condition';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
+import { creatureTypeIDFromType } from '../../util/creatureUtils';
+import { sortAlphaNum } from '../../util/sortUtils';
 import { ConditionsDataService } from '../data/conditions-data.service';
+import { EvaluationService } from '../evaluation/evaluation.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
-import { Observable, map, of } from 'rxjs';
+import { RecastService } from '../recast/recast.service';
+import { RefreshService } from '../refresh/refresh.service';
+import { ConditionEffectsCollection } from 'src/app/classes/conditions/condition-effects-collection';
 
 @Injectable({
     providedIn: 'root',
@@ -298,9 +299,9 @@ export class CreatureConditionsService {
 
     public collectEffectConditions(
         creature: Creature,
-    ): { conditions: Array<ConditionEffectsObject>; hintSets: Array<HintEffectsObject> } {
+    ): { conditions: Array<ConditionEffectsCollection>; hintSets: Array<HintEffectsObject> } {
         const hintSets: Array<HintEffectsObject> = [];
-        const conditions: Array<ConditionEffectsObject> = [];
+        const conditions: Array<ConditionEffectsCollection> = [];
         const appliedConditions = this.currentCreatureConditions(creature)
             .filter(condition => condition.apply);
 
@@ -309,7 +310,7 @@ export class CreatureConditionsService {
 
             if (originalCondition.name === gain.name) {
                 const conditionEffectsObject =
-                    new ConditionEffectsObject(originalCondition.effects).with(gain);
+                    new ConditionEffectsCollection(originalCondition.effects).with(gain);
 
                 conditions.push(conditionEffectsObject);
                 originalCondition?.hints

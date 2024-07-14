@@ -1,25 +1,25 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, TemplateRef } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Item } from 'src/app/classes/Item';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { SpellTarget } from 'src/app/classes/SpellTarget';
+import { Component, ChangeDetectionStrategy, OnInit, Input, Output, TemplateRef, EventEmitter } from '@angular/core';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
+import { Observable, BehaviorSubject, noop, of, combineLatest, distinctUntilChanged, switchMap, map } from 'rxjs';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { SpellTarget } from 'src/app/classes/spells/spell-target';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Creature } from 'src/app/classes/Creature';
-import { Character } from 'src/app/classes/Character';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { ItemBulkService } from 'src/libs/shared/services/item-bulk/item-bulk.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
-import { BehaviorSubject, combineLatest, distinctUntilChanged, map, noop, Observable, of, switchMap } from 'rxjs';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { Store } from '@ngrx/store';
 import { selectGmMode } from 'src/libs/store/app/app.selectors';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Component({
     selector: 'app-item-target',

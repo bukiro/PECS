@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 

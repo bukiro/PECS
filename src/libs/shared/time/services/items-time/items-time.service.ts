@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Armor } from 'src/app/classes/Armor';
-import { Creature } from 'src/app/classes/Creature';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Item } from 'src/app/classes/Item';
-import { Shield } from 'src/app/classes/Shield';
-import { Weapon } from 'src/app/classes/Weapon';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { zip, take } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Armor } from 'src/app/classes/items/armor';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { Shield } from 'src/app/classes/items/shield';
+import { Weapon } from 'src/app/classes/items/weapon';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
-import { take, zip } from 'rxjs';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

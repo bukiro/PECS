@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Observable, of, distinctUntilChanged, combineLatest, map } from 'rxjs';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { Creature } from 'src/app/classes/Creature';
-import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
-import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
-import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { Observable, combineLatest, distinctUntilChanged, map, of } from 'rxjs';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
+import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
+import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
+import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { Familiar } from 'src/app/classes/Familiar';
-import { isEqualArray, isEqualSerializable, isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
+import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
 
 interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;

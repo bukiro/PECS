@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
+
 import { Injectable } from '@angular/core';
-import { CharacterClass } from 'src/app/classes/CharacterClass';
-import { ClassLevel } from 'src/app/classes/ClassLevel';
-import { ClassesDataService } from 'src/libs/shared/services/data/classes-data.service';
-import { RecastService } from '../../recast/recast.service';
+import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
+import { CharacterClassLevel } from 'src/app/classes/creatures/character/character-class-level';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { ClassesDataService } from '../../data/classes-data.service';
+import { RecastService } from '../../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -54,7 +55,7 @@ export class ClassSavingLoadingService {
                     //Perform the same step for each level.
                     levels.forEach((level, index) => {
                         if (level) {
-                            (Object.keys(level) as Array<keyof ClassLevel>)
+                            (Object.keys(level) as Array<keyof CharacterClassLevel>)
                                 .forEach(key => {
                                     if (key !== 'number') {
                                         if (JSON.stringify(level[key]) === JSON.stringify(libraryObject.levels[index][key])) {

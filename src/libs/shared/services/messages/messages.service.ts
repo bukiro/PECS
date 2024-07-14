@@ -1,32 +1,32 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
     BehaviorSubject,
-    combineLatest,
-    debounceTime,
+    withLatestFrom,
     filter,
-    interval,
-    map,
-    NEVER,
-    noop,
+    debounceTime,
     Observable,
     switchMap,
     tap,
-    withLatestFrom,
+    combineLatest,
+    interval,
+    NEVER,
+    noop,
     zip,
+    map,
 } from 'rxjs';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { PlayerMessage } from 'src/app/classes/PlayerMessage';
+import { PlayerMessage } from 'src/app/classes/api/player-message';
+import { PlayerMessageBase } from 'src/app/classes/api/player-message-base';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { propMap$ } from '../../util/observableUtils';
+import { sortAlphaNum } from '../../util/sortUtils';
+import { AuthService } from '../auth/auth.service';
+import { CreatureService } from '../creature/creature.service';
 import { MessagePropertiesService } from '../message-properties/message-properties.service';
+import { MessagesApiService } from '../messages-api/messages-api.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 import { RecastService } from '../recast/recast.service';
 import { SettingsService } from '../settings/settings.service';
-import { MessagesApiService } from '../messages-api/messages-api.service';
-import { sortAlphaNum } from '../../util/sortUtils';
-import { HttpStatusCode } from '@angular/common/http';
-import { propMap$ } from '../../util/observableUtils';
-import { PlayerMessageInterface } from 'src/app/classes/PlayerMessageInterface';
-import { AuthService } from '../auth/auth.service';
 
 const ignoredMessageTTL = 5000;
 
@@ -167,7 +167,7 @@ export class MessagesService {
             });
     }
 
-    private _processNewMessages$(results: Array<PlayerMessageInterface>): Observable<Array<PlayerMessage>> {
+    private _processNewMessages$(results: Array<PlayerMessageBase>): Observable<Array<PlayerMessage>> {
         return zip(results
             .map(message => PlayerMessage.from(message, RecastService.restoreFns))
             .map(message => this._messagePropertiesService.messageTargetCreature$(message)

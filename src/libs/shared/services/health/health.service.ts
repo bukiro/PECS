@@ -1,17 +1,18 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { AbilityValuesService } from '../ability-values/ability-values.service';
-import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
-import { SettingsService } from '../settings/settings.service';
+import { Observable, combineLatest, switchMap, map, of, take, distinctUntilChanged, tap } from 'rxjs';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { abilityModFromAbilityValue } from '../../util/ability-base-value-utils';
-import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
-import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap, take, tap } from 'rxjs';
 import { propMap$ } from '../../util/observableUtils';
+import { AbilityValuesService } from '../ability-values/ability-values.service';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
+import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { RecastService } from '../recast/recast.service';
+import { RefreshService } from '../refresh/refresh.service';
+import { SettingsService } from '../settings/settings.service';
 
 export interface CalculatedHealth {
     maxHP$: Observable<{ result: number; explain: string }>;

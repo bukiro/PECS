@@ -1,12 +1,11 @@
-import { Creature } from 'src/app/classes/Creature';
-import { Defaults } from '../definitions/defaults';
-import { AbilityBaseValueSetting } from '../definitions/creature-properties/ability-base-value-setting';
-import { AbilityBoost } from '../definitions/creature-properties/ability-boost';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { AbilityBoostType } from '../definitions/ability-boost-type';
 import { AbilityCalculationValues } from '../definitions/ability-calculation-values';
-import { BonusDescription } from '../ui/bonus-list';
+import { AbilityBaseValueSetting } from '../definitions/creature-properties/ability-base-value-setting';
+import { AbilityBoost } from '../definitions/creature-properties/ability-boost';
+import { Defaults } from '../definitions/defaults';
 import { AbilityBaseValueAggregate } from '../definitions/display-aggregates/ability-base-value-aggregate';
-
+import { BonusDescription } from '../ui/bonus-list';
 
 export const abilityModFromAbilityValue = (abilityValue: number): number => {
     /**

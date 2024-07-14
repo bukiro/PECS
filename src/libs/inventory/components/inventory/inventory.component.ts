@@ -1,80 +1,70 @@
+/* eslint-disable complexity */
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, TemplateRef } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { Effect } from 'src/app/classes/Effect';
-import { Consumable } from 'src/app/classes/Consumable';
-import { Equipment } from 'src/app/classes/Equipment';
-import { OtherItem } from 'src/app/classes/OtherItem';
-import { Item } from 'src/app/classes/Item';
-import { Character } from 'src/app/classes/Character';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { WornItem } from 'src/app/classes/WornItem';
-import { FormulaLearned } from 'src/app/classes/FormulaLearned';
-import { Snare } from 'src/app/classes/Snare';
-import { Wand } from 'src/app/classes/Wand';
-import { Shield } from 'src/app/classes/Shield';
-import { Weapon } from 'src/app/classes/Weapon';
-import { Armor } from 'src/app/classes/Armor';
-import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import {
-    combineLatest,
-    distinctUntilChanged,
-    map,
-    noop,
-    Observable,
-    of,
-    shareReplay,
-    Subscription,
-    switchMap,
-    take,
-} from 'rxjs';
-import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
-import { ItemRoles } from 'src/app/classes/ItemRoles';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription, switchMap, distinctUntilChanged, shareReplay, combineLatest, of, map, noop, take } from 'rxjs';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { FormulaLearned } from 'src/app/classes/creatures/character/formula-learned';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect } from 'src/app/classes/effects/effect';
+import { AdventuringGear } from 'src/app/classes/items/adventuring-gear';
+import { Armor } from 'src/app/classes/items/armor';
+import { Consumable } from 'src/app/classes/items/consumable';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { ItemRoles } from 'src/app/classes/items/item-roles';
+import { OtherItem } from 'src/app/classes/items/other-item';
+import { Shield } from 'src/app/classes/items/shield';
+import { Snare } from 'src/app/classes/items/snare';
+import { Wand } from 'src/app/classes/items/wand';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WornItem } from 'src/app/classes/items/worn-item';
+import { Spell } from 'src/app/classes/spells/spell';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
+import { SpellTarget } from 'src/app/classes/spells/spell-target';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { Creature } from 'src/app/classes/Creature';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { ItemGainOnOptions } from 'src/libs/shared/definitions/itemGainOptions';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { copperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { Spell } from 'src/app/classes/Spell';
-import { SpellGain } from 'src/app/classes/SpellGain';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
+import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
+import { BulkLiveValue, BulkService } from 'src/libs/shared/services/bulk/bulk.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
+import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
+import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
+import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
+import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { InvestedLiveValue, InvestedService } from 'src/libs/shared/services/invested/invested.service';
+import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
+import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
+import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
+import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
+import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { BulkLiveValue, BulkService } from 'src/libs/shared/services/bulk/bulk.service';
-import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
-import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
-import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
-import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
-import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
-import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
-import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
-import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
-import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
-import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
-import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
-import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
-import { Store } from '@ngrx/store';
-import { InvestedLiveValue, InvestedService } from 'src/libs/shared/services/invested/invested.service';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
+import { copperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;

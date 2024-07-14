@@ -1,19 +1,20 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { Equipment } from 'src/app/classes/Equipment';
-import { WornItem } from 'src/app/classes/WornItem';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { BulkService } from 'src/libs/shared/services/bulk/bulk.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { Observable, combineLatest, map, of, switchMap, take, tap } from 'rxjs';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { switchMap, of, Observable, combineLatest, tap, take, map } from 'rxjs';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { WornItem } from 'src/app/classes/items/worn-item';
+import { propMap$ } from '../../util/observableUtils';
+import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
+import { BulkService } from '../bulk/bulk.service';
+import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
+import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
+import { CreatureService } from '../creature/creature.service';
+import { EvaluationService } from '../evaluation/evaluation.service';
+import { OnceEffectsService } from '../once-effects/once-effects.service';
 import { RecastService } from '../recast/recast.service';
+import { SettingsService } from '../settings/settings.service';
 
 @Injectable({
     providedIn: 'root',

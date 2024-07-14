@@ -9,34 +9,34 @@ import {
     OnDestroy,
     TemplateRef,
 } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Activity } from 'src/app/classes/Activity';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Spell } from 'src/app/classes/Spell';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { SpellGain } from 'src/app/classes/SpellGain';
-import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { combineLatest, map, noop, Observable, of, Subscription, switchMap } from 'rxjs';
-import { SpellCast } from 'src/app/classes/SpellCast';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable, Subscription, combineLatest, map, switchMap, of, noop } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
+import { Spell } from 'src/app/classes/spells/spell';
+import { SpellCast } from 'src/app/classes/spells/spell-cast';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
+import { SpellTarget } from 'src/app/classes/spells/spell-target';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
-import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { Creature } from 'src/app/classes/Creature';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Familiar } from 'src/app/classes/Familiar';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;

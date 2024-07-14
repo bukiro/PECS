@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
 import { Injectable } from '@angular/core';
-import { Ancestry } from 'src/app/classes/Ancestry';
-import { Heritage } from 'src/app/classes/Heritage';
-import { Background } from 'src/app/classes/Background';
+import { Ancestry } from 'src/app/classes/creatures/character/ancestry';
+import { Heritage } from 'src/app/classes/creatures/character/heritage';
+import { Background } from 'src/app/classes/creatures/character/background';
 import * as json_ancestries from 'src/assets/json/ancestries';
 import * as json_backgrounds from 'src/assets/json/backgrounds';
 import * as json_heritages from 'src/assets/json/heritages';

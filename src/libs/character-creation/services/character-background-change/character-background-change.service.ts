@@ -1,12 +1,13 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Background } from 'src/app/classes/Background';
-import { LoreChoice } from 'src/app/classes/LoreChoice';
-import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { LoreChoice } from 'src/app/classes/character-creation/lore-choice';
+import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
+import { Background } from 'src/app/classes/creatures/character/background';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
+import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
 

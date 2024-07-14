@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, map, Observable, of, switchMap, tap } from 'rxjs';
-import { Armor } from 'src/app/classes/Armor';
-import { Creature } from 'src/app/classes/Creature';
-import { Item } from 'src/app/classes/Item';
-import { Scroll } from 'src/app/classes/Scroll';
-import { Wand } from 'src/app/classes/Wand';
-import { Weapon } from 'src/app/classes/Weapon';
-import { WornItem } from 'src/app/classes/WornItem';
-import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
-import { SpellsDataService } from '../data/spells-data.service';
+import { switchMap, combineLatest, Observable, of, tap, map } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Armor } from 'src/app/classes/items/armor';
+import { Item } from 'src/app/classes/items/item';
+import { Wand } from 'src/app/classes/items/wand';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import { deepDistinctUntilChanged } from '../../util/observableUtils';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { SpellsDataService } from '../data/spells-data.service';
+import { Scroll } from 'src/app/classes/items/scroll';
 
 @Injectable({
     providedIn: 'root',

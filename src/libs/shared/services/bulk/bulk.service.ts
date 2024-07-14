@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { Observable, combineLatest, map, zip, tap, take } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureSizes } from '../../definitions/creatureSizes';
+import { BonusDescription } from '../../ui/bonus-list';
+import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { CreaturePropertiesService } from '../creature-properties/creature-properties.service';
 import { InventoryPropertiesService } from '../inventory-properties/inventory-properties.service';
-import { BonusDescription } from '../../ui/bonus-list';
-import { Observable, combineLatest, map, take, tap, zip } from 'rxjs';
-import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
 
 export interface BulkLiveValue {
     result: number;

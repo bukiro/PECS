@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { Effect } from 'src/app/classes/Effect';
-import { EffectGain } from 'src/app/classes/EffectGain';
-import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { Item } from 'src/app/classes/Item';
-import { Material } from 'src/app/classes/Material';
-import { WornItem } from 'src/app/classes/WornItem';
+import { Observable, combineLatest, map, of, switchMap, distinctUntilChanged } from 'rxjs';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect } from 'src/app/classes/effects/effect';
+import { EffectGain } from 'src/app/classes/effects/effect-gain';
+import { Item } from 'src/app/classes/items/item';
+import { Material } from 'src/app/classes/items/material';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { isEqualSerializableArrayWithoutId } from 'src/libs/shared/util/compare-utils';
 
 interface EffectObject {

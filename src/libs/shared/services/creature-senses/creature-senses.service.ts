@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
-import { Creature } from 'src/app/classes/Creature';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
-import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
+import { Observable, map, of } from 'rxjs';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
-import { Observable, map, of } from 'rxjs';
+import { ConditionsDataService } from '../data/conditions-data.service';
+import { FamiliarsDataService } from '../data/familiars-data.service';
 
 @Injectable({
     providedIn: 'root',

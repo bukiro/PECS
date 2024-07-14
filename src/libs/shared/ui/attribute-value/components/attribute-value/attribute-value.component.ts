@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { QuickdiceComponent } from 'src/libs/shared/quickdice/components/quickdice/quickdice.component';
-import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
-import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
+import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { Creature } from 'src/app/classes/Creature';
+import { BonusDescription } from '../../../bonus-list';
 
 @Component({
     selector: 'app-attribute-value',

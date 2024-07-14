@@ -1,18 +1,19 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { AdditionalHeritage } from 'src/app/classes/AdditionalHeritage';
-import { Heritage } from 'src/app/classes/Heritage';
-import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { AdditionalHeritage } from 'src/app/classes/creatures/character/additional-heritage';
+import { Heritage } from 'src/app/classes/creatures/character/heritage';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
+import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
+import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
-import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
-import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
-import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
 
 @Injectable({

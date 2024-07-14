@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AbsoluteEffect, Effect, RelativeEffect } from 'src/app/classes/Effect';
-import { Creature } from 'src/app/classes/Creature';
-import { creatureTypeIDFromType } from 'src/libs/shared/util/creatureUtils';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { map, Observable } from 'rxjs';
-import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from '../../util/stringUtils';
 import { Store } from '@ngrx/store';
+import { Observable, map } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect, RelativeEffect, AbsoluteEffect } from 'src/app/classes/effects/effect';
 import {
     replaceEffects,
     selectAbsoluteEffects,
@@ -16,6 +12,10 @@ import {
     selectRelativeEffects,
     selectToggledEffects,
 } from 'src/libs/store/effects';
+import { BonusTypes } from '../../definitions/bonusTypes';
+import { CreatureTypes } from '../../definitions/creatureTypes';
+import { creatureTypeIDFromType } from '../../util/creatureUtils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from '../../util/stringUtils';
 
 @Injectable({
     providedIn: 'root',

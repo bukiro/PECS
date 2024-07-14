@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Deity } from 'src/app/classes/Deity';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from '../refresh/refresh.service';
+import { Observable, map, combineLatest, switchMap, of } from 'rxjs';
+import { Deity } from 'src/app/classes/deities/deity';
 import { CreatureTypes } from '../../definitions/creatureTypes';
-import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { DeitiesDataService } from '../data/deities-data.service';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
-import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { propMap$ } from '../../util/observableUtils';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { CreatureService } from '../creature/creature.service';
+import { DeitiesDataService } from '../data/deities-data.service';
+import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

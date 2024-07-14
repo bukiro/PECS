@@ -9,7 +9,7 @@ import { ItemsDataService } from './items-data.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
-import { Weapon } from 'src/app/classes/Weapon';
+import { Weapon } from 'src/app/classes/items/weapon';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 
 @Injectable({

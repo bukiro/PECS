@@ -1,24 +1,17 @@
+/* eslint-disable complexity */
 /* eslint-disable max-lines */
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Spell } from 'src/app/classes/Spell';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
-import { SpellGain } from 'src/app/classes/SpellGain';
 import { TimeService } from 'src/libs/shared/time/services/time/time.service';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { EffectGain } from 'src/app/classes/EffectGain';
-import { Condition } from 'src/app/classes/Condition';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { combineLatest, distinctUntilChanged, map, Observable, of, Subscription, switchMap, take } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Trait } from 'src/app/classes/Trait';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { Skill } from 'src/app/classes/Skill';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
@@ -36,13 +29,21 @@ import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-e
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { RelativeEffect } from 'src/app/classes/Effect';
+import { RelativeEffect } from 'src/app/classes/effects/effect';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { Store } from '@ngrx/store';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { EffectGain } from 'src/app/classes/effects/effect-gain';
+import { Trait } from 'src/app/classes/hints/trait';
+import { Skill } from 'src/app/classes/skills/skill';
+import { Spell } from 'src/app/classes/spells/spell';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
+import { Condition } from 'src/app/classes/conditions/condition';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;

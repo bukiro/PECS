@@ -1,46 +1,48 @@
+/* eslint-disable complexity */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-//TODO: Rework this entire thing to make it work with strict mode and have fewer exceptions;
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
-import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { ItemGain } from 'src/app/classes/ItemGain';
-import { EffectGain } from 'src/app/classes/EffectGain';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Item } from 'src/app/classes/Item';
-import { ItemProperty } from 'src/app/classes/ItemProperty';
-import { SpellCast } from 'src/app/classes/SpellCast';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { InventoryGain } from 'src/app/classes/InventoryGain';
-import { Hint } from 'src/app/classes/Hint';
-import { SpellGain } from 'src/app/classes/SpellGain';
-import { LanguageGain } from 'src/app/classes/LanguageGain';
-import { RingOfWizardrySlot } from 'src/app/classes/WornItem';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Consumable } from 'src/app/classes/Consumable';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { Character } from 'src/app/classes/Character';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { LanguageGain } from 'src/app/classes/creatures/character/language-gain';
+import { EffectGain } from 'src/app/classes/effects/effect-gain';
+import { Hint } from 'src/app/classes/hints/hint';
+import { ItemPropertyConfiguration } from 'src/app/classes/item-creation/item-property-configuration';
+import { Consumable } from 'src/app/classes/items/consumable';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { InventoryGain } from 'src/app/classes/items/inventory-gain';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { ItemGain } from 'src/app/classes/items/item-gain';
+import { RingOfWizardrySlot } from 'src/app/classes/items/worn-item';
+import { SpellCast } from 'src/app/classes/spells/spell-cast';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
-import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
-import { ItemPropertiesDataService } from 'src/libs/shared/services/data/item-properties-data.service';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
-import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
+import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
-import { Activity } from 'src/app/classes/Activity';
-import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
+import { ItemPropertiesDataService } from 'src/libs/shared/services/data/item-properties-data.service';
+import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
+import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
+import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+
+//TODO: Rework this entire thing to make it work with strict mode and have fewer exceptions;
 
 @Component({
     selector: 'app-new-item-property',
@@ -57,7 +59,7 @@ export class NewItemPropertyComponent<T extends Item | object> extends TrackByMi
     @Input()
     public newItem!: Item;
     @Input()
-    public propertyData!: ItemProperty<any>;
+    public propertyData!: ItemPropertyConfiguration<any>;
     @Input()
     public noTitle = false;
 
@@ -307,13 +309,13 @@ export class NewItemPropertyComponent<T extends Item | object> extends TrackByMi
         this.parent()[this.propertyKey].splice(index, 1);
     }
 
-    public subProperties(object: object): Array<ItemProperty<T>> {
+    public subProperties(object: object): Array<ItemPropertyConfiguration<T>> {
         return Object.keys(object)
             .map(key =>
                 this._itemPropertiesDataService.itemProperties()
                     .find(property => property.parent === this.propertyData.key && property.key === key),
             )
-            .filter(property => property !== undefined)
+            .filter((property): property is ItemPropertyConfiguration<any> => property !== undefined)
             .sort((a, b) => sortAlphaNum(a.group + a.priority, b.group + b.priority));
     }
 

@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { AdventuringGear } from '../../../../app/classes/AdventuringGear';
-import { AlchemicalElixir } from '../../../../app/classes/AlchemicalElixir';
-import { Ammunition } from '../../../../app/classes/Ammunition';
-import { Armor } from '../../../../app/classes/Armor';
-import { ArmorRune } from '../../../../app/classes/ArmorRune';
-import { Consumable } from '../../../../app/classes/Consumable';
-import { Equipment } from '../../../../app/classes/Equipment';
-import { Item } from '../../../../app/classes/Item';
-import { ItemRoles } from '../../../../app/classes/ItemRoles';
-import { Oil } from '../../../../app/classes/Oil';
-import { Potion } from '../../../../app/classes/Potion';
-import { Rune } from '../../../../app/classes/Rune';
-import { Scroll } from '../../../../app/classes/Scroll';
-import { Shield } from '../../../../app/classes/Shield';
-import { Talisman } from '../../../../app/classes/Talisman';
-import { Wand } from '../../../../app/classes/Wand';
-import { Weapon } from '../../../../app/classes/Weapon';
-import { WeaponRune } from '../../../../app/classes/WeaponRune';
-import { WornItem } from '../../../../app/classes/WornItem';
+import { AdventuringGear } from 'src/app/classes/items/adventuring-gear';
+import { AlchemicalElixir } from 'src/app/classes/items/alchemical-elixir';
+import { Ammunition } from 'src/app/classes/items/ammunition';
+import { Armor } from 'src/app/classes/items/armor';
+import { ArmorRune } from 'src/app/classes/items/armor-rune';
+import { Consumable } from 'src/app/classes/items/consumable';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { ItemRoles } from 'src/app/classes/items/item-roles';
+import { Oil } from 'src/app/classes/items/oil';
+import { Potion } from 'src/app/classes/items/potion';
+import { Rune } from 'src/app/classes/items/rune';
+import { Shield } from 'src/app/classes/items/shield';
+import { Talisman } from 'src/app/classes/items/talisman';
+import { Wand } from 'src/app/classes/items/wand';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WeaponRune } from 'src/app/classes/items/weapon-rune';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types';
+import { Scroll } from 'src/app/classes/items/scroll';
 
 @Injectable({
     providedIn: 'root',

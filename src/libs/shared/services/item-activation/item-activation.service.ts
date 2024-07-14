@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Consumable } from 'src/app/classes/Consumable';
-import { Creature } from 'src/app/classes/Creature';
-import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Consumable } from 'src/app/classes/items/consumable';
+import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
+import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

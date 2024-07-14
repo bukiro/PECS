@@ -1,16 +1,16 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Creature } from 'src/app/classes/Creature';
-import { Item } from 'src/app/classes/Item';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Observable, Subscription } from 'rxjs';
-import { Trait } from 'src/app/classes/Trait';
-import { Activity } from 'src/app/classes/Activity';
-import { Equipment } from 'src/app/classes/Equipment';
-import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
-import { Rune } from 'src/app/classes/Rune';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Subscription, Observable } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Trait } from 'src/app/classes/hints/trait';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { Rune } from 'src/app/classes/items/rune';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
+import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 

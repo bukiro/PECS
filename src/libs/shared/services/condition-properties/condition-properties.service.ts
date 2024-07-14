@@ -1,14 +1,14 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Condition } from 'src/app/classes/Condition';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { Observable, combineLatest, of, switchMap, distinctUntilChanged, map, shareReplay } from 'rxjs';
+import { ConditionChoice } from 'src/app/classes/character-creation/condition-choice';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
-import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { FamiliarsDataService } from '../data/familiars-data.service';
-import { Observable, combineLatest, distinctUntilChanged, map, of, shareReplay, switchMap } from 'rxjs';
-import { ConditionChoice } from 'src/app/classes/ConditionChoice';
+import { CreatureService } from '../creature/creature.service';
+import { Condition } from 'src/app/classes/conditions/condition';
 
 @Injectable({
     providedIn: 'root',
@@ -17,7 +17,6 @@ export class ConditionPropertiesService {
 
     constructor(
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }

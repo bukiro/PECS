@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { combineLatest, distinctUntilChanged, map, Observable, of, shareReplay, switchMap } from 'rxjs';
+import { Observable, switchMap, map, distinctUntilChanged, shareReplay, combineLatest, of } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { selectAllCharacterFeatsAtLevel } from 'src/libs/store/feats/feats.selectors';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
-import { Creature } from 'src/app/classes/Creature';
 import { CreatureService } from '../creature/creature.service';
 
 @Injectable({

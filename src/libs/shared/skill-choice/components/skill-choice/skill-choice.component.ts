@@ -1,23 +1,24 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { Skill } from 'src/app/classes/Skill';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, map, Observable, of, Subscription, switchMap } from 'rxjs';
-import { skillLevelName } from 'src/libs/shared/util/skillUtils';
-import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { Character } from 'src/app/classes/Character';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { Subscription, Observable, map, switchMap, combineLatest, of } from 'rxjs';
+import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Skill } from 'src/app/classes/skills/skill';
 import { CharacterSkillIncreaseService } from 'src/libs/character-creation/services/character-skill-increase/character-skill-increase.service';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { abilityModFromAbilityValue } from 'src/libs/shared/util/ability-base-value-utils';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { skillLevelName } from 'src/libs/shared/util/skillUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
-import { abilityModFromAbilityValue } from 'src/libs/shared/util/ability-base-value-utils';
+
 
 interface SkillChoiceParameters {
     listId: string;

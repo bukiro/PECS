@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Armor } from 'src/app/classes/Armor';
-import { Creature } from 'src/app/classes/Creature';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Rune } from 'src/app/classes/Rune';
-import { Specialization } from 'src/app/classes/Specialization';
-import { WornItem } from 'src/app/classes/WornItem';
+import { Observable, switchMap, combineLatest, map, distinctUntilChanged, of } from 'rxjs';
+import { Specialization } from 'src/app/classes/attacks/specialization';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Armor } from 'src/app/classes/items/armor';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Rune } from 'src/app/classes/items/rune';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
+import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
-import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
-import { isEqualArray, isEqualSerializable, isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
 
 @Injectable({
     providedIn: 'root',

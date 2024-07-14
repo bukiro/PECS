@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
 import { DeepPartial } from '../../definitions/types/deepPartial';
+import { AnimalCompanionsDataService } from '../data/animal-companions-data.service';
+import { TypeService } from '../type/type.service';
 
 @Injectable({
     providedIn: 'root',

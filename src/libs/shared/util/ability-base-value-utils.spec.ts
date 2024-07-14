@@ -1,5 +1,10 @@
-import { Defaults } from '../definitions/defaults';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
+import { AbilityBoostType } from '../definitions/ability-boost-type';
 import { AbilityBaseValueSetting } from '../definitions/creature-properties/ability-base-value-setting';
+import { Defaults } from '../definitions/defaults';
+import { BonusDescription } from '../ui/bonus-list';
 import {
     abilityAddedValueFromBoost,
     abilityAddedValueFromPositiveBoost,
@@ -8,11 +13,6 @@ import {
     abilityModFromAbilityValue,
     mapAbilityBoostsToBaseValueAggregate,
 } from './ability-base-value-utils';
-import { Character } from 'src/app/classes/Character';
-import { Familiar } from 'src/app/classes/Familiar';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { AbilityBoostType } from '../definitions/ability-boost-type';
-import { BonusDescription } from '../ui/bonus-list';
 
 describe('abilityModFromAbilityValue', () => {
     [

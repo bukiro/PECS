@@ -1,19 +1,20 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Armor } from 'src/app/classes/Armor';
-import { Material } from 'src/app/classes/Material';
-import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
-import { Character } from 'src/app/classes/Character';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+/* eslint-disable complexity */
+import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
+import { BehaviorSubject, Observable, switchMap, combineLatest, of, map } from 'rxjs';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Armor } from 'src/app/classes/items/armor';
+import { ArmorMaterial } from 'src/app/classes/items/armor-material';
+import { Material } from 'src/app/classes/items/material';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
-import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
-import { BehaviorSubject, combineLatest, map, Observable, of, switchMap } from 'rxjs';
-import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
+import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 
 const materialLevelRequiredForFirstPotency = 5;
 const materialLevelRequiredForSecondPotency = 11;

@@ -1,33 +1,44 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Activity } from 'src/app/classes/Activity';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { ConditionSet } from 'src/app/classes/ConditionSet';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { Hint } from 'src/app/classes/Hint';
-import { Item } from 'src/app/classes/Item';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Shield } from 'src/app/classes/Shield';
-import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { WornItem } from 'src/app/classes/WornItem';
-import { Character } from 'src/app/classes/Character';
-import { ArmorRune } from 'src/app/classes/ArmorRune';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Material } from 'src/app/classes/Material';
-import { Oil } from 'src/app/classes/Oil';
-import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { Condition } from 'src/app/classes/Condition';
-import { Creature } from 'src/app/classes/Creature';
-import { Trait } from 'src/app/classes/Trait';
-import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
-import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
-import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { Observable, map, of } from 'rxjs';
+/* eslint-disable complexity */
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Observable, of, map } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { Condition } from 'src/app/classes/conditions/condition';
+import { ConditionGainSet } from 'src/app/classes/conditions/condition-gain-set';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Hint } from 'src/app/classes/hints/hint';
+import { Trait } from 'src/app/classes/hints/trait';
+import { ArmorRune } from 'src/app/classes/items/armor-rune';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { Material } from 'src/app/classes/items/material';
+import { Oil } from 'src/app/classes/items/oil';
+import { Shield } from 'src/app/classes/items/shield';
+import { WeaponRune } from 'src/app/classes/items/weapon-rune';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/emblazon-armament-set';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+
 
 type HintObject =
-    Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string; hints: Array<Hint> };
+    Feat
+    | Activity
+    | ConditionGainSet
+    | Equipment
+    | Oil
+    | WornItem
+    | ArmorRune
+    | WeaponRune
+    | Material
+    | { desc?: string; hints: Array<Hint> };
 
 @Component({
     selector: 'app-hint',
@@ -67,7 +78,7 @@ export class HintComponent extends TrackByMixin(BaseClass) {
 
     public hints$(): Observable<Array<Hint>> {
         if (this.noFilter) {
-            return of(this.object instanceof ConditionSet ? this.object.condition.hints : (this.object?.hints || []));
+            return of(this.object instanceof ConditionGainSet ? this.object.condition.hints : (this.object?.hints || []));
         }
 
         const isSlottedAeonStone = this.object instanceof WornItem && this.object.isSlottedAeonStone;
@@ -79,11 +90,11 @@ export class HintComponent extends TrackByMixin(BaseClass) {
         )
             .pipe(
                 map(emblazonArmament =>
-                    (this.object instanceof ConditionSet ? this.object.condition.hints : (this.object?.hints || []))
+                    (this.object instanceof ConditionGainSet ? this.object.condition.hints : (this.object?.hints || []))
                         .filter((hint: Hint) =>
                             (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                             (
-                                this.object instanceof ConditionSet ?
+                                this.object instanceof ConditionGainSet ?
                                     (
                                         (
                                             hint.conditionChoiceFilter.length ?
@@ -130,7 +141,7 @@ export class HintComponent extends TrackByMixin(BaseClass) {
         if (hint.desc) {
             return this._heightenedHintDescription(hint);
         } else {
-            if (this.object instanceof ConditionSet) {
+            if (this.object instanceof ConditionGainSet) {
                 return this.object.condition.heightenedText(this.object.condition.desc, this.object.gain.heightened);
             } else {
                 return this.object?.desc || '';
@@ -140,7 +151,7 @@ export class HintComponent extends TrackByMixin(BaseClass) {
 
     public hintChoice(hint: Hint): string {
         //Only for condition hints, append the choice if the hint only showed up because of the choice.
-        if (this.object instanceof ConditionSet && hint.conditionChoiceFilter.length) {
+        if (this.object instanceof ConditionGainSet && hint.conditionChoiceFilter.length) {
             return `: ${ this.object.gain.choice }`;
         }
 
@@ -177,7 +188,7 @@ export class HintComponent extends TrackByMixin(BaseClass) {
         return (
             object instanceof Feat ||
             object instanceof Activity ||
-            object instanceof ConditionSet ||
+            object instanceof ConditionGainSet ||
             object instanceof Item ||
             !!object.desc
         );
@@ -193,7 +204,7 @@ export class HintComponent extends TrackByMixin(BaseClass) {
         }
 
         if (
-            object instanceof ConditionSet
+            object instanceof ConditionGainSet
         ) {
             return object.condition;
         }
@@ -209,8 +220,8 @@ export class HintComponent extends TrackByMixin(BaseClass) {
         return object instanceof Activity ? object : undefined;
     }
 
-    public objectAsConditionSet(object: HintObject): ConditionSet | undefined {
-        return object instanceof ConditionSet ? object : undefined;
+    public objectAsConditionGainSet(object: HintObject): ConditionGainSet | undefined {
+        return object instanceof ConditionGainSet ? object : undefined;
     }
 
     public objectAsItem(object: HintObject): Item | undefined {
@@ -221,7 +232,7 @@ export class HintComponent extends TrackByMixin(BaseClass) {
         if (
             !this.objectAsFeat(object) &&
             !this.objectAsActivity(object) &&
-            !this.objectAsConditionSet(object) &&
+            !this.objectAsConditionGainSet(object) &&
             !this.objectAsItem(object)
         ) {
             return Object.prototype.hasOwnProperty.call(object, 'desc') ? object as { desc: string } : undefined;
@@ -236,7 +247,7 @@ export class HintComponent extends TrackByMixin(BaseClass) {
 
     private _heightenedHintDescription(hint: Hint): string {
         //Spell conditions have their hints heightened to their spell level, everything else is heightened to the character level.
-        if (this.object instanceof ConditionSet && this.object.condition.minLevel) {
+        if (this.object instanceof ConditionGainSet && this.object.condition.minLevel) {
             return hint.heightenedText(hint.desc, this.object.gain.heightened);
         } else {
             return hint.heightenedText(hint.desc, CreatureService.character.level);

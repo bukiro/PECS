@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { Effect } from 'src/app/classes/Effect';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { BonusDescription } from '../../ui/bonus-list';
 import { Observable, combineLatest, map } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect } from 'src/app/classes/effects/effect';
+import { BonusDescription } from '../../ui/bonus-list';
 import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 
 export interface InvestedLiveValue {

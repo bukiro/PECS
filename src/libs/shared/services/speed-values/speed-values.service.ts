@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, map, Observable } from 'rxjs';
-import { Creature } from 'src/app/classes/Creature';
-import { AbsoluteEffect, Effect, RelativeEffect } from 'src/app/classes/Effect';
-import { Speed } from 'src/app/classes/Speed';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { Observable, combineLatest, map } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Speed } from 'src/app/classes/creatures/speed';
+import { Effect, RelativeEffect, AbsoluteEffect } from 'src/app/classes/effects/effect';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 
 interface CalculatedSpeed {
     name: string;

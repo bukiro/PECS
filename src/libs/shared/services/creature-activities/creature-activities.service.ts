@@ -1,18 +1,19 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Creature } from 'src/app/classes/Creature';
-import { Equipment } from 'src/app/classes/Equipment';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { Shield } from 'src/app/classes/Shield';
-import { Weapon } from 'src/app/classes/Weapon';
-import { WornItem } from 'src/app/classes/WornItem';
+import { Observable, combineLatest, map, distinctUntilChanged } from 'rxjs';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Shield } from 'src/app/classes/items/shield';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WornItem } from 'src/app/classes/items/worn-item';
+import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types';
 import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
+import { isEqualSerializableArray } from '../../util/compare-utils';
 import { sortAlphaNum } from '../../util/sortUtils';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { TraitsDataService } from '../data/traits-data.service';
-import { Observable, combineLatest, distinctUntilChanged, map } from 'rxjs';
-import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types';
-import { isEqualSerializableArray } from '../../util/compare-utils';
 
 @Injectable({
     providedIn: 'root',

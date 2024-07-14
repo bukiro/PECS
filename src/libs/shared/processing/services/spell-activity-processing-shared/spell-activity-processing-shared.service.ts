@@ -1,22 +1,23 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Activity } from 'src/app/classes/Activity';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Condition } from 'src/app/classes/Condition';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { Spell } from 'src/app/classes/Spell';
-import { SpellGain } from 'src/app/classes/SpellGain';
-import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { Observable, tap, map, of, zip } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Condition } from 'src/app/classes/conditions/condition';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Spell } from 'src/app/classes/spells/spell';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
+import { SpellTarget } from 'src/app/classes/spells/spell-target';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { Observable, map, of, tap, zip } from 'rxjs';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+
 
 @Injectable({
     providedIn: 'root',

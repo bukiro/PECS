@@ -1,21 +1,22 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Weapon } from 'src/app/classes/Weapon';
-import { Shield } from 'src/app/classes/Shield';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Hint } from 'src/app/classes/Hint';
-import { EffectGain } from 'src/app/classes/EffectGain';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Character } from 'src/app/classes/Character';
+/* eslint-disable complexity */
+import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
+import { Observable, combineLatest, map, take, of } from 'rxjs';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { EffectGain } from 'src/app/classes/effects/effect-gain';
+import { Hint } from 'src/app/classes/hints/hint';
+import { Shield } from 'src/app/classes/items/shield';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { Observable, combineLatest, map, of, take } from 'rxjs';
-import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 
 interface ComponentParameters {
     hasEmblazonDivinity: boolean;

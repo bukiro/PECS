@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, switchMap } from 'rxjs';
-import { CharacterClass } from 'src/app/classes/CharacterClass';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
+import { Observable, switchMap, of } from 'rxjs';
+import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { CreatureService } from '../creature/creature.service';
 
 @Injectable({

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { LoreChoice } from 'src/app/classes/LoreChoice';
-import { Rune } from 'src/app/classes/Rune';
-import { SkillChoice } from 'src/app/classes/SkillChoice';
+import { LoreChoice } from 'src/app/classes/character-creation/lore-choice';
+import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
+import { Rune } from 'src/app/classes/items/rune';
 import { CharacterSkillIncreaseService } from 'src/libs/character-creation/services/character-skill-increase/character-skill-increase.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { SkillLevels } from '../../definitions/skillLevels';
+import { CreatureService } from '../creature/creature.service';
 import { FeatsDataService } from '../data/feats-data.service';
 import { RecastService } from '../recast/recast.service';
+import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

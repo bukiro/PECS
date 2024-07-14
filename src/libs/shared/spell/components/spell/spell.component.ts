@@ -1,16 +1,16 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Spell } from 'src/app/classes/Spell';
-import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Observable, Subscription } from 'rxjs';
-import { Trait } from 'src/app/classes/Trait';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Subscription, Observable } from 'rxjs';
+import { Trait } from 'src/app/classes/hints/trait';
+import { Spell } from 'src/app/classes/spells/spell';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 
 @Component({
     selector: 'app-spell',

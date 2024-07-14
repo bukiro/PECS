@@ -1,14 +1,14 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { combineLatest, distinctUntilChanged, Observable, switchMap } from 'rxjs';
-import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
+import { Observable, switchMap, distinctUntilChanged, combineLatest } from 'rxjs';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Character } from 'src/app/classes/creatures/character/character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { AbilityValuesService, AbilityLiveValue } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
+import { AbilityLiveValue, AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 @Component({
     selector: 'app-abilities',

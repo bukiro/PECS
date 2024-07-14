@@ -1,7 +1,7 @@
-import { Hint } from 'src/app/classes/Hint';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Item } from 'src/app/classes/Item';
-import { Material } from 'src/app/classes/Material';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Hint } from 'src/app/classes/hints/hint';
+import { Item } from 'src/app/classes/items/item';
+import { Material } from 'src/app/classes/items/material';
 
 export interface HintEffectsObject {
     readonly hint: Hint;

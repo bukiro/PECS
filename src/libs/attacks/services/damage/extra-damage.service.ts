@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
-import { Weapon } from 'src/app/classes/Weapon';
-import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { attackEffectPhrases } from '../../util/attackEffectPhrases';
+import { Observable, combineLatest, of, map, switchMap } from 'rxjs';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Oil } from 'src/app/classes/items/oil';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WeaponRune } from 'src/app/classes/items/weapon-rune';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { SpellGain } from 'src/app/classes/SpellGain';
 import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/emblazon-armament-set';
+import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { attackEffectPhrases } from '../../util/attackEffectPhrases';
 import { RuneSourceSet } from '../../util/attackRuneSource';
-import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { Oil } from 'src/app/classes/Oil';
-
 
 export interface ExtraDamageResult {
     result: Array<string>;
@@ -70,13 +69,12 @@ export class ExtraDamageService {
         ])
             .pipe(
                 map(([fromWeapon, fromRunes, fromEmblazonEnergy, fromEffects]) =>
-                    new Array<BonusDescription | undefined>()
-                        .concat(
-                            fromWeapon,
-                            ...fromRunes,
-                            fromEmblazonEnergy,
-                            ...fromEffects,
-                        )
+                    new Array<BonusDescription | undefined>(
+                        fromWeapon,
+                        ...fromRunes,
+                        fromEmblazonEnergy,
+                        ...fromEffects,
+                    )
                         .filter((bonus): bonus is BonusDescription => !!bonus)
                         // Cleanup the extra damage strings
                         .map(bonus => ({
@@ -85,8 +83,8 @@ export class ExtraDamageService {
                         }))
                         .reduce(
                             (previous, current) => ({
-                                result: previous.result.concat(current.value),
-                                bonuses: previous.bonuses.concat(current),
+                                result: [...previous.result, current.value],
+                                bonuses: [...previous.bonuses, current],
                             }),
                             { result: new Array<string>(), bonuses: new Array<BonusDescription>() },
                         ),

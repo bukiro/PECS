@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Activity } from 'src/app/classes/Activity';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Equipment } from 'src/app/classes/Equipment';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { Creature } from 'src/app/classes/Creature';
-import { WornItem } from 'src/app/classes/WornItem';
-import { Armor } from 'src/app/classes/Armor';
-import { Rune } from 'src/app/classes/Rune';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Armor } from 'src/app/classes/items/armor';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Rune } from 'src/app/classes/items/rune';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import * as json_activities from 'src/assets/json/activities';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
 import { DeepPartial } from '../../definitions/types/deepPartial';
+import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { RecastService } from '../recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',

@@ -1,27 +1,26 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, switchMap, take, tap, withLatestFrom, zip } from 'rxjs';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { Item } from 'src/app/classes/Item';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { PlayerMessage } from 'src/app/classes/PlayerMessage';
-import { SpellTarget } from 'src/app/classes/SpellTarget';
+import { Store } from '@ngrx/store';
+import { zip, take, switchMap, of, withLatestFrom, tap } from 'rxjs';
+import { PlayerMessage } from 'src/app/classes/api/player-message';
+import { PlayerMessageBase } from 'src/app/classes/api/player-message-base';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { SpellTarget } from 'src/app/classes/spells/spell-target';
+import { selectGmMode } from 'src/libs/store/app/app.selectors';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { CreatureService } from '../creature/creature.service';
-import { ConfigService } from '../config/config.service';
+import { AuthService } from '../auth/auth.service';
+import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
+import { CreatureService } from '../creature/creature.service';
 import { ItemTransferService } from '../item-transfer/item-transfer.service';
 import { MessagePropertiesService } from '../message-properties/message-properties.service';
+import { MessagesApiService } from '../messages-api/messages-api.service';
 import { RecastService } from '../recast/recast.service';
 import { SavegamesService } from '../saving-loading/savegames/savegames.service';
 import { SettingsService } from '../settings/settings.service';
-import { MessagesApiService } from '../messages-api/messages-api.service';
-import { Store } from '@ngrx/store';
-import { selectGmMode } from 'src/libs/store/app/app.selectors';
-import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
-import { PlayerMessageInterface } from 'src/app/classes/PlayerMessageInterface';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable({
     providedIn: 'root',
@@ -30,7 +29,6 @@ export class MessageSendingService {
 
     constructor(
         private readonly _authService: AuthService,
-        private readonly _configService: ConfigService,
         private readonly _savegamesService: SavegamesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _messagesApiService: MessagesApiService,
@@ -64,7 +62,7 @@ export class MessageSendingService {
                                             savegame.partyName === character.partyName
                                             && savegame.id !== character.id,
                                         );
-                                    const messages: Array<PlayerMessageInterface> = [];
+                                    const messages: Array<PlayerMessageBase> = [];
                                     const date = new Date();
 
                                     targets.forEach(target => {
@@ -122,7 +120,7 @@ export class MessageSendingService {
                                 switchMap(result => {
                                     const character = CreatureService.character;
                                     const timeStamp = result.time;
-                                    const messages: Array<PlayerMessageInterface> = [];
+                                    const messages: Array<PlayerMessageBase> = [];
                                     const date = new Date();
 
                                     targets.forEach(target => {

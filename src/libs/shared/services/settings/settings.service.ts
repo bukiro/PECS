@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, take, tap } from 'rxjs';
-import { Settings } from 'src/app/classes/Settings';
+import { Settings } from 'src/app/classes/app/settings';
 import { CreatureService } from '../creature/creature.service';
 import { propMap$ } from '../../util/observableUtils';
 

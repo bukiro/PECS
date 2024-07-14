@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
-import { AbsoluteEffect, Effect, RelativeEffect } from 'src/app/classes/Effect';
+import { AbsoluteEffect, Effect, RelativeEffect } from 'src/app/classes/effects/effect';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 import { effectsFeatureName } from './effects.feature';
 import { EffectsState } from './effects.state';

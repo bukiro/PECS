@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Weapon } from 'src/app/classes/Weapon';
-import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
-import { Material } from 'src/app/classes/Material';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WeaponMaterial } from 'src/app/classes/items/weapon-material';
+import { Material } from 'src/app/classes/items/material';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';

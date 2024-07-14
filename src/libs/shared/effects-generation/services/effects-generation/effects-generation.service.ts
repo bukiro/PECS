@@ -1,33 +1,34 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { Armor } from 'src/app/classes/Armor';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Creature } from 'src/app/classes/Creature';
-import { AbsoluteEffect, Effect } from 'src/app/classes/Effect';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { Rune } from 'src/app/classes/Rune';
-import { Shield } from 'src/app/classes/Shield';
-import { Specialization } from 'src/app/classes/Specialization';
-import { ConditionEffectsObject } from '../../../../../app/classes/ConditionEffectsObject';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { switchMap, of, Observable, combineLatest, map, distinctUntilChanged, tap } from 'rxjs';
+import { Specialization } from 'src/app/classes/attacks/specialization';
+import { ConditionEffectsCollection } from 'src/app/classes/conditions/condition-effects-collection';
+import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect, AbsoluteEffect } from 'src/app/classes/effects/effect';
+import { Trait } from 'src/app/classes/hints/trait';
+import { Armor } from 'src/app/classes/items/armor';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Rune } from 'src/app/classes/items/rune';
+import { Shield } from 'src/app/classes/items/shield';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { CreatureEffectsGenerationService } from 'src/libs/shared/effects-generation/services/creature-effects-generation/creature-effects-generation.service';
-import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
-import { ItemEffectsGenerationService } from 'src/libs/shared/effects-generation/services/item-effects-generation/item-effects-generation.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { ObjectEffectsGenerationService } from 'src/libs/shared/effects-generation/services/object-effects-generation/object-effects-generation';
-import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
-import { AlwaysShowingEffectNames, AlwaysShowingWildcardEffectNames } from '../../definitions/ShowingEffects';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
-import { Trait } from 'src/app/classes/Trait';
+import { isEqualSerializableArrayWithoutId, isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
 import { resilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
-import { isEqualSerializableArray, isEqualSerializableArrayWithoutId } from 'src/libs/shared/util/compare-utils';
+import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
+import { AlwaysShowingEffectNames, AlwaysShowingWildcardEffectNames } from '../../definitions/ShowingEffects';
+import { CreatureEffectsGenerationService } from '../creature-effects-generation/creature-effects-generation.service';
+import { ItemEffectsGenerationService } from '../item-effects-generation/item-effects-generation.service';
+import { ObjectEffectsGenerationService } from '../object-effects-generation/object-effects-generation';
 
 @Injectable({
     providedIn: 'root',
@@ -166,7 +167,7 @@ export class EffectsGenerationService {
                             activeActivitiesHintSets,
                         );
                     const objects: Array<Equipment | Rune | Specialization> = effectItems.objects;
-                    const conditions: Array<ConditionEffectsObject> = effectConditions.conditions;
+                    const conditions: Array<ConditionEffectsCollection> = effectConditions.conditions;
 
                     return combineLatest([
                         // Create object effects from the creature.

@@ -1,27 +1,27 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Observable, Subscription, map, of } from 'rxjs';
-import { Activity } from 'src/app/classes/Activity';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Condition } from 'src/app/classes/Condition';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { Spell } from 'src/app/classes/Spell';
-import { SpellCast } from 'src/app/classes/SpellCast';
-import { Trait } from 'src/app/classes/Trait';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Subscription, Observable, map, of } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Condition } from 'src/app/classes/conditions/condition';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Trait } from 'src/app/classes/hints/trait';
+import { Spell } from 'src/app/classes/spells/spell';
+import { SpellCast } from 'src/app/classes/spells/spell-cast';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
-import { Creature } from 'src/app/classes/Creature';
-import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 
 @Component({
     selector: 'app-activity-content',

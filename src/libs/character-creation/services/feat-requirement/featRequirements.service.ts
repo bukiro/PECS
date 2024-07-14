@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Ability } from 'src/app/classes/Ability';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { Skill } from 'src/app/classes/Skill';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { Observable, map, combineLatest, of, switchMap } from 'rxjs';
+import { Ability } from 'src/app/classes/abilities/ability';
+import { Skill } from 'src/app/classes/skills/skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
-import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
-import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
-import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequirements';
-import { ComplexFeatRequirementsService } from './complexFeatRequirements.service';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
-import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { FeatIgnoreRequirements } from 'src/libs/shared/definitions/models/featIgnoreRequirements';
+import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequirements';
+import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
+import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
+import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { ComplexFeatRequirementsService } from './complexFeatRequirements.service';
 
 @Injectable({
     providedIn: 'root',

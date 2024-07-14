@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature as CreatureModel } from 'src/app/classes/Creature';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature as CreatureModel } from 'src/app/classes/creatures/creature';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { Item } from 'src/app/classes/Item';
-import { Material } from 'src/app/classes/Material';
-import { Speed as SpeedModel } from 'src/app/classes/Speed';
-import { EffectGain } from '../../../../app/classes/EffectGain';
-import { Equipment } from '../../../../app/classes/Equipment';
-import { ActivityGain } from '../../../../app/classes/ActivityGain';
-import { Skill as SkillModel } from '../../../../app/classes/Skill';
-import { Armor as ArmorModel } from '../../../../app/classes/Armor';
-import { Shield as ShieldModel } from '../../../../app/classes/Shield';
-import { Weapon } from '../../../../app/classes/Weapon';
-import { WornItem } from '../../../../app/classes/WornItem';
-import { Deity as DeityModel } from '../../../../app/classes/Deity';
+import { Item } from 'src/app/classes/items/item';
+import { Material } from 'src/app/classes/items/material';
+import { Speed as SpeedModel } from 'src/app/classes/creatures/speed';
+import { EffectGain } from 'src/app/classes/effects/effect-gain';
+import { Skill as SkillModel } from 'src/app/classes/skills/skill';
+import { Armor as ArmorModel } from 'src/app/classes/items/armor';
+import { Shield as ShieldModel } from 'src/app/classes/items/shield';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WornItem } from 'src/app/classes/items/worn-item';
+import { Deity as DeityModel } from 'src/app/classes/deities/deity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
@@ -30,7 +28,9 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 import { SkillsDataService } from '../data/skills-data.service';
 import { FeatTaken } from '../../definitions/models/FeatTaken';
 import { Observable, combineLatest, map, of } from 'rxjs';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Equipment } from 'src/app/classes/items/equipment';
 
 interface FormulaObject {
     effects: Array<EffectGain>;

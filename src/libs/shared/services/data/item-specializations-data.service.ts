@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Specialization } from 'src/app/classes/Specialization';
+import { Specialization } from 'src/app/classes/attacks/specialization';
+import { Hint } from 'src/app/classes/hints/hint';
 import * as json_specializations from 'src/assets/json/specializations';
 import { DataLoadingService } from './data-loading.service';
-import { Hint } from 'src/app/classes/Hint';
 
 @Injectable({
     providedIn: 'root',

@@ -1,8 +1,8 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Weapon } from 'src/app/classes/Weapon';
-import { Armor } from 'src/app/classes/Armor';
-import { Shield } from 'src/app/classes/Shield';
-import { ItemRoles } from 'src/app/classes/ItemRoles';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Armor } from 'src/app/classes/items/armor';
+import { ItemRoles } from 'src/app/classes/items/item-roles';
+import { Shield } from 'src/app/classes/items/shield';
+import { Weapon } from 'src/app/classes/items/weapon';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 
 @Component({

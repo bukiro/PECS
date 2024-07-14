@@ -1,8 +1,11 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Armor } from 'src/app/classes/Armor';
-import { Creature } from 'src/app/classes/Creature';
-import { Specialization } from 'src/app/classes/Specialization';
-import { SpecializationGain } from 'src/app/classes/SpecializationGain';
+import { Observable, of, combineLatest, switchMap, map, distinctUntilChanged, tap } from 'rxjs';
+import { Specialization } from 'src/app/classes/attacks/specialization';
+import { SpecializationGain } from 'src/app/classes/attacks/specialization-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { AdventuringGear } from 'src/app/classes/items/adventuring-gear';
+import { Armor } from 'src/app/classes/items/armor';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { maxSkillLevel } from '../../definitions/skillLevels';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
@@ -10,8 +13,6 @@ import { CreatureConditionsService } from '../creature-conditions/creature-condi
 import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';
 import { SkillsDataService } from '../data/skills-data.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
-import { Observable, combineLatest, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
-import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 
 @Injectable({
     providedIn: 'root',

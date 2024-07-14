@@ -1,25 +1,26 @@
+/* eslint-disable complexity */
+import { HttpClient, HttpStatusCode, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
-import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { default as package_json } from 'package.json';
-import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-companion-ancestry/animal-companion-ancestry.service';
-import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
-import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
-import { Item } from 'src/app/classes/Item';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { SavegamesService } from '../savegames/savegames.service';
-import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { Observable } from 'rxjs';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
+import { CharacterClassLevel } from 'src/app/classes/creatures/character/character-class-level';
+import { Item } from 'src/app/classes/items/item';
 import { Constructable } from 'src/libs/shared/definitions/interfaces/constructable';
+import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { AnimalCompanionAncestryService } from '../../animal-companion-ancestry/animal-companion-ancestry.service';
+import { AnimalCompanionLevelsService } from '../../animal-companion-level/animal-companion-level.service';
+import { AnimalCompanionSpecializationsService } from '../../animal-companion-specializations/animal-companion-specializations.service';
+import { AuthService } from '../../auth/auth.service';
+import { ConfigService } from '../../config/config.service';
+import { CreatureService } from '../../creature/creature.service';
+import { ItemsDataService } from '../../data/items-data.service';
+import { RecastService } from '../../recast/recast.service';
 import { ClassSavingLoadingService } from '../class-saving-loading/class-saving-loading.service';
 import { HistorySavingLoadingService } from '../history-saving-loading/history-saving-loading.service';
-import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
-import { CharacterClass } from 'src/app/classes/CharacterClass';
-import { ClassLevel } from 'src/app/classes/ClassLevel';
-import { AuthService } from '../../auth/auth.service';
+import { SavegamesService } from '../savegames/savegames.service';
 
 interface SaveCharacterResponse {
     result: { n: number; ok: number };
@@ -101,7 +102,7 @@ export class CharacterSavingService {
         if (savegame.class.name) {
             this._classSavingLoadingService.cleanClassForSave(savegame.class);
 
-            const _class: Partial<CharacterClass> & { levels: Array<Partial<ClassLevel>> } = savegame.class;
+            const _class: Partial<CharacterClass> & { levels: Array<Partial<CharacterClassLevel>> } = savegame.class;
 
             if (_class.ancestry?.name) {
                 this._historySavingLoadingService.cleanAncestryForSave(_class.ancestry);

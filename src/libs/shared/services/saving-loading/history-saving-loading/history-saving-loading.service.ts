@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
 import { Injectable } from '@angular/core';
-import { Ancestry } from 'src/app/classes/Ancestry';
-import { Heritage } from 'src/app/classes/Heritage';
-import { Background } from 'src/app/classes/Background';
+import { Ancestry } from 'src/app/classes/creatures/character/ancestry';
+import { Heritage } from 'src/app/classes/creatures/character/heritage';
+import { Background } from 'src/app/classes/creatures/character/background';
 import { HistoryDataService } from 'src/libs/shared/services/data/history-data.service';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 

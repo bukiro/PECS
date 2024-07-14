@@ -1,14 +1,14 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
-import { Item } from 'src/app/classes/Item';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { Rune } from 'src/app/classes/Rune';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { Item } from 'src/app/classes/items/item';
+import { Rune } from 'src/app/classes/items/rune';
 import { v4 as uuidv4 } from 'uuid';
-import { RecastService } from '../recast/recast.service';
 import { ItemMaterialsDataService } from '../data/item-materials-data.service';
 import { ItemsDataService } from '../data/items-data.service';
+import { RecastService } from '../recast/recast.service';
+import { TypeService } from '../type/type.service';
 
 @Injectable({
     providedIn: 'root',

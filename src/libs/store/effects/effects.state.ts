@@ -1,4 +1,4 @@
-import { Effect } from 'src/app/classes/Effect';
+import { Effect } from 'src/app/classes/effects/effect';
 
 export interface EffectsState {
     effects: [

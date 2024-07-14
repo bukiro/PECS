@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import {
     Component,
     OnInit,
@@ -10,17 +11,17 @@ import {
     OnChanges,
     SimpleChanges,
 } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Skill } from 'src/app/classes/Skill';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Observable, Subscription, combineLatest, map, of, switchMap } from 'rxjs';
-import { Character } from 'src/app/classes/Character';
-import { Creature, SkillNotes } from 'src/app/classes/Creature';
-import { Activity } from 'src/app/classes/Activity';
-import { SkillLiveValue, SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { Observable, Subscription, combineLatest, map, switchMap, of } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Creature, SkillNotes } from 'src/app/classes/creatures/creature';
+import { Skill } from 'src/app/classes/skills/skill';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SkillLiveValue, SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';

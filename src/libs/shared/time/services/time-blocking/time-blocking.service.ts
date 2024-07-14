@@ -1,11 +1,12 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { Creature } from 'src/app/classes/Creature';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
-import { combineLatest, map, Observable, switchMap } from 'rxjs';
-import { Effect } from 'src/app/classes/Effect';
+import { Observable, switchMap, combineLatest, map } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect } from 'src/app/classes/effects/effect';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 
 @Injectable({
     providedIn: 'root',

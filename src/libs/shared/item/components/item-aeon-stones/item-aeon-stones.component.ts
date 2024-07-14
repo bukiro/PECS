@@ -1,18 +1,18 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
+import { Observable, map, of } from 'rxjs';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { WornItem } from 'src/app/classes/WornItem';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Character } from 'src/app/classes/Character';
-import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
-import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
-import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
+import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { Observable, map, of } from 'rxjs';
 
 interface AeonStoneSet {
     aeonStone: WornItem;

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Condition } from 'src/app/classes/Condition';
+import { Condition } from 'src/app/classes/conditions/condition';
 import * as json_conditions from 'src/assets/json/conditions';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
-import { DataLoadingService } from './data-loading.service';
+import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
 import { RecastService } from '../recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',

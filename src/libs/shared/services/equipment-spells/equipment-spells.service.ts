@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { SpellGain } from 'src/app/classes/SpellGain';
-import { WornItem } from 'src/app/classes/WornItem';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { WornItem } from 'src/app/classes/items/worn-item';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { SpellsDataService } from '../data/spells-data.service';
 
 @Injectable({

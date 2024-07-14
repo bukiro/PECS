@@ -1,4 +1,4 @@
-import { Effect } from 'src/app/classes/Effect';
+import { Effect } from 'src/app/classes/effects/effect';
 import { BonusDescription } from '../ui/bonus-list';
 import { signNumber } from './numberUtils';
 import { capitalize } from './stringUtils';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, distinctUntilChanged, map } from 'rxjs';
-import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
+import { AnimalCompanionLevel } from 'src/app/classes/creatures/animal-companion/animal-companion-level';
 import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';

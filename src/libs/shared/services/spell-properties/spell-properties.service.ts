@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Spell } from 'src/app/classes/Spell';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { SpellGain } from 'src/app/classes/SpellGain';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { Creature } from 'src/app/classes/Creature';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { combineLatest, map, Observable, of, switchMap, tap } from 'rxjs';
-import { AbsoluteEffect, RelativeEffect } from 'src/app/classes/Effect';
+import { Observable, combineLatest, map, switchMap, of, tap } from 'rxjs';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { AbsoluteEffect, RelativeEffect } from 'src/app/classes/effects/effect';
+import { Spell } from 'src/app/classes/spells/spell';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
+import { SpellTraditions } from '../../definitions/spellTraditions';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { ConditionPropertiesService } from '../condition-properties/condition-properties.service';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { CreatureService } from '../creature/creature.service';
 import { ConditionsDataService } from '../data/conditions-data.service';
-import { Condition } from 'src/app/classes/Condition';
+import { SkillValuesService } from '../skill-values/skill-values.service';
+import { Condition } from 'src/app/classes/conditions/condition';
 
 @Injectable({
     providedIn: 'root',

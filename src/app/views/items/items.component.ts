@@ -1,69 +1,61 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Weapon } from 'src/app/classes/Weapon';
-import { Armor } from 'src/app/classes/Armor';
-import { Shield } from 'src/app/classes/Shield';
-import { WornItem } from 'src/app/classes/WornItem';
-import { HeldItem } from 'src/app/classes/HeldItem';
-import { AlchemicalElixir } from 'src/app/classes/AlchemicalElixir';
-import { OtherConsumable } from 'src/app/classes/OtherConsumable';
-import { AdventuringGear } from 'src/app/classes/AdventuringGear';
-import { Item } from 'src/app/classes/Item';
-import { Consumable } from 'src/app/classes/Consumable';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Potion } from 'src/app/classes/Potion';
-import { Ammunition } from 'src/app/classes/Ammunition';
-import { Scroll } from 'src/app/classes/Scroll';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import {
-    combineLatest,
-    delay,
-    distinctUntilChanged,
-    map,
-    Observable,
-    of,
-    shareReplay,
-    Subscription,
-    switchMap,
-} from 'rxjs';
-import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
-import { ItemRoles } from 'src/app/classes/ItemRoles';
+/* eslint-disable complexity */
+import { Component, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription, distinctUntilChanged, shareReplay, map, switchMap, of, delay, combineLatest } from 'rxjs';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { FormulaLearned } from 'src/app/classes/creatures/character/formula-learned';
+import { ItemPropertyConfiguration } from 'src/app/classes/item-creation/item-property-configuration';
+import { AdventuringGear } from 'src/app/classes/items/adventuring-gear';
+import { AlchemicalElixir } from 'src/app/classes/items/alchemical-elixir';
+import { Ammunition } from 'src/app/classes/items/ammunition';
+import { Armor } from 'src/app/classes/items/armor';
+import { Consumable } from 'src/app/classes/items/consumable';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { HeldItem } from 'src/app/classes/items/held-item';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { ItemRoles } from 'src/app/classes/items/item-roles';
+import { OtherConsumable } from 'src/app/classes/items/other-consumable';
+import { OtherConsumableBomb } from 'src/app/classes/items/other-consumable-bomb';
+import { Potion } from 'src/app/classes/items/potion';
+import { Scroll } from 'src/app/classes/items/scroll';
+import { Shield } from 'src/app/classes/items/shield';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WornItem } from 'src/app/classes/items/worn-item';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Character } from 'src/app/classes/Character';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { copperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { ItemProperty } from 'src/app/classes/ItemProperty';
-import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
+import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
+import { ItemPropertiesDataService } from 'src/libs/shared/services/data/item-properties-data.service';
+import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
+import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
+import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
+import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { ScrollSavantService } from 'src/libs/shared/services/scroll-savant/scroll-savant.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
-import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
-import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
-import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
-import { ItemPropertiesDataService } from 'src/libs/shared/services/data/item-properties-data.service';
-import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
-import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { Store } from '@ngrx/store';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { selectItemsMenuTarget, selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
-import { ScrollSavantService } from 'src/libs/shared/services/spell-savant/spell-savant.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
+import { copperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { selectLeftMenu, selectItemsMenuTarget } from 'src/libs/store/menu/menu.selectors';
+
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -534,14 +526,14 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
         }
     }
 
-    public newItemProperties(): Array<ItemProperty<Item>> {
-        const ItemPropertyFromKey = (key: string): ItemProperty<Item> | undefined =>
+    public newItemProperties(): Array<ItemPropertyConfiguration<Item>> {
+        const ItemPropertyFromKey = (key: string): ItemPropertyConfiguration<Item> | undefined =>
             this._itemPropertiesDataService.itemProperties().find(property => !property.parent && property.key === key);
 
         return this.newItem
             ? Object.keys(this.newItem)
                 .map(key => ItemPropertyFromKey(key))
-                .filter((property): property is ItemProperty<Item> => property !== undefined)
+                .filter((property): property is ItemPropertyConfiguration<Item> => property !== undefined)
                 .sort((a, b) => sortAlphaNum(a.group + a.priority, b.group + b.priority))
             : [];
     }

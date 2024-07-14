@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { LanguageGain } from 'src/app/classes/LanguageGain';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { Observable, map, switchMap, combineLatest, distinctUntilChanged, of, filter } from 'rxjs';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
+import { LanguageGain } from 'src/app/classes/creatures/character/language-gain';
+import { Effect } from 'src/app/classes/effects/effect';
+import { FeatTaken } from '../../definitions/models/FeatTaken';
 import { ObjectEffectsGenerationService } from '../../effects-generation/services/object-effects-generation/object-effects-generation';
 import { abilityModFromAbilityValue } from '../../util/ability-base-value-utils';
+import { propMap$, deepDistinctUntilChanged } from '../../util/observableUtils';
+import { sortAlphaNum } from '../../util/sortUtils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
-import { Observable, combineLatest, distinctUntilChanged, filter, map, of, switchMap } from 'rxjs';
-import { deepDistinctUntilChanged, propMap$ } from '../../util/observableUtils';
-import { Character } from 'src/app/classes/Character';
-import { FeatTaken } from '../../definitions/models/FeatTaken';
-import { Effect } from 'src/app/classes/Effect';
-import { sortAlphaNum } from '../../util/sortUtils';
-import { CharacterClass } from 'src/app/classes/CharacterClass';
+import { CreatureService } from '../creature/creature.service';
 
 const noLanguageSourceLevel = -1;
 const temporaryLanguageSourceLevel = -2;

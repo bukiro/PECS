@@ -1,5 +1,5 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { AbsoluteEffect, Effect } from 'src/app/classes/Effect';
+import { AbsoluteEffect, Effect } from 'src/app/classes/effects/effect';
 import { CreatureEffectsService } from './creature-effects.service';
 import { Store } from '@ngrx/store';
 

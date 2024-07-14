@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { Observable, map, of } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',

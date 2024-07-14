@@ -1,17 +1,17 @@
+import { HttpClient, HttpStatusCode, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
-import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
-import { Savegame } from 'src/app/classes/Savegame';
-import { BehaviorSubject, distinctUntilChanged, finalize, Observable, tap } from 'rxjs';
-import { ConfigService } from '../../config/config.service';
-import { ApiStatusKey } from 'src/libs/shared/definitions/apiStatusKey';
 import { Store } from '@ngrx/store';
-import { selectAuthStatus } from 'src/libs/store/status/status.selectors';
+import { BehaviorSubject, distinctUntilChanged, tap, finalize, Observable } from 'rxjs';
+import { Savegame } from 'src/app/classes/api/savegame';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
+import { ApiStatusKey } from 'src/libs/shared/definitions/apiStatusKey';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setSavegamesStatus } from 'src/libs/store/status/status.actions';
+import { selectAuthStatus } from 'src/libs/store/status/status.selectors';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { AuthService } from '../../auth/auth.service';
-import { CharacterClass } from 'src/app/classes/CharacterClass';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { ConfigService } from '../../config/config.service';
 
 type DatabaseCharacter = DeepPartial<Character> & { _id: string; id: string };
 

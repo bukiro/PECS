@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Armor } from 'src/app/classes/Armor';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Item } from 'src/app/classes/Item';
-import { Weapon } from 'src/app/classes/Weapon';
-import { WornItem } from 'src/app/classes/WornItem';
-import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { Armor } from 'src/app/classes/items/armor';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WornItem } from 'src/app/classes/items/worn-item';
+import { ItemsDataService } from '../data/items-data.service';
 
 @Injectable({
     providedIn: 'root',

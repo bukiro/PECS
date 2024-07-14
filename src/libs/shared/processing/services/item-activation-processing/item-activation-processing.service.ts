@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Consumable } from 'src/app/classes/Consumable';
-import { Creature } from 'src/app/classes/Creature';
-import { SpellCast } from 'src/app/classes/SpellCast';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Consumable } from 'src/app/classes/items/consumable';
+import { SpellCast } from 'src/app/classes/spells/spell-cast';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';

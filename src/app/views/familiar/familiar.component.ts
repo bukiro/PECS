@@ -1,18 +1,18 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
-import { distinctUntilChanged, map, Observable, Subscription, switchMap, combineLatest, of, delay } from 'rxjs';
-import { Familiar } from 'src/app/classes/Familiar';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
-import { Store } from '@ngrx/store';
-import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription, switchMap, map, distinctUntilChanged, of, delay, combineLatest } from 'rxjs';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
+import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
+import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 
 @Component({
     selector: 'app-familiar',

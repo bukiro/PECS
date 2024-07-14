@@ -1,7 +1,8 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { zip, take, of } from 'rxjs';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
+import { of, take, zip } from 'rxjs';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';

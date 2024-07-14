@@ -1,17 +1,17 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Item } from 'src/app/classes/Item';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Observable, Subscription, combineLatest, map, of } from 'rxjs';
-import { WornItem } from 'src/app/classes/WornItem';
-import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
-import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
-import { ItemRoles } from 'src/app/classes/ItemRoles';
-import { LanguageGain } from 'src/app/classes/LanguageGain';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Subscription, Observable, map, of, combineLatest } from 'rxjs';
+import { LanguageGain } from 'src/app/classes/creatures/character/language-gain';
+import { AlchemicalElixir } from 'src/app/classes/items/alchemical-elixir';
+import { AlchemicalPoison } from 'src/app/classes/items/alchemical-poison';
+import { Item } from 'src/app/classes/items/item';
+import { ItemRoles } from 'src/app/classes/items/item-roles';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { AlchemicalElixir } from 'src/app/classes/AlchemicalElixir';
-import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
+import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
+import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface ComparedValue {

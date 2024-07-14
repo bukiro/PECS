@@ -1,32 +1,31 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
-import { Creature } from 'src/app/classes/Creature';
-import { AbsoluteEffect, Effect, RelativeEffect } from 'src/app/classes/Effect';
-import { Specialization } from 'src/app/classes/Specialization';
-import { SpecializationGain } from 'src/app/classes/SpecializationGain';
-import { Weapon } from 'src/app/classes/Weapon';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
+import { Observable, of, combineLatest, map, switchMap } from 'rxjs';
+import { Specialization } from 'src/app/classes/attacks/specialization';
+import { SpecializationGain } from 'src/app/classes/attacks/specialization-gain';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect, AbsoluteEffect, RelativeEffect } from 'src/app/classes/effects/effect';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';
+import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { skillLevelName } from 'src/libs/shared/util/skillUtils';
-import { attackEffectPhrases } from '../../util/attackEffectPhrases';
-import { RuneSourceSet, attackRuneSource$ } from '../../util/attackRuneSource';
-import { ItemSpecializationsDataService } from 'src/libs/shared/services/data/item-specializations-data.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
-import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { ItemSpecializationsDataService } from 'src/libs/shared/services/data/item-specializations-data.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
+import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
 import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-uils';
 import { strikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
-import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { skillLevelName } from 'src/libs/shared/util/skillUtils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { attackEffectPhrases } from '../../util/attackEffectPhrases';
+import { RuneSourceSet, attackRuneSource$ } from '../../util/attackRuneSource';
 import { ExtraDamageService } from './extra-damage.service';
-
 
 export type DamageResult = IntermediateResult<string>;
 

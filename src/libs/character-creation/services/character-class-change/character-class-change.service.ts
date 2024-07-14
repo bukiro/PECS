@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { CharacterClass } from 'src/app/classes/CharacterClass';
-import { Skill } from 'src/app/classes/Skill';
+import { Store } from '@ngrx/store';
+import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
+import { Skill } from 'src/app/classes/skills/skill';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
+import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { resetFeats } from 'src/libs/store/feats/feats.actions';
 import { CharacterAncestryChangeService } from '../character-ancestry-change/character-ancestry-change.service';
 import { CharacterBackgroundChangeService } from '../character-background-change/character-background-change.service';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
-import { Store } from '@ngrx/store';
-import { resetFeats } from 'src/libs/store/feats/feats.actions';
 
 @Injectable({
     providedIn: 'root',

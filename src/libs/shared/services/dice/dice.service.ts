@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DiceResult } from 'src/app/classes/DiceResult';
+import { DiceResult } from 'src/app/classes/dice/dice-result';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';

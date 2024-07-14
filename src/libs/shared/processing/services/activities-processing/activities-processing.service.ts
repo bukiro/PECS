@@ -1,17 +1,19 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
+import { zip, of, switchMap, map, take, combineLatest, Observable, tap } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { ItemGain } from 'src/app/classes/items/item-gain';
+import { Rune } from 'src/app/classes/items/rune';
+import { WornItem } from 'src/app/classes/items/worn-item';
+import { SpellTarget } from 'src/app/classes/spells/spell-target';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { Activity } from 'src/app/classes/Activity';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { Equipment } from 'src/app/classes/Equipment';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ItemGain } from 'src/app/classes/ItemGain';
-import { Rune } from 'src/app/classes/Rune';
-import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { WornItem } from 'src/app/classes/WornItem';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
@@ -24,7 +26,6 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
-import { Observable, combineLatest, map, of, switchMap, take, tap, zip } from 'rxjs';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
 
 @Injectable({

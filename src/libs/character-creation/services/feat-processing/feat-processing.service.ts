@@ -1,47 +1,48 @@
 import { Injectable } from '@angular/core';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { AdditionalHeritage } from 'src/app/classes/AdditionalHeritage';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
-import { Character } from 'src/app/classes/Character';
-import { ClassLevel } from 'src/app/classes/ClassLevel';
-import { Familiar } from 'src/app/classes/Familiar';
-import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { Speed } from 'src/app/classes/Speed';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
+import { take } from 'rxjs';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { AnimalCompanionClass } from 'src/app/classes/creatures/animal-companion/animal-companion-class';
+import { AdditionalHeritage } from 'src/app/classes/creatures/character/additional-heritage';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { CharacterClassLevel } from 'src/app/classes/creatures/character/character-class-level';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
+import { Speed } from 'src/app/classes/creatures/speed';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
+import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
+import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
+import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
 import { ClassesDataService } from 'src/libs/shared/services/data/classes-data.service';
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { CharacterHeritageChangeService } from 'src/libs/character-creation/services/character-heritage-change/character-heritage-change.service';
-import { CharacterSkillIncreaseService } from 'src/libs/character-creation/services/character-skill-increase/character-skill-increase.service';
-import { NamedFeatProcessingService } from './named-feat-processing.service';
-import { FeatProcessingRefreshService } from './feat-processing-refresh.service';
-import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
-import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
 import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
-import { spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
+import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
-import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
-import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
-import { take } from 'rxjs';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
+import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
+import { FeatProcessingRefreshService } from './feat-processing-refresh.service';
+import { NamedFeatProcessingService } from './named-feat-processing.service';
+
 
 export interface FeatProcessingContext {
     creature: Character | Familiar;
     gain: FeatTaken;
     choice: FeatChoice;
-    level: ClassLevel;
+    level: CharacterClassLevel;
 }
 
 @Injectable({
@@ -66,7 +67,6 @@ export class FeatProcessingService {
         private readonly _animalCompanionService: AnimalCompanionService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _familiarService: FamiliarService,
-        private readonly _recastService: RecastService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 

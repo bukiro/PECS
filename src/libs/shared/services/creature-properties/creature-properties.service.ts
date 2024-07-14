@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, combineLatest, map } from 'rxjs';
-import { Creature } from 'src/app/classes/Creature';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 
 @Injectable({
     providedIn: 'root',

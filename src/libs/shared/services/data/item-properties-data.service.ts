@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
-import { ItemProperty } from 'src/app/classes/ItemProperty';
+import { Item } from 'src/app/classes/items/item';
 import * as json_itemproperties from 'src/assets/json/itemproperties';
-import { Item } from 'src/app/classes/Item';
+import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
 import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { ItemPropertyConfiguration } from 'src/app/classes/item-creation/item-property-configuration';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ItemPropertiesDataService {
 
-    private _itemProperties: Array<ItemProperty<Item | any>> = [];
+    private _itemProperties: Array<ItemPropertyConfiguration<Item | any>> = [];
     private _initialized = false;
 
     constructor(
@@ -22,18 +22,18 @@ export class ItemPropertiesDataService {
         return !this._initialized;
     }
 
-    public itemProperties(): Array<ItemProperty<Item | any>> {
+    public itemProperties(): Array<ItemPropertyConfiguration<Item | any>> {
         if (!this.stillLoading) {
             return this._itemProperties;
-        } else { return [new ItemProperty()]; }
+        } else { return [new ItemPropertyConfiguration()]; }
     }
 
     public initialize(): void {
-        this._itemProperties = this._dataLoadingService.loadSerializable<ItemProperty<Item | any>>(
-            json_itemproperties as ImportedJsonFileList<ItemProperty<Item | any>>,
+        this._itemProperties = this._dataLoadingService.loadSerializable<ItemPropertyConfiguration<Item | any>>(
+            json_itemproperties as ImportedJsonFileList<ItemPropertyConfiguration<Item | any>>,
             'itemProperties',
             ['group', 'parent', 'key'],
-            ItemProperty,
+            ItemPropertyConfiguration,
         );
 
         this._initialized = true;

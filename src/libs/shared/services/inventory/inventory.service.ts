@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { Item } from 'src/app/classes/Item';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { Rune } from 'src/app/classes/Rune';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
-import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { Rune } from 'src/app/classes/items/rune';
+import { CreatureTypes } from '../../definitions/creatureTypes';
+import { BasicEquipmentService } from '../basic-equipment/basic-equipment.service';
+import { ItemInitializationService } from '../item-initialization/item-initialization.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
+import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

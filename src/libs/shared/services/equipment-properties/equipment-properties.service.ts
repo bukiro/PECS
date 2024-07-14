@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Creature } from 'src/app/classes/Creature';
-import { Equipment } from 'src/app/classes/Equipment';
+import { Observable, of, switchMap, combineLatest } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Equipment } from 'src/app/classes/items/equipment';
 import { ArmorPropertiesService } from '../armor-properties/armor-properties.service';
-import { WeaponPropertiesService } from '../weapon-properties/weapon-properties.service';
-import { Observable, combineLatest, of, switchMap } from 'rxjs';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureService } from '../creature/creature.service';
 import { ShieldPropertiesService } from '../shield-properties/shield-properties.service';
+import { WeaponPropertiesService } from '../weapon-properties/weapon-properties.service';
 
 @Injectable({
     providedIn: 'root',

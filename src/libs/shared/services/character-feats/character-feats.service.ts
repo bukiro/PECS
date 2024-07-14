@@ -1,22 +1,23 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { FeatsDataService } from '../data/feats-data.service';
-import { FeatTaken } from '../../definitions/models/FeatTaken';
 import { Store } from '@ngrx/store';
-import { distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
+import { Observable, distinctUntilChanged, map, switchMap } from 'rxjs';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { addFeatAtLevel, removeFeatAtLevel } from 'src/libs/store/feats/feats.actions';
 import {
     selectAllCharacterFeats,
-    selectAllCharacterFeatsAtLevel,
     selectAllCharacterFeatsTaken,
+    selectAllCharacterFeatsAtLevel,
     selectAllCharacterFeatsTakenAtLevel,
     selectCharacterHasFeatAtLevel,
     selectCharacterHasTakenFeatAtLevel,
 } from 'src/libs/store/feats/feats.selectors';
-import { addFeatAtLevel, removeFeatAtLevel } from 'src/libs/store/feats/feats.actions';
-import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { Feat } from '../../definitions/models/Feat';
+import { FeatTaken } from '../../definitions/models/FeatTaken';
+import { isEqualPrimitiveObject, isEqualArray, isEqualSerializable } from '../../util/compare-utils';
 import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
-import { isEqualArray, isEqualPrimitiveObject, isEqualSerializable } from '../../util/compare-utils';
+import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { FeatsDataService } from '../data/feats-data.service';
 
 @Injectable({
     providedIn: 'root',

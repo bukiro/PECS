@@ -1,22 +1,22 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { Condition, OtherConditionSelection } from 'src/app/classes/Condition';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
-import { Creature } from 'src/app/classes/Creature';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, Observable, Subscription, combineLatest, map, of } from 'rxjs';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Activity } from 'src/app/classes/Activity';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { BehaviorSubject, Subscription, Observable, of, combineLatest, map } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Condition, OtherConditionSelection } from 'src/app/classes/conditions/condition';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;

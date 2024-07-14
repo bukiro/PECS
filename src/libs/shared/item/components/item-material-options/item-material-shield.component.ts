@@ -1,18 +1,18 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Shield } from 'src/app/classes/Shield';
-import { Material } from 'src/app/classes/Material';
-import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
+import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
+import { BehaviorSubject, Observable, switchMap, combineLatest, of, map } from 'rxjs';
+import { Material } from 'src/app/classes/items/material';
+import { Shield } from 'src/app/classes/items/shield';
+import { ShieldMaterial } from 'src/app/classes/items/shield-material';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
-import { BehaviorSubject, Observable, combineLatest, map, of, switchMap } from 'rxjs';
-import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
+import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 
 interface ShieldMaterialSet {
     material: ShieldMaterial;

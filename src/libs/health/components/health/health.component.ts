@@ -1,32 +1,23 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { TimeService } from 'src/libs/shared/time/services/time/time.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import {
-    BehaviorSubject,
-    combineLatest,
-    distinctUntilChanged,
-    map,
-    Observable,
-    of,
-    Subscription,
-    switchMap,
-} from 'rxjs';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
+import { Observable, BehaviorSubject, Subscription, combineLatest, switchMap, map, distinctUntilChanged, of } from 'rxjs';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Creature } from 'src/app/classes/Creature';
-import { CalculatedHealth, HealthService } from 'src/libs/shared/services/health/health.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { TimeBlockingService } from 'src/libs/shared/time/services/time-blocking/time-blocking.service';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { HealthService, CalculatedHealth } from 'src/libs/shared/services/health/health.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { TimeBlockingService } from 'src/libs/shared/time/services/time-blocking/time-blocking.service';
+import { TimeService } from 'src/libs/shared/time/services/time/time.service';
+import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 
 @Component({
     selector: 'app-health',

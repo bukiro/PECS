@@ -1,13 +1,14 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { SpellGain } from 'src/app/classes/SpellGain';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
+import { Observable, of, map, switchMap, combineLatest } from 'rxjs';
+import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { SpellCastingTypes } from '../../definitions/spellCastingTypes';
 import { SpellTraditions } from '../../definitions/spellTraditions';
-import { SpellsDataService } from '../data/spells-data.service';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
+import { SpellsDataService } from '../data/spells-data.service';
+import { SpellPropertiesService } from '../spell-properties/spell-properties.service';
 
 @Injectable({
     providedIn: 'root',

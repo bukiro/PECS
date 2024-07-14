@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
-import { Equipment } from 'src/app/classes/Equipment';
-import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { AnimalCompanionAncestry } from 'src/app/classes/creatures/animal-companion/animal-companion-ancestry';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { DeepPartial } from '../../definitions/types/deepPartial';
+import { AnimalCompanionsDataService } from '../data/animal-companions-data.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
 import { RecastService } from '../recast/recast.service';
-import { DeepPartial } from '../../definitions/types/deepPartial';
 
 @Injectable({
     providedIn: 'root',
@@ -18,8 +17,6 @@ export class AnimalCompanionAncestryService {
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _inventoryService: InventoryService,
-        private readonly _typeService: TypeService,
-        private readonly _recastService: RecastService,
     ) { }
 
     public restoreAncestryFromSave(ancestry: DeepPartial<AnimalCompanionAncestry>): AnimalCompanionAncestry {

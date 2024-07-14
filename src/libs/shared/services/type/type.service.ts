@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Item } from 'src/app/classes/Item';
+import { Item } from 'src/app/classes/items/item';
 import { Constructable } from '../../definitions/interfaces/constructable';
 import { ItemsDataService } from '../data/items-data.service';
 import { DeepPartial } from '../../definitions/types/deepPartial';

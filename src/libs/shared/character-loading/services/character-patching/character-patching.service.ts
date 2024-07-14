@@ -1,23 +1,23 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
-import { Item } from 'src/app/classes/Item';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { Skill } from 'src/app/classes/Skill';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { Skill } from 'src/app/classes/skills/skill';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
+import { FeatTakingService } from 'src/libs/character-creation/services/feat-taking/feat-taking.service';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
+import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { CharacterFeatsService } from '../../../services/character-feats/character-feats.service';
-import { DeitiesDataService } from '../../../services/data/deities-data.service';
-import { FeatsDataService } from '../../../services/data/feats-data.service';
-import { InventoryService } from '../../../services/inventory/inventory.service';
-import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
-import { FeatTakingService } from 'src/libs/character-creation/services/feat-taking/feat-taking.service';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.service';
+import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
 
 @Injectable({
     providedIn: 'root',

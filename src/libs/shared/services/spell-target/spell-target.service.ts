@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Creature } from 'src/app/classes/Creature';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { SpellGain } from 'src/app/classes/SpellGain';
-import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { SpellGain } from 'src/app/classes/spells/spell-gain';
+import { SpellTarget } from 'src/app/classes/spells/spell-target';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { SpellTargetSelection } from '../../definitions/types/spellTargetSelection';
+import { CreatureService } from '../creature/creature.service';
 
 @Injectable({
     providedIn: 'root',

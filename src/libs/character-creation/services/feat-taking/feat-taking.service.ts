@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
-import { Familiar } from 'src/app/classes/Familiar';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
 import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';

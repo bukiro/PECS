@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, distinctUntilChanged, of, map, tap, shareReplay, switchMap } from 'rxjs';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Creature } from 'src/app/classes/Creature';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
+import { Observable, combineLatest, switchMap, of, map, distinctUntilChanged, tap, shareReplay } from 'rxjs';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { DurationsService } from '../../time/services/durations/durations.service';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 
 @Injectable({
     providedIn: 'root',

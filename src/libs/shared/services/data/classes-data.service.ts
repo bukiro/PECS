@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-dynamic-delete */
 import { Injectable } from '@angular/core';
-import { CharacterClass } from 'src/app/classes/CharacterClass';
+import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
 import * as json_classes from 'src/assets/json/classes';
-import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
 import { RecastService } from '../recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',

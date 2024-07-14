@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
-import { ItemProperty } from 'src/app/classes/ItemProperty';
+import { EffectGain } from 'src/app/classes/effects/effect-gain';
 import * as json_effectproperties from 'src/assets/json/effectproperties';
-import { EffectGain } from 'src/app/classes/EffectGain';
+import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
 import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { ItemPropertyConfiguration } from 'src/app/classes/item-creation/item-property-configuration';
 
 @Injectable({
     providedIn: 'root',
 })
 export class EffectPropertiesDataService {
 
-    private _effectProperties: Array<ItemProperty<EffectGain>> = [];
+    private _effectProperties: Array<ItemPropertyConfiguration<EffectGain>> = [];
 
     constructor(
         private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
-    public get effectProperties(): Array<ItemProperty<EffectGain>> {
+    public get effectProperties(): Array<ItemPropertyConfiguration<EffectGain>> {
         return this._effectProperties;
     }
 
     public initialize(): void {
-        this._effectProperties = this._dataLoadingService.loadSerializable<ItemProperty<EffectGain>>(
-            json_effectproperties as ImportedJsonFileList<ItemProperty<EffectGain>>,
+        this._effectProperties = this._dataLoadingService.loadSerializable<ItemPropertyConfiguration<EffectGain>>(
+            json_effectproperties as ImportedJsonFileList<ItemPropertyConfiguration<EffectGain>>,
             'effectProperties',
             ['parent', 'key'],
-            ItemProperty,
+            ItemPropertyConfiguration,
         );
     }
 

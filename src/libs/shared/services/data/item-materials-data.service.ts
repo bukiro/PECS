@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
-import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
-import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
+import { ArmorMaterial } from 'src/app/classes/items/armor-material';
+import { ShieldMaterial } from 'src/app/classes/items/shield-material';
+import { WeaponMaterial } from 'src/app/classes/items/weapon-material';
 import * as json_armormaterials from 'src/assets/json/armormaterials';
 import * as json_shieldmaterials from 'src/assets/json/shieldmaterials';
 import * as json_weaponmaterials from 'src/assets/json/weaponmaterials';

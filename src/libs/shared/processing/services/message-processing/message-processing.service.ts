@@ -1,10 +1,12 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { map, of, take, zip } from 'rxjs';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
-import { Item } from 'src/app/classes/Item';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { PlayerMessage } from 'src/app/classes/PlayerMessage';
+import { take, zip, map, of } from 'rxjs';
+import { PlayerMessage } from 'src/app/classes/api/player-message';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
@@ -16,9 +18,8 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
-import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 @Injectable({
     providedIn: 'root',

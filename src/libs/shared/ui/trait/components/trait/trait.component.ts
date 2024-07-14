@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Trait } from 'src/app/classes/Trait';
-import { Item, TraitActivation } from 'src/app/classes/Item';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Observable, map, of } from 'rxjs';
+import { Trait } from 'src/app/classes/hints/trait';
+import { Item, TraitActivation } from 'src/app/classes/items/item';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { map, Observable, of } from 'rxjs';
 
 @Component({
     selector: 'app-trait',

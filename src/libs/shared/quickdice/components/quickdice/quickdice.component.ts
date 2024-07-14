@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+/* eslint-disable complexity */
+import { Component, ChangeDetectionStrategy, OnChanges, Input } from '@angular/core';
+import { Observable, take, of, zip, map } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { SpellCasting } from 'src/app/classes/spells/spell-casting';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { Creature } from 'src/app/classes/Creature';
-import { Observable, map, of, take, zip } from 'rxjs';
 
 @Component({
     selector: 'app-quickdice',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
-import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
-import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
+import { AnimalCompanionLevel } from 'src/app/classes/creatures/animal-companion/animal-companion-level';
+import { AnimalCompanionAncestry } from 'src/app/classes/creatures/animal-companion/animal-companion-ancestry';
+import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
 import * as json_ancestries from 'src/assets/json/animalcompanions';
 import * as json_levels from 'src/assets/json/animalcompanionlevels';
 import * as json_specializations from 'src/assets/json/animalcompanionspecializations';

@@ -1,4 +1,4 @@
-import { Weapon } from 'src/app/classes/Weapon';
+import { Weapon } from 'src/app/classes/items/weapon';
 
 export const attackEffectPhrases = (
     phrase: string,

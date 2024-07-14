@@ -1,60 +1,48 @@
 /* eslint-disable complexity */
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription, distinctUntilChanged, shareReplay, map, switchMap, of, delay, combineLatest, zip, take } from 'rxjs';
+import { Ability } from 'src/app/classes/abilities/ability';
+import { Activity } from 'src/app/classes/activities/activity';
+import { Condition } from 'src/app/classes/conditions/condition';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
+import { EffectGain } from 'src/app/classes/effects/effect-gain';
+import { ItemPropertyConfiguration } from 'src/app/classes/item-creation/item-property-configuration';
+import { Consumable } from 'src/app/classes/items/consumable';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { Skill } from 'src/app/classes/skills/skill';
+import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Condition } from 'src/app/classes/Condition';
-import { ItemProperty } from 'src/app/classes/ItemProperty';
-import { EffectGain } from 'src/app/classes/EffectGain';
-import { Creature } from 'src/app/classes/Creature';
-import { Skill } from 'src/app/classes/Skill';
-import { Ability } from 'src/app/classes/Ability';
-import { Activity } from 'src/app/classes/Activity';
+import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Consumable } from 'src/app/classes/Consumable';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
+import { EffectPropertiesDataService } from 'src/libs/shared/services/data/effect-properties-data.service';
+import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
+import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import {
-    combineLatest,
-    delay,
-    distinctUntilChanged,
-    map,
-    Observable,
-    of,
-    shareReplay,
-    Subscription,
-    switchMap,
-    take,
-    zip,
-} from 'rxjs';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { Character } from 'src/app/classes/Character';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Familiar } from 'src/app/classes/Familiar';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { EffectPropertiesDataService } from 'src/libs/shared/services/data/effect-properties-data.service';
-import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
-import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
-import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
-import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
-import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
-import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { Store } from '@ngrx/store';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
-import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
+import { BaseClass } from 'src/libs/shared/util/classes/base-class';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 
 const itemsPerPage = 40;
 
@@ -534,7 +522,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         this.refreshEffects(creature);
     }
 
-    public validateAdvancedEffect(propertyData: ItemProperty<EffectGain>, index: number): void {
+    public validateAdvancedEffect(propertyData: ItemPropertyConfiguration<EffectGain>, index: number): void {
         this.validationError[index] = '';
         this.validationResult[index] = '';
 
@@ -615,17 +603,17 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         }
     }
 
-    public customEffectProperties(): Array<ItemProperty<EffectGain>> {
-        const propertyData = (key: keyof EffectGain): ItemProperty<EffectGain> | undefined =>
+    public customEffectProperties(): Array<ItemPropertyConfiguration<EffectGain>> {
+        const propertyData = (key: keyof EffectGain): ItemPropertyConfiguration<EffectGain> | undefined =>
             this._customEffectPropertiesService.effectProperties.find(property => property.key === key);
 
         return Object.keys(this.newEffect)
             .map(key => propertyData(key as keyof EffectGain))
-            .filter((property): property is ItemProperty<EffectGain> => property !== undefined)
+            .filter((property): property is ItemPropertyConfiguration<EffectGain> => property !== undefined)
             .sort((a, b) => sortAlphaNum(a.group + a.priority, b.group + b.priority));
     }
 
-    public effectPropertyExamples(propertyData: ItemProperty<EffectGain>): Array<string> {
+    public effectPropertyExamples(propertyData: ItemPropertyConfiguration<EffectGain>): Array<string> {
         let examples: Array<string> = [''];
 
         const character = this.character;

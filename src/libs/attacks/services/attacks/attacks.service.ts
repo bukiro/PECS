@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
-import { AbsoluteEffect, Effect, RelativeEffect } from 'src/app/classes/Effect';
-import { Weapon } from 'src/app/classes/Weapon';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
+import { Observable, combineLatest, switchMap, map, of } from 'rxjs';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Effect, AbsoluteEffect, RelativeEffect } from 'src/app/classes/effects/effect';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
+import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
+import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
+import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-uils';
 import { skillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
 import { RuneSourceSet, attackRuneSource$ } from '../../util/attackRuneSource';
-import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
-import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-uils';
 
 export interface AttackResult {
     range: 'ranged' | 'melee';

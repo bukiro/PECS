@@ -1,21 +1,21 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Rune } from 'src/app/classes/Rune';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { WornItem } from 'src/app/classes/WornItem';
-import { Weapon } from 'src/app/classes/Weapon';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
-import { Character } from 'src/app/classes/Character';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { Rune } from 'src/app/classes/items/rune';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { WeaponRune } from 'src/app/classes/items/weapon-rune';
+import { WornItem } from 'src/app/classes/items/worn-item';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
 
 interface RuneSet {
     rune: WeaponRune;

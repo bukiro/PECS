@@ -1,18 +1,19 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Creature } from 'src/app/classes/Creature';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Item } from 'src/app/classes/Item';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ItemBulkService } from 'src/libs/shared/services/item-bulk/item-bulk.service';
-import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
-import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 import { take } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { ItemCollection } from 'src/app/classes/items/item-collection';
+import { SpellTarget } from 'src/app/classes/spells/spell-target';
+import { CreatureTypes } from '../../definitions/creatureTypes';
+import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
+import { CreatureService } from '../creature/creature.service';
+import { InventoryService } from '../inventory/inventory.service';
+import { ItemBulkService } from '../item-bulk/item-bulk.service';
+import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
+import { RecastService } from '../recast/recast.service';
+import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

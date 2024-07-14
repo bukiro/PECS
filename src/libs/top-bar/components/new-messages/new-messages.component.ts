@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Observable, take, tap } from 'rxjs';
-import { PlayerMessage } from 'src/app/classes/PlayerMessage';
+import { PlayerMessage } from 'src/app/classes/api/player-message';
 import { DialogService } from 'src/libs/shared/dialog/services/dialog.service';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';

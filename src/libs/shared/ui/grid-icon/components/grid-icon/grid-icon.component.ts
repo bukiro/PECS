@@ -1,26 +1,26 @@
 /* eslint-disable complexity */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Effect } from 'src/app/classes/Effect';
-import { Condition } from 'src/app/classes/Condition';
-import { Spell } from 'src/app/classes/Spell';
-import { Item } from 'src/app/classes/Item';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Weapon } from 'src/app/classes/Weapon';
-import { Armor } from 'src/app/classes/Armor';
-import { Activity } from 'src/app/classes/Activity';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Observable, Subscription, combineLatest, map, of } from 'rxjs';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Subscription, Observable, of, combineLatest, map } from 'rxjs';
+import { Activity } from 'src/app/classes/activities/activity';
+import { ActivityGain } from 'src/app/classes/activities/activity-gain';
+import { ItemActivity } from 'src/app/classes/activities/item-activity';
+import { Condition } from 'src/app/classes/conditions/condition';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Effect } from 'src/app/classes/effects/effect';
+import { Armor } from 'src/app/classes/items/armor';
+import { Equipment } from 'src/app/classes/items/equipment';
+import { Item } from 'src/app/classes/items/item';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { Spell } from 'src/app/classes/spells/spell';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { Creature } from 'src/app/classes/Creature';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 
 @Component({
     selector: 'app-grid-icon',

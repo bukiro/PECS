@@ -1,96 +1,96 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { CharacterClass } from 'src/app/classes/CharacterClass';
-import { ClassLevel } from 'src/app/classes/ClassLevel';
-import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
-import { HistoryDataService } from 'src/libs/shared/services/data/history-data.service';
-import { Ancestry } from 'src/app/classes/Ancestry';
-import { Heritage } from 'src/app/classes/Heritage';
-import { Background } from 'src/app/classes/Background';
-import { LoreChoice } from 'src/app/classes/LoreChoice';
-import { Ability } from 'src/app/classes/Ability';
-import { AbilityChoice } from 'src/app/classes/AbilityChoice';
-import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
-import { Deity } from 'src/app/classes/Deity';
-import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.service';
-import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
-import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
-import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { Familiar } from 'src/app/classes/Familiar';
-import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { Spell } from 'src/app/classes/Spell';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { Activity } from 'src/app/classes/Activity';
-import { Domain } from 'src/app/classes/Domain';
+import { Store } from '@ngrx/store';
 import { default as package_json } from 'package.json';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import {
-    BehaviorSubject,
-    combineLatest,
-    delay,
-    distinctUntilChanged,
-    map,
     Observable,
-    of,
-    shareReplay,
     Subscription,
+    BehaviorSubject,
+    map,
+    distinctUntilChanged,
     switchMap,
+    of,
+    delay,
+    shareReplay,
     take,
+    combineLatest,
 } from 'rxjs';
-import { HeritageGain } from 'src/app/classes/HeritageGain';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { Ability } from 'src/app/classes/abilities/ability';
+import { Activity } from 'src/app/classes/activities/activity';
+import { AbilityChoice } from 'src/app/classes/character-creation/ability-choice';
+import { LoreChoice } from 'src/app/classes/character-creation/lore-choice';
+import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { AnimalCompanionAncestry } from 'src/app/classes/creatures/animal-companion/animal-companion-ancestry';
+import { AnimalCompanionClass } from 'src/app/classes/creatures/animal-companion/animal-companion-class';
+import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
+import { Ancestry } from 'src/app/classes/creatures/character/ancestry';
+import { Background } from 'src/app/classes/creatures/character/background';
+import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
+import { CharacterClassLevel } from 'src/app/classes/creatures/character/character-class-level';
+import { Heritage } from 'src/app/classes/creatures/character/heritage';
+import { HeritageGain } from 'src/app/classes/creatures/character/heritage-gain';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
+import { Deity } from 'src/app/classes/deities/deity';
+import { Domain } from 'src/app/classes/deities/domain';
+import { Trait } from 'src/app/classes/hints/trait';
+import { Weapon } from 'src/app/classes/items/weapon';
+import { Skill } from 'src/app/classes/skills/skill';
+import { SkillIncrease } from 'src/app/classes/skills/skill-increase';
+import { Spell } from 'src/app/classes/spells/spell';
+import { CharacterAncestryChangeService } from 'src/libs/character-creation/services/character-ancestry-change/character-ancestry-change.service';
+import { CharacterBackgroundChangeService } from 'src/libs/character-creation/services/character-background-change/character-background-change.service';
+import { CharacterBoostAbilityService } from 'src/libs/character-creation/services/character-boost-ability/character-boost-ability.service';
+import { CharacterClassChangeService } from 'src/libs/character-creation/services/character-class-change/character-class-change.service';
+import { CharacterHeritageChangeService } from 'src/libs/character-creation/services/character-heritage-change/character-heritage-change.service';
 import { Alignments } from 'src/libs/shared/definitions/alignments';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { Trait } from 'src/app/classes/Trait';
 import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ability-boost';
-import { SkillIncrease } from 'src/app/classes/SkillIncrease';
-import { Skill } from 'src/app/classes/Skill';
-import { creatureSizeName } from 'src/libs/shared/util/creatureUtils';
-import { abilityModFromAbilityValue } from 'src/libs/shared/util/ability-base-value-utils';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { Weapon } from 'src/app/classes/Weapon';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { AbilityBaseValueAggregate } from 'src/libs/shared/definitions/display-aggregates/ability-base-value-aggregate';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
+import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
+import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-companion-ancestry/animal-companion-ancestry.service';
 import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
-import { CharacterClassChangeService } from 'src/libs/character-creation/services/character-class-change/character-class-change.service';
-import { CharacterAncestryChangeService } from 'src/libs/character-creation/services/character-ancestry-change/character-ancestry-change.service';
-import { CharacterHeritageChangeService } from 'src/libs/character-creation/services/character-heritage-change/character-heritage-change.service';
-import { CharacterBackgroundChangeService } from 'src/libs/character-creation/services/character-background-change/character-background-change.service';
-import { CharacterBoostAbilityService } from 'src/libs/character-creation/services/character-boost-ability/character-boost-ability.service';
-import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
-import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { ClassesDataService } from 'src/libs/shared/services/data/classes-data.service';
-import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
-import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
-import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
-import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
-import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
+import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
+import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
+import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
+import { ClassesDataService } from 'src/libs/shared/services/data/classes-data.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
+import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.service';
+import { HistoryDataService } from 'src/libs/shared/services/data/history-data.service';
+import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
+import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
+import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
+import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CharacterSavingService } from 'src/libs/shared/services/saving-loading/character-saving/character-saving.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
-import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
-import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
-import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
-import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
-import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
-import { Store } from '@ngrx/store';
-import { selectCharacterMenuClosedOnce, selectGmMode } from 'src/libs/store/app/app.selectors';
-import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { abilityModFromAbilityValue } from 'src/libs/shared/util/ability-base-value-utils';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
+import { creatureSizeName } from 'src/libs/shared/util/creatureUtils';
+import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
+import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { selectGmMode, selectCharacterMenuClosedOnce } from 'src/libs/store/app/app.selectors';
+import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
+import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -410,7 +410,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     }
 
-    public classLevelByNumber(number: number): ClassLevel {
+    public classLevelByNumber(number: number): CharacterClassLevel {
         return this.character.class.levels[number];
     }
 
@@ -860,7 +860,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             );
     }
 
-    public skillChoicesOnLevel$(level: ClassLevel): Observable<Array<SkillChoice>> {
+    public skillChoicesOnLevel$(level: CharacterClassLevel): Observable<Array<SkillChoice>> {
         return combineLatest(
             level.skillChoices
                 .filter(choice => !choice.showOnSheet)
@@ -883,7 +883,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     }
 
-    public featChoicesOnLevel(level: ClassLevel, specialChoices?: boolean): Array<FeatChoice> {
+    public featChoicesOnLevel(level: CharacterClassLevel, specialChoices?: boolean): Array<FeatChoice> {
         const ancestry = this.character.class.ancestry?.name || '';
 
         return level.featChoices
@@ -1856,7 +1856,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             );
     }
 
-    public addBonusAbilityChoice(level: ClassLevel, type: 'Boost' | 'Flaw'): void {
+    public addBonusAbilityChoice(level: CharacterClassLevel, type: 'Boost' | 'Flaw'): void {
         const newChoice = new AbilityChoice();
 
         newChoice.available = 1;
@@ -1879,7 +1879,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         this._refreshService.processPreparedChanges();
     }
 
-    public addBonusSkillChoice(level: ClassLevel, type: 'Perception' | 'Save' | 'Skill'): void {
+    public addBonusSkillChoice(level: CharacterClassLevel, type: 'Perception' | 'Save' | 'Skill'): void {
         const newChoice = new SkillChoice();
 
         newChoice.available = 1;
@@ -1889,7 +1889,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         level.addSkillChoice(newChoice);
     }
 
-    public addBonusFeatChoice(level: ClassLevel, type: 'Ancestry' | 'Class' | 'General' | 'Skill'): void {
+    public addBonusFeatChoice(level: CharacterClassLevel, type: 'Ancestry' | 'Class' | 'General' | 'Skill'): void {
         const newChoice = new FeatChoice();
 
         newChoice.available = 1;
@@ -1899,7 +1899,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         level.addFeatChoice(newChoice);
     }
 
-    public addBonusLoreChoice(level: ClassLevel): void {
+    public addBonusLoreChoice(level: CharacterClassLevel): void {
         const newChoice = new LoreChoice();
 
         newChoice.available = 1;
@@ -1970,7 +1970,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             );
     }
 
-    private _featChoicesShownOnCurrentLevel(level: ClassLevel): Array<FeatChoice> {
+    private _featChoicesShownOnCurrentLevel(level: CharacterClassLevel): Array<FeatChoice> {
         if (this.character.level === level.number) {
             return new Array<FeatChoice>()
                 .concat(

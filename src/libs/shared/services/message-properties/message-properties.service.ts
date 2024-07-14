@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { Creature } from 'src/app/classes/Creature';
-import { PlayerMessage } from 'src/app/classes/PlayerMessage';
-import { SavegamesService } from '../saving-loading/savegames/savegames.service';
+import { Observable, map } from 'rxjs';
+import { PlayerMessage } from 'src/app/classes/api/player-message';
+import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
+import { SavegamesService } from '../saving-loading/savegames/savegames.service';
 
 @Injectable({
     providedIn: 'root',

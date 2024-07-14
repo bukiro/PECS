@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Ability } from 'src/app/classes/Ability';
+import { Ability } from 'src/app/classes/abilities/ability';
 import * as json_abilities from 'src/assets/json/abilities';
 import { DataLoadingService } from './data-loading.service';
 

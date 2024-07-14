@@ -1,16 +1,17 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Armor } from 'src/app/classes/Armor';
-import { Creature } from 'src/app/classes/Creature';
-import { Item } from 'src/app/classes/Item';
-import { ItemGain } from 'src/app/classes/ItemGain';
-import { Shield } from 'src/app/classes/Shield';
-import { Weapon } from 'src/app/classes/Weapon';
+import { combineLatest, switchMap, of, take, map } from 'rxjs';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Armor } from 'src/app/classes/items/armor';
+import { Item } from 'src/app/classes/items/item';
+import { ItemGain } from 'src/app/classes/items/item-gain';
+import { Shield } from 'src/app/classes/items/shield';
+import { Weapon } from 'src/app/classes/items/weapon';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { ItemsDataService } from '../data/items-data.service';
 import { InventoryService } from '../inventory/inventory.service';
-import { combineLatest, map, of, switchMap, take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

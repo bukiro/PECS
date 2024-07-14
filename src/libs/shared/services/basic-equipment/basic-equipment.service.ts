@@ -1,7 +1,8 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Armor } from 'src/app/classes/Armor';
-import { Creature } from 'src/app/classes/Creature';
-import { Weapon } from 'src/app/classes/Weapon';
+import { Creature } from 'src/app/classes/creatures/creature';
+import { Armor } from 'src/app/classes/items/armor';
+import { Weapon } from 'src/app/classes/items/weapon';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { RecastService } from '../recast/recast.service';

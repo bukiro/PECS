@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Character } from 'src/app/classes/Character';
-import { Familiar } from 'src/app/classes/Familiar';
+import { Character } from 'src/app/classes/creatures/character/character';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 
 @Component({
