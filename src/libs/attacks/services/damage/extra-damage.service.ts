@@ -13,9 +13,9 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { attackEffectPhrases } from '../../util/attackEffectPhrases';
-import { RuneSourceSet } from '../../util/attackRuneSource';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { attackEffectPhrases } from '../../util/attack-effect-phrases';
+import { RuneSourceSet } from '../../util/attack-rune-rource';
 
 export interface ExtraDamageResult {
     result: Array<string>;

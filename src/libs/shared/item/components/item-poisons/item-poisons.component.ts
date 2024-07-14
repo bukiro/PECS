@@ -3,7 +3,7 @@ import { Character } from 'src/app/classes/creatures/character/character';
 import { AlchemicalPoison } from 'src/app/classes/items/alchemical-poison';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { Weapon } from 'src/app/classes/items/weapon';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';

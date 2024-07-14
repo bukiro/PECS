@@ -4,8 +4,8 @@ import { Observable, map, of, switchMap, combineLatest } from 'rxjs';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Skill } from 'src/app/classes/skills/skill';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequirements';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { FeatRequirements } from 'src/libs/shared/definitions/models/feat-requirements';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
@@ -18,9 +18,9 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { spellTraditionFromString, spellCastingTypeFromString } from 'src/libs/shared/util/spellUtils';
-import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { spellTraditionFromString, spellCastingTypeFromString } from 'src/libs/shared/util/spell-utils';
+import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 @Injectable({
     providedIn: 'root',

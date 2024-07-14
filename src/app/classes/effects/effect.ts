@@ -1,6 +1,6 @@
-import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
 import { v4 as uuidv4 } from 'uuid';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 

@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 import { Trait } from 'src/app/classes/hints/trait';
 import { Item, TraitActivation } from 'src/app/classes/items/item';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';

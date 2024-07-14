@@ -23,9 +23,9 @@ import { ItemGain } from 'src/app/classes/items/item-gain';
 import { RingOfWizardrySlot } from 'src/app/classes/items/worn-item';
 import { SpellCast } from 'src/app/classes/spells/spell-cast';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
-import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
-import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { DiceSizes } from 'src/libs/shared/definitions/dice-sizes';
+import { SpellLevels } from 'src/libs/shared/definitions/spell-levels';
+import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
@@ -40,7 +40,7 @@ import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluatio
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 
 //TODO: Rework this entire thing to make it work with strict mode and have fewer exceptions;
 

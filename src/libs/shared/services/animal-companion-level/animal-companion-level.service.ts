@@ -3,10 +3,10 @@ import { combineLatest, distinctUntilChanged, map } from 'rxjs';
 import { AnimalCompanionLevel } from 'src/app/classes/creatures/animal-companion/animal-companion-level';
 import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { CreatureTypes } from '../../definitions/creatureTypes';
+import { CreatureTypes } from '../../definitions/creature-types';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureService } from '../creature/creature.service';
-import { DeepPartial } from '../../definitions/types/deepPartial';
+import { DeepPartial } from '../../definitions/types/deep-partial';
 import { isEqualArray } from '../../util/compare-utils';
 
 @Injectable({

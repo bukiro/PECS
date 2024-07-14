@@ -1,7 +1,7 @@
 import { Effect } from 'src/app/classes/effects/effect';
 import { BonusDescription } from '../ui/bonus-list';
-import { signNumber } from './numberUtils';
-import { capitalize } from './stringUtils';
+import { signNumber } from './number-utils';
+import { capitalize } from './string-utils';
 
 export const addBonusDescriptionFromEffect = (bonuses: Array<BonusDescription>, effect: Effect, valueDescription: string = ''): Array<BonusDescription> => [
     ...bonuses,

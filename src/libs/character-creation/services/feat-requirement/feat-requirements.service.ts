@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable, map, combineLatest, of, switchMap } from 'rxjs';
 import { Ability } from 'src/app/classes/abilities/ability';
 import { Skill } from 'src/app/classes/skills/skill';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { FeatIgnoreRequirements } from 'src/libs/shared/definitions/models/featIgnoreRequirements';
-import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequirements';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
+import { FeatIgnoreRequirements } from 'src/libs/shared/definitions/models/feat-ignore-requirements';
+import { FeatRequirements } from 'src/libs/shared/definitions/models/feat-requirements';
+import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
@@ -17,9 +17,9 @@ import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-da
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
-import { ComplexFeatRequirementsService } from './complexFeatRequirements.service';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { ComplexFeatRequirementsService } from './complex-feat-requirements.service';
 
 @Injectable({
     providedIn: 'root',

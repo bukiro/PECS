@@ -9,8 +9,8 @@ import { Spell } from 'src/app/classes/spells/spell';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { SpellTarget } from 'src/app/classes/spells/spell-target';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
@@ -21,7 +21,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
     providedIn: 'root',

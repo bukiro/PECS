@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, combineLatest, map, zip, tap, take } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
-import { CreatureSizes } from '../../definitions/creatureSizes';
+import { CreatureSizes } from '../../definitions/creature-sizes';
 import { BonusDescription } from '../../ui/bonus-list';
 import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';

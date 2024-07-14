@@ -1,5 +1,5 @@
-import { SpellCastingTypes } from '../definitions/spellCastingTypes';
-import { SpellTraditions } from '../definitions/spellTraditions';
+import { SpellCastingTypes } from '../definitions/spell-casting-types';
+import { SpellTraditions } from '../definitions/spell-traditions';
 
 export const spellCastingTypeFromString = (type: string): SpellCastingTypes => Object.values(SpellCastingTypes).find(castingType => castingType === type) || SpellCastingTypes.Innate;
 

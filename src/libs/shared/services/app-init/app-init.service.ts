@@ -41,7 +41,7 @@ import { SpellsDataService } from '../data/spells-data.service';
 import { TraitsDataService } from '../data/traits-data.service';
 import { DisplayService } from '../display/display.service';
 import { MessagesService } from '../messages/messages.service';
-import { ApiStatusKey } from '../../definitions/apiStatusKey';
+import { ApiStatusKey } from '../../definitions/api-status-key';
 import { DocumentStyleService } from '../document-style/document-style.service';
 import { ConfigService } from '../config/config.service';
 import { Store } from '@ngrx/store';

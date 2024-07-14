@@ -16,10 +16,10 @@ import { SignatureSpellGain } from 'src/app/classes/spells/signature-spell-gain'
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { setupSerializationWithHelpers } from '../../util/serialization';
 import { RecastFns } from '../interfaces/recastFns';
-import { DeepPartial } from '../types/deepPartial';
-import { FeatChoice } from './FeatChoice';
-import { FeatIgnoreRequirements } from './featIgnoreRequirements';
-import { FeatRequirements } from './featRequirements';
+import { DeepPartial } from '../types/deep-partial';
+import { FeatChoice } from './feat-choice';
+import { FeatIgnoreRequirements } from './feat-ignore-requirements';
+import { FeatRequirements } from './feat-requirements';
 import { Serializable } from '../interfaces/serializable';
 import { ProficiencyCopyGain } from 'src/app/classes/character-creation/proficiency-copy-gain';
 

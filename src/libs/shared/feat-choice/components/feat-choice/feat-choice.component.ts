@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable max-lines */
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -5,13 +6,13 @@ import { BehaviorSubject, Observable, filter, distinctUntilChanged, shareReplay,
 import { Character as CharacterModel } from 'src/app/classes/creatures/character/character';
 import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
 import { Trait } from 'src/app/classes/hints/trait';
-import { FeatRequirementsService } from 'src/libs/character-creation/services/feat-requirement/featRequirements.service';
+import { FeatRequirementsService } from 'src/libs/character-creation/services/feat-requirement/feat-requirements.service';
 import { FeatTakingService } from 'src/libs/character-creation/services/feat-taking/feat-taking.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { FeatRequirements } from 'src/libs/shared/definitions/models/featRequirements';
-import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
+import { FeatRequirements } from 'src/libs/shared/definitions/models/feat-requirements';
+import { FeatTaken } from 'src/libs/shared/definitions/models/feat-taken';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
@@ -23,8 +24,8 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 interface CannotTakeSet {
     reason: string;

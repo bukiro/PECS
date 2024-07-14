@@ -6,7 +6,7 @@ import * as json_ancestries from 'src/assets/json/animalcompanions';
 import * as json_levels from 'src/assets/json/animalcompanionlevels';
 import * as json_specializations from 'src/assets/json/animalcompanionspecializations';
 import { DataLoadingService } from './data-loading.service';
-import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 
 @Injectable({
     providedIn: 'root',

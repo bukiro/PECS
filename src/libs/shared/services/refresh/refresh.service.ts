@@ -6,7 +6,7 @@ import { Effect } from 'src/app/classes/effects/effect';
 import { Equipment } from 'src/app/classes/items/equipment';
 import { Item } from 'src/app/classes/items/item';
 import { Rune } from 'src/app/classes/items/rune';
-import { CreatureTypes } from '../../definitions/creatureTypes';
+import { CreatureTypes } from '../../definitions/creature-types';
 import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
 import { TraitsDataService } from '../data/traits-data.service';
 import { Hint } from 'src/app/classes/hints/hint';

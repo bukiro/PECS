@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/json-imported-item-file-list';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataService } from './data.service';
 import { FromConstructable } from '../../definitions/interfaces/from-constructable';

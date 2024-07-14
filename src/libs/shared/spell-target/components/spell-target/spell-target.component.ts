@@ -23,8 +23,8 @@ import { SpellCast } from 'src/app/classes/spells/spell-cast';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { SpellTarget } from 'src/app/classes/spells/spell-target';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
@@ -35,8 +35,8 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;

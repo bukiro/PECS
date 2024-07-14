@@ -21,7 +21,7 @@ import { SpellPropertiesService } from 'src/libs/shared/services/spell-propertie
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 @Component({
     selector: 'app-activity-content',

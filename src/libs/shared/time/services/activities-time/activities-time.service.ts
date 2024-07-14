@@ -3,7 +3,7 @@ import { take, switchMap, zip, map } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
 import { Creature } from 'src/app/classes/creatures/creature';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';

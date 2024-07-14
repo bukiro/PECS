@@ -4,9 +4,9 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WeaponMaterial } from 'src/app/classes/items/weapon-material';
 import { Material } from 'src/app/classes/items/material';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
+import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
 import { BehaviorSubject, combineLatest, map, Observable, of, switchMap } from 'rxjs';

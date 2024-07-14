@@ -5,7 +5,7 @@ import { Condition } from 'src/app/classes/conditions/condition';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { EffectGain } from 'src/app/classes/effects/effect-gain';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';

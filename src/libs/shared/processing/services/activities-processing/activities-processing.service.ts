@@ -11,7 +11,7 @@ import { ItemGain } from 'src/app/classes/items/item-gain';
 import { Rune } from 'src/app/classes/items/rune';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { SpellTarget } from 'src/app/classes/spells/spell-target';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
@@ -26,7 +26,7 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
     providedIn: 'root',

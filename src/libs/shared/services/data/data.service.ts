@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/json-imported-item-file-list';
 import { catchError, map, Observable, of, switchMap, tap, zip, take } from 'rxjs';
-import { ApiStatusKey } from '../../definitions/apiStatusKey';
+import { ApiStatusKey } from '../../definitions/api-status-key';
 import { setDataStatus } from 'src/libs/store/status/status.actions';
 import { Store } from '@ngrx/store';
 

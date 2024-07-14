@@ -1,6 +1,6 @@
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<SpecializationGain>({

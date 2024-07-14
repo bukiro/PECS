@@ -5,7 +5,7 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { DialogFooterComponent } from '../dialog-footer/dialog-footer.component';
 import { DialogHeaderComponent } from '../dialog-header/dialog-header.component';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive()

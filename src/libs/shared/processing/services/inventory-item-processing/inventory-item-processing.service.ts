@@ -12,7 +12,7 @@ import { Oil } from 'src/app/classes/items/oil';
 import { OtherConsumableBomb } from 'src/app/classes/items/other-consumable-bomb';
 import { Rune } from 'src/app/classes/items/rune';
 import { Snare } from 'src/app/classes/items/snare';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ArmorClassService } from 'src/libs/shared/services/armor-class/armor-class.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';

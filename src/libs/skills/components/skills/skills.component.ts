@@ -8,7 +8,7 @@ import { Creature } from 'src/app/classes/creatures/creature';
 import { Speed } from 'src/app/classes/creatures/speed';
 import { Effect } from 'src/app/classes/effects/effect';
 import { Skill } from 'src/app/classes/skills/skill';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
@@ -21,8 +21,8 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { selectEffects } from 'src/libs/store/effects';
 
 

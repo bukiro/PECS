@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { featsFeatureName } from './feats.feature';
 import { FeatsState } from './feats.state';
 

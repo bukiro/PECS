@@ -9,10 +9,10 @@ import { Item } from 'src/app/classes/items/item';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { ItemRoles } from 'src/app/classes/items/item-roles';
 import { Snare } from 'src/app/classes/items/snare';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { MenuNames } from 'src/libs/shared/definitions/menu-names';
+import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
@@ -28,8 +28,8 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 

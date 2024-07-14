@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ItemGain } from '../items/item-gain';
 import { SpellCast } from '../spells/spell-cast';
 import { SpellTarget } from '../spells/spell-target';

@@ -1,4 +1,4 @@
-import { DeepPartial } from '../types/deepPartial';
+import { DeepPartial } from '../types/deep-partial';
 import { RecastFns } from './recastFns';
 
 export interface FromConstructable<T> {

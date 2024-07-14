@@ -3,7 +3,7 @@ import { Creature } from 'src/app/classes/creatures/creature';
 import { Item } from 'src/app/classes/items/item';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { Rune } from 'src/app/classes/items/rune';
-import { CreatureTypes } from '../../definitions/creatureTypes';
+import { CreatureTypes } from '../../definitions/creature-types';
 import { BasicEquipmentService } from '../basic-equipment/basic-equipment.service';
 import { ItemInitializationService } from '../item-initialization/item-initialization.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';

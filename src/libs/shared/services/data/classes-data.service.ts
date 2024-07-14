@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
 import * as json_classes from 'src/assets/json/classes';
-import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { RecastService } from '../recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
 

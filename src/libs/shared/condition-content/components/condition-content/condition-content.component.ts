@@ -7,7 +7,7 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 @Component({
     selector: 'app-condition-content',

@@ -1,7 +1,7 @@
 import { Observable, of } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { Equipment } from './equipment';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EffectGain } from 'src/app/classes/effects/effect-gain';
 import * as json_effectproperties from 'src/assets/json/effectproperties';
-import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { DataLoadingService } from './data-loading.service';
 import { ItemPropertyConfiguration } from 'src/app/classes/item-creation/item-property-configuration';
 

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { combineLatest, map, Observable } from 'rxjs';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { TimeBlockingService } from 'src/libs/shared/time/services/time-blocking/time-blocking.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';

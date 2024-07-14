@@ -1,6 +1,6 @@
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
-import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { WeaponProficiencies } from 'src/libs/shared/definitions/weapon-proficiencies';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<ProficiencyChange>({

@@ -1,5 +1,5 @@
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, forMessage, isEqual } = setupSerialization<OtherItem>({

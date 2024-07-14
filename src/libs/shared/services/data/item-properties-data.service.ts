@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Item } from 'src/app/classes/items/item';
 import * as json_itemproperties from 'src/assets/json/itemproperties';
-import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { DataLoadingService } from './data-loading.service';
 import { ItemPropertyConfiguration } from 'src/app/classes/item-creation/item-property-configuration';
 

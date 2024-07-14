@@ -1,4 +1,4 @@
-import { ApiStatusKey } from '../apiStatusKey';
+import { ApiStatusKey } from '../api-status-key';
 
 export interface ApiStatus {
     key: ApiStatusKey;

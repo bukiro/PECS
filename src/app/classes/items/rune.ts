@@ -1,6 +1,6 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ItemActivity } from '../activities/item-activity';
 import { LoreChoice } from '../character-creation/lore-choice';

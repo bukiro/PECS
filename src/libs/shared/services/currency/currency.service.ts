@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { CreatureTypes } from '../../definitions/creatureTypes';
+import { CreatureTypes } from '../../definitions/creature-types';
 import { CopperAmounts, CurrencyIndices } from '../../definitions/currency';
-import { copperAmountFromCashObject } from '../../util/currencyUtils';
-import { CutOffDecimals } from '../../util/numberUtils';
+import { copperAmountFromCashObject } from '../../util/currency-utils';
+import { CutOffDecimals } from '../../util/number-utils';
 import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({

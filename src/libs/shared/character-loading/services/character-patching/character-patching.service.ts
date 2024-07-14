@@ -6,18 +6,18 @@ import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { Skill } from 'src/app/classes/skills/skill';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { FeatTakingService } from 'src/libs/character-creation/services/feat-taking/feat-taking.service';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
+import { FeatData } from 'src/libs/shared/definitions/models/feat-data';
+import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
+import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 @Injectable({
     providedIn: 'root',

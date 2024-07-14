@@ -2,9 +2,9 @@
 import { OnChangeArray } from '../../util/classes/on-change-array';
 import { setupSerialization } from '../../util/serialization';
 import { Serializable } from '../interfaces/serializable';
-import { DeepPartial } from '../types/deepPartial';
-import { FeatIgnoreRequirements } from './featIgnoreRequirements';
-import { FeatTaken } from './FeatTaken';
+import { DeepPartial } from '../types/deep-partial';
+import { FeatIgnoreRequirements } from './feat-ignore-requirements';
+import { FeatTaken } from './feat-taken';
 
 const { assign, forExport, isEqual } = setupSerialization<FeatChoice>({
     primitives: [

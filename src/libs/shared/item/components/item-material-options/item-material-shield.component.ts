@@ -3,16 +3,16 @@ import { BehaviorSubject, Observable, switchMap, combineLatest, of, map } from '
 import { Material } from 'src/app/classes/items/material';
 import { Shield } from 'src/app/classes/items/shield';
 import { ShieldMaterial } from 'src/app/classes/items/shield-material';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 
 interface ShieldMaterialSet {
     material: ShieldMaterial;

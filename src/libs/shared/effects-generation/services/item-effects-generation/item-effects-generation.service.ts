@@ -8,7 +8,7 @@ import { Rune } from 'src/app/classes/items/rune';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
-import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
+import { HintEffectsObject } from '../../definitions/interfaces/hint-effects-object';
 
 @Injectable({
     providedIn: 'root',

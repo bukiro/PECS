@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, combineLatest, distinctUntilChanged, tap, switchMap, of, map } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Shield } from 'src/app/classes/items/shield';
-import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
+import { ShoddyPenalties } from '../../definitions/shoddy-penalties';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { EquipmentPropertiesSharedService } from '../equipment-properties-shared/equipment-properties-shared.service';
 

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { distinctUntilChanged, map, Observable } from 'rxjs';
-import { ApiStatusKey } from 'src/libs/shared/definitions/apiStatusKey';
+import { ApiStatusKey } from 'src/libs/shared/definitions/api-status-key';
 import { ApiStatus } from 'src/libs/shared/definitions/interfaces/api-status';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DisplayService } from 'src/libs/shared/services/display/display.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { selectStatus } from 'src/libs/store/status/status.selectors';
 
 @Component({

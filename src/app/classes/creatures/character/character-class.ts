@@ -1,12 +1,10 @@
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
-import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ActivityGain } from '../../activities/activity-gain';
 import { LoreChoice } from '../../character-creation/lore-choice';
 import { SkillChoice } from '../../character-creation/skill-choice';
@@ -26,6 +24,8 @@ import { CharacterClassLevel } from './character-class-level';
 import { FormulaLearned } from './formula-learned';
 import { Heritage } from './heritage';
 import { LanguageGain } from './language-gain';
+import { FeatData } from 'src/libs/shared/definitions/models/feat-data';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<CharacterClass>({
     primitives: [

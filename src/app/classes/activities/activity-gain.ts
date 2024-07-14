@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { ItemGain } from '../items/item-gain';

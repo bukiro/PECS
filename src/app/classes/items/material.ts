@@ -3,7 +3,7 @@ import { Hint } from '../hints/hint';
 import { ArmorMaterial } from './armor-material';
 import { ShieldMaterial } from './shield-material';
 import { WeaponMaterial } from './weapon-material';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 

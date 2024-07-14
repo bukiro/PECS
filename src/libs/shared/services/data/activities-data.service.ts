@@ -8,8 +8,8 @@ import { Equipment } from 'src/app/classes/items/equipment';
 import { Rune } from 'src/app/classes/items/rune';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import * as json_activities from 'src/assets/json/activities';
-import { DeepPartial } from '../../definitions/types/deepPartial';
-import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { DeepPartial } from '../../definitions/types/deep-partial';
+import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { RecastService } from '../recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
 

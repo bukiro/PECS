@@ -5,7 +5,7 @@ import { Equipment } from 'src/app/classes/items/equipment';
 import { Item } from 'src/app/classes/items/item';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { OtherConsumable } from 'src/app/classes/items/other-consumable';
-import { CutOffDecimals } from '../../util/numberUtils';
+import { CutOffDecimals } from '../../util/number-utils';
 
 @Injectable({
     providedIn: 'root',

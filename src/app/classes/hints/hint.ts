@@ -1,6 +1,6 @@
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
-import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { heightenedTextFromDescSets } from 'src/libs/shared/util/description-utils';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { EffectGain } from '../effects/effect-gain';
 import { HeightenedDescriptionVariableCollection } from '../spells/heightened-description-variable-collection';

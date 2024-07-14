@@ -4,7 +4,7 @@ import { map, Observable, take } from 'rxjs';
 import { Constructable } from '../../definitions/interfaces/constructable';
 import { SettingsService } from '../../services/settings/settings.service';
 import { DialogComponent } from '../components/dialog/dialog.component';
-import { propMap$ } from '../../util/observableUtils';
+import { propMap$ } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',

@@ -5,7 +5,7 @@ import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Effect, AbsoluteEffect, RelativeEffect } from 'src/app/classes/effects/effect';
 import { Shield } from 'src/app/classes/items/shield';
-import { BonusTypes } from '../../definitions/bonusTypes';
+import { BonusTypes } from '../../definitions/bonus-types';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { ArmorPropertiesService } from '../armor-properties/armor-properties.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';

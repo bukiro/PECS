@@ -7,7 +7,7 @@ import { AbsoluteEffect, RelativeEffect } from 'src/app/classes/effects/effect';
 import { Spell } from 'src/app/classes/spells/spell';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
-import { SpellTraditions } from '../../definitions/spellTraditions';
+import { SpellTraditions } from '../../definitions/spell-traditions';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { ConditionPropertiesService } from '../condition-properties/condition-properties.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';

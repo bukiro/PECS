@@ -6,7 +6,7 @@ import { Item } from 'src/app/classes/items/item';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { Oil } from 'src/app/classes/items/oil';
 import { Weapon } from 'src/app/classes/items/weapon';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';

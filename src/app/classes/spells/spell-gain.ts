@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { ItemGain } from '../items/item-gain';
 import { SpellTarget } from './spell-target';

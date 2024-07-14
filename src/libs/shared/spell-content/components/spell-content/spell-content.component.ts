@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Trait } from 'src/app/classes/hints/trait';
 import { Spell } from 'src/app/classes/spells/spell';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';

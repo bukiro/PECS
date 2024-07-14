@@ -4,13 +4,13 @@ import * as json_feats from 'src/assets/json/feats';
 import * as json_features from 'src/assets/json/features';
 import { HistoryDataService } from './history-data.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
+import { WeaponProficiencies } from 'src/libs/shared/definitions/weapon-proficiencies';
 import { ItemsDataService } from './items-data.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/json-imported-item-file-list';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
 import { Weapon } from 'src/app/classes/items/weapon';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
 
 @Injectable({
     providedIn: 'root',

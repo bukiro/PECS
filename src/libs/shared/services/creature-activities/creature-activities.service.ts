@@ -9,9 +9,9 @@ import { Shield } from 'src/app/classes/items/shield';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types';
-import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
+import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/hint-effects-object';
 import { isEqualSerializableArray } from '../../util/compare-utils';
-import { sortAlphaNum } from '../../util/sortUtils';
+import { sortAlphaNum } from '../../util/sort-utils';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { TraitsDataService } from '../data/traits-data.service';
 

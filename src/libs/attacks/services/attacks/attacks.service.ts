@@ -4,10 +4,10 @@ import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/anim
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Effect, AbsoluteEffect, RelativeEffect } from 'src/app/classes/effects/effect';
 import { Weapon } from 'src/app/classes/items/weapon';
-import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
+import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
+import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddy-penalties';
+import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
+import { WeaponProficiencies } from 'src/libs/shared/definitions/weapon-proficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
@@ -16,9 +16,9 @@ import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.ser
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
 import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-uils';
-import { skillLevelName } from 'src/libs/shared/util/skillUtils';
-import { attackEffectPhrases } from '../../util/attackEffectPhrases';
-import { RuneSourceSet, attackRuneSource$ } from '../../util/attackRuneSource';
+import { skillLevelName } from 'src/libs/shared/util/skill-utils';
+import { attackEffectPhrases } from '../../util/attack-effect-phrases';
+import { RuneSourceSet, attackRuneSource$ } from '../../util/attack-rune-rource';
 
 export interface AttackResult {
     range: 'ranged' | 'melee';

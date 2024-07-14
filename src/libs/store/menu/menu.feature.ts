@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { closeAllMenus, toggleTopMenu, toggleLeftMenu, setItemsMenuTarget, setTopMenu, setLeftMenu } from './menu.actions';
 import { MenuState } from './menu.state';
 

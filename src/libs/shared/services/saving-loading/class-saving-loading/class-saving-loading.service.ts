@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
 import { CharacterClassLevel } from 'src/app/classes/creatures/character/character-class-level';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ClassesDataService } from '../../data/classes-data.service';
 import { RecastService } from '../../recast/recast.service';
 

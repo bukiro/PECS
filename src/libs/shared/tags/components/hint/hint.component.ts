@@ -18,7 +18,7 @@ import { WeaponRune } from 'src/app/classes/items/weapon-rune';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/emblazon-armament-set';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';

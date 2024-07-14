@@ -11,8 +11,8 @@ import { Rune } from 'src/app/classes/items/rune';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WeaponRune } from 'src/app/classes/items/weapon-rune';
 import { WornItem } from 'src/app/classes/items/worn-item';
-import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { BasicRuneLevels } from 'src/libs/shared/definitions/basic-rune-levels';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
@@ -25,9 +25,9 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 
 interface RuneItemType {
     armor: boolean;

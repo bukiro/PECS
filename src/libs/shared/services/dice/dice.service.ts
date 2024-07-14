@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DiceResult } from 'src/app/classes/dice/dice-result';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { MenuNames } from 'src/libs/shared/definitions/menu-names';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { setTopMenu } from 'src/libs/store/menu/menu.actions';
 import { Store } from '@ngrx/store';
 

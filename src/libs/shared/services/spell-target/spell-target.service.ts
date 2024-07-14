@@ -4,8 +4,8 @@ import { ItemActivity } from 'src/app/classes/activities/item-activity';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { SpellTarget } from 'src/app/classes/spells/spell-target';
-import { CreatureTypes } from '../../definitions/creatureTypes';
-import { SpellTargetSelection } from '../../definitions/types/spellTargetSelection';
+import { CreatureTypes } from '../../definitions/creature-types';
+import { SpellTargetSelection } from '../../definitions/types/spell-target-selection';
 import { CreatureService } from '../creature/creature.service';
 
 @Injectable({

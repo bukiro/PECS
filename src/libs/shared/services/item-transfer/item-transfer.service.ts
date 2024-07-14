@@ -6,7 +6,7 @@ import { Equipment } from 'src/app/classes/items/equipment';
 import { Item } from 'src/app/classes/items/item';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { SpellTarget } from 'src/app/classes/spells/spell-target';
-import { CreatureTypes } from '../../definitions/creatureTypes';
+import { CreatureTypes } from '../../definitions/creature-types';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 import { CreatureService } from '../creature/creature.service';
 import { InventoryService } from '../inventory/inventory.service';

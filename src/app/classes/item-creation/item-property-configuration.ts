@@ -1,7 +1,7 @@
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Effect } from '../effects/effect';
 import { Item } from '../items/item';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 
 const setupTypedSerialization = <T extends Item | Effect | object>(): ReturnType<typeof setupSerialization<ItemPropertyConfiguration<T>>> =>
     setupSerialization<ItemPropertyConfiguration<T>>({

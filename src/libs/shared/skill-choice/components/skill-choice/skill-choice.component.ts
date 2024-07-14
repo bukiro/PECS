@@ -5,7 +5,7 @@ import { Character } from 'src/app/classes/creatures/character/character';
 import { Skill } from 'src/app/classes/skills/skill';
 import { CharacterSkillIncreaseService } from 'src/libs/character-creation/services/character-skill-increase/character-skill-increase.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skill-levels';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
@@ -15,9 +15,9 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { abilityModFromAbilityValue } from 'src/libs/shared/util/ability-base-value-utils';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { skillLevelName } from 'src/libs/shared/util/skillUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { skillLevelName } from 'src/libs/shared/util/skill-utils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
+import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 
 interface SkillChoiceParameters {

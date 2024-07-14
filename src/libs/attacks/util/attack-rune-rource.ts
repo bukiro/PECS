@@ -2,7 +2,7 @@ import { Observable, distinctUntilChanged, switchMap, combineLatest, map, of } f
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
-import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
+import { WeaponProficiencies } from 'src/libs/shared/definitions/weapon-proficiencies';
 import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
 
 export interface RuneSourceSet {

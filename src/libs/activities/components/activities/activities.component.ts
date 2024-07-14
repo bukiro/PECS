@@ -6,8 +6,8 @@ import { ItemActivity } from 'src/app/classes/activities/item-activity';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Skill } from 'src/app/classes/skills/skill';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
@@ -19,8 +19,8 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 
 interface ActivitySet {
     name: string;

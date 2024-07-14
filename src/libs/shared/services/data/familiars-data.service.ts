@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
 import * as json_abilities from 'src/assets/json/familiarabilities';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/json-imported-item-file-list';
 import { DataLoadingService } from './data-loading.service';
 import { RecastService } from '../recast/recast.service';
 

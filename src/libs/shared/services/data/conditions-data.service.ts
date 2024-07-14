@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Condition } from 'src/app/classes/conditions/condition';
 import * as json_conditions from 'src/assets/json/conditions';
-import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { RecastService } from '../recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
 

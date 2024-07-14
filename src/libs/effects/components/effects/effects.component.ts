@@ -12,8 +12,8 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 
 interface ComponentParameters {
     effects: Array<Effect>;

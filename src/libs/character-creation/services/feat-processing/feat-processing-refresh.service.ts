@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { FeatProcessingContext } from './feat-processing.service';
 

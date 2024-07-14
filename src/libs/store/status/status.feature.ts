@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { ApiStatusKey } from 'src/libs/shared/definitions/apiStatusKey';
+import { ApiStatusKey } from 'src/libs/shared/definitions/api-status-key';
 import { closeCharacter, setConfigStatus, setCharacterStatus, setDataStatus, setSavegamesStatus, setAuthStatus } from './status.actions';
 import { StatusState } from './status.state';
 

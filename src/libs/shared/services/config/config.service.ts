@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpRequest, HttpEvent, HttpStatusCode, HttpEv
 import { Injectable } from '@angular/core';
 import { default as package_json } from 'package.json';
 import { BehaviorSubject, catchError, distinctUntilChanged, filter, map, Observable, of, switchMap } from 'rxjs';
-import { ApiStatusKey } from '../../definitions/apiStatusKey';
+import { ApiStatusKey } from '../../definitions/api-status-key';
 import { Defaults } from '../../definitions/defaults';
 import { Store } from '@ngrx/store';
 import { selectConfigStatus } from 'src/libs/store/status/status.selectors';

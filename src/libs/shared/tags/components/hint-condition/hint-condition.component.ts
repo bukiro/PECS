@@ -5,7 +5,7 @@ import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 @Component({
     selector: 'app-hint-condition',

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { Item } from 'src/app/classes/items/item';
 import { RecastFns, ItemPrototypeFn, ActivityLookupFn } from '../../definitions/interfaces/recastFns';
-import { DeepPartial } from '../../definitions/types/deepPartial';
+import { DeepPartial } from '../../definitions/types/deep-partial';
 
 @Injectable({
     providedIn: 'root',

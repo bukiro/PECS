@@ -1,9 +1,9 @@
 
-import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/hint-effects-object';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Observable, map } from 'rxjs';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { Rune } from './rune';

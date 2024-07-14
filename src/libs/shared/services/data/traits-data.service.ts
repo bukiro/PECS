@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, switchMap, of, combineLatest, map } from '
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Trait } from 'src/app/classes/hints/trait';
 import * as json_traits from 'src/assets/json/traits';
-import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { RecastService } from '../recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
 

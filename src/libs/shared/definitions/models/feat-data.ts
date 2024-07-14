@@ -1,7 +1,7 @@
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { setupSerialization } from '../../util/serialization';
 import { Serializable } from '../interfaces/serializable';
-import { DeepPartial } from '../types/deepPartial';
+import { DeepPartial } from '../types/deep-partial';
 
 type FeatDataValue = string | number | boolean | Array<string> | Array<number> | null;
 

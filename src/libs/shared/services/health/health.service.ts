@@ -4,7 +4,7 @@ import { Observable, combineLatest, switchMap, map, of, take, distinctUntilChang
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { abilityModFromAbilityValue } from '../../util/ability-base-value-utils';
-import { propMap$ } from '../../util/observableUtils';
+import { propMap$ } from '../../util/observable-utils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';

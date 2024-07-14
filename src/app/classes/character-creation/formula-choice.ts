@@ -1,5 +1,5 @@
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 
 export class FormulaChoice implements Serializable<FormulaChoice> {
     //FormulaChoice is going to become relevant with the Alchemist.

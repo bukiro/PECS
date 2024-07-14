@@ -24,10 +24,10 @@ import { Shield } from 'src/app/classes/items/shield';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { MenuNames } from 'src/libs/shared/definitions/menu-names';
+import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -49,10 +49,10 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
-import { copperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
+import { copperAmountFromCashObject } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu, selectItemsMenuTarget } from 'src/libs/store/menu/menu.selectors';
 

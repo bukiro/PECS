@@ -1,4 +1,4 @@
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 
 export class Ability {
     constructor(

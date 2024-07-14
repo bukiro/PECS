@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
 import { map, Observable } from 'rxjs';
-import { ApiStatusKey } from '../../definitions/apiStatusKey';
+import { ApiStatusKey } from '../../definitions/api-status-key';
 import { Store } from '@ngrx/store';
 import { selectAuthStatus } from 'src/libs/store/status/status.selectors';
 import { setAuthStatus } from 'src/libs/store/status/status.actions';

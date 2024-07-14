@@ -14,9 +14,9 @@ import { WornItem } from 'src/app/classes/items/worn-item';
 import { Spell } from 'src/app/classes/spells/spell';
 import { SpellCast } from 'src/app/classes/spells/spell-cast';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
 import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
@@ -32,8 +32,8 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 interface ActivityParameters {
     maxCharges: number;

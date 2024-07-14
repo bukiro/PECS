@@ -1,4 +1,4 @@
-import { FeatRequirements } from './featRequirements';
+import { FeatRequirements } from './feat-requirements';
 
 export namespace FeatIgnoreRequirements {
     export interface FeatIgnoreRequirement {

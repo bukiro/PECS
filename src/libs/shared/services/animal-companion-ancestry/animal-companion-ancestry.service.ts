@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
 import { AnimalCompanionAncestry } from 'src/app/classes/creatures/animal-companion/animal-companion-ancestry';
 import { Equipment } from 'src/app/classes/items/equipment';
-import { DeepPartial } from '../../definitions/types/deepPartial';
+import { DeepPartial } from '../../definitions/types/deep-partial';
 import { AnimalCompanionsDataService } from '../data/animal-companions-data.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
+import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 
 @Component({
     selector: 'app-base-value-accessor',

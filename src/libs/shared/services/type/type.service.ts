@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Item } from 'src/app/classes/items/item';
 import { Constructable } from '../../definitions/interfaces/constructable';
 import { ItemsDataService } from '../data/items-data.service';
-import { DeepPartial } from '../../definitions/types/deepPartial';
+import { DeepPartial } from '../../definitions/types/deep-partial';
 import { ItemTypes } from '../../definitions/types/item-types';
 
 type ItemPrototypeFn<T extends Item> = () => T;

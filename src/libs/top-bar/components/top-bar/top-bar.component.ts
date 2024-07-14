@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { combineLatest, distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterSavingService } from 'src/libs/shared/services/saving-loading/character-saving/character-saving.service';
@@ -14,7 +14,7 @@ import { selectGmMode } from 'src/libs/store/app/app.selectors';
 import { toggleLeftMenu, toggleTopMenu } from 'src/libs/store/menu/menu.actions';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
 
 @Component({
     selector: 'app-top-bar',

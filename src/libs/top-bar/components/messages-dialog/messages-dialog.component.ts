@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@a
 import { BehaviorSubject, map, Observable, of, take, zip } from 'rxjs';
 import { PlayerMessage } from 'src/app/classes/api/player-message';
 import { Creature } from 'src/app/classes/creatures/creature';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { DialogFooterComponent } from 'src/libs/shared/dialog/components/dialog-footer/dialog-footer.component';
 import { DialogHeaderComponent } from 'src/libs/shared/dialog/components/dialog-header/dialog-header.component';
 import { DialogComponent } from 'src/libs/shared/dialog/components/dialog/dialog.component';

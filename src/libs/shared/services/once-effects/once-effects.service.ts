@@ -4,7 +4,7 @@ import { zip, tap, take } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { EffectGain } from 'src/app/classes/effects/effect-gain';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { CreatureTypes } from '../../definitions/creatureTypes';
+import { CreatureTypes } from '../../definitions/creature-types';
 import { ArmorClassService, CoverTypes } from '../armor-class/armor-class.service';
 import { CreatureService } from '../creature/creature.service';
 import { EvaluationService } from '../evaluation/evaluation.service';

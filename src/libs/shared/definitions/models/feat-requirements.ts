@@ -1,4 +1,4 @@
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 
 export namespace FeatRequirements {
     export interface AbilityRequirement {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
-import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
+import { stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 @Injectable({

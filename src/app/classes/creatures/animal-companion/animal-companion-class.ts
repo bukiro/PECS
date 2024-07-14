@@ -5,7 +5,7 @@ import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject } from 'rxjs';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 
 const AnimalCompanionDefaultHitPoints = 6;

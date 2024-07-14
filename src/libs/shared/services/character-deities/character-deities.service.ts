@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, map, combineLatest, switchMap, of } from 'rxjs';
 import { Deity } from 'src/app/classes/deities/deity';
-import { CreatureTypes } from '../../definitions/creatureTypes';
-import { propMap$ } from '../../util/observableUtils';
+import { CreatureTypes } from '../../definitions/creature-types';
+import { propMap$ } from '../../util/observable-utils';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureService } from '../creature/creature.service';

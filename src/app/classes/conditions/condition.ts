@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
-import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { heightenedTextFromDescSets } from 'src/libs/shared/util/description-utils';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ActivityGain } from '../activities/activity-gain';
 import { AttackRestriction } from '../attacks/attack-restriction';

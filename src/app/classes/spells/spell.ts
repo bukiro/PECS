@@ -1,8 +1,8 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
-import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
+import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { heightenedTextFromDescSets } from 'src/libs/shared/util/description-utils';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ActivityTargetOption } from '../activities/activity-target-options';
 import { ConditionGain } from '../conditions/condition-gain';

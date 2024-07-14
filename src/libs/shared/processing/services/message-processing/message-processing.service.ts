@@ -18,7 +18,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 @Injectable({

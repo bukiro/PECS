@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Deity } from 'src/app/classes/deities/deity';
 import * as json_deities from 'src/assets/json/deities';
 import * as json_domains from 'src/assets/json/domains';
-import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { DataLoadingService } from './data-loading.service';
 import { Domain } from 'src/app/classes/deities/domain';
 

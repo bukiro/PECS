@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
-import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
+import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 
 @Component({
     selector: 'app-button',

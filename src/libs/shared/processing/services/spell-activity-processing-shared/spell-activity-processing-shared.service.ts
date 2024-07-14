@@ -10,7 +10,7 @@ import { Creature } from 'src/app/classes/creatures/creature';
 import { Spell } from 'src/app/classes/spells/spell';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { SpellTarget } from 'src/app/classes/spells/spell-target';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';

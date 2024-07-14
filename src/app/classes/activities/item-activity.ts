@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { SpellTarget } from '../spells/spell-target';
 import { Activity } from './activity';

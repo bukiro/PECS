@@ -1,7 +1,7 @@
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { v4 as uuidv4 } from 'uuid';
 import { ConditionGain } from '../conditions/condition-gain';

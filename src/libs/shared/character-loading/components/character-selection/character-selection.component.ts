@@ -5,7 +5,7 @@ import { DialogService } from 'src/libs/shared/dialog/services/dialog.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { CharacterDeletingService } from '../../services/character-deleting/character-deleting.service';
 import { CharacterLoadingService } from '../../services/character-loading/character-loading.service';
 

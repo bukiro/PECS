@@ -4,7 +4,7 @@ import { Creature } from 'src/app/classes/creatures/creature';
 import { Shield } from 'src/app/classes/items/shield';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { EmblazonArmamentSet } from '../../definitions/interfaces/emblazon-armament-set';
-import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
+import { stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 
 @Injectable({

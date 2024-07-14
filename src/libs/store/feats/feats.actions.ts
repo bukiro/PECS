@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { FeatTaken } from 'src/libs/shared/definitions/models/feat-taken';
 
 export const resetFeats = createAction(
     '[FEATS] Reset feats',

@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, Input, TemplateRef, Output, EventEm
 import { Creature } from 'src/app/classes/creatures/creature';
 import { QuickdiceComponent } from 'src/libs/shared/quickdice/components/quickdice/quickdice.component';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
+import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BonusDescription } from '../../../bonus-list';
 

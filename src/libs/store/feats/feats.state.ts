@@ -1,5 +1,5 @@
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { FeatTaken } from 'src/libs/shared/definitions/models/feat-taken';
 
 export class FeatsState {
     public levelFeats: [

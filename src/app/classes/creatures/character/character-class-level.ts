@@ -1,10 +1,10 @@
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { AbilityChoice } from '../../character-creation/ability-choice';
 import { LoreChoice } from '../../character-creation/lore-choice';
 import { SkillChoice } from '../../character-creation/skill-choice';
+import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 
 const { assign, forExport, isEqual } = setupSerialization<CharacterClassLevel>({
     primitives: [

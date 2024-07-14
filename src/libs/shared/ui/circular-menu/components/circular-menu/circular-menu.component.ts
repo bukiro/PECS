@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
+import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { ButtonComponent } from '../../../button/components/button/button.component';
 import { CircularMenuOption } from '../../definitions/interfaces/circular-menu-option';

@@ -3,10 +3,10 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { BehaviorSubject, Observable, switchMap, combineLatest, map } from 'rxjs';
 import { Alignments } from 'src/libs/shared/definitions/alignments';
 import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ability-boost';
-import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypeIds } from 'src/libs/shared/definitions/creature-type-ids';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ConditionGain } from '../conditions/condition-gain';

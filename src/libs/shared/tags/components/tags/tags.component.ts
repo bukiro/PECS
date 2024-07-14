@@ -9,8 +9,8 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Effect } from 'src/app/classes/effects/effect';
 import { Trait } from 'src/app/classes/hints/trait';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { HintShowingItem } from 'src/libs/shared/definitions/types/hintShowingItem';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { HintShowingItem } from 'src/libs/shared/definitions/types/hint-showing-item';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
@@ -19,7 +19,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 
 
 interface TagCollection {

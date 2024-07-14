@@ -1,4 +1,4 @@
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ConditionGain } from '../conditions/condition-gain';
 import { Item } from '../items/item';
 import { ItemCollection } from '../items/item-collection';

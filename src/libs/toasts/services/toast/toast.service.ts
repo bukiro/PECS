@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Toast } from '../../definitions/interfaces/toast';
 
 @Injectable({ providedIn: 'root' })

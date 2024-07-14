@@ -7,8 +7,8 @@ import { Spell } from 'src/app/classes/spells/spell';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
+import { MenuNames } from 'src/libs/shared/definitions/menu-names';
+import { SpellLevels } from 'src/libs/shared/definitions/spell-levels';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
@@ -21,8 +21,8 @@ import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 

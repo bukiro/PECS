@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { EffectGain } from 'src/app/classes/effects/effect-gain';
-import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';

@@ -6,8 +6,8 @@ import { SpecializationGain } from 'src/app/classes/attacks/specialization-gain'
 import { Creature } from 'src/app/classes/creatures/creature';
 import { AdventuringGear } from 'src/app/classes/items/adventuring-gear';
 import { Armor } from 'src/app/classes/items/armor';
-import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
-import { maxSkillLevel } from '../../definitions/skillLevels';
+import { ShoddyPenalties } from '../../definitions/shoddy-penalties';
+import { maxSkillLevel } from '../../definitions/skill-levels';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';

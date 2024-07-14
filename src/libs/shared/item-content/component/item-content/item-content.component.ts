@@ -6,12 +6,12 @@ import { AlchemicalPoison } from 'src/app/classes/items/alchemical-poison';
 import { Item } from 'src/app/classes/items/item';
 import { ItemRoles } from 'src/app/classes/items/item-roles';
 import { WornItem } from 'src/app/classes/items/worn-item';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 
 interface ComparedValue {

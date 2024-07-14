@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
+import { FeatTaken } from 'src/libs/shared/definitions/models/feat-taken';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 

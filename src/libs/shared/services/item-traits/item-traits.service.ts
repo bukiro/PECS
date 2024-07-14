@@ -6,7 +6,7 @@ import { Item } from 'src/app/classes/items/item';
 import { Wand } from 'src/app/classes/items/wand';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
-import { deepDistinctUntilChanged } from '../../util/observableUtils';
+import { deepDistinctUntilChanged } from '../../util/observable-utils';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { SpellsDataService } from '../data/spells-data.service';

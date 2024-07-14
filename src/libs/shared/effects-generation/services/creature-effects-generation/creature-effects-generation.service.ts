@@ -4,13 +4,13 @@ import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/anim
 import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { HintEffectsObject } from '../../definitions/interfaces/hint-effects-object';
 
 interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;

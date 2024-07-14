@@ -1,11 +1,11 @@
 import { BehaviorSubject, Observable, map, of, distinctUntilChanged, combineLatest } from 'rxjs';
-import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
+import { BasicRuneLevels } from 'src/libs/shared/definitions/basic-rune-levels';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddy-penalties';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
-import { resilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
+import { resilientTitleFromLevel } from 'src/libs/shared/util/rune-utils';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { Creature } from '../creatures/creature';
 import { AdventuringGear } from './adventuring-gear';

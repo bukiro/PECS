@@ -1,13 +1,13 @@
 import { BehaviorSubject, Observable, map, combineLatest } from 'rxjs';
-import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
+import { BasicRuneLevels } from 'src/libs/shared/definitions/basic-rune-levels';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { MaxSpellLevel } from 'src/libs/shared/definitions/spellLevels';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { MaxSpellLevel } from 'src/libs/shared/definitions/spell-levels';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
-import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/hint-effects-object';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
-import { strikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
+import { strikingTitleFromLevel } from 'src/libs/shared/util/rune-utils';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { LanguageGain } from '../creatures/character/language-gain';
 import { Equipment } from './equipment';

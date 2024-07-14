@@ -1,5 +1,5 @@
-import { BasicRuneLevels } from '../definitions/basicRuneLevels';
-import { ResilientRuneLevelNames, StrikingRuneLevelNames } from '../definitions/runeLevelNames';
+import { BasicRuneLevels } from '../definitions/basic-rune-levels';
+import { ResilientRuneLevelNames, StrikingRuneLevelNames } from '../definitions/rune-level-names';
 
 export const resilientTitleFromLevel = (resilient: number): string => {
     switch (resilient) {

@@ -1,8 +1,8 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
+import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { SpellChoice } from '../character-creation/spell-choice';

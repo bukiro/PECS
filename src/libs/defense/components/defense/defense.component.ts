@@ -12,7 +12,7 @@ import { Shield } from 'src/app/classes/items/shield';
 import { Talisman } from 'src/app/classes/items/talisman';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { Skill } from 'src/app/classes/skills/skill';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { ACForDisplay, CoverTypes, ArmorClassService } from 'src/libs/shared/services/armor-class/armor-class.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
@@ -28,8 +28,8 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$, deepDistinctUntilChanged } from 'src/libs/shared/util/observableUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { propMap$, deepDistinctUntilChanged } from 'src/libs/shared/util/observable-utils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 interface ComponentParameters {

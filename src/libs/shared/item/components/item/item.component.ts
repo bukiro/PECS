@@ -19,9 +19,9 @@ import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem, RingOfWizardrySlot } from 'src/app/classes/items/worn-item';
 import { Spell } from 'src/app/classes/spells/spell';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
 import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
@@ -33,7 +33,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { spellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { spellTraditionFromString } from 'src/libs/shared/util/spell-utils';
 
 
 @Component({

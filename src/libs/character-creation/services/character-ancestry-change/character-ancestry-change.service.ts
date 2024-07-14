@@ -3,7 +3,7 @@ import { Ancestry } from 'src/app/classes/creatures/character/ancestry';
 import { LanguageGain } from 'src/app/classes/creatures/character/language-gain';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
 import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';

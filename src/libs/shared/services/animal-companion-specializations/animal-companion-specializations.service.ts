@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
-import { DeepPartial } from '../../definitions/types/deepPartial';
+import { DeepPartial } from '../../definitions/types/deep-partial';
 import { AnimalCompanionsDataService } from '../data/animal-companions-data.service';
 import { TypeService } from '../type/type.service';
 

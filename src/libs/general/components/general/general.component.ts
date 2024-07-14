@@ -4,10 +4,10 @@ import { Character } from 'src/app/classes/creatures/character/character';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Domain } from 'src/app/classes/deities/domain';
 import { Trait } from 'src/app/classes/hints/trait';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Feat } from 'src/libs/shared/definitions/models/Feat';
-import { FeatChoice } from 'src/libs/shared/definitions/models/FeatChoice';
-import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
+import { FeatData } from 'src/libs/shared/definitions/models/feat-data';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
@@ -22,10 +22,10 @@ import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deit
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
-import { creatureSizeName } from 'src/libs/shared/util/creatureUtils';
+import { creatureSizeName } from 'src/libs/shared/util/creature-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive, capitalize } from 'src/libs/shared/util/stringUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive, capitalize } from 'src/libs/shared/util/string-utils';
 
 interface ClassChoice {
     name: string;

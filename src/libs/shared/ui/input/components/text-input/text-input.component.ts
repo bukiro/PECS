@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, Input, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { forceBooleanFromInput } from 'src/libs/shared/util/componentInputUtils';
+import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 import { BaseValueAccessorComponent } from '../base-value-accessor/base-value-accessor.component';
 
 @Component({

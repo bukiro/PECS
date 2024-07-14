@@ -12,10 +12,10 @@ import {
     selectRelativeEffects,
     selectToggledEffects,
 } from 'src/libs/store/effects';
-import { BonusTypes } from '../../definitions/bonusTypes';
-import { CreatureTypes } from '../../definitions/creatureTypes';
-import { creatureTypeIDFromType } from '../../util/creatureUtils';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from '../../util/stringUtils';
+import { BonusTypes } from '../../definitions/bonus-types';
+import { CreatureTypes } from '../../definitions/creature-types';
+import { creatureTypeIDFromType } from '../../util/creature-utils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from '../../util/string-utils';
 
 @Injectable({
     providedIn: 'root',

@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { TurnService } from '../turn/turn.service';
 
 @Injectable({

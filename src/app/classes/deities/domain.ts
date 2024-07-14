@@ -1,5 +1,5 @@
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<Domain>({

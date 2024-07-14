@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({

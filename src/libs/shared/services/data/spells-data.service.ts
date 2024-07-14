@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Spell } from 'src/app/classes/spells/spell';
 import * as json_spells from 'src/assets/json/spells';
-import { SpellTraditions } from '../../definitions/spellTraditions';
-import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { SpellTraditions } from '../../definitions/spell-traditions';
+import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { RecastService } from '../recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
 

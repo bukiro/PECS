@@ -1,12 +1,12 @@
 import { BehaviorSubject, Observable, combineLatest, map, of } from 'rxjs';
-import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
+import { BasicRuneLevels } from 'src/libs/shared/definitions/basic-rune-levels';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
-import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
-import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/hint-effects-object';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ActivityGain } from '../activities/activity-gain';
 import { ItemActivity } from '../activities/item-activity';
 import { SpellChoice } from '../character-creation/spell-choice';

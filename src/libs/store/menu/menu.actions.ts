@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 
 export const closeAllMenus = createAction(
     '[MENU] Close all menus',

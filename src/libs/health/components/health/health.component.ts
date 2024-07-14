@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRe
 import { Observable, BehaviorSubject, Subscription, combineLatest, switchMap, map, distinctUntilChanged, of } from 'rxjs';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
@@ -16,8 +16,8 @@ import { TimeBlockingService } from 'src/libs/shared/time/services/time-blocking
 import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 @Component({
     selector: 'app-health',

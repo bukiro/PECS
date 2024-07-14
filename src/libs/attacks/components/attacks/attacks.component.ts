@@ -23,10 +23,10 @@ import { WeaponRune } from 'src/app/classes/items/weapon-rune';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { Skill } from 'src/app/classes/skills/skill';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
+import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
 import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -45,12 +45,12 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
+import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { AttacksService, AttackResult } from '../../services/attacks/attacks.service';
 import { DamageService, DamageResult } from '../../services/damage/damage.service';
-import { attackRuneSource$ } from '../../util/attackRuneSource';
+import { attackRuneSource$ } from '../../util/attack-rune-rource';
 import { Hint } from 'src/app/classes/hints/hint';
 
 interface WeaponParameters {

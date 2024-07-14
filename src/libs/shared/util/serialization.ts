@@ -1,7 +1,7 @@
 import { Serializable, MessageSerializable } from '../definitions/interfaces/serializable';
 import { RecastFns } from '../definitions/interfaces/recastFns';
-import { DeepPartial } from '../definitions/types/deepPartial';
-import { forEachMember } from './objectUtils';
+import { DeepPartial } from '../definitions/types/deep-partial';
+import { forEachMember } from './object-utils';
 
 type AssignFn<T> = () => (obj: DeepPartial<T>, index?: number) => T;
 type AssignFnWithHelpers<T> = (recastFns: RecastFns) => (obj: DeepPartial<T>, index?: number) => T;

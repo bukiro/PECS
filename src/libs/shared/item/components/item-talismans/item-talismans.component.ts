@@ -9,7 +9,7 @@ import { Shield } from 'src/app/classes/items/shield';
 import { Talisman } from 'src/app/classes/items/talisman';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
@@ -17,9 +17,9 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { priceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { sortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 
 interface TalismanOption {
     talisman: Talisman;

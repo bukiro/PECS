@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, switchMap, of, shareReplay, map } from 'rxjs';
 import { Deity } from 'src/app/classes/deities/deity';
 import { Defaults } from '../../definitions/defaults';
-import { propMap$ } from '../../util/observableUtils';
+import { propMap$ } from '../../util/observable-utils';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';

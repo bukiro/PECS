@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { delay, distinctUntilChanged, map, Observable, of, Subscription, switchMap } from 'rxjs';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
@@ -12,7 +12,7 @@ import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 import { Store } from '@ngrx/store';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { propMap$ } from 'src/libs/shared/util/observableUtils';
+import { propMap$ } from 'src/libs/shared/util/observable-utils';
 
 @Component({
     selector: 'app-animal-companion',

@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Observable, switchMap, distinctUntilChanged, combineLatest } from 'rxjs';
 import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
 import { Character } from 'src/app/classes/creatures/character/character';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { AbilityLiveValue, AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';

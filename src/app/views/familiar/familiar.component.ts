@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription, switchMap, map, distinctUntilChanged, of, delay, combineLatest } from 'rxjs';
 import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';

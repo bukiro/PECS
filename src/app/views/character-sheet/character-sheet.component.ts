@@ -5,7 +5,7 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { selectLeftMenu, selectTopMenu } from 'src/libs/store/menu/menu.selectors';
 import { Store } from '@ngrx/store';
 

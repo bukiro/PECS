@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
+import { FeatTaken } from 'src/libs/shared/definitions/models/feat-taken';
 import { resetCharacter } from '../character/character.actions';
 import { addFeatAtLevel, removeFeatAtLevel, resetFeats } from './feats.actions';
 import { FeatsState } from './feats.state';

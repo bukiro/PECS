@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
-import { ApiStatusKey } from '../../definitions/apiStatusKey';
+import { ApiStatusKey } from '../../definitions/api-status-key';
 import { Store } from '@ngrx/store';
 import { setCharacterStatus } from 'src/libs/store/status/status.actions';
 import { resetCharacter } from 'src/libs/store/character/character.actions';

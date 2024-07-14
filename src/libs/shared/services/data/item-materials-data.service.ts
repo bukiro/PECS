@@ -5,7 +5,7 @@ import { WeaponMaterial } from 'src/app/classes/items/weapon-material';
 import * as json_armormaterials from 'src/assets/json/armormaterials';
 import * as json_shieldmaterials from 'src/assets/json/shieldmaterials';
 import * as json_weaponmaterials from 'src/assets/json/weaponmaterials';
-import { ImportedJsonFileList } from '../../definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { DataLoadingService } from './data-loading.service';
 
 @Injectable({

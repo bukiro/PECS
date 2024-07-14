@@ -1,6 +1,6 @@
-import { CreatureSizes } from '../definitions/creatureSizes';
-import { CreatureTypeIds } from '../definitions/creatureTypeIds';
-import { CreatureTypes } from '../definitions/creatureTypes';
+import { CreatureSizes } from '../definitions/creature-sizes';
+import { CreatureTypeIds } from '../definitions/creature-type-ids';
+import { CreatureTypes } from '../definitions/creature-types';
 
 export const creatureSizeName = (size: number): string => {
     switch (size) {

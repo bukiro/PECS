@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs';
 import { Spell } from 'src/app/classes/spells/spell';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';

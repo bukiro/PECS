@@ -1,11 +1,11 @@
 import { Observable, switchMap, combineLatest, map } from 'rxjs';
-import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
+import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
+import { DiceSizes } from 'src/libs/shared/definitions/dice-sizes';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deepPartial';
+import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/stringUtils';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ActivityGain } from '../activities/activity-gain';
 import { Creature } from '../creatures/creature';
 import { Effect } from '../effects/effect';

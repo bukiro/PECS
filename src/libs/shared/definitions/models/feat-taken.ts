@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { DeepPartial } from '../types/deepPartial';
+import { DeepPartial } from '../types/deep-partial';
 import { setupSerialization } from '../../util/serialization';
 import { Serializable } from '../interfaces/serializable';
 

@@ -12,10 +12,10 @@ import {
     selectCharacterHasFeatAtLevel,
     selectCharacterHasTakenFeatAtLevel,
 } from 'src/libs/store/feats/feats.selectors';
-import { Feat } from '../../definitions/models/Feat';
-import { FeatTaken } from '../../definitions/models/FeatTaken';
+import { Feat } from '../../definitions/models/feat';
+import { FeatTaken } from '../../definitions/models/feat-taken';
 import { isEqualPrimitiveObject, isEqualArray, isEqualSerializable } from '../../util/compare-utils';
-import { stringEqualsCaseInsensitive } from '../../util/stringUtils';
+import { stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { FeatsDataService } from '../data/feats-data.service';
 

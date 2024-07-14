@@ -6,7 +6,7 @@ import { Background } from 'src/app/classes/creatures/character/background';
 import * as json_ancestries from 'src/assets/json/ancestries';
 import * as json_backgrounds from 'src/assets/json/backgrounds';
 import * as json_heritages from 'src/assets/json/heritages';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/json-imported-item-file-list';
 import { DataLoadingService } from './data-loading.service';
 
 @Injectable({

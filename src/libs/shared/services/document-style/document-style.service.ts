@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { SettingsService } from '../settings/settings.service';
-import { propMap$ } from '../../util/observableUtils';
+import { propMap$ } from '../../util/observable-utils';
 
 const accentChangingDebounce = 10;
 
