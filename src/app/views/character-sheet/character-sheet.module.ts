@@ -25,8 +25,8 @@ import { CharacterSheetMobileComponent } from './components/character-sheet-mobi
 import { ActivitiesModule } from 'src/libs/activities/activities.module';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { LoadingSpinnerModule } from 'src/libs/shared/ui/loading-spinner/loading-spinner.module';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
+import { LoadingDiamondComponent } from 'src/libs/shared/ui/diamond/components/loading-diamond/loading-diamond.component';
 
 @NgModule({
     imports: [
@@ -55,8 +55,8 @@ import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-
         SpellbookModule,
         ActivitiesModule,
         ButtonModule,
-        LoadingSpinnerModule,
         CharacterSheetCardComponent,
+        LoadingDiamondComponent,
     ],
     declarations: [
         CharacterSheetComponent,

@@ -6,9 +6,9 @@
 
 .top-bar {
     @include flex-row-center;
+    @include flex-center-cross-axis;
 
     flex-wrap: wrap;
-    align-items: center;
     gap: $spacing-m;
 
     flex-shrink: 0;
@@ -32,6 +32,8 @@
 
 .top-bar-button {
     z-index: 2;
+
+    min-height: 1.5em;
 
     > * {
         line-height: 1em;

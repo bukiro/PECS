@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { ButtonModule } from '../ui/button/button.module';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { LogoModule } from '../ui/logo/logo.module';
 import { DialogHeaderComponent } from './components/dialog-header/dialog-header.component';
 import { DialogFooterComponent } from './components/dialog-footer/dialog-footer.component';
 import { CornerButtonTrayComponent } from '../ui/corner-button-tray/corner-button-tray.component';
@@ -16,7 +15,6 @@ import { CharacterSheetCardComponent } from '../ui/character-sheet-card/characte
         NgbModalModule,
 
         ButtonModule,
-        LogoModule,
         CornerButtonTrayComponent,
         CharacterSheetCardComponent,
     ],

@@ -23,11 +23,11 @@
         *ngIf="{ set: hasPartyName } as partyName"
         class="messages-button"
         compact
-        [label]="partyName.set ? 'Check for new messages' : 'You can only receive messages in a party.'"
+        [label]="(checkingMessages$ | async) ? 'Checking for new messages...' : partyName.set ? 'Check for new messages' : 'You can only receive messages in a party.'"
         [disabled]="!partyName.set || (checkingMessages$ | async) || false"
         (clicked)="checkMessages()"
     >
-        <app-loading-spinner *ngIf="checkingMessages$ | async; else IconTemplate" />
+        <app-loading-diamond *ngIf="checkingMessages$ | async; else IconTemplate" [size]="2"/>
     </app-button>
 </ng-template>
 

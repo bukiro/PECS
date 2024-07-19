@@ -7,7 +7,6 @@ import { AppInitService } from 'src/libs/shared/services/app-init/app-init.servi
 import { TopBarModule } from 'src/libs/top-bar/top-bar.module';
 import { ToastsModule } from 'src/libs/toasts/toasts.module';
 import { CharacterSheetModule } from './views/character-sheet/character-sheet.module';
-import { LoadingSpinnerModule } from 'src/libs/shared/ui/loading-spinner/loading-spinner.module';
 import { DescriptionModule } from 'src/libs/shared/ui/description/description.module';
 import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
 import { LoginModule } from 'src/libs/shared/login/login.module';
@@ -19,6 +18,7 @@ import { MenuStoreModule } from 'src/libs/store/menu/menu-store.module';
 import { FeatsStoreModule } from 'src/libs/store/feats/feats-store.module';
 import { StatusStoreModule } from 'src/libs/store/status/status-store.module';
 import { AuthInterceptor } from 'src/libs/shared/error/interceptors/auth-interceptor';
+import { LoadingDiamondComponent } from 'src/libs/shared/ui/diamond/components/loading-diamond/loading-diamond.component';
 
 @NgModule({
     declarations: [
@@ -31,11 +31,11 @@ import { AuthInterceptor } from 'src/libs/shared/error/interceptors/auth-interce
         TopBarModule,
         ToastsModule,
         CharacterSheetModule,
-        LoadingSpinnerModule,
         DescriptionModule,
         ButtonModule,
         LoginModule,
         CharacterLoadingModule,
+        LoadingDiamondComponent,
 
         StoreModule.forRoot({}),
         AppStoreModule,

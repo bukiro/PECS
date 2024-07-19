@@ -1,0 +1,16 @@
+<div class="diamonds-container">
+    @for (letter of letters; track $index) {
+        <div
+            [class]="'diamonds-container__diamond diamonds-container__diamond--' + $index"
+            [class.diamonds-container__diamond--accented]="accented"
+            [class.diamonds-container__diamond--highlighted]="letter.highlighted"
+        >
+            <span
+                class="letter"
+                [ngbTooltip]="letter.tooltip"
+            >
+                {{letter.letter}}
+            </span>
+        </div>
+    }
+</div>

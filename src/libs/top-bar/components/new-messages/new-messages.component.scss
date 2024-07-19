@@ -1,5 +1,7 @@
+@import 'utilities';
+
 .messages-button {
-    &__content {
-        display: block;
-    }
+    z-index: 2;
+
+    min-height: 1.5em;
 }

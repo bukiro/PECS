@@ -30,10 +30,10 @@ import { TagsModule } from '../tags/tags.module';
         ActivityModule,
         StickyPopoverModule,
         TagsModule,
+        SkillProficiencyComponent,
     ],
     declarations: [
         SkillComponent,
-        SkillProficiencyComponent,
     ],
     exports: [
         SkillComponent,

@@ -1,97 +1,12 @@
 @import "utilities";
 
 :host {
-    @include flex-column-center;
-    @include flex-center-main-axis;
-    @include text-small;
+    font-size: 1rem;
 
     height: 3.5rem;
     width: 3.5rem;
 
     position: relative;
 
-    font-weight: bold;
-
     flex: 0 0 3.5rem;
-}
-
-.diamonds-container {
-    height: 75%;
-    width: 75%;
-
-    transform: rotate(45deg);
-
-    &__diamond {
-        @include background-color-default;
-        @include border-color-default;
-        position: absolute;
-
-        border-width: .1em;
-        border-style: solid;
-
-        height: 45%;
-        width: 45%;
-
-        &--checked {
-            @include background-color-inverted;
-            @include border-color-accent;
-        }
-
-        &--T {
-            top: 0;
-            left: 0;
-        }
-
-        &--E {
-            bottom: 0;
-            left: 0;
-        }
-
-        &--M {
-            top: 0;
-            right: 0;
-        }
-
-        &--L {
-            bottom: 0;
-            right: 0;
-        }
-    }
-}
-
-.option {
-    @include flex-column-center;
-    @include flex-center-main-axis;
-    position: absolute;
-
-    width: 45%;
-    height: 45%;
-
-    line-height: 100%;
-    text-align: center;
-    vertical-align: middle;
-
-    &--checked {
-        @include text-color-inverted;
-    }
-
-    &--T {
-        top: -1%;
-        left: 27.5%;
-    }
-
-    &--E {
-        left: -2%;
-        top: 27.5%;
-    }
-
-    &--M {
-        right: -1%;
-        top: 27.5%;
-    }
-
-    &--L {
-        bottom: -1%;
-        left: 27.5%;
-    }
 }

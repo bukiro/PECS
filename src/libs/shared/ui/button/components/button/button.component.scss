@@ -2,8 +2,9 @@
 
 :host {
     @include text-color-default;
-
-    display: inline-flex;
+    @include flex-row-center;
+    @include flex-stretch-main-axis;
+    @include flex-stretch-cross-axis;
 
     min-height: 1em;
     min-width: 1em;
@@ -11,8 +12,11 @@
     line-height: inherit;
 
     .button {
-        height: 100%;
-        width: 100%;
+        @include flex-column-center;
+        @include flex-stretch-main-axis;
+        @include flex-stretch-cross-axis;
+
+        flex: 1;
 
         opacity: 100%;
         background-color: transparent;
@@ -23,11 +27,11 @@
             @include box-shadow-small;
             @include border-default;
             @include background-color-default;
+            @include flex-row-center;
             @include flex-center-cross-axis;
             border-width: $spacing-xxs;
 
-            height: 100%;
-            width: 100%;
+            flex: 1;
 
             color: inherit;
 

@@ -1,20 +1,23 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { BaseClass } from 'src/libs/shared/util/classes/base-class';
-import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { DiamondComponent } from '../../../diamond/components/diamond/diamond.component';
+import { DiamondLetters } from '../../../diamond/definitions/diamond-letters';
 
 @Component({
     selector: 'app-logo',
     templateUrl: './logo.component.html',
     styleUrls: ['./logo.component.scss'],
+    standalone: true,
+    imports: [
+        DiamondComponent,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogoComponent extends TrackByMixin(BaseClass) {
+export class LogoComponent {
 
-    public letters = [
-        { letter: 'P', checked: false },
-        { letter: 'E', checked: true },
-        { letter: 'C', checked: false },
-        { letter: 'S', checked: false },
+    public letters: DiamondLetters = [
+        { letter: 'P', highlighted: false },
+        { letter: 'E', highlighted: true },
+        { letter: 'C', highlighted: false },
+        { letter: 'S', highlighted: false },
     ];
-
 }

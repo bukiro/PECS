@@ -4,95 +4,10 @@
     @include flex-column-center;
     @include flex-center-main-axis;
 
-    font-size: $font-size-small;
+    font-size: 1rem;
 
     height: 4rem;
     width: 4rem;
 
-    position: relative;
-
-    font-weight: 800;
-
     flex: 0 0 4rem;
-}
-
-.diamonds-container {
-    height: 75%;
-    width: 75%;
-
-    transform: rotate(45deg);
-
-    &__diamond {
-        @include background-color-default;
-        @include border-color-accent;
-        position: absolute;
-
-        border-width: .1em;
-        border-style: solid;
-
-        height: 45%;
-        width: 45%;
-
-        &--checked {
-            @include background-color-inverted;
-        }
-
-        &--P {
-            top: 0;
-            left: 0;
-        }
-
-        &--E {
-            bottom: 0;
-            left: 0;
-        }
-
-        &--C {
-            top: 0;
-            right: 0;
-        }
-
-        &--S {
-            bottom: 0;
-            right: 0;
-        }
-    }
-}
-
-.option {
-    @include flex-column-center;
-    @include flex-center-main-axis;
-
-    position: absolute;
-
-    width: 45%;
-    height: 45%;
-
-    line-height: 100%;
-    text-align: center;
-    vertical-align: middle;
-
-    &--checked {
-        @include text-color-inverted;
-    }
-
-    &--P {
-        top: -2%;
-        left: 27.5%;
-    }
-
-    &--E {
-        left: -2%;
-        top: 27.5%;
-    }
-
-    &--C {
-        right: -1%;
-        top: 27.5%;
-    }
-
-    &--S {
-        bottom: -1%;
-        left: 27.5%;
-    }
 }

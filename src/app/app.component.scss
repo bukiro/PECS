@@ -42,6 +42,7 @@
     }
 
     &__spinner {
+        font-size: min(1vw, 1vh);
         max-height: min(25vw, 25vh);
         max-width: min(25vw, 25vh);
     }

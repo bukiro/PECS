@@ -4,54 +4,28 @@
     @include flex-column-center;
     @include flex-center-main-axis;
 
-    height: 4rem;
-    width: 4rem;
+    font-size: $font-size-small;
 
-    position: relative;
+    height: 100%;
+    width: 100%;
 
-    flex: 0 0 4rem;
+    flex: 0 0 100%;
 }
 
 .diamonds-container {
-    height: 75%;
-    width: 75%;
-
-    transform: rotate(45deg);
-
     &__diamond {
-        @include background-color-default;
-        @include border-color-accent;
-        position: absolute;
-
-        border-width: .1em;
-        border-style: solid;
-
-        height: 45%;
-        width: 45%;
-
         animation: inverting-background ease-in-out 4s infinite;
 
-        &--top {
-            top: 0;
-            left: 0;
-        }
-
-        &--left {
+        &--1 {
             animation-delay: 1s;
-            bottom: 0;
-            left: 0;
         }
 
-        &--right {
+        &--2 {
             animation-delay: 2s;
-            top: 0;
-            right: 0;
         }
 
-        &--bottom {
+        &--3 {
             animation-delay: 3s;
-            bottom: 0;
-            right: 0;
         }
     }
 }
