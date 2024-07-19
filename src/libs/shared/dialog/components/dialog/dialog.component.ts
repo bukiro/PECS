@@ -7,6 +7,7 @@ import { DialogFooterComponent } from '../dialog-footer/dialog-footer.component'
 import { DialogHeaderComponent } from '../dialog-header/dialog-header.component';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DisplayService } from 'src/libs/shared/services/display/display.service';
 
 @Directive()
 export class DialogComponent extends TrackByMixin(BaseClass) implements AfterViewInit {
@@ -37,7 +38,11 @@ export class DialogComponent extends TrackByMixin(BaseClass) implements AfterVie
                 takeUntilDestroyed(),
                 distinctUntilChanged(),
             )
-            .subscribe(darkmode => { this.isDarkMode = darkmode; });
+            .subscribe(darkmode => {
+                this.isDarkMode = darkmode === undefined
+                    ? DisplayService.isDarkMode
+                    : !!darkmode;
+            });
     }
 
     public with(values: Partial<DialogComponent>): DialogComponent {

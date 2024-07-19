@@ -3,6 +3,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { SettingsService } from '../settings/settings.service';
 import { propMap$ } from '../../util/observable-utils';
+import { DisplayService } from '../display/display.service';
 
 const accentChangingDebounce = 10;
 
@@ -28,6 +29,10 @@ export class DocumentStyleService {
             .subscribe(darkmode => {
                 this._setDarkmode(darkmode);
             });
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            this._setDarkmode(SettingsService.settings.darkmode);
+        });
     }
 
     private _setAccent(accent: string = Defaults.colorAccent): void {
@@ -36,11 +41,17 @@ export class DocumentStyleService {
         document.documentElement.style.setProperty('--accent', rgbAccent);
     }
 
-    private _setDarkmode(darkmode: boolean): void {
-        if (darkmode) {
+    private _setDarkmode(darkmode: boolean | undefined): void {
+        if (darkmode === true) {
             document.body.classList.add('darkmode');
-        } else {
+        } else if (darkmode === false) {
             document.body.classList.remove('darkmode');
+        } else {
+            if (DisplayService.isDarkMode) {
+                document.body.classList.add('darkmode');
+            } else {
+                document.body.classList.remove('darkmode');
+            }
         }
     }
 

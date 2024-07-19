@@ -73,7 +73,7 @@ export class Settings implements Serializable<Settings> {
     public readonly checkMessagesAutomatically$: BehaviorSubject<boolean>;
     public readonly companionMinimized$: BehaviorSubject<boolean>;
     public readonly conditionsTileMode$: BehaviorSubject<boolean>;
-    public readonly darkmode$: BehaviorSubject<boolean>;
+    public readonly darkmode$: BehaviorSubject<boolean | undefined>;
     public readonly defenseMinimized$: BehaviorSubject<boolean>;
     public readonly effectsMinimized$: BehaviorSubject<boolean>;
     public readonly familiarMinimized$: BehaviorSubject<boolean>;
@@ -123,7 +123,7 @@ export class Settings implements Serializable<Settings> {
     private _checkMessagesAutomatically = false;
     private _companionMinimized = false;
     private _conditionsTileMode = true;
-    private _darkmode = true;
+    private _darkmode: boolean | undefined = undefined;
     private _defenseMinimized = false;
     private _effectsMinimized = false;
     private _familiarMinimized = false;
@@ -323,10 +323,10 @@ export class Settings implements Serializable<Settings> {
         this.conditionsTileMode$.next(this._conditionsTileMode);
     }
 
-    public get darkmode(): boolean {
+    public get darkmode(): boolean | undefined {
         return this._darkmode;
     }
-    public set darkmode(darkmode: boolean) {
+    public set darkmode(darkmode: boolean | undefined) {
         this._darkmode = darkmode;
         this.darkmode$.next(this._darkmode);
     }

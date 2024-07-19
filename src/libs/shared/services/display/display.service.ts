@@ -15,6 +15,10 @@ export class DisplayService {
         return DisplayService._isMobile$.value;
     }
 
+    public static get isDarkMode(): boolean {
+        return !!window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    }
+
     public static get isMobile$(): Observable<boolean> {
         if (!DisplayService._isMobileDistinct$) {
             DisplayService._isMobileDistinct$ =

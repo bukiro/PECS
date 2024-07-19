@@ -53,11 +53,18 @@
 </ng-template>
 
 <app-button
+    *ngIf="{ set: (isDarkmode$ | async) } as darkMode"
     class="darkmode-button"
     label="Toggle dark mode"
     noOutline
     ghost
     (clicked)="toggleDarkmode()"
 >
-    <i [className]="(isDarkmode$ | async) ? 'bi-moon-fill' : 'bi-sun-fill'"></i>
+    <i
+        [className]="darkMode.set === undefined
+            ? 'bi-brilliance'
+            : darkMode.set
+                ? 'bi-moon-fill'
+                : 'bi-sun-fill'"
+    ></i>
 </app-button>
