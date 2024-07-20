@@ -19,6 +19,7 @@ const { assign, forExport, isEqual } = setupSerialization<EffectGain>({
         'sourceId',
         'spellSource',
         'title',
+        'quickEffect',
     ],
     primitiveArrays: [
         'cumulative',
@@ -53,6 +54,8 @@ export class EffectGain implements Serializable<EffectGain> {
     public type: BonusTypes = BonusTypes.Untyped;
     public duration = 0;
     public maxDuration = 0;
+    /** A quick effect does not show up in a value's effects editing list, but is controlled via quick buttons */
+    public quickEffect = false;
     /** A resonant effect only applies if the carrying item is slotted into a wayfinder. */
     public resonant = false;
     /** source and sourceId are copied from conditions and used to track temporary HP. */

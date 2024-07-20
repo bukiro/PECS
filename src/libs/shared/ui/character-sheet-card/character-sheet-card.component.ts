@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ButtonModule } from '../button/button.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CornerButtonTrayComponent } from '../corner-button-tray/corner-button-tray.component';
@@ -15,7 +14,6 @@ import { ContentElementComponent } from '../../util/components/content-element/c
         CommonModule,
         FormsModule,
 
-        ButtonModule,
         CornerButtonTrayComponent,
     ],
 })

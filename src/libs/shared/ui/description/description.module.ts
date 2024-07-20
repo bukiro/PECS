@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DescriptionComponent } from './components/description/description.component';
-import { QuickdiceModule } from '../../quickdice/quickdice.module';
+import { QuickdiceComponent } from '../../quickdice/components/quickdice/quickdice.component';
 
 @NgModule({
     imports: [
         CommonModule,
 
-        QuickdiceModule,
+        QuickdiceComponent,
     ],
     declarations: [
         DescriptionComponent,

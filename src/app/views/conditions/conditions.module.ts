@@ -5,7 +5,7 @@ import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { DescriptionModule } from 'src/libs/shared/ui/description/description.module';
 import { EffectsModule } from 'src/libs/effects/effects.module';
-import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
@@ -18,7 +18,7 @@ import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.c
 
         DescriptionModule,
         EffectsModule,
-        ButtonModule,
+        ButtonComponent,
         FlyInMenuComponent,
     ],
     declarations: [

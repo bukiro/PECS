@@ -1,0 +1,18 @@
+@import 'utilities';
+
+:host {
+    @include flex-row-start;
+    @include flex-center-cross-axis;
+
+    gap: $spacing-xs;
+}
+
+.quick-buttons {
+    @include flex-column-center;
+
+    gap: $spacing-s;
+}
+
+.quick-value {
+    width: 3ch;
+}

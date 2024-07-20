@@ -20,7 +20,7 @@ import { TagsModule } from '../tags/tags.module';
 import { TraitModule } from '../ui/trait/trait.module';
 import { SpellModule } from '../spell/spell.module';
 import { DescriptionModule } from '../ui/description/description.module';
-import { QuickdiceModule } from '../quickdice/quickdice.module';
+import { QuickdiceComponent } from '../quickdice/components/quickdice/quickdice.component';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { SpellChoiceModule } from '../spell-choice/spell-choice.module';
 import { ItemContentModule } from '../item-content/item-content.module';
@@ -39,7 +39,7 @@ import { ItemContentModule } from '../item-content/item-content.module';
         SpellModule,
         DescriptionModule,
         SpellChoiceModule,
-        QuickdiceModule,
+        QuickdiceComponent,
         ItemContentModule,
     ],
     declarations: [

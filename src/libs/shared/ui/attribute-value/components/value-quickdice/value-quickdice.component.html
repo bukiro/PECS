@@ -1,0 +1,18 @@
+<app-button
+    class="button"
+    tight
+    [circle]="circle"
+    [noOutline]="noOutline"
+    [ghost]="ghost"
+    (click)="roll()"
+>
+    <app-dice-icon-D20 class="button__dice" />
+
+    <app-pretty-value
+        class="button__value"
+        opaque
+        [value]="bonus"
+        [bonuses]="bonuses"
+        [clickLabel]="'Click to roll ' + (description$ | async)"
+    />
+</app-button>

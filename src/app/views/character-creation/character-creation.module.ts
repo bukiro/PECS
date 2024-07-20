@@ -16,7 +16,7 @@ import { TraitModule } from 'src/libs/shared/ui/trait/trait.module';
 import { SpellChoiceModule } from 'src/libs/shared/spell-choice/spell-choice.module';
 import { ActivityModule } from 'src/libs/shared/activity/activity.module';
 import { SpellModule } from 'src/libs/shared/spell/spell.module';
-import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
@@ -39,7 +39,7 @@ import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.c
         SpellChoiceModule,
         ActivityModule,
         SpellModule,
-        ButtonModule,
+        ButtonComponent,
         FlyInMenuComponent,
     ],
     declarations: [

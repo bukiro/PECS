@@ -14,7 +14,8 @@
             <div class="list-item minimized-hide">
                 <app-attribute-value
                     [title]="ability.ability.name"
-                    [customEffectsTarget]="{ creature: creature, target: ability.ability.name }"
+                    [creature]="creature"
+                    [customEffectsTarget]="ability.ability.name"
                     [value]="ability.value.result"
                     [bonuses]="ability.value.bonuses"
                 />
@@ -38,7 +39,8 @@
             >
                 <app-attribute-value
                     [title]="ability.ability.name + ' Modifier'"
-                    [customEffectsTarget]="{ creature: creature, target: ability.ability.name + ' Modifier' }"
+                    [creature]="creature"
+                    [customEffectsTarget]="ability.ability.name + ' Modifier'"
                     [value]="ability.mod.result"
                     [bonuses]="ability.mod.bonuses"
                 />

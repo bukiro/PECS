@@ -14,11 +14,11 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
 import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-uils';
 import { skillLevelName } from 'src/libs/shared/util/skill-utils';
 import { attackEffectPhrases } from '../../util/attack-effect-phrases';
 import { RuneSourceSet, attackRuneSource$ } from '../../util/attack-rune-rource';
+import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 
 export interface AttackResult {
     range: 'ranged' | 'melee';

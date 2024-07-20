@@ -12,10 +12,10 @@ import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/embl
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { attackEffectPhrases } from '../../util/attack-effect-phrases';
 import { RuneSourceSet } from '../../util/attack-rune-rource';
+import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 
 export interface ExtraDamageResult {
     result: Array<string>;

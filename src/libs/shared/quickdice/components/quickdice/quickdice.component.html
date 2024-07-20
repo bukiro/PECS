@@ -2,6 +2,7 @@
     class="button"
     tight
     [label]="'Roll ' + (description$ | async)"
+    [circle]="circle"
     [noOutline]="noOutline"
     [ghost]="ghost"
     (click)="roll()"

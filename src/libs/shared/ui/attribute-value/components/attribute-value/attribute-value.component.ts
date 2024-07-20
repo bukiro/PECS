@@ -1,18 +1,31 @@
-import { Component, ChangeDetectionStrategy, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, model, input } from '@angular/core';
 import { Creature } from 'src/app/classes/creatures/creature';
-import { QuickdiceComponent } from 'src/libs/shared/quickdice/components/quickdice/quickdice.component';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { BonusDescription } from '../../../bonus-list';
+import { CommonModule } from '@angular/common';
+import { PrettyValueComponent } from '../pretty-value/pretty-value.component';
+import { ValueQuickdiceComponent } from '../value-quickdice/value-quickdice.component';
+import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
+import { ValueButtonsComponent } from '../value-buttons/value-buttons.component';
 
 @Component({
     selector: 'app-attribute-value',
     templateUrl: './attribute-value.component.html',
     styleUrls: ['./attribute-value.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        PrettyValueComponent,
+        ValueQuickdiceComponent,
+        ValueButtonsComponent,
+    ],
 })
 export class AttributeValueComponent extends TrackByMixin(BaseClass) {
+    @Input()
+    public creature?: Creature;
+
     @Input()
     public title?: string;
 
@@ -20,56 +33,21 @@ export class AttributeValueComponent extends TrackByMixin(BaseClass) {
     public sublines?: Array<string>;
 
     @Input()
-    public value?: number | string;
+    public value?: number;
 
     @Input()
     public showNotesIcon?: boolean;
 
     @Input()
-    public quickdiceTemplate?: TemplateRef<QuickdiceComponent>;
+    public showDiceIcon?: boolean;
 
     @Input()
-    public customEffectsTarget?: { creature: Creature; target: string };
-
-    @Output()
-    public readonly showNotesChange = new EventEmitter<boolean>();
-
-    public hasBonuses = false;
-    public hasPenalties = false;
-    public hasAbsolutes = false;
-
-    private _bonuses?: Array<BonusDescription>;
-    private _showNotes?: boolean | undefined;
-    private _showValueOnLeftSide?: boolean | undefined;
-
-    public get showNotes(): boolean | undefined {
-        return this._showNotes;
-    }
+    public customEffectsTarget?: string;
 
     @Input()
-    public set showNotes(showNotes: boolean | undefined) {
-        this._showNotes = showNotes;
-        this.showNotesChange.emit(!!showNotes);
-    }
+    public bonuses?: Array<BonusDescription>;
 
-    public get bonuses(): Array<BonusDescription> | undefined {
-        return this._bonuses;
-    }
+    public showNotes = model<boolean>(false);
 
-    @Input()
-    public set bonuses(bonuses: Array<BonusDescription> | undefined) {
-        this._bonuses = bonuses;
-        this.hasBonuses = !!bonuses?.some(bonus => bonus.isBonus);
-        this.hasPenalties = !!bonuses?.some(bonus => bonus.isPenalty);
-        this.hasAbsolutes = !!bonuses?.some(bonus => bonus.isAbsolute);
-    }
-
-    public get showValueOnLeftSide(): boolean {
-        return !!this._showValueOnLeftSide;
-    }
-
-    @Input()
-    public set showValueOnLeftSide(showValueOnLeftSide: boolean | string | undefined) {
-        this._showValueOnLeftSide = forceBooleanFromInput(showValueOnLeftSide);
-    }
+    public showValueOnLeftSide = input<boolean, boolean | string | undefined>(false, { transform: value => forceBooleanFromInput(value) });
 }

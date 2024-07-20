@@ -13,7 +13,7 @@ import { SkillsModule } from 'src/libs/skills/skills.module';
 import { AbilitiesModule } from 'src/libs/abilities/abilities.module';
 import { AttacksModule } from 'src/libs/attacks/attacks.module';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
@@ -33,7 +33,7 @@ import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.c
         ActivitiesModule,
         AbilitiesModule,
         AttacksModule,
-        ButtonModule,
+        ButtonComponent,
         FlyInMenuComponent,
     ],
     declarations: [

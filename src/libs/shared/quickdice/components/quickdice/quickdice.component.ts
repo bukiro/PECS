@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy, OnChanges, Input } from '@angular/core';
 import { Observable, take, of, zip, map } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
@@ -9,12 +10,21 @@ import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
+import { DiceIconsModule } from 'src/libs/shared/ui/dice-icons/dice-icons.module';
 
 @Component({
     selector: 'app-quickdice',
     templateUrl: './quickdice.component.html',
     styleUrls: ['./quickdice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        DiceIconsModule,
+        ButtonComponent,
+    ],
 })
 export class QuickdiceComponent implements OnChanges {
 
@@ -38,6 +48,9 @@ export class QuickdiceComponent implements OnChanges {
 
     @Input()
     public creature: Creature = CreatureService.character;
+
+    @Input()
+    public circle?: string | boolean | undefined;
 
     @Input()
     public ghost?: string | boolean | undefined;

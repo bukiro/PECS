@@ -3,7 +3,6 @@ import { Observable, switchMap, map, of, combineLatest, distinctUntilChanged } f
 import { Ability } from 'src/app/classes/abilities/ability';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { AbilityBaseValueAggregate } from '../../definitions/display-aggregates/ability-base-value-aggregate';
-import { BonusDescription } from '../../ui/bonus-list';
 import {
     abilityBaseValueFromCreature,
     mapAbilityBoostsToBaseValueAggregate,
@@ -14,6 +13,7 @@ import { isEqualPrimitiveObject, isEqualSerializableArrayWithoutId } from '../..
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { AbilitiesDataService } from '../data/abilities-data.service';
+import { BonusDescription } from '../../definitions/bonuses/bonus-description';
 
 export interface AbilityLiveValue {
     ability: Ability;

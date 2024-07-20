@@ -12,9 +12,9 @@ import { ItemTargetModule } from '../shared/item-target/item-target.module';
 import { FormsModule } from '@angular/forms';
 import { StickyPopoverModule } from '../shared/sticky-popover/sticky-popover.module';
 import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
-import { ButtonModule } from '../shared/ui/button/button.module';
-import { AttributeValueModule } from '../shared/ui/attribute-value/attribute-value.module';
 import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
+import { ButtonComponent } from '../shared/ui/button/components/button/button.component';
+import { AttributeValueComponent } from '../shared/ui/attribute-value/components/attribute-value/attribute-value.component';
 
 @NgModule({
     imports: [
@@ -34,8 +34,8 @@ import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/c
         ItemTargetModule,
         StickyPopoverModule,
         GridIconModule,
-        ButtonModule,
-        AttributeValueModule,
+        ButtonComponent,
+        AttributeValueComponent,
         CharacterSheetCardComponent,
     ],
     declarations: [

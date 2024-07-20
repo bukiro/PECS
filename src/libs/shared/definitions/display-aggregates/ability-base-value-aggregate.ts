@@ -1,4 +1,4 @@
-import { BonusDescription } from '../../ui/bonus-list';
+import { BonusDescription } from '../bonuses/bonus-description';
 
 export interface AbilityBaseValueAggregate {
     result: number;

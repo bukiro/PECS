@@ -1,6 +1,9 @@
 @import "utilities";
 
 :host {
+    @include flex-row-start;
+    @include flex-center-cross-axis;
+
     font-size: 1rem;
 
     height: 3.5rem;

@@ -8,7 +8,7 @@ import { GridIconModule } from 'src/libs/shared/ui/grid-icon/grid-icon.module';
 import { SpellSelectionComponent } from './spell-selection.component';
 import { TagsModule } from 'src/libs/shared/tags/tags.module';
 import { SpellChoiceModule } from 'src/libs/shared/spell-choice/spell-choice.module';
-import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.c
         GridIconModule,
         TagsModule,
         SpellChoiceModule,
-        ButtonModule,
+        ButtonComponent,
         FlyInMenuComponent,
     ],
     declarations: [

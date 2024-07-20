@@ -69,7 +69,6 @@ export abstract class Creature implements Serializable<Creature> {
     public health: Health = new Health();
 
     public conditions: Array<ConditionGain> = [];
-    public effects: Array<EffectGain> = [];
     public ignoredEffects: Array<Effect> = [];
 
     public readonly alignment$: BehaviorSubject<Alignments>;
@@ -83,6 +82,7 @@ export abstract class Creature implements Serializable<Creature> {
     private _level = 1;
     private _name = '';
 
+    private readonly _effects = new OnChangeArray<EffectGain>();
     private readonly _inventories = new OnChangeArray(new ItemCollection());
     private readonly _speeds = new OnChangeArray<Speed>(
         new Speed('Speed'),
@@ -118,6 +118,14 @@ export abstract class Creature implements Serializable<Creature> {
 
     public set customSkills(value: Array<Skill>) {
         this._customSkills.setValues(...value);
+    }
+
+    public get effects(): OnChangeArray<EffectGain> {
+        return this._effects;
+    }
+
+    public set effects(value: Array<EffectGain>) {
+        this._effects.setValues(...value);
     }
 
     public get inventories(): OnChangeArray<ItemCollection> {

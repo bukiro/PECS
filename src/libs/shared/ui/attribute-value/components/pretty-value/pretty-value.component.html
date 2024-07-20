@@ -1,0 +1,29 @@
+<div
+    *ngIf="value !== undefined"
+    class="value"
+>
+    <div
+        class="value__value"
+        [ngClass]="{
+            'background-color-default': opaque(),
+            'background-color-penalty': hasPenalties && !hasAbsolutes,
+            'background-color-bonus': hasBonuses && !hasAbsolutes && !hasPenalties,
+            'background-color-absolute': hasAbsolutes
+        }"
+        [ngbPopover]="BonusesTemplate"
+        [disablePopover]="!bonuses?.length"
+    >
+        {{ value }}
+    </div>
+</div>
+
+<ng-template #BonusesTemplate>
+    <app-bonus-list
+        *ngIf="bonuses?.length"
+        [bonuses]="bonuses"
+    />
+
+    <div *ngIf="clickLabel">
+        {{ clickLabel }}
+    </div>
+</ng-template>

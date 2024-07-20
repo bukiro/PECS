@@ -1,12 +1,20 @@
 import { ChangeDetectionStrategy, Component, Input, computed, forwardRef, signal } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ButtonComponent } from '../button/button.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-toggle-button',
     templateUrl: './toggle-button.component.html',
-    styleUrls: ['../button/button.component.scss'],
+    styleUrls: ['./toggle-button.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        ButtonComponent,
+    ],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

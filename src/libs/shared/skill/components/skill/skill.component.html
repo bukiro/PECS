@@ -16,27 +16,15 @@
                     class="skill__value"
                     [title]="displayName(skill)"
                     [sublines]="[calculatedSkill.ability]"
-                    [customEffectsTarget]="((skill.name.includes(' DC') === isDC)) && showValue ? { creature: creature, target: skill.name } : undefined"
+                    [creature]="creature"
+                    [customEffectsTarget]="((skill.name.includes(' DC') === isDC)) && showValue ? skill.name : undefined"
                     [value]="showValue ? calculatedSkill.result : undefined"
                     [bonuses]="calculatedSkill.bonuses"
-                    [quickdiceTemplate]="showValue ? QuickdiceTemplate : undefined"
+                    [showDiceIcon]="showValue && !isDC"
                     [showNotesIcon]="true"
                     [(showNotes)]="skillNotes(skill).showNotes"
                 />
             </div>
-
-            <ng-template #QuickdiceTemplate>
-                <app-quickdice
-                    *ngIf="!isDC"
-                    ghost
-                    noOutline
-                    [creature]="creature"
-                    [diceNum]="1"
-                    [diceSize]="20"
-                    [bonus]="calculatedSkill.result"
-                    [type]="'('+displayName(skill)+')'"
-                />
-            </ng-template>
 
             <app-tags
                 *ngIf="showValue"

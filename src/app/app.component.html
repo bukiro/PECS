@@ -55,9 +55,14 @@
 <app-button
     *ngIf="{ set: (isDarkmode$ | async) } as darkMode"
     class="darkmode-button"
-    label="Toggle dark mode"
     noOutline
     ghost
+    [label]="'Light/Dark mode: '
+        + (darkMode.set === undefined
+            ? 'Follow system'
+            : darkMode.set
+                ? 'Dark mode'
+                : 'Light mode')"
     (clicked)="toggleDarkmode()"
 >
     <i

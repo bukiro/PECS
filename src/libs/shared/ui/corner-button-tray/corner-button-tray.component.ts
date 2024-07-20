@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { ButtonModule } from '../button/button.module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../button/components/button/button.component';
+import { ToggleButtonComponent } from '../button/components/toggle-button/toggle-button.component';
 
 @Component({
     selector: 'app-corner-button-tray',
@@ -13,7 +14,8 @@ import { CommonModule } from '@angular/common';
         CommonModule,
         FormsModule,
 
-        ButtonModule,
+        ButtonComponent,
+        ToggleButtonComponent,
     ],
 })
 export class CornerButtonTrayComponent {

@@ -65,7 +65,8 @@
         <ng-container *ngIf="currentBulk$ | async as currentBulk">
             <app-attribute-value
                 [title]="'Bulk'"
-                [customEffectsTarget]="{ creature: creature, target: 'Bulk' }"
+                [creature]="creature"
+                [customEffectsTarget]="'Bulk'"
                 [value]="currentBulk.result"
                 [bonuses]="currentBulk.bonuses"
             />
@@ -85,7 +86,8 @@
         <ng-container *ngIf="encumberedLimit$ | async as encumberedLimit">
             <app-attribute-value
                 [title]="'Encumbered Limit'"
-                [customEffectsTarget]="{ creature: creature, target: 'Encumbered Limit' }"
+                [creature]="creature"
+                [customEffectsTarget]="'Encumbered Limit'"
                 [value]="encumberedLimit.result"
                 [bonuses]="encumberedLimit.bonuses"
             />
@@ -105,7 +107,8 @@
         <ng-container *ngIf="maxBulk$ | async as maxBulk">
             <app-attribute-value
                 [title]="'Max Bulk'"
-                [customEffectsTarget]="{ creature: creature, target: 'Max Bulk' }"
+                [creature]="creature"
+                [customEffectsTarget]="'Max Bulk'"
                 [value]="maxBulk.result"
                 [bonuses]="maxBulk.bonuses"
             />
@@ -235,7 +238,8 @@
         >
             <app-attribute-value
                 [title]="'Max Invested'"
-                [customEffectsTarget]="{ creature: creature, target: 'Max Invested' }"
+                [creature]="creature"
+                [customEffectsTarget]="'Max Invested'"
                 [value]="maxInvested.result"
                 [bonuses]="maxInvested.bonuses"
             />

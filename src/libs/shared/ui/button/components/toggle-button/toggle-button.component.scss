@@ -1,0 +1,14 @@
+@import 'utilities';
+
+:host {
+    @include flex-row-center;
+    @include flex-stretch-main-axis;
+    @include flex-stretch-cross-axis;
+
+    min-height: 1em;
+    min-width: 1em;
+}
+
+.button {
+    flex: 1;
+}

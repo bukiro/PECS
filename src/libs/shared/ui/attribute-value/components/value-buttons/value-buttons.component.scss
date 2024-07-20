@@ -1,0 +1,39 @@
+@import 'utilities';
+
+:host {
+    @include flex-row-start;
+    @include flex-center-cross-axis;
+
+    align-self: stretch;
+
+    gap: $spacing-s;
+}
+
+.button-tray {
+    @include flex-row-start;
+    @include flex-center-cross-axis;
+
+    height: 100%;
+
+    gap: $spacing-xs;
+}
+
+.effects-buttons {
+    border-left: 1px solid $color-accent;
+    padding-left: $spacing-xs;
+}
+
+.show-controls-button {
+    align-self: stretch;
+}
+
+.buttons {
+    @include flex-column-center;
+
+    gap: $spacing-xxs;
+
+    &__button {
+        min-height: 2rem;
+        min-width: 2rem;
+    }
+}

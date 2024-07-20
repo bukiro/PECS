@@ -5,7 +5,7 @@ import { AbilityBaseValueSetting } from '../definitions/creature-properties/abil
 import { AbilityBoost } from '../definitions/creature-properties/ability-boost';
 import { Defaults } from '../definitions/defaults';
 import { AbilityBaseValueAggregate } from '../definitions/display-aggregates/ability-base-value-aggregate';
-import { BonusDescription } from '../ui/bonus-list';
+import { BonusDescription } from '../definitions/bonuses/bonus-description';
 
 export const abilityModFromAbilityValue = (abilityValue: number): number => {
     /**

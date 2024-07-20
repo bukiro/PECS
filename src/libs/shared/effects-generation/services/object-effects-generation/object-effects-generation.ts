@@ -11,10 +11,11 @@ import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
 import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { isEqualSerializableArrayWithoutId } from 'src/libs/shared/util/compare-utils';
 
 interface EffectObject {
-    effects: Array<EffectGain>;
+    effects: Array<EffectGain> | OnChangeArray<EffectGain>;
     effectiveName?: () => string;
     name?: string;
 }
@@ -65,102 +66,110 @@ export class ObjectEffectsGenerationService {
 
         //EffectGains come with values that contain a statement.
         //This statement is evaluated by the EvaluationService and then validated here in order to build a working Effect.
-        return combineLatest(
-            object.effects
-                .filter(effectGain =>
-                    effectGain.resonant
-                        ? (object instanceof WornItem && object.isSlottedAeonStone)
-                        : true,
-                )
-                .map(effectGain => {
-                    let shouldShowEffect: boolean | undefined = effectGain.show;
-                    let type = BonusTypes.Untyped;
-                    let isPenalty = false;
-
-                    if (object === context.creature) {
-                        source = effectGain.source || 'Custom Effect';
-                    }
-
-                    if (effectGain.type) {
-                        type = effectGain.type;
-                    }
-
-                    return combineLatest([
-                        this._determineEffectValue$(effectGain, source, context, options),
-                        effectGain.conditionalToggle
-                            ? this._evaluationService.valueFromFormula$(
-                                effectGain.conditionalToggle,
-                                { ...context, effect: effectGain, effectSourceName: source },
-                                options,
-                            )
-                                .pipe(
-                                    map(toggleResult => !!toggleResult),
-                                )
-                            : of(effectGain.toggle),
-                    ])
-                        .pipe(
-                            switchMap(([{ setValue, value, numericalValue }, isToggledEffect]) =>
-                                this._determineEffectTitle$(effectGain, { value, setValue }, { ...context, source }, options)
-                                    .pipe(
-                                        map(effectTitle => {
-                                            if (setValue) {
-                                                isPenalty = false;
-                                            } else {
-                                                //Negative values are penalties unless Bulk is affected.
-                                                isPenalty = (numericalValue < 0) === (effectGain.affected !== 'Bulk');
-                                            }
-
-                                            // Hide all relative effects that come from feats,
-                                            // so we don't see green effects permanently after taking a feat.
-                                            const shouldHideEffect = (
-                                                shouldShowEffect === undefined &&
-                                                object instanceof Feat
-                                            );
-
-                                            if (shouldHideEffect) {
-                                                shouldShowEffect = false;
-                                            }
-
-                                            if (source === 'Custom Effect') {
-                                                shouldShowEffect = true;
-                                            }
-
-                                            const { targetCreature, targetValue } = this._determineEffectTarget(effectGain, context);
-
-                                            const sourceId = this._determineEffectSource(context);
-
-                                            // Effects that have neither a value nor a toggle don't get created.
-                                            const isFunctionalEffect = (
-                                                isToggledEffect ||
-                                                !!setValue ||
-                                                parseInt(value, 10) !== 0
-                                            );
-
-                                            return isFunctionalEffect
-                                                ? Effect.from({
-                                                    value,
-                                                    creature: targetCreature,
-                                                    type,
-                                                    target: targetValue,
-                                                    setValue,
-                                                    toggled: !!isToggledEffect,
-                                                    title: effectTitle,
-                                                    source,
-                                                    penalty: isPenalty,
-                                                    displayed: shouldShowEffect,
-                                                    duration: effectGain.duration,
-                                                    maxDuration: effectGain.maxDuration,
-                                                    cumulative: effectGain.cumulative,
-                                                    sourceId,
-                                                })
-                                                : null;
-                                        }),
-                                    ),
-                            ),
-                        );
-                }),
+        return (
+            (object.effects instanceof OnChangeArray)
+                ? (object.effects as OnChangeArray<EffectGain>).values$
+                : of(object.effects)
         )
             .pipe(
+                switchMap(effects =>
+                    combineLatest(
+                        effects
+                            .filter(effectGain =>
+                                effectGain.resonant
+                                    ? (object instanceof WornItem && object.isSlottedAeonStone)
+                                    : true,
+                            )
+                            .map(effectGain => {
+                                let shouldShowEffect: boolean | undefined = effectGain.show;
+                                let type = BonusTypes.Untyped;
+                                let isPenalty = false;
+
+                                if (object === context.creature) {
+                                    source = effectGain.source || 'Custom Effect';
+                                }
+
+                                if (effectGain.type) {
+                                    type = effectGain.type;
+                                }
+
+                                return combineLatest([
+                                    this._determineEffectValue$(effectGain, source, context, options),
+                                    effectGain.conditionalToggle
+                                        ? this._evaluationService.valueFromFormula$(
+                                            effectGain.conditionalToggle,
+                                            { ...context, effect: effectGain, effectSourceName: source },
+                                            options,
+                                        )
+                                            .pipe(
+                                                map(toggleResult => !!toggleResult),
+                                            )
+                                        : of(effectGain.toggle),
+                                ])
+                                    .pipe(
+                                        switchMap(([{ setValue, value, numericalValue }, isToggledEffect]) =>
+                                            this._determineEffectTitle$(effectGain, { value, setValue }, { ...context, source }, options)
+                                                .pipe(
+                                                    map(effectTitle => {
+                                                        if (setValue) {
+                                                            isPenalty = false;
+                                                        } else {
+                                                            //Negative values are penalties unless Bulk is affected.
+                                                            isPenalty = (numericalValue < 0) === (effectGain.affected !== 'Bulk');
+                                                        }
+
+                                                        // Hide all relative effects that come from feats,
+                                                        // so we don't see green effects permanently after taking a feat.
+                                                        const shouldHideEffect = (
+                                                            shouldShowEffect === undefined &&
+                                                            object instanceof Feat
+                                                        );
+
+                                                        if (shouldHideEffect) {
+                                                            shouldShowEffect = false;
+                                                        }
+
+                                                        if (source === 'Custom Effect') {
+                                                            shouldShowEffect = true;
+                                                        }
+
+                                                        const { targetCreature, targetValue } =
+                                                            this._determineEffectTarget(effectGain, context);
+
+                                                        const sourceId = this._determineEffectSource(context);
+
+                                                        // Effects that have neither a value nor a toggle don't get created.
+                                                        const isFunctionalEffect = (
+                                                            isToggledEffect ||
+                                                            !!setValue ||
+                                                            parseInt(value, 10) !== 0
+                                                        );
+
+                                                        return isFunctionalEffect
+                                                            ? Effect.from({
+                                                                value,
+                                                                creature: targetCreature,
+                                                                type,
+                                                                target: targetValue,
+                                                                setValue,
+                                                                toggled: !!isToggledEffect,
+                                                                title: effectTitle,
+                                                                source,
+                                                                penalty: isPenalty,
+                                                                displayed: shouldShowEffect,
+                                                                duration: effectGain.duration,
+                                                                maxDuration: effectGain.maxDuration,
+                                                                cumulative: effectGain.cumulative,
+                                                                sourceId,
+                                                            })
+                                                            : null;
+                                                    }),
+                                                ),
+                                        ),
+                                    );
+                            }),
+                    ),
+                ),
                 map(effects =>
                     effects.filter((effect): effect is Effect => !!effect),
                 ),

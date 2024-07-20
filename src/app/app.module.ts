@@ -8,7 +8,7 @@ import { TopBarModule } from 'src/libs/top-bar/top-bar.module';
 import { ToastsModule } from 'src/libs/toasts/toasts.module';
 import { CharacterSheetModule } from './views/character-sheet/character-sheet.module';
 import { DescriptionModule } from 'src/libs/shared/ui/description/description.module';
-import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { LoginModule } from 'src/libs/shared/login/login.module';
 import { CharacterLoadingModule } from 'src/libs/shared/character-loading/character-loading.module';
 import { StoreModule } from '@ngrx/store';
@@ -32,7 +32,7 @@ import { LoadingDiamondComponent } from 'src/libs/shared/ui/diamond/components/l
         ToastsModule,
         CharacterSheetModule,
         DescriptionModule,
-        ButtonModule,
+        ButtonComponent,
         LoginModule,
         CharacterLoadingModule,
         LoadingDiamondComponent,

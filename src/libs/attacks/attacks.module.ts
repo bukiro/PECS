@@ -7,12 +7,12 @@ import { ObjectEffectsModule } from '../shared/object-effects/object-effects.mod
 import { FormsModule } from '@angular/forms';
 import { ItemModule } from '../shared/item/item.module';
 import { TraitModule } from '../shared/ui/trait/trait.module';
-import { QuickdiceModule } from '../shared/quickdice/quickdice.module';
+import { QuickdiceComponent } from '../shared/quickdice/components/quickdice/quickdice.component';
 import { SkillModule } from '../shared/skill/skill.module';
 import { AttacksComponent } from './components/attacks/attacks.component';
 import { DescriptionModule } from '../shared/ui/description/description.module';
 import { GridIconModule } from '../shared/ui/grid-icon/grid-icon.module';
-import { ButtonModule } from '../shared/ui/button/button.module';
+import { ButtonComponent } from '../shared/ui/button/components/button/button.component';
 import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
@@ -28,11 +28,11 @@ import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/c
         ObjectEffectsModule,
         ItemModule,
         TraitModule,
-        QuickdiceModule,
+        QuickdiceComponent,
         SkillModule,
         DescriptionModule,
         GridIconModule,
-        ButtonModule,
+        ButtonComponent,
         CharacterSheetCardComponent,
     ],
     declarations: [

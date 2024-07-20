@@ -8,7 +8,7 @@ import { ActionIconsModule } from 'src/libs/shared/ui/action-icons/action-icons.
 import { SpellModule } from 'src/libs/shared/spell/spell.module';
 import { TraitModule } from 'src/libs/shared/ui/trait/trait.module';
 import { GridIconModule } from 'src/libs/shared/ui/grid-icon/grid-icon.module';
-import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.c
         SpellModule,
         TraitModule,
         GridIconModule,
-        ButtonModule,
+        ButtonComponent,
         FlyInMenuComponent,
     ],
     declarations: [

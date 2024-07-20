@@ -1,0 +1,24 @@
+@import 'utilities';
+
+:host {
+    display: inline-block;
+
+    .button {
+        height: 100%;
+        width: 100%;
+        position: relative;
+
+        padding: $spacing-xxs;
+
+        &__value {
+            z-index: 1;
+        }
+
+        &__dice {
+            color: $color-accent;
+            position: absolute;
+            inset: -2px;
+            z-index: 0;
+        }
+    }
+}

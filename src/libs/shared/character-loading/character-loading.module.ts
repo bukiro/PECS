@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { CharacterSelectionComponent } from './components/character-selection/character-selection.component';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { ButtonModule } from '../ui/button/button.module';
-import { AttributeValueModule } from '../ui/attribute-value/attribute-value.module';
 import { DialogModule } from '../dialog/dialog.module';
 import { InputModule } from '../ui/input/input.module';
 import { CharacterSheetCardComponent } from '../ui/character-sheet-card/character-sheet-card.component';
 import { LogoComponent } from '../ui/logo/components/logo/logo.component';
+import { AttributeValueComponent } from '../ui/attribute-value/components/attribute-value/attribute-value.component';
+import { ButtonComponent } from '../ui/button/components/button/button.component';
 
 @NgModule({
     imports: [
@@ -16,8 +16,8 @@ import { LogoComponent } from '../ui/logo/components/logo/logo.component';
         FormsModule,
 
         NgbTooltipModule,
-        ButtonModule,
-        AttributeValueModule,
+        ButtonComponent,
+        AttributeValueComponent,
         DialogModule,
         InputModule,
         CharacterSheetCardComponent,

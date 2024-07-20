@@ -4,8 +4,8 @@ import { HealthComponent } from './components/health/health.component';
 import { TagsModule } from '../shared/tags/tags.module';
 import { NgbPopoverModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from '../shared/ui/button/button.module';
 import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
+import { ButtonComponent } from '../shared/ui/button/components/button/button.component';
 
 @NgModule({
     imports: [
@@ -17,7 +17,7 @@ import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/c
         NgbProgressbarModule,
 
         TagsModule,
-        ButtonModule,
+        ButtonComponent,
         CharacterSheetCardComponent,
     ],
     declarations: [

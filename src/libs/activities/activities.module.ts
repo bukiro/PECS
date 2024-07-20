@@ -11,7 +11,7 @@ import { StickyPopoverModule } from '../shared/sticky-popover/sticky-popover.mod
 import { ActivityModule } from '../shared/activity/activity.module';
 import { FeatChoiceModule } from '../shared/feat-choice/feat-choice.module';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from '../shared/ui/button/button.module';
+import { ButtonComponent } from '../shared/ui/button/components/button/button.component';
 import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
@@ -30,7 +30,7 @@ import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/c
         StickyPopoverModule,
         ActivityModule,
         FeatChoiceModule,
-        ButtonModule,
+        ButtonComponent,
         CharacterSheetCardComponent,
     ],
     declarations: [

@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, map, of, combineLatest } from 'rxjs';
 import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
@@ -8,7 +9,6 @@ import { Skill } from 'src/app/classes/skills/skill';
 import { SkillIncrease } from 'src/app/classes/skills/skill-increase';
 import { BonusTypes } from '../../definitions/bonus-types';
 import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from '../../definitions/skill-levels';
-import { BonusDescription } from '../../ui/bonus-list';
 import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
 import { signNumber } from '../../util/number-utils';
 import { stringEqualsCaseInsensitive } from '../../util/string-utils';
@@ -19,6 +19,7 @@ import { CreatureEffectsService } from '../creature-effects/creature-effects.ser
 import { CreatureService } from '../creature/creature.service';
 import { SkillsDataService } from '../data/skills-data.service';
 import { ProficiencyCopyGain } from 'src/app/classes/character-creation/proficiency-copy-gain';
+import { BonusDescription } from '../../definitions/bonuses/bonus-description';
 
 const DCBasis = 10;
 

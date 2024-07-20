@@ -11,88 +11,40 @@
     </div>
 </ng-template>
 
-<ng-container *ngIf="!showValueOnLeftSide" [ngTemplateOutlet]="TitleTemplate" />
+<ng-container *ngIf="!showValueOnLeftSide()" [ngTemplateOutlet]="TitleTemplate" />
 
-<div
-    *ngIf="value !== undefined"
-    class="value"
->
-    <div
-        class="value__value"
-        [ngClass]="{
-            'background-color-penalty': hasPenalties && !hasAbsolutes,
-            'background-color-bonus': hasBonuses && !hasAbsolutes && !hasPenalties,
-            'background-color-absolute': hasAbsolutes
-        }"
-        [ngbPopover]="BonusesTemplate"
-        [disablePopover]="!bonuses?.length"
-    >
-        {{ value }}
-    </div>
+<ng-container *ngIf="value !== undefined">
+    <app-value-quickdice
+        *ngIf="creature && showDiceIcon; else ValueTemplate"
+        class="dice-button"
+        circle
+        [creature]="creature"
+        [diceNum]="1"
+        [diceSize]="20"
+        [bonus]="value"
+        [type]="'(' + title + ')'"
+        [bonuses]="bonuses"
+    />
 
-    <!-- Dice roll icon -->
-    <div
-        *ngIf="quickdiceTemplate"
-        class="value__icon value__icon--dice"
-    >
-        <ng-container *ngTemplateOutlet="quickdiceTemplate" />
-    </div>
-
-    <ng-template #BonusesTemplate>
-        <app-bonus-list
-            *ngIf="bonuses?.length"
+    <ng-template #ValueTemplate>
+        <app-pretty-value
+            opaque
+            [value]="value"
             [bonuses]="bonuses"
         />
     </ng-template>
+</ng-container>
 
-    <!-- Notes icon -->
-    <div
-        *ngIf="showNotesIcon"
-        class="value__icon value__icon--notes"
-    >
-        <span (click)="showNotes = !showNotes">
-            <i
-                class='bi-pencil-square'
-                [ngbTooltip]="'Edit notes'"
-            ></i>
-        </span>
-    </div>
+<app-value-buttons
+    *ngIf="(value !== undefined && bonuses?.length) || (creature && customEffectsTarget) || showNotesIcon"
+    class="button-tray"
+    [title]="title"
+    [bonuses]="bonuses"
+    [creature]="creature"
+    [customEffectsTarget]="customEffectsTarget"
+    [showBonusesIcon]="value !== undefined"
+    [showNotesIcon]="showNotesIcon"
+    [(showNotes)]="showNotes"
+/>
 
-    <!-- Bonuses icon -->
-    <div
-        *ngIf="bonuses?.length"
-        class="value__icon value__icon--bonuses"
-    >
-        <span [ngbPopover]="BonusesTemplate">
-            <i class='bi-info'></i>
-        </span>
-    </div>
-
-    <!-- Effects icon -->
-    <div
-        *ngIf="customEffectsTarget"
-        class="value__icon value__icon--effects"
-    >
-        <span
-            #EffectsPopover="ngbPopover"
-            triggers="click"
-            [ngbPopover]="EffectsTemplate"
-            [popoverTitle]="'Custom effects on ' + title"
-        >
-            <i
-                class='bi-lightning-charge'
-                [ngbTooltip]="'Edit effects'"
-                [disableTooltip]="EffectsPopover.isOpen()"
-            ></i>
-        </span>
-
-        <ng-template #EffectsTemplate>
-            <app-object-effects
-                [creature]="customEffectsTarget.creature"
-                [objectName]="customEffectsTarget.target"
-            />
-        </ng-template>
-    </div>
-</div>
-
-<ng-container *ngIf="!!showValueOnLeftSide" [ngTemplateOutlet]="TitleTemplate" />
+<ng-container *ngIf="!!showValueOnLeftSide()" [ngTemplateOutlet]="TitleTemplate" />

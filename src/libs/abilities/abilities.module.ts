@@ -5,8 +5,8 @@ import { TagsModule } from '../shared/tags/tags.module';
 import { ObjectEffectsModule } from '../shared/object-effects/object-effects.module';
 import { AbilitiesComponent } from './components/abilities/abilities.component';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from '../shared/ui/button/button.module';
-import { AttributeValueModule } from '../shared/ui/attribute-value/attribute-value.module';
+import { ButtonComponent } from '../shared/ui/button/components/button/button.component';
+import { AttributeValueComponent } from '../shared/ui/attribute-value/components/attribute-value/attribute-value.component';
 import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @NgModule({
@@ -19,8 +19,8 @@ import { CharacterSheetCardComponent } from '../shared/ui/character-sheet-card/c
 
         TagsModule,
         ObjectEffectsModule,
-        ButtonModule,
-        AttributeValueModule,
+        ButtonComponent,
+        AttributeValueComponent,
         CharacterSheetCardComponent,
     ],
     declarations: [

@@ -1,0 +1,26 @@
+@import 'utilities';
+
+.value {
+    @include flex-column-center;
+    @include flex-center-main-axis;
+
+    flex-shrink: 0;
+
+    width: auto;
+    height: 3rem;
+
+    margin: $spacing-xs;
+
+    &__value {
+        @include flex-column-center;
+        @include flex-center-main-axis;
+        @include text-larger;
+        @include border-circle;
+
+        min-width: 3rem;
+        width: auto;
+        min-height: 3rem;
+
+        border: $spacing-xxs solid $color-accent;
+    }
+}

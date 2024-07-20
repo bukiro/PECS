@@ -18,7 +18,6 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { ItemSpecializationsDataService } from 'src/libs/shared/services/data/item-specializations-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { BonusDescription } from 'src/libs/shared/ui/bonus-list';
 import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-uils';
 import { strikingTitleFromLevel } from 'src/libs/shared/util/rune-utils';
 import { skillLevelName } from 'src/libs/shared/util/skill-utils';
@@ -26,6 +25,7 @@ import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/
 import { attackEffectPhrases } from '../../util/attack-effect-phrases';
 import { RuneSourceSet, attackRuneSource$ } from '../../util/attack-rune-rource';
 import { ExtraDamageService } from './extra-damage.service';
+import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 
 export type DamageResult = IntermediateResult<string>;
 

@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 
 @Component({
@@ -6,6 +8,12 @@ import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-util
     templateUrl: './button.component.html',
     styleUrls: ['./button.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        NgbTooltipModule,
+    ],
 })
 export class ButtonComponent {
 

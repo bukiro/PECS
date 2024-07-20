@@ -23,7 +23,7 @@ import { SpellbookModule } from 'src/libs/spellbook/spellbook.module';
 import { CharacterSheetDesktopComponent } from './components/character-sheet-desktop/character-sheet-desktop.component';
 import { CharacterSheetMobileComponent } from './components/character-sheet-mobile/character-sheet-mobile.component';
 import { ActivitiesModule } from 'src/libs/activities/activities.module';
-import { ButtonModule } from 'src/libs/shared/ui/button/button.module';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 import { LoadingDiamondComponent } from 'src/libs/shared/ui/diamond/components/loading-diamond/loading-diamond.component';
@@ -54,7 +54,7 @@ import { LoadingDiamondComponent } from 'src/libs/shared/ui/diamond/components/l
         AttacksModule,
         SpellbookModule,
         ActivitiesModule,
-        ButtonModule,
+        ButtonComponent,
         CharacterSheetCardComponent,
         LoadingDiamondComponent,
     ],
