@@ -4,7 +4,7 @@ import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
 import { AbilityBoostType } from '../definitions/ability-boost-type';
 import { AbilityBaseValueSetting } from '../definitions/creature-properties/ability-base-value-setting';
 import { Defaults } from '../definitions/defaults';
-import { BonusDescription } from '../ui/bonus-list';
+
 import {
     abilityAddedValueFromBoost,
     abilityAddedValueFromPositiveBoost,
@@ -13,6 +13,7 @@ import {
     abilityModFromAbilityValue,
     mapAbilityBoostsToBaseValueAggregate,
 } from './ability-base-value-utils';
+import { BonusDescription } from '../definitions/bonuses/bonus-description';
 
 describe('abilityModFromAbilityValue', () => {
     [
