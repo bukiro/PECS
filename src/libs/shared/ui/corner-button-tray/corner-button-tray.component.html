@@ -5,7 +5,7 @@
     <app-button
         label="Close"
         fullSize
-        compact
+        tight
         (clicked)="closeButtonClicked.emit()"
     >
         <i class="bi-x-lg"></i>
@@ -18,7 +18,7 @@
 >
     <app-toggle-button
         fullSize
-        compact
+        tight
         [activeLabel]="activeMinimizeLabel"
         [inactiveLabel]="inactiveMinimizeLabel"
         [ngModel]="minimized"
