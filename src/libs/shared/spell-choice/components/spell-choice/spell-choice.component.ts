@@ -28,6 +28,7 @@ import { SpellPropertiesService } from 'src/libs/shared/services/spell-propertie
 import { spellLevelFromCharLevel } from 'src/libs/shared/util/character-utils';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive, capitalize } from 'src/libs/shared/util/string-utils';
 
@@ -673,7 +674,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             return CharacterFlatteningService.characterLevel$
                 .pipe(
                     switchMap(characterLevel =>
-                        combineLatest(
+                        emptySafeCombineLatest(
                             this.spellCasting.spellChoices
                                 .filter(spellChoice => spellChoice.charLevelAvailable <= characterLevel)
                                 .map(spellChoice =>
@@ -809,7 +810,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                                     (
                                         spellSet.spell.traditions.includes(SpellTraditions.Focus)
                                             ? of([undefined])
-                                            : combineLatest(
+                                            : emptySafeCombineLatest(
                                                 spellSet.spell.traditions
                                                     .map(tradition => this._isEsotericPolymathAllowed$(this.spellCasting, tradition)
                                                         .pipe(
@@ -819,7 +820,8 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                                                                     : undefined,
                                                             ),
                                                         ),
-                                                    ))
+                                                    ),
+                                            )
                                     )
                                         .pipe(
                                             map(spellSets => spellSets.filter((set): set is SpellSet => !!set)),
@@ -938,7 +940,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                         }
                     }
 
-                    return combineLatest(spellSources)
+                    return emptySafeCombineLatest(spellSources)
                         .pipe(
                             map(asyncSpells => new Array<SpellSet>()
                                 .concat(...asyncSpells)
@@ -1110,7 +1112,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                 }),
                 // For all remaining spells, fetch the reasons why they cannot be taken (if given) and add them to the spell sets.
                 switchMap(({ spellSets, spellLevel }) =>
-                    combineLatest(
+                    emptySafeCombineLatest(
                         spellSets
                             .map(spellSet => this._cannotTakeSpell$(spellSet.spell)
                                 .pipe(
@@ -1494,14 +1496,14 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
 
         return combineLatest([
             this._highestSpellLevel$(),
-            combineLatest(
+            emptySafeCombineLatest(
                 requiredFeatNames
                     .map(featName => this._characterFeatsService.characterHasFeatAtLevel$(featName, 0, { allowCountAs: true })
                         .pipe(
                             map(hasFeat => hasFeat ? featName : ''),
                         )),
             ),
-            combineLatest(
+            emptySafeCombineLatest(
                 abilityModifierNames
                     .map(abilityName => this._abilityValuesService.mod$(abilityName, this._character)
                         .pipe(

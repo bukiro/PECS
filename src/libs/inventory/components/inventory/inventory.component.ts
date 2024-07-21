@@ -61,7 +61,7 @@ import { DurationsService } from 'src/libs/shared/time/services/durations/durati
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { copperAmountFromCashObject } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
@@ -288,7 +288,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
     public itemParameters$(itemList: Array<Item>): Observable<Array<ItemParameters>> {
         const creature = this.creature;
 
-        return combineLatest(
+        return emptySafeCombineLatest(
             itemList
                 .map(item => {
                     const itemRoles = this._itemRolesService.getItemRoles(item);

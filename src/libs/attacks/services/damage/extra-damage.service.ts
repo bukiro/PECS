@@ -12,7 +12,7 @@ import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/embl
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { attackEffectPhrases } from '../../util/attack-effect-phrases';
 import { RuneSourceSet } from '../../util/attack-rune-rource';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
@@ -176,12 +176,12 @@ export class ExtraDamageService {
                     (emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy)
                         ? propMap$(CharacterFlatteningService.characterClass$, 'spellCasting', 'values$')
                             .pipe(
-                                switchMap(spellCastings => combineLatest(
+                                switchMap(spellCastings => emptySafeCombineLatest(
                                     spellCastings
                                         .filter(spellCasting => spellCasting.source === 'Domain Spells')
                                         .map(spellCasting => spellCasting.spellChoices.values$),
                                 )),
-                                switchMap(spellChoicesLists => combineLatest(
+                                switchMap(spellChoicesLists => emptySafeCombineLatest(
                                     new Array<SpellChoice>()
                                         .concat(...spellChoicesLists)
                                         .map(spellChoice => spellChoice.spells.values$),

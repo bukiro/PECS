@@ -14,7 +14,7 @@ import { selectGmMode } from 'src/libs/store/app/app.selectors';
 import { toggleLeftMenu, toggleTopMenu } from 'src/libs/store/menu/menu.actions';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 
 @Component({
     selector: 'app-top-bar',
@@ -96,7 +96,10 @@ export class TopBarComponent extends TrackByMixin(BaseClass) {
             combineLatest([
                 CharacterFlatteningService.characterSpellCasting$
                     .pipe(
-                        switchMap(spellCastings => combineLatest(spellCastings.map(casting => casting.spellChoices.values$))),
+                        switchMap(spellCastings => emptySafeCombineLatest(
+                            spellCastings
+                                .map(casting => casting.spellChoices.values$),
+                        )),
                     ),
                 CharacterFlatteningService.characterLevel$,
             ])

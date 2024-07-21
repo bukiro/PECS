@@ -25,6 +25,7 @@ import { CustomEffectsTimeService } from '../custom-effects-time/custom-effects-
 import { ItemsTimeService } from '../items-time/items-time.service';
 import { SpellsTimeService } from '../spells-time/spells-time.service';
 import { TurnService } from '../turn/turn.service';
+import { emptySafeZip } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -63,19 +64,20 @@ export class TimeService {
                 : this._creatureAvailabilityService.allAvailableCreatures$()
         )
             .pipe(
-                switchMap(creatureList => zip(creatureList
-                    .map(creature => zip([
-                        this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Fast Healing'),
-                        this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Fast Healing'),
-                        this._creatureEffectsService.effectsOnThis$(creature, 'Time Stop'),
-                        this._healthService.currentHP$(creature),
-                    ])
-                        .pipe(
-                            map(([fastHealingAbsolutes, fastHealingRelatives, timeStopEffects, currentHP]) =>
-                                ({ creature, fastHealingAbsolutes, fastHealingRelatives, timeStopEffects, currentHP }),
+                switchMap(creatureList => emptySafeZip(
+                    creatureList
+                        .map(creature => zip([
+                            this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Fast Healing'),
+                            this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Fast Healing'),
+                            this._creatureEffectsService.effectsOnThis$(creature, 'Time Stop'),
+                            this._healthService.currentHP$(creature),
+                        ])
+                            .pipe(
+                                map(([fastHealingAbsolutes, fastHealingRelatives, timeStopEffects, currentHP]) =>
+                                    ({ creature, fastHealingAbsolutes, fastHealingRelatives, timeStopEffects, currentHP }),
+                                ),
                             ),
                         ),
-                    ),
                 )),
                 take(1),
             )
@@ -134,31 +136,32 @@ export class TimeService {
 
         this._creatureAvailabilityService.allAvailableCreatures$()
             .pipe(
-                switchMap(creatures => zip(creatures
-                    .map(creature => zip([
-                        this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Resting HP Gain'),
-                        this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Resting HP Gain'),
-                        this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Resting HP Multiplier'),
-                        this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Resting HP Multiplier'),
-                        this._abilityValueService.mod$('Constitution', creature),
-                    ])
-                        .pipe(
-                            map(([
-                                gainAbsolutes,
-                                gainRelatives,
-                                multiplierAbsolutes,
-                                multiplierRelatives,
-                                constitutionModifier,
-                            ]) => ({
-                                creature,
-                                gainAbsolutes,
-                                gainRelatives,
-                                multiplierAbsolutes,
-                                multiplierRelatives,
-                                constitutionModifier,
-                            })),
-                        ),
-                    )),
+                switchMap(creatures => emptySafeZip(
+                    creatures
+                        .map(creature => zip([
+                            this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Resting HP Gain'),
+                            this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Resting HP Gain'),
+                            this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Resting HP Multiplier'),
+                            this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Resting HP Multiplier'),
+                            this._abilityValueService.mod$('Constitution', creature),
+                        ])
+                            .pipe(
+                                map(([
+                                    gainAbsolutes,
+                                    gainRelatives,
+                                    multiplierAbsolutes,
+                                    multiplierRelatives,
+                                    constitutionModifier,
+                                ]) => ({
+                                    creature,
+                                    gainAbsolutes,
+                                    gainRelatives,
+                                    multiplierAbsolutes,
+                                    multiplierRelatives,
+                                    constitutionModifier,
+                                })),
+                            ),
+                        )),
                 ),
                 withLatestFrom(zip([
                     this._characterFeatsService.characterHasFeatAtLevel$('Superior Bond'),

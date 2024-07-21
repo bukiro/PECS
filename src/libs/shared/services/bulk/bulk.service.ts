@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, map, zip, tap, take } from 'rxjs';
+import { Observable, combineLatest, map, tap, take } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureSizes } from '../../definitions/creature-sizes';
 import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
@@ -8,6 +8,7 @@ import { CreatureEffectsService } from '../creature-effects/creature-effects.ser
 import { CreaturePropertiesService } from '../creature-properties/creature-properties.service';
 import { InventoryPropertiesService } from '../inventory-properties/inventory-properties.service';
 import { BonusDescription } from '../../definitions/bonuses/bonus-description';
+import { emptySafeZip } from '../../util/observable-utils';
 
 export interface BulkLiveValue {
     result: number;
@@ -54,7 +55,7 @@ export class BulkService {
                                 bonuses = addBonusDescriptionFromEffect([], effect);
                             });
                     } else {
-                        zip(
+                        emptySafeZip(
                             inventories
                                 .map(inventory =>
                                     this._inventoryPropertiesService.effectiveName$(inventory, creature)

@@ -1,12 +1,13 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, combineLatest, map } from 'rxjs';
+import { Observable, switchMap, map } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Effect } from 'src/app/classes/effects/effect';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +25,7 @@ export class TimeBlockingService {
         duration: number,
         options: { includeResting: boolean },
     ): Observable<string | undefined> {
-        const AfflictionOnsetsWithinDuration = (creature: Creature): boolean =>
+        const afflictionOnsetsWithinDuration = (creature: Creature): boolean =>
             this._creatureConditionsService
                 .currentCreatureConditions(creature, {}, { readonly: true })
                 .some(gain =>
@@ -37,7 +38,7 @@ export class TimeBlockingService {
                     gain.nextStage === -1 ||
                     gain.durationIsInstant);
 
-        const TimeStopConditionsActive = (creature: Creature): boolean =>
+        const timeStopConditionsActive = (creature: Creature): boolean =>
             this._creatureConditionsService
                 .currentCreatureConditions(creature, {}, { readonly: true })
                 .some(gain =>
@@ -46,26 +47,27 @@ export class TimeBlockingService {
                         .stopTimeChoiceFilter
                         .some(filter => [gain.choice, 'All'].includes(filter)),
                 );
-        const MultipleTempHPAvailable = (creature: Creature): boolean =>
+        const multipleTempHPAvailable = (creature: Creature): boolean =>
             creature.health.temporaryHP.length > 1;
-        const RestingBlockingEffectsActive = (blockingEffects: Array<Effect>): boolean =>
+        const restingBlockingEffectsActive = (blockingEffects: Array<Effect>): boolean =>
             blockingEffects.some(effect => !effect.ignored);
 
         return this._creatureAvailabilityService.allAvailableCreatures$()
             .pipe(
-                switchMap(creatures => combineLatest(creatures
-                    .map(creature =>
-                        this._creatureEffectsService.effectsOnThis$(creature, 'Resting Blocked')
-                            .pipe(
-                                map(blockedEffects => ({ creature, blockedEffects })),
-                            ),
-                    ),
+                switchMap(creatures => emptySafeCombineLatest(
+                    creatures
+                        .map(creature =>
+                            this._creatureEffectsService.effectsOnThis$(creature, 'Resting Blocked')
+                                .pipe(
+                                    map(blockedEffects => ({ creature, blockedEffects })),
+                                ),
+                        ),
                 )),
                 map(creatureSets => {
                     let result: string | undefined;
 
                     creatureSets.forEach(({ creature, blockedEffects }) => {
-                        if (AfflictionOnsetsWithinDuration(creature)) {
+                        if (afflictionOnsetsWithinDuration(creature)) {
                             result =
                                 `One or more conditions${ creature.isCharacter()
                                     ? ''
@@ -73,7 +75,7 @@ export class TimeBlockingService {
                                 } need to be resolved before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
                         }
 
-                        if (options.includeResting && TimeStopConditionsActive(creature)) {
+                        if (options.includeResting && timeStopConditionsActive(creature)) {
                             result =
                                 `Time is stopped for ${ creature.isCharacter()
                                     ? ' you'
@@ -81,7 +83,7 @@ export class TimeBlockingService {
                                 }, and you cannot ${ options.includeResting ? 'rest' : 'continue' } until this effect has ended.`;
                         }
 
-                        if (MultipleTempHPAvailable(creature)) {
+                        if (multipleTempHPAvailable(creature)) {
                             result =
                                 `You need to select one set of temporary Hit Points${ creature.isCharacter()
                                     ? ''
@@ -89,7 +91,7 @@ export class TimeBlockingService {
                                 } before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
                         }
 
-                        if (options.includeResting && RestingBlockingEffectsActive(blockedEffects)) {
+                        if (options.includeResting && restingBlockingEffectsActive(blockedEffects)) {
                             result =
                                 `An effect${ creature.isCharacter()
                                     ? ''

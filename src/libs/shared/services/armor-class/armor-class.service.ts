@@ -205,7 +205,7 @@ export class ArmorClassService {
                 map(([absolutes, relatives]) => {
                     //Get the bonus from the worn armor. This includes the basic 10
                     let basicBonus = 10;
-                    let explain = 'DC Basis: 10';
+                    let basicExplain = 'DC Basis: 10';
 
                     let isBaseArmorBonusSet = false;
 
@@ -213,12 +213,12 @@ export class ArmorClassService {
                     absolutes.forEach(effect => {
                         isBaseArmorBonusSet = true;
                         basicBonus = effect.setValueNumerical;
-                        explain = `${ effect.source }: ${ effect.setValue }`;
+                        basicExplain = `${ effect.source }: ${ effect.setValue }`;
                     });
 
-                    return { basicBonus, explain, isBaseArmorBonusSet, absolutes, relatives: [...relatives] };
+                    return { basicBonus, basicExplain, isBaseArmorBonusSet, absolutes, relatives: [...relatives] };
                 }),
-                switchMap(({ basicBonus, explain, isBaseArmorBonusSet, absolutes, relatives }) =>
+                switchMap(({ basicBonus, basicExplain, isBaseArmorBonusSet, absolutes, relatives }) =>
                     this._creatureEquipmentService.equippedCreatureArmor$(armorCreature)
                         .pipe(
                             switchMap(armors =>
@@ -249,6 +249,9 @@ export class ArmorClassService {
                                             ]) => {
                                                 const armor = armors[0];
                                                 const dex = dexModifier.result;
+                                                const adHocRelatives = new Array<RelativeEffect>();
+                                                let explain = basicExplain;
+
                                                 let charLevelBonus = 0;
 
                                                 if (skillLevel) {
@@ -293,7 +296,7 @@ export class ArmorClassService {
                                                         armorItemBonus += potency;
                                                     }
 
-                                                    relatives.push(
+                                                    adHocRelatives.push(
                                                         Effect.from({
                                                             value: armorItemBonus.toString(),
                                                             creature: armorCreature.type,
@@ -301,13 +304,13 @@ export class ArmorClassService {
                                                             target: 'AC',
                                                             source: `Armor bonus${ potency ? ` (+${ potency } Potency)` : '' }`,
                                                             applied: true,
-                                                            displayed: true,
+                                                            displayed: false,
                                                         }),
                                                     );
                                                 }
 
                                                 if (armor.battleforged) {
-                                                    relatives.push(
+                                                    adHocRelatives.push(
                                                         Effect.from({
                                                             value: '+1',
                                                             creature: armorCreature.type,
@@ -324,7 +327,7 @@ export class ArmorClassService {
                                                 // unless you have the Junk Tinker feat and have crafted the item yourself.
                                                 // This is considered when effectiveShoddy$ is calculated.
                                                 if (shoddy) {
-                                                    relatives.push(
+                                                    adHocRelatives.push(
                                                         Effect.from({
                                                             value: '-2',
                                                             creature: armorCreature.type,
@@ -339,15 +342,15 @@ export class ArmorClassService {
                                                 }
 
                                                 //Add up all modifiers and return the AC gained from this armor.
-                                                basicBonus += skillLevel + charLevelBonus + dexBonus;
+                                                const bonus = basicBonus + skillLevel + charLevelBonus + dexBonus;
 
-                                                return { basicBonus, explain, absolutes, relatives };
+                                                return { bonus, explain, absolutes, relatives: [...relatives, ...adHocRelatives] };
                                             }),
                                         )
-                                    : of({ basicBonus, explain, absolutes, relatives })),
+                                    : of({ bonus: basicBonus, explain: basicExplain, absolutes, relatives })),
                         ),
                 ),
-                map(({ basicBonus, explain, absolutes, relatives }) => {
+                map(({ bonus, explain, absolutes, relatives }) => {
                     //Sum up the effects
                     let effectsSum = 0;
 
@@ -358,7 +361,7 @@ export class ArmorClassService {
                         });
 
                     //Add up the armor bonus and all active effects and return the sum
-                    const result: number = basicBonus + effectsSum;
+                    const result: number = bonus + effectsSum;
 
                     const effects = new Array<Effect>()
                         .concat(absolutes)

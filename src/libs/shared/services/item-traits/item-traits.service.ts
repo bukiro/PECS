@@ -6,7 +6,7 @@ import { Item } from 'src/app/classes/items/item';
 import { Wand } from 'src/app/classes/items/wand';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
-import { deepDistinctUntilChanged } from '../../util/observable-utils';
+import { deepDistinctUntilChanged, emptySafeCombineLatest } from '../../util/observable-utils';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { SpellsDataService } from '../data/spells-data.service';
@@ -27,17 +27,17 @@ export class ItemTraitsService {
     public initialize(): void {
         this._creatureAvailabilityService.allAvailableCreatures$()
             .pipe(
-                switchMap(creatures => combineLatest(
+                switchMap(creatures => emptySafeCombineLatest(
                     creatures
                         .map(creature =>
                             creature.inventories.values$
                                 .pipe(
-                                    switchMap(inventories => combineLatest(
+                                    switchMap(inventories => emptySafeCombineLatest(
                                         inventories
                                             .map(inventory =>
                                                 inventory.allItems$()
                                                     .pipe(
-                                                        switchMap(allItems => combineLatest(
+                                                        switchMap(allItems => emptySafeCombineLatest(
                                                             allItems.map(item =>
                                                                 this._itemEffectiveTraits$(item, { creature }),
                                                             ),

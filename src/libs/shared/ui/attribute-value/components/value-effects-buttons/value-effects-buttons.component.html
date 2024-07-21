@@ -28,7 +28,7 @@
     [class.text-color-bonus]="quickValue.value > 0"
     [class.text-color-penalty]="quickValue.value < 0"
 >
-    {{ quickValue.value > 0 ? "+" + quickValue.value : quickValue.value }}
+    {{ (quickValue.value > 0 ? "+" : quickValue.value === 0 ? '&plusmn;' : '') + quickValue.value }}
 </div>
 
 <app-button

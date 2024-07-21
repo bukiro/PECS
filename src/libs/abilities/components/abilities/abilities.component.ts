@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Observable, switchMap, distinctUntilChanged, combineLatest } from 'rxjs';
+import { Observable, switchMap, distinctUntilChanged } from 'rxjs';
 import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
@@ -9,6 +9,7 @@ import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-da
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 @Component({
     selector: 'app-abilities',
@@ -46,7 +47,7 @@ export class AbilitiesComponent extends TrackByMixin(BaseCreatureElementComponen
 
         this.abilityValues$ = this.creature$
             .pipe(
-                switchMap(creature => combineLatest(
+                switchMap(creature => emptySafeCombineLatest(
                     this._abilitiesDataService.abilities()
                         .map(ability => this._abilityValuesService.liveValue$(ability, creature)),
                 )),

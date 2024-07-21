@@ -28,7 +28,8 @@ import { HintEffectsObject } from '../../definitions/interfaces/hint-effects-obj
 import { AlwaysShowingEffectNames, AlwaysShowingWildcardEffectNames } from '../../definitions/showing-effects-lists';
 import { CreatureEffectsGenerationService } from '../creature-effects-generation/creature-effects-generation.service';
 import { ItemEffectsGenerationService } from '../item-effects-generation/item-effects-generation.service';
-import { ObjectEffectsGenerationService } from '../object-effects-generation/object-effects-generation';
+import { ObjectEffectsGenerationService } from '../object-effects-generation/object-effects-generation.service';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -89,7 +90,7 @@ export class EffectsGenerationService {
     }
 
     private _effectsFromOtherCreatures$(creature: Creature): Observable<Array<Effect>> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             Object.values(CreatureTypes)
                 .filter(creatureType => creatureType !== creature.type)
                 .map(otherCreatureType =>
@@ -109,7 +110,7 @@ export class EffectsGenerationService {
     private _collectTraitEffectHints$(
         creature: Creature,
     ): Observable<Array<HintEffectsObject>> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             this._traitsDataService.traits()
                 .filter(trait => trait.hints.length)
                 .map(trait => trait.itemsWithThisTrait$(creature)
@@ -173,7 +174,7 @@ export class EffectsGenerationService {
                         // Create object effects from the creature.
                         this._objectEffectsGenerationService.effectsFromEffectObject$(creature, { creature }),
                         // Create object effects from abilities and items
-                        combineLatest(
+                        emptySafeCombineLatest(
                             objects
                                 .filter(object => object.effects.length)
                                 .map(object =>
@@ -184,7 +185,7 @@ export class EffectsGenerationService {
                                 ),
                         ),
                         // Create object effects from from conditions.
-                        combineLatest(
+                        emptySafeCombineLatest(
                             conditions
                                 .filter(object => object.effects.length)
                                 .map(conditionEffectsObject =>
@@ -195,13 +196,13 @@ export class EffectsGenerationService {
                                 ),
                         ),
                         // Create object effects from creature feats/abilities.
-                        combineLatest(
+                        emptySafeCombineLatest(
                             feats
                                 .filter(object => object.effects?.length)
                                 .map(object => this._objectEffectsGenerationService.effectsFromEffectObject$(object, { creature })),
                         ),
                         // Create object effects from active hints.
-                        combineLatest(
+                        emptySafeCombineLatest(
                             hintSets
                                 .filter(hintSet =>
                                     hintSet.hint.anyActive &&
@@ -530,14 +531,14 @@ export class EffectsGenerationService {
         return combineLatest([
             creature.inventories[0].equippedArmors$
                 .pipe(
-                    switchMap(armors => combineLatest(
+                    switchMap(armors => emptySafeCombineLatest(
                         armors
                             .map(armor => this._generateArmorEffects$(armor, { creature }, options)),
                     )),
                 ),
             creature.inventories[0].equippedShields$
                 .pipe(
-                    switchMap(shields => combineLatest(
+                    switchMap(shields => emptySafeCombineLatest(
                         shields
                             .map(shield => this._generateShieldEffects$(shield, { creature })),
                     )),

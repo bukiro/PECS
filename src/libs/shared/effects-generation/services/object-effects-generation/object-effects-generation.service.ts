@@ -13,6 +13,7 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { isEqualSerializableArrayWithoutId } from 'src/libs/shared/util/compare-utils';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 interface EffectObject {
     effects: Array<EffectGain> | OnChangeArray<EffectGain>;
@@ -73,7 +74,7 @@ export class ObjectEffectsGenerationService {
         )
             .pipe(
                 switchMap(effects =>
-                    combineLatest(
+                    emptySafeCombineLatest(
                         effects
                             .filter(effectGain =>
                                 effectGain.resonant

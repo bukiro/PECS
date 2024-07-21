@@ -12,7 +12,7 @@ export const selectEffects =
     (id: CreatureTypeIds): MemoizedSelector<object, Array<Effect>> =>
         createSelector(
             selectAllEffects,
-            state => state.effects[id],
+            state => state.effects[id] ?? new Array<Effect>(),
         );
 
 export const selectAbsoluteEffects = (id: CreatureTypeIds): MemoizedSelector<object, Array<AbsoluteEffect>> =>

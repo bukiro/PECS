@@ -45,7 +45,7 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { AttacksService, AttackResult } from '../../services/attacks/attacks.service';
@@ -246,12 +246,12 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         //We need the inventory for using up items and the name just for sorting
         return this.creature.inventories.values$
             .pipe(
-                switchMap(inventories => combineLatest(
+                switchMap(inventories => emptySafeCombineLatest(
                     inventories
                         .map(inventory =>
                             inventory.ammunition.values$
                                 .pipe(
-                                    switchMap(ammunition => combineLatest(
+                                    switchMap(ammunition => emptySafeCombineLatest(
                                         ammunition
                                             .filter(ammo => [type, 'Any'].includes(ammo.ammunition))
                                             .map(ammo =>
@@ -282,12 +282,12 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
     public availableSnares$(): Observable<Array<{ item: Snare; name: string; inventory: ItemCollection }>> {
         return this.creature.inventories.values$
             .pipe(
-                switchMap(inventories => combineLatest(
+                switchMap(inventories => emptySafeCombineLatest(
                     inventories
                         .map(inventory =>
                             inventory.snares.values$
                                 .pipe(
-                                    switchMap(snares => combineLatest(
+                                    switchMap(snares => emptySafeCombineLatest(
                                         snares
                                             .map(snare =>
                                                 snare.effectiveName$()
@@ -505,7 +505,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         specialNames.push(range);
         specialNames.push(weapon.weaponBase);
 
-        return combineLatest(namesSources)
+        return emptySafeCombineLatest(namesSources)
             .pipe(
                 map(namesLists => namesLists.map(list => list.filter((name): name is string => !!name))),
                 map(namesLists =>

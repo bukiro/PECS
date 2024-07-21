@@ -19,7 +19,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 
 interface ActivitySet {
@@ -145,7 +145,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
     public activityParameters$(): Observable<Array<ActivityParameter>> {
         return this._ownedActivities$()
             .pipe(
-                switchMap(gainSets => combineLatest(
+                switchMap(gainSets => emptySafeCombineLatest(
                     gainSets.map(gainSet => {
                         const creature = this.creature;
 
@@ -174,7 +174,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
 
     //TODO: customskills() should become async.
     public classDCs$(): Observable<Array<Skill>> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             this._skillsDataService
                 .skills(this.creature.customSkills, '', { type: 'Class DC' })
                 .map(skill =>
@@ -278,7 +278,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
 
                     return activitySets;
                 }),
-                switchMap(activitySets => combineLatest(
+                switchMap(activitySets => emptySafeCombineLatest(
                     activitySets
                         .map(activitySet =>
                             // Update the name of each activity set, only needed for Fused Stance.

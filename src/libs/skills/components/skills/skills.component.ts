@@ -21,7 +21,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { selectEffects } from 'src/libs/store/effects';
 
@@ -269,8 +269,9 @@ export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) 
 
                     return { creature, uniqueSpeeds };
                 }),
-                switchMap(({ creature, uniqueSpeeds }) => combineLatest(uniqueSpeeds
-                    .map(speed => this._speedValuesService.calculate$(speed, creature))),
+                switchMap(({ creature, uniqueSpeeds }) => emptySafeCombineLatest(
+                    uniqueSpeeds
+                        .map(speed => this._speedValuesService.calculate$(speed, creature))),
                 ),
                 map(speeds => speeds.filter(speed => !!speed.value.result)),
             );

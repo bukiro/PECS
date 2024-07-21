@@ -21,7 +21,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeZip, propMap$ } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -234,7 +234,7 @@ export class SpellProcessingService {
             hasCasterCondition &&
             Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length === 1;
 
-        return zip(
+        return emptySafeZip(
             conditions
                 .map((conditionGain, conditionIndex) => {
                     const newConditionGain = conditionGain.clone(RecastService.restoreFns);

@@ -32,7 +32,7 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { Store } from '@ngrx/store';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
@@ -165,7 +165,9 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
             combineLatest([
                 CharacterFlatteningService.characterSpellCasting$
                     .pipe(
-                        switchMap(spellCastings => combineLatest(spellCastings.map(casting => casting.spellChoices.values$))),
+                        switchMap(spellCastings => emptySafeCombineLatest(
+                            spellCastings.map(casting => casting.spellChoices.values$),
+                        )),
                     ),
                 CharacterFlatteningService.characterLevel$,
             ])
@@ -218,7 +220,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
     public spellDCs$(): Observable<Array<Skill>> {
         return CreatureService.character.customSkills.values$
             .pipe(
-                switchMap(customSkills => combineLatest(
+                switchMap(customSkills => emptySafeCombineLatest(
                     this._skillsDataService
                         .skills(customSkills, '', { type: 'Spell DC' })
                         .map(skill => this._skillValuesService.level$(skill, CreatureService.character)
@@ -277,36 +279,43 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                     })
                     .filter(({ castingAvailable }) => !!castingAvailable),
                 ),
-                switchMap(castingParametersList => combineLatest(castingParametersList
-                    .map(({ casting, equipmentSpells }) => this._maxSpellLevelOfCasting$(casting, equipmentSpells)
-                        .pipe(
-                            map(maxSpellLevel => ({
-                                casting,
-                                equipmentSpells,
-                                maxSpellLevel,
-                            })),
+                switchMap(castingParametersList => emptySafeCombineLatest(
+                    castingParametersList
+                        .map(({ casting, equipmentSpells }) => this._maxSpellLevelOfCasting$(casting, equipmentSpells)
+                            .pipe(
+                                map(maxSpellLevel => ({
+                                    casting,
+                                    equipmentSpells,
+                                    maxSpellLevel,
+                                })),
+                            ),
                         ),
-                    ),
                 )),
-                switchMap(castingParametersList => combineLatest(castingParametersList
-                    .map(({ casting, equipmentSpells, maxSpellLevel }) => combineLatest([
-                        this._maxSpellSlots$(firstGreaterEvolutionSpellLevel, casting, maxSpellLevel),
-                        this._maxSpellSlots$(0, casting, maxSpellLevel),
-                        this._canCounterspell$(casting),
-                        this._areSignatureSpellsAllowed$(casting),
-                    ])
-                        .pipe(
-                            map(([maxGreaterVitalEvolutionSlot, maxStudiousCapacitySlots, canCounterSpell, signatureSpellsAllowed]) => ({
-                                casting,
-                                equipmentSpells,
-                                maxSpellLevel,
-                                maxGreaterVitalEvolutionSlot,
-                                maxStudiousCapacitySlots,
-                                canCounterSpell,
-                                signatureSpellsAllowed,
-                            })),
+                switchMap(castingParametersList => emptySafeCombineLatest(
+                    castingParametersList
+                        .map(({ casting, equipmentSpells, maxSpellLevel }) => combineLatest([
+                            this._maxSpellSlots$(firstGreaterEvolutionSpellLevel, casting, maxSpellLevel),
+                            this._maxSpellSlots$(0, casting, maxSpellLevel),
+                            this._canCounterspell$(casting),
+                            this._areSignatureSpellsAllowed$(casting),
+                        ])
+                            .pipe(
+                                map(([
+                                    maxGreaterVitalEvolutionSlot,
+                                    maxStudiousCapacitySlots,
+                                    canCounterSpell,
+                                    signatureSpellsAllowed,
+                                ]) => ({
+                                    casting,
+                                    equipmentSpells,
+                                    maxSpellLevel,
+                                    maxGreaterVitalEvolutionSlot,
+                                    maxStudiousCapacitySlots,
+                                    canCounterSpell,
+                                    signatureSpellsAllowed,
+                                })),
+                            ),
                         ),
-                    ),
                 )),
                 map(castingParameterList => castingParameterList
                     .map(({
@@ -343,16 +352,22 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                 map(spellLevels => spellLevels
                     .filter(level => level <= spellCastingParameters.maxSpellLevel),
                 ),
-                switchMap(spellLevels => combineLatest(spellLevels
-                    .map(level => combineLatest([
-                        this._maxSpellSlots$(level, spellCastingParameters.casting, spellCastingParameters.maxSpellLevel),
-                        this._canRestoreSpellWithBondedItem$(spellCastingParameters, level, componentParameters.hasSuperiorBond),
-                        this._spellsByLevel$(level, spellCastingParameters),
-                    ])
-                        .pipe(
-                            map(([maxSpellSlots, canRestore, spellTakenList]) => ({ level, maxSpellSlots, canRestore, spellTakenList })),
+                switchMap(spellLevels => emptySafeCombineLatest(
+                    spellLevels
+                        .map(level => combineLatest([
+                            this._maxSpellSlots$(level, spellCastingParameters.casting, spellCastingParameters.maxSpellLevel),
+                            this._canRestoreSpellWithBondedItem$(spellCastingParameters, level, componentParameters.hasSuperiorBond),
+                            this._spellsByLevel$(level, spellCastingParameters),
+                        ])
+                            .pipe(
+                                map(([maxSpellSlots, canRestore, spellTakenList]) => ({
+                                    level,
+                                    maxSpellSlots,
+                                    canRestore,
+                                    spellTakenList,
+                                })),
+                            ),
                         ),
-                    ),
                 )),
                 map(levelParameters => levelParameters
                     .map(({ level, maxSpellSlots, canRestore, spellTakenList }) => {
@@ -406,77 +421,79 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                         return { choice, gain, spell };
                     }),
                 ),
-                switchMap(spellParametersList => combineLatest(spellParametersList
-                    .map(({ choice, gain, spell }) => combineLatest([
-                        this._spellDisabledByEffect$(spell, choice),
-                        this._effectiveSpellLevel$(spell, { baseLevel: spellCastingLevelParameters.level, gain }),
-                    ])
-                        .pipe(
-                            map(([isSpellDisabledByEffect, effectiveSpellLevel]) =>
-                                ({ choice, gain, spell, isSpellDisabledByEffect, effectiveSpellLevel }),
+                switchMap(spellParametersList => emptySafeCombineLatest(
+                    spellParametersList
+                        .map(({ choice, gain, spell }) => combineLatest([
+                            this._spellDisabledByEffect$(spell, choice),
+                            this._effectiveSpellLevel$(spell, { baseLevel: spellCastingLevelParameters.level, gain }),
+                        ])
+                            .pipe(
+                                map(([isSpellDisabledByEffect, effectiveSpellLevel]) =>
+                                    ({ choice, gain, spell, isSpellDisabledByEffect, effectiveSpellLevel }),
+                                ),
                             ),
                         ),
-                    ),
                 )),
-                switchMap(spellParametersList => combineLatest(spellParametersList
-                    .map(({ choice, gain, spell, isSpellDisabledByEffect, effectiveSpellLevel }) => combineLatest([
-                        // Cannot cast spell
-                        this._cannotCastSpell$(
-                            {
-                                spellCastingLevelParameters,
-                                spellCastingParameters,
-                                choice,
-                                gain,
-                                externallyDisabled: isSpellDisabledByEffect,
-                            },
-                        ),
-                        // Cannot expend spell
-                        this._cannotCastSpell$(
-                            {
-                                spellCastingLevelParameters,
-                                spellCastingParameters,
-                                choice,
-                                gain,
-                                externallyDisabled: false,
-                            },
-                        ),
-                        this._canChannelSmite$(spell),
-                        this._canSwiftBanish$(spellCastingParameters.casting, spell, spellCastingLevelParameters.level),
-                        this._canReprepareSpell$(spellCastingLevelParameters.level, spell, spellCastingParameters.casting),
-                    ])
-                        .pipe(
-                            map(([cannotCast, cannotExpend, canChannelSmite, canSwiftBanish, canReprepare]) => {
-                                const shouldShowRestoreWithBondedItemOption =
-                                    spellCastingParameters.casting.castingType === 'Prepared' &&
-                                    spellCastingParameters.casting.className === 'Wizard' &&
-                                    !gain.prepared &&
-                                    spellCastingLevelParameters.level > 0 &&
-                                    !gain.duration;
-
-                                return {
-                                    spell,
+                switchMap(spellParametersList => emptySafeCombineLatest(
+                    spellParametersList
+                        .map(({ choice, gain, spell, isSpellDisabledByEffect, effectiveSpellLevel }) => combineLatest([
+                            // Cannot cast spell
+                            this._cannotCastSpell$(
+                                {
+                                    spellCastingLevelParameters,
+                                    spellCastingParameters,
                                     choice,
                                     gain,
-                                    maxCharges: choice.charges,
-                                    usedCharges: gain.chargesUsed || 0,
-                                    disabledByEffect: isSpellDisabledByEffect,
-                                    effectiveSpellLevel,
-                                    cannotCast,
-                                    cannotExpend,
-                                    canChannelSmite,
-                                    canSwiftBanish,
-                                    isSignatureSpell: this._isSignatureSpell(spellCastingParameters.signatureSpellsAllowed, gain),
-                                    isSpellCombinationSpell: choice.spellCombination,
-                                    isInfinitePossibilitiesSpell: this._isInfinitePossibilitiesSpell(choice),
-                                    isSpellMasterySpell: this._isSpellMasterySpell(choice),
-                                    isCrossbloodedEvolutionSpell: choice.crossbloodedEvolution,
-                                    canReprepare,
-                                    isHostile: spell.isHostile(),
-                                    showRestoreOption: shouldShowRestoreWithBondedItemOption,
-                                };
-                            }),
+                                    externallyDisabled: isSpellDisabledByEffect,
+                                },
+                            ),
+                            // Cannot expend spell
+                            this._cannotCastSpell$(
+                                {
+                                    spellCastingLevelParameters,
+                                    spellCastingParameters,
+                                    choice,
+                                    gain,
+                                    externallyDisabled: false,
+                                },
+                            ),
+                            this._canChannelSmite$(spell),
+                            this._canSwiftBanish$(spellCastingParameters.casting, spell, spellCastingLevelParameters.level),
+                            this._canReprepareSpell$(spellCastingLevelParameters.level, spell, spellCastingParameters.casting),
+                        ])
+                            .pipe(
+                                map(([cannotCast, cannotExpend, canChannelSmite, canSwiftBanish, canReprepare]) => {
+                                    const shouldShowRestoreWithBondedItemOption =
+                                        spellCastingParameters.casting.castingType === 'Prepared' &&
+                                        spellCastingParameters.casting.className === 'Wizard' &&
+                                        !gain.prepared &&
+                                        spellCastingLevelParameters.level > 0 &&
+                                        !gain.duration;
+
+                                    return {
+                                        spell,
+                                        choice,
+                                        gain,
+                                        maxCharges: choice.charges,
+                                        usedCharges: gain.chargesUsed || 0,
+                                        disabledByEffect: isSpellDisabledByEffect,
+                                        effectiveSpellLevel,
+                                        cannotCast,
+                                        cannotExpend,
+                                        canChannelSmite,
+                                        canSwiftBanish,
+                                        isSignatureSpell: this._isSignatureSpell(spellCastingParameters.signatureSpellsAllowed, gain),
+                                        isSpellCombinationSpell: choice.spellCombination,
+                                        isInfinitePossibilitiesSpell: this._isInfinitePossibilitiesSpell(choice),
+                                        isSpellMasterySpell: this._isSpellMasterySpell(choice),
+                                        isCrossbloodedEvolutionSpell: choice.crossbloodedEvolution,
+                                        canReprepare,
+                                        isHostile: spell.isHostile(),
+                                        showRestoreOption: shouldShowRestoreWithBondedItemOption,
+                                    };
+                                }),
+                            ),
                         ),
-                    ),
                 )),
             );
     }
@@ -936,24 +953,25 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                         ),
                     ),
                     switchMap(spells =>
-                        combineLatest(
+                        emptySafeCombineLatest(
                             // For non-focus castings, add spells granted by equipment.
                             isFocusSpellCasting
                                 ? []
-                                : spellCastingParameters.equipmentSpells.map(spellSet =>
-                                    (
-                                        spellSet.choice.dynamicLevel
-                                            ? this._dynamicSpellLevel$(spellSet.choice, spellCastingParameters.casting)
-                                            : of(spellSet.choice.level)
-                                    )
-                                        .pipe(
-                                            map(choiceLevel =>
-                                                choiceLevel === levelNumber
-                                                    ? spellSet
-                                                    : undefined,
+                                : spellCastingParameters.equipmentSpells
+                                    .map(spellSet =>
+                                        (
+                                            spellSet.choice.dynamicLevel
+                                                ? this._dynamicSpellLevel$(spellSet.choice, spellCastingParameters.casting)
+                                                : of(spellSet.choice.level)
+                                        )
+                                            .pipe(
+                                                map(choiceLevel =>
+                                                    choiceLevel === levelNumber
+                                                        ? spellSet
+                                                        : undefined,
+                                                ),
                                             ),
-                                        ),
-                                ),
+                                    ),
                         )
                             .pipe(
                                 map(equipmentSpells =>

@@ -213,10 +213,10 @@ export class AnimalCompanion extends Creature implements Serializable<AnimalComp
         locked: boolean | undefined = undefined,
     ): Array<SkillIncrease> {
         if (this.class) {
-            // When animal companion species and levels are checked for skill increases,
-            // we don't care about the character level - so we replace minLevelNumber and maxLevelNumber here.
             const increases: Array<SkillIncrease> = [];
 
+            // When animal companion species and levels are checked for skill increases,
+            // we don't care about the character level, but always use the animal companion's level.
             this.class.levels
                 .filter(level => level.number >= 1 && level.number <= this.level)
                 .forEach(level => {

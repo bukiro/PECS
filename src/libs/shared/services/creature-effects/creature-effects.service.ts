@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { Observable, distinctUntilChanged, map } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Effect, RelativeEffect, AbsoluteEffect } from 'src/app/classes/effects/effect';
 import {
@@ -16,6 +16,7 @@ import { BonusTypes } from '../../definitions/bonus-types';
 import { CreatureTypes } from '../../definitions/creature-types';
 import { creatureTypeIDFromType } from '../../util/creature-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from '../../util/string-utils';
+import { isEqualSerializableArrayWithoutId } from '../../util/compare-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -27,7 +28,10 @@ export class CreatureEffectsService {
     public allCreatureEffects$(creatureType: CreatureTypes): Observable<Array<Effect>> {
         const creatureIndex = creatureTypeIDFromType(creatureType);
 
-        return this._store$.select(selectEffects(creatureIndex));
+        return this._store$.select(selectEffects(creatureIndex))
+            .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
+            );
     }
 
     public replaceCreatureEffects(creatureType: CreatureTypes, effects: Array<Effect>): void {
@@ -43,7 +47,9 @@ export class CreatureEffectsService {
     ): Observable<Array<Effect>> {
         return this._store$.select(selectEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
             );
     }
 
@@ -54,14 +60,18 @@ export class CreatureEffectsService {
     ): Observable<Array<Effect>> {
         return this._store$.select(selectToggledEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
             );
     }
 
     public toggledEffectsOnThese$(creature: Creature, objectNames: Array<string>): Observable<Array<Effect>> {
         return this._store$.select(selectToggledEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects => this._effectsApplyingToThese(effects, creature, objectNames)),
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
             );
     }
 
@@ -72,7 +82,9 @@ export class CreatureEffectsService {
     ): Observable<Array<RelativeEffect>> {
         return this._store$.select(selectRelativeEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
             );
     }
 
@@ -83,6 +95,7 @@ export class CreatureEffectsService {
     ): Observable<Array<RelativeEffect>> {
         return this._store$.select(selectRelativeEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects =>
                     // Since there can be an overlap between the different effects we're asking about,
                     // we need to break them down to one bonus and one penalty per effect type.
@@ -92,6 +105,7 @@ export class CreatureEffectsService {
                         options,
                     ),
                 ),
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
             );
     }
 
@@ -102,7 +116,9 @@ export class CreatureEffectsService {
     ): Observable<Array<AbsoluteEffect>> {
         return this._store$.select(selectAbsoluteEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
             );
     }
 
@@ -116,12 +132,14 @@ export class CreatureEffectsService {
         // we need to break them down to one bonus and one penalty per effect type.
         return this._store$.select(selectAbsoluteEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects =>
                     this.reduceAbsolutes(
                         this._effectsApplyingToThese(effects, creature, objectNames),
                         options,
                     ),
                 ),
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
             );
     }
 
@@ -134,8 +152,10 @@ export class CreatureEffectsService {
         // Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
         return this._store$.select(selectBonusEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
                 map(effects => effects.some(effect => effect.displayed)),
+                distinctUntilChanged(),
             );
     }
 
@@ -148,8 +168,10 @@ export class CreatureEffectsService {
         // Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
         return this._store$.select(selectBonusEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects => this._effectsApplyingToThese(effects, creature, objectNames, options)),
                 map(effects => effects.some(effect => effect.displayed)),
+                distinctUntilChanged(),
             );
     }
 
@@ -162,8 +184,10 @@ export class CreatureEffectsService {
         // Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
         return this._store$.select(selectPenaltyEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
                 map(effects => effects.some(effect => effect.displayed)),
+                distinctUntilChanged(),
             );
     }
 
@@ -176,8 +200,10 @@ export class CreatureEffectsService {
         // Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
         return this._store$.select(selectPenaltyEffects(creature.typeId))
             .pipe(
+                distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 map(effects => this._effectsApplyingToThese(effects, creature, objectNames, options)),
                 map(effects => effects.some(effect => effect.displayed)),
+                distinctUntilChanged(),
             );
     }
 

@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, of, map, combineLatest, take } from 'rxjs';
+import { Observable, BehaviorSubject, of, map, take } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Effect } from 'src/app/classes/effects/effect';
 import { Equipment } from 'src/app/classes/items/equipment';
@@ -10,6 +10,7 @@ import { CreatureTypes } from '../../definitions/creature-types';
 import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
 import { TraitsDataService } from '../data/traits-data.service';
 import { Hint } from 'src/app/classes/hints/hint';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 interface DetailToChange {
     creature: CreatureTypes | '';
@@ -98,7 +99,7 @@ export class RefreshService {
                     map(activities => activities.some(activity => targetName.includes(activity.name))),
                 );
 
-        combineLatest(
+        emptySafeCombineLatest(
             hints.map(hint => areActivitiesAffected$(hint.showon)
                 .pipe(
                     map(areActivitiesAffected => ({ hint, areActivitiesAffected })),

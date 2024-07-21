@@ -21,7 +21,7 @@ import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
@@ -206,7 +206,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
         return this._allSpellCastings$()
             .pipe(
                 switchMap(spellCastings =>
-                    combineLatest(
+                    emptySafeCombineLatest(
                         spellCastings
                             .map(casting => {
                                 const equipmentSpells =
@@ -243,7 +243,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
     }
 
     public spellCastingLevelParameters$(spellCastingParameters: SpellCastingParameters): Observable<Array<SpellCastingLevelParameters>> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             (Object.values(SpellLevels) as Array<number>)
                 .filter(level => level <= spellCastingParameters.maxSpellLevel)
                 .map(level =>
@@ -486,7 +486,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
                             cantripAllowed: true,
                         },
                     ),
-                combineLatest(
+                emptySafeCombineLatest(
                     spellCastingParameters.equipmentSpells
                         .map(spellSet =>
                             (

@@ -12,13 +12,12 @@ import {
     interval,
     NEVER,
     noop,
-    zip,
     map,
 } from 'rxjs';
 import { PlayerMessage } from 'src/app/classes/api/player-message';
 import { PlayerMessageBase } from 'src/app/classes/api/player-message-base';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { propMap$ } from '../../util/observable-utils';
+import { emptySafeZip, propMap$ } from '../../util/observable-utils';
 import { sortAlphaNum } from '../../util/sort-utils';
 import { AuthService } from '../auth/auth.service';
 import { CreatureService } from '../creature/creature.service';
@@ -168,7 +167,7 @@ export class MessagesService {
     }
 
     private _processNewMessages$(results: Array<PlayerMessageBase>): Observable<Array<PlayerMessage>> {
-        return zip(results
+        return emptySafeZip(results
             .map(message => PlayerMessage.from(message, RecastService.restoreFns))
             .map(message => this._messagePropertiesService.messageTargetCreature$(message)
                 .pipe(
@@ -207,10 +206,9 @@ export class MessagesService {
         // Delete messages that were marked as ignored from the database.
         // Don't remove the messages from the ignored messages list - the matching new messages could still exist for up to 10 minutes.
 
-        zip(
-            CreatureService.character.ignoredMessages.map(message => {
-                this._messagesApiService.deleteMessageFromConnector$({ id: message.id });
-            }),
+        emptySafeZip(
+            CreatureService.character.ignoredMessages
+                .map(message => this._messagesApiService.deleteMessageFromConnector$({ id: message.id })),
         )
             .subscribe({
                 next: () => {

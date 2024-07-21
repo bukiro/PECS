@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, of, switchMap, distinctUntilChanged, map, shareReplay } from 'rxjs';
+import { Observable, of, switchMap, distinctUntilChanged, map, shareReplay } from 'rxjs';
 import { ConditionChoice } from 'src/app/classes/character-creation/condition-choice';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
@@ -9,6 +9,7 @@ import { CreatureConditionsService } from '../creature-conditions/creature-condi
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CreatureService } from '../creature/creature.service';
 import { Condition } from 'src/app/classes/conditions/condition';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -96,7 +97,7 @@ export class ConditionPropertiesService {
         if (!condition.effectiveChoicesBySpellLevel$.get(spellLevel)) {
             condition.effectiveChoicesBySpellLevel$.set(
                 spellLevel,
-                combineLatest(
+                emptySafeCombineLatest(
                     condition.choices.map(choice => {
                         const requirementSources$: Array<Observable<boolean>> = [];
 
@@ -116,7 +117,7 @@ export class ConditionPropertiesService {
                                 const testFeats = featreq.split(' or ');
 
                                 requirementSources$.push(
-                                    combineLatest(
+                                    emptySafeCombineLatest(
                                         testFeats.map(testFeat => {
                                             if (featreq.includes('Familiar:')) {
                                                 testFeat = featreq.split('Familiar:')[1].trim();
@@ -130,6 +131,7 @@ export class ConditionPropertiesService {
                                                                     { creature: familiar },
                                                                 ),
                                                             ),
+                                                            map(result => !!result),
                                                             distinctUntilChanged(),
                                                         );
                                                 }
@@ -148,14 +150,14 @@ export class ConditionPropertiesService {
                                         }),
                                     )
                                         .pipe(
-                                            map(hasFeats => hasFeats.some(hasFeat => !!hasFeat)),
+                                            map(hasFeats => hasFeats.includes(true)),
                                         ),
                                 );
 
                             });
                         }
 
-                        return combineLatest(requirementSources$)
+                        return emptySafeCombineLatest(requirementSources$)
                             .pipe(
                                 map(requirements =>
                                     requirements.every(requirement => !!requirement)

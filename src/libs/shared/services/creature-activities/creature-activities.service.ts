@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, map, distinctUntilChanged } from 'rxjs';
+import { Observable, map, distinctUntilChanged, of } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
 import { Creature } from 'src/app/classes/creatures/creature';
@@ -14,6 +14,7 @@ import { isEqualSerializableArray } from '../../util/compare-utils';
 import { sortAlphaNum } from '../../util/sort-utils';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { TraitsDataService } from '../data/traits-data.service';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -31,7 +32,7 @@ export class CreatureActivitiesService {
         levelNumber: number = creature.level,
         all = false,
     ): Observable<Array<ActivityGain | ItemActivity>> {
-        const activitySources$: Array<Observable<Array<ActivityGain | ItemActivity>>> = [];
+        const activitySources$: Array<Observable<Array<ActivityGain | ItemActivity>>> = [of([])];
         const activities: Array<ActivityGain | ItemActivity> = [];
 
         if (creature.isCharacter()) {
@@ -63,7 +64,7 @@ export class CreatureActivitiesService {
                         if (item instanceof Shield && item.emblazonArmament) {
                             //Only get Emblazon Armament activities if the blessing applies.
                             activitySources$.push(
-                                combineLatest(
+                                emptySafeCombineLatest(
                                     item.gainActivities.map(gain =>
                                         item.effectiveEmblazonArmament$
                                             .pipe(
@@ -200,7 +201,7 @@ export class CreatureActivitiesService {
                 });
         }
 
-        return combineLatest(activitySources$)
+        return emptySafeCombineLatest(activitySources$)
             .pipe(
                 map(asyncActivities =>
                     new Array<ActivityGain | ItemActivity>()

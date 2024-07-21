@@ -11,7 +11,7 @@ import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types
 import { EmblazonArmamentSet } from '../../definitions/interfaces/emblazon-armament-set';
 import { Feat } from '../../definitions/models/feat';
 import { HintShowingItem } from '../../definitions/types/hint-showing-item';
-import { propMap$ } from '../../util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from '../../util/observable-utils';
 import { ArmorPropertiesService } from '../armor-properties/armor-properties.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
@@ -141,7 +141,7 @@ export class HintShowingObjectsService {
                         ),
                 })),
                 switchMap(({ familiar, matchingFeats, characterShowingFeats }) =>
-                    combineLatest(
+                    emptySafeCombineLatest(
                         matchingFeats.map(feat => this._creatureFeatsService.creatureHasFeat$(feat.name, { creature: familiar })
                             .pipe(
                                 map(hasFeat => hasFeat ? feat : undefined),
@@ -260,8 +260,8 @@ export class HintShowingObjectsService {
         //TODO: Verify that these nested combineLatest calls actually work.
         return creature.inventories.values$
             .pipe(
-                switchMap(inventories => combineLatest(
-                    inventories.map(inventory => combineLatest(
+                switchMap(inventories => emptySafeCombineLatest(
+                    inventories.map(inventory => emptySafeCombineLatest(
                         inventory
                             .allEquipment()
                             .filter(item =>
@@ -302,13 +302,18 @@ export class HintShowingObjectsService {
                                     });
                                 }
 
-                                return itemSources;
+                                return emptySafeCombineLatest(itemSources);
                             }),
                     )),
                 )),
-                switchMap(results => combineLatest(results)),
-                switchMap(results => combineLatest(results)),
-                map(results => results.filter((item): item is HintShowingItem => !!item)),
+                map(resultListLists =>
+                    new Array<Array<HintShowingItem | undefined>>()
+                        .concat(...resultListLists),
+                ),
+                map(resultLists =>
+                    new Array<HintShowingItem | undefined>()
+                        .concat(...resultLists)
+                        .filter((item): item is HintShowingItem => !!item)),
             );
     }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { take, switchMap, zip, map } from 'rxjs';
+import { take, switchMap, map } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
 import { Creature } from 'src/app/classes/creatures/creature';
@@ -9,6 +9,7 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { emptySafeZip } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -31,7 +32,7 @@ export class ActivitiesTimeService {
             .creatureOwnedActivities$(creature)
             .pipe(
                 take(1),
-                switchMap(gains => zip(
+                switchMap(gains => emptySafeZip(
                     gains
                         .map(gain => this._activityGainPropertiesService.activeCooldown$(gain, { creature })
                             .pipe(
@@ -80,7 +81,7 @@ export class ActivitiesTimeService {
             .creatureOwnedActivities$(creature)
             .pipe(
                 take(1),
-                switchMap(gains => zip(
+                switchMap(gains => emptySafeZip(
                     gains
                         .map(gain => this._activityGainPropertiesService.activeCooldown$(gain, { creature })
                             .pipe(

@@ -10,6 +10,7 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { emptySafeZip } from 'src/libs/shared/util/observable-utils';
 
 interface EnrichedMessage {
     message: PlayerMessage;
@@ -126,7 +127,7 @@ export class MessagesDialogComponent extends TrackByMixin(DialogComponent) imple
 
     //TODO: instead of updating the BehaviorSubject, make enrichedMessages$ an observable that uses this as a pipe.
     private _enrichMessages(messages: Array<PlayerMessage>): void {
-        zip(
+        emptySafeZip(
             messages.map(message => zip([
                 this._messageTargetCreature$(message),
                 this._conditionMessageDurationDescription$(message),

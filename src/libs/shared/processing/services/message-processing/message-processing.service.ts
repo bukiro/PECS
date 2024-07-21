@@ -18,7 +18,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeZip, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 @Injectable({
@@ -102,7 +102,7 @@ export class MessageProcessingService {
         // Iterate through all messages that have a gainCondition (only one per message will be applied)
         // and either add or remove the appropriate conditions.
         // The ConditionGains have a foreignPlayerId that allows us to recognize that they came from this player.
-        zip(
+        emptySafeZip(
             messages.map(message =>
                 message.selected
                     ? this._messagePropertiesService.messageTargetCreature$(message)
@@ -180,7 +180,7 @@ export class MessageProcessingService {
         }
 
         //Iterate through all messages that have an offeredItem (only one per message will be applied) and add the items.
-        zip(
+        emptySafeZip(
             messages.map(message =>
                 message.selected
                     ? this._messagePropertiesService.messageTargetCreature$(message)

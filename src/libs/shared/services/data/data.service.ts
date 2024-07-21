@@ -6,6 +6,7 @@ import { catchError, map, Observable, of, switchMap, tap, zip, take } from 'rxjs
 import { ApiStatusKey } from '../../definitions/api-status-key';
 import { setDataStatus } from 'src/libs/store/status/status.actions';
 import { Store } from '@ngrx/store';
+import { emptySafeZip } from '../../util/observable-utils';
 
 type SingleIdentifier = 'id' | 'name';
 
@@ -229,7 +230,7 @@ export class DataService {
 
         return this._httpClient.get<Array<{ name: string; filename: string }>>(`${ path }/extensions.json`, { headers })
             .pipe(
-                switchMap(data => zip(
+                switchMap(data => emptySafeZip(
                     data
                         .map((extension: { name: string; filename: string }) =>
                             this._loadExtensionFile(path, extension.filename, extension.name),

@@ -13,6 +13,7 @@ import { CreatureConditionsService } from '../creature-conditions/creature-condi
 import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';
 import { SkillsDataService } from '../data/skills-data.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -107,7 +108,7 @@ export class ArmorPropertiesService {
 
                     return specializationGains;
                 }),
-                switchMap(specializationGains => combineLatest(
+                switchMap(specializationGains => emptySafeCombineLatest(
                     specializationGains
                         .map(spec =>
                             (
@@ -148,7 +149,7 @@ export class ArmorPropertiesService {
     }
 
     public updateModifiers$(armor: Armor, creature: Creature): Observable<boolean> {
-        return combineLatest(
+        return combineLatest([
             //Initialize shoddy values and armored skirt.
             this._calculateArmoredSkirt$(armor, creature)
                 .pipe(
@@ -164,7 +165,7 @@ export class ArmorPropertiesService {
                         armor.effectiveShoddy$.next(shoddyValue);
                     }),
                 ),
-        )
+        ])
             .pipe(
                 map(() => true),
             );
@@ -173,7 +174,7 @@ export class ArmorPropertiesService {
     private _calculateArmoredSkirt$(armor: Armor, creature: Creature): Observable<-1 | 0 | 1> {
         return creature.inventories.values$
             .pipe(
-                switchMap(inventories => combineLatest(
+                switchMap(inventories => emptySafeCombineLatest(
                     inventories.map(inventory => inventory.equippedAdventuringGear$),
                 )),
                 map(adventuringGearLists =>

@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { zip, tap, take } from 'rxjs';
+import { tap, take } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { EffectGain } from 'src/app/classes/effects/effect-gain';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
@@ -11,6 +11,7 @@ import { EvaluationService } from '../evaluation/evaluation.service';
 import { HealthService } from '../health/health.service';
 import { RefreshService } from '../refresh/refresh.service';
 import { SpellCastingPrerequisitesService } from '../spell-casting-prerequisites/spell-casting-prerequisites.service';
+import { emptySafeZip } from '../../util/observable-utils';
 
 
 interface PreparedOnceEffect {
@@ -73,21 +74,22 @@ export class OnceEffectsService {
 
         this._preparedOnceEffects.length = 0;
 
-        zip(preparedOnceEffects.map(prepared =>
-            CreatureService.creatureFromType$(prepared.creatureType)
-                .pipe(
-                    tap(creature => {
-                        this.processOnceEffect(
-                            creature,
-                            prepared.effectGain,
-                            prepared.conditionValue,
-                            prepared.conditionHeightened,
-                            prepared.conditionChoice,
-                            prepared.conditionSpellCastingAbility,
-                        );
-                    }),
-                ),
-        ))
+        emptySafeZip(
+            preparedOnceEffects.map(prepared =>
+                CreatureService.creatureFromType$(prepared.creatureType)
+                    .pipe(
+                        tap(creature => {
+                            this.processOnceEffect(
+                                creature,
+                                prepared.effectGain,
+                                prepared.conditionValue,
+                                prepared.conditionHeightened,
+                                prepared.conditionChoice,
+                                prepared.conditionSpellCastingAbility,
+                            );
+                        }),
+                    ),
+            ))
             .pipe(
                 take(1),
             )

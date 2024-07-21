@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { BehaviorSubject, Observable, switchMap, combineLatest, map } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap, map } from 'rxjs';
 import { Alignments } from 'src/libs/shared/definitions/alignments';
 import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ability-boost';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creature-type-ids';
@@ -20,6 +20,7 @@ import { Character } from './character/character';
 import { Familiar } from './familiar/familiar';
 import { Health } from './health';
 import { Speed } from './speed';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 export interface SkillNotes {
     name: string;
@@ -96,7 +97,7 @@ export abstract class Creature implements Serializable<Creature> {
 
         this._inventoriesTouched$ = this.inventories.values$
             .pipe(
-                switchMap(inventories => combineLatest(
+                switchMap(inventories => emptySafeCombineLatest(
                     inventories.map(inventory => inventory.touched$),
                 )),
                 map(allTouched => allTouched.includes(true)),

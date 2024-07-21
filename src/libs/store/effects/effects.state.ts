@@ -1,9 +1,6 @@
 import { Effect } from 'src/app/classes/effects/effect';
+import { CreatureTypeIds } from 'src/libs/shared/definitions/creature-type-ids';
 
 export interface EffectsState {
-    effects: [
-        Array<Effect>,
-        Array<Effect>,
-        Array<Effect>,
-    ];
+    effects: Record<CreatureTypeIds, Array<Effect>>;
 }

@@ -26,7 +26,7 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeZip, propMap$ } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -370,12 +370,12 @@ export class ActivitiesProcessingService {
 
         return (
             activity.maxDuration
-                ? zip(
+                ? zip([
                     this._creatureEffectsService
                         .absoluteEffectsOnThis$(context.creature, `${ activity.name } Duration`),
                     this._creatureEffectsService
                         .relativeEffectsOnThis$(context.creature, `${ activity.name } Duration`),
-                )
+                ])
                 : zip([
                     of([]),
                     of([]),
@@ -422,7 +422,7 @@ export class ActivitiesProcessingService {
             hasCasterCondition &&
             Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length === 1;
 
-        return zip(
+        return emptySafeZip(
             conditions.map((conditionGain, conditionIndex) => {
                 const newConditionGain = conditionGain.clone(RecastService.recastFns);
                 const condition = this._conditionsDataService.conditionFromName(conditionGain.name);

@@ -26,6 +26,7 @@ import { attackEffectPhrases } from '../../util/attack-effect-phrases';
 import { RuneSourceSet, attackRuneSource$ } from '../../util/attack-rune-rource';
 import { ExtraDamageService } from './extra-damage.service';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 export type DamageResult = IntermediateResult<string>;
 
@@ -197,12 +198,12 @@ export class DamageService {
         ])
             .pipe(
                 switchMap(([{ prof, skillLevel }, characterFeats, characterLevel, hasBladeAlly, traits, isFavoredWeapon]) =>
-                    combineLatest(
+                    emptySafeCombineLatest(
                         characterFeats
                             .filter(feat =>
                                 feat.gainSpecialization.length,
                             )
-                            .map(feat => combineLatest(
+                            .map(feat => emptySafeCombineLatest(
                                 feat.gainSpecialization
                                     .filter(spec =>
                                         (!spec.minLevel || characterLevel >= spec.minLevel)
@@ -239,11 +240,11 @@ export class DamageService {
                             ),
                     ),
                 ),
-                map(specializationGains => {
+                map(specializationGainLists => {
                     const specializations: Array<Specialization> = [];
 
                     new Array<SpecializationGain>()
-                        .concat(...specializationGains)
+                        .concat(...specializationGainLists)
                         .forEach(gainedSpec => {
                             const specs: Array<Specialization> =
                                 this._itemSpecializationsDataService.specializations(weapon.group)

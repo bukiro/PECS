@@ -5,9 +5,9 @@ import { CharacterClass } from 'src/app/classes/creatures/character/character-cl
 import { LanguageGain } from 'src/app/classes/creatures/character/language-gain';
 import { Effect } from 'src/app/classes/effects/effect';
 import { FeatTaken } from '../../definitions/models/feat-taken';
-import { ObjectEffectsGenerationService } from '../../effects-generation/services/object-effects-generation/object-effects-generation';
+import { ObjectEffectsGenerationService } from '../../effects-generation/services/object-effects-generation/object-effects-generation.service';
 import { abilityModFromAbilityValue } from '../../util/ability-base-value-utils';
-import { propMap$, deepDistinctUntilChanged } from '../../util/observable-utils';
+import { propMap$, deepDistinctUntilChanged, emptySafeCombineLatest } from '../../util/observable-utils';
 import { sortAlphaNum } from '../../util/sort-utils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
@@ -57,7 +57,7 @@ export class CharacterLanguagesService {
                 ),
                 // Resolve all effects of the applicable feats. Since the effect counts for a specific level,
                 // override the character level for the effect resolution.
-                switchMap(matchingFeats => combineLatest(
+                switchMap(matchingFeats => emptySafeCombineLatest(
                     matchingFeats.map(
                         matchingFeat => this._objectEffectsGenerationService.effectsFromEffectObject$(
                             matchingFeat,
@@ -85,7 +85,7 @@ export class CharacterLanguagesService {
     private _languagesFromFeats$(character: Character): Observable<Array<LanguageSource>> {
         return this._characterFeatsService.characterFeatsTakenWithContext$()
             .pipe(
-                switchMap(featsTaken => combineLatest(
+                switchMap(featsTaken => emptySafeCombineLatest(
                     featsTaken
                         .map(featTaken =>
                             this._extractLanguageEffectsFromFeatSet(featTaken, character),
@@ -126,7 +126,7 @@ export class CharacterLanguagesService {
             this._abilityValuesService.mod$('Intelligence', character),
             propMap$(character.class$, 'levels')
                 .pipe(
-                    switchMap(levels => combineLatest(
+                    switchMap(levels => emptySafeCombineLatest(
                         levels.map(level =>
                             this._abilityValuesService.baseValue$('Intelligence', character, level.number),
                         ),

@@ -97,7 +97,7 @@ export class Effect implements Serializable<Effect> {
     }
 
     public get penalty(): boolean {
-        return this.invertPenalty !== (this.valueNumerical < 0);
+        return !!this.invertPenalty !== (this.valueNumerical < 0);
     }
 
     public get hasSetValue(): boolean {

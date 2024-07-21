@@ -20,6 +20,7 @@ import { CreatureService } from '../creature/creature.service';
 import { SkillsDataService } from '../data/skills-data.service';
 import { ProficiencyCopyGain } from 'src/app/classes/character-creation/proficiency-copy-gain';
 import { BonusDescription } from '../../definitions/bonuses/bonus-description';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 const DCBasis = 10;
 
@@ -133,6 +134,7 @@ export class SkillValuesService {
                         }
 
                         return combineLatest([
+                            CharacterFlatteningService.levelOrCurrent$(charLevel),
                             options?.excludeTemporary
                                 ? of([])
                                 : this._creatureEffectsService.absoluteEffectsOnThese$(creature, effectTargetList),
@@ -147,7 +149,7 @@ export class SkillValuesService {
                                 stringEqualsCaseInsensitive(skill.name, 'Innate', { allowPartialString: true })
                                 && stringEqualsCaseInsensitive(skill.name, 'Spell DC', { allowPartialString: true })
                             )
-                                ? combineLatest(
+                                ? emptySafeCombineLatest(
                                     this._skillsDataService.skills(creature.customSkills)
                                         .filter(creatureSkill =>
                                             creatureSkill !== skill &&
@@ -159,7 +161,7 @@ export class SkillValuesService {
                                 : of([]),
                         ])
                             .pipe(
-                                map(([absolutes, relatives, copyProficiencyFeats, spellDCLevels]) => {
+                                map(([effectiveLevel, absolutes, relatives, copyProficiencyFeats, spellDCLevels]) => {
                                     let skillLevel = SkillLevels.Untrained;
                                     const relevantSkillList: Array<string> = [skill.name];
 
@@ -179,7 +181,7 @@ export class SkillValuesService {
                                             increases =
                                                 creature.skillIncreases(
                                                     0,
-                                                    charLevel,
+                                                    effectiveLevel,
                                                     skill.name,
                                                     '',
                                                     '',
@@ -191,7 +193,7 @@ export class SkillValuesService {
                                         if (creature.isAnimalCompanion()) {
                                             increases =
                                                 creature
-                                                    .skillIncreases(0, charLevel, skill.name, '', '', undefined);
+                                                    .skillIncreases(0, effectiveLevel, skill.name, '', '', undefined);
                                         }
 
                                         // Add 2 for each increase, but keep them to their max Rank

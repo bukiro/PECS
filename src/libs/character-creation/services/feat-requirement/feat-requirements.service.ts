@@ -17,9 +17,11 @@ import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-da
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ComplexFeatRequirementsService } from './complex-feat-requirements.service';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
+import { Character } from 'src/app/classes/creatures/character/character';
 
 @Injectable({
     providedIn: 'root',
@@ -259,8 +261,7 @@ export class FeatRequirementsService {
 
         return CreatureService.character$
             .pipe(
-                switchMap(character => combineLatest(
-
+                switchMap(character => emptySafeCombineLatest(
                     feat.abilityreq.map(requirement => {
                         const requiredAbility: Ability = this._abilitiesDataService.abilityFromName(requirement.ability);
                         const expected: number = requirement.value;
@@ -319,7 +320,7 @@ export class FeatRequirementsService {
             this._applyVersatilePerformance$(feat.skillreq, charLevel),
         ])
             .pipe(
-                switchMap(([character, customSkills, skillreq]) => combineLatest(
+                switchMap(([character, customSkills, skillreq]) => emptySafeCombineLatest(
                     skillreq.map(requirement => {
                         const requiredSkillName: string = requirement.skill;
                         const requiredSkill: Skill =
@@ -423,9 +424,9 @@ export class FeatRequirementsService {
             })));
         }
 
-        return combineLatest(
+        return emptySafeCombineLatest(
             feat.featreq.map(featreq =>
-                combineLatest(
+                emptySafeCombineLatest<[Familiar | Character, Array<Feat>]>(
                     // Split the featreq into alternatives.
                     featreq.toLowerCase().split(' or ')
                         .map(alternative => {
@@ -461,9 +462,9 @@ export class FeatRequirementsService {
                         // Each alternative results in a set of a testCreature and some required feats.
                         // If any of the feats is taken, the alternative is successful.
                         switchMap(alternativeSetups =>
-                            combineLatest(
+                            emptySafeCombineLatest(
                                 alternativeSetups.map(([testCreature, requiredFeats]) =>
-                                    combineLatest(
+                                    emptySafeCombineLatest(
                                         requiredFeats.map(requiredFeat =>
                                             this._creatureFeatsService.creatureHasFeat$(
                                                 requiredFeat.name,
@@ -594,7 +595,7 @@ export class FeatRequirementsService {
         ])
             .pipe(
                 switchMap(([character, charLevel]) =>
-                    combineLatest(
+                    emptySafeCombineLatest(
                         complexreqs.map(complexreq => {
                             // You can choose a creature to check this requirement on. Most checks still only run on the character.
                             const creatureType = complexreq.creatureToTest || CreatureTypes.Character;

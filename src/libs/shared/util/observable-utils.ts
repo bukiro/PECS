@@ -1,4 +1,4 @@
-import { Observable, OperatorFunction, distinctUntilChanged, of, switchMap } from 'rxjs';
+import { Observable, OperatorFunction, combineLatest, distinctUntilChanged, of, switchMap, zip } from 'rxjs';
 
 /**
  * Executes switchMaps to the given property of the input observable, up to three properties deep.
@@ -113,3 +113,32 @@ export const deepDistinctUntilChangedWithoutID = <T extends { id: string }>(): O
                         )
                     )),
             );
+
+/**
+ * A wrapper for combineLatest that guarantees an emission even if the sources Array is empty.
+ *
+ * @param sources An Array of Observables of a certain type.
+ * @param fallback An Array of the same type. By default, an empty Array.
+ * @returns The sources combined, or the fallback Array as an Observable.
+ */
+export const emptySafeCombineLatest = <T>(sources: Array<Observable<T>>, fallback?: Array<T>): Observable<Array<T>> =>
+    sources.length
+        ? combineLatest(
+            sources,
+        )
+        : of(fallback ?? []);
+
+
+/**
+ * A wrapper for zip that guarantees an emission even if the sources Array is empty.
+ *
+ * @param sources An Array of Observables of a certain type.
+ * @param fallback An Array of the same type. By default, an empty Array.
+ * @returns The sources combined, or the fallback Array as an Observable.
+ */
+export const emptySafeZip = <T>(sources: Array<Observable<T>>, fallback?: Array<T>): Observable<Array<T>> =>
+    sources.length
+        ? zip(
+            sources,
+        )
+        : of(fallback ?? []);

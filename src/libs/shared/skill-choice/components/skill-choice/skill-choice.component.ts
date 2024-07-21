@@ -15,6 +15,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { abilityModFromAbilityValue } from 'src/libs/shared/util/ability-base-value-utils';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { skillLevelName } from 'src/libs/shared/util/skill-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
@@ -141,7 +142,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
 
         return this._availableSkills$(choice, levelNumber, allowedIncreases)
             .pipe(
-                switchMap(skills => combineLatest(
+                switchMap(skills => emptySafeCombineLatest(
                     skills.map(skill => combineLatest([
                         this._skillValuesService.level$(skill, character, this.levelNumber, { excludeTemporary: true }),
                         this.cannotIncreaseSkill$(skill, levelNumber, choice),
@@ -430,7 +431,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         ])
             .pipe(
                 switchMap(([skills, showOtherOptions]) =>
-                    combineLatest(skills.map(skill =>
+                    emptySafeCombineLatest(skills.map(skill =>
                         // If the choice has a minRank, only keep those skills with that rank or higher.
                         choice.minRank
                             ? this._skillValuesService.level$(skill, CreatureService.character, levelNumber)
@@ -453,11 +454,12 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                 })),
                 switchMap(({ skills, showOtherOptions }) =>
                     // For each skill, fetch whether it can be increased in this choice.
-                    combineLatest(skills
-                        .map(skill => this.cannotIncreaseSkill$(skill, levelNumber, choice)
-                            .pipe(
-                                map(cannotIncreaseReasons => ({ skill, cannotIncreaseReasons })),
-                            )),
+                    emptySafeCombineLatest(
+                        skills
+                            .map(skill => this.cannotIncreaseSkill$(skill, levelNumber, choice)
+                                .pipe(
+                                    map(cannotIncreaseReasons => ({ skill, cannotIncreaseReasons })),
+                                )),
                     )
                         .pipe(
                             map(skillSets => ({ skillSets, showOtherOptions })),

@@ -9,6 +9,7 @@ import { SpellTargetNumber } from 'src/app/classes/spells/spell-target-number';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { HeightenedDescriptionVariable } from 'src/app/classes/spells/heightened-description-variable';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -65,7 +66,7 @@ export class ActivityPropertiesService {
                 // - the first targetNumber that has the required feat,
                 // - or the first targetNumber without required feat,
                 // - or the first targetNumber altogether.
-                return combineLatest(
+                return emptySafeCombineLatest(
                     targetNumbersWithFeatreq
                         .map(targetNumber =>
                             this._characterFeatsService.characterHasFeatAtLevel$(targetNumber.featreq)
@@ -86,7 +87,7 @@ export class ActivityPropertiesService {
                         }),
                     );
             } else {
-                return combineLatest(
+                return emptySafeCombineLatest(
                     activity.targetNumbers
                         .filter(targetNumber => targetNumber.featreq)
                         .map(targetNumber =>

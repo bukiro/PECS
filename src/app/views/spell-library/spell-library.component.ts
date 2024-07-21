@@ -28,7 +28,7 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
@@ -837,7 +837,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
         //To-Do: Either forbid learning cantrips via esoteric polymath,
         // or allow adding cantrips learned via esoteric polymath to your repertoire.
         if (source === 'esotericpolymath') {
-            return combineLatest(
+            return emptySafeCombineLatest(
                 spell.traditions.map(tradition => this._isEsotericPolymathAllowedForTradition$(tradition)),
             )
                 .pipe(
@@ -856,7 +856,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
         //To-Do: Either forbid learning cantrips via arcane evolution,
         // or allow adding cantrips learned via arcane evolution to your repertoire.
         if (source === 'arcaneevolution') {
-            return combineLatest(
+            return emptySafeCombineLatest(
                 spell.traditions.map(tradition => this._isArcaneEvolutionAllowedForTradition$(tradition)),
             )
                 .pipe(

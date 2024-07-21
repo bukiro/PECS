@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Component, ChangeDetectionStrategy, OnInit, OnChanges, OnDestroy, Input, ChangeDetectorRef, SimpleChanges } from '@angular/core';
-import { Observable, Subscription, map, combineLatest, of } from 'rxjs';
+import { Observable, Subscription, map, of } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { Specialization } from 'src/app/classes/attacks/specialization';
 import { ConditionGainSet } from 'src/app/classes/conditions/condition-gain-set';
@@ -19,6 +19,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 
 
@@ -85,12 +86,17 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
         if (changes.showEffects || changes.objectName || changes.specialEffects) {
             this.effects$ = this._effectsShowingHintsOnThis$(this.objectName)
                 .pipe(
-                    map(hintShowingEffects => hintShowingEffects.concat(this.specialEffects)),
+                    map(hintShowingEffects => hintShowingEffects
+                        .concat(
+                            this.specialEffects
+                                .filter(effect => effect.displayed),
+                        ),
+                    ),
                 );
         }
 
         if (changes.showActivities || changes.objectName || changes.specialNames || changes.creature) {
-            this.activities$ = combineLatest(
+            this.activities$ = emptySafeCombineLatest(
                 [this.objectName]
                     .concat(this.specialNames)
                     .map(name => this._activitiesShowingHintsOnThis$(name)
@@ -101,7 +107,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
         }
 
         if (changes.showFeats || changes.objectName || changes.specialNames || changes.creature) {
-            this.feats$ = combineLatest(
+            this.feats$ = emptySafeCombineLatest(
                 [this.objectName]
                     .concat(this.specialNames)
                     .map((name, index) => this._featsShowingHintsOnThis$(name, index === 0 ? this.showFeats : true)
@@ -110,7 +116,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
                     ),
             );
 
-            this.companionElements$ = combineLatest(
+            this.companionElements$ = emptySafeCombineLatest(
                 [this.objectName]
                     .concat(this.specialNames)
                     .map((name, index) => this._companionElementsShowingHintsOnThis$(name, index === 0 ? this.showFeats : true)
@@ -120,7 +126,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
                     ),
             );
 
-            this.familiarElements$ = combineLatest(
+            this.familiarElements$ = emptySafeCombineLatest(
                 [this.objectName]
                     .concat(this.specialNames)
                     .map((name, index) => this._familiarElementsShowingHintsOnThis$(name, index === 0 ? this.showFeats : true)
@@ -132,7 +138,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
         }
 
         if (changes.objectName || changes.specialNames || changes.creature) {
-            this.items$ = combineLatest(
+            this.items$ = emptySafeCombineLatest(
                 [this.objectName]
                     .concat(this.specialNames)
                     .map(name => this._itemsShowingHintsOnThis$(name)
@@ -142,7 +148,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
                     ),
             );
 
-            this.specializations$ = combineLatest(
+            this.specializations$ = emptySafeCombineLatest(
                 [this.objectName]
                     .concat(this.specialNames)
                     .map(name => this._specializationsShowingHintsOnThis$(name)
@@ -152,7 +158,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
                     ),
             );
 
-            this.traits$ = combineLatest(
+            this.traits$ = emptySafeCombineLatest(
                 [this.objectName]
                     .concat(this.specialNames)
                     .map(name => this._traitsShowingHintsOnThis$(name)

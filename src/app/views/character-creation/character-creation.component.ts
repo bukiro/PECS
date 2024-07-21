@@ -86,7 +86,7 @@ import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/ba
 import { creatureSizeName } from 'src/libs/shared/util/creature-utils';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { selectGmMode, selectCharacterMenuClosedOnce } from 'src/libs/store/app/app.selectors';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
@@ -630,7 +630,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             this.character.settings.showOtherOptions$,
             // If there is a filter, verify how many of the allowed abilities can be boosted.
             // If not enough are possible, the filter is ignored.
-            combineLatest(
+            emptySafeCombineLatest(
                 choice.filter.map(filterEntry =>
                     this.cannotBoostAbilityReasons$(this.abilities(filterEntry)[0], levelNumber, choice),
                 ),
@@ -861,7 +861,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public skillChoicesOnLevel$(level: CharacterClassLevel): Observable<Array<SkillChoice>> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             level.skillChoices
                 .filter(choice => !choice.showOnSheet)
                 .map(choice =>
@@ -1203,17 +1203,18 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                     hasFeat
                         ? this.character.class.filteredFeatData$(levelNumber, levelNumber, 'Fuse Stance')
                             .pipe(
-                                switchMap(featDatas => combineLatest(
-                                    featDatas.map(featData => combineLatest([
-                                        featData.valueAsStringArray$('stances'),
-                                        featData.valueAsString$('name'),
-                                    ])
-                                        .pipe(
-                                            map(([stances, name]) => ({
-                                                featData, stances, name,
-                                            })),
-                                        ),
-                                    )),
+                                switchMap(featDatas => emptySafeCombineLatest(
+                                    featDatas
+                                        .map(featData => combineLatest([
+                                            featData.valueAsStringArray$('stances'),
+                                            featData.valueAsString$('name'),
+                                        ])
+                                            .pipe(
+                                                map(([stances, name]) => ({
+                                                    featData, stances, name,
+                                                })),
+                                            ),
+                                        )),
                                 ),
                             )
                         : of(),
@@ -1340,7 +1341,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                     hasFeat
                         ? this.character.class.filteredFeatData$(levelNumber, levelNumber, 'Syncretism')
                             .pipe(
-                                switchMap(featDatas => combineLatest(
+                                switchMap(featDatas => emptySafeCombineLatest(
                                     featDatas.map(featData =>
                                         featData.valueAsString$('deity')
                                             .pipe(
@@ -1624,10 +1625,10 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public availableCompanionTypes$(): Observable<Array<AnimalCompanionAncestry>> {
-        return combineLatest(
+        return combineLatest([
             this.character.settings.showOtherOptions$,
             propMap$(this.animalCompanion$, 'class$', 'ancestry$'),
-        )
+        ])
             .pipe(
                 map(([showOtherOptions, companionAncestry]) => {
                     const existingCompanionAncestryName = companionAncestry.name;

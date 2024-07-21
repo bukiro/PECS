@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, switchMap, combineLatest } from 'rxjs';
+import { Observable, of, switchMap, combineLatest, NEVER } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Equipment } from 'src/app/classes/items/equipment';
 import { ArmorPropertiesService } from '../armor-properties/armor-properties.service';
@@ -7,6 +7,7 @@ import { CreatureAvailabilityService } from '../creature-availability/creature-a
 import { CreatureService } from '../creature/creature.service';
 import { ShieldPropertiesService } from '../shield-properties/shield-properties.service';
 import { WeaponPropertiesService } from '../weapon-properties/weapon-properties.service';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -56,7 +57,7 @@ export class EquipmentPropertiesService {
                             .pipe(
                                 switchMap(creature => this._updateItemModifiers$(creature)),
                             )
-                        : of(),
+                        : NEVER,
                 ),
             )
             .subscribe();
@@ -69,7 +70,7 @@ export class EquipmentPropertiesService {
                             .pipe(
                                 switchMap(creature => this._updateItemModifiers$(creature)),
                             )
-                        : of(),
+                        : NEVER,
                 ),
             )
             .subscribe();
@@ -79,11 +80,11 @@ export class EquipmentPropertiesService {
         // Perpetually keep certain modifiers on all armors, shields and weapons up to date.
         return creature.inventories.values$
             .pipe(
-                switchMap(inventories => combineLatest(
+                switchMap(inventories => emptySafeCombineLatest(
                     inventories.map(inventory => combineLatest([
                         inventory.armors.values$
                             .pipe(
-                                switchMap(armors => combineLatest(
+                                switchMap(armors => emptySafeCombineLatest(
                                     armors.map(armor =>
                                         this._armorPropertiesService.updateModifiers$(armor, creature),
                                     ),
@@ -91,7 +92,7 @@ export class EquipmentPropertiesService {
                             ),
                         inventory.shields.values$
                             .pipe(
-                                switchMap(shields => combineLatest(
+                                switchMap(shields => emptySafeCombineLatest(
                                     shields.map(shield =>
                                         this._shieldPropertiesService.updateModifiers$(shield, creature),
                                     ),
@@ -99,7 +100,7 @@ export class EquipmentPropertiesService {
                             ),
                         inventory.weapons.values$
                             .pipe(
-                                switchMap(weapons => combineLatest(
+                                switchMap(weapons => emptySafeCombineLatest(
                                     weapons.map(weapon =>
                                         this._weaponPropertiesService.updateModifiers$(weapon, creature),
                                     ),
@@ -107,7 +108,7 @@ export class EquipmentPropertiesService {
                             ),
                     ])),
                 )),
-                switchMap(() => of()),
+                switchMap(() => NEVER),
             );
     }
 

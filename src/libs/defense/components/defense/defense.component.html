@@ -8,7 +8,7 @@
         class="attributeBox"
         id="{{creature}}-defense-height"
     >
-        <ng-container *ngIf="componentParameters$() | async as componentParameters">
+        <ng-container *ngIf="componentParameters$ | async as componentParameters">
             <ng-container *ngIf="(componentParameters.ACSources.value$ | async) as acValue">
                 <ng-template #EffectsPopoverContent>
                     <div class="minimized-hide newrow">

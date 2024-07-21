@@ -4,7 +4,7 @@ import { Observable, combineLatest, switchMap, map, of, take, distinctUntilChang
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { abilityModFromAbilityValue } from '../../util/ability-base-value-utils';
-import { propMap$ } from '../../util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from '../../util/observable-utils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
@@ -346,7 +346,7 @@ export class HealthService {
             this._creatureAvailabilityService.allAvailableCreatures$(),
         ])
             .pipe(
-                switchMap(([manualMode, creatures]) => combineLatest(
+                switchMap(([manualMode, creatures]) => emptySafeCombineLatest(
                     creatures.map(creature =>
                         // Don't do anything about your dying status in manual mode.
                         manualMode

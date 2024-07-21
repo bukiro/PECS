@@ -28,7 +28,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
@@ -182,7 +182,7 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
     public visibleItemParameters$(itemList: Array<Item>): Observable<Array<ItemParameters>> {
         const character = this._character;
 
-        return combineLatest(
+        return emptySafeCombineLatest(
             itemList.map(item => {
                 const itemRoles = this._itemRolesService.getItemRoles(item);
                 const armorOrWeapon = (itemRoles.asArmor || itemRoles.asWeapon);

@@ -24,7 +24,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 interface CannotTakeSet {
@@ -780,7 +780,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
                                             );
 
                                     if (!superFeat?.unlimited) {
-                                        return combineLatest(
+                                        return emptySafeCombineLatest(
                                             // If another subtype has been taken, but not in this choice,
                                             // and the feat is not unlimited, no other subFeat can be taken.
                                             (this._feats() ?? [])
@@ -1246,12 +1246,12 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
         featSets: Array<FeatWithSubfeat>,
         choice: FeatChoice,
     ): Observable<Array<FeatSetWithTaken>> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             featSets
                 .map(set =>
                     combineLatest([
                         this._isFeatTakenByThisChoice$(set.feat, choice),
-                        combineLatest(
+                        emptySafeCombineLatest(
                             set.subFeats
                                 .map(subFeat =>
                                     this._isFeatTakenByThisChoice$(subFeat.feat, choice)
@@ -1303,9 +1303,9 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
         creature: CharacterModel | Familiar,
         featLevel: number,
     ): Observable<Array<FeatSetWithCannotTake>> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             featSets
-                .map(set => combineLatest(
+                .map(set => emptySafeCombineLatest(
                     set.subFeats
                         .map(subFeatSet =>
                             this._cannotTakeFeat$(subFeatSet.feat, subFeatSet.taken, choice, creature, featLevel)
@@ -1340,12 +1340,12 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
         featSets: Array<FeatSetWithCannotTake>,
         creature: CharacterModel | Familiar,
     ): Observable<Array<FeatSetWithAlreadyTaken>> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             featSets
                 .map(set =>
                     combineLatest([
                         this._isFeatAlreadyTaken$(set.feat, creature),
-                        combineLatest(
+                        emptySafeCombineLatest(
                             set.subFeats
                                 .map(subFeat =>
                                     this._isFeatAlreadyTaken$(subFeat.feat, creature)

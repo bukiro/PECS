@@ -28,7 +28,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$, deepDistinctUntilChanged } from 'src/libs/shared/util/observable-utils';
+import { propMap$, deepDistinctUntilChanged, emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
@@ -51,6 +51,8 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     public isMinimized$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
+
+    public componentParameters$: Observable<ComponentParameters>;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -88,6 +90,16 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.componentParameters$ = this.calculatedAC$()
+            .pipe(
+                map(ACSources => ({
+                    ACSources,
+                    cover$: this._currentCover$(),
+                    flatFooted$: this._currentFlatFooted$(),
+                    hidden$: this._currentHidden$(),
+                })),
             );
     }
 
@@ -129,18 +141,6 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
         return InputValidationService.positiveNumbersOnly(event);
-    }
-
-    public componentParameters$(): Observable<ComponentParameters> {
-        return this.calculatedAC$()
-            .pipe(
-                map(ACSources => ({
-                    ACSources,
-                    cover$: this._currentCover$(),
-                    flatFooted$: this._currentFlatFooted$(),
-                    hidden$: this._currentHidden$(),
-                })),
-            );
     }
 
     public calculatedAC$(): Observable<ACForDisplay> {
@@ -332,7 +332,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
         //Return names that get_FeatsShowingOn should run on for saving throws.
         return this.equippedShield$()
             .pipe(
-                switchMap(shields => combineLatest(
+                switchMap(shields => emptySafeCombineLatest(
                     shields.map(shield =>
                         shield.effectiveEmblazonArmament$,
                     ),

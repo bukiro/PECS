@@ -11,7 +11,7 @@ import {
     OnChanges,
     SimpleChanges,
 } from '@angular/core';
-import { Observable, Subscription, combineLatest, map, switchMap, of } from 'rxjs';
+import { Observable, Subscription, map, switchMap, of } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
@@ -24,6 +24,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SkillLiveValue, SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 interface ActivityParameters {
@@ -128,7 +129,7 @@ export class SkillComponent extends TrackByMixin(BaseClass) implements OnInit, O
     }
 
     public relatedActivityParameters$(): Observable<Array<ActivityParameters>> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             this.relatedActivityGains.map(gain => {
                 const activity = gain.originalActivity;
 

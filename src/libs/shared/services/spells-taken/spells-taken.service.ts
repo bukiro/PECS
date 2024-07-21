@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Observable, of, map, switchMap, combineLatest } from 'rxjs';
+import { Observable, of, map, switchMap } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
@@ -9,6 +9,7 @@ import { SpellTraditions } from '../../definitions/spell-traditions';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { SpellsDataService } from '../data/spells-data.service';
 import { SpellPropertiesService } from '../spell-properties/spell-properties.service';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -99,9 +100,9 @@ export class SpellsTakenService {
                         (filter.castingTypes?.length ? filter.castingTypes.includes(casting.castingType) : true),
                     ),
                 ),
-                switchMap(spellCasting => combineLatest(
+                switchMap(spellCasting => emptySafeCombineLatest(
                     spellCasting.map(casting =>
-                        combineLatest(casting.spellChoices.map(choice =>
+                        emptySafeCombineLatest(casting.spellChoices.map(choice =>
                             (
                                 choiceLevelMatches(choice)
                                     ? signatureSpellLevelMatches(choice)

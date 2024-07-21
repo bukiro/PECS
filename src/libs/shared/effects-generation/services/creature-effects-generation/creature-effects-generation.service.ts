@@ -9,7 +9,7 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { HintEffectsObject } from '../../definitions/interfaces/hint-effects-object';
 
 interface CreatureEffectsGenerationObjects {
@@ -112,7 +112,7 @@ export class CreatureEffectsGenerationService {
     }
 
     private _familiarEffectsGenerationObjects$(familiar: Familiar): Observable<CreatureEffectsGenerationObjects> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             this._familiarsDataService.familiarAbilities()
                 .map(ability =>
                     (ability.effects?.length || ability.hints?.length)

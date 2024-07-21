@@ -1,4 +1,5 @@
-import { Observable, switchMap, combineLatest, map } from 'rxjs';
+/* eslint-disable complexity */
+import { Observable, switchMap, map } from 'rxjs';
 import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
 import { DiceSizes } from 'src/libs/shared/definitions/dice-sizes';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
@@ -13,6 +14,7 @@ import { EffectGain } from '../effects/effect-gain';
 import { Equipment } from '../items/equipment';
 import { Item } from '../items/item';
 import { Hint } from './hint';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<Trait>({
     primitives: [
@@ -95,10 +97,10 @@ export class Trait implements Serializable<Trait> {
     public itemsWithThisTrait$(creature: Creature): Observable<Array<Item>> {
         return creature.inventories.values$
             .pipe(
-                switchMap(inventories => combineLatest(
+                switchMap(inventories => emptySafeCombineLatest(
                     inventories.map(inventory => inventory.equippedEquipment$
                         .pipe(
-                            switchMap(items => combineLatest(
+                            switchMap(items => emptySafeCombineLatest(
                                 items.map(item => item.effectiveTraits$
                                     .pipe(
                                         map(traits =>
@@ -130,7 +132,7 @@ export class Trait implements Serializable<Trait> {
     public itemNamesWithThisTrait$(creature: Creature): Observable<Array<string>> {
         return this.itemsWithThisTrait$(creature)
             .pipe(
-                switchMap(items => combineLatest(
+                switchMap(items => emptySafeCombineLatest(
                     items.map(item => item.effectiveName$()),
                 )),
             );

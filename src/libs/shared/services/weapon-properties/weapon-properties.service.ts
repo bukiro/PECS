@@ -14,6 +14,7 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 import { SkillsDataService } from '../data/skills-data.service';
 import { EquipmentPropertiesSharedService } from '../equipment-properties-shared/equipment-properties-shared.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -190,7 +191,7 @@ export class WeaponPropertiesService {
                             ),
                     );
 
-                    return combineLatest(levelSources);
+                    return emptySafeCombineLatest(levelSources);
                 }),
                 // Get the skill level by applying the result with the most increases, but no higher than 8.
                 map(skillLevels => Math.min(Math.max(...skillLevels, maxSkillLevel))),
@@ -213,7 +214,7 @@ export class WeaponPropertiesService {
 
                         // Then we set this skill level to either this level +2
                         // or the highest of the found proficiencies - whichever is lower.
-                        return combineLatest(
+                        return emptySafeCombineLatest(
                             skills.map(skill => this._skillValuesService.level$(skill, creature)),
                         )
                             .pipe(

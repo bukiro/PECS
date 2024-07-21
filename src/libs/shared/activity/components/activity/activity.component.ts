@@ -32,6 +32,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
@@ -251,7 +252,7 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
         const activityGain = this.gain;
 
         if (activityGain) {
-            return combineLatest(
+            return emptySafeCombineLatest(
                 this.activity.gainConditions
                     .map(conditionGain => ({
                         gain: conditionGain,

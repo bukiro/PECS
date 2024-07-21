@@ -18,7 +18,7 @@ import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.ser
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { spellTraditionFromString, spellCastingTypeFromString } from 'src/libs/shared/util/spell-utils';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
@@ -117,7 +117,7 @@ export class ComplexFeatRequirementsService {
 
         return this._characterFeatsService.characterFeats$()
             .pipe(
-                switchMap(feats => combineLatest(
+                switchMap(feats => emptySafeCombineLatest(
                     complexreq.countFeats?.map(featreq => {
                         if (featreq.query.havingAllOfTraits) {
                             const traits = this._splitNames(featreq.query.havingAllOfTraits, context);
@@ -178,7 +178,7 @@ export class ComplexFeatRequirementsService {
                             });
                         }
 
-                        return combineLatest(
+                        return emptySafeCombineLatest(
                             feats.map(feat =>
                                 this._creatureFeatsService.creatureHasFeat$(
                                     feat.name,
@@ -544,7 +544,7 @@ export class ComplexFeatRequirementsService {
             return of(true);
         }
 
-        return combineLatest(
+        return emptySafeCombineLatest(
             complexreq.countSpells.map(spellreq => {
 
                 const classNames =
@@ -628,7 +628,7 @@ export class ComplexFeatRequirementsService {
 
         return this._characterDeitiesService.currentCharacterDeities$(context.charLevel)
             .pipe(
-                switchMap(allDeities => combineLatest(
+                switchMap(allDeities => emptySafeCombineLatest(
                     allDeities.map(deity =>
                         combineLatest([
                             complexreq.countDeities?.some(deityreq =>
@@ -803,7 +803,7 @@ export class ComplexFeatRequirementsService {
         )
             .pipe(
                 map(deities => deities[0]),
-                switchMap(deity => combineLatest(
+                switchMap(deity => emptySafeCombineLatest(
                     complexreq.skillLevels?.map(skillreq => {
 
                         const types = skillreq.query.anyOfTypes ? this._splitNames(skillreq.query.anyOfTypes, context) : [];
@@ -838,7 +838,7 @@ export class ComplexFeatRequirementsService {
 
                         allSkills = allSkills.filter(skill => !!skill);
 
-                        return combineLatest(
+                        return emptySafeCombineLatest(
                             allSkills.map(skill => this._skillValuesService.level$(skill, context.creature, context.charLevel)),
                         )
                             .pipe(

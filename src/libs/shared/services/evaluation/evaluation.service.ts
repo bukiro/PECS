@@ -31,6 +31,7 @@ import { Observable, combineLatest, map, of } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
 import { Equipment } from 'src/app/classes/items/equipment';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -239,14 +240,14 @@ export class EvaluationService {
             shouldPrepareActivities
                 ? this._creatureActivitiesService.creatureOwnedActivities$(Creature)
                 : of([]),
-            combineLatest(
+            emptySafeCombineLatest(
                 hasFeatNames
                     .map(requiredFeat => hasFeat$(requiredFeat.creature, requiredFeat.featName)
                         .pipe(
                             map(hasFeat => hasFeat ? requiredFeat : { creature: '', featName: '' }),
                         )),
             ),
-            combineLatest(
+            emptySafeCombineLatest(
                 speedNames
                     .map(speedName =>
                         //This tests if you have a certain speed, either from your ancestry or from absolute effects.
@@ -264,7 +265,7 @@ export class EvaluationService {
                     ),
 
             ),
-            combineLatest(
+            emptySafeCombineLatest(
                 speedNames
                     .map(speedName =>
                         this._speedValuesService.value$(this._testSpeed(speedName), Creature)
@@ -274,7 +275,7 @@ export class EvaluationService {
                     ),
 
             ),
-            combineLatest(
+            emptySafeCombineLatest(
                 featsTakenCreatures
                     .map(creature => featsTaken$(creature)
                         .pipe(
@@ -282,7 +283,7 @@ export class EvaluationService {
                         ),
                     ),
             ),
-            combineLatest(
+            emptySafeCombineLatest(
                 skillValueNames
                     .map(skillName =>
                         // Skill value comparisons use the base value, i.e. before effects.
@@ -297,7 +298,7 @@ export class EvaluationService {
                             ),
                     ),
             ),
-            combineLatest(
+            emptySafeCombineLatest(
                 skillLevelNames
                     .map(skillName => (Creature === Familiar)
                         ? of({ skill: skillName, value: 0 })
@@ -307,7 +308,7 @@ export class EvaluationService {
                             ),
                     ),
             ),
-            combineLatest(
+            emptySafeCombineLatest(
                 abilityValueNames
                     .map(abilityName => (Creature === Familiar)
                         ? of({ ability: abilityName, value: { result: 0 } })
@@ -317,7 +318,7 @@ export class EvaluationService {
                             ),
                     ),
             ),
-            combineLatest(
+            emptySafeCombineLatest(
                 abilityModNames
                     .map(abilityName => (Creature === Familiar)
                         ? of({ ability: abilityName, value: { result: 0 } })

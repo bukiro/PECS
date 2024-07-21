@@ -9,6 +9,7 @@ import { WornItem } from 'src/app/classes/items/worn-item';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
 import { HintEffectsObject } from '../../definitions/interfaces/hint-effects-object';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -33,9 +34,9 @@ export class ItemEffectsGenerationService {
         return creature.inventories.values$
             .pipe(
                 switchMap(inventories =>
-                    combineLatest(
+                    emptySafeCombineLatest(
                         inventories.map(inventory =>
-                            combineLatest(
+                            emptySafeCombineLatest(
                                 inventory.allEquipment()
                                     .filter(item =>
                                         doItemEffectsApply(item),

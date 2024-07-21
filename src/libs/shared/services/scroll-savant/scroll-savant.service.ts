@@ -15,6 +15,7 @@ import { InventoryService } from '../inventory/inventory.service';
 import { RecastService } from '../recast/recast.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 import { Scroll } from 'src/app/classes/items/scroll';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -125,7 +126,7 @@ export class ScrollSavantService {
         return CreatureService.character$
             .pipe(
                 switchMap(character =>
-                    combineLatest(
+                    emptySafeCombineLatest(
                         this._skillsDataService.skills(character.customSkills)
                             .filter(skill => stringEqualsCaseInsensitive(skill.name, ('Arcane Spell DC'), { allowPartialString: true }))
                             .map(skill => this._skillValuesService.level$(skill, character, character.level)),

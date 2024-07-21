@@ -8,6 +8,7 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 import { CircularMenuOption } from 'src/libs/shared/ui/circular-menu';
 import { TurnService } from '../../services/turn/turn.service';
+import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 const timePassingDurations = [
     TimePeriods.Turn,
@@ -74,7 +75,7 @@ export class TimeComponent extends TrackByMixin(CharacterSheetCardComponent) {
     }
 
     private _timePassingOptions$(): Observable<Array<CircularMenuOption>> {
-        return combineLatest(
+        return emptySafeCombineLatest(
             timePassingDurations
                 .map(duration =>
                     combineLatest([

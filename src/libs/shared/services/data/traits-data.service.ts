@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, switchMap, of, combineLatest, map } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap, of, map } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Trait } from 'src/app/classes/hints/trait';
 import * as json_traits from 'src/assets/json/traits';
 import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { RecastService } from '../recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -100,7 +101,7 @@ export class TraitsDataService {
 
                         // Return all those traits that are on any equipped equipment in your inventory
                         // Uses the itemsWithThisTrait$() method of Trait that returns any equipment that has this trait.
-                        return combineLatest(
+                        return emptySafeCombineLatest(
                             nameMatchingTraits.map(trait =>
                                 trait.itemNamesWithThisTrait$(creature)
                                     .pipe(
