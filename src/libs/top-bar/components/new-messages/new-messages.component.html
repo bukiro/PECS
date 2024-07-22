@@ -1,35 +1,50 @@
-<ng-container *ngIf="checkMessagesAutomatically; else ManualCheckTemplate">
-    <app-button
-        *ngIf="messages$ | async as messages"
-        class="messages-button"
-        compact
-        [label]="messages.length > 1 ? 'Select messages to apply' : 'No messages available'"
-        [disabled]="!messages.length"
-        (clicked)="showMessagesDialog(messages)"
-    >
-        <ng-container [ngTemplateOutlet]="IconTemplate" />
-
-        <div
-            *ngIf="messages.length"
-            class="messages-button__badge"
+@if (checkMessagesAutomatically) {
+    @if (messages$ | async; as messages) {
+        <app-button
+            class="messages-button"
+            compact
+            [label]="
+                messages.length > 1
+                    ? 'Select messages to apply'
+                    : 'No messages available'
+            "
+            [disabled]="!messages.length"
+            (clicked)="showMessagesDialog(messages)"
         >
-            {{messages.length}}
-        </div>
-    </app-button>
-</ng-container>
+            <ng-container [ngTemplateOutlet]="IconTemplate" />
 
-<ng-template #ManualCheckTemplate>
-    <app-button
-        *ngIf="{ set: hasPartyName } as partyName"
-        class="messages-button"
-        compact
-        [label]="(checkingMessages$ | async) ? 'Checking for new messages...' : partyName.set ? 'Check for new messages' : 'You can only receive messages in a party.'"
-        [disabled]="!partyName.set || (checkingMessages$ | async) || false"
-        (clicked)="checkMessages()"
-    >
-        <app-loading-diamond *ngIf="checkingMessages$ | async; else IconTemplate" [size]="2"/>
-    </app-button>
-</ng-template>
+            @if (messages.length) {
+                <div class="messages-button__badge">
+                    {{ messages.length }}
+                </div>
+            }
+        </app-button>
+    }
+} @else {
+    @if ({ set: hasPartyName }; as partyName) {
+        <app-button
+            class="messages-button"
+            compact
+            [label]="
+                (checkingMessages$ | async)
+                    ? 'Checking for new messages...'
+                    : partyName.set
+                      ? 'Check for new messages'
+                      : 'You can only receive messages in a party.'
+            "
+            [disabled]="!partyName.set || (checkingMessages$ | async) || false"
+            (clicked)="checkMessages()"
+        >
+            @if (checkingMessages$ | async) {
+                <app-loading-diamond [size]="2" />
+            } @else {
+                <i
+                    class="ra ra-player-thunder-struck messages-button__content"
+                ></i>
+            }
+        </app-button>
+    }
+}
 
 <ng-template #IconTemplate>
     <i class="ra ra-player-thunder-struck messages-button__content"></i>

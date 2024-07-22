@@ -35,12 +35,12 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
-import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
-import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 import { ActivityContentComponent } from '../../../activity-content/components/activity-content/activity-content.component';
 import { FormsModule } from '@angular/forms';
 import { TagsComponent } from '../../../tags/components/tags/tags.component';
-import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { SpellTargetComponent } from '../../../spell-target/components/spell-target/spell-target.component';
 import { CommonModule } from '@angular/common';
@@ -69,9 +69,7 @@ interface ActivitySpellSet {
     imports: [
         CommonModule,
         FormsModule,
-
         NgbTooltip,
-
         SpellTargetComponent,
         TraitComponent,
         TagsComponent,

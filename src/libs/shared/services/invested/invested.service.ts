@@ -81,7 +81,6 @@ export class InvestedService {
                     ),
                 ),
             );
-
     }
 
 }

@@ -1,38 +1,40 @@
 <div class="list-item newrow">
-    <p>{{cup.desc}}</p>
+    <p>{{ cup.desc }}</p>
 </div>
 
 <header class="featureHeader">OPEN GAME LICENSE Version 1.0a</header>
 
-<ng-container *ngFor="let paragraph of ogl; let index = index; trackBy:trackByIndex;">
+@for (paragraph of ogl; track $index) {
     <div class="list-item newrow">
         <p>
-            <strong *ngIf="paragraph.title">{{paragraph.title}}&nbsp;</strong>
+            @if (paragraph.title) {
+                <strong>{{ paragraph.title }}&nbsp;</strong>
+            }
 
-            <span *ngIf="paragraph.desc">{{paragraph.desc}}</span>
+            @if (paragraph.desc) {
+                <span>{{ paragraph.desc }}</span>
+            }
         </p>
 
-        <ng-container *ngIf="index === ogl.length - 1">
-            <ng-container *ngFor="let block of ogl15; trackBy:trackByIndex;">
+        @if ($last) {
+            @for (block of ogl15; track $index) {
                 <div class="newrow left-aligned">
-                    <header
-                        *ngIf="block.header"
-                        class="spellHeader"
-                    >
-                        {{block.header}}
-                    </header>
+                    @if (block.header) {
+                        <header class="spellHeader">
+                            {{ block.header }}
+                        </header>
+                    }
 
-                    <div
-                        *ngFor="let line of block.lines; trackBy:trackByIndex;"
-                        class="newrow left-aligned"
-                    >
-                        <span>
-                            <strong>{{line.title}}</strong>
-                            {{line.desc}}
-                        </span>
-                    </div>
+                    @for (line of block.lines; track $index) {
+                        <div class="newrow left-aligned">
+                            <span>
+                                <strong>{{ line.title }}</strong>
+                                {{ line.desc }}
+                            </span>
+                        </div>
+                    }
                 </div>
-            </ng-container>
-        </ng-container>
+            }
+        }
     </div>
-</ng-container>
+}

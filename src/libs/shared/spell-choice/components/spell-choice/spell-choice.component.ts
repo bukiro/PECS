@@ -31,14 +31,13 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive, capitalize } from 'src/libs/shared/util/string-utils';
-import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
 import { SpellComponent } from '../../../spell/components/spell/spell.component';
-import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
 import { FormsModule } from '@angular/forms';
-import { GridIconComponent } from '../../../ui/grid-icon/components/grid-icon/grid-icon.component';
+import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
 import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-
 
 interface SpellSet {
     spell: Spell;
@@ -61,7 +60,6 @@ interface ComponentParameters {
 
 interface SpellParameters {
     spell: Spell;
-    id: string;
     borrowed: boolean;
     amountTaken: number;
     checked: boolean;
@@ -566,7 +564,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
 
                 return {
                     spell,
-                    id: spell.id,
                     borrowed: spellSet.borrowed,
                     amountTaken,
                     checked: isChecked,

@@ -19,10 +19,10 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { FormsModule } from '@angular/forms';
-import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { NgbPopover, NgbProgressbar, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 @Component({
     selector: 'app-health',
@@ -236,7 +236,6 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                 this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
                 this._refreshService.processPreparedChanges();
             });
-
     }
 
     public onSetTemporaryHP(amount: number): void {

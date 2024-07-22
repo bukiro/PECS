@@ -7,7 +7,6 @@ import { Toast } from '../../definitions/interfaces/toast';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { NgbToast } from '@ng-bootstrap/ng-bootstrap';
-import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-toast-container',
@@ -15,8 +14,6 @@ import { CommonModule } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        CommonModule,
-
         NgbToast,
     ],
 })

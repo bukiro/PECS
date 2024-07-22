@@ -40,7 +40,6 @@ export class ComplexFeatRequirementsService {
         private readonly _creatureSensesService: CreatureSensesService,
     ) { }
 
-
     public hasThisFeat$(
         complexreq: FeatRequirements.ComplexRequirement,
         context: {
@@ -528,8 +527,6 @@ export class ComplexFeatRequirementsService {
                 ),
                 map(results => results.some(result => !!result)),
             );
-
-
     }
 
     public countSpells$(
@@ -727,8 +724,6 @@ export class ComplexFeatRequirementsService {
                 ),
                 map(results => results.some(result => !!result)),
             );
-
-
     }
 
     public countFavoredWeapons$(

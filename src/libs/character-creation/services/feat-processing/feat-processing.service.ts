@@ -37,7 +37,6 @@ import { CharacterSkillIncreaseService } from '../character-skill-increase/chara
 import { FeatProcessingRefreshService } from './feat-processing-refresh.service';
 import { NamedFeatProcessingService } from './named-feat-processing.service';
 
-
 export interface FeatProcessingContext {
     creature: Character | Familiar;
     gain: FeatTaken;

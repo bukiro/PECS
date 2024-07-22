@@ -10,10 +10,10 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
-import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
-import { AttributeValueComponent } from '../../../shared/ui/attribute-value/components/attribute-value/attribute-value.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
+import { AttributeValueComponent } from 'src/libs/shared/ui/attribute-value/components/attribute-value/attribute-value.component';
 import { CommonModule } from '@angular/common';
-import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 @Component({
     selector: 'app-abilities',

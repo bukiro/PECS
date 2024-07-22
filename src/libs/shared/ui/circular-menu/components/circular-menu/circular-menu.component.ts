@@ -85,7 +85,6 @@ export class CircularMenuComponent extends TrackByMixin(ButtonComponent) {
 
             });
         }
-
     }
 
     private _prepareOptions(options?: Array<CircularMenuOption>): Array<CircularMenuOption> | undefined {

@@ -1,160 +1,192 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<header
-    *ngIf="propertyData.priority === '00' && propertyData.group"
-    class="sectionHeader"
->
-    {{propertyData.group.split("-")[1]}}
-</header>
+@if (propertyData.priority === "00" && propertyData.group) {
+    <header class="sectionHeader">
+        {{ propertyData.group.split("-")[1] }}
+    </header>
+}
 
-<div
-    *ngIf="parent() as parent"
-    class="list-item"
->
-    <ng-container *ngIf="!noTitle">
-        <div class="newrow left-aligned">
-            <strong [ngbPopover]="propertyData.desc">{{propertyData.name}}</strong>
-        </div>
-    </ng-container>
-
-    <ng-container *ngIf="parent[propertyKey] as property">
-        <ng-container *ngIf="property !== null && isPropertyAnArray(property)">
-            <button
-                type="button"
-                (click)="addNewItemObject()"
-            >
-                Add
-            </button>
-
-            <div
-                *ngFor="let object of property; let i = index; trackBy:trackByIndex;"
-                class="list-item"
-            >
-                <span>{{i+1}}</span>
-
-                <span>
-                    <button
-                        type="button"
-                        (click)="removeNewItemObject(i)"
-                    >
-                        Remove
-                    </button>
-                </span>
-
-                <ng-container *ngIf="isPropertyAnObject(object); else LiteralArrayTemplate">
-                    <ng-container *ngFor="let subProperty of subProperties(object); trackBy:trackByIndex;">
-                        <app-new-item-property
-                            [propertyData]=subProperty
-                            [propertyKey]=subProperty.key
-                            [parents]=parents.concat(propertyKey,i.toString())
-                            [newItem]=newItem
-                        />
-                    </ng-container>
-                </ng-container>
-
-                <ng-template #LiteralArrayTemplate>
-                    <app-new-item-property
-                        class="newrow"
-                        [propertyData]=propertyData
-                        [propertyKey]="indexToKey(i)"
-                        [parents]=parents.concat(propertyKey)
-                        [noTitle]=true
-                        [newItem]=newItem
-                    />
-                </ng-template>
+@if (parent(); as parent) {
+    <div class="list-item">
+        @if (!noTitle) {
+            <div class="newrow left-aligned">
+                <strong [ngbPopover]="propertyData.desc">{{
+                    propertyData.name
+                }}</strong>
             </div>
-        </ng-container>
-    </ng-container>
+        }
 
-    <ng-container *ngIf="!isPropertyAnObject(parent[propertyKey]) || parent[propertyKey]===null">
-        <div class="newrow">
-            <input
-                *ngIf="!propertyData.type && !propertyData.locked"
-                aria-label="Text input"
-                class="newrow"
-                type="text"
-                id="{{propertyKey}}"
-                [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
-                (blur)="validate()"
-            >
-
-            <textarea
-                *ngIf="propertyData.type==='textarea'"
-                aria-label="Multiline text input"
-                class="newrow"
-                rows=3
-                [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
-            >
-            </textarea>
-
-            <input
-                *ngIf="propertyData.type==='checkbox'"
-                aria-label="Checkbox"
-                type="checkbox"
-                [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
-            >
-
-            <input
-                *ngIf="propertyData.type==='number'"
-                aria-label="Number input"
-                type="number"
-                [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
-                (blur)="validate()"
-            >
-        </div>
-
-        <div
-            *ngIf="validationError.length"
-            class="newrow"
-        >
-            <span class="problem">{{validationError}}</span>
-        </div>
-
-        <div
-            *ngIf="validationResult.length"
-            class="newrow"
-        >
-            <span>Current result: {{validationResult}}</span>
-        </div>
-
-        <div
-            *ngIf="propertyData.type!=='textarea' && propertyData.type!=='checkbox' && !(propertyData.parent === 'gainItems' && propertyData.key === 'type')"
-            class="list-item"
-            style="margin: initial 0"
-        >
-            <select
-                aria-label="Select example"
-                class="newrow left-aligned"
-                [disabled]="!examples().length"
-                [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
-                (ngModelChange)="validate()"
-            >
-                <option
-                    *ngFor="let example of examples(); trackBy:trackByIndex;"
-                    [ngValue]="example"
+        @if (parent[propertyKey]; as property) {
+            @if (property !== null && isPropertyAnArray(property)) {
+                <button
+                    type="button"
+                    (click)="addNewItemObject()"
                 >
-                    {{example}}
-                </option>
-            </select>
-        </div>
+                    Add
+                </button>
 
-        <div
-            *ngIf="propertyData.parent === 'gainItems' && propertyData.key === 'type'"
-            class="list-item"
-            style="margin: initial 0"
-        >
-            <select
-                aria-label="Select item type"
-                class="newrow left-aligned"
-                [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
-                (ngModelChange)="setItemType()"
-            >
-                <option
-                    *ngFor="let itemset of itemSets(); trackBy:trackByIndex;"
-                    [ngValue]="itemset.key"
+                @for (object of property; track objectIndex; let objectIndex = $index) {
+                    <div class="list-item">
+                        <span>{{ objectIndex + 1 }}</span>
+
+                        <span>
+                            <button
+                                type="button"
+                                (click)="removeNewItemObject(objectIndex)"
+                            >
+                                Remove
+                            </button>
+                        </span>
+
+                        @if (isPropertyAnObject(object)) {
+                            @for (
+                                subProperty of subProperties(object);
+                                track $index
+                            ) {
+                                <app-new-item-property
+                                    [propertyData]="subProperty"
+                                    [propertyKey]="subProperty.key"
+                                    [parents]="
+                                        parents.concat(
+                                            propertyKey,
+                                            objectIndex.toString()
+                                        )
+                                    "
+                                    [newItem]="newItem"
+                                />
+                            }
+                        } @else {
+                            <app-new-item-property
+                                class="newrow"
+                                [propertyData]="propertyData"
+                                [propertyKey]="indexToKey(objectIndex)"
+                                [parents]="parents.concat(propertyKey)"
+                                [noTitle]="true"
+                                [newItem]="newItem"
+                            />
+                        }
+                    </div>
+                }
+            }
+        }
+
+        @if (
+            !isPropertyAnObject(parent[propertyKey]) ||
+            parent[propertyKey] === null
+        ) {
+            <div class="newrow">
+                @if (!propertyData.type && !propertyData.locked) {
+                    <input
+                        aria-label="Text input"
+                        class="newrow"
+                        type="text"
+                        id="{{ propertyKey }}"
+                        [(ngModel)]="
+                            objectPropertyAccessor(parent, propertyKey).value
+                        "
+                        (blur)="validate()"
+                    />
+                }
+
+                @if (propertyData.type === "textarea") {
+                    <textarea
+                        aria-label="Multiline text input"
+                        class="newrow"
+                        rows="3"
+                        [(ngModel)]="
+                            objectPropertyAccessor(parent, propertyKey).value
+                        "
+                    >
+                    </textarea>
+                }
+
+                @if (propertyData.type === "checkbox") {
+                    <input
+                        aria-label="Checkbox"
+                        type="checkbox"
+                        [(ngModel)]="
+                            objectPropertyAccessor(parent, propertyKey).value
+                        "
+                    />
+                }
+
+                @if (propertyData.type === "number") {
+                    <input
+                        aria-label="Number input"
+                        type="number"
+                        [(ngModel)]="
+                            objectPropertyAccessor(parent, propertyKey).value
+                        "
+                        (blur)="validate()"
+                    />
+                }
+            </div>
+
+            @if (validationError.length) {
+                <div class="newrow">
+                    <span class="problem">{{ validationError }}</span>
+                </div>
+            }
+
+            @if (validationResult.length) {
+                <div class="newrow">
+                    <span>Current result: {{ validationResult }}</span>
+                </div>
+            }
+
+            @if (
+                propertyData.type !== "textarea" &&
+                propertyData.type !== "checkbox" &&
+                !(
+                    propertyData.parent === "gainItems" &&
+                    propertyData.key === "type"
+                )
+            ) {
+                <div
+                    class="list-item"
+                    style="margin: initial 0"
                 >
-                    {{itemset.name}}
-                </option>
-            </select>
-        </div>
-    </ng-container>
-</div>
+                    <select
+                        aria-label="Select example"
+                        class="newrow left-aligned"
+                        [disabled]="!examples().length"
+                        [(ngModel)]="
+                            objectPropertyAccessor(parent, propertyKey).value
+                        "
+                        (ngModelChange)="validate()"
+                    >
+                        @for (example of examples(); track $index) {
+                            <option [ngValue]="example">
+                                {{ example }}
+                            </option>
+                        }
+                    </select>
+                </div>
+            }
+
+            @if (
+                propertyData.parent === "gainItems" &&
+                propertyData.key === "type"
+            ) {
+                <div
+                    class="list-item"
+                    style="margin: initial 0"
+                >
+                    <select
+                        aria-label="Select item type"
+                        class="newrow left-aligned"
+                        [(ngModel)]="
+                            objectPropertyAccessor(parent, propertyKey).value
+                        "
+                        (ngModelChange)="setItemType()"
+                    >
+                        @for (itemset of itemSets(); track $index) {
+                            <option [ngValue]="itemset.key">
+                                {{ itemset.name }}
+                            </option>
+                        }
+                    </select>
+                </div>
+            }
+        }
+    </div>
+}

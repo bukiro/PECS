@@ -42,7 +42,6 @@ import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-acc
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { FormsModule } from '@angular/forms';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { CommonModule } from '@angular/common';
 
 //TODO: Rework this entire thing to make it work with strict mode and have fewer exceptions;
 
@@ -53,9 +52,7 @@ import { CommonModule } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        CommonModule,
         FormsModule,
-
         NgbPopover,
     ],
 })

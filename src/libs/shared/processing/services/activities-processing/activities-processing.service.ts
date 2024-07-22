@@ -513,7 +513,6 @@ export class ActivitiesProcessingService {
                         );
                 }
 
-
                 return of([]);
             }),
         )

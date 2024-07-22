@@ -1,46 +1,46 @@
 <cite
     class="trait"
-    [ngClass]="{'trait-rare': trait.name === 'Rare', 'trait-uncommon': trait.name === 'Uncommon', 'extra-trait': extraDescription}"
+    [ngClass]="{
+        'trait-rare': trait.name === 'Rare',
+        'trait-uncommon': trait.name === 'Uncommon',
+        'extra-trait': extraDescription,
+    }"
 >
     <ng-template #TraitContent>
-        <div
-            *ngIf="trait.sourceBook"
-            class="newrow left-aligned"
-        >
-            <strong>Source</strong>
+        @if (trait.sourceBook) {
+            <div class="newrow left-aligned">
+                <strong>Source</strong>
 
-            <i>{{trait.sourceBook}}</i>
-        </div>
+                <i>{{ trait.sourceBook }}</i>
+            </div>
+        }
 
-        <app-description
-            *ngFor="let split of trait.desc.split('\n\n'); trackBy:trackByIndex;"
-            [text]="split"
-        />
+        @for (split of trait.desc.split("\n\n"); track $index) {
+            <app-description [text]="split" />
+        }
 
-        <div
-            *ngIf="extraDescription"
-            class="newrow left-aligned"
-        >
-            {{extraDescription}}
-        </div>
+        @if (extraDescription) {
+            <div class="newrow left-aligned">
+                {{ extraDescription }}
+            </div>
+        }
 
-        <ng-container *ngIf="trait.objectEffects && trait.objectEffects.length && item">
-            <app-description
-                *ngFor="let split of trait.effectDesc.split('\n\n'); trackBy:trackByIndex;"
-                [text]="split"
-            />
-        </ng-container>
+        @if (trait.objectEffects && trait.objectEffects.length && item) {
+            @for (split of trait.effectDesc.split("\n\n"); track $index) {
+                <app-description [text]="split" />
+            }
+        }
     </ng-template>
 
     <span
         triggers="hover"
         [ngbPopover]="TraitContent"
     >
-        {{extraDescription ? "+ " : ""}}{{name || trait.name}}
+        {{ extraDescription ? "+ " : "" }}{{ name || trait.name }}
     </span>
 
-    <ng-container *ngIf="trait.objectEffects && trait.objectEffects.length && item">
-        <ng-container *ngFor="let activation of objectTraitActivations$() | async; trackBy:trackByIndex;">
+    @if (trait.objectEffects && trait.objectEffects.length && item) {
+        @for (activation of objectTraitActivations$() | async; track $index) {
             <input
                 aria-label="Activate the default level of this trait's effects"
                 type="checkbox"
@@ -48,27 +48,33 @@
                 [ngbTooltip]="'Activate any effects of this trait.'"
                 [(ngModel)]="activation.active"
                 (ngModelChange)="onActivateEffect()"
-            >
+            />
 
-            <input
-                *ngIf="trait.extraActivations > 0"
-                aria-label="Activate the second level of this trait's effects"
-                type="checkbox"
-                triggers="hover"
-                [ngbTooltip]="'Activate the second level of this trait\'s effects.'"
-                [(ngModel)]="activation.active2"
-                (ngModelChange)="onActivateEffect()"
-            >
+            @if (trait.extraActivations > 0) {
+                <input
+                    aria-label="Activate the second level of this trait's effects"
+                    type="checkbox"
+                    triggers="hover"
+                    [ngbTooltip]="
+                        'Activate the second level of this trait\'s effects.'
+                    "
+                    [(ngModel)]="activation.active2"
+                    (ngModelChange)="onActivateEffect()"
+                />
+            }
 
-            <input
-                *ngIf="trait.extraActivations > 1"
-                aria-label="Activate the third level of this trait's effects"
-                type="checkbox"
-                triggers="hover"
-                [ngbTooltip]="'Activate the third level of this trait\'s effects.'"
-                [(ngModel)]="activation.active3"
-                (ngModelChange)="onActivateEffect()"
-            >
-        </ng-container>
-    </ng-container>
+            @if (trait.extraActivations > 1) {
+                <input
+                    aria-label="Activate the third level of this trait's effects"
+                    type="checkbox"
+                    triggers="hover"
+                    [ngbTooltip]="
+                        'Activate the third level of this trait\'s effects.'
+                    "
+                    [(ngModel)]="activation.active3"
+                    (ngModelChange)="onActivateEffect()"
+                />
+            }
+        }
+    }
 </cite>

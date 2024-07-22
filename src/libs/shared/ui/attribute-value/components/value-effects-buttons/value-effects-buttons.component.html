@@ -4,9 +4,7 @@
         class="quick-buttons__button quick-buttons__button--up"
         (clicked)="changeQuickValue(1)"
     >
-        <i
-            class='bi-caret-up'
-        ></i>
+        <i class="bi-caret-up"></i>
     </app-button>
 
     <app-button
@@ -14,22 +12,25 @@
         class="quick-buttons__button quick-buttons__button--down"
         (clicked)="changeQuickValue(-1)"
     >
-        <i
-            class='bi-caret-down'
-        ></i>
+        <i class="bi-caret-down"></i>
     </app-button>
 </div>
 
-
-
-<div
-    *ngIf="{ value: (quickValue$ | async) ?? 0 } as quickValue"
-    class="quick-value"
-    [class.text-color-bonus]="quickValue.value > 0"
-    [class.text-color-penalty]="quickValue.value < 0"
->
-    {{ (quickValue.value > 0 ? "+" : quickValue.value === 0 ? '&plusmn;' : '') + quickValue.value }}
-</div>
+@if ({ value: (quickValue$ | async) ?? 0 }; as quickValue) {
+    <div
+        class="quick-value"
+        [class.text-color-bonus]="quickValue.value > 0"
+        [class.text-color-penalty]="quickValue.value < 0"
+    >
+        {{
+            (quickValue.value > 0
+                ? "+"
+                : quickValue.value === 0
+                  ? "&plusmn;"
+                  : "") + quickValue.value
+        }}
+    </div>
+}
 
 <app-button
     #EffectsPopover="ngbPopover"
@@ -39,7 +40,7 @@
     [ngbPopover]="EffectsTemplate"
 >
     <i
-        class='bi-lightning'
+        class="bi-lightning"
         [ngbTooltip]="'Edit effects in list'"
         [disableTooltip]="EffectsPopover.isOpen()"
     ></i>

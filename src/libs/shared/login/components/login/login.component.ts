@@ -2,11 +2,10 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, V
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiStatus } from 'src/libs/shared/definitions/interfaces/api-status';
 import { AuthService } from 'src/libs/shared/services/auth/auth.service';
-import { ButtonComponent } from '../../../ui/button/components/button/button.component';
-import { TextInputComponent } from '../../../ui/input/components/text-input/text-input.component';
-import { LogoComponent } from '../../../ui/logo/components/logo/logo.component';
-import { CharacterSheetCardComponent } from '../../../ui/character-sheet-card/character-sheet-card.component';
-import { CommonModule } from '@angular/common';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
+import { TextInputComponent } from 'src/libs/shared/ui/input/components/text-input/text-input.component';
+import { LogoComponent } from 'src/libs/shared/ui/logo/components/logo/logo.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 @Component({
     selector: 'app-login',
@@ -15,10 +14,8 @@ import { CommonModule } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        CommonModule,
         FormsModule,
         ReactiveFormsModule,
-
         CharacterSheetCardComponent,
         LogoComponent,
         TextInputComponent,

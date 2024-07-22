@@ -13,7 +13,6 @@ import { RefreshService } from '../refresh/refresh.service';
 import { SpellCastingPrerequisitesService } from '../spell-casting-prerequisites/spell-casting-prerequisites.service';
 import { emptySafeZip } from '../../util/observable-utils';
 
-
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
     effectGain: EffectGain;

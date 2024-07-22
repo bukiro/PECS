@@ -25,7 +25,6 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HintComponent } from '../hint/hint.component';
 import { CommonModule } from '@angular/common';
 
-
 interface TagCollection {
     conditions: Array<{ setName: string; conditionSets: Array<ConditionGainSet> }>;
 }

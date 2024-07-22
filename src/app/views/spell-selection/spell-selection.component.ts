@@ -25,15 +25,15 @@ import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observabl
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
-import { SpellChoiceComponent } from '../../../libs/shared/spell-choice/components/spell-choice/spell-choice.component';
-import { GridIconComponent } from '../../../libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
-import { SpellComponent } from '../../../libs/shared/spell/components/spell/spell.component';
-import { ActionIconsComponent } from '../../../libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { SpellChoiceComponent } from 'src/libs/shared/spell-choice/components/spell-choice/spell-choice.component';
+import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { SpellComponent } from 'src/libs/shared/spell/components/spell/spell.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
 import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { TagsComponent } from '../../../libs/shared/tags/components/tags/tags.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -263,7 +263,6 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
 
                 ),
             );
-
     }
 
     public spellCastingLevelParameters$(spellCastingParameters: SpellCastingParameters): Observable<Array<SpellCastingLevelParameters>> {

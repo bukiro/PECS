@@ -18,7 +18,7 @@
             <header class="sectionHeader">Back to Character Sheet</header>
         </button>
 
-        <ng-container *ngIf="isMenuOpen$ | async">
+        @if (isMenuOpen$ | async) {
             <div class="character-sheet-column-container">
                 <div class="character-sheet-column">
                     <div class="list-item">
@@ -28,10 +28,10 @@
                             <input
                                 aria-label="Search text"
                                 id="itemsWordFilter"
-                                type=text
+                                type="text"
                                 [(ngModel)]="wordFilter"
                                 (ngModelChange)="closeFilterIfTooShort()"
-                            >
+                            />
                             <button
                                 type="button"
                                 [disabled]="wordFilter.length < 5"
@@ -42,7 +42,9 @@
 
                             <button
                                 type="button"
-                                (click)="wordFilter='';closeFilterIfTooShort()"
+                                (click)="
+                                    wordFilter = ''; closeFilterIfTooShort()
+                                "
                             >
                                 Clear
                             </button>
@@ -56,7 +58,9 @@
                             <button
                                 type="button"
                                 class="center-aligned"
-                                [ngClass]="{'fancy-button':shownSorting()==='name'}"
+                                [ngClass]="{
+                                    'fancy-button': shownSorting() === 'name',
+                                }"
                                 (click)="toggleShownSorting('name')"
                             >
                                 Name
@@ -65,7 +69,10 @@
                             <button
                                 type="button"
                                 class="center-aligned"
-                                [ngClass]="{'fancy-button':shownSorting()==='sortLevel'}"
+                                [ngClass]="{
+                                    'fancy-button':
+                                        shownSorting() === 'sortLevel',
+                                }"
                                 (click)="toggleShownSorting('sortLevel')"
                             >
                                 Level
@@ -73,517 +80,1316 @@
                         </div>
                     </div>
 
-                    <div
-                        *ngIf="otherCreaturesAvailable$() | async as otherCreaturesAvailable"
-                        class="list-item newrow"
-                    >
-                        <button
-                            type="button"
-                            class="center-aligned"
-                            [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.Character}"
-                            (click)="toggleShownCreature(creatureTypesEnum.Character)"
-                        >
-                            Character
-                        </button>
+                    @if (
+                        otherCreaturesAvailable$() | async;
+                        as otherCreaturesAvailable
+                    ) {
+                        <div class="list-item newrow">
+                            <button
+                                type="button"
+                                class="center-aligned"
+                                [ngClass]="{
+                                    'fancy-button':
+                                        shownCreature() ===
+                                        creatureTypesEnum.Character,
+                                }"
+                                (click)="
+                                    toggleShownCreature(
+                                        creatureTypesEnum.Character
+                                    )
+                                "
+                            >
+                                Character
+                            </button>
 
-                        <button
-                            *ngIf="otherCreaturesAvailable.companion"
-                            type="button"
-                            class="center-aligned"
-                            [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.AnimalCompanion}"
-                            (click)="toggleShownCreature(creatureTypesEnum.AnimalCompanion)"
-                        >
-                            Companion
-                        </button>
+                            @if (otherCreaturesAvailable.companion) {
+                                <button
+                                    type="button"
+                                    class="center-aligned"
+                                    [ngClass]="{
+                                        'fancy-button':
+                                            shownCreature() ===
+                                            creatureTypesEnum.AnimalCompanion,
+                                    }"
+                                    (click)="
+                                        toggleShownCreature(
+                                            creatureTypesEnum.AnimalCompanion
+                                        )
+                                    "
+                                >
+                                    Companion
+                                </button>
+                            }
 
-                        <button
-                            *ngIf="otherCreaturesAvailable.familiar"
-                            type="button"
-                            class="center-aligned"
-                            [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.Familiar}"
-                            (click)="toggleShownCreature(creatureTypesEnum.Familiar)"
-                        >
-                            Familiar
-                        </button>
-                    </div>
+                            @if (otherCreaturesAvailable.familiar) {
+                                <button
+                                    type="button"
+                                    class="center-aligned"
+                                    [ngClass]="{
+                                        'fancy-button':
+                                            shownCreature() ===
+                                            creatureTypesEnum.Familiar,
+                                    }"
+                                    (click)="
+                                        toggleShownCreature(
+                                            creatureTypesEnum.Familiar
+                                        )
+                                    "
+                                >
+                                    Familiar
+                                </button>
+                            }
+                        </div>
+                    }
 
                     <div class="fullsize-scroll-box vlist">
-                        <ng-container *ngIf="shownCreature()===creatureTypesEnum.Character">
-                            <header class="subsectionHeader">Change Currency</header>
+                        @if (shownCreature() === creatureTypesEnum.Character) {
+                            <header class="subsectionHeader">
+                                Change Currency
+                            </header>
 
                             <app-cash />
-                        </ng-container>
+                        }
 
-                        <div
-                            *ngIf="shownCreature()===creatureTypesEnum.Character"
-                            class="list-item"
-                        >
-                            <button
-                                type="button"
-                                [ngClass]="{'fancy-button':selectedPurpose()==='items'}"
-                                (click)="toggleSelectedPurpose('items')"
-                            >
-                                Get Items
-                            </button>
+                        @if (shownCreature() === creatureTypesEnum.Character) {
+                            <div class="list-item">
+                                <button
+                                    type="button"
+                                    [ngClass]="{
+                                        'fancy-button':
+                                            selectedPurpose() === 'items',
+                                    }"
+                                    (click)="toggleSelectedPurpose('items')"
+                                >
+                                    Get Items
+                                </button>
 
-                            <button
-                                *ngIf="characterHasFeat$('Scroll Savant')"
-                                type="button"
-                                [ngClass]="{'fancy-button':selectedPurpose()==='scrollsavant'}"
-                                (click)="toggleSelectedPurpose('scrollsavant')"
-                            >
-                                Scroll Savant
-                            </button>
+                                @if (characterHasFeat$("Scroll Savant")) {
+                                    <button
+                                        type="button"
+                                        [ngClass]="{
+                                            'fancy-button':
+                                                selectedPurpose() ===
+                                                'scrollsavant',
+                                        }"
+                                        (click)="
+                                            toggleSelectedPurpose(
+                                                'scrollsavant'
+                                            )
+                                        "
+                                    >
+                                        Scroll Savant
+                                    </button>
+                                }
 
-                            <button
-                                type="button"
-                                [ngClass]="{'fancy-button':selectedPurpose()==='createcustomitem'}"
-                                (click)="toggleSelectedPurpose('createcustomitem')"
-                            >
-                                Create Custom Item
-                            </button>
+                                <button
+                                    type="button"
+                                    [ngClass]="{
+                                        'fancy-button':
+                                            selectedPurpose() ===
+                                            'createcustomitem',
+                                    }"
+                                    (click)="
+                                        toggleSelectedPurpose(
+                                            'createcustomitem'
+                                        )
+                                    "
+                                >
+                                    Create Custom Item
+                                </button>
 
-                            <button
-                                type="button"
-                                [ngClass]="{'fancy-button':selectedPurpose()==='formulas'}"
-                                (click)="toggleSelectedPurpose('formulas')"
-                            >
-                                Learn Formulas
-                            </button>
-                        </div>
+                                <button
+                                    type="button"
+                                    [ngClass]="{
+                                        'fancy-button':
+                                            selectedPurpose() === 'formulas',
+                                    }"
+                                    (click)="toggleSelectedPurpose('formulas')"
+                                >
+                                    Learn Formulas
+                                </button>
+                            </div>
+                        }
 
                         <app-tags
                             [creature]="creature"
                             [objectName]="'ItemStore'"
-                            [showTraits]=true
-                            [showFeats]=true
-                            [showItems]=true
-                            [showActivities]=true
-                            [showConditions]=true
-                            [showEffects]=true
+                            [showTraits]="true"
+                            [showFeats]="true"
+                            [showItems]="true"
+                            [showActivities]="true"
+                            [showConditions]="true"
+                            [showEffects]="true"
                         />
 
-                        <ng-container *ngIf="items() as items">
-                            <ng-container *ngIf="availableForLearningParameters$() | async as availableForLearningParameters">
-                                <ng-container *ngFor="let creatureType of (shownCreature()===creatureTypesEnum.Character ? [creatureTypesEnum.Character,creatureTypesEnum.AnimalCompanion] : [creatureTypesEnum.AnimalCompanion,creatureTypesEnum.Character]);trackBy:trackByIndex">
-                                    <header
-                                        *ngIf="selectedPurpose()==='items' || shownCreature()!==creatureTypesEnum.Character"
-                                        class="sectionHeader"
-                                    >
-                                        Get {{creatureType === creatureTypesEnum.AnimalCompanion ? "Companion" : ""}} Items
-                                    </header>
+                        @if (items(); as items) {
+                            @if (
+                                availableForLearningParameters$() | async;
+                                as availableForLearningParameters
+                            ) {
+                                @for (
+                                    creatureType of shownCreature() ===
+                                    creatureTypesEnum.Character
+                                        ? [
+                                              creatureTypesEnum.Character,
+                                              creatureTypesEnum.AnimalCompanion,
+                                          ]
+                                        : [
+                                              creatureTypesEnum.AnimalCompanion,
+                                              creatureTypesEnum.Character,
+                                          ];
+                                    track $index
+                                ) {
+                                    @if (
+                                        selectedPurpose() === "items" ||
+                                        shownCreature() !==
+                                            creatureTypesEnum.Character
+                                    ) {
+                                        <header class="sectionHeader">
+                                            Get
+                                            {{
+                                                creatureType ===
+                                                creatureTypesEnum.AnimalCompanion
+                                                    ? "Companion"
+                                                    : ""
+                                            }}
+                                            Items
+                                        </header>
+                                    }
 
-                                    <header
-                                        *ngIf="selectedPurpose()==='scrollsavant' && creatureType === creatureTypesEnum.Character && shownCreature()===creatureTypesEnum.Character"
-                                        class="sectionHeader"
-                                    >
-                                        Prepare Scrolls
-                                    </header>
+                                    @if (
+                                        selectedPurpose() === "scrollsavant" &&
+                                        creatureType ===
+                                            creatureTypesEnum.Character &&
+                                        shownCreature() ===
+                                            creatureTypesEnum.Character
+                                    ) {
+                                        <header class="sectionHeader">
+                                            Prepare Scrolls
+                                        </header>
+                                    }
 
-                                    <header
-                                        *ngIf="selectedPurpose()==='formulas' && shownCreature()===creatureTypesEnum.Character"
-                                        class="sectionHeader"
-                                    >
-                                        Learn {{creatureType === creatureTypesEnum.AnimalCompanion ? "Companion" : ""}}
-                                        Formulas
-                                    </header>
+                                    @if (
+                                        selectedPurpose() === "formulas" &&
+                                        shownCreature() ===
+                                            creatureTypesEnum.Character
+                                    ) {
+                                        <header class="sectionHeader">
+                                            Learn
+                                            {{
+                                                creatureType ===
+                                                creatureTypesEnum.AnimalCompanion
+                                                    ? "Companion"
+                                                    : ""
+                                            }}
+                                            Formulas
+                                        </header>
+                                    }
 
                                     <!-- Formulas available through feats -->
-                                    <ng-container *ngIf="selectedPurpose()==='formulas' && creatureType === creatureTypesEnum.Character && shownCreature()===creatureTypesEnum.Character">
-                                        <ng-container *ngIf="availableLearningOptions(availableForLearningParameters) as availableLearningOptions">
-                                            <div
-                                                *ngIf="availableLearningOptions.length"
-                                                class="list-item"
-                                            >
-                                                <ng-container *ngFor="let desc of availableLearningOptions.split('\n\n'); trackBy:trackByIndex;">
-                                                    <app-description
-                                                        class="newrow"
-                                                        [text]="desc"
-                                                    />
-                                                </ng-container>
-                                            </div>
-                                        </ng-container>
-                                    </ng-container>
+                                    @if (
+                                        selectedPurpose() === "formulas" &&
+                                        creatureType ===
+                                            creatureTypesEnum.Character &&
+                                        shownCreature() ===
+                                            creatureTypesEnum.Character
+                                    ) {
+                                        @if (
+                                            availableLearningOptions(
+                                                availableForLearningParameters
+                                            );
+                                            as availableLearningOptions
+                                        ) {
+                                            @if (
+                                                availableLearningOptions.length
+                                            ) {
+                                                <div class="list-item">
+                                                    @for (
+                                                        desc of availableLearningOptions.split(
+                                                            "\n\n"
+                                                        );
+                                                        track $index
+                                                    ) {
+                                                        <app-description
+                                                            class="newrow"
+                                                            [text]="desc"
+                                                        />
+                                                    }
+                                                </div>
+                                            }
+                                        }
+                                    }
 
                                     <!-- End available formulas -->
                                     <!-- Scroll Savant -->
-                                    <ng-container *ngIf="selectedPurpose()==='scrollsavant' && creatureType === creatureTypesEnum.Character">
-                                        <ng-container *ngIf="scrollSavantSpellCasting$() | async as casting">
-                                            <div
-                                                *ngIf="scrollSavantDescription$() | async as scrollSavantDescription"
-                                                class="list-item"
-                                            >
-                                                <ng-container *ngFor="let desc of scrollSavantDescription.split('\n\n'); trackBy:trackByIndex;">
-                                                    <app-description
-                                                        class="newrow"
-                                                        [text]="desc"
-                                                    />
-                                                </ng-container>
-                                            </div>
+                                    @if (
+                                        selectedPurpose() === "scrollsavant" &&
+                                        creatureType ===
+                                            creatureTypesEnum.Character
+                                    ) {
+                                        @if (
+                                            scrollSavantSpellCasting$() | async;
+                                            as casting
+                                        ) {
+                                            @if (
+                                                scrollSavantDescription$()
+                                                    | async;
+                                                as scrollSavantDescription
+                                            ) {
+                                                <div class="list-item">
+                                                    @for (
+                                                        desc of scrollSavantDescription.split(
+                                                            "\n\n"
+                                                        );
+                                                        track $index
+                                                    ) {
+                                                        <app-description
+                                                            class="newrow"
+                                                            [text]="desc"
+                                                        />
+                                                    }
+                                                </div>
+                                            }
 
                                             <button
                                                 type="button"
                                                 class="list-item fancy-button"
                                             >
-                                                <header class="sectionHeader">Prepared Scrolls</header>
+                                                <header class="sectionHeader">
+                                                    Prepared Scrolls
+                                                </header>
                                             </button>
 
-                                            <div
-                                                *ngIf="!casting.scrollSavant.length"
-                                                class="list-item"
-                                            >
-                                                No scrolls prepared.
-                                            </div>
+                                            @if (!casting.scrollSavant.length) {
+                                                <div class="list-item">
+                                                    No scrolls prepared.
+                                                </div>
+                                            }
 
-                                            <div
-                                                *ngIf="casting.scrollSavant.length"
-                                                class="list-item"
-                                            >
-                                                <ng-container *ngFor="let scroll of scrollSavantScrolls$() | async; trackBy:trackByIndex;">
-                                                    <div
-                                                        *ngFor="let inventoryID of ['scrollsavant'+scroll.id]; trackBy:trackByIndex;"
-                                                        class="list-item"
-                                                    >
-                                                        <button
-                                                            type="button"
-                                                            class="newrow sublist-toggle fancy-button"
-                                                            (click)="toggleShownItem(inventoryID)"
-                                                        >
-                                                            <span>{{scroll.effectiveName$() | async}}</span>
-
-                                                            <span style="flex-basis:auto;flex-grow:0;">
-                                                                {{(scroll.level) ? "Level "+scroll.level : "&nbsp;"}}
-                                                            </span>
-                                                        </button>
-
-                                                        <div
-                                                            *ngIf="shownItem()===inventoryID"
-                                                            class="list-item sublist lower fancy-list"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="newrow center-aligned"
-                                                                (click)="unprepareScrollSavant(scroll)"
+                                            @if (casting.scrollSavant.length) {
+                                                <div class="list-item">
+                                                    @for (
+                                                        scroll of scrollSavantScrolls$()
+                                                            | async;
+                                                        track $index
+                                                    ) {
+                                                        @for (
+                                                            inventoryID of [
+                                                                "scrollsavant" +
+                                                                    scroll.id,
+                                                            ];
+                                                            track $index
+                                                        ) {
+                                                            <div
+                                                                class="list-item"
                                                             >
-                                                                Deselect from daily creation
-                                                            </button>
+                                                                <button
+                                                                    type="button"
+                                                                    class="newrow sublist-toggle fancy-button"
+                                                                    (click)="
+                                                                        toggleShownItem(
+                                                                            inventoryID
+                                                                        )
+                                                                    "
+                                                                >
+                                                                    <span>{{
+                                                                        scroll.effectiveName$()
+                                                                            | async
+                                                                    }}</span>
 
-                                                            <app-item
-                                                                class="lower"
-                                                                [item]=scroll
-                                                                [itemStore]=true
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </ng-container>
-                                            </div>
-                                        </ng-container>
-                                    </ng-container>
+                                                                    <span
+                                                                        style="
+                                                                            flex-basis: auto;
+                                                                            flex-grow: 0;
+                                                                        "
+                                                                    >
+                                                                        {{
+                                                                            scroll.level
+                                                                                ? "Level " +
+                                                                                  scroll.level
+                                                                                : "&nbsp;"
+                                                                        }}
+                                                                    </span>
+                                                                </button>
+
+                                                                @if (
+                                                                    shownItem() ===
+                                                                    inventoryID
+                                                                ) {
+                                                                    <div
+                                                                        class="list-item sublist lower fancy-list"
+                                                                    >
+                                                                        <button
+                                                                            type="button"
+                                                                            class="newrow center-aligned"
+                                                                            (click)="
+                                                                                unprepareScrollSavant(
+                                                                                    scroll
+                                                                                )
+                                                                            "
+                                                                        >
+                                                                            Deselect
+                                                                            from
+                                                                            daily
+                                                                            creation
+                                                                        </button>
+
+                                                                        <app-item
+                                                                            class="lower"
+                                                                            [item]="
+                                                                                scroll
+                                                                            "
+                                                                            [itemStore]="
+                                                                                true
+                                                                            "
+                                                                        />
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            }
+                                        }
+                                    }
 
                                     <!-- End Scroll Savant -->
-                                    <ng-container *ngIf="selectedPurpose()!=='createcustomitem' || shownCreature()!==creatureTypesEnum.Character">
-                                        <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
-                                            <ng-container *ngIf="creatureType+(index*1000+1000) as listID">
-                                                <ng-container *ngIf="visibleItems$(items, itemSet.key, creatureType) | async as visibleItems">
+                                    @if (
+                                        selectedPurpose() !==
+                                            "createcustomitem" ||
+                                        shownCreature() !==
+                                            creatureTypesEnum.Character
+                                    ) {
+                                        @for (
+                                            itemSet of items.names;
+                                            track index;
+                                            let index = $index
+                                        ) {
+                                            @if (
+                                                creatureType +
+                                                    (index * 1000 + 1000);
+                                                as listID
+                                            ) {
+                                                @if (
+                                                    visibleItems$(
+                                                        items,
+                                                        itemSet.key,
+                                                        creatureType
+                                                    ) | async;
+                                                    as visibleItems
+                                                ) {
                                                     <button
                                                         type="button"
                                                         class="list-item"
-                                                        [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
-                                                        (click)="toggleShownList(listID)"
+                                                        [ngStyle]="{
+                                                            display:
+                                                                !visibleItems.length
+                                                                    ? 'none'
+                                                                    : 'flex',
+                                                        }"
+                                                        (click)="
+                                                            toggleShownList(
+                                                                listID
+                                                            )
+                                                        "
                                                     >
-                                                        <header class="sectionHeader">
-                                                            {{selectedPurpose()==='scrollsavant' ? "Available " :
-                                                            ""}}{{itemSet.name}}
+                                                        <header
+                                                            class="sectionHeader"
+                                                        >
+                                                            {{
+                                                                selectedPurpose() ===
+                                                                "scrollsavant"
+                                                                    ? "Available "
+                                                                    : ""
+                                                            }}{{ itemSet.name }}
                                                         </header>
                                                     </button>
 
-                                                    <div
-                                                        *ngIf="(['All', listID].includes(shownList()) || (selectedPurpose()==='scrollsavant' && shownCreature()===creatureTypesEnum.Character)) && { enabled: isTileMode$ | async } as tileMode"
-                                                        [ngClass]="{'icon-list':tileMode.enabled, 'list-item':!tileMode.enabled}"
-                                                        [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
-                                                    >
+                                                    @if (
+                                                        ([
+                                                            "All",
+                                                            listID,
+                                                        ].includes(
+                                                            shownList()
+                                                        ) ||
+                                                            (selectedPurpose() ===
+                                                                "scrollsavant" &&
+                                                                shownCreature() ===
+                                                                    creatureTypesEnum.Character)) && {
+                                                            enabled:
+                                                                isTileMode$
+                                                                | async,
+                                                        };
+                                                        as tileMode
+                                                    ) {
                                                         <div
-                                                            *ngIf="visibleItems.length >= 80 && shownList()!=='All'"
-                                                            class="newrow list-item"
-                                                            (click)="incRange(-1)"
+                                                            [ngClass]="{
+                                                                'icon-list':
+                                                                    tileMode.enabled,
+                                                                'list-item':
+                                                                    !tileMode.enabled,
+                                                            }"
+                                                            [ngStyle]="{
+                                                                display:
+                                                                    !visibleItems.length
+                                                                        ? 'none'
+                                                                        : 'flex',
+                                                            }"
                                                         >
-                                                            <button
-                                                                type="button"
-                                                                class="center-aligned"
-                                                                [disabled]="range <= 0"
-                                                            >
-                                                                Previous 40
-                                                            </button>
+                                                            @if (
+                                                                visibleItems.length >=
+                                                                    80 &&
+                                                                shownList() !==
+                                                                    "All"
+                                                            ) {
+                                                                <div
+                                                                    class="newrow list-item"
+                                                                    (click)="
+                                                                        incRange(
+                                                                            -1
+                                                                        )
+                                                                    "
+                                                                >
+                                                                    <button
+                                                                        type="button"
+                                                                        class="center-aligned"
+                                                                        [disabled]="
+                                                                            range <=
+                                                                            0
+                                                                        "
+                                                                    >
+                                                                        Previous
+                                                                        40
+                                                                    </button>
 
-                                                            <header class="newrow subsectionHeader center-aligned">
-                                                                {{shownItemRangeDesc(visibleItems, range)}}
-                                                            </header>
-                                                        </div>
+                                                                    <header
+                                                                        class="newrow subsectionHeader center-aligned"
+                                                                    >
+                                                                        {{
+                                                                            shownItemRangeDesc(
+                                                                                visibleItems,
+                                                                                range
+                                                                            )
+                                                                        }}
+                                                                    </header>
+                                                                </div>
+                                                            }
 
-                                                        <ng-container *ngFor="let itemParameters of visibleItemParameters$(visibleItems) | async; let itemIndex = index; trackBy:trackByIndex;">
-                                                            <ng-container *ngIf="isItemShown(visibleItems, itemIndex, range)">
-                                                                <ng-template #ItemTitleTemplate>
-                                                                    <span>
-                                                                        <i
-                                                                            *ngIf="!tileMode.enabled && itemParameters.canUse === false"
-                                                                            class="value bi-x penalty"
-                                                                            [ngbTooltip]="'You are not trained with this item.'"
-                                                                        ></i>
+                                                            @for (
+                                                                itemParameters of visibleItemParameters$(
+                                                                    visibleItems
+                                                                ) | async;
+                                                                track itemIndex;
+                                                                let itemIndex = $index
+                                                            ) {
+                                                                @if (
+                                                                    isItemShown(
+                                                                        visibleItems,
+                                                                        itemIndex,
+                                                                        range
+                                                                    )
+                                                                ) {
+                                                                    <ng-template
+                                                                        #ItemTitleTemplate
+                                                                    >
+                                                                        <span>
+                                                                            @if (
+                                                                                !tileMode.enabled &&
+                                                                                itemParameters.canUse ===
+                                                                                    false
+                                                                            ) {
+                                                                                <i
+                                                                                    class="value bi-x penalty"
+                                                                                    [ngbTooltip]="
+                                                                                        'You are not trained with this item.'
+                                                                                    "
+                                                                                ></i>
+                                                                            }
 
-                                                                        <i
-                                                                            *ngIf="!tileMode.enabled && itemParameters.canUse === true"
-                                                                            class="value bi-check2 bonus"
-                                                                            [ngbTooltip]="'You are trained with this item.'"
-                                                                        ></i>
-                                                                        {{itemParameters.item.effectiveName$() | async}}
-                                                                    </span>
-
-                                                                    <span style="flex-basis:auto;flex-grow:0;">
-                                                                        <span *ngIf="itemParameters.item.level">{{"Level "+itemParameters.item.level}}</span>
-
-                                                                        <span *ngIf="itemParameters.asArmor">
-                                                                            {{itemParameters.asArmor.title$({itemStore: true}) | async}}
+                                                                            @if (
+                                                                                !tileMode.enabled &&
+                                                                                itemParameters.canUse ===
+                                                                                    true
+                                                                            ) {
+                                                                                <i
+                                                                                    class="value bi-check2 bonus"
+                                                                                    [ngbTooltip]="
+                                                                                        'You are trained with this item.'
+                                                                                    "
+                                                                                ></i>
+                                                                            }
+                                                                            {{
+                                                                                itemParameters.item.effectiveName$()
+                                                                                    | async
+                                                                            }}
                                                                         </span>
 
-                                                                        <span *ngIf="itemParameters.asWeapon">{{itemParameters.asWeapon.title()}}</span>
-                                                                    </span>
-                                                                </ng-template>
+                                                                        <span
+                                                                            style="
+                                                                                flex-basis: auto;
+                                                                                flex-grow: 0;
+                                                                            "
+                                                                        >
+                                                                            @if (
+                                                                                itemParameters
+                                                                                    .item
+                                                                                    .level
+                                                                            ) {
+                                                                                <span
+                                                                                    >{{
+                                                                                        "Level " +
+                                                                                            itemParameters
+                                                                                                .item
+                                                                                                .level
+                                                                                    }}</span
+                                                                                >
+                                                                            }
 
-                                                                <ng-template #ItemTooltipTemplate>
-                                                                    <span>
-                                                                        {{itemParameters.item.effectiveName$({itemStore:true}) | async}}
-                                                                    </span>
+                                                                            @if (
+                                                                                itemParameters.asArmor
+                                                                            ) {
+                                                                                <span>
+                                                                                    {{
+                                                                                        itemParameters.asArmor.title$(
+                                                                                            {
+                                                                                                itemStore: true,
+                                                                                            }
+                                                                                        )
+                                                                                            | async
+                                                                                    }}
+                                                                                </span>
+                                                                            }
 
-                                                                    <span *ngIf="itemParameters.item.level">|</span>
+                                                                            @if (
+                                                                                itemParameters.asWeapon
+                                                                            ) {
+                                                                                <span
+                                                                                    >{{
+                                                                                        itemParameters.asWeapon.title()
+                                                                                    }}</span
+                                                                                >
+                                                                            }
+                                                                        </span>
+                                                                    </ng-template>
 
-                                                                    <span *ngIf="itemParameters.item.level">{{"Level "+itemParameters.item.level}}</span>
-
-                                                                    <span *ngIf="itemParameters.asArmor || itemParameters.asWeapon">|</span>
-
-                                                                    <span *ngIf="itemParameters.asArmor">
-                                                                        {{itemParameters.asArmor.title$({itemStore: true}) | async}}
-                                                                    </span>
-
-                                                                    <span *ngIf="itemParameters.asWeapon">{{itemParameters.asWeapon.title()}}</span>
-                                                                </ng-template>
-
-                                                                <ng-template #ItemTemplate>
-                                                                    <header
-                                                                        *ngIf="tileMode.enabled"
-                                                                        class="spellHeader newrow"
+                                                                    <ng-template
+                                                                        #ItemTooltipTemplate
                                                                     >
-                                                                        <ng-container *ngTemplateOutlet="ItemTitleTemplate" />
-                                                                    </header>
+                                                                        <span>
+                                                                            {{
+                                                                                itemParameters.item.effectiveName$(
+                                                                                    {
+                                                                                        itemStore: true,
+                                                                                    }
+                                                                                )
+                                                                                    | async
+                                                                            }}
+                                                                        </span>
 
-                                                                    <ng-container *ngIf="selectedPurpose()==='items' || shownCreature()!==creatureTypesEnum.Character">
-                                                                        <div
-                                                                            *ngIf="itemSet.name === 'Snares'"
-                                                                            class="list-item"
-                                                                        >
-                                                                            Snares cannot be bought or sold. They must be
-                                                                            crafted and are immediately deployed upon
-                                                                            creation.
-                                                                        </div>
+                                                                        @if (
+                                                                            itemParameters
+                                                                                .item
+                                                                                .level
+                                                                        ) {
+                                                                            <span
+                                                                                >|</span
+                                                                            >
+                                                                        }
 
-                                                                        <button
-                                                                            type="button"
-                                                                            class="newrow center-aligned"
-                                                                            (click)="grantItem(itemParameters.item)"
-                                                                        >
-                                                                            Gift {{
-                                                                                (itemParameters.stack && itemParameters.stack > 1)
-                                                                                    ? itemParameters.stack
-                                                                                    : ""
-                                                                            }} to {{creature}}
-                                                                        </button>
+                                                                        @if (
+                                                                            itemParameters
+                                                                                .item
+                                                                                .level
+                                                                        ) {
+                                                                            <span
+                                                                                >{{
+                                                                                    "Level " +
+                                                                                        itemParameters
+                                                                                            .item
+                                                                                            .level
+                                                                                }}</span
+                                                                            >
+                                                                        }
 
-                                                                        <button
-                                                                            *ngIf="itemSet.name !== 'Snares' && effectivePrice(itemParameters.item) as effectivePrice"
-                                                                            class="newrow center-aligned"
-                                                                            [disabled]="!itemParameters.item.tradeable || !characterHasFunds(effectivePrice)"
-                                                                            (click)="grantItem(itemParameters.item, true)"
-                                                                        >
-                                                                            Buy {{
-                                                                                (itemParameters.stack && itemParameters.stack > 1)
-                                                                                ? itemParameters.stack
-                                                                                : ""
-                                                                            }} for {{creature}}
-                                                                        </button>
+                                                                        @if (
+                                                                            itemParameters.asArmor ||
+                                                                            itemParameters.asWeapon
+                                                                        ) {
+                                                                            <span
+                                                                                >|</span
+                                                                            >
+                                                                        }
 
-                                                                        <app-item-material
-                                                                            *ngIf="itemParameters.asMaterialChangeable"
-                                                                            [item]="itemParameters.asMaterialChangeable"
-                                                                            [craftingStation]="false"
-                                                                            [itemRoles]="itemParameters"
-                                                                        />
+                                                                        @if (
+                                                                            itemParameters.asArmor
+                                                                        ) {
+                                                                            <span>
+                                                                                {{
+                                                                                    itemParameters.asArmor.title$(
+                                                                                        {
+                                                                                            itemStore: true,
+                                                                                        }
+                                                                                    )
+                                                                                        | async
+                                                                                }}
+                                                                            </span>
+                                                                        }
 
-                                                                        <app-item-runes
-                                                                            *ngIf="itemParameters.asRuneChangeable"
-                                                                            [item]="itemParameters.asRuneChangeable"
-                                                                            [itemStore]="true"
-                                                                            [itemRoles]="itemParameters"
-                                                                        />
+                                                                        @if (
+                                                                            itemParameters.asWeapon
+                                                                        ) {
+                                                                            <span
+                                                                                >{{
+                                                                                    itemParameters.asWeapon.title()
+                                                                                }}</span
+                                                                            >
+                                                                        }
+                                                                    </ng-template>
 
-                                                                        <app-item-talismans
-                                                                            *ngIf="itemParameters.asTalismanChangeable"
-                                                                            [item]="itemParameters.asTalismanChangeable"
-                                                                            [itemStore]="true"
-                                                                        />
-                                                                    </ng-container>
+                                                                    <ng-template
+                                                                        #ItemTemplate
+                                                                    >
+                                                                        @if (
+                                                                            tileMode.enabled
+                                                                        ) {
+                                                                            <header
+                                                                                class="spellHeader newrow"
+                                                                            >
+                                                                                <ng-container
+                                                                                    *ngTemplateOutlet="
+                                                                                        ItemTitleTemplate
+                                                                                    "
+                                                                                />
+                                                                            </header>
+                                                                        }
 
-                                                                    <ng-container *ngIf="itemParameters.asScroll && selectedPurpose()==='scrollsavant' && shownCreature()===creatureTypesEnum.Character && (scrollSavantSpellDCLevel$() | async) as available">
-                                                                        <button
-                                                                            *ngIf="scrollSavantSpellCasting$() | async as scrollSavantCasting"
-                                                                            type="button"
-                                                                            class="newrow center-aligned"
-                                                                            [disabled]="(scrollSavantCasting?.scrollSavant?.length || 0) >= available / 2"
-                                                                            (click)="prepareScrollSavantScroll(itemParameters.asScroll)"
-                                                                        >
-                                                                            Select scroll for daily creation
-                                                                        </button>
-                                                                    </ng-container>
+                                                                        @if (
+                                                                            selectedPurpose() ===
+                                                                                "items" ||
+                                                                            shownCreature() !==
+                                                                                creatureTypesEnum.Character
+                                                                        ) {
+                                                                            @if (
+                                                                                itemSet.name ===
+                                                                                "Snares"
+                                                                            ) {
+                                                                                <div
+                                                                                    class="list-item"
+                                                                                >
+                                                                                    Snares
+                                                                                    cannot
+                                                                                    be
+                                                                                    bought
+                                                                                    or
+                                                                                    sold.
+                                                                                    They
+                                                                                    must
+                                                                                    be
+                                                                                    crafted
+                                                                                    and
+                                                                                    are
+                                                                                    immediately
+                                                                                    deployed
+                                                                                    upon
+                                                                                    creation.
+                                                                                </div>
+                                                                            }
 
-                                                                    <ng-container *ngIf="selectedPurpose()==='formulas' && shownCreature()===creatureTypesEnum.Character">
-                                                                        <button
-                                                                            *ngIf="!learnedFormulas(itemParameters.item.id).length && availableForLearningParameters.alchemicalCraftingAvailable && itemParameters.item.traits.includes('Alchemical')"
-                                                                            type="button"
-                                                                            class="newrow center-aligned"
-                                                                            [disabled]="!canLearnFormula(itemParameters.item, 'alchemicalcrafting', availableForLearningParameters)"
-                                                                            (click)="learnFormula(itemParameters.item, 'alchemicalcrafting')"
-                                                                        >
-                                                                            Learn formula via Alchemical Crafting
-                                                                        </button>
-
-                                                                        <button
-                                                                            *ngIf="!learnedFormulas(itemParameters.item.id).length && availableForLearningParameters.magicalCraftingAvailable && itemParameters.item.traits.includes('Magical')"
-                                                                            type="button"
-                                                                            class="newrow center-aligned"
-                                                                            [disabled]="!canLearnFormula(itemParameters.item, 'magicalcrafting', availableForLearningParameters)"
-                                                                            (click)="learnFormula(itemParameters.item, 'magicalcrafting')"
-                                                                        >
-                                                                            Learn formula via Magical Crafting
-                                                                        </button>
-
-                                                                        <button
-                                                                            *ngIf="!learnedFormulas(itemParameters.item.id).length && availableForLearningParameters.snareCraftingAvailable && itemParameters.item.traits.includes('Snare')"
-                                                                            type="button"
-                                                                            class="newrow center-aligned"
-                                                                            [disabled]="!canLearnFormula(itemParameters.item, 'snarecrafting', availableForLearningParameters)"
-                                                                            (click)="learnFormula(itemParameters.item, 'snarecrafting')"
-                                                                        >
-                                                                            Learn formula via Snare Crafting
-                                                                        </button>
-
-                                                                        <button
-                                                                            *ngIf="!learnedFormulas(itemParameters.item.id).length && availableForLearningParameters.snareSpecialistAvailable && itemParameters.item.traits.includes('Snare')"
-                                                                            type="button"
-                                                                            class="newrow center-aligned"
-                                                                            [disabled]="!canLearnFormula(itemParameters.item, 'snarespecialist', availableForLearningParameters)"
-                                                                            (click)="learnFormula(itemParameters.item, 'snarespecialist')"
-                                                                        >
-                                                                            Learn formula via Snare Specialist
-                                                                        </button>
-
-                                                                        <button
-                                                                            *ngIf="!learnedFormulas(itemParameters.item.id).length"
-                                                                            type="button"
-                                                                            class="newrow center-aligned"
-                                                                            [ngbTooltip]="'You must manually expend the necessary cost to learn the formula this way.'"
-                                                                            (click)="learnFormula(itemParameters.item, 'other')"
-                                                                        >
-                                                                            Learn formula (buy, copy, invent or reverse
-                                                                            engineer)
-                                                                        </button>
-
-                                                                        <button
-                                                                            *ngFor="let learned of learnedFormulas(itemParameters.item.id); trackBy:trackByIndex;"
-                                                                            type="button"
-                                                                            class="newrow center-aligned"
-                                                                            (click)="unlearnFormula(itemParameters.item)"
-                                                                        >
-                                                                            Unlearn formula
-                                                                            {{learnedFormulaSource(learned.source)}}
-                                                                        </button>
-                                                                    </ng-container>
-
-                                                                    <app-item
-                                                                        class="lower"
-                                                                        [item]=itemParameters.item
-                                                                        [itemStore]=true
-                                                                    />
-                                                                </ng-template>
-
-                                                                <ng-container *ngFor="let inventoryID of [listID+itemParameters.item.id]; trackBy:trackByIndex;">
-                                                                    <ng-container *ngIf="!tileMode.enabled">
-                                                                        <div class="list-item">
                                                                             <button
                                                                                 type="button"
-                                                                                aria-label="Show item"
-                                                                                class="newrow sublist-toggle"
-                                                                                [ngClass]="{'fancy-button':selectedPurpose()==='formulas' && shownCreature()===creatureTypesEnum.Character && learnedFormulas(itemParameters.item.id).length}"
-                                                                                (click)="toggleShownItem(inventoryID)"
+                                                                                class="newrow center-aligned"
+                                                                                (click)="
+                                                                                    grantItem(
+                                                                                        itemParameters.item
+                                                                                    )
+                                                                                "
                                                                             >
-                                                                                <ng-container *ngTemplateOutlet="ItemTitleTemplate" />
+                                                                                Gift
+                                                                                {{
+                                                                                    itemParameters.stack &&
+                                                                                    itemParameters.stack >
+                                                                                        1
+                                                                                        ? itemParameters.stack
+                                                                                        : ""
+                                                                                }}
+                                                                                to
+                                                                                {{
+                                                                                    creature
+                                                                                }}
                                                                             </button>
 
+                                                                            @if (
+                                                                                itemSet.name !==
+                                                                                    "Snares" &&
+                                                                                    effectivePrice(
+                                                                                        itemParameters.item
+                                                                                    );
+                                                                                as effectivePrice
+                                                                            ) {
+                                                                                <button
+                                                                                    class="newrow center-aligned"
+                                                                                    [disabled]="
+                                                                                        !itemParameters
+                                                                                            .item
+                                                                                            .tradeable ||
+                                                                                        !characterHasFunds(
+                                                                                            effectivePrice
+                                                                                        )
+                                                                                    "
+                                                                                    (click)="
+                                                                                        grantItem(
+                                                                                            itemParameters.item,
+                                                                                            true
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    Buy
+                                                                                    {{
+                                                                                        itemParameters.stack &&
+                                                                                        itemParameters.stack >
+                                                                                            1
+                                                                                            ? itemParameters.stack
+                                                                                            : ""
+                                                                                    }}
+                                                                                    for
+                                                                                    {{
+                                                                                        creature
+                                                                                    }}
+                                                                                </button>
+                                                                            }
+
+                                                                            @if (
+                                                                                itemParameters.asMaterialChangeable
+                                                                            ) {
+                                                                                <app-item-material
+                                                                                    [item]="
+                                                                                        itemParameters.asMaterialChangeable
+                                                                                    "
+                                                                                    [craftingStation]="
+                                                                                        false
+                                                                                    "
+                                                                                    [itemRoles]="
+                                                                                        itemParameters
+                                                                                    "
+                                                                                />
+                                                                            }
+
+                                                                            @if (
+                                                                                itemParameters.asRuneChangeable
+                                                                            ) {
+                                                                                <app-item-runes
+                                                                                    [item]="
+                                                                                        itemParameters.asRuneChangeable
+                                                                                    "
+                                                                                    [itemStore]="
+                                                                                        true
+                                                                                    "
+                                                                                    [itemRoles]="
+                                                                                        itemParameters
+                                                                                    "
+                                                                                />
+                                                                            }
+
+                                                                            @if (
+                                                                                itemParameters.asTalismanChangeable
+                                                                            ) {
+                                                                                <app-item-talismans
+                                                                                    [item]="
+                                                                                        itemParameters.asTalismanChangeable
+                                                                                    "
+                                                                                    [itemStore]="
+                                                                                        true
+                                                                                    "
+                                                                                />
+                                                                            }
+                                                                        }
+
+                                                                        @if (
+                                                                            itemParameters.asScroll &&
+                                                                                selectedPurpose() ===
+                                                                                    "scrollsavant" &&
+                                                                                shownCreature() ===
+                                                                                    creatureTypesEnum.Character &&
+                                                                                (scrollSavantSpellDCLevel$()
+                                                                                    | async);
+                                                                            as available
+                                                                        ) {
+                                                                            @if (
+                                                                                scrollSavantSpellCasting$()
+                                                                                    | async;
+                                                                                as scrollSavantCasting
+                                                                            ) {
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="newrow center-aligned"
+                                                                                    [disabled]="
+                                                                                        (scrollSavantCasting
+                                                                                            ?.scrollSavant
+                                                                                            ?.length ||
+                                                                                            0) >=
+                                                                                        available /
+                                                                                            2
+                                                                                    "
+                                                                                    (click)="
+                                                                                        prepareScrollSavantScroll(
+                                                                                            itemParameters.asScroll
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    Select
+                                                                                    scroll
+                                                                                    for
+                                                                                    daily
+                                                                                    creation
+                                                                                </button>
+                                                                            }
+                                                                        }
+
+                                                                        @if (
+                                                                            selectedPurpose() ===
+                                                                                "formulas" &&
+                                                                            shownCreature() ===
+                                                                                creatureTypesEnum.Character
+                                                                        ) {
+                                                                            @if (
+                                                                                !learnedFormulas(
+                                                                                    itemParameters
+                                                                                        .item
+                                                                                        .id
+                                                                                )
+                                                                                    .length &&
+                                                                                availableForLearningParameters.alchemicalCraftingAvailable &&
+                                                                                itemParameters.item.traits.includes(
+                                                                                    "Alchemical"
+                                                                                )
+                                                                            ) {
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="newrow center-aligned"
+                                                                                    [disabled]="
+                                                                                        !canLearnFormula(
+                                                                                            itemParameters.item,
+                                                                                            'alchemicalcrafting',
+                                                                                            availableForLearningParameters
+                                                                                        )
+                                                                                    "
+                                                                                    (click)="
+                                                                                        learnFormula(
+                                                                                            itemParameters.item,
+                                                                                            'alchemicalcrafting'
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    Learn
+                                                                                    formula
+                                                                                    via
+                                                                                    Alchemical
+                                                                                    Crafting
+                                                                                </button>
+                                                                            }
+
+                                                                            @if (
+                                                                                !learnedFormulas(
+                                                                                    itemParameters
+                                                                                        .item
+                                                                                        .id
+                                                                                )
+                                                                                    .length &&
+                                                                                availableForLearningParameters.magicalCraftingAvailable &&
+                                                                                itemParameters.item.traits.includes(
+                                                                                    "Magical"
+                                                                                )
+                                                                            ) {
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="newrow center-aligned"
+                                                                                    [disabled]="
+                                                                                        !canLearnFormula(
+                                                                                            itemParameters.item,
+                                                                                            'magicalcrafting',
+                                                                                            availableForLearningParameters
+                                                                                        )
+                                                                                    "
+                                                                                    (click)="
+                                                                                        learnFormula(
+                                                                                            itemParameters.item,
+                                                                                            'magicalcrafting'
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    Learn
+                                                                                    formula
+                                                                                    via
+                                                                                    Magical
+                                                                                    Crafting
+                                                                                </button>
+                                                                            }
+
+                                                                            @if (
+                                                                                !learnedFormulas(
+                                                                                    itemParameters
+                                                                                        .item
+                                                                                        .id
+                                                                                )
+                                                                                    .length &&
+                                                                                availableForLearningParameters.snareCraftingAvailable &&
+                                                                                itemParameters.item.traits.includes(
+                                                                                    "Snare"
+                                                                                )
+                                                                            ) {
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="newrow center-aligned"
+                                                                                    [disabled]="
+                                                                                        !canLearnFormula(
+                                                                                            itemParameters.item,
+                                                                                            'snarecrafting',
+                                                                                            availableForLearningParameters
+                                                                                        )
+                                                                                    "
+                                                                                    (click)="
+                                                                                        learnFormula(
+                                                                                            itemParameters.item,
+                                                                                            'snarecrafting'
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    Learn
+                                                                                    formula
+                                                                                    via
+                                                                                    Snare
+                                                                                    Crafting
+                                                                                </button>
+                                                                            }
+
+                                                                            @if (
+                                                                                !learnedFormulas(
+                                                                                    itemParameters
+                                                                                        .item
+                                                                                        .id
+                                                                                )
+                                                                                    .length &&
+                                                                                availableForLearningParameters.snareSpecialistAvailable &&
+                                                                                itemParameters.item.traits.includes(
+                                                                                    "Snare"
+                                                                                )
+                                                                            ) {
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="newrow center-aligned"
+                                                                                    [disabled]="
+                                                                                        !canLearnFormula(
+                                                                                            itemParameters.item,
+                                                                                            'snarespecialist',
+                                                                                            availableForLearningParameters
+                                                                                        )
+                                                                                    "
+                                                                                    (click)="
+                                                                                        learnFormula(
+                                                                                            itemParameters.item,
+                                                                                            'snarespecialist'
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    Learn
+                                                                                    formula
+                                                                                    via
+                                                                                    Snare
+                                                                                    Specialist
+                                                                                </button>
+                                                                            }
+
+                                                                            @if (
+                                                                                !learnedFormulas(
+                                                                                    itemParameters
+                                                                                        .item
+                                                                                        .id
+                                                                                )
+                                                                                    .length
+                                                                            ) {
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="newrow center-aligned"
+                                                                                    [ngbTooltip]="
+                                                                                        'You must manually expend the necessary cost to learn the formula this way.'
+                                                                                    "
+                                                                                    (click)="
+                                                                                        learnFormula(
+                                                                                            itemParameters.item,
+                                                                                            'other'
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    Learn
+                                                                                    formula
+                                                                                    (buy,
+                                                                                    copy,
+                                                                                    invent
+                                                                                    or
+                                                                                    reverse
+                                                                                    engineer)
+                                                                                </button>
+                                                                            }
+
+                                                                            @for (
+                                                                                learned of learnedFormulas(
+                                                                                    itemParameters
+                                                                                        .item
+                                                                                        .id
+                                                                                );
+                                                                                track $index
+                                                                            ) {
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="newrow center-aligned"
+                                                                                    (click)="
+                                                                                        unlearnFormula(
+                                                                                            itemParameters.item
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    Unlearn
+                                                                                    formula
+                                                                                    {{
+                                                                                        learnedFormulaSource(
+                                                                                            learned.source
+                                                                                        )
+                                                                                    }}
+                                                                                </button>
+                                                                            }
+                                                                        }
+
+                                                                        <app-item
+                                                                            class="lower"
+                                                                            [item]="
+                                                                                itemParameters.item
+                                                                            "
+                                                                            [itemStore]="
+                                                                                true
+                                                                            "
+                                                                        />
+                                                                    </ng-template>
+
+                                                                    @for (
+                                                                        inventoryID of [
+                                                                            listID +
+                                                                                itemParameters
+                                                                                    .item
+                                                                                    .id,
+                                                                        ];
+                                                                        track $index
+                                                                    ) {
+                                                                        @if (
+                                                                            !tileMode.enabled
+                                                                        ) {
                                                                             <div
-                                                                                *ngIf="shownItem()===inventoryID"
-                                                                                class="list-item sublist lower"
-                                                                                [ngClass]="{'fancy-list':selectedPurpose()==='formulas' && shownCreature()===creatureTypesEnum.Character && learnedFormulas(itemParameters.item.id).length}"
+                                                                                class="list-item"
                                                                             >
-                                                                                <ng-container *ngTemplateOutlet="ItemTemplate" />
+                                                                                <button
+                                                                                    type="button"
+                                                                                    aria-label="Show item"
+                                                                                    class="newrow sublist-toggle"
+                                                                                    [ngClass]="{
+                                                                                        'fancy-button':
+                                                                                            selectedPurpose() ===
+                                                                                                'formulas' &&
+                                                                                            shownCreature() ===
+                                                                                                creatureTypesEnum.Character &&
+                                                                                            learnedFormulas(
+                                                                                                itemParameters
+                                                                                                    .item
+                                                                                                    .id
+                                                                                            )
+                                                                                                .length,
+                                                                                    }"
+                                                                                    (click)="
+                                                                                        toggleShownItem(
+                                                                                            inventoryID
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    <ng-container
+                                                                                        *ngTemplateOutlet="
+                                                                                            ItemTitleTemplate
+                                                                                        "
+                                                                                    />
+                                                                                </button>
+
+                                                                                @if (
+                                                                                    shownItem() ===
+                                                                                    inventoryID
+                                                                                ) {
+                                                                                    <div
+                                                                                        class="list-item sublist lower"
+                                                                                        [ngClass]="{
+                                                                                            'fancy-list':
+                                                                                                selectedPurpose() ===
+                                                                                                    'formulas' &&
+                                                                                                shownCreature() ===
+                                                                                                    creatureTypesEnum.Character &&
+                                                                                                learnedFormulas(
+                                                                                                    itemParameters
+                                                                                                        .item
+                                                                                                        .id
+                                                                                                )
+                                                                                                    .length,
+                                                                                        }"
+                                                                                    >
+                                                                                        <ng-container
+                                                                                            *ngTemplateOutlet="
+                                                                                                ItemTemplate
+                                                                                            "
+                                                                                        />
+                                                                                    </div>
+                                                                                }
                                                                             </div>
-                                                                        </div>
-                                                                    </ng-container>
+                                                                        }
 
-                                                                    <ng-container *ngIf="tileMode.enabled">
-                                                                        <button
-                                                                            type="button"
-                                                                            aria-label="show Item"
-                                                                            triggers="click"
-                                                                            [ngbPopover]="ItemTemplate"
-                                                                            [ngClass]="{'fancy-button':selectedPurpose()==='formulas' && shownCreature()===creatureTypesEnum.Character && learnedFormulas(itemParameters.item.id).length, 'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
-                                                                            (click)="toggleShownItem()"
-                                                                        >
-                                                                            <app-grid-icon
-                                                                                [updateId]="itemParameters.item.id"
-                                                                                [ngClass]="{'fancy-button':selectedPurpose()==='formulas' && shownCreature()===creatureTypesEnum.Character && learnedFormulas(itemParameters.item.id).length, 'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
-                                                                                [ngbTooltip]="ItemTooltipTemplate"
-                                                                                [title]="itemParameters.item.gridIconTitle()"
-                                                                                [superTitle]="itemParameters.stack && itemParameters.stack > 1 ? itemParameters.stack.toString() : ''"
-                                                                                [detail]="'noparse|' + (itemParameters.item.traits.includes('Rare') ? 'R' : (itemParameters.item.traits.includes('Uncommon') ? 'U' : (itemParameters.item.traits.includes('Unique') ? 'Q' : ''))) + (itemParameters.item.level ? itemParameters.item.level.toString() : '')"
-                                                                                [item]="itemParameters.item"
-                                                                                [itemStore]="true"
-                                                                            />
-                                                                        </button>
-                                                                    </ng-container>
-                                                                </ng-container>
-                                                            </ng-container>
-                                                        </ng-container>
+                                                                        @if (
+                                                                            tileMode.enabled
+                                                                        ) {
+                                                                            <button
+                                                                                type="button"
+                                                                                aria-label="show Item"
+                                                                                triggers="click"
+                                                                                [ngbPopover]="
+                                                                                    ItemTemplate
+                                                                                "
+                                                                                [ngClass]="{
+                                                                                    'fancy-button':
+                                                                                        selectedPurpose() ===
+                                                                                            'formulas' &&
+                                                                                        shownCreature() ===
+                                                                                            creatureTypesEnum.Character &&
+                                                                                        learnedFormulas(
+                                                                                            itemParameters
+                                                                                                .item
+                                                                                                .id
+                                                                                        )
+                                                                                            .length,
+                                                                                    penalty:
+                                                                                        itemParameters.canUse ===
+                                                                                        false,
+                                                                                    bonus: itemParameters.canUse,
+                                                                                }"
+                                                                                (click)="
+                                                                                    toggleShownItem()
+                                                                                "
+                                                                            >
+                                                                                <app-grid-icon
+                                                                                    [updateId]="
+                                                                                        itemParameters
+                                                                                            .item
+                                                                                            .id
+                                                                                    "
+                                                                                    [ngClass]="{
+                                                                                        'fancy-button':
+                                                                                            selectedPurpose() ===
+                                                                                                'formulas' &&
+                                                                                            shownCreature() ===
+                                                                                                creatureTypesEnum.Character &&
+                                                                                            learnedFormulas(
+                                                                                                itemParameters
+                                                                                                    .item
+                                                                                                    .id
+                                                                                            )
+                                                                                                .length,
+                                                                                        penalty:
+                                                                                            itemParameters.canUse ===
+                                                                                            false,
+                                                                                        bonus: itemParameters.canUse,
+                                                                                    }"
+                                                                                    [ngbTooltip]="
+                                                                                        ItemTooltipTemplate
+                                                                                    "
+                                                                                    [title]="
+                                                                                        itemParameters.item.gridIconTitle()
+                                                                                    "
+                                                                                    [superTitle]="
+                                                                                        itemParameters.stack &&
+                                                                                        itemParameters.stack >
+                                                                                            1
+                                                                                            ? itemParameters.stack.toString()
+                                                                                            : ''
+                                                                                    "
+                                                                                    [detail]="
+                                                                                        'noparse|' +
+                                                                                        (itemParameters.item.traits.includes(
+                                                                                            'Rare'
+                                                                                        )
+                                                                                            ? 'R'
+                                                                                            : itemParameters.item.traits.includes(
+                                                                                                    'Uncommon'
+                                                                                                )
+                                                                                              ? 'U'
+                                                                                              : itemParameters.item.traits.includes(
+                                                                                                      'Unique'
+                                                                                                  )
+                                                                                                ? 'Q'
+                                                                                                : '') +
+                                                                                        (itemParameters
+                                                                                            .item
+                                                                                            .level
+                                                                                            ? itemParameters.item.level.toString()
+                                                                                            : '')
+                                                                                    "
+                                                                                    [item]="
+                                                                                        itemParameters.item
+                                                                                    "
+                                                                                    [itemStore]="
+                                                                                        true
+                                                                                    "
+                                                                                />
+                                                                            </button>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
 
-                                                        <div
-                                                            *ngIf="visibleItems.length >= 80 && shownList()!=='All'"
-                                                            class="newrow list-item"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="center-aligned"
-                                                                [disabled]="(range + 1) * 40 >= visibleItems.length"
-                                                                (click)="incRange(1)"
-                                                            >
-                                                                Next 40
-                                                            </button>
+                                                            @if (
+                                                                visibleItems.length >=
+                                                                    80 &&
+                                                                shownList() !==
+                                                                    "All"
+                                                            ) {
+                                                                <div
+                                                                    class="newrow list-item"
+                                                                >
+                                                                    <button
+                                                                        type="button"
+                                                                        class="center-aligned"
+                                                                        [disabled]="
+                                                                            (range +
+                                                                                1) *
+                                                                                40 >=
+                                                                            visibleItems.length
+                                                                        "
+                                                                        (click)="
+                                                                            incRange(
+                                                                                1
+                                                                            )
+                                                                        "
+                                                                    >
+                                                                        Next 40
+                                                                    </button>
+                                                                </div>
+                                                            }
                                                         </div>
-                                                    </div>
-                                                </ng-container>
-                                            </ng-container>
-                                        </ng-container>
-                                    </ng-container>
-                                </ng-container>
-                            </ng-container>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
-                            <ng-container *ngIf="selectedPurpose()==='createcustomitem' && shownCreature()===creatureTypesEnum.Character">
-                                <header class="sectionHeader">Create custom item</header>
+                            @if (
+                                selectedPurpose() === "createcustomitem" &&
+                                shownCreature() === creatureTypesEnum.Character
+                            ) {
+                                <header class="sectionHeader">
+                                    Create custom item
+                                </header>
 
                                 <div class="list-item">
                                     <span>
@@ -594,105 +1400,155 @@
                                         <select
                                             aria-label="Select custom item type"
                                             [(ngModel)]="newItemType"
-                                            (ngModelChange)="initializeNewItem()"
+                                            (ngModelChange)="
+                                                initializeNewItem()
+                                            "
                                         >
-                                            <option
-                                                *ngFor="let name of newItemTypeOptionsFilter(); trackBy:trackByIndex;"
-                                                [ngValue]="name.key"
-                                            >
-                                                {{name.name}}
-                                            </option>
+                                            @for (
+                                                name of newItemTypeOptionsFilter();
+                                                track $index
+                                            ) {
+                                                <option [ngValue]="name.key">
+                                                    {{ name.name }}
+                                                </option>
+                                            }
                                         </select>
                                     </span>
                                 </div>
 
-                                <ng-container *ngIf="newItem">
-                                    <div
-                                        *ngIf="'newItem' as inventoryID"
-                                        class="list-item"
-                                    >
-                                        <button
-                                            type="button"
-                                            class="newrow sublist-toggle center-aligned"
-                                            (click)="toggleShownItem(inventoryID)"
-                                        >
-                                            Copy existing item
-                                        </button>
-
-                                        <div
-                                            *ngIf="shownItem()===inventoryID"
-                                            class="list-item sublist lower"
-                                        >
-                                            <header class="subsectionHeader">New Items</header>
-
-                                            <div
-                                                *ngFor="let item of itemsToCopy(newItemType); trackBy:trackByIndex;"
-                                                class="list-item"
+                                @if (newItem) {
+                                    @if ("newItem"; as inventoryID) {
+                                        <div class="list-item">
+                                            <button
+                                                type="button"
+                                                class="newrow sublist-toggle center-aligned"
+                                                (click)="
+                                                    toggleShownItem(inventoryID)
+                                                "
                                             >
-                                                <button
-                                                    type="button"
-                                                    class="newrow center-aligned"
-                                                    (click)="copyItemForCustomItem(item)"
-                                                >
-                                                    {{item.effectiveName$() | async}}
-                                                </button>
-                                            </div>
+                                                Copy existing item
+                                            </button>
 
-                                            <header class="subsectionHeader">Inventory Items</header>
-
-                                            <div
-                                                *ngFor="let item of inventoryItems(newItemType); trackBy:trackByIndex;"
-                                                class="list-item"
-                                            >
-                                                <button
-                                                    type="button"
-                                                    class="newrow center-aligned"
-                                                    (click)="copyItemForCustomItem(item)"
+                                            @if (shownItem() === inventoryID) {
+                                                <div
+                                                    class="list-item sublist lower"
                                                 >
-                                                    {{item.effectiveName$() | async}}
-                                                </button>
-                                            </div>
+                                                    <header
+                                                        class="subsectionHeader"
+                                                    >
+                                                        New Items
+                                                    </header>
+
+                                                    @for (
+                                                        item of itemsToCopy(
+                                                            newItemType
+                                                        );
+                                                        track $index
+                                                    ) {
+                                                        <div class="list-item">
+                                                            <button
+                                                                type="button"
+                                                                class="newrow center-aligned"
+                                                                (click)="
+                                                                    copyItemForCustomItem(
+                                                                        item
+                                                                    )
+                                                                "
+                                                            >
+                                                                {{
+                                                                    item.effectiveName$()
+                                                                        | async
+                                                                }}
+                                                            </button>
+                                                        </div>
+                                                    }
+
+                                                    <header
+                                                        class="subsectionHeader"
+                                                    >
+                                                        Inventory Items
+                                                    </header>
+
+                                                    @for (
+                                                        item of inventoryItems(
+                                                            newItemType
+                                                        );
+                                                        track $index
+                                                    ) {
+                                                        <div class="list-item">
+                                                            <button
+                                                                type="button"
+                                                                class="newrow center-aligned"
+                                                                (click)="
+                                                                    copyItemForCustomItem(
+                                                                        item
+                                                                    )
+                                                                "
+                                                            >
+                                                                {{
+                                                                    item.effectiveName$()
+                                                                        | async
+                                                                }}
+                                                            </button>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            }
                                         </div>
-                                    </div>
+                                    }
 
-                                    <ng-container *ngFor="let property of newItemProperties(); trackBy:trackByIndex;">
-                                        <ng-container *ngIf="!(property.key === 'equippable' && !newItem['allowEquippable'])">
+                                    @for (
+                                        property of newItemProperties();
+                                        track $index
+                                    ) {
+                                        @if (
+                                            !(
+                                                property.key === "equippable" &&
+                                                !newItem["allowEquippable"]
+                                            )
+                                        ) {
                                             <app-new-item-property
-                                                [propertyData]=property
-                                                [propertyKey]=property.key
-                                                [newItem]=newItem
+                                                [propertyData]="property"
+                                                [propertyKey]="property.key"
+                                                [newItem]="newItem"
                                             />
-                                        </ng-container>
-                                    </ng-container>
+                                        }
+                                    }
 
-                                    <div
-                                        *ngIf="itemAsMaterialChangeable(newItem) as itemAsMaterialChangeable"
-                                        class="list-item newrow"
-                                    >
-                                        <strong>Material</strong>
+                                    @if (
+                                        itemAsMaterialChangeable(newItem);
+                                        as itemAsMaterialChangeable
+                                    ) {
+                                        <div class="list-item newrow">
+                                            <strong>Material</strong>
 
-                                        <app-item-material
-                                            class="newrow"
-                                            [item]="itemAsMaterialChangeable"
-                                            [craftingStation]="false"
-                                            [customItemStore]="true"
-                                        />
-                                    </div>
+                                            <app-item-material
+                                                class="newrow"
+                                                [item]="
+                                                    itemAsMaterialChangeable
+                                                "
+                                                [craftingStation]="false"
+                                                [customItemStore]="true"
+                                            />
+                                        </div>
+                                    }
 
-                                    <div
-                                        *ngIf="itemAsRuneChangeable(newItem) as itemAsRuneChangeable"
-                                        class="list-item newrow"
-                                    >
-                                        >
-                                        <strong>Runes</strong>
+                                    @if (
+                                        itemAsRuneChangeable(newItem);
+                                        as itemAsRuneChangeable
+                                    ) {
+                                        <div class="list-item newrow">
+                                            >
+                                            <strong>Runes</strong>
 
-                                        <app-item-runes
-                                            class="newrow"
-                                            [item]="itemAsRuneChangeable"
-                                            [itemStore]="true"
-                                            [customItemStore]="true"
-                                        />
-                                    </div>
+                                            <app-item-runes
+                                                class="newrow"
+                                                [item]="itemAsRuneChangeable"
+                                                [itemStore]="true"
+                                                [customItemStore]="true"
+                                            />
+                                        </div>
+                                    }
 
                                     <div class="list-item newrow">
                                         <button
@@ -703,55 +1559,83 @@
                                             Get this item
                                         </button>
                                     </div>
-                                </ng-container>
-                            </ng-container>
-                        </ng-container>
+                                }
+                            }
+                        }
                     </div>
                 </div>
 
                 <div class="character-sheet-column mobile-hide">
-                    <div
-                        *ngIf="otherCreaturesAvailable$() | async as otherCreaturesAvailable"
-                        class="list-item newrow"
-                    >
-                        <button
-                            type="button"
-                            class="center-aligned"
-                            [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.Character}"
-                            (click)="toggleShownCreature(creatureTypesEnum.Character)"
-                        >
-                            Character
-                        </button>
+                    @if (
+                        otherCreaturesAvailable$() | async;
+                        as otherCreaturesAvailable
+                    ) {
+                        <div class="list-item newrow">
+                            <button
+                                type="button"
+                                class="center-aligned"
+                                [ngClass]="{
+                                    'fancy-button':
+                                        shownCreature() ===
+                                        creatureTypesEnum.Character,
+                                }"
+                                (click)="
+                                    toggleShownCreature(
+                                        creatureTypesEnum.Character
+                                    )
+                                "
+                            >
+                                Character
+                            </button>
 
-                        <button
-                            *ngIf="otherCreaturesAvailable.companion"
-                            type="button"
-                            class="center-aligned"
-                            [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.AnimalCompanion}"
-                            (click)="toggleShownCreature(creatureTypesEnum.AnimalCompanion)"
-                        >
-                            Companion
-                        </button>
+                            @if (otherCreaturesAvailable.companion) {
+                                <button
+                                    type="button"
+                                    class="center-aligned"
+                                    [ngClass]="{
+                                        'fancy-button':
+                                            shownCreature() ===
+                                            creatureTypesEnum.AnimalCompanion,
+                                    }"
+                                    (click)="
+                                        toggleShownCreature(
+                                            creatureTypesEnum.AnimalCompanion
+                                        )
+                                    "
+                                >
+                                    Companion
+                                </button>
+                            }
 
-                        <button
-                            *ngIf="otherCreaturesAvailable.familiar"
-                            type="button"
-                            class="center-aligned"
-                            [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.Familiar}"
-                            (click)="toggleShownCreature(creatureTypesEnum.Familiar)"
-                        >
-                            Familiar
-                        </button>
-                    </div>
+                            @if (otherCreaturesAvailable.familiar) {
+                                <button
+                                    type="button"
+                                    class="center-aligned"
+                                    [ngClass]="{
+                                        'fancy-button':
+                                            shownCreature() ===
+                                            creatureTypesEnum.Familiar,
+                                    }"
+                                    (click)="
+                                        toggleShownCreature(
+                                            creatureTypesEnum.Familiar
+                                        )
+                                    "
+                                >
+                                    Familiar
+                                </button>
+                            }
+                        </div>
+                    }
 
                     <app-inventory
                         id="ItemStore-inventory"
-                        style="position:relative"
+                        style="position: relative"
                         [itemStore]="true"
                         [creature]="creature"
                     />
                 </div>
             </div>
-        </ng-container>
+        }
     </div>
 </app-fly-in-menu>

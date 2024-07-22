@@ -199,7 +199,6 @@ export class Armor extends Equipment implements MessageSerializable<Armor> {
         } else {
             return oilBulk || fortification ? fortification.toString() : this.bulk;
         }
-
     }
 
     public effectiveACBonus$(): Observable<number> {

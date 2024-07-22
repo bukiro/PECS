@@ -5,7 +5,6 @@ import { TextInputComponent } from '../text-input/text-input.component';
 import { CheckboxInputComponent } from '../checkbox-input/checkbox-input.component';
 import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-label-input-pair',
@@ -21,11 +20,8 @@ import { CommonModule } from '@angular/common';
     ],
     standalone: true,
     imports: [
-        CommonModule,
         FormsModule,
-
         NgbTooltip,
-
         CheckboxInputComponent,
         TextInputComponent,
     ],

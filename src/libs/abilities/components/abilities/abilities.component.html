@@ -5,12 +5,11 @@
 >
     <div
         class="attributeBox"
-        id="{{creature}}-abilities-height"
+        id="{{ creature }}-abilities-height"
     >
         <header class="sectionHeader box-header">Abilities</header>
 
-        <ng-container *ngFor="let ability of abilityValues$ | async; trackBy:trackByIndex;">
-
+        @for (ability of abilityValues$ | async; track $index) {
             <div class="list-item minimized-hide">
                 <app-attribute-value
                     [title]="ability.ability.name"
@@ -20,22 +19,23 @@
                     [bonuses]="ability.value.bonuses"
                 />
 
-                <app-tags
-                    *ngIf="(isMinimized$ | async) === false"
-                    [creature]="creature"
-                    [objectName]="ability.ability.name"
-                    [showTraits]="true"
-                    [showFeats]="true"
-                    [showItems]="true"
-                    [showActivities]="true"
-                    [showConditions]="true"
-                    [showEffects]="true"
-                />
+                @if ((isMinimized$ | async) === false) {
+                    <app-tags
+                        [creature]="creature"
+                        [objectName]="ability.ability.name"
+                        [showTraits]="true"
+                        [showFeats]="true"
+                        [showItems]="true"
+                        [showActivities]="true"
+                        [showConditions]="true"
+                        [showEffects]="true"
+                    />
+                }
             </div>
 
             <div
                 class="list-item"
-                [ngClass]="{'minimized-hide':(ability.mod.result === 0)}"
+                [ngClass]="{ 'minimized-hide': ability.mod.result === 0 }"
             >
                 <app-attribute-value
                     [title]="ability.ability.name + ' Modifier'"
@@ -56,6 +56,6 @@
                     [showEffects]="true"
                 />
             </div>
-        </ng-container>
+        }
     </div>
 </app-character-sheet-card>

@@ -476,7 +476,6 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
                 );
         }
 
-
         // Shorter effect values will be shown as SuperTitle instead.
         if (this.effect) {
             if (this.effect.title && (this.effect.title.length || 0) > minIconValueLength) {

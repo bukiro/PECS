@@ -93,19 +93,19 @@ import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
 import { AboutComponent } from './components/about/about.component';
 import { LicensesComponent } from './components/licenses/licenses.component';
-import { SpellComponent } from '../../../libs/shared/spell/components/spell/spell.component';
-import { ActivityComponent } from '../../../libs/shared/activity/components/activity/activity.component';
-import { ActionIconsComponent } from '../../../libs/shared/ui/action-icons/components/action-icons/action-icons.component';
-import { TraitComponent } from '../../../libs/shared/ui/trait/components/trait/trait.component';
-import { DescriptionComponent } from '../../../libs/shared/ui/description/components/description/description.component';
-import { FeatChoiceComponent } from '../../../libs/shared/feat-choice/components/feat-choice/feat-choice.component';
-import { FeatComponent } from '../../../libs/shared/feat/components/feat/feat.component';
-import { SkillChoiceComponent } from '../../../libs/shared/skill-choice/components/skill-choice/skill-choice.component';
-import { TagsComponent } from '../../../libs/shared/tags/components/tags/tags.component';
+import { SpellComponent } from 'src/libs/shared/spell/components/spell/spell.component';
+import { ActivityComponent } from 'src/libs/shared/activity/components/activity/activity.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
+import { FeatChoiceComponent } from 'src/libs/shared/feat-choice/components/feat-choice/feat-choice.component';
+import { FeatComponent } from 'src/libs/shared/feat/components/feat/feat.component';
+import { SkillChoiceComponent } from 'src/libs/shared/skill-choice/components/skill-choice/skill-choice.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { FormsModule } from '@angular/forms';
-import { GridIconComponent } from '../../../libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
 import { CommonModule } from '@angular/common';
-import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -445,7 +445,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         } else {
             return alignments;
         }
-
     }
 
     public classLevelByNumber(number: number): CharacterClassLevel {
@@ -551,7 +550,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                         });
                 });
         }
-
     }
 
     public onUpdateSkills(): void {
@@ -821,8 +819,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                         );
                 }),
             );
-
-
     }
 
     public abilityBoostsOnLevel(
@@ -918,7 +914,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                     skillChoices.filter((skillChoice): skillChoice is SkillChoice => !!skillChoice),
                 ),
             );
-
     }
 
     public featChoicesOnLevel(level: CharacterClassLevel, specialChoices?: boolean): Array<FeatChoice> {
@@ -1556,7 +1551,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                         .sort((a, b) => sortAlphaNum(a.name, b.name));
                 }),
             );
-
     }
 
     public doesCharacterHaveHeritage(name: string): boolean {
@@ -1638,7 +1632,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                     .some(feat => feat && feat.gainAnimalCompanion === 'Young'),
                 ),
             );
-
     }
 
     public onResetCompanion(): void {
@@ -1802,7 +1795,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                     .some(feat => feat && feat.gainFamiliar),
                 ),
             );
-
     }
 
     public onResetFamiliar(): void {

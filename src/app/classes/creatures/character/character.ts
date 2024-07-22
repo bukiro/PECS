@@ -132,7 +132,6 @@ export class Character extends Creature implements Serializable<Character> {
         this._customFeats.setValues(...value);
     }
 
-
     public get experiencePoints(): number {
         return this._experiencePoints;
     }

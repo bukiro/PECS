@@ -18,7 +18,6 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
-
 @Injectable({
     providedIn: 'root',
 })
@@ -288,7 +287,6 @@ export class SpellActivityProcessingSharedService {
                     conditionTargets.filter(target => !(target instanceof SpellTarget)).forEach(target => {
                         this._creatureConditionsService.addCondition(target as Creature, newConditionGain, {}, { noReload: true });
                     });
-
 
                     conditionTargets
                         .filter(target => target instanceof SpellTarget && creatures.some(listCreature => listCreature.id === target.id))

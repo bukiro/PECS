@@ -1,38 +1,59 @@
 <!-- Desktop or mobile character sheet -->
 
-<app-character-sheet-desktop
-    *ngIf="(isMobile$ | async) === false"
-    [attacksAndSpellsOrder]="(attacksAndSpellsOrder$ | async) ?? {}"
-/>
+@if ((isMobile$ | async) === false) {
+    <app-character-sheet-desktop
+        [attacksAndSpellsOrder]="(attacksAndSpellsOrder$ | async) ?? {}"
+    />
+}
 
-<app-character-sheet-mobile
-    *ngIf="(isMobile$ | async)"
-/>
+@if (isMobile$ | async) {
+    <app-character-sheet-mobile />
+}
 
 <!-- Slide-in menus -->
 
-<app-items class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.ItemsMenu" />
-
-<app-crafting class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.CraftingMenu" />
-
-<app-spell-selection class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu" />
-
-<app-spell-library class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.SpellLibraryMenu" />
-
-<app-conditions class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.ConditionsMenu" />
-
-<app-character-creation class="fly-in-menu" [show]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu" />
-
-<app-animal-companion
-    *ngIf="isAnimalCompanionAvailable$ | async"
+<app-items
     class="fly-in-menu"
-    [show]="(sideMenuState$ | async) === menuNames.CompanionMenu"
+    [show]="(sideMenuState$ | async) === menuNames.ItemsMenu"
 />
 
-<app-familiar
-    *ngIf="isFamiliarAvailable$ | async"
+<app-crafting
     class="fly-in-menu"
-    [show]="(sideMenuState$ | async) === menuNames.FamiliarMenu"
+    [show]="(sideMenuState$ | async) === menuNames.CraftingMenu"
 />
+
+<app-spell-selection
+    class="fly-in-menu"
+    [show]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu"
+/>
+
+<app-spell-library
+    class="fly-in-menu"
+    [show]="(sideMenuState$ | async) === menuNames.SpellLibraryMenu"
+/>
+
+<app-conditions
+    class="fly-in-menu"
+    [show]="(sideMenuState$ | async) === menuNames.ConditionsMenu"
+/>
+
+<app-character-creation
+    class="fly-in-menu"
+    [show]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu"
+/>
+
+@if (isAnimalCompanionAvailable$ | async) {
+    <app-animal-companion
+        class="fly-in-menu"
+        [show]="(sideMenuState$ | async) === menuNames.CompanionMenu"
+    />
+}
+
+@if (isFamiliarAvailable$ | async) {
+    <app-familiar
+        class="fly-in-menu"
+        [show]="(sideMenuState$ | async) === menuNames.FamiliarMenu"
+    />
+}
 
 <app-dice [show]="(topMenuState$ | async) === menuNames.DiceMenu" />

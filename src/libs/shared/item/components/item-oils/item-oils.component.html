@@ -1,47 +1,53 @@
 <!-- Adding Oils -->
-<ng-container *ngIf="availableOils() as availableOils">
-    <div
-        *ngIf="availableOils.length > 1 || item.oilsApplied.length"
-        class="list-item"
-    >
-        <div class="newrow">
-            <strong>Apply oil</strong>
+@if (availableOils(); as availableOils) {
+    @if (availableOils.length > 1 || item.oilsApplied.length) {
+        <div class="list-item">
+            <div class="newrow">
+                <strong>Apply oil</strong>
 
-            <select
-                aria-label="Select oil"
-                [(ngModel)]="newOil"
-                (ngModelChange)="onSelectOil()"
-            >
-                <option
-                    *ngFor="let oilSet of availableOils; trackBy:trackByIndex;"
-                    [ngValue]="oilSet"
+                <select
+                    aria-label="Select oil"
+                    [(ngModel)]="newOil"
+                    (ngModelChange)="onSelectOil()"
                 >
-                    {{oilSet.oil.amount !== 1 ? oilSet.oil.amount + " " : ""}}{{oilSet.oil.effectiveName$()}}
-                </option>
-            </select>
-        </div>
-
-        <div
-            *ngIf="item.oilsApplied.length"
-            class="newrow"
-        >
-            <strong>Applied oils</strong>
-
-            <div
-                *ngFor="let oil of item.oilsApplied; let index = index; trackBy:trackByIndex;"
-                class="newrow"
-            >
-                <span>
-                    {{oil.effectiveName$() | async}} ({{durationDescription$(oil.duration) | async}})
-                </span>
-
-                <button
-                    class="lower"
-                    (click)="onRemoveOil(index)"
-                >
-                    Remove
-                </button>
+                    @for (oilSet of availableOils; track $index) {
+                        <option [ngValue]="oilSet">
+                            {{
+                                oilSet.oil.amount !== 1
+                                    ? oilSet.oil.amount + " "
+                                    : ""
+                            }}{{ oilSet.oil.effectiveName$() }}
+                        </option>
+                    }
+                </select>
             </div>
+
+            @if (item.oilsApplied.length) {
+                <div class="newrow">
+                    <strong>Applied oils</strong>
+
+                    @for (
+                        oil of item.oilsApplied;
+                        track index;
+                        let index = $index
+                    ) {
+                        <div class="newrow">
+                            <span>
+                                {{ oil.effectiveName$() | async }} ({{
+                                    durationDescription$(oil.duration) | async
+                                }})
+                            </span>
+
+                            <button
+                                class="lower"
+                                (click)="onRemoveOil(index)"
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    }
+                </div>
+            }
         </div>
-    </div>
-</ng-container>
+    }
+}

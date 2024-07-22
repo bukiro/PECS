@@ -228,7 +228,6 @@ export class NamedFeatProcessingService {
                         switchMap(() => of()),
                     );
 
-
             } else {
                 character.class.spellCasting
                     .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')

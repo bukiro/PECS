@@ -1,80 +1,86 @@
 <app-character-sheet-card class="card">
-    <div
-        *ngIf="savegames$ | async as savegames"
-        class="character-selection"
-    >
-        <div class="character-selection__header">
-            <app-logo class="logo" />
-            <div class="text-large">Select your character</div>
-        </div>
-
-        <div class="separator"></div>
-
-        <app-button
-            class="character-selection__button"
-            (clicked)="createNewCharacter()"
-        >
-            <div class="new-character-button">
-                <i class="bi-person-plus icon"></i>
-                <div class="text-large">New Character</div>
+    @if (savegames$ | async; as savegames) {
+        <div class="character-selection">
+            <div class="character-selection__header">
+                <app-logo class="logo" />
+                <div class="text-large">Select your character</div>
             </div>
-        </app-button>
 
-        <div class="separator"></div>
+            <div class="separator"></div>
 
-        <div class="character-selection__content">
-
-            <ng-template #NoSavegamesTemplate>
-                <div class="savegames">
-                    <app-button disabled>No characters available in database.</app-button>
+            <app-button
+                class="character-selection__button"
+                (clicked)="createNewCharacter()"
+            >
+                <div class="new-character-button">
+                    <i class="bi-person-plus icon"></i>
+                    <div class="text-large">New Character</div>
                 </div>
-            </ng-template>
+            </app-button>
 
-            <ng-container *ngIf="savegames.length; else NoSavegamesTemplate">
-                <div class="character-selection__options">
-                    <app-label-input-pair
-                        type="switch"
-                        label="Load character as GM"
-                        [hint]="'Open the character in a read-only mode where you can\'t save and can\'t send effects to other players.'"
-                        [(ngModel)]="loadAsGM"
-                    />
-                </div>
+            <div class="separator"></div>
 
-                <div class="savegames">
-                    <ng-container *ngFor="let savegame of savegames; let index = index; trackBy: trackByIndex;">
-                        <div
-                            *ngIf="index === 0 || savegame.partyName !== savegames[index-1].partyName"
-                            class="savegames__header"
+            <div class="character-selection__content">
+                @if (savegames.length) {
+                    <div class="character-selection__options">
+                        <app-label-input-pair
+                            type="switch"
+                            label="Load character as GM"
+                            [hint]="
+                                'Open the character in a read-only mode where you can\'t save and can\'t send effects to other players.'
+                            "
+                            [(ngModel)]="loadAsGM"
+                        />
+                    </div>
+
+                    <div class="savegames">
+                        @for (savegame of savegames; track $index) {
+                            @if (
+                                $first ||
+                                savegame.partyName !==
+                                    savegames[$index - 1].partyName
+                            ) {
+                                <div class="savegames__header">
+                                    {{ savegame.partyName }}
+                                </div>
+                            }
+
+                            <div class="savegames__option">
+                                <app-button
+                                    alignment="left"
+                                    class="button button--load"
+                                    (clicked)="loadCharacterFromDB(savegame.id)"
+                                >
+                                    <app-attribute-value
+                                        showValueOnLeftSide
+                                        [value]="savegame.level"
+                                        [title]="savegame.name"
+                                        [sublines]="[
+                                            savegame.class,
+                                            savegame.ancestry,
+                                        ]"
+                                    />
+                                </app-button>
+
+                                <app-button
+                                    class="button button--delete"
+                                    danger
+                                    [label]="'Delete ' + savegame.name"
+                                    (clicked)="showDeleteDialog(savegame)"
+                                >
+                                    <i class="bi-file-earmark-x icon"></i>
+                                </app-button>
+                            </div>
+                        }
+                    </div>
+                } @else {
+                    <div class="savegames">
+                        <app-button disabled
+                            >No characters available in database.</app-button
                         >
-                            {{savegame.partyName}}
-                        </div>
-
-                        <div class="savegames__option">
-                            <app-button
-                                alignment="left"
-                                class="button button--load"
-                                (clicked)="loadCharacterFromDB(savegame.id)"
-                            >
-                                <app-attribute-value
-                                    showValueOnLeftSide
-                                    [value]="savegame.level"
-                                    [title]="savegame.name"
-                                    [sublines]="[savegame.class, savegame.ancestry]"
-                                />
-                            </app-button>
-
-                            <app-button
-                                class="button button--delete"
-                                danger
-                                [label]="'Delete ' + savegame.name"
-                                (clicked)="showDeleteDialog(savegame)"
-                            >
-                                <i class="bi-file-earmark-x icon"></i>
-                            </app-button>
-                        </div>
-                    </ng-container>
-                </div>
-            </ng-container>
+                    </div>
+                }
+            </div>
         </div>
-    </div>
+    }
 </app-character-sheet-card>

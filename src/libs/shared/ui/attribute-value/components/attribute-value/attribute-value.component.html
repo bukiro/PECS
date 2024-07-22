@@ -2,49 +2,56 @@
     <div class="title">
         <span class="title__title">{{ title }}</span>
 
-        <span
-            *ngFor="let subline of sublines ?? []; trackBy:trackByIndex"
-            class="title__subline"
-        >
-            {{ subline }}
-        </span>
+        @for (subline of sublines ?? []; track $index) {
+            <span class="title__subline">
+                {{ subline }}
+            </span>
+        }
     </div>
 </ng-template>
 
-<ng-container *ngIf="!showValueOnLeftSide()" [ngTemplateOutlet]="TitleTemplate" />
+@if (!showValueOnLeftSide()) {
+    <ng-container [ngTemplateOutlet]="TitleTemplate" />
+}
 
-<ng-container *ngIf="value !== undefined">
-    <app-value-quickdice
-        *ngIf="creature && showDiceIcon; else ValueTemplate"
-        class="dice-button"
-        circle
-        [creature]="creature"
-        [diceNum]="1"
-        [diceSize]="20"
-        [bonus]="value"
-        [type]="'(' + title + ')'"
-        [bonuses]="bonuses"
-    />
-
-    <ng-template #ValueTemplate>
+@if (value !== undefined) {
+    @if (creature && showDiceIcon) {
+        <app-value-quickdice
+            class="dice-button"
+            circle
+            [creature]="creature"
+            [diceNum]="1"
+            [diceSize]="20"
+            [bonus]="value"
+            [type]="'(' + title + ')'"
+            [bonuses]="bonuses"
+        />
+    } @else {
         <app-pretty-value
             opaque
             [value]="value"
             [bonuses]="bonuses"
         />
-    </ng-template>
-</ng-container>
+    }
+}
 
-<app-value-buttons
-    *ngIf="(value !== undefined && bonuses?.length) || (creature && customEffectsTarget) || showNotesIcon"
-    class="button-tray"
-    [title]="title"
-    [bonuses]="bonuses"
-    [creature]="creature"
-    [customEffectsTarget]="customEffectsTarget"
-    [showBonusesIcon]="value !== undefined"
-    [showNotesIcon]="showNotesIcon"
-    [(showNotes)]="showNotes"
-/>
+@if (
+    (value !== undefined && bonuses?.length) ||
+    (creature && customEffectsTarget) ||
+    showNotesIcon
+) {
+    <app-value-buttons
+        class="button-tray"
+        [title]="title"
+        [bonuses]="bonuses"
+        [creature]="creature"
+        [customEffectsTarget]="customEffectsTarget"
+        [showBonusesIcon]="value !== undefined"
+        [showNotesIcon]="showNotesIcon"
+        [(showNotes)]="showNotes"
+    />
+}
 
-<ng-container *ngIf="!!showValueOnLeftSide()" [ngTemplateOutlet]="TitleTemplate" />
+@if (!!showValueOnLeftSide()) {
+    <ng-container [ngTemplateOutlet]="TitleTemplate" />
+}

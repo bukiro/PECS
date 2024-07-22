@@ -65,25 +65,25 @@ import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observabl
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { GridIconComponent } from '../../../shared/ui/grid-icon/components/grid-icon/grid-icon.component';
-import { StickyPopoverDirective } from '../../../shared/sticky-popover/directives/sticky-popover/sticky-popover.directive';
-import { ItemAeonStonesComponent } from '../../../shared/item/components/item-aeon-stones/item-aeon-stones.component';
-import { ItemTalismanCordsComponent } from '../../../shared/item/components/item-talisman-cords/item-talisman-cords.component';
-import { ItemTalismansComponent } from '../../../shared/item/components/item-talismans/item-talismans.component';
-import { ItemPoisonsComponent } from '../../../shared/item/components/item-poisons/item-poisons.component';
-import { ItemOilsComponent } from '../../../shared/item/components/item-oils/item-oils.component';
-import { ItemEmblazonArmamentComponent } from '../../../shared/item/components/item-emblazon-armament/item-emblazon-armament.component';
-import { ItemBladeAllyComponent } from '../../../shared/item/components/item-blade-ally/item-blade-ally.component';
-import { ItemRunesComponent } from '../../../shared/item/components/item-runes/item-runes.component';
+import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { StickyPopoverDirective } from 'src/libs/shared/sticky-popover/directives/sticky-popover/sticky-popover.directive';
+import { ItemAeonStonesComponent } from 'src/libs/shared/item/components/item-aeon-stones/item-aeon-stones.component';
+import { ItemTalismanCordsComponent } from 'src/libs/shared/item/components/item-talisman-cords/item-talisman-cords.component';
+import { ItemTalismansComponent } from 'src/libs/shared/item/components/item-talismans/item-talismans.component';
+import { ItemPoisonsComponent } from 'src/libs/shared/item/components/item-poisons/item-poisons.component';
+import { ItemOilsComponent } from 'src/libs/shared/item/components/item-oils/item-oils.component';
+import { ItemEmblazonArmamentComponent } from 'src/libs/shared/item/components/item-emblazon-armament/item-emblazon-armament.component';
+import { ItemBladeAllyComponent } from 'src/libs/shared/item/components/item-blade-ally/item-blade-ally.component';
+import { ItemRunesComponent } from 'src/libs/shared/item/components/item-runes/item-runes.component';
 import { FormsModule } from '@angular/forms';
-import { ItemTargetComponent } from '../../../shared/item-target/components/item-target/item-target.component';
-import { SpellTargetComponent } from '../../../shared/spell-target/components/spell-target/spell-target.component';
-import { ItemComponent } from '../../../shared/item/components/item/item.component';
-import { ActionIconsComponent } from '../../../shared/ui/action-icons/components/action-icons/action-icons.component';
-import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
-import { AttributeValueComponent } from '../../../shared/ui/attribute-value/components/attribute-value/attribute-value.component';
+import { ItemTargetComponent } from 'src/libs/shared/item-target/components/item-target/item-target.component';
+import { SpellTargetComponent } from 'src/libs/shared/spell-target/components/spell-target/spell-target.component';
+import { ItemComponent } from 'src/libs/shared/item/components/item/item.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
+import { AttributeValueComponent } from 'src/libs/shared/ui/attribute-value/components/attribute-value/attribute-value.component';
 import { CommonModule } from '@angular/common';
-import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -1026,7 +1026,6 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
                     || !!battleForgerEffects.length
                 )),
             );
-
     }
 
     public onShieldHPChange(shield: Shield, amount: number): void {

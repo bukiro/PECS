@@ -1,289 +1,309 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<div
-    *ngIf="activity.sourceBook"
-    class="newrow left-aligned"
->
-    <strong>Source</strong>
+@if (activity.sourceBook) {
+    <div class="newrow left-aligned">
+        <strong>Source</strong>
 
-    <i>{{activity.sourceBook}}</i>
-</div>
+        <i>{{ activity.sourceBook }}</i>
+    </div>
+}
 
-<div
-    *ngIf="activity.inputRequired"
-    class="list-item lower newrow problem"
->
-    <strong>Player input required:</strong>
+@if (activity.inputRequired) {
+    <div class="list-item lower newrow problem">
+        <strong>Player input required:</strong>
 
-    <div
-        *ngFor="let inputRequired of activity.inputRequired.split('\n\n'); trackBy:trackByIndex;"
-        class="newrow left-aligned"
-    >
+        @for (
+            inputRequired of activity.inputRequired.split("\n\n");
+            track $index
+        ) {
+            <div class="newrow left-aligned">
+                <app-description
+                    class="newrow"
+                    [text]="inputRequired"
+                />
+            </div>
+        }
+    </div>
+}
+
+@if (
+    activity.frequency ||
+    (cooldown !== activity.cooldown && !activity.cooldownAfterEnd)
+) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>Frequency</strong>
+
+            @if (cooldown === activity.cooldown) {
+                <span>&nbsp;{{ activity.frequency }}</span>
+            }
+
+            @if (cooldown !== activity.cooldown) {
+                <span class="absolute">
+                    &nbsp;{{
+                        maxCharges
+                            ? maxCharges +
+                              "
+            times every "
+                            : "once every "
+                    }}{{ durationDescription$(cooldown, false, false) | async }}
+                </span>
+            }
+        </span>
+    </div>
+}
+
+@if (cooldown && activity.cooldownAfterEnd) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>Cooldown after use</strong>
+
+            <span [ngClass]="{ absolute: cooldown !== activity.cooldown }">
+                &nbsp;{{ durationDescription$(cooldown, false, false) | async }}
+            </span>
+        </span>
+    </div>
+}
+
+@if (activity.cost) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>Cost</strong>
+            {{ activity.cost }}
+        </span>
+    </div>
+}
+
+@if (activity.trigger) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>Trigger</strong>
+            {{ activity.trigger }}
+        </span>
+    </div>
+}
+
+@if (activity.requirements) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>Requirements</strong>
+            {{ activity.requirements }}
+        </span>
+    </div>
+}
+
+@for (desc of heightenedDescription().split("\n\n"); track $index) {
+    <div class="newrow left-aligned">
         <app-description
             class="newrow"
-            [text]="inputRequired"
+            [text]="desc"
         />
     </div>
-</div>
+}
 
-<div
-    *ngIf="activity.frequency || ((cooldown !== activity.cooldown) && !activity.cooldownAfterEnd)"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>Frequency</strong>
+@if (activity.critsuccess) {
+    <div class="newrow gap-text left-aligned">
+        <strong>Critical Success</strong>
 
-        <span *ngIf="cooldown === activity.cooldown">&nbsp;{{activity.frequency}}</span>
-
-        <span
-            *ngIf="cooldown !== activity.cooldown"
-            class="absolute"
-        >
-            &nbsp;{{maxCharges ? maxCharges + "
-            times every " : "once every "}}{{durationDescription$(cooldown, false, false) | async}}
-        </span>
-    </span>
-</div>
-
-<div
-    *ngIf="cooldown && activity.cooldownAfterEnd"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>Cooldown after use</strong>
-
-        <span [ngClass]="{'absolute':cooldown !== activity.cooldown}">
-            &nbsp;{{durationDescription$(cooldown, false, false) | async}}
-        </span>
-    </span>
-</div>
-
-<div
-    *ngIf="activity.cost"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>Cost</strong>
-        {{activity.cost}}
-    </span>
-</div>
-
-<div
-    *ngIf="activity.trigger"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>Trigger</strong>
-        {{activity.trigger}}
-    </span>
-</div>
-
-<div
-    *ngIf="activity.requirements"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>Requirements</strong>
-        {{activity.requirements}}
-    </span>
-</div>
-
-<div
-    *ngFor="let desc of heightenedDescription().split('\n\n'); trackBy:trackByIndex;"
-    class="newrow left-aligned"
->
-    <app-description
-        class="newrow"
-        [text]="desc"
-    />
-</div>
-
-<div
-    *ngIf="activity.critsuccess"
-    class="newrow gap-text left-aligned"
->
-    <strong>Critical Success</strong>
-
-    <app-description
-        [text]="activity.critsuccess"
-        [oneLiner]="true"
-    />
-</div>
-
-<div
-    *ngIf="activity.success"
-    class="newrow gap-text left-aligned"
->
-    <strong>Success</strong>
-
-    <app-description
-        [text]="activity.success"
-        [oneLiner]="true"
-    />
-</div>
-
-<div
-    *ngIf="activity.failure"
-    class="newrow gap-text left-aligned"
->
-    <strong>Failure</strong>
-
-    <app-description
-        [text]="activity.failure"
-        [oneLiner]="true"
-    />
-</div>
-
-<div
-    *ngIf="activity.critfailure"
-    class="newrow gap-text left-aligned"
->
-    <strong>Critical Failure</strong>
-
-    <app-description
-        [text]="activity.critfailure"
-        [oneLiner]="true"
-    />
-</div>
-
-<div
-    *ngIf="activity.specialdesc"
-    class="newrow gap-text left-aligned"
->
-    <strong>Special</strong>
-    {{activity.specialdesc}}
-</div>
-
-<div
-    *ngFor="let shownActivityName of activity.showActivities; trackBy:trackByIndex;"
-    class="list-item left-aligned"
->
-    <ng-container *ngFor="let shownActivity of activities(shownActivityName); trackBy:trackByIndex;">
-        <header class="spellHeader">
-            {{shownActivity.name}}
-            <app-action-icons
-                *ngIf="shownActivity.actions"
-                [actionString]="shownActivity.actions"
-            />
-            {{shownActivity.activationType.toString()}}
-        </header>
-
-        <div class="newrow left-aligned">
-            <app-trait
-                *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
-                [name]="trait"
-                [trait]="traitFromName(trait)"
-            />
-
-            <app-trait
-                *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
-                [name]="trait"
-                [trait]="traitFromName(trait)"
-                [extraDescription]="'(This trait was derived from the action components.)'"
-            />
-        </div>
-
-        <app-activity-content
-            [activity]=shownActivity
-            [allowActivate]="false"
+        <app-description
+            [text]="activity.critsuccess"
+            [oneLiner]="true"
         />
-    </ng-container>
-</div>
+    </div>
+}
 
-<div
-    *ngFor="let cast of spellCasts(); let spellCastIndex = index; trackBy:trackByIndex;"
-    class="list-item newrow left-aligned"
->
-    <ng-container *ngIf="spellFromName(cast.name) as spell">
-        <header class="spellHeader">
-            {{spell.name}}
-            <app-action-icons
-                *ngIf="spell.actions"
-                [actionString]="spell.actions"
-            />
-            {{spell.castType.toString()}}
-        </header>
+@if (activity.success) {
+    <div class="newrow gap-text left-aligned">
+        <strong>Success</strong>
 
-        <ng-container *ngIf="gain && allowActivate">
-            <ng-container *ngFor="let conditionSet of spellConditions$(cast, spellCastIndex) | async; let conditionSetIndex = index; trackBy:trackByIndex">
-                <div
-                    *ngIf="conditionSet.show"
-                    class="newrow list-item left-aligned"
-                >
-                    <span>
-                        {{conditionSet.condition.name}} effect selection:
-                        <select
-                            aria-label="Select condition effect"
-                            [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionSetIndex].choice"
-                            (ngModelChange)="onEffectChoiceChange()"
-                        >
-                            <option
-                                *ngFor="let choice of conditionSet.choices; trackBy:trackByIndex;"
-                                [ngValue]="choice"
-                            >
-                                {{choice}}
-                            </option>
-                        </select>
-                    </span>
-                </div>
-            </ng-container>
-        </ng-container>
-
-        <div class="newrow left-aligned">
-            <app-trait
-                *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
-                [name]="trait"
-                [trait]="traitFromName(trait)"
-            />
-
-            <app-trait
-                *ngFor="let trait of spell.activationTraits(); trackBy:trackByIndex;"
-                [name]="trait"
-                [trait]="traitFromName(trait)"
-                [extraDescription]="'(This trait was derived from the action components.)'"
-            />
-        </div>
-
-        <app-spell-content
-            class="vlist fullwidth"
-            [spell]="spell"
-            [spellLevel]="(spellLevelFromBaseLevel$(spell, cast.level) | async) ?? 1"
+        <app-description
+            [text]="activity.success"
+            [oneLiner]="true"
         />
-    </ng-container>
-</div>
+    </div>
+}
 
-<div
-    *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackByIndex;"
-    class="list-item left-aligned"
->
-    <ng-container *ngIf="spellFromName(shownSpellSet.name) as shownSpell">
-        <header class="spellHeader">
-            {{shownSpell.name}}
-            <app-action-icons
-                *ngIf="shownSpell.actions"
-                [actionString]="shownSpell.actions"
-            />
-            {{shownSpell.castType.toString()}}
-        </header>
+@if (activity.failure) {
+    <div class="newrow gap-text left-aligned">
+        <strong>Failure</strong>
 
-        <div class="newrow left-aligned">
-            <app-trait
-                *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
-                [name]="trait"
-                [trait]="traitFromName(trait)"
-            />
-
-            <app-trait
-                *ngFor="let trait of shownSpell.activationTraits(); trackBy:trackByIndex;"
-                [name]="trait"
-                [trait]="traitFromName(trait)"
-                [extraDescription]="'(This trait was derived from the action components.)'"
-            />
-        </div>
-
-        <app-spell-content
-            class="vlist fullwidth"
-            [spell]="shownSpell"
-            [spellLevel]="(spellLevelFromBaseLevel$(shownSpell, shownSpellSet.level) | async) ?? 1"
+        <app-description
+            [text]="activity.failure"
+            [oneLiner]="true"
         />
-    </ng-container>
-</div>
+    </div>
+}
+
+@if (activity.critfailure) {
+    <div class="newrow gap-text left-aligned">
+        <strong>Critical Failure</strong>
+
+        <app-description
+            [text]="activity.critfailure"
+            [oneLiner]="true"
+        />
+    </div>
+}
+
+@if (activity.specialdesc) {
+    <div class="newrow gap-text left-aligned">
+        <strong>Special</strong>
+        {{ activity.specialdesc }}
+    </div>
+}
+
+@for (shownActivityName of activity.showActivities; track $index) {
+    <div class="list-item left-aligned">
+        @for (shownActivity of activities(shownActivityName); track $index) {
+            <header class="spellHeader">
+                {{ shownActivity.name }}
+                @if (shownActivity.actions) {
+                    <app-action-icons [actionString]="shownActivity.actions" />
+                }
+                {{ shownActivity.activationType.toString() }}
+            </header>
+
+            <div class="newrow left-aligned">
+                @for (trait of activity.traits; track $index) {
+                    <app-trait
+                        [name]="trait"
+                        [trait]="traitFromName(trait)"
+                    />
+                }
+
+                @for (trait of activity.activationTraits(); track $index) {
+                    <app-trait
+                        [name]="trait"
+                        [trait]="traitFromName(trait)"
+                        [extraDescription]="
+                            '(This trait was derived from the action components.)'
+                        "
+                    />
+                }
+            </div>
+
+            <app-activity-content
+                [activity]="shownActivity"
+                [allowActivate]="false"
+            />
+        }
+    </div>
+}
+
+@for (cast of spellCasts(); track spellCastIndex; let spellCastIndex = $index) {
+    <div class="list-item newrow left-aligned">
+        @if (spellFromName(cast.name); as spell) {
+            <header class="spellHeader">
+                {{ spell.name }}
+                @if (spell.actions) {
+                    <app-action-icons [actionString]="spell.actions" />
+                }
+                {{ spell.castType.toString() }}
+            </header>
+
+            @if (gain && allowActivate) {
+                @for (
+                    conditionSet of spellConditions$(cast, spellCastIndex)
+                        | async;
+                    track conditionSetIndex;
+                    let conditionSetIndex = $index
+                ) {
+                    @if (conditionSet.show) {
+                        <div class="newrow list-item left-aligned">
+                            <span>
+                                {{ conditionSet.condition.name }} effect
+                                selection:
+                                <select
+                                    aria-label="Select condition effect"
+                                    [(ngModel)]="
+                                        gain.spellEffectChoices[spellCastIndex][
+                                            conditionSetIndex
+                                        ].choice
+                                    "
+                                    (ngModelChange)="onEffectChoiceChange()"
+                                >
+                                    @for (
+                                        choice of conditionSet.choices;
+                                        track $index
+                                    ) {
+                                        <option [ngValue]="choice">
+                                            {{ choice }}
+                                        </option>
+                                    }
+                                </select>
+                            </span>
+                        </div>
+                    }
+                }
+            }
+
+            <div class="newrow left-aligned">
+                @for (trait of spell.traits; track $index) {
+                    <app-trait
+                        [name]="trait"
+                        [trait]="traitFromName(trait)"
+                    />
+                }
+
+                @for (trait of spell.activationTraits(); track $index) {
+                    <app-trait
+                        [name]="trait"
+                        [trait]="traitFromName(trait)"
+                        [extraDescription]="
+                            '(This trait was derived from the action components.)'
+                        "
+                    />
+                }
+            </div>
+
+            <app-spell-content
+                class="vlist fullwidth"
+                [spell]="spell"
+                [spellLevel]="
+                    (spellLevelFromBaseLevel$(spell, cast.level) | async) ?? 1
+                "
+            />
+        }
+    </div>
+}
+
+@for (shownSpellSet of activity.showSpells; track $index) {
+    <div class="list-item left-aligned">
+        @if (spellFromName(shownSpellSet.name); as shownSpell) {
+            <header class="spellHeader">
+                {{ shownSpell.name }}
+                @if (shownSpell.actions) {
+                    <app-action-icons [actionString]="shownSpell.actions" />
+                }
+                {{ shownSpell.castType.toString() }}
+            </header>
+
+            <div class="newrow left-aligned">
+                @for (trait of shownSpell.traits; track $index) {
+                    <app-trait
+                        [name]="trait"
+                        [trait]="traitFromName(trait)"
+                    />
+                }
+
+                @for (trait of shownSpell.activationTraits(); track $index) {
+                    <app-trait
+                        [name]="trait"
+                        [trait]="traitFromName(trait)"
+                        [extraDescription]="
+                            '(This trait was derived from the action components.)'
+                        "
+                    />
+                }
+            </div>
+
+            <app-spell-content
+                class="vlist fullwidth"
+                [spell]="shownSpell"
+                [spellLevel]="
+                    (spellLevelFromBaseLevel$(shownSpell, shownSpellSet.level)
+                        | async) ?? 1
+                "
+            />
+        }
+    </div>
+}

@@ -481,7 +481,6 @@ export class EvaluationService {
                     }
                 }),
             );
-
     }
 
     private _testSpeed(name: string): SpeedModel {

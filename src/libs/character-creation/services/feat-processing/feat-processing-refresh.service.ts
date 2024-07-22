@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Feat } from 'src/libs/shared/definitions/models/feat';
@@ -115,7 +116,6 @@ export class FeatProcessingRefreshService {
         //Condition choices can be dependent on feats, so we need to update spellbook and activities.
         this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
         this._refreshService.prepareDetailToChange(context.creature.type, 'activities');
-
     }
 
 }

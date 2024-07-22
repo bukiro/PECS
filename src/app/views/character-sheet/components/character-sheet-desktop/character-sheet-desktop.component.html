@@ -55,45 +55,73 @@
     </app-button>
 </app-character-sheet-card>
 
-<ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
+@if (shownMode !== "ConditionsEffects") {
     <app-effects />
 
     <div class="character-sheet-columns">
-        <div
-            *ngFor="let column of [0, 1]; trackBy: trackByIndex;"
-            class="character-sheet-columns__column"
-        >
+        @for (column of [0, 1]; track $index) {
+            <div class="character-sheet-columns__column">
+                @if (
+                    showInColumn[column][shownMode]?.includes("general_upper")
+                ) {
+                    <app-general />
+                }
 
-            <app-general *ngIf="showInColumn[column][shownMode]?.includes('general_upper')" />
+                @if (showInColumn[column][shownMode]?.includes("defense")) {
+                    <app-defense />
+                }
 
-            <app-defense *ngIf="showInColumn[column][shownMode]?.includes('defense')" />
+                @for (order of [0, 1]; track $index) {
+                    @if (
+                        showInColumn[column][shownMode]?.includes("attacks") &&
+                        attacksAndSpellsOrder["attacks"] === order
+                    ) {
+                        <app-attacks />
+                    }
 
-            <ng-container *ngFor="let order of [0, 1]; trackBy:trackByIndex;">
-                <app-attacks *ngIf="showInColumn[column][shownMode]?.includes('attacks') && attacksAndSpellsOrder['attacks'] === order" />
+                    @if (
+                        showInColumn[column][shownMode]?.includes(
+                            "spellbook_upper"
+                        ) && attacksAndSpellsOrder["spells"] === order
+                    ) {
+                        <app-spellbook />
+                    }
+                }
 
-                <app-spellbook *ngIf="showInColumn[column][shownMode]?.includes('spellbook_upper') && attacksAndSpellsOrder['spells'] === order" />
-            </ng-container>
+                @if (showInColumn[column][shownMode]?.includes("health")) {
+                    <app-health [forceMinimized]="shownMode === 'Downtime'" />
+                }
 
-            <app-health
-                *ngIf="showInColumn[column][shownMode]?.includes('health')"
-                [forceMinimized]="shownMode === 'Downtime'"
-            />
+                @if (
+                    showInColumn[column][shownMode]?.includes("general_lower")
+                ) {
+                    <app-general />
+                }
 
-            <app-general *ngIf="showInColumn[column][shownMode]?.includes('general_lower')" />
+                @if (showInColumn[column][shownMode]?.includes("abilities")) {
+                    <app-abilities />
+                }
 
-            <app-abilities *ngIf="showInColumn[column][shownMode]?.includes('abilities')" />
+                @if (showInColumn[column][shownMode]?.includes("skills")) {
+                    <app-skills />
+                }
 
-            <app-skills *ngIf="showInColumn[column][shownMode]?.includes('skills')" />
+                @if (showInColumn[column][shownMode]?.includes("activities")) {
+                    <app-activities />
+                }
 
-            <app-activities *ngIf="showInColumn[column][shownMode]?.includes('activities')" />
+                @if (
+                    showInColumn[column][shownMode]?.includes("spellbook_lower")
+                ) {
+                    <app-spellbook />
+                }
 
-            <app-spellbook *ngIf="showInColumn[column][shownMode]?.includes('spellbook_lower')" />
-
-            <app-inventory *ngIf="showInColumn[column][shownMode]?.includes('inventory')" />
-        </div>
+                @if (showInColumn[column][shownMode]?.includes("inventory")) {
+                    <app-inventory />
+                }
+            </div>
+        }
     </div>
-</ng-container>
-
-<ng-template #ConditionsAndEffectsTemplate>
+} @else {
     <app-effects [fullDisplay]="true" />
-</ng-template>
+}

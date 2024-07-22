@@ -1,67 +1,64 @@
-<div
-    *ngIf="showCloseButton"
-    class="button"
->
-    <app-button
-        label="Close"
-        fullSize
-        tight
-        (clicked)="closeButtonClicked.emit()"
+@if (showCloseButton) {
+    <div class="button">
+        <app-button
+            label="Close"
+            fullSize
+            tight
+            (clicked)="closeButtonClicked.emit()"
+        >
+            <i class="bi-x-lg"></i>
+        </app-button>
+    </div>
+}
+
+@if (showMinimizeButton) {
+    <div class="button">
+        <app-toggle-button
+            fullSize
+            tight
+            [activeLabel]="activeMinimizeLabel"
+            [inactiveLabel]="inactiveMinimizeLabel"
+            [ngModel]="minimized"
+            (ngModelChange)="toggleMinimized.emit($event)"
+        >
+            @if (minimized) {
+                <i class="bi-arrows-angle-contract"></i>
+            }
+
+            @if (!minimized) {
+                <i class="bi-arrows-angle-expand"></i>
+            }
+        </app-toggle-button>
+    </div>
+}
+
+@if (showTileModeButton) {
+    <div
+        class="button tile-mode-button"
+        [class.tile-mode-button--toggled]="tileMode"
     >
-        <i class="bi-x-lg"></i>
-    </app-button>
-</div>
+        <app-toggle-button
+            fullSize
+            tight
+            [activeLabel]="activeTileModeLabel"
+            [inactiveLabel]="inactiveTileModeLabel"
+            [ngModel]="tileMode"
+            (ngModelChange)="toggleTileMode.emit($event)"
+        >
+            <div class="content">
+                <!-- The icon is css only -->
+                <div class="icon">
+                    <div class="icon__element"></div>
 
-<div
-    *ngIf="showMinimizeButton"
-    class="button"
->
-    <app-toggle-button
-        fullSize
-        tight
-        [activeLabel]="activeMinimizeLabel"
-        [inactiveLabel]="inactiveMinimizeLabel"
-        [ngModel]="minimized"
-        (ngModelChange)="toggleMinimized.emit($event)"
-    >
-        <i
-            *ngIf="minimized"
-            class='bi-arrows-angle-contract'
-        ></i>
+                    <div class="icon__element"></div>
 
-        <i
-            *ngIf="!minimized"
-            class='bi-arrows-angle-expand'
-        ></i>
-    </app-toggle-button>
-</div>
+                    <div class="icon__element"></div>
 
-<div
-    *ngIf="showTileModeButton"
-    class="button tile-mode-button"
-    [class.tile-mode-button--toggled]="tileMode"
->
-    <app-toggle-button
-        fullSize
-        tight
-        [activeLabel]="activeTileModeLabel"
-        [inactiveLabel]="inactiveTileModeLabel"
-        [ngModel]="tileMode"
-        (ngModelChange)="toggleTileMode.emit($event)"
-    >
-        <div class="content">
-            <!-- The icon is css only -->
-            <div class="icon">
-                <div class="icon__element"></div>
-
-                <div class="icon__element"></div>
-
-                <div class="icon__element"></div>
-
-                <div class="icon__element"></div>
+                    <div class="icon__element"></div>
+                </div>
             </div>
-        </div>
-    </app-toggle-button>
-</div>
+        </app-toggle-button>
+    </div>
+}
 
 <ng-content />

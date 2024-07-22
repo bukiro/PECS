@@ -24,14 +24,13 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { selectEffects } from 'src/libs/store/effects';
-import { SkillChoiceComponent } from '../../../shared/skill-choice/components/skill-choice/skill-choice.component';
-import { ObjectEffectsComponent } from '../../../shared/object-effects/components/object-effects/object-effects.component';
-import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { SkillChoiceComponent } from 'src/libs/shared/skill-choice/components/skill-choice/skill-choice.component';
+import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/components/object-effects/object-effects.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { SkillComponent } from '../../../shared/skill/components/skill/skill.component';
+import { SkillComponent } from 'src/libs/shared/skill/components/skill/skill.component';
 import { CommonModule } from '@angular/common';
-import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
-
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface SpeedParameters {
     name: string;
@@ -218,7 +217,6 @@ export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) 
                     return activities;
                 }),
             );
-
     }
 
     public skillMatchingActivities(activities: Array<ActivityGain | ItemActivity>, skillName: string): Array<ActivityGain | ItemActivity> {
@@ -315,7 +313,6 @@ export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) 
                     }
                 }),
             );
-
     }
 
     public senseDesc(sense: string): string {

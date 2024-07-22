@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="vlist">
-    <header class="subsectionHeader">Custom effects on {{objectName}}</header>
+    <header class="subsectionHeader">Custom effects on {{ objectName }}</header>
 
     <button
         type="button"
@@ -10,87 +10,103 @@
         Add effect
     </button>
 
-    <div
-        *ngFor="let effect of customEffectsOnThis(); let index = index; trackBy:trackByIndex;"
-        class="newrow list-item"
-    >
-        <ng-template #FormulaTemplate>
-            <strong>Formula</strong>
-            {{effect.setValue || effect.value || ''}}
-        </ng-template>
+    @for (effect of customEffectsOnThis(); track $index) {
+        <div class="newrow list-item">
+            <ng-template #FormulaTemplate>
+                <strong>Formula</strong>
+                {{ effect.setValue || effect.value || "" }}
+            </ng-template>
 
-        <span class="hlist">
-            <strong class="no-shadow">Granted by</strong>
+            <span class="hlist">
+                <strong class="no-shadow">Granted by</strong>
 
-            <input
-                type="text"
-                aria-label="Effect source input"
-                maxLength="50"
-                id="customEffectSource{{objectName}}{{index}}"
-                [(ngModel)]="effect.source"
-                (blur)="updateEffects()"
-            >
-        </span>
-
-        <span class="hlist">
-            <strong class="no-shadow">Type</strong>
-
-            <select
-                aria-label="Select effect type"
-                [(ngModel)]="effect.type"
-                (ngModelChange)="updateEffects()"
-            >
-                <option *ngFor="let type of bonusTypes(); trackBy:trackByIndex;">{{type}}</option>
-            </select>
-        </span>
-
-        <span
-            *ngIf="effectValueParameters(effect) as effectValueParameters"
-            class="hlist"
-            [ngSwitch]="effectValueParameters.displayType"
-        >
-            <strong class="no-shadow">Value</strong>
-
-            <ng-container *ngSwitchCase="'Formula'">
-                <span>
-                    <span
-                        class="value"
-                        [ngClass]="{'absolute':effectValueParameters.formulaValue?.[0]==='=', 'bonus':effectValueParameters.formulaValue?.[0]==='+', 'penalty':effectValueParameters.formulaValue?.[0]==='-'}"
-                    >
-                        {{effectValueParameters.formulaValue}}
-                    </span>
-
-                    <i
-                        *ngIf="effectValueParameters.isFormula"
-                        class="bi-calculator"
-                        [ngbPopover]="FormulaTemplate"
-                    ></i>
-                </span>
-            </ng-container>
-
-            <ng-container *ngSwitchCase="'Toggle'">
-                <span class="value absolute">on</span>
-            </ng-container>
-
-            <ng-container *ngSwitchCase="'Value'">
                 <input
-                    aria-label="Effect value input"
-                    type="number"
-                    class="number4"
-                    maxLength="30"
-                    id="customEffectValue{{objectName}}{{index}}"
-                    [(ngModel)]="effect.value"
-                    (blur)="validate(effect)"
-                >
-            </ng-container>
-        </span>
+                    type="text"
+                    aria-label="Effect source input"
+                    maxLength="50"
+                    id="customEffectSource{{ objectName }}{{ $index }}"
+                    [(ngModel)]="effect.source"
+                    (blur)="updateEffects()"
+                />
+            </span>
 
-        <button
-            type="button"
-            style="flex-basis:auto;flex-grow:0;"
-            (click)="removeCustomEffect(effect)"
-        >
-            Remove
-        </button>
-    </div>
+            <span class="hlist">
+                <strong class="no-shadow">Type</strong>
+
+                <select
+                    aria-label="Select effect type"
+                    [(ngModel)]="effect.type"
+                    (ngModelChange)="updateEffects()"
+                >
+                    @for (type of bonusTypes(); track $index) {
+                        <option>
+                            {{ type }}
+                        </option>
+                    }
+                </select>
+            </span>
+
+            @if (effectValueParameters(effect); as effectValueParameters) {
+                <span class="hlist">
+                    <strong class="no-shadow">Value</strong>
+
+                    @switch (effectValueParameters.displayType) {
+                        @case ("Formula") {
+                            <span>
+                                <span
+                                    class="value"
+                                    [ngClass]="{
+                                        absolute:
+                                            effectValueParameters
+                                                .formulaValue?.[0] === '=',
+                                        bonus:
+                                            effectValueParameters
+                                                .formulaValue?.[0] === '+',
+                                        penalty:
+                                            effectValueParameters
+                                                .formulaValue?.[0] === '-',
+                                    }"
+                                >
+                                    {{ effectValueParameters.formulaValue }}
+                                </span>
+
+                                @if (effectValueParameters.isFormula) {
+                                    <i
+                                        class="bi-calculator"
+                                        [ngbPopover]="FormulaTemplate"
+                                    ></i>
+                                }
+                            </span>
+                        }
+
+                        @case ("Toggle") {
+                            <span class="value absolute">on</span>
+                        }
+
+                        @case ("Value") {
+                            <input
+                                aria-label="Effect value input"
+                                type="number"
+                                class="number4"
+                                maxLength="30"
+                                id="customEffectValue{{ objectName }}{{
+                                    $index
+                                }}"
+                                [(ngModel)]="effect.value"
+                                (blur)="validate(effect)"
+                            />
+                        }
+                    }
+                </span>
+            }
+
+            <button
+                type="button"
+                style="flex-basis: auto; flex-grow: 0"
+                (click)="removeCustomEffect(effect)"
+            >
+                Remove
+            </button>
+        </div>
+    }
 </div>

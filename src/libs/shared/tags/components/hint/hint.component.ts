@@ -29,13 +29,12 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { HintItemComponent } from '../hint-item/hint-item.component';
 import { ActivityContentComponent } from '../../../activity-content/components/activity-content/activity-content.component';
-import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
 import { HintConditionComponent } from '../hint-condition/hint-condition.component';
 import { FeatComponent } from '../../../feat/components/feat/feat.component';
 import { FormsModule } from '@angular/forms';
-import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 import { CommonModule } from '@angular/common';
-
 
 type HintObject =
     Feat

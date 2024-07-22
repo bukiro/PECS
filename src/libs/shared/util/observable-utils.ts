@@ -128,7 +128,6 @@ export const emptySafeCombineLatest = <T>(sources: Array<Observable<T>>, fallbac
         )
         : of(fallback ?? []);
 
-
 /**
  * A wrapper for zip that guarantees an emission even if the sources Array is empty.
  *

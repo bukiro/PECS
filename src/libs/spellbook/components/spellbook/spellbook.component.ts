@@ -44,19 +44,19 @@ import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { Condition } from 'src/app/classes/conditions/condition';
 import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
-import { GridIconComponent } from '../../../shared/ui/grid-icon/components/grid-icon/grid-icon.component';
-import { StickyPopoverDirective } from '../../../shared/sticky-popover/directives/sticky-popover/sticky-popover.directive';
-import { SpellComponent } from '../../../shared/spell/components/spell/spell.component';
+import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { StickyPopoverDirective } from 'src/libs/shared/sticky-popover/directives/sticky-popover/sticky-popover.directive';
+import { SpellComponent } from 'src/libs/shared/spell/components/spell/spell.component';
 import { FormsModule } from '@angular/forms';
-import { SpellTargetComponent } from '../../../shared/spell-target/components/spell-target/spell-target.component';
-import { ActionIconsComponent } from '../../../shared/ui/action-icons/components/action-icons/action-icons.component';
-import { SpellChoiceComponent } from '../../../shared/spell-choice/components/spell-choice/spell-choice.component';
-import { SkillComponent } from '../../../shared/skill/components/skill/skill.component';
+import { SpellTargetComponent } from 'src/libs/shared/spell-target/components/spell-target/spell-target.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { SpellChoiceComponent } from 'src/libs/shared/spell-choice/components/spell-choice/spell-choice.component';
+import { SkillComponent } from 'src/libs/shared/skill/components/skill/skill.component';
 import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { ObjectEffectsComponent } from '../../../shared/object-effects/components/object-effects/object-effects.component';
+import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/components/object-effects/object-effects.component';
 import { CommonModule } from '@angular/common';
-import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
-import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -424,7 +424,6 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                     }),
                 ),
             );
-
     }
 
     public levelTitle(levelNumber: SpellLevels): string {
@@ -1031,7 +1030,6 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                     ),
                 ),
             );
-
     }
 
     private _focusPoints$(): Observable<{ now: number; max: number }> {
@@ -1289,7 +1287,6 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
             .pipe(
                 map(feats => feats.filter(feat => feat.bloodMagic.length)),
             );
-
     }
 
     private _canCounterspell$(casting: SpellCasting): Observable<boolean> {

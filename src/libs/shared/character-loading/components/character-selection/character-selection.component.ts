@@ -8,13 +8,13 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { CharacterDeletingService } from '../../services/character-deleting/character-deleting.service';
 import { CharacterLoadingService } from '../../services/character-loading/character-loading.service';
-import { AttributeValueComponent } from '../../../ui/attribute-value/components/attribute-value/attribute-value.component';
+import { AttributeValueComponent } from 'src/libs/shared/ui/attribute-value/components/attribute-value/attribute-value.component';
 import { FormsModule } from '@angular/forms';
-import { LabelInputPairComponent } from '../../../ui/input/components/label-input-pair/label-input-pair.component';
-import { ButtonComponent } from '../../../ui/button/components/button/button.component';
-import { LogoComponent } from '../../../ui/logo/components/logo/logo.component';
+import { LabelInputPairComponent } from 'src/libs/shared/ui/input/components/label-input-pair/label-input-pair.component';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
+import { LogoComponent } from 'src/libs/shared/ui/logo/components/logo/logo.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 import { CommonModule } from '@angular/common';
-import { CharacterSheetCardComponent } from '../../../ui/character-sheet-card/character-sheet-card.component';
 
 @Component({
     selector: 'app-character-selection',
@@ -25,7 +25,6 @@ import { CharacterSheetCardComponent } from '../../../ui/character-sheet-card/ch
     imports: [
         CommonModule,
         FormsModule,
-
         CharacterSheetCardComponent,
         LogoComponent,
         ButtonComponent,

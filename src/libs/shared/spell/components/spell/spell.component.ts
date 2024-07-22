@@ -11,10 +11,10 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 import { SpellContentComponent } from '../../../spell-content/components/spell-content/spell-content.component';
 import { TagsComponent } from '../../../tags/components/tags/tags.component';
-import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
 import { CommonModule } from '@angular/common';
 
 @Component({

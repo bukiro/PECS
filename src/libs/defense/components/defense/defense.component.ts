@@ -31,17 +31,17 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$, deepDistinctUntilChanged, emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { SkillComponent } from '../../../shared/skill/components/skill/skill.component';
+import { SkillComponent } from 'src/libs/shared/skill/components/skill/skill.component';
 import { FormsModule } from '@angular/forms';
-import { ItemComponent } from '../../../shared/item/components/item/item.component';
-import { ActionIconsComponent } from '../../../shared/ui/action-icons/components/action-icons/action-icons.component';
-import { QuickdiceComponent } from '../../../shared/quickdice/components/quickdice/quickdice.component';
-import { TraitComponent } from '../../../shared/ui/trait/components/trait/trait.component';
-import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { ItemComponent } from 'src/libs/shared/item/components/item/item.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { QuickdiceComponent } from 'src/libs/shared/quickdice/components/quickdice/quickdice.component';
+import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { ObjectEffectsComponent } from '../../../shared/object-effects/components/object-effects/object-effects.component';
+import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/components/object-effects/object-effects.component';
 import { CommonModule } from '@angular/common';
-import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface ComponentParameters {
     ACSources: ACForDisplay;

@@ -39,10 +39,9 @@ interface ComponentParameters {
     standalone: true,
     imports: [
         CommonModule,
+        FormsModule,
 
         NgbPopover,
-
-        FormsModule,
     ],
 })
 export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) implements OnInit {

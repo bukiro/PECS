@@ -1,18 +1,19 @@
-<div
-    *ngIf="familiar$ | async as familiar"
-    id="familiarabilities-height"
-    class="attributeBox"
->
-    <header class="sectionHeader box-header">Familiar Abilities</header>
+@if (familiar$ | async; as familiar) {
+    <div
+        id="familiarabilities-height"
+        class="attributeBox"
+    >
+        <header class="sectionHeader box-header">Familiar Abilities</header>
 
-    <app-feat-choice
-        class="newrow"
-        [creature]="familiar"
-        [choice]="familiar.abilities"
-        [levelNumber]="character.level"
-        [showTitle]="true"
-        [showContent]="true"
-        [showChoice]="''"
-        [showFeat]="''"
-    />
-</div>
+        <app-feat-choice
+            class="newrow"
+            [creature]="familiar"
+            [choice]="familiar.abilities"
+            [levelNumber]="character.level"
+            [showTitle]="true"
+            [showContent]="true"
+            [showChoice]="''"
+            [showFeat]="''"
+        />
+    </div>
+}

@@ -12,7 +12,6 @@ import { Wand } from './wand';
 import { Weapon } from './weapon';
 import { WornItem } from './worn-item';
 
-
 export interface ItemRoles {
     item: Item;
     asConsumable?: Consumable;

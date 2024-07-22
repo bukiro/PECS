@@ -1,50 +1,64 @@
 <!-- Changing Aeon Stones -->
-<div
-    *ngFor="let index of availableSlots(); trackBy:trackByIndex;"
-    class="newrow"
->
-    <strong *ngIf="index === 0">Aeon Stones</strong>
+@for (index of availableSlots(); track $index) {
+    <div class="newrow">
+        @if ($first) {
+            <strong>Aeon Stones</strong>
+        } @else {
+            <span>&nbsp;</span>
+        }
 
-    <span *ngIf="index !== 0">&nbsp;</span>
+        <select
+            aria-label="Select aeon stone"
+            [disabled]="!item.aeonStones[index - 1] && index > 0"
+            [(ngModel)]="newAeonStone[index]"
+            (change)="onSelectAeonStone(index)"
+        >
+            @for (
+                stone of initialAeonStones(index);
+                track $index
+            ) {
+                @if ($first) {
+                    <option [ngValue]="stone"></option>
+                } @else {
+                    <optgroup label="Current stone">
+                        <option [ngValue]="stone">
+                            {{ stone.aeonStone.name }}
+                        </option>
+                    </optgroup>
+                }
+            }
 
-    <select
-        aria-label="Select aeon stone"
-        [disabled]="!item.aeonStones[index-1] && index > 0"
-        [(ngModel)]="newAeonStone[index]"
-        (change)="onSelectAeonStone(index)"
-    >
-        <ng-container *ngFor="let stone of initialAeonStones(index); let initialStoneIndex = index; trackBy:trackByIndex;">
-            <option
-                *ngIf="initialStoneIndex === 0"
-                [ngValue]="stone"
-            >
-
-            </option>
-
-            <optgroup
-                *ngIf="initialStoneIndex === 1"
-                label="Current stone"
-            >
-                <option [ngValue]="stone">{{stone.aeonStone.name}}</option>
-            </optgroup>
-        </ng-container>
-
-        <ng-container *ngFor="let inv of inventories(); trackBy:trackByIndex;">
-            <ng-container *ngIf="availableAeonStones(inv) as availableAeonStones">
-                <optgroup
-                    *ngIf="availableAeonStones.length"
-                    [label]="itemStore ? 'Available stones' : inventoryName$(inv) | async"
-                >
-                    <option
-                        *ngFor="let stone of availableAeonStones; trackBy:trackByIndex;"
-                        [ngValue]="stone"
-                        title="{{hint(stone.aeonStone)}}"
-                    >
-                        {{stone.aeonStone.amount > 1 ? stone.aeonStone.amount : ""}}
-                        {{stone.aeonStone.name}}{{aeonStoneCooldownText$(stone.aeonStone) | async}}
-                    </option>
-                </optgroup>
-            </ng-container>
-        </ng-container>
-    </select>
-</div>
+            @for (inv of inventories(); track $index) {
+                @if (availableAeonStones(inv); as availableAeonStones) {
+                    @if (availableAeonStones.length) {
+                        <optgroup
+                            [label]="
+                                itemStore
+                                    ? 'Available stones'
+                                    : (inventoryName$(inv) | async)
+                            "
+                        >
+                            @for (stone of availableAeonStones; track $index) {
+                                <option
+                                    [ngValue]="stone"
+                                    title="{{ hint(stone.aeonStone) }}"
+                                >
+                                    {{
+                                        stone.aeonStone.amount > 1
+                                            ? stone.aeonStone.amount
+                                            : ""
+                                    }}
+                                    {{ stone.aeonStone.name
+                                    }}{{
+                                        aeonStoneCooldownText$(stone.aeonStone)
+                                            | async
+                                    }}
+                                </option>
+                            }
+                        </optgroup>
+                    }
+                }
+            }
+        </select>
+    </div>
+}

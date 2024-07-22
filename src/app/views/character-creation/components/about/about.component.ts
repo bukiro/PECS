@@ -6,7 +6,7 @@ import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { DescriptionComponent } from '../../../../../libs/shared/ui/description/components/description/description.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -24,7 +24,6 @@ interface ChangeLog {
     imports: [
         CommonModule,
         FormsModule,
-
         DescriptionComponent,
     ],
 })

@@ -38,7 +38,7 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
-import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 

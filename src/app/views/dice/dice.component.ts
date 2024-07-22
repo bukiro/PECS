@@ -17,15 +17,15 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { toggleTopMenu } from 'src/libs/store/menu/menu.actions';
 import { selectTopMenu } from 'src/libs/store/menu/menu.selectors';
 import { FormsModule } from '@angular/forms';
-import { DiceIconD20Component } from '../../../libs/shared/ui/dice-icons/components/dice-icon-D20/dice-icon-D20.component';
-import { DiceIconD12Component } from '../../../libs/shared/ui/dice-icons/components/dice-icon-D12/dice-icon-D12.component';
-import { DiceIconD10Component } from '../../../libs/shared/ui/dice-icons/components/dice-icon-D10/dice-icon-D10.component';
-import { DiceIconD8Component } from '../../../libs/shared/ui/dice-icons/components/dice-icon-D8/dice-icon-D8.component';
-import { DiceIconD6Component } from '../../../libs/shared/ui/dice-icons/components/dice-icon-D6/dice-icon-D6.component';
-import { DiceIconD4Component } from '../../../libs/shared/ui/dice-icons/components/dice-icon-D4/dice-icon-D4.component';
+import { DiceIconD20Component } from 'src/libs/shared/ui/dice-icons/components/dice-icon-D20/dice-icon-D20.component';
+import { DiceIconD12Component } from 'src/libs/shared/ui/dice-icons/components/dice-icon-D12/dice-icon-D12.component';
+import { DiceIconD10Component } from 'src/libs/shared/ui/dice-icons/components/dice-icon-D10/dice-icon-D10.component';
+import { DiceIconD8Component } from 'src/libs/shared/ui/dice-icons/components/dice-icon-D8/dice-icon-D8.component';
+import { DiceIconD6Component } from 'src/libs/shared/ui/dice-icons/components/dice-icon-D6/dice-icon-D6.component';
+import { DiceIconD4Component } from 'src/libs/shared/ui/dice-icons/components/dice-icon-D4/dice-icon-D4.component';
 import { NgbTooltip, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 const defaultDiceNum = 5;
 

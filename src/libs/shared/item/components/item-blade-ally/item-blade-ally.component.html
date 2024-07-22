@@ -8,37 +8,48 @@
             [(ngModel)]="newPropertyRune"
             (ngModelChange)="onSelectBladeAllyRune()"
         >
-            <ng-container *ngFor="let rune of initialPropertyRunes(); let initialRuneIndex = index; trackBy:trackByIndex;">
-                <option
-                    *ngIf="initialRuneIndex === 0"
-                    [ngValue]="rune"
-                    [selected]=!item.propertyRunes[0]
-                >
-                    <!-- Blank option to deselect -->
-                </option>
-
-                <optgroup
-                    *ngIf="initialRuneIndex === 1"
-                    label="Current rune"
-                >
-                    <option [ngValue]="rune">{{rune.rune.name}}</option>
-                </optgroup>
-            </ng-container>
-
-            <ng-container *ngIf="availableWeaponPropertyRunes() as availableWeaponPropertyRunes">
-                <optgroup
-                    *ngIf="availableWeaponPropertyRunes.length"
-                    label="Available runes"
-                >
+            @for (
+                rune of initialPropertyRunes();
+                track $index
+            ) {
+                @if ($first) {
                     <option
-                        *ngFor="let rune of availableWeaponPropertyRunes; trackBy:trackByIndex;"
                         [ngValue]="rune"
-                        [disabled]="rune.disabled"
+                        [selected]="!item.propertyRunes[0]"
                     >
-                        {{rune.rune.amount > 1 ? rune.rune.amount+" " : ""}}{{rune.rune.name}}
+                        <!-- Blank option to deselect -->
                     </option>
-                </optgroup>
-            </ng-container>
+                } @else {
+                    <optgroup label="Current rune">
+                        <option [ngValue]="rune">{{ rune.rune.name }}</option>
+                    </optgroup>
+                }
+            }
+
+            @if (
+                availableWeaponPropertyRunes();
+                as availableWeaponPropertyRunes
+            ) {
+                @if (availableWeaponPropertyRunes.length) {
+                    <optgroup label="Available runes">
+                        @for (
+                            rune of availableWeaponPropertyRunes;
+                            track $index
+                        ) {
+                            <option
+                                [ngValue]="rune"
+                                [disabled]="rune.disabled"
+                            >
+                                {{
+                                    rune.rune.amount > 1
+                                        ? rune.rune.amount + " "
+                                        : ""
+                                }}{{ rune.rune.name }}
+                            </option>
+                        }
+                    </optgroup>
+                }
+            }
         </select>
     </div>
 </div>

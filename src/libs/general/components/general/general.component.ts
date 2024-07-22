@@ -27,10 +27,10 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive, capitalize } from 'src/libs/shared/util/string-utils';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
-import { TraitComponent } from '../../../shared/ui/trait/components/trait/trait.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
+import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
 import { CommonModule } from '@angular/common';
-import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface ClassChoice {
     name: string;

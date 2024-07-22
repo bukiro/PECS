@@ -12,33 +12,35 @@
         [toggled]="(sideMenuState$ | async) === menuNames.CharacterCreationMenu"
         (clicked)="toggleLeftMenu(menuNames.CharacterCreationMenu)"
     >
-        <div class=top-bar-button__content>
+        <div class="top-bar-button__content">
             <i class="ra ra-player"></i>
 
             <i class="bi-gear"></i>
         </div>
     </app-button>
 
-    <app-button
-        *ngIf="isCompanionAvailable$ | async"
-        label="Show animal companion"
-        class="top-bar-button"
-        compact
-        [toggled]="(sideMenuState$ | async) === menuNames.CompanionMenu"
-        (clicked)="toggleLeftMenu(menuNames.CompanionMenu)"
-    >
-        <i class="ra ra-wolf-howl top-bar-button__content"></i>
-    </app-button>
+    @if (isCompanionAvailable$ | async) {
+        <app-button
+            label="Show animal companion"
+            class="top-bar-button"
+            compact
+            [toggled]="(sideMenuState$ | async) === menuNames.CompanionMenu"
+            (clicked)="toggleLeftMenu(menuNames.CompanionMenu)"
+        >
+            <i class="ra ra-wolf-howl top-bar-button__content"></i>
+        </app-button>
+    }
 
-    <app-button
-        *ngIf="isFamiliarAvailable$ | async"
-        label="Show familiar"
-        class="top-bar-button"
-        [toggled]="(sideMenuState$ | async) === menuNames.FamiliarMenu"
-        (clicked)="toggleLeftMenu(menuNames.FamiliarMenu)"
-    >
-        <i class="ra ra-raven top-bar-button__content"></i>
-    </app-button>
+    @if (isFamiliarAvailable$ | async) {
+        <app-button
+            label="Show familiar"
+            class="top-bar-button"
+            [toggled]="(sideMenuState$ | async) === menuNames.FamiliarMenu"
+            (clicked)="toggleLeftMenu(menuNames.FamiliarMenu)"
+        >
+            <i class="ra ra-raven top-bar-button__content"></i>
+        </app-button>
+    }
 
     <app-button
         class="top-bar-button"
@@ -58,15 +60,18 @@
         <span class="top-bar-button__content">Crafting</span>
     </app-button>
 
-    <app-button
-        *ngIf="hasAnySpells$ | async"
-        class="top-bar-button"
-        compact
-        [toggled]="(sideMenuState$ | async) === menuNames.SpellSelectionMenu"
-        (clicked)="toggleLeftMenu(menuNames.SpellSelectionMenu)"
-    >
-        <span class="top-bar-button__content">Spellbook</span>
-    </app-button>
+    @if (hasAnySpells$ | async) {
+        <app-button
+            class="top-bar-button"
+            compact
+            [toggled]="
+                (sideMenuState$ | async) === menuNames.SpellSelectionMenu
+            "
+            (clicked)="toggleLeftMenu(menuNames.SpellSelectionMenu)"
+        >
+            <span class="top-bar-button__content">Spellbook</span>
+        </app-button>
+    }
 
     <app-button
         class="top-bar-button"
@@ -93,53 +98,61 @@
         [toggled]="(topMenuState$ | async) === menuNames.DiceMenu"
         (clicked)="toggleTopMenu(menuNames.DiceMenu)"
     >
-        <app-dice-icon-D20 class="top-bar-button__content top-bar-button__content--dice" />
+        <app-dice-icon-D20
+            class="top-bar-button__content top-bar-button__content--dice"
+        />
     </app-button>
 
     <!-- Save and Effects buttons change depending on some factors -->
-    <ng-container *ngIf="apiButtonsStatus$ | async as apiButtonsStatus">
-        <app-button
-            *ngIf="apiButtonsStatus.isGmMode; else ButtonsTemplate"
-            class="top-bar-button"
-            label="In GM mode, the character can\'t be saved and can\'t send effects to other players."
-            disabled
-            compact
-        >
-            <span class="top-bar-button__content">GM Mode</span>
-        </app-button>
-
-        <ng-template #ButtonsTemplate>
-
+    @if (apiButtonsStatus$ | async; as apiButtonsStatus) {
+        @if (apiButtonsStatus.isGmMode) {
             <app-button
-                *ngIf="apiButtonsStatus.isBlankCharacter; else FinalButtonsTemplate"
                 class="top-bar-button"
-                label="No changes to character yet"
+                label="In GM mode, the character can\'t be saved and can\'t send effects to other players."
                 disabled
                 compact
             >
-                <i class="bi-file-earmark-arrow-up top-bar-button__content"></i>
+                <span class="top-bar-button__content">GM Mode</span>
             </app-button>
-
-            <ng-template #FinalButtonsTemplate>
+        } @else {
+            @if (apiButtonsStatus.isBlankCharacter) {
+                <app-button
+                    class="top-bar-button"
+                    label="No changes to character yet"
+                    disabled
+                    compact
+                >
+                    <i
+                        class="bi-file-earmark-arrow-up top-bar-button__content"
+                    ></i>
+                </app-button>
+            } @else {
                 <app-button
                     class="top-bar-button"
                     label="Save Character"
                     compact
                     (clicked)="save()"
                 >
-                    <i class="bi-file-earmark-arrow-up top-bar-button__content"></i>
+                    <i
+                        class="bi-file-earmark-arrow-up top-bar-button__content"
+                    ></i>
                 </app-button>
 
-                <app-new-messages
-                    *ngIf="apiButtonsStatus.showMessagesButton"
-                    class="top-bar-button"
-                    [hasPartyName]="apiButtonsStatus.hasPartyName"
-                    [checkMessagesAutomatically]="apiButtonsStatus.checkMessagesAutomatically"
-                    [applyMessagesAutomatically]="apiButtonsStatus.applyMessagesAutomatically"
-                />
-            </ng-template>
-        </ng-template>
-    </ng-container>
+                @if (apiButtonsStatus.showMessagesButton) {
+                    <app-new-messages
+                        class="top-bar-button"
+                        [hasPartyName]="apiButtonsStatus.hasPartyName"
+                        [checkMessagesAutomatically]="
+                            apiButtonsStatus.checkMessagesAutomatically
+                        "
+                        [applyMessagesAutomatically]="
+                            apiButtonsStatus.applyMessagesAutomatically
+                        "
+                    />
+                }
+            }
+        }
+    }
 
     <app-button
         class="top-bar-button"

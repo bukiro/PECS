@@ -32,16 +32,16 @@ import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observabl
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
-import { InventoryComponent } from '../../../libs/inventory/components/inventory/inventory.component';
-import { ItemMaterialComponent } from '../../../libs/shared/item/components/item-material/item-material.component';
-import { TagsComponent } from '../../../libs/shared/tags/components/tags/tags.component';
-import { GridIconComponent } from '../../../libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { InventoryComponent } from 'src/libs/inventory/components/inventory/inventory.component';
+import { ItemMaterialComponent } from 'src/libs/shared/item/components/item-material/item-material.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
+import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
 import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { ItemComponent } from '../../../libs/shared/item/components/item/item.component';
-import { CashComponent } from '../../../libs/shared/cash/components/cash/cash.component';
+import { ItemComponent } from 'src/libs/shared/item/components/item/item.component';
+import { CashComponent } from 'src/libs/shared/cash/components/cash/cash.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 const itemsPerPage = 40;
 
@@ -318,8 +318,6 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
                     return reasons;
                 }),
             );
-
-
     }
 
     public craftItem(item: Item): void {

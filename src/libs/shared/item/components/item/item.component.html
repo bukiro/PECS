@@ -1,579 +1,659 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="itemTraits$() | async as traits">
-    <div
-        *ngIf="traits.length"
-        class="newrow left-aligned tags"
-    >
-        <app-trait
-            *ngFor="let trait of traits; trackBy:trackByIndex;"
-            [name]="trait"
-            [trait]="traitFromName(trait)"
-            [creatureType]="creature.type"
-        />
-    </div>
-</ng-container>
+@if (itemTraits$() | async; as traits) {
+    @if (traits.length) {
+        <div class="newrow left-aligned tags">
+            @for (trait of traits; track $index) {
+                <app-trait
+                    [name]="trait"
+                    [trait]="traitFromName(trait)"
+                    [creatureType]="creature.type"
+                />
+            }
+        </div>
+    }
+}
 
 <div class="newrow left-aligned tags">
     <app-tags
         [creature]="creature"
         [objectName]="item.name"
-        [showTraits]=true
-        [showFeats]=true
-        [showItems]=true
-        [showActivities]=true
-        [showConditions]=true
-        [showEffects]=true
+        [showTraits]="true"
+        [showFeats]="true"
+        [showItems]="true"
+        [showActivities]="true"
+        [showConditions]="true"
+        [showEffects]="true"
     />
 </div>
 
-<ng-container *ngIf="itemRoles() as itemRoles">
-    <div
-        *ngIf="itemRoles.asEquipment && itemRoles.asEquipment.choices?.length && (itemStore ? true : itemRoles.asEquipment.showChoicesInInventory)"
-        class="newrow"
-    >
-        <span>
-            Variation:
-            <select
-                aria-label="Select item variation"
-                [(ngModel)]="itemRoles.asEquipment.choice"
-                (ngModelChange)="onSelectVariation()"
-            >
-                <option
-                    *ngFor="let choice of itemRoles.asEquipment.choices; trackBy:trackByIndex;"
-                    [ngValue]="choice"
+@if (itemRoles(); as itemRoles) {
+    @if (
+        itemRoles.asEquipment &&
+        itemRoles.asEquipment.choices.length &&
+        (itemStore ? true : itemRoles.asEquipment.showChoicesInInventory)
+    ) {
+        <div class="newrow">
+            <span>
+                Variation:
+                <select
+                    aria-label="Select item variation"
+                    [(ngModel)]="itemRoles.asEquipment.choice"
+                    (ngModelChange)="onSelectVariation()"
                 >
-                    {{choice}}
-                </option>
-            </select>
-        </span>
-    </div>
+                    @for (
+                        choice of itemRoles.asEquipment.choices;
+                        track $index
+                    ) {
+                        <option [ngValue]="choice">
+                            {{ choice }}
+                        </option>
+                    }
+                </select>
+            </span>
+        </div>
+    }
 
     <!-- Doubling Rings selection -->
-    <ng-container *ngIf="itemRoles.asWornItem as asWornItem">
-        <div
-            *ngIf="!itemStore && asWornItem.isDoublingRings && !asWornItem.isTalismanCord && !asWornItem.isRingOfWizardry.length"
-            class="newrow"
-        >
-            <header class="spellHeader">Doubling Rings</header>
-
+    @if (itemRoles.asWornItem; as asWornItem) {
+        @if (
+            !itemStore &&
+            asWornItem.isDoublingRings &&
+            !asWornItem.isTalismanCord &&
+            !asWornItem.isRingOfWizardry.length
+        ) {
             <div class="newrow">
-                <strong>Weapon wielded in the gold ring hand</strong>
+                <header class="spellHeader">Doubling Rings</header>
 
-                <select
-                    aria-label="Select weapon wielded in the hand with the gold doubling ring"
-                    [(ngModel)]="item.data[0].value"
-                    (ngModelChange)="onSelectDoublingRingsOption(asWornItem)"
-                >
-                    <option
-                        *ngFor="let weapon of doublingRingsOptions('gold'); trackBy:trackByIndex;"
-                        [ngValue]="weapon.id"
-                    >
-                        {{weapon.effectiveName$()}}
-                    </option>
-                </select>
-            </div>
-
-            <div class="newrow">
-                <strong>Weapon wielded in the iron ring hand</strong>
-
-                <select
-                    aria-label="Select weapon wielded in the hand with the iron doubling ring"
-                    [(ngModel)]="item.data[1].value"
-                    (ngModelChange)="onSelectDoublingRingsOption(asWornItem)"
-                >
-                    <option
-                        *ngFor="let weapon of doublingRingsOptions('iron'); trackBy:trackByIndex;"
-                        [ngValue]="weapon.id"
-                    >
-                        {{weapon.effectiveName$()}}
-                    </option>
-                </select>
-            </div>
-
-            <div
-                *ngIf="asWornItem.isDoublingRings === 'Doubling Rings (Greater)'"
-                class="newrow left-aligned"
-            >
-                <input
-                    type="checkbox"
-                    id="{{item.id}}doublingRingsApplyPropertyRunes"
-                    [(ngModel)]="item.data[2].value"
-                    (ngModelChange)="onSelectDoublingRingsOption(asWornItem)"
-                >
-                <label for="{{item.id}}doublingRingsApplyPropertyRunes">Apply property runes</label>
-            </div>
-        </div>
-
-        <!-- Ring of Wizardry selection -->
-        <div
-            *ngIf="!itemStore || asWornItem.isRingOfWizardry.length && !asWornItem.isTalismanCord && !asWornItem.isDoublingRings"
-            class="newrow"
-        >
-            <header class="spellHeader">Ring of Wizardry</header>
-
-            <div
-                *ngFor="let wizardrySlot of asWornItem.isRingOfWizardry; let wizardryIndex = index; trackBy:trackByIndex"
-                class="newrow"
-            >
-                <strong>
-                    {{ringOfWizardrySlotName(wizardrySlot)}}
-                </strong>
-
-                <select
-                    aria-label="Select spellcasting for ring of wizardry"
-                    [(ngModel)]="item.data[wizardryIndex].value"
-                    (ngModelChange)="onSelectRingOfWizardryOption(asWornItem, wizardrySlot, wizardryIndex)"
-                >
-                    <option
-                        *ngFor="let spellCasting of ringOfWizardryOptions(wizardrySlot); trackBy:trackByIndex;"
-                        [ngValue]="spellCasting"
-                    >
-                        {{spellCasting}}
-                    </option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Talisman Cord school display/selection -->
-        <div
-            *ngIf="asWornItem.isTalismanCord && !asWornItem.isDoublingRings && !(asWornItem.isRingOfWizardry.length)"
-            class="newrow"
-        >
-            <header class="spellHeader">Talisman Cord</header>
-
-            <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
-                <div
-                    *ngIf="asWornItem.isTalismanCord > talismanCordIndex && item.data[talismanCordIndex]"
-                    class="newrow"
-                >
-                    <strong>{{item.data[talismanCordIndex].name}}</strong>
+                <div class="newrow">
+                    <strong>Weapon wielded in the gold ring hand</strong>
 
                     <select
-                        aria-label="Select wizard school for talisman cord"
-                        [(ngModel)]="item.data[talismanCordIndex].value"
+                        aria-label="Select weapon wielded in the hand with the gold doubling ring"
+                        [(ngModel)]="item.data[0].value"
+                        (ngModelChange)="
+                            onSelectDoublingRingsOption(asWornItem)
+                        "
                     >
-                        <option
-                            *ngFor="let school of talismanCordOptions(asWornItem, talismanCordIndex); trackBy:trackByIndex;"
-                            [ngValue]="school"
-                        >
-                            {{school}}
-                        </option>
+                        @for (
+                            weapon of doublingRingsOptions("gold");
+                            track $index
+                        ) {
+                            <option [ngValue]="weapon.id">
+                                {{ weapon.effectiveName$() }}
+                            </option>
+                        }
                     </select>
                 </div>
-            </ng-container>
-        </div>
-    </ng-container>
+
+                <div class="newrow">
+                    <strong>Weapon wielded in the iron ring hand</strong>
+
+                    <select
+                        aria-label="Select weapon wielded in the hand with the iron doubling ring"
+                        [(ngModel)]="item.data[1].value"
+                        (ngModelChange)="
+                            onSelectDoublingRingsOption(asWornItem)
+                        "
+                    >
+                        @for (
+                            weapon of doublingRingsOptions("iron");
+                            track $index
+                        ) {
+                            <option [ngValue]="weapon.id">
+                                {{ weapon.effectiveName$() }}
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                @if (
+                    asWornItem.isDoublingRings === "Doubling Rings (Greater)"
+                ) {
+                    <div class="newrow left-aligned">
+                        <input
+                            type="checkbox"
+                            id="{{ item.id }}doublingRingsApplyPropertyRunes"
+                            [(ngModel)]="item.data[2].value"
+                            (ngModelChange)="
+                                onSelectDoublingRingsOption(asWornItem)
+                            "
+                        />
+                        <label
+                            for="{{ item.id }}doublingRingsApplyPropertyRunes"
+                            >Apply property runes</label
+                        >
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- Ring of Wizardry selection -->
+        @if (
+            !itemStore ||
+            (asWornItem.isRingOfWizardry.length &&
+                !asWornItem.isTalismanCord &&
+                !asWornItem.isDoublingRings)
+        ) {
+            <div class="newrow">
+                <header class="spellHeader">Ring of Wizardry</header>
+
+                @for (
+                    wizardrySlot of asWornItem.isRingOfWizardry;
+                    track wizardryIndex;
+                    let wizardryIndex = $index
+                ) {
+                    <div class="newrow">
+                        <strong>
+                            {{ ringOfWizardrySlotName(wizardrySlot) }}
+                        </strong>
+
+                        <select
+                            aria-label="Select spellcasting for ring of wizardry"
+                            [(ngModel)]="item.data[wizardryIndex].value"
+                            (ngModelChange)="
+                                onSelectRingOfWizardryOption(
+                                    asWornItem,
+                                    wizardrySlot,
+                                    wizardryIndex
+                                )
+                            "
+                        >
+                            @for (
+                                spellCasting of ringOfWizardryOptions(
+                                    wizardrySlot
+                                );
+                                track $index
+                            ) {
+                                <option [ngValue]="spellCasting">
+                                    {{ spellCasting }}
+                                </option>
+                            }
+                        </select>
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- Talisman Cord school display/selection -->
+        @if (
+            asWornItem.isTalismanCord &&
+            !asWornItem.isDoublingRings &&
+            !asWornItem.isRingOfWizardry.length
+        ) {
+            <div class="newrow">
+                <header class="spellHeader">Talisman Cord</header>
+
+                @for (talismanCordIndex of [0, 1, 2]; track $index) {
+                    @if (
+                        asWornItem.isTalismanCord > talismanCordIndex &&
+                        item.data[talismanCordIndex]
+                    ) {
+                        <div class="newrow">
+                            <strong>{{
+                                item.data[talismanCordIndex].name
+                            }}</strong>
+
+                            <select
+                                aria-label="Select wizard school for talisman cord"
+                                [(ngModel)]="item.data[talismanCordIndex].value"
+                            >
+                                @for (
+                                    school of talismanCordOptions(
+                                        asWornItem,
+                                        talismanCordIndex
+                                    );
+                                    track $index
+                                ) {
+                                    <option [ngValue]="school">
+                                        {{ school }}
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    }
 
     <app-item-content [item]="item" />
 
     <!-- Item activities -->
-    <div
-        *ngFor="let activity of itemRoles.asActivityBearing?.activities; trackBy:trackByIndex;"
-        class="list-item left-aligned"
-    >
-        <header
-            *ngIf="activity.name"
-            class="spellHeader"
-        >
-            {{activity.name}}
-            <app-action-icons
-                *ngIf="activity.actions"
-                [actionString]="activity.actions"
-            />
-            {{(activity.activationType) ? activity.activationType : ""}}
-        </header>
-
-        <app-activity
-            [creature]="creature"
-            [activity]=activity
-            [gain]=activity
-            [allowActivate]="allowActivate && !(itemRoles.asEquipment?.broken) && !!(activity.resonant ? isSubItem : true)"
-            [isSubItem]="isSubItem"
-        />
-    </div>
-
-    <!-- Known activities -->
-    <ng-container *ngFor="let gain of itemRoles.asEquipment?.gainActivities; trackBy:trackByIndex;">
-        <div
-            *ngIf="activityFromName(gain.name) as activity"
-            class="list-item left-aligned"
-        >
-            <header class="spellHeader">
-                {{activity.name}}
-                <app-action-icons
-                    *ngIf="activity.actions"
-                    [actionString]="activity.actions"
-                />
-                {{(activity.activationType) ? activity.activationType : ""}}
-            </header>
+    @for (activity of itemRoles.asActivityBearing?.activities; track $index) {
+        <div class="list-item left-aligned">
+            @if (activity.name) {
+                <header class="spellHeader">
+                    {{ activity.name }}
+                    @if (activity.actions) {
+                        <app-action-icons [actionString]="activity.actions" />
+                    }
+                    {{ activity.activationType ? activity.activationType : "" }}
+                </header>
+            }
 
             <app-activity
                 [creature]="creature"
-                [activity]=activity
-                [gain]=gain
+                [activity]="activity"
+                [gain]="activity"
+                [allowActivate]="
+                    allowActivate &&
+                    !itemRoles.asEquipment?.broken &&
+                    !!(activity.resonant ? isSubItem : true)
+                "
+                [isSubItem]="isSubItem"
+            />
+        </div>
+    }
+
+    <!-- Known activities -->
+    @for (gain of itemRoles.asEquipment?.gainActivities; track $index) {
+        @if (activityFromName(gain.name); as activity) {
+            <div class="list-item left-aligned">
+                <header class="spellHeader">
+                    {{ activity.name }}
+                    @if (activity.actions) {
+                        <app-action-icons [actionString]="activity.actions" />
+                    }
+                    {{ activity.activationType ? activity.activationType : "" }}
+                </header>
+
+                <app-activity
+                    [creature]="creature"
+                    [activity]="activity"
+                    [gain]="gain"
+                    [allowActivate]="allowActivate"
+                    [isSubItem]="isSubItem"
+                />
+            </div>
+        }
+    }
+
+    <!-- Shown/related activities (Talismans only) -->
+    @for (activityName of itemRoles.asTalisman?.showActivities; track $index) {
+        @if (activityFromName(activityName); as activity) {
+            <div class="list-item left-aligned">
+                <header class="spellHeader">
+                    {{ activity.name }}
+                    @if (activity.actions) {
+                        <app-action-icons [actionString]="activity.actions" />
+                    }
+                    {{ activity.activationType ? activity.activationType : "" }}
+                </header>
+
+                <app-activity
+                    [creature]="creature"
+                    [activity]="activity"
+                    [allowActivate]="false"
+                    [isSubItem]="isSubItem"
+                />
+            </div>
+        }
+    }
+
+    <!-- Spells that get cast by activating the item (Oils only) -->
+    @for (cast of itemRoles.asOil?.castSpells; track $index) {
+        <div class="list-item left-aligned">
+            @if (spellFromName(cast.name); as spell) {
+                <div>
+                    <header class="spellHeader">
+                        {{ spell.name }}
+                        @if (spell.actions) {
+                            <app-action-icons [actionString]="spell.actions" />
+                        }
+                        {{ spell.castType.toString() }}
+                    </header>
+
+                    <app-spell
+                        [spell]="spell"
+                        [spellLevel]="cast.level ? cast.level : 0"
+                    />
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Spells that you gain from equipping/investing the item -->
+    @for (choice of itemRoles.asEquipment?.gainSpells; track $index) {
+        @for (gain of choice.spells; track $index) {
+            <div class="list-item left-aligned">
+                @if (spellFromName(gain.name); as spell) {
+                    <div>
+                        <header class="spellHeader">
+                            {{ spell.name }}
+                            @if (spell.actions) {
+                                <app-action-icons
+                                    [actionString]="spell.actions"
+                                />
+                            }
+                            {{ spell.castType.toString() }}
+                        </header>
+
+                        <app-spell
+                            [spell]="spell"
+                            [spellLevel]="
+                                (gainedSpellLevel$(spell, { gain, choice })
+                                    | async) ?? 1
+                            "
+                        />
+                    </div>
+                }
+            </div>
+        }
+    }
+
+    <!-- Material description -->
+    @for (material of itemRoles.asEquipment?.material; track $index) {
+        <div class="list-item left-aligned">
+            <header class="spellHeader">{{ material.name }}</header>
+
+            @if (material.sourceBook) {
+                <div class="newrow left-aligned">
+                    <strong>Source</strong>
+
+                    <i>{{ material.sourceBook }}</i>
+                </div>
+            }
+
+            @for (desc of material.desc.split("\n\n"); track $index) {
+                <app-description
+                    class="newrow"
+                    [text]="desc"
+                />
+            }
+        </div>
+    }
+
+    <!-- Armored skirt description if one is applied -->
+    @if (armoredSkirt) {
+        <div class="list-item left-aligned">
+            <header class="spellHeader">Armored Skirt</header>
+
+            <app-item [item]="armoredSkirt" />
+        </div>
+    }
+
+    <!-- Spell choices for wands/scrolls/etc -->
+    @for (choice of storedSpellChoices(item); track $index) {
+        <div class="list-item left-aligned">
+            <app-spell-choice
+                class="newrow"
+                [choice]="choice"
+                [showHeightened]="true"
+                [level]="choice.level"
+                [itemSpell]="true"
+            />
+        </div>
+    }
+
+    <!-- Spell descriptions and effect selections of selected spells -->
+    @for (spellSet of storedSpellsTaken(item); track $index) {
+        @if (spellFromName(spellSet.taken.name); as spell) {
+            <div class="list-item left-aligned">
+                <header class="spellHeader">
+                    {{ spell.name }}
+                    @if (spell.actions) {
+                        <app-action-icons [actionString]="spell.actions" />
+                    }
+                    {{ spell.castType.toString() }}
+                </header>
+
+                @if (!itemStore) {
+                    @for (
+                        conditionSet of spellConditions$(
+                            spell,
+                            spellSet.choice.level,
+                            spellSet.taken
+                        ) | async;
+                        track conditionSetIndex;
+                        let conditionSetIndex = $index
+                    ) {
+                        @if (conditionSet.show) {
+                            <div class="newrow list-item left-aligned">
+                                <span>
+                                    {{ conditionSet.condition.name }} effect
+                                    selection:
+                                    <select
+                                        aria-label="Select condition effect"
+                                        [(ngModel)]="
+                                            spellSet.taken.effectChoices[
+                                                conditionSetIndex
+                                            ].choice
+                                        "
+                                    >
+                                        @for (
+                                            choice of conditionSet.choices;
+                                            track $index
+                                        ) {
+                                            <option [ngValue]="choice">
+                                                {{ choice }}
+                                            </option>
+                                        }
+                                    </select>
+                                </span>
+                            </div>
+                        }
+                    }
+                }
+
+                <app-spell
+                    [spell]="spell"
+                    [spellLevel]="spellSet.choice.level || 0"
+                />
+            </div>
+        }
+    }
+
+    <!-- Oil descriptions -->
+    @for (oil of item.oilsApplied; track $index) {
+        <div class="list-item left-aligned">
+            <header class="spellHeader">{{ oil.effectiveName$() }}</header>
+
+            <app-item
+                [creature]="creature"
+                [item]="oil"
+                [allowActivate]="allowActivate"
+                [isSubItem]="true"
+            />
+        </div>
+    }
+
+    <!-- Poison descriptions -->
+    @for (poison of itemRoles.asWeapon?.poisonsApplied; track $index) {
+        <div class="list-item left-aligned">
+            <header class="spellHeader">{{ poison.name }}</header>
+
+            @if (allowActivate && itemRoles.asWeapon) {
+                <button
+                    type="button"
+                    class="newrow left-aligned"
+                    (click)="onActivatePoison(itemRoles.asWeapon, poison)"
+                >
+                    <span>Spend/Remove</span>
+                </button>
+            }
+
+            <app-item
+                [creature]="creature"
+                [item]="poison"
+                [allowActivate]="allowActivate"
+                [isSubItem]="true"
+            />
+        </div>
+    }
+
+    <!-- Rune descriptions -->
+    @for (rune of itemRoles.asEquipment?.propertyRunes; track $index) {
+        <div class="list-item left-aligned">
+            <header class="spellHeader">{{ rune.name }} Rune</header>
+
+            @if (runeStoredSpell(rune); as spell) {
+                <button
+                    type="button"
+                    class="newrow center-aligned"
+                    (click)="onActivateSpellRune(rune)"
+                >
+                    <span>
+                        Use
+                        @if (spell.actions) {
+                            <app-action-icons [actionString]="spell.actions" />
+                        }
+                        (Cast spell)
+                    </span>
+                </button>
+            }
+
+            <app-item
+                [creature]="creature"
+                [item]="rune"
+                [allowActivate]="allowActivate"
+                [isSubItem]="true"
+            />
+        </div>
+    }
+
+    <!-- Blade ally rune descriptions -->
+    @if (itemRoles.asWeapon || itemRoles.asWornItem; as bladeAllyItem) {
+        @if (bladeAllyItem.bladeAlly) {
+            @for (rune of bladeAllyItem.bladeAllyRunes; track $index) {
+                <div class="list-item left-aligned">
+                    <header class="spellHeader">{{ rune.name }} Rune</header>
+
+                    <app-item
+                        [creature]="creature"
+                        [item]="rune"
+                        [allowActivate]="allowActivate"
+                        [isSubItem]="true"
+                    />
+                </div>
+            }
+        }
+    }
+
+    <!-- Emulated rune descriptions (oils) -->
+    @if (!!itemRoles.asOil && !!itemRoles.asOil.runeEffect) {
+        <div class="list-item left-aligned">
+            <header class="spellHeader">
+                Rune Effect: {{ itemRoles.asOil.runeEffect.name }}
+            </header>
+
+            <app-item
+                [creature]="creature"
+                [item]="itemRoles.asOil.runeEffect"
                 [allowActivate]="allowActivate"
                 [isSubItem]="isSubItem"
             />
         </div>
-    </ng-container>
-
-    <!-- Shown/related activities (Talismans only) -->
-    <ng-container *ngFor="let activityName of itemRoles.asTalisman?.showActivities; trackBy:trackByIndex;">
-        <div
-            *ngIf="activityFromName(activityName) as activity"
-            class="list-item left-aligned"
-        >
-            <header class="spellHeader">
-                {{activity.name}}
-                <app-action-icons
-                    *ngIf="activity.actions"
-                    [actionString]="activity.actions"
-                />
-                {{(activity.activationType) ? activity.activationType : ""}}
-            </header>
-
-            <app-activity
-                [creature]="creature"
-                [activity]=activity
-                [allowActivate]=false
-                [isSubItem]="isSubItem"
-            />
-        </div>
-    </ng-container>
-
-    <!-- Spells that get cast by activating the item (Oils only) -->
-    <div
-        *ngFor="let cast of itemRoles.asOil?.castSpells; trackBy:trackByIndex;"
-        class="list-item left-aligned"
-    >
-        <div *ngIf="spellFromName(cast.name) as spell">
-            <header class="spellHeader">
-                {{spell.name}}
-                <app-action-icons
-                    *ngIf="spell.actions"
-                    [actionString]="spell.actions"
-                />
-                {{spell.castType.toString()}}
-            </header>
-
-            <app-spell
-                [spell]=spell
-                [spellLevel]="cast.level ? cast.level : 0"
-            />
-        </div>
-    </div>
-
-    <!-- Spells that you gain from equipping/investing the item -->
-    <ng-container *ngFor="let choice of itemRoles.asEquipment?.gainSpells; trackBy:trackByIndex;">
-        <div
-            *ngFor="let gain of choice.spells; trackBy:trackByIndex;"
-            class="list-item left-aligned"
-        >
-            <div *ngIf="spellFromName(gain.name) as spell">
-                <header class="spellHeader">
-                    {{spell.name}}
-                    <app-action-icons
-                        *ngIf="spell.actions"
-                        [actionString]="spell.actions"
-                    />
-                    {{spell.castType.toString()}}
-                </header>
-
-                <app-spell
-                    [spell]=spell
-                    [spellLevel]="(gainedSpellLevel$(spell, {gain, choice}) | async) ?? 1"
-                />
-            </div>
-        </div>
-    </ng-container>
-
-    <!-- Material description -->
-    <div
-        *ngFor="let material of itemRoles.asEquipment?.material; trackBy:trackByIndex;"
-        class="list-item left-aligned"
-    >
-        <header class="spellHeader">{{material.name}}</header>
-
-        <div
-            *ngIf="material.sourceBook"
-            class="newrow left-aligned"
-        >
-            <strong>Source</strong>
-
-            <i>{{material.sourceBook}}</i>
-        </div>
-
-        <ng-container *ngFor="let desc of material.desc.split('\n\n'); trackBy:trackByIndex;">
-            <app-description
-                class="newrow"
-                [text]="desc"
-            />
-        </ng-container>
-    </div>
-
-    <!-- Armored skirt description if one is applied -->
-    <div
-        *ngIf="armoredSkirt"
-        class="list-item left-aligned"
-    >
-        <header class="spellHeader">Armored Skirt</header>
-
-        <app-item [item]=armoredSkirt />
-    </div>
-
-    <!-- Spell choices for wands/scrolls/etc -->
-    <div
-        *ngFor="let choice of storedSpellChoices(item); trackBy:trackByIndex;"
-        class="list-item left-aligned"
-    >
-        <app-spell-choice
-            class="newrow"
-            [choice]="choice"
-            [showHeightened]="true"
-            [level]="choice.level"
-            [itemSpell]="true"
-        />
-    </div>
-
-    <!-- Spell descriptions and effect selections of selected spells -->
-    <ng-container *ngFor="let spellSet of storedSpellsTaken(item); trackBy:trackByIndex;">
-        <div
-            *ngIf="spellFromName(spellSet.taken.name) as spell"
-            class="list-item left-aligned"
-        >
-            <header class="spellHeader">
-                {{spell.name}}
-                <app-action-icons
-                    *ngIf="spell.actions"
-                    [actionString]="spell.actions"
-                />
-                {{spell.castType.toString()}}
-            </header>
-
-            <ng-container *ngIf="!itemStore">
-                <ng-container *ngFor="let conditionSet of spellConditions$(spell, spellSet.choice.level, spellSet.taken) | async; let conditionSetIndex = index; trackBy:trackByIndex">
-                    <div
-                        *ngIf="conditionSet.show"
-                        class="newrow list-item left-aligned"
-                    >
-                        <span>
-                            {{conditionSet.condition.name}} effect selection:
-                            <select
-                                aria-label="Select condition effect"
-                                [(ngModel)]="spellSet.taken.effectChoices[conditionSetIndex].choice"
-                            >
-                                <option
-                                    *ngFor="let choice of conditionSet.choices; trackBy:trackByIndex;"
-                                    [ngValue]="choice"
-                                >
-                                    {{choice}}
-                                </option>
-                            </select>
-                        </span>
-                    </div>
-                </ng-container>
-            </ng-container>
-
-            <app-spell
-                [spell]=spell
-                [spellLevel]="spellSet.choice.level || 0"
-            />
-        </div>
-    </ng-container>
-
-    <!-- Oil descriptions -->
-    <div
-        *ngFor="let oil of item.oilsApplied; trackBy:trackByIndex;"
-        class="list-item left-aligned"
-    >
-        <header class="spellHeader">{{oil.effectiveName$()}}</header>
-
-        <app-item
-            [creature]="creature"
-            [item]=oil
-            [allowActivate]=allowActivate
-            [isSubItem]=true
-        />
-    </div>
-
-    <!-- Poison descriptions -->
-    <div
-        *ngFor="let poison of itemRoles.asWeapon?.poisonsApplied; trackBy:trackByIndex;"
-        class="list-item left-aligned"
-    >
-        <header class="spellHeader">{{poison.name}}</header>
-
-        <button
-            *ngIf="allowActivate && itemRoles.asWeapon"
-            type="button"
-            class="newrow left-aligned"
-            (click)="onActivatePoison(itemRoles.asWeapon, poison)"
-        >
-            <span>Spend/Remove</span>
-        </button>
-
-        <app-item
-            [creature]="creature"
-            [item]=poison
-            [allowActivate]=allowActivate
-            [isSubItem]=true
-        />
-    </div>
-
-    <!-- Rune descriptions -->
-    <div
-        *ngFor="let rune of itemRoles.asEquipment?.propertyRunes; trackBy:trackByIndex;"
-        class="list-item left-aligned"
-    >
-        <header class="spellHeader">{{rune.name}} Rune</header>
-
-        <ng-container *ngIf="runeStoredSpell(rune) as spell">
-            <button
-                type="button"
-                class="newrow center-aligned"
-                (click)="onActivateSpellRune(rune)"
-            >
-                <span>
-                    Use
-                    <app-action-icons
-                        *ngIf="spell.actions"
-                        [actionString]="spell.actions"
-                    />
-                    (Cast spell)
-                </span>
-            </button>
-        </ng-container>
-
-        <app-item
-            [creature]="creature"
-            [item]=rune
-            [allowActivate]=allowActivate
-            [isSubItem]=true
-        />
-    </div>
-
-    <!-- Blade ally rune descriptions -->
-    <ng-container *ngIf="(itemRoles.asWeapon || itemRoles.asWornItem) as bladeAllyItem">
-        <ng-container *ngIf="bladeAllyItem.bladeAlly">
-            <div
-                *ngFor="let rune of bladeAllyItem.bladeAllyRunes; trackBy:trackByIndex;"
-                class="list-item left-aligned"
-            >
-                <header class="spellHeader">{{rune.name}} Rune</header>
-
-                <app-item
-                    [creature]="creature"
-                    [item]="rune"
-                    [allowActivate]="allowActivate"
-                    [isSubItem]="true"
-                />
-            </div>
-        </ng-container>
-    </ng-container>
-
-    <!-- Emulated rune descriptions (oils) -->
-    <div
-        *ngIf="!!itemRoles.asOil && !!itemRoles.asOil.runeEffect"
-        class="list-item left-aligned"
-    >
-        <header class="spellHeader">
-            Rune Effect: {{itemRoles.asOil.runeEffect.name}}
-        </header>
-
-        <app-item
-            [creature]="creature"
-            [item]="itemRoles.asOil.runeEffect"
-            [allowActivate]=allowActivate
-            [isSubItem]=isSubItem
-        />
-    </div>
+    }
 
     <!-- Aeon stone descriptions -->
-    <div
-        *ngFor="let stone of itemRoles.asWornItem?.aeonStones; trackBy:trackByIndex;"
-        class="list-item left-aligned"
-    >
-        <header class="spellHeader">{{stone.name}}</header>
+    @for (stone of itemRoles.asWornItem?.aeonStones; track $index) {
+        <div class="list-item left-aligned">
+            <header class="spellHeader">{{ stone.name }}</header>
 
-        <app-item
-            [creature]="creature"
-            [item]=stone
-            [allowActivate]=allowActivate
-            [isSubItem]=true
-        />
-    </div>
+            <app-item
+                [creature]="creature"
+                [item]="stone"
+                [allowActivate]="allowActivate"
+                [isSubItem]="true"
+            />
+        </div>
+    }
 
     <!-- Talisman cord descriptions -->
-    <div
-        *ngFor="let cord of itemRoles.asEquipment?.talismanCords; trackBy:trackByIndex;"
-        class="list-item left-aligned lower"
-    >
-        <header class="spellHeader">{{cord.name}}</header>
+    @for (cord of itemRoles.asEquipment?.talismanCords; track $index) {
+        <div class="list-item left-aligned lower">
+            <header class="spellHeader">{{ cord.name }}</header>
 
-        <p>
-            When you activate a talisman threaded through a cord with the same magic school trait that's also the cord's
-            level or lower, attempt a
-            <app-quickdice [diceString]="'1d20'" />
-            DC 16 flat check. On a
-            success,
-            that talisman is not consumed and can be used again.
-        </p>
+            <p>
+                When you activate a talisman threaded through a cord with the
+                same magic school trait that's also the cord's level or lower,
+                attempt a
+                <app-quickdice [diceString]="'1d20'" />
+                DC 16 flat check. On a success, that talisman is not consumed
+                and can be used again.
+            </p>
 
-        <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
-            <div
-                *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]"
-                class="newrow"
-            >
-                <strong>{{cord.data[talismanCordIndex].name}}</strong>
-                {{cord.data[talismanCordIndex].value}}
-            </div>
-        </ng-container>
-    </div>
+            @for (talismanCordIndex of [0, 1, 2]; track $index) {
+                @if (
+                    cord.isTalismanCord > talismanCordIndex &&
+                    cord.data[talismanCordIndex]
+                ) {
+                    <div class="newrow">
+                        <strong>{{ cord.data[talismanCordIndex].name }}</strong>
+                        {{ cord.data[talismanCordIndex].value }}
+                    </div>
+                }
+            }
+        </div>
+    }
 
     <!-- Talisman descriptions and activation -->
-    <div
-        *ngFor="let talisman of itemRoles.asEquipment?.talismans; let index = index; trackBy:trackByIndex;"
-        class="list-item left-aligned"
-    >
-        <header class="spellHeader">{{talisman.name}}</header>
+    @for (
+        talisman of itemRoles.asEquipment?.talismans;
+        track index;
+        let index = $index
+    ) {
+        <div class="list-item left-aligned">
+            <header class="spellHeader">{{ talisman.name }}</header>
 
-        <button
-            *ngIf="allowActivate"
-            type="button"
-            class="newrow left-aligned"
-            (click)="onActivateTalisman(itemRoles, talisman, index)"
-        >
-            <span>
-                Activate
-                <app-action-icons
-                    *ngIf="talisman.actions"
-                    [actionString]="talisman.actions"
-                />
-                {{(talisman.activationType) ? talisman.activationType : ""}}
-            </span>
-        </button>
+            @if (allowActivate) {
+                <button
+                    type="button"
+                    class="newrow left-aligned"
+                    (click)="onActivateTalisman(itemRoles, talisman, index)"
+                >
+                    <span>
+                        Activate
+                        @if (talisman.actions) {
+                            <app-action-icons
+                                [actionString]="talisman.actions"
+                            />
+                        }
+                        {{
+                            talisman.activationType
+                                ? talisman.activationType
+                                : ""
+                        }}
+                    </span>
+                </button>
+            }
 
-        <button
-            *ngIf="allowActivate && itemRoles.asEquipment && hasMatchingTalismanCord(itemRoles.asEquipment, talisman)"
-            type="button"
-            class="newrow left-aligned"
-            (click)="onActivateTalisman(itemRoles, talisman, index, {preserve: true})"
-        >
-            <span>
-                Activate and preserve with talisman cord
-                <app-action-icons
-                    *ngIf="talisman.actions"
-                    [actionString]="talisman.actions"
-                />
-                {{(talisman.activationType) ? talisman.activationType : ""}}
-            </span>
-        </button>
+            @if (
+                allowActivate &&
+                itemRoles.asEquipment &&
+                hasMatchingTalismanCord(itemRoles.asEquipment, talisman)
+            ) {
+                <button
+                    type="button"
+                    class="newrow left-aligned"
+                    (click)="
+                        onActivateTalisman(itemRoles, talisman, index, {
+                            preserve: true,
+                        })
+                    "
+                >
+                    <span>
+                        Activate and preserve with talisman cord
+                        @if (talisman.actions) {
+                            <app-action-icons
+                                [actionString]="talisman.actions"
+                            />
+                        }
+                        {{
+                            talisman.activationType
+                                ? talisman.activationType
+                                : ""
+                        }}
+                    </span>
+                </button>
+            }
 
-        <app-item
-            [creature]="creature"
-            [item]=talisman
-            [allowActivate]=allowActivate
-            [isSubItem]=true
-        />
-    </div>
-</ng-container>
+            <app-item
+                [creature]="creature"
+                [item]="talisman"
+                [allowActivate]="allowActivate"
+                [isSubItem]="true"
+            />
+        </div>
+    }
+}

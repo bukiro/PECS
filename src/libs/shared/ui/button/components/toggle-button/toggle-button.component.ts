@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, computed, forwardRef, signal } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ButtonComponent } from '../button/button.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-toggle-button',
@@ -10,9 +9,7 @@ import { CommonModule } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        CommonModule,
         FormsModule,
-
         ButtonComponent,
     ],
     providers: [

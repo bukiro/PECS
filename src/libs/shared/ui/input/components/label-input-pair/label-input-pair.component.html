@@ -1,41 +1,43 @@
 <div class="label">
     <label
         class="label__title"
-        for="{{id}}"
+        for="{{ id }}"
     >
         {{ label }}
-        <i
-            *ngIf="hint"
-            class="bi-question-circle label__icon"
-            [ngbTooltip]="hint"
-        ></i>
+        @if (hint) {
+            <i
+                class="bi-question-circle label__icon"
+                [ngbTooltip]="hint"
+            ></i>
+        }
     </label>
 
-    <span
-        *ngFor="let subline of sublines ?? []; trackBy:trackByIndex"
-        class="label__subline"
-    >
-        {{ subline }}
-    </span>
+    @for (subline of sublines ?? []; track $index) {
+        <span class="label__subline">
+            {{ subline }}
+        </span>
+    }
 </div>
 
 <div class="value">
-    <ng-container [ngSwitch]="type">
-        <app-checkbox-input
-            *ngSwitchCase="'switch'"
-            #Input
-            class="value__input value__input--checkbox"
-            [id]="id"
-            [(ngModel)]="value"
-        />
+    @switch (type) {
+        @case ("switch") {
+            <app-checkbox-input
+                #Input
+                class="value__input value__input--checkbox"
+                [id]="id"
+                [(ngModel)]="value"
+            />
+        }
 
-        <app-text-input
-            *ngSwitchCase="'text'"
-            #Input
-            class="value__input value__input--text"
-            [id]="id"
-            [password]="password"
-            [(ngModel)]="value"
-        />
-    </ng-container>
+        @case ("text") {
+            <app-text-input
+                #Input
+                class="value__input value__input--text"
+                [id]="id"
+                [password]="password"
+                [(ngModel)]="value"
+            />
+        }
+    }
 </div>

@@ -23,8 +23,8 @@
         [(ngModel)]="showButtons"
     >
         <i
-            [class.bi-caret-left]='!showButtons'
-            [class.bi-caret-right]='showButtons'
+            [class.bi-caret-left]="!showButtons"
+            [class.bi-caret-right]="showButtons"
         ></i>
     </app-toggle-button>
 } @else {
@@ -34,39 +34,38 @@
 <ng-template #ButtonsTemplate>
     <div class="buttons">
         <!-- Bonuses button -->
-        <app-button
-            *ngIf="showBonusesIcon && bonuses?.length"
-            #BonusesPopover="ngbPopover"
-            tight
-            class="buttons__button buttons__button--bonuses"
-            triggers="click"
-            [ngbPopover]="BonusesTemplate"
-        >
-            <i
-                class='bi-info'
-                [ngbTooltip]="'Show calculation'"
-                [disableTooltip]="BonusesPopover.isOpen()"
-            ></i>
-        </app-button>
+        @if (showBonusesIcon && bonuses?.length) {
+            <app-button
+                #BonusesPopover="ngbPopover"
+                tight
+                class="buttons__button buttons__button--bonuses"
+                triggers="click"
+                [ngbPopover]="BonusesTemplate"
+            >
+                <i
+                    class="bi-info"
+                    [ngbTooltip]="'Show calculation'"
+                    [disableTooltip]="BonusesPopover.isOpen()"
+                ></i>
+            </app-button>
+        }
 
         <!-- Notes button -->
-        <app-toggle-button
-            *ngIf="showNotesIcon"
-            tight
-            class="buttons__button buttons__button--notes"
-            [ngbTooltip]="showNotes() ? 'Hide notes' : 'Show notes'"
-            [(ngModel)]="showNotes"
-        >
-            <i
-                class='bi-pencil-square'
-            ></i>
-        </app-toggle-button>
+        @if (showNotesIcon) {
+            <app-toggle-button
+                tight
+                class="buttons__button buttons__button--notes"
+                [ngbTooltip]="showNotes() ? 'Hide notes' : 'Show notes'"
+                [(ngModel)]="showNotes"
+            >
+                <i class="bi-pencil-square"></i>
+            </app-toggle-button>
+        }
     </div>
 </ng-template>
 
 <ng-template #BonusesTemplate>
-    <app-bonus-list
-        *ngIf="bonuses?.length"
-        [bonuses]="bonuses"
-    />
+    @if (bonuses?.length) {
+        <app-bonus-list [bonuses]="bonuses" />
+    }
 </ng-template>

@@ -8,15 +8,15 @@ import { DisplayService } from 'src/libs/shared/services/display/display.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { selectStatus } from 'src/libs/store/status/status.selectors';
-import { ButtonComponent } from '../libs/shared/ui/button/components/button/button.component';
-import { LoadingDiamondComponent } from '../libs/shared/ui/diamond/components/loading-diamond/loading-diamond.component';
-import { CommonModule } from '@angular/common';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
+import { LoadingDiamondComponent } from 'src/libs/shared/ui/diamond/components/loading-diamond/loading-diamond.component';
 import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 import { LoginComponent } from 'src/libs/shared/login/components/login/login.component';
 import { TopBarComponent } from 'src/libs/top-bar/components/top-bar/top-bar.component';
 import { CharacterSheetComponent } from './views/character-sheet/character-sheet.component';
 import { CharacterSelectionComponent } from 'src/libs/shared/character-loading/components/character-selection/character-selection.component';
 import { ToastContainerComponent } from 'src/libs/toasts/components/toast-container/toast-container.component';
+import { CommonModule } from '@angular/common';
 
 const resizeDelay = 100;
 
@@ -89,7 +89,6 @@ export class AppComponent {
                 this._setMobile();
                 DisplayService.setPageHeight();
             });
-
     }
 
     public toggleDarkmode(): void {

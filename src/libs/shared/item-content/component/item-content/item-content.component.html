@@ -1,415 +1,575 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="itemRoles() as itemRoles">
-    <div
-        *ngIf="item.sourceBook"
-        class="newrow left-aligned"
-    >
-        <span>
-            <strong>Source</strong>
+@if (itemRoles(); as itemRoles) {
+    @if (item.sourceBook) {
+        <div class="newrow left-aligned">
+            <span>
+                <strong>Source</strong>
 
-            <i>{{item.sourceBook}}</i>
-        </span>
-    </div>
+                <i>{{ item.sourceBook }}</i>
+            </span>
+        </div>
+    }
 
-    <div
-        *ngIf="item.PFSnote"
-        class="newrow left-aligned"
-    >
-        <span>
-            <strong>PFS Note</strong>
+    @if (item.PFSnote) {
+        <div class="newrow left-aligned">
+            <span>
+                <strong>PFS Note</strong>
 
-            <i>{{item.PFSnote}}</i>
-        </span>
-    </div>
+                <i>{{ item.PFSnote }}</i>
+            </span>
+        </div>
+    }
 
     <div class="newrow left-aligned">
-        <span *ngIf="item.tradeable && priceText() as calculatedPriceText">
-            <strong>Price</strong>
-            {{calculatedPriceText}}
-            {{itemRoles.stack && itemRoles.stack > 1 ? "per "+itemRoles.stack : ""}}
-        </span>
-
-        <span *ngIf="itemRoles.asWeapon?.dicenum || itemRoles.asWeapon?.extraDamage">
-            <strong>Damage</strong>
-
-            <ng-container *ngIf="itemRoles.asWeapon?.dicenum">
-                {{itemRoles.asWeapon?.dicenum}}d{{itemRoles.asWeapon?.dicesize}}
-                {{itemRoles.asWeapon?.dmgType}}
-            </ng-container>
-
-            <ng-container *ngIf="itemRoles.asWeapon?.extraDamage">
-                {{itemRoles.asWeapon?.extraDamage?.replace('\n', ' ')}}
-            </ng-container>
-        </span>
-
-        <span *ngIf="acBonusParameters$(itemRoles) | async as acBonusParameters">
-            <strong>AC Bonus</strong>
-
-            <span [ngClass]="{'penalty':acBonusParameters.penalty, 'bonus':acBonusParameters.bonus}">
-                {{acBonusParameters.effective}}
-                {{itemRoles.asShield?.coverbonus ? "(4)" : ""}}
+        @if (item.tradeable && priceText(); as calculatedPriceText) {
+            <span>
+                <strong>Price</strong>
+                {{ calculatedPriceText }}
+                {{
+                    itemRoles.stack && itemRoles.stack > 1
+                        ? "per " + itemRoles.stack
+                        : ""
+                }}
             </span>
-        </span>
+        }
 
-        <span *ngIf="dexCapParameters$(itemRoles) | async as dexCapParameters">
-            <strong>Dex Cap</strong>
+        @if (itemRoles.asWeapon?.dicenum || itemRoles.asWeapon?.extraDamage) {
+            <span>
+                <strong>Damage</strong>
 
-            <span [ngClass]="{'penalty':dexCapParameters.penalty, 'bonus':dexCapParameters.bonus}">
-                {{dexCapParameters.effective < 0 ? 'none' : dexCapParameters.effective}}
-                <!-- this comment prevents
+                @if (itemRoles.asWeapon?.dicenum) {
+                    {{ itemRoles.asWeapon?.dicenum }}d{{
+                        itemRoles.asWeapon?.dicesize
+                    }}
+                    {{ itemRoles.asWeapon?.dmgType }}
+                }
+
+                @if (itemRoles.asWeapon?.extraDamage) {
+                    {{ itemRoles.asWeapon?.extraDamage?.replace("\n", " ") }}
+                }
+            </span>
+        }
+
+        @if (acBonusParameters$(itemRoles) | async; as acBonusParameters) {
+            <span>
+                <strong>AC Bonus</strong>
+
+                <span
+                    [ngClass]="{
+                        penalty: acBonusParameters.penalty,
+                        bonus: acBonusParameters.bonus,
+                    }"
+                >
+                    {{ acBonusParameters.effective }}
+                    {{ itemRoles.asShield?.coverbonus ? "(4)" : "" }}
+                </span>
+            </span>
+        }
+
+        @if (dexCapParameters$(itemRoles) | async; as dexCapParameters) {
+            <span>
+                <strong>Dex Cap</strong>
+
+                <span
+                    [ngClass]="{
+                        penalty: dexCapParameters.penalty,
+                        bonus: dexCapParameters.bonus,
+                    }"
+                >
+                    {{
+                        dexCapParameters.effective < 0
+                            ? "none"
+                            : dexCapParameters.effective
+                    }}
+                    <!-- this comment prevents
                     strange formatting -->
+                </span>
             </span>
-        </span>
+        }
 
-        <span *ngIf="skillPenaltyParameters$(itemRoles) | async as skillPenaltyParameters">
-            <strong>Check Penalty</strong>
+        @if (
+            skillPenaltyParameters$(itemRoles) | async;
+            as skillPenaltyParameters
+        ) {
+            <span>
+                <strong>Check Penalty</strong>
 
-            <span [ngClass]="{'penalty':skillPenaltyParameters.penalty, 'bonus':skillPenaltyParameters.bonus}">{{skillPenaltyParameters.effective}}</span>
-        </span>
-
-        <span *ngIf="speedPenaltyParameters(itemRoles) as speedPenaltyParameters">
-            <strong>Speed Penalty</strong>
-
-            <span [ngClass]="{'penalty':speedPenaltyParameters.penalty, 'bonus':speedPenaltyParameters.bonus}">{{speedPenaltyParameters.effective}}</span>
-        </span>
-
-        <span *ngIf="strengthRequirementParameters$(itemRoles) | async as strenthRequirementParameters">
-            <strong>Strength</strong>
-
-            <span [ngClass]="{'penalty':strenthRequirementParameters.penalty, 'bonus':strenthRequirementParameters.bonus}">
-                {{strenthRequirementParameters.effective}}
+                <span
+                    [ngClass]="{
+                        penalty: skillPenaltyParameters.penalty,
+                        bonus: skillPenaltyParameters.bonus,
+                    }"
+                    >{{ skillPenaltyParameters.effective }}</span
+                >
             </span>
-        </span>
+        }
 
-        <span *ngIf="uncertainItemLiteralValue('usage') as usage">
-            <strong>Usage</strong>
-            {{usage}}
-        </span>
+        @if (speedPenaltyParameters(itemRoles); as speedPenaltyParameters) {
+            <span>
+                <strong>Speed Penalty</strong>
 
-        <span *ngIf="item.storeBulk">
-            <strong>Bulk</strong>
-            {{item.storeBulk}}
-        </span>
-
-        <span *ngIf="bulkParameters(item) as bulkParameters">
-            <strong>
-                Bulk
-                {{(itemRoles.asEquipment?.carryingBulk && !itemRoles.asEquipment?.equipped) ? "(unequipped)" :
-                ""}}
-            </strong>
-
-            <span [ngClass]="{'penalty':bulkParameters.penalty, 'bonus':bulkParameters.bonus}">{{bulkParameters.effective || 0}}</span>
-        </span>
-
-        <span *ngIf="itemRoles.asEquipment?.carryingBulk && itemRoles.asEquipment?.equipped">
-            <strong>Unequipped bulk</strong>
-            {{itemRoles.asEquipment?.carryingBulk}}
-        </span>
-
-        <span *ngIf="hardnessParameters$(itemRoles) | async as hardnessParameters">
-            <strong>Hardness</strong>
-
-            <span [ngClass]="{'penalty':hardnessParameters.penalty, 'bonus':hardnessParameters.bonus}">{{hardnessParameters.effective}}</span>
-        </span>
-
-        <span *ngIf="hitpointParameters$(itemRoles) | async as hitpointParameters">
-            <strong>HP</strong>
-
-            <strong *ngIf="hitpointParameters.brokenThreshold">(BT)</strong>
-
-            <span [ngClass]="{'penalty':hitpointParameters.maxHP.penalty, 'bonus':hitpointParameters.maxHP.bonus}">{{hitpointParameters.maxHP.effective}}</span>
-
-            <span
-                *ngIf="hitpointParameters.brokenThreshold"
-                [ngClass]="{'penalty':hitpointParameters.brokenThreshold.penalty, 'bonus':hitpointParameters.brokenThreshold.bonus}"
-            >
-                ({{hitpointParameters.brokenThreshold.effective}})
+                <span
+                    [ngClass]="{
+                        penalty: speedPenaltyParameters.penalty,
+                        bonus: speedPenaltyParameters.bonus,
+                    }"
+                    >{{ speedPenaltyParameters.effective }}</span
+                >
             </span>
-        </span>
+        }
+
+        @if (
+            strengthRequirementParameters$(itemRoles) | async;
+            as strenthRequirementParameters
+        ) {
+            <span>
+                <strong>Strength</strong>
+
+                <span
+                    [ngClass]="{
+                        penalty: strenthRequirementParameters.penalty,
+                        bonus: strenthRequirementParameters.bonus,
+                    }"
+                >
+                    {{ strenthRequirementParameters.effective }}
+                </span>
+            </span>
+        }
+
+        @if (uncertainItemLiteralValue("usage"); as usage) {
+            <span>
+                <strong>Usage</strong>
+                {{ usage }}
+            </span>
+        }
+
+        @if (item.storeBulk) {
+            <span>
+                <strong>Bulk</strong>
+                {{ item.storeBulk }}
+            </span>
+        }
+
+        @if (bulkParameters(item); as bulkParameters) {
+            <span>
+                <strong>
+                    Bulk
+                    {{
+                        itemRoles.asEquipment?.carryingBulk &&
+                        !itemRoles.asEquipment?.equipped
+                            ? "(unequipped)"
+                            : ""
+                    }}
+                </strong>
+
+                <span
+                    [ngClass]="{
+                        penalty: bulkParameters.penalty,
+                        bonus: bulkParameters.bonus,
+                    }"
+                    >{{ bulkParameters.effective || 0 }}</span
+                >
+            </span>
+        }
+
+        @if (
+            itemRoles.asEquipment?.carryingBulk &&
+            itemRoles.asEquipment?.equipped
+        ) {
+            <span>
+                <strong>Unequipped bulk</strong>
+                {{ itemRoles.asEquipment?.carryingBulk }}
+            </span>
+        }
+
+        @if (hardnessParameters$(itemRoles) | async; as hardnessParameters) {
+            <span>
+                <strong>Hardness</strong>
+
+                <span
+                    [ngClass]="{
+                        penalty: hardnessParameters.penalty,
+                        bonus: hardnessParameters.bonus,
+                    }"
+                    >{{ hardnessParameters.effective }}</span
+                >
+            </span>
+        }
+
+        @if (hitpointParameters$(itemRoles) | async; as hitpointParameters) {
+            <span>
+                <strong>HP</strong>
+
+                @if (hitpointParameters.brokenThreshold) {
+                    <strong>(BT)</strong>
+                }
+
+                <span
+                    [ngClass]="{
+                        penalty: hitpointParameters.maxHP.penalty,
+                        bonus: hitpointParameters.maxHP.bonus,
+                    }"
+                    >{{ hitpointParameters.maxHP.effective }}</span
+                >
+
+                @if (hitpointParameters.brokenThreshold) {
+                    <span
+                        [ngClass]="{
+                            penalty: hitpointParameters.brokenThreshold.penalty,
+                            bonus: hitpointParameters.brokenThreshold.bonus,
+                        }"
+                    >
+                        ({{ hitpointParameters.brokenThreshold.effective }})
+                    </span>
+                }
+            </span>
+        }
     </div>
 
-    <div
-        *ngIf="itemRoles.asWeapon || uncertainItemLiteralValue('hands')"
-        class="newrow left-aligned"
-    >
-        <span *ngIf="(itemRoles.asWeapon?.hands || uncertainItemLiteralValue('hands')) as hands">
-            <strong>Hands</strong>
-            {{hands}}
-        </span>
+    @if (itemRoles.asWeapon || uncertainItemLiteralValue("hands")) {
+        <div class="newrow left-aligned">
+            @if (
+                itemRoles.asWeapon?.hands || uncertainItemLiteralValue("hands");
+                as hands
+            ) {
+                <span>
+                    <strong>Hands</strong>
+                    {{ hands }}
+                </span>
+            }
 
-        <span *ngIf="itemRoles.asWeapon?.ranged">
-            <strong>Range</strong>
-            {{itemRoles.asWeapon?.ranged}} ft.
-        </span>
+            @if (itemRoles.asWeapon?.ranged) {
+                <span>
+                    <strong>Range</strong>
+                    {{ itemRoles.asWeapon?.ranged }} ft.
+                </span>
+            }
 
-        <span *ngIf="itemRoles.asWeapon?.reload">
-            <strong>Reload</strong>
-            {{itemRoles.asWeapon?.reload}}
-        </span>
-    </div>
+            @if (itemRoles.asWeapon?.reload) {
+                <span>
+                    <strong>Reload</strong>
+                    {{ itemRoles.asWeapon?.reload }}
+                </span>
+            }
+        </div>
+    }
 
-    <div
-        *ngIf="item.access"
-        class="newrow left-aligned"
-    >
-        <span>
-            <strong>Access</strong>
+    @if (item.access) {
+        <div class="newrow left-aligned">
+            <span>
+                <strong>Access</strong>
 
-            <i>{{item.access}}</i>
-        </span>
-    </div>
+                <i>{{ item.access }}</i>
+            </span>
+        </div>
+    }
 
     <!-- Activation text for activated standalone items, such as wands (identified by not having a trigger or requirements) -->
-    <div
-        *ngIf="shouldShowActivations()"
-        class="newrow gap-text left-aligned"
-    >
-        <strong>Activate</strong>
+    @if (shouldShowActivations()) {
+        <div class="newrow gap-text left-aligned">
+            <strong>Activate</strong>
 
-        <app-action-icons
-            *ngIf="uncertainItemLiteralValue('actions') as actions"
-            [actionString]="actions.toString()"
-        />
+            @if (uncertainItemLiteralValue("actions"); as actions) {
+                <app-action-icons [actionString]="actions.toString()" />
+            }
 
-        <span *ngIf="uncertainItemLiteralValue('activationType') as activationType">{{activationType}}</span>
+            @if (
+                uncertainItemLiteralValue("activationType");
+                as activationType
+            ) {
+                <span>{{ activationType }}</span>
+            }
 
-        <ng-container *ngIf="uncertainItemLiteralValue('frequency') as frequency">
-            <strong>Frequency</strong>
+            @if (uncertainItemLiteralValue("frequency"); as frequency) {
+                <strong>Frequency</strong>
 
-            <span>{{frequency}}</span>
-        </ng-container>
+                <span>{{ frequency }}</span>
+            }
 
-        <ng-container *ngIf="uncertainItemLiteralValue('effect') as effect">
-            <strong>Effect</strong>
+            @if (uncertainItemLiteralValue("effect"); as effect) {
+                <strong>Effect</strong>
 
-            <app-description
-                [text]="effect.toString()"
-                [oneLiner]="true"
-            />
-        </ng-container>
-    </div>
+                <app-description
+                    [text]="effect.toString()"
+                    [oneLiner]="true"
+                />
+            }
+        </div>
+    }
 
     <div class="newrow left-aligned">
-        <span *ngIf="uncertainItemLiteralValue('ammunition') as ammunition">
-            <strong>Ammunition</strong>
-            {{ammunition}}
-        </span>
+        @if (uncertainItemLiteralValue("ammunition"); as ammunition) {
+            <span>
+                <strong>Ammunition</strong>
+                {{ ammunition }}
+            </span>
+        }
     </div>
 
     <!-- Activation text for talismans (identified by having a trigger or requirements, but no effect) -->
-    <div
-        *ngIf="shouldShowTalismans()"
-        class="newrow left-aligned"
-    >
-        <strong>Activate</strong>
+    @if (shouldShowTalismans()) {
+        <div class="newrow left-aligned">
+            <strong>Activate</strong>
 
-        <app-action-icons
-            *ngIf="uncertainItemLiteralValue('actions') as actions"
-            [actionString]="actions.toString()"
-        />
+            @if (uncertainItemLiteralValue("actions"); as actions) {
+                <app-action-icons [actionString]="actions.toString()" />
+            }
 
-        <span *ngIf="uncertainItemLiteralValue('activationType') as activationType">{{activationType}}</span>
+            @if (
+                uncertainItemLiteralValue("activationType");
+                as activationType
+            ) {
+                <span>{{ activationType }}</span>
+            }
 
-        <span *ngIf="uncertainItemLiteralValue('trigger') as trigger">
-            <strong>Trigger</strong>
-            {{trigger}}
-        </span>
+            @if (uncertainItemLiteralValue("trigger"); as trigger) {
+                <span>
+                    <strong>Trigger</strong>
+                    {{ trigger }}
+                </span>
+            }
 
-        <span *ngIf="uncertainItemLiteralValue('requirements') as requirements">
-            <strong>Requirements</strong>
-            {{requirements}}
-        </span>
-    </div>
+            @if (uncertainItemLiteralValue("requirements"); as requirements) {
+                <span>
+                    <strong>Requirements</strong>
+                    {{ requirements }}
+                </span>
+            }
+        </div>
+    }
 
     <div class="newrow left-aligned">
-        <hr class="newrow">
-        <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
+        <hr class="newrow" />
+        @for (desc of item.desc.split("\n\n"); track $index) {
             <app-description
                 class="newrow"
                 [text]="desc"
             />
-        </ng-container>
+        }
 
-        <ng-container *ngIf="languageGainsFromItem() as languageGains">
-            <div
-                *ngIf="languageGains.length"
-                class="newrow list-item"
-            >
-                <ng-container *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackByIndex;">
-                    <div class="newrow">
-                        <strong>{{gainLanguage.title}}</strong>
+        @if (languageGainsFromItem(); as languageGains) {
+            @if (languageGains.length) {
+                <div class="newrow list-item">
+                    @for (
+                        gainLanguage of languageGains;
+                        track languageIndex;
+                        let languageIndex = $index
+                    ) {
+                        <div class="newrow">
+                            <strong>{{ gainLanguage.title }}</strong>
 
-                        <input
-                            *ngIf="!gainLanguage.locked"
-                            aria-label="Language granted by the item"
-                            type="text"
-                            id="{{item.id}}language{{languageIndex}}name"
-                            [(ngModel)]="gainLanguage.name"
-                            (blur)="onUpdateLanguage()"
-                        >
-                        <ng-container *ngIf="gainLanguage.locked">{{gainLanguage.name}}</ng-container>
-                    </div>
-                </ng-container>
-            </div>
-        </ng-container>
-
-        <div
-            *ngIf="doesItemHaveShownData()"
-            class="newrow list-item"
-        >
-            <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackByIndex;">
-                <div
-                    *ngIf="data.show"
-                    class="newrow"
-                >
-                    <strong>{{data.name}}</strong>
-
-                    <input
-                        *ngIf="data.type === 'string'"
-                        aria-label="Item data text"
-                        type="text"
-                        id="{{item.id}}data{{dataIndex}}value-string"
-                        [(ngModel)]="data.value"
-                    >
-
-                    <input
-                        *ngIf="data.type === 'boolean'"
-                        aria-label="Toggle item data"
-                        type="checkbox"
-                        id="{{item.id}}data{{dataIndex}}value-boolean"
-                        [(ngModel)]="data.value"
-                    >
+                            @if (!gainLanguage.locked) {
+                                <input
+                                    aria-label="Language granted by the item"
+                                    type="text"
+                                    id="{{ item.id }}language{{
+                                        languageIndex
+                                    }}name"
+                                    [(ngModel)]="gainLanguage.name"
+                                    (blur)="onUpdateLanguage()"
+                                />
+                            }
+                            @if (gainLanguage.locked) {
+                                {{ gainLanguage.name }}
+                            }
+                        </div>
+                    }
                 </div>
-            </ng-container>
-        </div>
+            }
+        }
+
+        @if (doesItemHaveShownData()) {
+            <div class="newrow list-item">
+                @for (data of item.data; track dataIndex; let dataIndex = $index) {
+                    @if (data.show) {
+                        <div class="newrow">
+                            <strong>{{ data.name }}</strong>
+
+                            @if (data.type === "string") {
+                                <input
+                                    aria-label="Item data text"
+                                    type="text"
+                                    id="{{ item.id }}data{{
+                                        dataIndex
+                                    }}value-string"
+                                    [(ngModel)]="data.value"
+                                />
+                            }
+
+                            @if (data.type === "boolean") {
+                                <input
+                                    aria-label="Toggle item data"
+                                    type="checkbox"
+                                    id="{{ item.id }}data{{
+                                        dataIndex
+                                    }}value-boolean"
+                                    [(ngModel)]="data.value"
+                                />
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        }
 
         <!-- Alchemical elixir data -->
-        <ng-container *ngIf="asAlchemicalElixir() as asAlchemicalElixir">
-            <p
-                *ngIf="asAlchemicalElixir.benefit"
-                class="gap-text"
-            >
-                <strong>Benefit</strong>
+        @if (asAlchemicalElixir(); as asAlchemicalElixir) {
+            @if (asAlchemicalElixir.benefit) {
+                <p class="gap-text">
+                    <strong>Benefit</strong>
 
-                <app-description
-                    [text]="asAlchemicalElixir.benefit"
-                    [oneLiner]="true"
-                />
-            </p>
+                    <app-description
+                        [text]="asAlchemicalElixir.benefit"
+                        [oneLiner]="true"
+                    />
+                </p>
+            }
 
-            <p
-                *ngIf="asAlchemicalElixir.drawback"
-                class="gap-text"
-            >
-                <strong>Drawback</strong>
+            @if (asAlchemicalElixir.drawback) {
+                <p class="gap-text">
+                    <strong>Drawback</strong>
 
-                <app-description
-                    [text]="asAlchemicalElixir.drawback"
-                    [oneLiner]="true"
-                />
-            </p>
-        </ng-container>
+                    <app-description
+                        [text]="asAlchemicalElixir.drawback"
+                        [oneLiner]="true"
+                    />
+                </p>
+            }
+        }
 
         <!-- Alchemical poison data -->
-        <ng-container *ngIf="asAlchemicalPoison() as asAlchemicalPoison">
-            <p *ngIf="asAlchemicalPoison.savingThrow || asAlchemicalPoison.maxDuration || asAlchemicalPoison.stages?.length">
-                <span *ngIf="asAlchemicalPoison.savingThrow">
-                    <strong>Saving Throw</strong>
-                    {{asAlchemicalPoison.savingThrow}}
-                </span>
+        @if (asAlchemicalPoison(); as asAlchemicalPoison) {
+            @if (
+                asAlchemicalPoison.savingThrow ||
+                asAlchemicalPoison.maxDuration ||
+                asAlchemicalPoison.stages.length
+            ) {
+                <p>
+                    @if (asAlchemicalPoison.savingThrow) {
+                        <span>
+                            <strong>Saving Throw</strong>
+                            {{ asAlchemicalPoison.savingThrow }}
+                        </span>
+                    }
 
-                <span *ngIf="asAlchemicalPoison.stages[0]">
-                    <strong>Onset</strong>
-                    {{asAlchemicalPoison.stages[0]}}
-                </span>
+                    @if (asAlchemicalPoison.stages[0]) {
+                        <span>
+                            <strong>Onset</strong>
+                            {{ asAlchemicalPoison.stages[0] }}
+                        </span>
+                    }
 
-                <span *ngIf="asAlchemicalPoison.maxDuration">
-                    <strong>Maximum Duration</strong>
-                    {{asAlchemicalPoison.maxDuration}}
-                </span>
+                    @if (asAlchemicalPoison.maxDuration) {
+                        <span>
+                            <strong>Maximum Duration</strong>
+                            {{ asAlchemicalPoison.maxDuration }}
+                        </span>
+                    }
 
-                <ng-container *ngFor="let stage of asAlchemicalPoison.stages; let stageIndex = index; trackBy:trackByIndex;">
-                    <span *ngIf="stageIndex > 0">
-                        <strong>Stage {{stageIndex}}</strong>
-                        {{asAlchemicalPoison.stages[stageIndex]}}
-                    </span>
-                </ng-container>
+                    @for (
+                        stage of asAlchemicalPoison.stages;
+                        track stageIndex;
+                        let stageIndex = $index
+                    ) {
+                        @if (stageIndex > 0) {
+                            <span>
+                                <strong>Stage {{ stageIndex }}</strong>
+                                {{ asAlchemicalPoison.stages[stageIndex] }}
+                            </span>
+                        }
+                    }
+                </p>
+            }
+        }
+
+        @if (item.subTypeDesc) {
+            <p>
+                @if (item.subType) {
+                    <strong>{{ item.subType }}</strong>
+                }
+                {{ item.subTypeDesc }}
             </p>
-        </ng-container>
+        }
 
-        <p *ngIf="item.subTypeDesc">
-            <strong *ngIf="item.subType">{{item.subType}}</strong>
-            {{item.subTypeDesc}}
-        </p>
+        @if (item.craftRequirement) {
+            <p>
+                <strong>Craft Requirement</strong>
+                {{ item.craftRequirement }}
+            </p>
+        }
 
-        <p *ngIf="item.craftRequirement">
-            <strong>Craft Requirement</strong>
-            {{item.craftRequirement}}
-        </p>
-
-        <ng-container *ngIf="item.hasSuccessResults()">
+        @if (item.hasSuccessResults()) {
             <ul>
-                <li *ngIf="doesItemHaveValue('critsuccess')">
-                    <span class="gap-text">
-                        <strong>Critical Success</strong>
+                @if (doesItemHaveValue("critsuccess")) {
+                    <li>
+                        <span class="gap-text">
+                            <strong>Critical Success</strong>
 
-                        <app-description
-                            [text]="item.critsuccess"
-                            [oneLiner]="true"
-                        />
-                    </span>
-                </li>
+                            <app-description
+                                [text]="item.critsuccess"
+                                [oneLiner]="true"
+                            />
+                        </span>
+                    </li>
+                }
 
-                <li *ngIf="doesItemHaveValue('success')">
-                    <span class="gap-text">
-                        <strong>Success</strong>
+                @if (doesItemHaveValue("success")) {
+                    <li>
+                        <span class="gap-text">
+                            <strong>Success</strong>
 
-                        <app-description
-                            [text]="item.success"
-                            [oneLiner]="true"
-                        />
-                    </span>
-                </li>
+                            <app-description
+                                [text]="item.success"
+                                [oneLiner]="true"
+                            />
+                        </span>
+                    </li>
+                }
 
-                <li *ngIf="doesItemHaveValue('failure')">
-                    <span class="gap-text">
-                        <strong>Failure</strong>
+                @if (doesItemHaveValue("failure")) {
+                    <li>
+                        <span class="gap-text">
+                            <strong>Failure</strong>
 
-                        <app-description
-                            [text]="item.failure"
-                            [oneLiner]="true"
-                        />
-                    </span>
-                </li>
+                            <app-description
+                                [text]="item.failure"
+                                [oneLiner]="true"
+                            />
+                        </span>
+                    </li>
+                }
 
-                <li *ngIf="doesItemHaveValue('critfailure')">
-                    <span class="gap-text">
-                        <strong>Critical Failure</strong>
+                @if (doesItemHaveValue("critfailure")) {
+                    <li>
+                        <span class="gap-text">
+                            <strong>Critical Failure</strong>
 
-                        <app-description
-                            [text]="item.critfailure"
-                            [oneLiner]="true"
-                        />
-                    </span>
-                </li>
+                            <app-description
+                                [text]="item.critfailure"
+                                [oneLiner]="true"
+                            />
+                        </span>
+                    </li>
+                }
             </ul>
-        </ng-container>
+        }
 
-        <div
-            *ngIf="item.inputRequired"
-            class="list-item newrow problem"
-        >
-            <strong>Player input required:</strong>
+        @if (item.inputRequired) {
+            <div class="list-item newrow problem">
+                <strong>Player input required:</strong>
 
-            <div
-                *ngFor="let inputRequired of item.inputRequired.split('\n\n'); trackBy:trackByIndex;"
-                class="newrow left-aligned"
-            >
-                <app-description
-                    class="newrow"
-                    [text]="inputRequired"
-                />
+                @for (
+                    inputRequired of item.inputRequired.split("\n\n");
+                    track $index
+                ) {
+                    <div class="newrow left-aligned">
+                        <app-description
+                            class="newrow"
+                            [text]="inputRequired"
+                        />
+                    </div>
+                }
             </div>
-        </div>
+        }
     </div>
-</ng-container>
+}

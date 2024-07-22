@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
 import { DiamondLetters } from '../../definitions/diamond-letters';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -9,8 +9,6 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
     styleUrls: ['./diamond.component.scss'],
     standalone: true,
     imports: [
-        CommonModule,
-
         NgbTooltip,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

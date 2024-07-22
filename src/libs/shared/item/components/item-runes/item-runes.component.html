@@ -1,111 +1,174 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!-- Changing Weapon Runes -->
-<div
-    *ngIf="isRuneItem() && (item.moddable || customItemStore)"
-    class="list-item"
->
-    <ng-container *ngIf="runeItemType() as runeItemType">
-        <ng-container *ngIf="previousValues() as previousValues">
-            <!-- Potency rune -->
-            <div class="newrow">
-                <strong>Potency rune</strong>
+@if (isRuneItem() && (item.moddable || customItemStore)) {
+    <div class="list-item">
+        @if (runeItemType(); as runeItemType) {
+            @if (previousValues(); as previousValues) {
+                <!-- Potency rune -->
+                <div class="newrow">
+                    <strong>Potency rune</strong>
 
-                <select
-                    aria-label="Select potency rune"
-                    [(ngModel)]="item.potencyRune"
-                    (ngModelChange)="onSelectPotencyRune(previousValues.potency, runeItemType)"
-                >
-                    <option
-                        *ngFor="let potencySet of availablePotencyRunes(runeItemType); trackBy:trackByIndex;"
-                        [ngValue]="potencySet.potency"
-                        [disabled]="potencySet.disabled"
-                        title="{{runeTitle(potencySet.rune)}}"
+                    <select
+                        aria-label="Select potency rune"
+                        [(ngModel)]="item.potencyRune"
+                        (ngModelChange)="
+                            onSelectPotencyRune(
+                                previousValues.potency,
+                                runeItemType
+                            )
+                        "
                     >
-                        {{item.potencyTitle(potencySet.potency)}}
-                    </option>
-                </select>
-            </div>
-
-            <!-- Resilient/Striking rune -->
-            <div
-                *ngIf="item.potencyRune > 0"
-                class="newrow"
-            >
-                <strong *ngIf="runeItemType.armor">Resilient rune</strong>
-
-                <strong *ngIf="runeItemType.weapon">Striking rune</strong>
-
-                <select
-                    aria-label="Select secondary rune"
-                    [(ngModel)]="item.secondaryRune"
-                    (ngModelChange)="onSelectSecondaryRune(previousValues.secondary, runeItemType)"
-                >
-                    <option
-                        *ngFor="let secondarySet of availableSecondaryRunes(runeItemType); trackBy:trackByIndex;"
-                        [ngValue]="secondarySet.secondary"
-                        [disabled]="secondarySet.disabled"
-                        title="{{runeTitle(secondarySet.rune)}}"
-                    >
-                        {{item.secondaryRuneTitleFunction(secondarySet.secondary)}}
-                    </option>
-                </select>
-            </div>
-        </ng-container>
-
-        <!-- Property runes -->
-        <ng-container *ngIf="item.potencyRune > 0">
-            <div
-                *ngFor="let index of propertyRunesSlots(); trackBy:trackByIndex;"
-                class="newrow"
-            >
-                <strong *ngIf="index === 0">Property runes</strong>
-
-                <span *ngIf="index !== 0">&nbsp;</span>
-
-                <select
-                    aria-label="Select property rune"
-                    [disabled]="!item.propertyRunes[index-1] && index > 0"
-                    [(ngModel)]="newPropertyRune[index]"
-                    (ngModelChange)="onSelectPropertyRune(index)"
-                >
-                    <ng-container *ngFor="let rune of initialPropertyRunes(index); let initialRuneIndex = index; trackBy:trackByIndex;">
-                        <option
-                            *ngIf="initialRuneIndex === 0"
-                            [ngValue]="rune"
-                            [selected]=!item.propertyRunes[index]
-                        >
-                            <!-- Blank option to deselect -->
-                        </option>
-
-                        <optgroup
-                            *ngIf="initialRuneIndex === 1"
-                            label="Current rune"
-                        >
-                            <option [ngValue]="rune">{{rune.rune?.name}}</option>
-                        </optgroup>
-                    </ng-container>
-
-                    <ng-container *ngFor="let inv of inventoriesOrCleanItems(); trackBy:trackByIndex;">
-                        <ng-container *ngIf="availablePropertyRunes$(index, inv, runeItemType) | async as availablePropertyRunes">
-                            <optgroup
-                                *ngIf="availablePropertyRunes.length"
-                                [label]="itemStore ? 'Available runes' : inventoryName$(inv) | async"
+                        @for (
+                            potencySet of availablePotencyRunes(runeItemType);
+                            track $index
+                        ) {
+                            <option
+                                [ngValue]="potencySet.potency"
+                                [disabled]="potencySet.disabled"
+                                title="{{ runeTitle(potencySet.rune) }}"
                             >
+                                {{ item.potencyTitle(potencySet.potency) }}
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Resilient/Striking rune -->
+                @if (item.potencyRune > 0) {
+                    <div class="newrow">
+                        @if (runeItemType.armor) {
+                            <strong>Resilient rune</strong>
+                        }
+
+                        @if (runeItemType.weapon) {
+                            <strong>Striking rune</strong>
+                        }
+
+                        <select
+                            aria-label="Select secondary rune"
+                            [(ngModel)]="item.secondaryRune"
+                            (ngModelChange)="
+                                onSelectSecondaryRune(
+                                    previousValues.secondary,
+                                    runeItemType
+                                )
+                            "
+                        >
+                            @for (
+                                secondarySet of availableSecondaryRunes(
+                                    runeItemType
+                                );
+                                track $index
+                            ) {
                                 <option
-                                    *ngFor="let runeSet of availablePropertyRunes; trackBy:trackByIndex;"
-                                    [ngValue]="runeSet"
-                                    [disabled]="runeSet.disabled"
-                                    title="{{runeTitle(runeSet.rune)}}"
+                                    [ngValue]="secondarySet.secondary"
+                                    [disabled]="secondarySet.disabled"
+                                    title="{{ runeTitle(secondarySet.rune) }}"
                                 >
-                                    {{(runeSet.rune?.amount || 0) > 1 ? runeSet.rune?.amount : ""}}
-                                    {{runeSet.rune?.name}}
-                                    {{runeCooldownText$(runeSet.rune)} | async}
+                                    {{
+                                        item.secondaryRuneTitleFunction(
+                                            secondarySet.secondary
+                                        )
+                                    }}
                                 </option>
-                            </optgroup>
-                        </ng-container>
-                    </ng-container>
-                </select>
-            </div>
-        </ng-container>
-    </ng-container>
-</div>
+                            }
+                        </select>
+                    </div>
+                }
+            }
+
+            <!-- Property runes -->
+            @if (item.potencyRune > 0) {
+                @for (index of propertyRunesSlots(); track $index) {
+                    <div class="newrow">
+                        @if ($first) {
+                            <strong>Property runes</strong>
+                        } @else {
+                            <span>&nbsp;</span>
+                        }
+
+                        <select
+                            aria-label="Select property rune"
+                            [disabled]="
+                                !item.propertyRunes[index - 1] && index > 0
+                            "
+                            [(ngModel)]="newPropertyRune[index]"
+                            (ngModelChange)="onSelectPropertyRune(index)"
+                        >
+                            @for (
+                                rune of initialPropertyRunes(index);
+                                track $index
+                            ) {
+                                @if ($first) {
+                                    <option
+                                        [ngValue]="rune"
+                                        [selected]="!item.propertyRunes[index]"
+                                    >
+                                        <!-- Blank option to deselect -->
+                                    </option>
+                                } @else {
+                                    <optgroup label="Current rune">
+                                        <option [ngValue]="rune">
+                                            {{ rune.rune?.name }}
+                                        </option>
+                                    </optgroup>
+                                }
+                            }
+
+                            @for (
+                                inv of inventoriesOrCleanItems();
+                                track $index
+                            ) {
+                                @if (
+                                    availablePropertyRunes$(
+                                        index,
+                                        inv,
+                                        runeItemType
+                                    ) | async;
+                                    as availablePropertyRunes
+                                ) {
+                                    @if (availablePropertyRunes.length) {
+                                        <optgroup
+                                            [label]="
+                                                itemStore
+                                                    ? 'Available runes'
+                                                    : (inventoryName$(inv)
+                                                      | async)
+                                            "
+                                        >
+                                            @for (
+                                                runeSet of availablePropertyRunes;
+                                                track $index
+                                            ) {
+                                                <option
+                                                    [ngValue]="runeSet"
+                                                    [disabled]="
+                                                        runeSet.disabled
+                                                    "
+                                                    title="{{
+                                                        runeTitle(runeSet.rune)
+                                                    }}"
+                                                >
+                                                    {{
+                                                        (runeSet.rune?.amount ||
+                                                            0) > 1
+                                                            ? runeSet.rune
+                                                                  ?.amount
+                                                            : ""
+                                                    }}
+                                                    {{ runeSet.rune?.name }}
+                                                    {{runeCooldownText$(runeSet.rune)}
+                                                    | async}
+                                                </option>
+                                            }
+                                        </optgroup>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                }
+            }
+        }
+    </div>
+}

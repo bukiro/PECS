@@ -1,37 +1,49 @@
-<ng-container *ngIf="conditionGain">
+@if (conditionGain) {
+    @if (fullDisplay) {
+        <div class="newrow">
+            <span>
+                <button
+                    type="button"
+                    [ngClass]="{
+                        'fancy-button':
+                            shownItem() === conditionGain.id + 'description',
+                    }"
+                    (click)="toggleShownItem(conditionGain.id + 'description')"
+                >
+                    {{
+                        shownItem() === conditionGain.id + "description"
+                            ? "Hide"
+                            : "Show"
+                    }}
+                    Description
+                </button>
+            </span>
+        </div>
+    }
+
     <div
-        *ngIf="fullDisplay"
-        class="newrow"
+        [ngbCollapse]="
+            fullDisplay && shownItem() !== conditionGain.id + 'description'
+        "
     >
-        <span>
-            <button
-                type="button"
-                [ngClass]="{'fancy-button':shownItem()===conditionGain.id+'description'}"
-                (click)="toggleShownItem(conditionGain.id+'description')"
-            >
-                {{shownItem()===conditionGain.id+'description' ? "Hide" : "Show"}} Description
-            </button>
-        </span>
+        @if (condition.sourceBook) {
+            <div class="newrow lower left-aligned">
+                <strong>Source</strong>
+
+                <i>{{ condition.sourceBook }}</i>
+            </div>
+        }
+
+        @for (
+            desc of heightenedConditionDescription().split("\n\n");
+            track $index
+        ) {
+            <div class="newrow lower left-aligned">
+                <app-description
+                    class="newrow"
+                    [text]="desc"
+                />
+            </div>
+        }
     </div>
-
-    <div [ngbCollapse]="fullDisplay && shownItem()!==conditionGain.id+'description'">
-        <div
-            *ngIf="condition.sourceBook"
-            class="newrow lower left-aligned"
-        >
-            <strong>Source</strong>
-
-            <i>{{condition.sourceBook}}</i>
-        </div>
-
-        <div
-            *ngFor="let desc of heightenedConditionDescription().split('\n\n'); trackBy:trackByIndex;"
-            class="newrow lower left-aligned"
-        >
-            <app-description
-                class="newrow"
-                [text]="desc"
-            />
-        </div>
-    </div>
-</ng-container>
+}

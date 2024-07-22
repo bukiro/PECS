@@ -1,26 +1,24 @@
-<div
-    *ngFor="let bonus of bonuses; trackBy: trackByIndex"
-    class="bonus-description"
->
-    <div>
-        <span class="bonus-description__title">{{ bonus.title }}</span>
+@for (bonus of bonuses; track $index) {
+    <div class="bonus-description">
+        <div>
+            <span class="bonus-description__title">{{ bonus.title }}</span>
 
-        <span
-            *ngIf="bonus.type || bonus.subline"
-            class="bonus-description__subline"
+            @if (bonus.type || bonus.subline) {
+                <span class="bonus-description__subline">
+                    {{ bonus.type || bonus.subline }}
+                </span>
+            }
+        </div>
+
+        <div
+            class="bonus-description__value"
+            [ngClass]="{
+                'background-color-penalty': bonus.isPenalty,
+                'background-color-bonus': bonus.isBonus,
+                'background-color-absolute': bonus.isAbsolute,
+            }"
         >
-            {{ bonus.type || bonus.subline }}
-        </span>
+            {{ bonus.value }}
+        </div>
     </div>
-
-    <div
-        class="bonus-description__value"
-        [ngClass]="{
-            'background-color-penalty': bonus.isPenalty,
-            'background-color-bonus': bonus.isBonus,
-            'background-color-absolute': bonus.isAbsolute
-        }"
-    >
-        {{ bonus.value }}
-    </div>
-</div>
+}

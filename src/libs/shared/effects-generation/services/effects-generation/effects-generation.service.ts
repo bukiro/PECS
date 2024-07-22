@@ -134,7 +134,6 @@ export class EffectsGenerationService {
                         .concat(...hintSetLists),
                 ),
             );
-
     }
 
     private _generateObjectEffects$(creature: Creature): Observable<Array<Effect>> {
@@ -152,7 +151,6 @@ export class EffectsGenerationService {
                 switchMap(([creatureObjects, effectItems, activeActivitiesHintSets, traitEffectHintSets]) => {
                     // Collect objects, conditions and objects' hints to generate effects from.
                     // Hint effects will be handled separately at first.
-
 
                     // Collect active conditions and their hints.
                     //TODO: Will eventually be reactive.
@@ -244,7 +242,6 @@ export class EffectsGenerationService {
                                 featEffects.forEach(effect => {
                                     effect.displayed = false;
                                 });
-
 
                                 // All effects from hints should be SHOWN.
                                 hintEffects.forEach(effect => {

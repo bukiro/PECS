@@ -116,7 +116,6 @@ export class MessagesService {
                     },
                 }),
             );
-
     }
 
     private _startMessageProcessingLoop(): void {
@@ -225,7 +224,6 @@ export class MessagesService {
                     this._cleaningUpIgnoredMessages$.next(false);
                 },
             });
-
     }
 
 }

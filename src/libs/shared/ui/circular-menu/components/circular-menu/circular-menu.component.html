@@ -1,39 +1,47 @@
-<div
-    *ngIf="showOptions"
-    class="click-outside-overlay"
-    (click)="toggleOptions()"
-></div>
-
-<ng-container *ngIf="options">
+@if (showOptions) {
     <div
-        *ngFor="let option of options; let index = index; trackBy: trackByIndex"
-        class="option option--of-{{options.length}} option--index-{{index}} option--left-{{option.left}}"
-        [ngClass]="{'option--active': showOptions}"
-        [style.top]="option.top + 'px'"
-        [style.left]="option.left + 'px'"
-        [style.transform]="showOptions ? option.transform : 'none'"
-    >
+        class="click-outside-overlay"
+        (click)="toggleOptions()"
+    ></div>
+}
+
+@if (options) {
+    @for (option of options; track $index) {
         <div
-            #option
-            class="option__inner-button"
-            [ngbTooltip]="option.disabled"
+            class="option option--of-{{ options.length }} option--index-{{
+                $index
+            }} option--left-{{ option.left }}"
+            [ngClass]="{'option--active': showOptions }"
+            [style.top]="option.top + 'px'"
+            [style.left]="option.left + 'px'"
+            [style.transform]="showOptions ? option.transform : 'none'"
         >
-            <app-button
-                tabindex="-1"
-                [toggled]="option.toggled"
-                [circle]="option.circle"
-                [disabled]="option.disabled"
-                (clicked)="option.onClick(); option.closeAfter ? toggleOptions() : null;"
+            <div
+                #option
+                class="option__inner-button"
+                [ngbTooltip]="option.disabled"
             >
-                <span *ngIf="option.label">{{option.label}}</span>
-                <i
-                    *ngIf="option.icon"
-                    [ngClass]="option.icon"
-                ></i>
-            </app-button>
+                <app-button
+                    tabindex="-1"
+                    [toggled]="option.toggled"
+                    [circle]="option.circle"
+                    [disabled]="option.disabled"
+                    (clicked)="
+                        option.onClick();
+                        option.closeAfter ? toggleOptions() : null
+                    "
+                >
+                    @if (option.label) {
+                        <span>{{ option.label }}</span>
+                    }
+                    @if (option.icon) {
+                        <i [ngClass]="option.icon"></i>
+                    }
+                </app-button>
+            </div>
         </div>
-    </div>
-</ng-container>
+    }
+}
 
 <div
     #centerButton

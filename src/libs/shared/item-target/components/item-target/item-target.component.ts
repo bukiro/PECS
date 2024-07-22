@@ -74,7 +74,6 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
         this._isExcludingParts$ = new BehaviorSubject(this.isExcludingParts);
 
         this.itemTargets$ = this._createItemTargetsObservable();
-
     }
 
     public get isItemContainer(): boolean {
@@ -270,7 +269,6 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
                                 }),
                             );
                         });
-
 
                     //Only allow selecting other players if you are in a party and not in GM or manual mode.
                     //To-Do: Figure out how to make partyName reactive, then query it in the combineLatest

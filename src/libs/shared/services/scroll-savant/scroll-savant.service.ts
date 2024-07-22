@@ -78,7 +78,6 @@ export class ScrollSavantService {
                 take(1),
             )
             .subscribe();
-
     }
 
     public unprepareScroll(scroll: Scroll): void {

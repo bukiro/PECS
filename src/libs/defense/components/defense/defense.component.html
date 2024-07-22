@@ -6,10 +6,10 @@
 >
     <div
         class="attributeBox"
-        id="{{creature}}-defense-height"
+        id="{{ creature }}-defense-height"
     >
-        <ng-container *ngIf="componentParameters$ | async as componentParameters">
-            <ng-container *ngIf="(componentParameters.ACSources.value$ | async) as acValue">
+        @if (componentParameters$ | async; as componentParameters) {
+            @if (componentParameters.ACSources.value$ | async; as acValue) {
                 <ng-template #EffectsPopoverContent>
                     <div class="minimized-hide newrow">
                         <app-object-effects
@@ -27,388 +27,569 @@
                         [ngbPopover]="EffectsPopoverContent"
                     >
                         <i
-                            class='bi-lightning-charge'
-                            [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''"
+                            class="bi-lightning-charge"
+                            [ngbTooltip]="
+                                !EffectsPopover.isOpen() ? 'Edit effects' : ''
+                            "
                         ></i>
                     </span>
                     Defense: Armor Class
                     <span
                         [ngbPopover]="acValue.explain"
-                        [ngClass]="{'penalty':componentParameters.ACSources.penalties$ | async, 'bonus':componentParameters.ACSources.bonuses$ | async, 'absolute':componentParameters.ACSources.absolutes$ | async}"
+                        [ngClass]="{
+                            penalty:
+                                componentParameters.ACSources.penalties$
+                                | async,
+                            bonus:
+                                componentParameters.ACSources.bonuses$ | async,
+                            absolute:
+                                componentParameters.ACSources.absolutes$
+                                | async,
+                        }"
                     >
-                        {{acValue.result}}
+                        {{ acValue.result }}
                     </span>
                 </header>
 
                 <app-tags
                     [creature]="creature"
                     [objectName]="'AC'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [showEffects]=false
+                    [showTraits]="true"
+                    [showFeats]="true"
+                    [showItems]="true"
+                    [showActivities]="true"
+                    [showConditions]="true"
+                    [showEffects]="false"
                     [specialEffects]="acValue.effects"
                 />
 
                 <app-tags
                     [creature]="creature"
                     [objectName]="'Defense'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [showEffects]=true
+                    [showTraits]="true"
+                    [showFeats]="true"
+                    [showItems]="true"
+                    [showActivities]="true"
+                    [showConditions]="true"
+                    [showEffects]="true"
                 />
-            </ng-container>
+            }
 
             <div class="list-item newrow">
                 <strong>Quick Status</strong>
 
                 <span class="hlist left-aligned">
+                    @if (
+                        {
+                            value:
+                                (componentParameters.flatFooted$ | async) ??
+                                undefined,
+                        };
+                        as flatFooted
+                    ) {
+                        <button
+                            type="button"
+                            aria-label="Toggle flat-footed"
+                            class="center-aligned bigger"
+                            [ngClass]="{ 'fancy-button': flatFooted.value }"
+                            [ngbTooltip]="
+                                flatFooted.value
+                                    ? 'Disable Flat-Footed'
+                                    : 'Flat-Footed'
+                            "
+                            (click)="toggleFlatFooted(flatFooted.value)"
+                        >
+                            <i class="ra ra-footprint"></i>
+                        </button>
+                    }
 
-                    <button
-                        *ngIf="{ value: (componentParameters.flatFooted$ | async) ?? undefined } as flatFooted"
-                        type="button"
-                        aria-label="Toggle flat-footed"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': flatFooted.value}"
-                        [ngbTooltip]="flatFooted.value ? 'Disable Flat-Footed' : 'Flat-Footed'"
-                        (click)="toggleFlatFooted(flatFooted.value)"
-                    >
-                        <i class="ra ra-footprint"></i>
-                    </button>
-
-                    <button
-                        *ngIf="{ value: (componentParameters.hidden$ | async) ?? undefined } as hidden"
-                        type="button"
-                        aria-label="Toggle hidden"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': hidden.value}"
-                        [ngbTooltip]="hidden.value ? 'Disable Hidden' : 'Hidden'"
-                        (click)="toggleHidden(hidden.value)"
-                    >
-                        <i class="ra ra-player-dodge"></i>
-                    </button>
-
+                    @if (
+                        {
+                            value:
+                                (componentParameters.hidden$ | async) ??
+                                undefined,
+                        };
+                        as hidden
+                    ) {
+                        <button
+                            type="button"
+                            aria-label="Toggle hidden"
+                            class="center-aligned bigger"
+                            [ngClass]="{ 'fancy-button': hidden.value }"
+                            [ngbTooltip]="
+                                hidden.value ? 'Disable Hidden' : 'Hidden'
+                            "
+                            (click)="toggleHidden(hidden.value)"
+                        >
+                            <i class="ra ra-player-dodge"></i>
+                        </button>
+                    }
                 </span>
 
                 <strong>Cover</strong>
 
-                <span
-                    *ngIf="{ value: (componentParameters.cover$ | async) ?? 0 } as cover"
-                    class="hlist right-aligned"
-                >
-                    <button
-                        type="button"
-                        aria-label="Toggle lesser cover"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': cover.value === 1}"
-                        [ngbTooltip]="cover.value === 1 ? 'End Lesser Cover' : 'Lesser Cover'"
-                        (click)="onSetCover(cover.value === 1 ? 0 : 1)"
-                    >
-                        <i class="ra ra-player"></i>
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Toggle standard cover"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': cover.value === 2}"
-                        [ngbTooltip]="cover.value === 2 ? 'End Standard Cover' : 'Standard Cover'"
-                        (click)="onSetCover(cover.value === 2 ? 0 : 2)"
-                    >
-                        <i class="ra ra-metal-gate"></i>
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Toggle greater cover"
-                        class="center-aligned bigger"
-                        [ngClass]="{'fancy-button': cover.value === 4}"
-                        [ngbTooltip]="cover.value === 4 ? 'End Greater Cover' : 'Greater Cover'"
-                        (click)="onSetCover(cover.value === 4 ? 0 : 4)"
-                    >
-                        <i class="ra ra-tower"></i>
-                    </button>
-                </span>
-            </div>
-
-            <ng-container *ngIf="!creature.isFamiliar()">
-                <header class="subsectionHeader minimized-hide">Armor</header>
-
-                <div
-                    *ngFor="let armorParameters of armorParameters$ | async; let armorIndex = index; trackBy:trackByIndex;"
-                    class="minimized-hide list-item"
-                >
-                    <div>{{armorParameters.armor.effectiveName$() | async}}</div>
-
-                    <div
-                        *ngIf="armorParameters.armor.traits.length"
-                        class="minimized-hide newrow left-aligned"
-                    >
-                        <app-trait
-                            *ngFor="let trait of armorParameters.armor.traits; trackBy:trackByIndex;"
-                            [name]="trait"
-                            [trait]="traitFromName(trait)"
-                        />
-                    </div>
-
-                    <app-tags
-                        *ngIf="armorIndex === 0"
-                        [creature]="creature"
-                        [objectName]="'Armor'"
-                        [showTraits]=true
-                        [showFeats]=true
-                        [showItems]=true
-                        [showActivities]=true
-                        [showConditions]=true
-                        [showEffects]=true
-                    />
-
-                    <app-tags
-                        [creature]="creature"
-                        [objectName]="armorParameters.armor.name"
-                        [showItems]=true
-                    />
-
-                    <ng-container *ngIf="hintShowingRunes(armorParameters.armor) as hintShowingRunes">
-                        <div
-                            *ngIf="hintShowingRunes.length"
-                            class="minimized-hide newrow left-aligned"
-                            style="margin-top:initial"
+                @if (
+                    { value: (componentParameters.cover$ | async) ?? 0 };
+                    as cover
+                ) {
+                    <span class="hlist right-aligned">
+                        <button
+                            type="button"
+                            aria-label="Toggle lesser cover"
+                            class="center-aligned bigger"
+                            [ngClass]="{ 'fancy-button': cover.value === 1 }"
+                            [ngbTooltip]="
+                                cover.value === 1
+                                    ? 'End Lesser Cover'
+                                    : 'Lesser Cover'
+                            "
+                            (click)="onSetCover(cover.value === 1 ? 0 : 1)"
                         >
-                            <ng-container *ngFor="let rune of hintShowingRunes; trackBy:trackByIndex;">
-                                <ng-container *ngFor="let hint of rune.hints; trackBy:trackByIndex;">
-                                    <ng-template #RuneDescTemplate>
-                                        <div
-                                            *ngIf="rune.sourceBook"
-                                            class="newrow left-aligned"
-                                        >
-                                            <strong>Source</strong>
-
-                                            <i>{{rune.sourceBook}}</i>
-                                        </div>
-
-                                        <div class="newrow left-aligned">{{heightenedHintText(hint)}}</div>
-                                    </ng-template>
-
-                                    <cite
-                                        class="item"
-                                        [ngbPopover]="RuneDescTemplate"
-                                    >
-                                        {{rune.name}} Rune
-                                    </cite>
-                                </ng-container>
-                            </ng-container>
-                        </div>
-                    </ng-container>
-
-                    <div
-                        *ngFor="let talisman of armorParameters.armor.talismans; let index = index; trackBy:trackByIndex;"
-                        class="minimized-hide lower newrow left-aligned"
-                    >
-                        <ng-template #TalismanTemplate>
-                            <div
-                                *ngFor="let cord of armorParameters.armor.talismanCords; trackBy:trackByIndex;"
-                                class="list-item left-aligned lower"
-                            >
-                                <header class="spellHeader newrow">
-                                    <span>{{cord.name}}</span>
-
-                                    <span>Level {{cord.level}}</span>
-                                </header>
-
-                                <p>
-                                    When you activate a talisman threaded through a cord with the same magic school trait
-                                        that's also the cord's level or lower, attempt a
-                                    <app-quickdice [diceString]="'1d20'" />
-                                    DC 16 flat check. On a success, that
-                                        talisman is not consumed and can be used again.
-                                </p>
-
-                                <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
-                                    <div
-                                        *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]"
-                                        class="newrow"
-                                    >
-                                        <strong>{{cord.data[talismanCordIndex].name}}</strong>
-                                        {{cord.data[talismanCordIndex].value}}
-                                    </div>
-                                </ng-container>
-                            </div>
-
-                            <header class="spellHeader newrow">
-                                <span>{{talisman.name}}</span>
-
-                                <span>Level {{talisman.level}}</span>
-                            </header>
-
-                            <button
-                                type="button"
-                                class="newrow left-aligned"
-                                (click)="onTalismanUse(armorParameters.armor, talisman, index)"
-                            >
-                                <span>
-                                    Activate
-                                    <app-action-icons
-                                        *ngIf="talisman.actions"
-                                        [actionString]="talisman.actions"
-                                    />
-                                    {{(talisman.activationType) ? talisman.activationType : ""}}
-                                </span>
-                            </button>
-
-                            <button
-                                *ngIf="hasMatchingTalismanCord(armorParameters.armor, talisman)"
-                                type="button"
-                                class="newrow left-aligned"
-                                (click)="onTalismanUse(armorParameters.armor, talisman, index, true)"
-                            >
-                                <span>
-                                    Activate and preserve with talisman cord
-                                    <app-action-icons
-                                        *ngIf="talisman.actions"
-                                        [actionString]="talisman.actions"
-                                    />
-                                    {{(talisman.activationType) ? talisman.activationType : ""}}
-                                </span>
-                            </button>
-
-                            <app-item
-                                [creature]="creature"
-                                [item]=talisman
-                                [allowActivate]=true
-                                [isSubItem]=true
-                            />
-                        </ng-template>
+                            <i class="ra ra-player"></i>
+                        </button>
 
                         <button
                             type="button"
-                            triggers="click"
-                            [ngbPopover]="TalismanTemplate"
+                            aria-label="Toggle standard cover"
+                            class="center-aligned bigger"
+                            [ngClass]="{ 'fancy-button': cover.value === 2 }"
+                            [ngbTooltip]="
+                                cover.value === 2
+                                    ? 'End Standard Cover'
+                                    : 'Standard Cover'
+                            "
+                            (click)="onSetCover(cover.value === 2 ? 0 : 2)"
                         >
-                            <span>
-                                {{talisman.name}}
-                                    {{hasMatchingTalismanCord(armorParameters.armor, talisman) ?
-                                    "(matching talisman cord attached)" : ""}}
-                            </span>
+                            <i class="ra ra-metal-gate"></i>
                         </button>
-                    </div>
 
-                    <div
-                        *ngFor="let spec of armorParameters.specializations; trackBy:trackByIndex;"
-                        class="minimized-hide lower newrow left-aligned"
-                    >
-                        <strong>Armor specialization effect&nbsp;</strong>
-                        {{spec.desc}}
-                    </div>
-                </div>
+                        <button
+                            type="button"
+                            aria-label="Toggle greater cover"
+                            class="center-aligned bigger"
+                            [ngClass]="{ 'fancy-button': cover.value === 4 }"
+                            [ngbTooltip]="
+                                cover.value === 4
+                                    ? 'End Greater Cover'
+                                    : 'Greater Cover'
+                            "
+                            (click)="onSetCover(cover.value === 4 ? 0 : 4)"
+                        >
+                            <i class="ra ra-tower"></i>
+                        </button>
+                    </span>
+                }
+            </div>
 
-                <ng-container *ngFor="let shield of equippedShield$() | async; trackBy:trackByIndex;">
-                    <header class="subsectionHeader minimized-hide">Shield</header>
+            @if (!creature.isFamiliar()) {
+                <header class="subsectionHeader minimized-hide">Armor</header>
+
+                @for (
+                    armorParameters of armorParameters$ | async;
+                    track $index
+                ) {
+                    <div class="minimized-hide list-item">
+                        <div>
+                            {{ armorParameters.armor.effectiveName$() | async }}
+                        </div>
+
+                        @if (armorParameters.armor.traits.length) {
+                            <div class="minimized-hide newrow left-aligned">
+                                @for (
+                                    trait of armorParameters.armor.traits;
+                                    track $index
+                                ) {
+                                    <app-trait
+                                        [name]="trait"
+                                        [trait]="traitFromName(trait)"
+                                    />
+                                }
+                            </div>
+                        }
+
+                        @if ($first) {
+                            <app-tags
+                                [creature]="creature"
+                                [objectName]="'Armor'"
+                                [showTraits]="true"
+                                [showFeats]="true"
+                                [showItems]="true"
+                                [showActivities]="true"
+                                [showConditions]="true"
+                                [showEffects]="true"
+                            />
+                        }
+
+                        <app-tags
+                            [creature]="creature"
+                            [objectName]="armorParameters.armor.name"
+                            [showItems]="true"
+                        />
+
+                        @if (
+                            hintShowingRunes(armorParameters.armor);
+                            as hintShowingRunes
+                        ) {
+                            @if (hintShowingRunes.length) {
+                                <div
+                                    class="minimized-hide newrow left-aligned"
+                                    style="margin-top: initial"
+                                >
+                                    @for (
+                                        rune of hintShowingRunes;
+                                        track $index
+                                    ) {
+                                        @for (
+                                            hint of rune.hints;
+                                            track $index
+                                        ) {
+                                            <ng-template #RuneDescTemplate>
+                                                @if (rune.sourceBook) {
+                                                    <div
+                                                        class="newrow left-aligned"
+                                                    >
+                                                        <strong>Source</strong>
+
+                                                        <i>{{
+                                                            rune.sourceBook
+                                                        }}</i>
+                                                    </div>
+                                                }
+
+                                                <div
+                                                    class="newrow left-aligned"
+                                                >
+                                                    {{
+                                                        heightenedHintText(hint)
+                                                    }}
+                                                </div>
+                                            </ng-template>
+
+                                            <cite
+                                                class="item"
+                                                [ngbPopover]="RuneDescTemplate"
+                                            >
+                                                {{ rune.name }} Rune
+                                            </cite>
+                                        }
+                                    }
+                                </div>
+                            }
+                        }
+
+                        @for (
+                            talisman of armorParameters.armor.talismans;
+                            track talismanIndex;
+                            let talismanIndex = $index
+                        ) {
+                            <div
+                                class="minimized-hide lower newrow left-aligned"
+                            >
+                                <ng-template #ArmorTalismanTemplate>
+                                    @for (
+                                        cord of armorParameters.armor
+                                            .talismanCords;
+                                        track $index
+                                    ) {
+                                        <div
+                                            class="list-item left-aligned lower"
+                                        >
+                                            <header class="spellHeader newrow">
+                                                <span>{{ cord.name }}</span>
+
+                                                <span
+                                                    >Level
+                                                    {{ cord.level }}</span
+                                                >
+                                            </header>
+
+                                            <p>
+                                                When you activate a talisman
+                                                threaded through a cord with the
+                                                same magic school trait that's
+                                                also the cord's level or lower,
+                                                attempt a
+                                                <app-quickdice
+                                                    [diceString]="'1d20'"
+                                                />
+                                                DC 16 flat check. On a success,
+                                                that talisman is not consumed
+                                                and can be used again.
+                                            </p>
+
+                                            @for (
+                                                talismanCordIndex of [0, 1, 2];
+                                                track $index
+                                            ) {
+                                                @if (
+                                                    cord.isTalismanCord >
+                                                        talismanCordIndex &&
+                                                    cord.data[talismanCordIndex]
+                                                ) {
+                                                    <div class="newrow">
+                                                        <strong>{{
+                                                            cord.data[
+                                                                talismanCordIndex
+                                                            ].name
+                                                        }}</strong>
+                                                        {{
+                                                            cord.data[
+                                                                talismanCordIndex
+                                                            ].value
+                                                        }}
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    }
+
+                                    <header class="spellHeader newrow">
+                                        <span>{{ talisman.name }}</span>
+
+                                        <span>Level {{ talisman.level }}</span>
+                                    </header>
+
+                                    <button
+                                        type="button"
+                                        class="newrow left-aligned"
+                                        (click)="
+                                            onTalismanUse(
+                                                armorParameters.armor,
+                                                talisman,
+                                                talismanIndex
+                                            )
+                                        "
+                                    >
+                                        <span>
+                                            Activate
+                                            @if (talisman.actions) {
+                                                <app-action-icons
+                                                    [actionString]="
+                                                        talisman.actions
+                                                    "
+                                                />
+                                            }
+                                            {{
+                                                talisman.activationType
+                                                    ? talisman.activationType
+                                                    : ""
+                                            }}
+                                        </span>
+                                    </button>
+
+                                    @if (
+                                        hasMatchingTalismanCord(
+                                            armorParameters.armor,
+                                            talisman
+                                        )
+                                    ) {
+                                        <button
+                                            type="button"
+                                            class="newrow left-aligned"
+                                            (click)="
+                                                onTalismanUse(
+                                                    armorParameters.armor,
+                                                    talisman,
+                                                    talismanIndex,
+                                                    true
+                                                )
+                                            "
+                                        >
+                                            <span>
+                                                Activate and preserve with
+                                                talisman cord
+                                                @if (talisman.actions) {
+                                                    <app-action-icons
+                                                        [actionString]="
+                                                            talisman.actions
+                                                        "
+                                                    />
+                                                }
+                                                {{
+                                                    talisman.activationType
+                                                        ? talisman.activationType
+                                                        : ""
+                                                }}
+                                            </span>
+                                        </button>
+                                    }
+
+                                    <app-item
+                                        [creature]="creature"
+                                        [item]="talisman"
+                                        [allowActivate]="true"
+                                        [isSubItem]="true"
+                                    />
+                                </ng-template>
+
+                                <button
+                                    type="button"
+                                    triggers="click"
+                                    [ngbPopover]="ArmorTalismanTemplate"
+                                >
+                                    <span>
+                                        {{ talisman.name }}
+                                        {{
+                                            hasMatchingTalismanCord(
+                                                armorParameters.armor,
+                                                talisman
+                                            )
+                                                ? "(matching talisman cord attached)"
+                                                : ""
+                                        }}
+                                    </span>
+                                </button>
+                            </div>
+                        }
+
+                        @for (
+                            spec of armorParameters.specializations;
+                            track $index
+                        ) {
+                            <div
+                                class="minimized-hide lower newrow left-aligned"
+                            >
+                                <strong
+                                    >Armor specialization effect&nbsp;</strong
+                                >
+                                {{ spec.desc }}
+                            </div>
+                        }
+                    </div>
+                }
+
+                @for (shield of equippedShield$() | async; track $index) {
+                    <header class="subsectionHeader minimized-hide">
+                        Shield
+                    </header>
 
                     <div class="vlist list-item">
                         <div class="newrow left-aligned">
-                            {{shield.effectiveName$()}} AC
-                            <span class="value">{{shield.effectiveACBonus$() | async}}</span>
+                            {{ shield.effectiveName$() }} AC
+                            <span class="value">{{
+                                shield.effectiveACBonus$() | async
+                            }}</span>
                             Hardness:
-                            <span class="value">{{shield.effectiveHardness$() | async}}</span>
+                            <span class="value">{{
+                                shield.effectiveHardness$() | async
+                            }}</span>
                         </div>
 
-                        <div
-                            *ngIf="shield.traits.length"
-                            class="minimized-hide newrow left-aligned"
-                        >
-                            <app-trait
-                                *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
-                                [name]="trait"
-                                [trait]="traitFromName(trait)"
-                            />
-                        </div>
+                        @if (shield.traits.length) {
+                            <div class="minimized-hide newrow left-aligned">
+                                @for (trait of shield.traits; track $index) {
+                                    <app-trait
+                                        [name]="trait"
+                                        [trait]="traitFromName(trait)"
+                                    />
+                                }
+                            </div>
+                        }
 
                         <app-tags
                             [creature]="creature"
                             [objectName]="'Shield'"
-                            [showTraits]=true
-                            [showFeats]=true
-                            [showItems]=true
-                            [showActivities]=true
-                            [showConditions]=true
-                            [showEffects]=true
-                            [specialNames]="(specialShowOnNamesShield$(shield) | async) ?? []"
+                            [showTraits]="true"
+                            [showFeats]="true"
+                            [showItems]="true"
+                            [showActivities]="true"
+                            [showConditions]="true"
+                            [showEffects]="true"
+                            [specialNames]="
+                                (specialShowOnNamesShield$(shield) | async) ??
+                                []
+                            "
                         />
 
                         <div class="newrow">
-                            <button
-                                *ngIf="!shield.raised"
-                                type="button"
-                                class="center-aligned"
-                                (click)="onRaiseShield(true, shield)"
-                            >
-                                Raise shield
-                            </button>
+                            @if (!shield.raised) {
+                                <button
+                                    type="button"
+                                    class="center-aligned"
+                                    (click)="onRaiseShield(true, shield)"
+                                >
+                                    Raise shield
+                                </button>
+                            }
 
-                            <button
-                                *ngIf="shield.raised"
-                                type="button"
-                                class="center-aligned fancy-button"
-                                (click)="onRaiseShield(false, shield)"
-                            >
-                                Lower
-                                    shield
-                            </button>
+                            @if (shield.raised) {
+                                <button
+                                    type="button"
+                                    class="center-aligned fancy-button"
+                                    (click)="onRaiseShield(false, shield)"
+                                >
+                                    Lower shield
+                                </button>
+                            }
 
-                            <button
-                                *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
-                                type="button"
-                                class="center-aligned"
-                                (click)="onSetCover(4, shield)"
-                            >
-                                Take cover behind shield
-                            </button>
+                            @if (
+                                shield.raised &&
+                                shield.coverbonus &&
+                                !shield.takingCover
+                            ) {
+                                <button
+                                    type="button"
+                                    class="center-aligned"
+                                    (click)="onSetCover(4, shield)"
+                                >
+                                    Take cover behind shield
+                                </button>
+                            }
 
-                            <button
-                                *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
-                                type="button"
-                                class="center-aligned fancy-button"
-                                (click)="onSetCover(0, shield)"
-                            >
-                                Leave cover behind shield
-                            </button>
+                            @if (
+                                shield.raised &&
+                                shield.coverbonus &&
+                                shield.takingCover
+                            ) {
+                                <button
+                                    type="button"
+                                    class="center-aligned fancy-button"
+                                    (click)="onSetCover(0, shield)"
+                                >
+                                    Leave cover behind shield
+                                </button>
+                            }
                         </div>
 
                         <div class="list-item newrow">
                             <strong>HP</strong>
 
-                            <div class="value">{{shield.currentHitPoints$() | async}}</div>
+                            <div class="value">
+                                {{ shield.currentHitPoints$() | async }}
+                            </div>
 
                             <strong>Max HP</strong>
 
-                            <div class="value">{{shield.effectiveMaxHP$() | async}}</div>
+                            <div class="value">
+                                {{ shield.effectiveMaxHP$() | async }}
+                            </div>
 
                             <strong>BT</strong>
 
-                            <div class="value">{{shield.effectiveBrokenThreshold$() | async}}</div>
+                            <div class="value">
+                                {{ shield.effectiveBrokenThreshold$() | async }}
+                            </div>
                         </div>
 
                         <div class="list-item newrow">
                             <ng-template #DamageSliderTemplate>
                                 <div
                                     class="slider-container"
-                                    style="min-width:25vw; max-width:100%;"
-                                    [style.--name]="'\'Damage: ' + shieldDamage + '\''"
+                                    style="min-width: 25vw; max-width: 100%"
+                                    [style.--name]="
+                                        '\'Damage: ' + shieldDamage + '\''
+                                    "
                                 >
                                     <input
                                         aria-label="Shield damage amount slider"
                                         class="slider"
                                         type="range"
                                         min="0"
-                                        max="{{shield.effectiveMaxHP$() | async}}"
+                                        max="{{
+                                            shield.effectiveMaxHP$() | async
+                                        }}"
                                         [(ngModel)]="shieldDamage"
-                                    >
+                                    />
                                 </div>
                             </ng-template>
 
@@ -416,7 +597,9 @@
                                 <button
                                     type="button"
                                     [disabled]="shieldDamage === 0"
-                                    (click)="onChangeShieldHP(shield, shieldDamage)"
+                                    (click)="
+                                        onChangeShieldHP(shield, shieldDamage)
+                                    "
                                 >
                                     Damage
                                 </button>
@@ -432,164 +615,250 @@
                                     maxLength="3"
                                     min="0"
                                     [ngbPopover]="DamageSliderTemplate"
-                                    max="{{shield.effectiveMaxHP$() | async}}"
+                                    max="{{ shield.effectiveMaxHP$() | async }}"
                                     [(ngModel)]="shieldDamage"
                                     (focus)="DamagePopover.open()"
                                     (keypress)="positiveNumbersOnly($event)"
-                                >
+                                />
                             </span>
 
                             <span class="right-aligned">
                                 <button
                                     type="button"
                                     [disabled]="shieldDamage === 0"
-                                    (click)="onChangeShieldHP(shield, -shieldDamage)"
+                                    (click)="
+                                        onChangeShieldHP(shield, -shieldDamage)
+                                    "
                                 >
                                     Repair
                                 </button>
                             </span>
                         </div>
 
-                        <div
-                            *ngFor="let talisman of shield.talismans; let index = index; trackBy:trackByIndex;"
-                            class="minimized-hide lower newrow left-aligned"
-                        >
-                            <ng-template #TalismanTemplate>
-                                <div
-                                    *ngFor="let cord of shield.talismanCords; trackBy:trackByIndex;"
-                                    class="list-item left-aligned lower"
-                                >
-                                    <header class="spellHeader">{{cord.name}}</header>
-
-                                    <p>
-                                        When you activate a talisman threaded through a cord with the same magic
-                                            school trait that's also the cord's level or lower, attempt a
-                                        <app-quickdice [diceString]="'1d20'" />
-                                        DC 16 flat check. On a success,
-                                            that talisman is not consumed and can be used again.
-                                    </p>
-
-                                    <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
-                                        <div
-                                            *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]"
-                                            class="newrow"
-                                        >
-                                            <strong>{{cord.data[talismanCordIndex].name}}</strong>
-                                            {{cord.data[talismanCordIndex].value}}
-                                        </div>
-                                    </ng-container>
-                                </div>
-
-                                <header class="spellHeader">{{talisman.name}}</header>
-
-                                <button
-                                    type="button"
-                                    class="newrow left-aligned"
-                                    (click)="onTalismanUse(shield, talisman, index)"
-                                >
-                                    <span>
-                                        Activate
-                                        <app-action-icons
-                                            *ngIf="talisman.actions"
-                                            [actionString]="talisman.actions"
-                                        />
-                                        {{(talisman.activationType) ? talisman.activationType : ""}}
-                                    </span>
-                                </button>
-
-                                <button
-                                    *ngIf="hasMatchingTalismanCord(shield, talisman)"
-                                    type="button"
-                                    class="newrow left-aligned"
-                                    (click)="onTalismanUse(shield, talisman, index, true)"
-                                >
-                                    <span>
-                                        Activate and preserve with talisman cord
-                                        <app-action-icons
-                                            *ngIf="talisman.actions"
-                                            [actionString]="talisman.actions"
-                                        />
-                                        {{(talisman.activationType) ? talisman.activationType : ""}}
-                                    </span>
-                                </button>
-
-                                <app-item
-                                    [creature]="creature"
-                                    [item]=talisman
-                                    [allowActivate]=true
-                                    [isSubItem]=true
-                                />
-                            </ng-template>
-
-                            <button
-                                type="button"
-                                triggers="click"
-                                [ngbPopover]="TalismanTemplate"
+                        @for (
+                            talisman of shield.talismans;
+                            track talismanIndex;
+                            let talismanIndex = $index
+                        ) {
+                            <div
+                                class="minimized-hide lower newrow left-aligned"
                             >
-                                <span>
-                                    {{talisman.name}}
-                                        {{hasMatchingTalismanCord(shield, talisman) ? "(matching talisman cord attached)" :
-                                        ""}}
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </ng-container>
+                                <ng-template #ShieldTalismanTemplate>
+                                    @for (
+                                        cord of shield.talismanCords;
+                                        track $index
+                                    ) {
+                                        <div
+                                            class="list-item left-aligned lower"
+                                        >
+                                            <header class="spellHeader">
+                                                {{ cord.name }}
+                                            </header>
 
-                <header class="sectionHeader minimized-hide box-header">Saving Throws</header>
+                                            <p>
+                                                When you activate a talisman
+                                                threaded through a cord with the
+                                                same magic school trait that's
+                                                also the cord's level or lower,
+                                                attempt a
+                                                <app-quickdice
+                                                    [diceString]="'1d20'"
+                                                />
+                                                DC 16 flat check. On a success,
+                                                that talisman is not consumed
+                                                and can be used again.
+                                            </p>
+
+                                            @for (
+                                                talismanCordIndex of [0, 1, 2];
+                                                track $index
+                                            ) {
+                                                @if (
+                                                    cord.isTalismanCord >
+                                                        talismanCordIndex &&
+                                                    cord.data[talismanCordIndex]
+                                                ) {
+                                                    <div class="newrow">
+                                                        <strong>{{
+                                                            cord.data[
+                                                                talismanCordIndex
+                                                            ].name
+                                                        }}</strong>
+                                                        {{
+                                                            cord.data[
+                                                                talismanCordIndex
+                                                            ].value
+                                                        }}
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    }
+
+                                    <header class="spellHeader">
+                                        {{ talisman.name }}
+                                    </header>
+
+                                    <button
+                                        type="button"
+                                        class="newrow left-aligned"
+                                        (click)="
+                                            onTalismanUse(
+                                                shield,
+                                                talisman,
+                                                talismanIndex
+                                            )
+                                        "
+                                    >
+                                        <span>
+                                            Activate
+                                            @if (talisman.actions) {
+                                                <app-action-icons
+                                                    [actionString]="
+                                                        talisman.actions
+                                                    "
+                                                />
+                                            }
+                                            {{
+                                                talisman.activationType
+                                                    ? talisman.activationType
+                                                    : ""
+                                            }}
+                                        </span>
+                                    </button>
+
+                                    @if (
+                                        hasMatchingTalismanCord(
+                                            shield,
+                                            talisman
+                                        )
+                                    ) {
+                                        <button
+                                            type="button"
+                                            class="newrow left-aligned"
+                                            (click)="
+                                                onTalismanUse(
+                                                    shield,
+                                                    talisman,
+                                                    talismanIndex,
+                                                    true
+                                                )
+                                            "
+                                        >
+                                            <span>
+                                                Activate and preserve with
+                                                talisman cord
+                                                @if (talisman.actions) {
+                                                    <app-action-icons
+                                                        [actionString]="
+                                                            talisman.actions
+                                                        "
+                                                    />
+                                                }
+                                                {{
+                                                    talisman.activationType
+                                                        ? talisman.activationType
+                                                        : ""
+                                                }}
+                                            </span>
+                                        </button>
+                                    }
+
+                                    <app-item
+                                        [creature]="creature"
+                                        [item]="talisman"
+                                        [allowActivate]="true"
+                                        [isSubItem]="true"
+                                    />
+                                </ng-template>
+
+                                <button
+                                    type="button"
+                                    triggers="click"
+                                    [ngbPopover]="ShieldTalismanTemplate"
+                                >
+                                    <span>
+                                        {{ talisman.name }}
+                                        {{
+                                            hasMatchingTalismanCord(
+                                                shield,
+                                                talisman
+                                            )
+                                                ? "(matching talisman cord attached)"
+                                                : ""
+                                        }}
+                                    </span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <header class="sectionHeader minimized-hide box-header">
+                    Saving Throws
+                </header>
 
                 <app-tags
                     [creature]="creature"
                     [objectName]="'Saving Throws'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [showEffects]=true
-                    [specialNames]="(specialShowOnNamesSavingThrows$() | async) ?? []"
+                    [showTraits]="true"
+                    [showFeats]="true"
+                    [showItems]="true"
+                    [showActivities]="true"
+                    [showConditions]="true"
+                    [showEffects]="true"
+                    [specialNames]="
+                        (specialShowOnNamesSavingThrows$() | async) ?? []
+                    "
                 />
 
-                <ng-container *ngFor="let skill of skillsOfType$('Save') | async; trackBy:trackByIndex;">
+                @for (skill of skillsOfType$("Save") | async; track $index) {
                     <app-skill
                         [creature]="creature"
-                        [skill]=skill
+                        [skill]="skill"
                     />
-                </ng-container>
+                }
 
-                <header class="sectionHeader minimized-hide box-header">Armor Proficiencies</header>
+                <header class="sectionHeader minimized-hide box-header">
+                    Armor Proficiencies
+                </header>
 
-                <ng-container *ngFor="let skill of skillsOfType$('Armor Proficiency') | async; trackBy:trackByIndex;">
+                @for (
+                    skill of skillsOfType$("Armor Proficiency") | async;
+                    track $index
+                ) {
                     <app-skill
                         class="minimized-hide"
                         [creature]="creature"
-                        [skill]=skill
-                        [showValue]=false
+                        [skill]="skill"
+                        [showValue]="false"
                     />
-                </ng-container>
-            </ng-container>
+                }
+            }
 
-            <ng-container *ngIf="creature.isFamiliar()">
-                <header class="sectionHeader minimized-hide box-header">Saving Throws</header>
+            @if (creature.isFamiliar()) {
+                <header class="sectionHeader minimized-hide box-header">
+                    Saving Throws
+                </header>
 
-                <ng-container *ngFor="let skill of skillsOfType$('Save') | async; trackBy:trackByIndex;">
+                @for (skill of skillsOfType$("Save") | async; track $index) {
                     <app-skill
                         [creature]="creature"
-                        [skill]=skill
+                        [skill]="skill"
                     />
-                </ng-container>
+                }
 
                 <app-tags
                     [creature]="creature"
                     [objectName]="'Saving Throws'"
-                    [showTraits]=true
-                    [showFeats]=true
-                    [showItems]=true
-                    [showActivities]=true
-                    [showConditions]=true
-                    [showEffects]=true
+                    [showTraits]="true"
+                    [showFeats]="true"
+                    [showItems]="true"
+                    [showActivities]="true"
+                    [showConditions]="true"
+                    [showEffects]="true"
                 />
-            </ng-container>
-        </ng-container>
+            }
+        }
     </div>
 </app-character-sheet-card>

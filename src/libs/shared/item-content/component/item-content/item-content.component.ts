@@ -14,8 +14,8 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { FormsModule } from '@angular/forms';
-import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
-import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
 import { CommonModule } from '@angular/common';
 
 interface ComparedValue {

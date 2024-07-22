@@ -3,7 +3,7 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { DialogFooterComponent } from '../dialog-footer/dialog-footer.component';
 import { DialogHeaderComponent } from '../dialog-header/dialog-header.component';
 import { DialogComponent } from '../dialog/dialog.component';
-import { CharacterSheetCardComponent } from '../../../ui/character-sheet-card/character-sheet-card.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 @Component({
     selector: 'app-confirmation-dialog',

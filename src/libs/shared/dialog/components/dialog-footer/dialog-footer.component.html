@@ -1,21 +1,23 @@
 <div class="footer">
-    <app-button
-        *ngIf="!hideCancel"
-        #CancelButton
-        noOutline
-        ghost
-        class="footer__button footer__button--cancel"
-        (clicked)="close?.()"
-    >
-        {{ cancelLabel }}
-    </app-button>
+    @if (!hideCancel) {
+        <app-button
+            #CancelButton
+            noOutline
+            ghost
+            class="footer__button footer__button--cancel"
+            (clicked)="close?.()"
+        >
+            {{ cancelLabel }}
+        </app-button>
+    }
 
-    <app-button
-        *ngFor="let button of buttons; trackBy:trackByIndex"
-        class="footer__button"
-        [danger]="button.danger"
-        (clicked)="button.onClick(); close?.()"
-    >
-        {{ button.label }}
-    </app-button>
+    @for (button of buttons; track $index) {
+        <app-button
+            class="footer__button"
+            [danger]="button.danger"
+            (clicked)="button.onClick(); close?.()"
+        >
+            {{ button.label }}
+        </app-button>
+    }
 </div>

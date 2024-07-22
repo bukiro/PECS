@@ -392,7 +392,6 @@ export class SkillValuesService {
                         );
                 }),
             );
-
     }
 
     /**

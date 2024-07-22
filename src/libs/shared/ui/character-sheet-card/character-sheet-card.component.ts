@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CornerButtonTrayComponent } from '../corner-button-tray/corner-button-tray.component';
 import { ContentElementComponent } from '../../util/components/content-element/content-element.component';
@@ -11,9 +10,7 @@ import { ContentElementComponent } from '../../util/components/content-element/c
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        CommonModule,
         FormsModule,
-
         CornerButtonTrayComponent,
     ],
 })

@@ -25,137 +25,155 @@
     <div class="modal-body vlist">
         <div
             class="fullsize-scroll-box vlist"
-            style="max-height: 50vh;"
+            style="max-height: 50vh"
         >
-            <div
-                *ngIf="isItemContainer"
-                class="list-item newrow left-aligned"
-            >
-                <i class="ra ra-hive-emblem"></i>
-                This item contains {{containedItemsAmount()}} items with a total bulk of {{inventoryBulk()}}.
-            </div>
-
-            <div
-                *ngIf="doesItemGrantItems"
-                class="list-item newrow left-aligned"
-            >
-                <i class="ra ra-hive-emblem"></i>
-                This item has additional parts with a total bulk of {{containedBulkString(item)}}.
-                <div class="newrow left-aligned">
-                    <input
-                        id="excludingParts"
-                        type="checkbox"
-                        [(ngModel)]="isExcludingParts"
-                    >
-                    <label for="excludingParts">
-                        <strong>Move without parts (local only)</strong>
-                    </label>
+            @if (isItemContainer) {
+                <div class="list-item newrow left-aligned">
+                    <i class="ra ra-hive-emblem"></i>
+                    This item contains {{ containedItemsAmount() }} items with a
+                    total bulk of {{ inventoryBulk() }}.
                 </div>
-            </div>
+            }
 
-            <div
-                *ngIf="canItemSplit"
-                class="list-item newrow"
-            >
-                <strong>Split stack</strong>
+            @if (doesItemGrantItems) {
+                <div class="list-item newrow left-aligned">
+                    <i class="ra ra-hive-emblem"></i>
+                    This item has additional parts with a total bulk of
+                    {{ containedBulkString(item) }}.
+                    <div class="newrow left-aligned">
+                        <input
+                            id="excludingParts"
+                            type="checkbox"
+                            [(ngModel)]="isExcludingParts"
+                        />
+                        <label for="excludingParts">
+                            <strong>Move without parts (local only)</strong>
+                        </label>
+                    </div>
+                </div>
+            }
 
-                <span>
-                    Move
-                    <span class="value">
-                        <button
-                            type="button"
-                            [disabled]="selectedAmount<=0"
-                            (click)="onIncSplit(-1)"
-                        >
-                            -
-                        </button>
-                        {{selectedAmount}}
-                        <button
-                            type="button"
-                            [disabled]="selectedAmount>=item.amount"
-                            (click)="onIncSplit(1)"
-                        >
-                            +
-                        </button>
+            @if (canItemSplit) {
+                <div class="list-item newrow">
+                    <strong>Split stack</strong>
+
+                    <span>
+                        Move
+                        <span class="value">
+                            <button
+                                type="button"
+                                [disabled]="selectedAmount <= 0"
+                                (click)="onIncSplit(-1)"
+                            >
+                                -
+                            </button>
+                            {{ selectedAmount }}
+                            <button
+                                type="button"
+                                [disabled]="selectedAmount >= item.amount"
+                                (click)="onIncSplit(1)"
+                            >
+                                +
+                            </button>
+                        </span>
                     </span>
-                </span>
 
-                <span>
-                    Keep
-                    <span class="value">{{item.amount - selectedAmount}}</span>
-                </span>
-            </div>
+                    <span>
+                        Keep
+                        <span class="value">{{
+                            item.amount - selectedAmount
+                        }}</span>
+                    </span>
+                </div>
+            }
 
-            <ng-container *ngFor="let target of (itemTargets$ | async); trackBy:trackByIndex">
+            @for (target of itemTargets$ | async; track $index) {
                 <div class="list-item newrow">
                     <span
                         class="hlist"
-                        style="font-size: 1.5em;"
+                        style="font-size: 1.5em"
                     >
-                        <ng-container [ngSwitch]="targetType(target)">
-                            <i
-                                *ngSwitchCase="'Inventory'"
-                                class="ra ra-hive-emblem"
-                                style="line-height: 1.5;"
-                            ></i>
+                        @switch (targetType(target)) {
+                            @case ("Inventory") {
+                                <i
+                                    class="ra ra-hive-emblem"
+                                    style="line-height: 1.5"
+                                ></i>
+                            }
 
-                            <i
-                                *ngSwitchCase="'Companion'"
-                                class="ra ra-wolf-howl"
-                                style="line-height: 1.5;"
-                            ></i>
+                            @case ("Companion") {
+                                <i
+                                    class="ra ra-wolf-howl"
+                                    style="line-height: 1.5"
+                                ></i>
+                            }
 
-                            <i
-                                *ngSwitchCase="'Familiar'"
-                                class="ra ra-raven"
-                                style="line-height: 1.5;"
-                            ></i>
+                            @case ("Familiar") {
+                                <i
+                                    class="ra ra-raven"
+                                    style="line-height: 1.5"
+                                ></i>
+                            }
 
-                            <i
-                                *ngSwitchDefault
+                            @default {
+                                <i
+                                    class="ra ra-player"
+                                    style="line-height: 1.5"
+                                ></i>
+                            }
+                        }
 
-                                class="ra ra-player"                                style="line-height: 1.5;"
-                            ></i>
-                        </ng-container>
+                        <strong>{{ targetName$(target) | async }}</strong>
 
-                        <strong>{{targetName$(target) | async}}</strong>
-
-                        <span>{{containerBulk(target)}}</span>
+                        <span>{{ containerBulk(target) }}</span>
                     </span>
 
-                    <span
-                        *ngFor="let cannotMove of [cannotMove(target)]; trackBy:trackByIndex"
-                        style="flex-grow:0"
-                        [ngbTooltip]="cannotMove"
-                    >
-                        <ng-template #CurrentButton>
-                            <button
-                                type="button"
-                                class="btn inactive-button"
-                                disabled
-                            >
-                                Current
-                            </button>
-                        </ng-template>
-
-                        <button
-                            *ngIf="!isSameInventoryAsTarget(target); else CurrentButton"
-                            type="button"
-                            class="btn btn-primary"
-                            style="background-color: rgb(var(--accent))"
-                            [disabled]="cannotMove || (item.amount && !selectedAmount)"
-                            [ngSwitch]="targetType(target)"
-                            (click)="onSetTarget(target); modal.close('Move click')"
+                    @for (cannotMove of [cannotMove(target)]; track $index) {
+                        <span
+                            style="flex-grow: 0"
+                            [ngbTooltip]="cannotMove"
                         >
-                            <span *ngSwitchCase="'Inventory'">Move</span>
+                            @if (!isSameInventoryAsTarget(target)) {
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    style="background-color: rgb(var(--accent))"
+                                    [disabled]="
+                                        cannotMove ||
+                                        (item.amount && !selectedAmount)
+                                    "
+                                    (click)="
+                                        onSetTarget(target);
+                                        modal.close('Move click')
+                                    "
+                                >
+                                    @switch (targetType(target)) {
+                                        @case ("Inventory") {
+                                            <span>Move</span>
+                                        }
 
-                            <span *ngSwitchCase="'Player'">Offer</span>
+                                        @case ("Player") {
+                                            <span>Offer</span>
+                                        }
 
-                            <span *ngSwitchDefault>Give</span>
-                        </button>
-                    </span>
+                                        @default {
+                                            <span>Give</span>
+                                        }
+                                    }
+                                </button>
+                            } @else {
+                                <button
+                                    type="button"
+                                    class="btn inactive-button"
+                                    disabled
+                                >
+                                    Current
+                                </button>
+                            }
+                        </span>
+                    }
                 </div>
-            </ng-container>
+            }
         </div>
     </div>
 

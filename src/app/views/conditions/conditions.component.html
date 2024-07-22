@@ -18,11 +18,13 @@
             <header class="sectionHeader">Back to Character Sheet</header>
         </button>
 
-        <ng-container *ngIf="isMenuOpen$ | async">
-            <ng-container *ngIf="componentParameters$() | async as componentParameters">
+        @if (isMenuOpen$ | async) {
+            @if (componentParameters$() | async; as componentParameters) {
                 <div class="character-sheet-column-container">
                     <div class="character-sheet-column">
-                        <header class="sectionHeader">Duration: {{durationDescription$()}}</header>
+                        <header class="sectionHeader">
+                            Duration: {{ durationDescription$() }}
+                        </header>
 
                         <div class="vlist">
                             <div class="list-item">
@@ -30,7 +32,9 @@
                                     <button
                                         type="button"
                                         class="center-aligned"
-                                        [ngClass]="{'fancy-button': permanent}"
+                                        [ngClass]="{
+                                            'fancy-button': permanent,
+                                        }"
                                         (click)="setSpecialDuration(-1)"
                                     >
                                         Permanent
@@ -39,7 +43,9 @@
                                     <button
                                         type="button"
                                         class="center-aligned"
-                                        [ngClass]="{'fancy-button': untilRest}"
+                                        [ngClass]="{
+                                            'fancy-button': untilRest,
+                                        }"
                                         (click)="setSpecialDuration(-2)"
                                     >
                                         Until your preparations
@@ -48,7 +54,9 @@
                                     <button
                                         type="button"
                                         class="center-aligned"
-                                        [ngClass]="{'fancy-button': untilRefocus}"
+                                        [ngClass]="{
+                                            'fancy-button': untilRefocus,
+                                        }"
                                         (click)="setSpecialDuration(-3)"
                                     >
                                         Until you refocus
@@ -85,8 +93,10 @@
                                             min="0"
                                             max="23"
                                             [(ngModel)]="hours"
-                                            (ngModelChange)="setLinearDuration()"
-                                        >
+                                            (ngModelChange)="
+                                                setLinearDuration()
+                                            "
+                                        />
                                     </div>
 
                                     <div
@@ -100,8 +110,10 @@
                                             min="0"
                                             max="59"
                                             [(ngModel)]="minutes"
-                                            (ngModelChange)="setLinearDuration()"
-                                        >
+                                            (ngModelChange)="
+                                                setLinearDuration()
+                                            "
+                                        />
                                     </div>
 
                                     <div
@@ -115,8 +127,10 @@
                                             min="0"
                                             max="9"
                                             [(ngModel)]="turns"
-                                            (ngModelChange)="setLinearDuration()"
-                                        >
+                                            (ngModelChange)="
+                                                setLinearDuration()
+                                            "
+                                        />
                                     </div>
                                 </div>
 
@@ -124,7 +138,9 @@
                                     <button
                                         type="button"
                                         class="center-aligned no-animation"
-                                        [ngClass]="{'fancy-button':endOn===5}"
+                                        [ngClass]="{
+                                            'fancy-button': endOn === 5,
+                                        }"
                                     >
                                         <label class="fullwidth center-aligned">
                                             <input
@@ -134,7 +150,7 @@
                                                 hidden
                                                 [value]="5"
                                                 [(ngModel)]="endOn"
-                                            >
+                                            />
                                             End on turn start
                                         </label>
                                     </button>
@@ -142,7 +158,9 @@
                                     <button
                                         type="button"
                                         class="center-aligned no-animation"
-                                        [ngClass]="{'fancy-button':endOn===0}"
+                                        [ngClass]="{
+                                            'fancy-button': endOn === 0,
+                                        }"
                                     >
                                         <label class="fullwidth center-aligned">
                                             <input
@@ -152,7 +170,7 @@
                                                 hidden
                                                 [value]="0"
                                                 [(ngModel)]="endOn"
-                                            >
+                                            />
                                             End on turn end
                                         </label>
                                     </button>
@@ -162,7 +180,10 @@
                             <div class="list-item">
                                 <button
                                     type="button"
-                                    [ngClass]="{'fancy-button':shownPurpose()==='conditions'}"
+                                    [ngClass]="{
+                                        'fancy-button':
+                                            shownPurpose() === 'conditions',
+                                    }"
                                     (click)="toggleShownPurpose('conditions')"
                                 >
                                     Add Conditions
@@ -170,8 +191,13 @@
 
                                 <button
                                     type="button"
-                                    [ngClass]="{'fancy-button':shownPurpose()==='customeffects'}"
-                                    (click)="toggleShownPurpose('customeffects')"
+                                    [ngClass]="{
+                                        'fancy-button':
+                                            shownPurpose() === 'customeffects',
+                                    }"
+                                    (click)="
+                                        toggleShownPurpose('customeffects')
+                                    "
                                 >
                                     Custom Effects
                                 </button>
@@ -179,19 +205,23 @@
                         </div>
 
                         <div class="fullsize-scroll-box vlist">
-                            <ng-container *ngIf="shownPurpose()==='conditions'">
-                                <header class="sectionHeader">Add Conditions</header>
+                            @if (shownPurpose() === "conditions") {
+                                <header class="sectionHeader">
+                                    Add Conditions
+                                </header>
 
                                 <div class="list-item">
-                                    <strong>Find (in Name or Description)</strong>
+                                    <strong
+                                        >Find (in Name or Description)</strong
+                                    >
 
                                     <span class="hlist">
                                         <input
                                             aria-label="Search text"
-                                            type=text
+                                            type="text"
                                             [(ngModel)]="wordFilter"
                                             (keypress)="closeFilterIfTooShort()"
-                                        >
+                                        />
                                         <button
                                             type="button"
                                             [disabled]="wordFilter.length < 5"
@@ -202,600 +232,1248 @@
 
                                         <button
                                             type="button"
-                                            (click)="wordFilter='';closeFilterIfTooShort()"
+                                            (click)="
+                                                wordFilter = '';
+                                                closeFilterIfTooShort()
+                                            "
                                         >
                                             Clear
                                         </button>
                                     </span>
                                 </div>
 
-                                <ng-container *ngFor="let typeSet of conditionTypes; trackBy:trackByIndex;">
-                                    <ng-container *ngIf="visibleConditionsOfType(typeSet) as visibleConditions">
-                                        <button
-                                            *ngIf="visibleConditions.length"
-                                            type="button"
-                                            class="list-item"
-                                            [ngClass]="{'fancy-button':[typeSet, 'all'].includes(shownList())}"
-                                            (click)="toggleShownList(typeSet.label)"
-                                        >
-                                            <header class="sectionHeader">{{typeSet.label}}</header>
-                                        </button>
-
-                                        <div
-                                            *ngIf="visibleConditions.length && [typeSet.label, 'all'].includes(shownList()) && { enabled: isTileMode$ | async } as tileMode"
-                                            [ngClass]="{'icon-list left-aligned':tileMode.enabled, 'list-item':!tileMode.enabled}"
-                                        >
-                                            <div
-                                                *ngIf="visibleConditions.length >= 80 && shownList()!=='all'"
-                                                class="newrow list-item"
-                                                (click)="incRange(-1)"
+                                @for (typeSet of conditionTypes; track $index) {
+                                    @if (
+                                        visibleConditionsOfType(typeSet);
+                                        as visibleConditions
+                                    ) {
+                                        @if (visibleConditions.length) {
+                                            <button
+                                                type="button"
+                                                class="list-item"
+                                                [ngClass]="{
+                                                    'fancy-button': [
+                                                        typeSet,
+                                                        'all',
+                                                    ].includes(shownList()),
+                                                }"
+                                                (click)="
+                                                    toggleShownList(
+                                                        typeSet.label
+                                                    )
+                                                "
                                             >
-                                                <button
-                                                    type="button"
-                                                    class="center-aligned"
-                                                    [disabled]="range <= 0"
-                                                >
-                                                    Previous 40
-                                                </button>
-
-                                                <header class="newrow subsectionHeader center-aligned">
-                                                    {{shownItemRangeDesc(visibleConditions, range)}}
+                                                <header class="sectionHeader">
+                                                    {{ typeSet.label }}
                                                 </header>
-                                            </div>
+                                            </button>
+                                        }
 
-                                            <ng-container *ngFor="let condition of visibleConditions; let conditionIndex = index; trackBy:trackByIndex;">
-                                                <ng-container *ngIf="isConditionShown(visibleConditions, conditionIndex, range)">
-                                                    <ng-template #ConditionTitleTemplate>
-                                                        <span *ngIf="!tileMode.enabled">
-                                                            <i
-                                                                *ngIf="condition.buff"
-                                                                class="value bi-patch-plus bonus"
-                                                                [ngbTooltip]="'Positive condition'"
-                                                            ></i>
+                                        @if (
+                                            visibleConditions.length &&
+                                                [typeSet.label, "all"].includes(
+                                                    shownList()
+                                                ) && {
+                                                    enabled:
+                                                        isTileMode$ | async,
+                                                };
+                                            as tileMode
+                                        ) {
+                                            <div
+                                                [ngClass]="{
+                                                    'icon-list left-aligned':
+                                                        tileMode.enabled,
+                                                    'list-item':
+                                                        !tileMode.enabled,
+                                                }"
+                                            >
+                                                @if (
+                                                    visibleConditions.length >=
+                                                        80 &&
+                                                    shownList() !== "all"
+                                                ) {
+                                                    <div
+                                                        class="newrow list-item"
+                                                        (click)="incRange(-1)"
+                                                    >
+                                                        <button
+                                                            type="button"
+                                                            class="center-aligned"
+                                                            [disabled]="
+                                                                range <= 0
+                                                            "
+                                                        >
+                                                            Previous 40
+                                                        </button>
 
-                                                            <i
-                                                                *ngIf="!condition.buff"
-                                                                class="value bi-patch-minus-fill penalty"
-                                                                [ngbTooltip]="'Negative condition'"
-                                                            ></i>
-                                                        </span>
-                                                        {{condition.name}}
-                                                    </ng-template>
-
-                                                    <ng-template #ConditionTemplate>
                                                         <header
-                                                            *ngIf="tileMode.enabled"
-                                                            class="spellHeader"
+                                                            class="newrow subsectionHeader center-aligned"
                                                         >
-                                                            <ng-container *ngTemplateOutlet="ConditionTitleTemplate" />
+                                                            {{
+                                                                shownItemRangeDesc(
+                                                                    visibleConditions,
+                                                                    range
+                                                                )
+                                                            }}
                                                         </header>
+                                                    </div>
+                                                }
 
-                                                        <div
-                                                            *ngIf="condition.hasValue && !(!permanent && condition.name === 'Stunned')"
-                                                            class="newrow"
+                                                @for (
+                                                    condition of visibleConditions;
+                                                    track conditionIndex;
+                                                    let conditionIndex = $index
+                                                ) {
+                                                    @if (
+                                                        isConditionShown(
+                                                            visibleConditions,
+                                                            conditionIndex,
+                                                            range
+                                                        )
+                                                    ) {
+                                                        <ng-template
+                                                            #ConditionTitleTemplate
                                                         >
-                                                            <span>
-                                                                Value:
-                                                                <select aria-label="Select condition value" [(ngModel)]="value">
-                                                                    <option
-                                                                        *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
-                                                                        [ngValue]="valueNumber"
-                                                                    >
-                                                                        {{valueNumber}}
-                                                                    </option>
-                                                                </select>
+                                                            @if (
+                                                                !tileMode.enabled
+                                                            ) {
+                                                                <span>
+                                                                    @if (
+                                                                        condition.buff
+                                                                    ) {
+                                                                        <i
+                                                                            class="value bi-patch-plus bonus"
+                                                                            [ngbTooltip]="
+                                                                                'Positive condition'
+                                                                            "
+                                                                        ></i>
+                                                                    }
 
-                                                                <br>
-                                                            </span>
-                                                        </div>
+                                                                    @if (
+                                                                        !condition.buff
+                                                                    ) {
+                                                                        <i
+                                                                            class="value bi-patch-minus-fill penalty"
+                                                                            [ngbTooltip]="
+                                                                                'Negative condition'
+                                                                            "
+                                                                        ></i>
+                                                                    }
+                                                                </span>
+                                                            }
+                                                            {{ condition.name }}
+                                                        </ng-template>
 
-                                                        <div
-                                                            *ngIf="condition.type === 'spells'"
-                                                            class="newrow"
+                                                        <ng-template
+                                                            #ConditionTemplate
                                                         >
-                                                            <span>
-                                                                Spell level:
-                                                                <select aria-label="Select spell level" [(ngModel)]="heightened">
-                                                                    <option
-                                                                        *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
-                                                                        [ngValue]="levelNumber"
-                                                                        [disabled]="levelNumber < condition.minLevel"
-                                                                    >
-                                                                        {{
-                                                                            (levelNumber >= condition.minLevel || levelNumber !== heightened )
-                                                                                ? levelNumber
-                                                                                : condition.minLevel
-                                                                        }}
-                                                                    </option>
-                                                                </select>
-
-                                                                <br>
-                                                            </span>
-                                                        </div>
-
-                                                        <div
-                                                            *ngIf="condition.name === 'Persistent Damage'"
-                                                            class="newrow"
-                                                        >
-                                                            <span>
-                                                                Damage type and amount:
-                                                                <input
-                                                                    aria-label="Damage type and amount"
-                                                                    type="text"
-                                                                    id="persistentDamage"
-                                                                    maxLength="30"
-                                                                    [(ngModel)]="condition.choice"
+                                                            @if (
+                                                                tileMode.enabled
+                                                            ) {
+                                                                <header
+                                                                    class="spellHeader"
                                                                 >
-                                                            </span>
-                                                        </div>
+                                                                    <ng-container
+                                                                        *ngTemplateOutlet="
+                                                                            ConditionTitleTemplate
+                                                                        "
+                                                                    />
+                                                                </header>
+                                                            }
 
-                                                        <div
-                                                            *ngIf="condition.choices.length"
-                                                            class="newrow"
-                                                        >
-                                                            <span>
-                                                                Effect selection:
-                                                                <select aria-label="Select condition effect" [(ngModel)]="condition.choice">
-                                                                    <option
-                                                                        *ngFor="let choice of conditionChoices(condition); trackBy:trackByIndex;"
-                                                                        [ngValue]="choice"
-                                                                    >
-                                                                        {{choice}}
-                                                                    </option>
-                                                                </select>
-                                                            </span>
-                                                        </div>
+                                                            @if (
+                                                                condition.hasValue &&
+                                                                !(
+                                                                    !permanent &&
+                                                                    condition.name ===
+                                                                        "Stunned"
+                                                                )
+                                                            ) {
+                                                                <div
+                                                                    class="newrow"
+                                                                >
+                                                                    <span>
+                                                                        Value:
+                                                                        <select
+                                                                            aria-label="Select condition value"
+                                                                            [(ngModel)]="
+                                                                                value
+                                                                            "
+                                                                        >
+                                                                            @for (
+                                                                                valueNumber of [
+                                                                                    1,
+                                                                                    2,
+                                                                                    3,
+                                                                                    4,
+                                                                                    5,
+                                                                                    6,
+                                                                                    7,
+                                                                                    8,
+                                                                                    9,
+                                                                                    10,
+                                                                                ];
+                                                                                track $index
+                                                                            ) {
+                                                                                <option
+                                                                                    [ngValue]="
+                                                                                        valueNumber
+                                                                                    "
+                                                                                >
+                                                                                    {{
+                                                                                        valueNumber
+                                                                                    }}
+                                                                                </option>
+                                                                            }
+                                                                        </select>
 
-                                                        <ng-container *ngIf="!condition.restricted">
-                                                            <div
-                                                                *ngIf="condition.defaultDuration(condition.choice, heightened) as defaultDuration"
-                                                                class="newrow"
-                                                            >
-                                                                <strong style="margin-bottom:0;">
-                                                                    Add
-                                                                    {{durationDescription$(defaultDuration.duration,
-                                                                    true)}}
-                                                                    ({{defaultDuration.source}})
-                                                                </strong>
-
-                                                                <div class="newrow">
-                                                                    <button
-                                                                        type="button"
-                                                                        (click)="onAddCondition(character, condition, defaultDuration.duration, false)"
-                                                                    >
-                                                                        to {{character.name || "Character"}}
-                                                                    </button>
-
-                                                                    <button
-                                                                        *ngIf="componentParameters.isCompanionAvailable && (companion$ | async) as companion"
-                                                                        type="button"
-                                                                        (click)="onAddCondition(companion, condition, defaultDuration.duration, false)"
-                                                                    >
-                                                                        to {{companion.name || "Animal Companion"}}
-                                                                    </button>
-
-                                                                    <button
-                                                                        *ngIf="componentParameters.isFamiliarAvailable && (familiar$ | async) as familiar"
-                                                                        type="button"
-                                                                        (click)="onAddCondition(familiar, condition, defaultDuration.duration, false)"
-                                                                    >
-                                                                        to {{familiar.name || "Familiar"}}
-                                                                    </button>
+                                                                        <br />
+                                                                    </span>
                                                                 </div>
-                                                            </div>
+                                                            }
 
-                                                            <div class="newrow">
-                                                                <strong style="margin-bottom:0;">
-                                                                    Add
-                                                                    {{durationDescription$(undefined, true)}}
-                                                                </strong>
+                                                            @if (
+                                                                condition.type ===
+                                                                "spells"
+                                                            ) {
+                                                                <div
+                                                                    class="newrow"
+                                                                >
+                                                                    <span>
+                                                                        Spell
+                                                                        level:
+                                                                        <select
+                                                                            aria-label="Select spell level"
+                                                                            [(ngModel)]="
+                                                                                heightened
+                                                                            "
+                                                                        >
+                                                                            @for (
+                                                                                levelNumber of [
+                                                                                    1,
+                                                                                    2,
+                                                                                    3,
+                                                                                    4,
+                                                                                    5,
+                                                                                    6,
+                                                                                    7,
+                                                                                    8,
+                                                                                    9,
+                                                                                    10,
+                                                                                ];
+                                                                                track $index
+                                                                            ) {
+                                                                                <option
+                                                                                    [ngValue]="
+                                                                                        levelNumber
+                                                                                    "
+                                                                                    [disabled]="
+                                                                                        levelNumber <
+                                                                                        condition.minLevel
+                                                                                    "
+                                                                                >
+                                                                                    {{
+                                                                                        levelNumber >=
+                                                                                            condition.minLevel ||
+                                                                                        levelNumber !==
+                                                                                            heightened
+                                                                                            ? levelNumber
+                                                                                            : condition.minLevel
+                                                                                    }}
+                                                                                </option>
+                                                                            }
+                                                                        </select>
 
-                                                                <div class="newrow">
-                                                                    <button
-                                                                        type="button"
-                                                                        (click)="onAddCondition(character, condition)"
-                                                                    >
-                                                                        to {{character.name || "Character"}}
-                                                                    </button>
-
-                                                                    <button
-                                                                        *ngIf="componentParameters.isCompanionAvailable && (companion$ | async) as companion"
-                                                                        type="button"
-                                                                        (click)="onAddCondition(companion, condition)"
-                                                                    >
-                                                                        to {{companion.name ||
-                                                                        "Animal Companion"}}
-                                                                    </button>
-
-                                                                    <button
-                                                                        *ngIf="componentParameters.isFamiliarAvailable && (familiar$ | async) as familiar"
-                                                                        type="button"
-                                                                        (click)="onAddCondition(familiar, condition)"
-                                                                    >
-                                                                        to {{familiar.name || "Familiar"}}
-                                                                    </button>
+                                                                        <br />
+                                                                    </span>
                                                                 </div>
-                                                            </div>
-                                                        </ng-container>
+                                                            }
 
-                                                        <div
-                                                            *ngIf="condition.sourceBook"
-                                                            class="newrow left-aligned"
-                                                        >
-                                                            <strong>Source</strong>
+                                                            @if (
+                                                                condition.name ===
+                                                                "Persistent Damage"
+                                                            ) {
+                                                                <div
+                                                                    class="newrow"
+                                                                >
+                                                                    <span>
+                                                                        Damage
+                                                                        type and
+                                                                        amount:
+                                                                        <input
+                                                                            aria-label="Damage type and amount"
+                                                                            type="text"
+                                                                            id="persistentDamage"
+                                                                            maxLength="30"
+                                                                            [(ngModel)]="
+                                                                                condition.choice
+                                                                            "
+                                                                        />
+                                                                    </span>
+                                                                </div>
+                                                            }
 
-                                                            <i>{{condition.sourceBook}}</i>
-                                                        </div>
+                                                            @if (
+                                                                condition
+                                                                    .choices
+                                                                    .length
+                                                            ) {
+                                                                <div
+                                                                    class="newrow"
+                                                                >
+                                                                    <span>
+                                                                        Effect
+                                                                        selection:
+                                                                        <select
+                                                                            aria-label="Select condition effect"
+                                                                            [(ngModel)]="
+                                                                                condition.choice
+                                                                            "
+                                                                        >
+                                                                            @for (
+                                                                                choice of conditionChoices(
+                                                                                    condition
+                                                                                );
+                                                                                track $index
+                                                                            ) {
+                                                                                <option
+                                                                                    [ngValue]="
+                                                                                        choice
+                                                                                    "
+                                                                                >
+                                                                                    {{
+                                                                                        choice
+                                                                                    }}
+                                                                                </option>
+                                                                            }
+                                                                        </select>
+                                                                    </span>
+                                                                </div>
+                                                            }
 
-                                                        <ng-container *ngFor="let desc of heightenedConditionDescription(condition).split('\n\n'); trackBy:trackByIndex;">
-                                                            <app-description
-                                                                class="newrow"
-                                                                [text]="desc"
-                                                            />
-                                                        </ng-container>
+                                                            @if (
+                                                                !condition.restricted
+                                                            ) {
+                                                                @if (
+                                                                    condition.defaultDuration(
+                                                                        condition.choice,
+                                                                        heightened
+                                                                    );
+                                                                    as defaultDuration
+                                                                ) {
+                                                                    <div
+                                                                        class="newrow"
+                                                                    >
+                                                                        <strong
+                                                                            style="
+                                                                                margin-bottom: 0;
+                                                                            "
+                                                                        >
+                                                                            Add
+                                                                            {{
+                                                                                durationDescription$(
+                                                                                    defaultDuration.duration,
+                                                                                    true
+                                                                                )
+                                                                            }}
+                                                                            ({{
+                                                                                defaultDuration.source
+                                                                            }})
+                                                                        </strong>
 
-                                                        <div
-                                                            *ngIf="condition.inputRequired"
-                                                            class="newrow"
-                                                        >
-                                                            <div class="list-item lower">
-                                                                <strong>Player input required:</strong>
+                                                                        <div
+                                                                            class="newrow"
+                                                                        >
+                                                                            <button
+                                                                                type="button"
+                                                                                (click)="
+                                                                                    onAddCondition(
+                                                                                        character,
+                                                                                        condition,
+                                                                                        defaultDuration.duration,
+                                                                                        false
+                                                                                    )
+                                                                                "
+                                                                            >
+                                                                                to
+                                                                                {{
+                                                                                    character.name ||
+                                                                                        "Character"
+                                                                                }}
+                                                                            </button>
+
+                                                                            @if (
+                                                                                componentParameters.isCompanionAvailable &&
+                                                                                    (companion$
+                                                                                        | async);
+                                                                                as companion
+                                                                            ) {
+                                                                                <button
+                                                                                    type="button"
+                                                                                    (click)="
+                                                                                        onAddCondition(
+                                                                                            companion,
+                                                                                            condition,
+                                                                                            defaultDuration.duration,
+                                                                                            false
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    to
+                                                                                    {{
+                                                                                        companion.name ||
+                                                                                            "Animal Companion"
+                                                                                    }}
+                                                                                </button>
+                                                                            }
+
+                                                                            @if (
+                                                                                componentParameters.isFamiliarAvailable &&
+                                                                                    (familiar$
+                                                                                        | async);
+                                                                                as familiar
+                                                                            ) {
+                                                                                <button
+                                                                                    type="button"
+                                                                                    (click)="
+                                                                                        onAddCondition(
+                                                                                            familiar,
+                                                                                            condition,
+                                                                                            defaultDuration.duration,
+                                                                                            false
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    to
+                                                                                    {{
+                                                                                        familiar.name ||
+                                                                                            "Familiar"
+                                                                                    }}
+                                                                                </button>
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                }
 
                                                                 <div
-                                                                    *ngFor="let inputRequired of condition.inputRequired.split('\n\n'); trackBy:trackByIndex;"
+                                                                    class="newrow"
+                                                                >
+                                                                    <strong
+                                                                        style="
+                                                                            margin-bottom: 0;
+                                                                        "
+                                                                    >
+                                                                        Add
+                                                                        {{
+                                                                            durationDescription$(
+                                                                                undefined,
+                                                                                true
+                                                                            )
+                                                                        }}
+                                                                    </strong>
+
+                                                                    <div
+                                                                        class="newrow"
+                                                                    >
+                                                                        <button
+                                                                            type="button"
+                                                                            (click)="
+                                                                                onAddCondition(
+                                                                                    character,
+                                                                                    condition
+                                                                                )
+                                                                            "
+                                                                        >
+                                                                            to
+                                                                            {{
+                                                                                character.name ||
+                                                                                    "Character"
+                                                                            }}
+                                                                        </button>
+
+                                                                        @if (
+                                                                            componentParameters.isCompanionAvailable &&
+                                                                                (companion$
+                                                                                    | async);
+                                                                            as companion
+                                                                        ) {
+                                                                            <button
+                                                                                type="button"
+                                                                                (click)="
+                                                                                    onAddCondition(
+                                                                                        companion,
+                                                                                        condition
+                                                                                    )
+                                                                                "
+                                                                            >
+                                                                                to
+                                                                                {{
+                                                                                    companion.name ||
+                                                                                        "Animal Companion"
+                                                                                }}
+                                                                            </button>
+                                                                        }
+
+                                                                        @if (
+                                                                            componentParameters.isFamiliarAvailable &&
+                                                                                (familiar$
+                                                                                    | async);
+                                                                            as familiar
+                                                                        ) {
+                                                                            <button
+                                                                                type="button"
+                                                                                (click)="
+                                                                                    onAddCondition(
+                                                                                        familiar,
+                                                                                        condition
+                                                                                    )
+                                                                                "
+                                                                            >
+                                                                                to
+                                                                                {{
+                                                                                    familiar.name ||
+                                                                                        "Familiar"
+                                                                                }}
+                                                                            </button>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            }
+
+                                                            @if (
+                                                                condition.sourceBook
+                                                            ) {
+                                                                <div
                                                                     class="newrow left-aligned"
                                                                 >
-                                                                    <app-description
-                                                                        class="newrow"
-                                                                        [text]="inputRequired"
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </ng-template>
+                                                                    <strong
+                                                                        >Source</strong
+                                                                    >
 
-                                                    <ng-container *ngIf="!tileMode.enabled">
-                                                        <div class="list-item">
+                                                                    <i>{{
+                                                                        condition.sourceBook
+                                                                    }}</i>
+                                                                </div>
+                                                            }
+
+                                                            @for (
+                                                                desc of heightenedConditionDescription(
+                                                                    condition
+                                                                ).split("\n\n");
+                                                                track $index
+                                                            ) {
+                                                                <app-description
+                                                                    class="newrow"
+                                                                    [text]="
+                                                                        desc
+                                                                    "
+                                                                />
+                                                            }
+
+                                                            @if (
+                                                                condition.inputRequired
+                                                            ) {
+                                                                <div
+                                                                    class="newrow"
+                                                                >
+                                                                    <div
+                                                                        class="list-item lower"
+                                                                    >
+                                                                        <strong
+                                                                            >Player
+                                                                            input
+                                                                            required:</strong
+                                                                        >
+
+                                                                        @for (
+                                                                            inputRequired of condition.inputRequired.split(
+                                                                                "\n\n"
+                                                                            );
+                                                                            track $index
+                                                                        ) {
+                                                                            <div
+                                                                                class="newrow left-aligned"
+                                                                            >
+                                                                                <app-description
+                                                                                    class="newrow"
+                                                                                    [text]="
+                                                                                        inputRequired
+                                                                                    "
+                                                                                />
+                                                                            </div>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </ng-template>
+
+                                                        @if (
+                                                            !tileMode.enabled
+                                                        ) {
+                                                            <div
+                                                                class="list-item"
+                                                            >
+                                                                <button
+                                                                    type="button"
+                                                                    aria-label="Show condition"
+                                                                    class="newrow sublist-toggle left-aligned"
+                                                                    (click)="
+                                                                        toggleShownItem(
+                                                                            condition.name
+                                                                        )
+                                                                    "
+                                                                >
+                                                                    <ng-container
+                                                                        *ngTemplateOutlet="
+                                                                            ConditionTitleTemplate
+                                                                        "
+                                                                    />
+                                                                </button>
+
+                                                                @if (
+                                                                    shownItem() ===
+                                                                    condition.name
+                                                                ) {
+                                                                    <div
+                                                                        class="list-item sublist"
+                                                                    >
+                                                                        <ng-container
+                                                                            *ngTemplateOutlet="
+                                                                                ConditionTemplate
+                                                                            "
+                                                                        />
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        }
+
+                                                        @if (tileMode.enabled) {
                                                             <button
                                                                 type="button"
                                                                 aria-label="Show condition"
-                                                                class="newrow sublist-toggle left-aligned"
-                                                                (click)="toggleShownItem(condition.name)"
+                                                                triggers="click"
+                                                                [ngbPopover]="
+                                                                    ConditionTemplate
+                                                                "
+                                                                [ngClass]="{
+                                                                    penalty:
+                                                                        !condition.buff,
+                                                                    bonus: condition.buff,
+                                                                }"
+                                                                (click)="
+                                                                    toggleShownItem(
+                                                                        ''
+                                                                    )
+                                                                "
                                                             >
-                                                                <ng-container *ngTemplateOutlet="ConditionTitleTemplate" />
+                                                                <app-grid-icon
+                                                                    [ngbTooltip]="
+                                                                        condition.name
+                                                                    "
+                                                                    [title]="
+                                                                        condition.name
+                                                                    "
+                                                                    [ngClass]="{
+                                                                        penalty:
+                                                                            !condition.buff,
+                                                                        bonus: condition.buff,
+                                                                    }"
+                                                                />
                                                             </button>
+                                                        }
+                                                    }
+                                                }
 
-                                                            <div
-                                                                *ngIf="shownItem()===condition.name"
-                                                                class="list-item sublist"
-                                                            >
-                                                                <ng-container *ngTemplateOutlet="ConditionTemplate" />
-                                                            </div>
-                                                        </div>
-                                                    </ng-container>
-
-                                                    <ng-container *ngIf="tileMode.enabled">
+                                                @if (
+                                                    visibleConditions.length >=
+                                                        80 &&
+                                                    shownList() !== "all"
+                                                ) {
+                                                    <div
+                                                        class="newrow list-item"
+                                                    >
                                                         <button
                                                             type="button"
-                                                            aria-label="Show condition"
-                                                            triggers="click"
-                                                            [ngbPopover]="ConditionTemplate"
-                                                            [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
-                                                            (click)="toggleShownItem('')"
+                                                            class="center-aligned"
+                                                            [disabled]="
+                                                                (range + 1) *
+                                                                    40 >=
+                                                                visibleConditions.length
+                                                            "
+                                                            (click)="
+                                                                incRange(1)
+                                                            "
                                                         >
-                                                            <app-grid-icon
-                                                                [ngbTooltip]="condition.name"
-                                                                [title]="condition.name"
-                                                                [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
-                                                            />
+                                                            Next 40
                                                         </button>
-                                                    </ng-container>
-                                                </ng-container>
-                                            </ng-container>
-
-                                            <div
-                                                *ngIf="visibleConditions.length >= 80 && shownList()!=='all'"
-                                                class="newrow list-item"
-                                            >
-                                                <button
-                                                    type="button"
-                                                    class="center-aligned"
-                                                    [disabled]="(range + 1) * 40 >= visibleConditions.length"
-                                                    (click)="incRange(1)"
-                                                >
-                                                    Next 40
-                                                </button>
+                                                    </div>
+                                                }
                                             </div>
-                                        </div>
-                                    </ng-container>
-                                </ng-container>
-                            </ng-container>
+                                        }
+                                    }
+                                }
+                            }
 
-                            <ng-container *ngIf="shownPurpose()==='customeffects'">
-                                <header class="sectionHeader">Custom Effects</header>
+                            @if (shownPurpose() === "customeffects") {
+                                <header class="sectionHeader">
+                                    Custom Effects
+                                </header>
 
-                                <ng-container *ngFor="let creature of allAvailableCreatures$() | async; trackBy:trackByIndex;">
+                                @for (
+                                    creature of allAvailableCreatures$()
+                                        | async;
+                                    track $index
+                                ) {
                                     <button
                                         type="button"
                                         class="list-item"
-                                        (click)="toggleShownList('customEffects'+creature.type)"
+                                        (click)="
+                                            toggleShownList(
+                                                'customEffects' + creature.type
+                                            )
+                                        "
                                     >
-                                        <header class="sectionHeader">Custom effects on {{creature.type}}</header>
+                                        <header class="sectionHeader">
+                                            Custom effects on
+                                            {{ creature.type }}
+                                        </header>
                                     </button>
 
-                                    <div
-                                        *ngIf="shownList()==='customEffects'+creature.type"
-                                        class="list-item"
-                                    >
-                                        <button
-                                            type="button"
-                                            class="newrow center-aligned"
-                                            (click)="onNewCustomEffect(creature)"
-                                        >
-                                            Add effect
-                                        </button>
+                                    @if (
+                                        shownList() ===
+                                        "customEffects" + creature.type
+                                    ) {
+                                        <div class="list-item">
+                                            <button
+                                                type="button"
+                                                class="newrow center-aligned"
+                                                (click)="
+                                                    onNewCustomEffect(creature)
+                                                "
+                                            >
+                                                Add effect
+                                            </button>
 
-                                        <ng-container *ngFor="let effect of creature.effects; let index = index; trackBy:trackByIndex;">
-                                            <div class="list-item">
-                                                <ng-template #FormulaTemplate>
-                                                    <strong>Formula</strong>
-                                                    {{effect.setValue || effect.value || ''}}
-                                                </ng-template>
-
-                                                <div class="newrow">
-                                                    <span class="hlist">
-                                                        <strong class="no-shadow">Target</strong>
-
-                                                        <input
-                                                            aria-label="Effect target"
-                                                            type="text"
-                                                            maxLength="30"
-                                                            id="customEffectAffected{{creature.type}}{{index}}"
-                                                            [(ngModel)]="effect.affected"
-                                                            (blur)="refreshEffects(creature)"
-                                                        >
-                                                    </span>
-                                                </div>
-
-                                                <div class="newrow">
-                                                    <span class="hlist">
-                                                        <strong class="no-shadow">Granted by</strong>
-
-                                                        <input
-                                                            aria-label="Effect source"
-                                                            type="text"
-                                                            maxLength="30"
-                                                            id="customEffectSource{{creature.type}}{{index}}"
-                                                            [(ngModel)]="effect.source"
-                                                            (blur)="refreshEffects(creature)"
-                                                        >
-                                                    </span>
-
-                                                    <span class="hlist">
-                                                        <strong class="no-shadow">Type</strong>
-
-                                                        <select
-                                                            aria-label="Select effect type"
-                                                            [(ngModel)]="effect.type"
-                                                            (ngModelChange)="refreshEffects(creature)"
-                                                        >
-                                                            <option *ngFor="let type of bonusTypes(); trackBy:trackByIndex;">{{type}}</option>
-                                                        </select>
-                                                    </span>
-
-                                                    <span class="hlist">
-                                                        <strong class="no-shadow">Value</strong>
-
-                                                        <ng-container *ngIf="!effect.toggle && (effect.setValue || (effect.value && isValueFormula(effect.value)))">
-                                                            <span>
-                                                                <span
-                                                                    *ngIf="effectiveEffectValue$(creature, effect) | async as effectiveValue"
-                                                                    class="value"
-                                                                    [ngClass]="{'absolute':effect.setValue, 'bonus':!effect.setValue && !effectiveValue.isPenalty, 'penalty':!effect.setValue && effectiveValue.isPenalty}"
-                                                                >
-                                                                    {{effectiveValue.value}}
-                                                                </span>
-
-                                                                <i
-                                                                    *ngIf="isValueFormula(effect.setValue ? effect.setValue : effect.value)"
-                                                                    class="bi-calculator"
-                                                                    [ngbPopover]="FormulaTemplate"
-                                                                ></i>
-                                                            </span>
-                                                        </ng-container>
-
-                                                        <ng-container *ngIf="effect.toggle">
-                                                            <span class="value absolute">on</span>
-                                                        </ng-container>
-
-                                                        <ng-container *ngIf="!effect.toggle && !effect.setValue && !isValueFormula(effect.value)">
-                                                            <input
-                                                                aria-label="Effect value"
-                                                                type="number"
-                                                                class="number4"
-                                                                maxLength="30"
-                                                                id="customEffectValue{{creature.type}}{{index}}"
-                                                                [(ngModel)]="effect.value"
-                                                                (blur)="validate(creature, effect)"
-                                                            >
-                                                        </ng-container>
-                                                    </span>
-
-                                                    <button
-                                                        type="button"
-                                                        style="flex-basis:auto;flex-grow:0;"
-                                                        (click)="onRemoveEffect(creature, effect)"
+                                            @for (
+                                                effect of creature.effects;
+                                                track index;
+                                                let index = $index
+                                            ) {
+                                                <div class="list-item">
+                                                    <ng-template
+                                                        #FormulaTemplate
                                                     >
-                                                        Remove
-                                                    </button>
+                                                        <strong>Formula</strong>
+                                                        {{
+                                                            effect.setValue ||
+                                                                effect.value ||
+                                                                ""
+                                                        }}
+                                                    </ng-template>
+
+                                                    <div class="newrow">
+                                                        <span class="hlist">
+                                                            <strong
+                                                                class="no-shadow"
+                                                                >Target</strong
+                                                            >
+
+                                                            <input
+                                                                aria-label="Effect target"
+                                                                type="text"
+                                                                maxLength="30"
+                                                                id="customEffectAffected{{
+                                                                    creature.type
+                                                                }}{{ index }}"
+                                                                [(ngModel)]="
+                                                                    effect.affected
+                                                                "
+                                                                (blur)="
+                                                                    refreshEffects(
+                                                                        creature
+                                                                    )
+                                                                "
+                                                            />
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="newrow">
+                                                        <span class="hlist">
+                                                            <strong
+                                                                class="no-shadow"
+                                                                >Granted
+                                                                by</strong
+                                                            >
+
+                                                            <input
+                                                                aria-label="Effect source"
+                                                                type="text"
+                                                                maxLength="30"
+                                                                id="customEffectSource{{
+                                                                    creature.type
+                                                                }}{{ index }}"
+                                                                [(ngModel)]="
+                                                                    effect.source
+                                                                "
+                                                                (blur)="
+                                                                    refreshEffects(
+                                                                        creature
+                                                                    )
+                                                                "
+                                                            />
+                                                        </span>
+
+                                                        <span class="hlist">
+                                                            <strong
+                                                                class="no-shadow"
+                                                                >Type</strong
+                                                            >
+
+                                                            <select
+                                                                aria-label="Select effect type"
+                                                                [(ngModel)]="
+                                                                    effect.type
+                                                                "
+                                                                (ngModelChange)="
+                                                                    refreshEffects(
+                                                                        creature
+                                                                    )
+                                                                "
+                                                            >
+                                                                @for (
+                                                                    type of bonusTypes();
+                                                                    track $index
+                                                                ) {
+                                                                    <option>
+                                                                        {{
+                                                                            type
+                                                                        }}
+                                                                    </option>
+                                                                }
+                                                            </select>
+                                                        </span>
+
+                                                        <span class="hlist">
+                                                            <strong
+                                                                class="no-shadow"
+                                                                >Value</strong
+                                                            >
+
+                                                            @if (
+                                                                !effect.toggle &&
+                                                                (effect.setValue ||
+                                                                    (effect.value &&
+                                                                        isValueFormula(
+                                                                            effect.value
+                                                                        )))
+                                                            ) {
+                                                                <span>
+                                                                    @if (
+                                                                        effectiveEffectValue$(
+                                                                            creature,
+                                                                            effect
+                                                                        )
+                                                                            | async;
+                                                                        as effectiveValue
+                                                                    ) {
+                                                                        <span
+                                                                            class="value"
+                                                                            [ngClass]="{
+                                                                                absolute:
+                                                                                    effect.setValue,
+                                                                                bonus:
+                                                                                    !effect.setValue &&
+                                                                                    !effectiveValue.isPenalty,
+                                                                                penalty:
+                                                                                    !effect.setValue &&
+                                                                                    effectiveValue.isPenalty,
+                                                                            }"
+                                                                        >
+                                                                            {{
+                                                                                effectiveValue.value
+                                                                            }}
+                                                                        </span>
+                                                                    }
+
+                                                                    @if (
+                                                                        isValueFormula(
+                                                                            effect.setValue
+                                                                                ? effect.setValue
+                                                                                : effect.value
+                                                                        )
+                                                                    ) {
+                                                                        <i
+                                                                            class="bi-calculator"
+                                                                            [ngbPopover]="
+                                                                                FormulaTemplate
+                                                                            "
+                                                                        ></i>
+                                                                    }
+                                                                </span>
+                                                            }
+
+                                                            @if (
+                                                                effect.toggle
+                                                            ) {
+                                                                <span
+                                                                    class="value absolute"
+                                                                    >on</span
+                                                                >
+                                                            }
+
+                                                            @if (
+                                                                !effect.toggle &&
+                                                                !effect.setValue &&
+                                                                !isValueFormula(
+                                                                    effect.value
+                                                                )
+                                                            ) {
+                                                                <input
+                                                                    aria-label="Effect value"
+                                                                    type="number"
+                                                                    class="number4"
+                                                                    maxLength="30"
+                                                                    id="customEffectValue{{
+                                                                        creature.type
+                                                                    }}{{
+                                                                        index
+                                                                    }}"
+                                                                    [(ngModel)]="
+                                                                        effect.value
+                                                                    "
+                                                                    (blur)="
+                                                                        validate(
+                                                                            creature,
+                                                                            effect
+                                                                        )
+                                                                    "
+                                                                />
+                                                            }
+                                                        </span>
+
+                                                        <button
+                                                            type="button"
+                                                            style="
+                                                                flex-basis: auto;
+                                                                flex-grow: 0;
+                                                            "
+                                                            (click)="
+                                                                onRemoveEffect(
+                                                                    creature,
+                                                                    effect
+                                                                )
+                                                            "
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </ng-container>
-                                    </div>
-                                </ng-container>
+                                            }
+                                        </div>
+                                    }
+                                }
 
-                                <button
-                                    *ngIf="shownPurpose()==='customeffects'"
-                                    type="button"
-                                    class="list-item"
-                                    (click)="toggleShownList('addCustomEffect')"
-                                >
-                                    <header class="sectionHeader">Create advanced custom effect</header>
-                                </button>
-
-                                <div
-                                    *ngIf="shownPurpose()==='customeffects' && shownList()==='addCustomEffect'"
-                                    class="newrow list-item"
-                                >
-                                    <div
-                                        *ngFor="let property of customEffectProperties(); let index = index; trackBy:trackByIndex;"
-                                        class="newrow list-item"
+                                @if (shownPurpose() === "customeffects") {
+                                    <button
+                                        type="button"
+                                        class="list-item"
+                                        (click)="
+                                            toggleShownList('addCustomEffect')
+                                        "
                                     >
-                                        <div class="newrow left-aligned">
-                                            <strong
-                                                triggers="hover:click"
-                                                [ngbPopover]="property.desc"
-                                            >
-                                                {{property.name}}
-                                                <i class="bi-question-circle"></i>
-                                            </strong>
-                                        </div>
+                                        <header class="sectionHeader">
+                                            Create advanced custom effect
+                                        </header>
+                                    </button>
+                                }
 
-                                        <div
-                                            *ngIf="property.key"
-                                            class="newrow"
-                                        >
-                                            <input
-                                                *ngIf="!property.type && !property.locked"
-                                                aria-label="Text input"
-                                                class="newrow"
-                                                type="text"
-                                                [(ngModel)]="objectPropertyAccessor(property.key).value"
-                                                (blur)="validateAdvancedEffect(property, index)"
-                                            >
-                                            <textarea
-                                                *ngIf="property.type==='textarea'"
-                                                aria-label="Multiline text input"
-                                                class="newrow"
-                                                rows=3
-                                                [(ngModel)]="objectPropertyAccessor(property.key).value"
-                                            ></textarea>
-
-                                            <input
-                                                *ngIf="property.type==='checkbox'"
-                                                aria-label="Checkbox"
-                                                type="checkbox"
-                                                [(ngModel)]="objectPropertyAccessor(property.key).value"
-                                            >
-                                            <input
-                                                *ngIf="property.type==='number'"
-                                                aria-label="Number input"
-                                                type="number"
-                                                [(ngModel)]="objectPropertyAccessor(property.key).value"
-                                                (blur)="validateAdvancedEffect(property, index)"
-                                            >
-                                        </div>
-
-                                        <div
-                                            *ngIf="validationError[index]"
-                                            class="newrow"
-                                        >
-                                            <span class="problem">{{validationError[index]}}</span>
-                                        </div>
-
-                                        <div
-                                            *ngIf="validationResult[index]"
-                                            class="newrow"
-                                        >
-                                            <span>
-                                                Current result: {{validationResult[index]}}
-                                            </span>
-                                        </div>
-
-                                        <div
-                                            *ngIf="property.type!=='textarea' && property.type!=='checkbox'"
-                                            class="list-item"
-                                            style="margin: initial 0"
-                                        >
-                                            <select
-                                                aria-label="Select example"
-                                                class="newrow left-aligned"
-                                                [disabled]="!effectPropertyExamples(property).length"
-                                                [(ngModel)]="objectPropertyAccessor(property.key).value"
-                                                (ngModelChange)="validateAdvancedEffect(property, index)"
-                                            >
-                                                <option
-                                                    *ngFor="let example of effectPropertyExamples(property); trackBy:trackByIndex;"
-                                                    [ngValue]="example"
+                                @if (
+                                    shownPurpose() === "customeffects" &&
+                                    shownList() === "addCustomEffect"
+                                ) {
+                                    <div class="newrow list-item">
+                                        @for (
+                                            property of customEffectProperties();
+                                            track index;
+                                            let index = $index
+                                        ) {
+                                            <div class="newrow list-item">
+                                                <div
+                                                    class="newrow left-aligned"
                                                 >
-                                                    {{example}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                                    <strong
+                                                        triggers="hover:click"
+                                                        [ngbPopover]="
+                                                            property.desc
+                                                        "
+                                                    >
+                                                        {{ property.name }}
+                                                        <i
+                                                            class="bi-question-circle"
+                                                        ></i>
+                                                    </strong>
+                                                </div>
 
-                                    <div
-                                        *ngFor="let creature of allAvailableCreatures$() | async; trackBy:trackByIndex"
-                                        [ngbTooltip]="isEffectInvalid()"
-                                    >
-                                        <button
-                                            type="button"
-                                            class="list-item newrow"
-                                            [disabled]="isEffectInvalid()"
-                                            (click)="onAddEffect(creature)"
-                                        >
-                                            Add to {{creature.name || creature.type}}
-                                        </button>
+                                                @if (property.key) {
+                                                    <div class="newrow">
+                                                        @if (
+                                                            !property.type &&
+                                                            !property.locked
+                                                        ) {
+                                                            <input
+                                                                aria-label="Text input"
+                                                                class="newrow"
+                                                                type="text"
+                                                                [(ngModel)]="
+                                                                    objectPropertyAccessor(
+                                                                        property.key
+                                                                    ).value
+                                                                "
+                                                                (blur)="
+                                                                    validateAdvancedEffect(
+                                                                        property,
+                                                                        index
+                                                                    )
+                                                                "
+                                                            />
+                                                        }
+                                                        @if (
+                                                            property.type ===
+                                                            "textarea"
+                                                        ) {
+                                                            <textarea
+                                                                aria-label="Multiline text input"
+                                                                class="newrow"
+                                                                rows="3"
+                                                                [(ngModel)]="
+                                                                    objectPropertyAccessor(
+                                                                        property.key
+                                                                    ).value
+                                                                "
+                                                            ></textarea>
+                                                        }
+
+                                                        @if (
+                                                            property.type ===
+                                                            "checkbox"
+                                                        ) {
+                                                            <input
+                                                                aria-label="Checkbox"
+                                                                type="checkbox"
+                                                                [(ngModel)]="
+                                                                    objectPropertyAccessor(
+                                                                        property.key
+                                                                    ).value
+                                                                "
+                                                            />
+                                                        }
+                                                        @if (
+                                                            property.type ===
+                                                            "number"
+                                                        ) {
+                                                            <input
+                                                                aria-label="Number input"
+                                                                type="number"
+                                                                [(ngModel)]="
+                                                                    objectPropertyAccessor(
+                                                                        property.key
+                                                                    ).value
+                                                                "
+                                                                (blur)="
+                                                                    validateAdvancedEffect(
+                                                                        property,
+                                                                        index
+                                                                    )
+                                                                "
+                                                            />
+                                                        }
+                                                    </div>
+                                                }
+
+                                                @if (validationError[index]) {
+                                                    <div class="newrow">
+                                                        <span class="problem">{{
+                                                            validationError[
+                                                                index
+                                                            ]
+                                                        }}</span>
+                                                    </div>
+                                                }
+
+                                                @if (validationResult[index]) {
+                                                    <div class="newrow">
+                                                        <span>
+                                                            Current result:
+                                                            {{
+                                                                validationResult[
+                                                                    index
+                                                                ]
+                                                            }}
+                                                        </span>
+                                                    </div>
+                                                }
+
+                                                @if (
+                                                    property.type !==
+                                                        "textarea" &&
+                                                    property.type !== "checkbox"
+                                                ) {
+                                                    <div
+                                                        class="list-item"
+                                                        style="
+                                                            margin: initial 0;
+                                                        "
+                                                    >
+                                                        <select
+                                                            aria-label="Select example"
+                                                            class="newrow left-aligned"
+                                                            [disabled]="
+                                                                !effectPropertyExamples(
+                                                                    property
+                                                                ).length
+                                                            "
+                                                            [(ngModel)]="
+                                                                objectPropertyAccessor(
+                                                                    property.key
+                                                                ).value
+                                                            "
+                                                            (ngModelChange)="
+                                                                validateAdvancedEffect(
+                                                                    property,
+                                                                    index
+                                                                )
+                                                            "
+                                                        >
+                                                            @for (
+                                                                example of effectPropertyExamples(
+                                                                    property
+                                                                );
+                                                                track $index
+                                                            ) {
+                                                                <option
+                                                                    [ngValue]="
+                                                                        example
+                                                                    "
+                                                                >
+                                                                    {{
+                                                                        example
+                                                                    }}
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+
+                                        @for (
+                                            creature of allAvailableCreatures$()
+                                                | async;
+                                            track $index
+                                        ) {
+                                            <div
+                                                [ngbTooltip]="isEffectInvalid()"
+                                            >
+                                                <button
+                                                    type="button"
+                                                    class="list-item newrow"
+                                                    [disabled]="
+                                                        isEffectInvalid()
+                                                    "
+                                                    (click)="
+                                                        onAddEffect(creature)
+                                                    "
+                                                >
+                                                    Add to
+                                                    {{
+                                                        creature.name ||
+                                                            creature.type
+                                                    }}
+                                                </button>
+                                            </div>
+                                        }
                                     </div>
-                                </div>
-                            </ng-container>
+                                }
+                            }
                         </div>
                     </div>
 
                     <div class="character-sheet-column mobile-hide">
-                        <div
-                            *ngIf="componentParameters.isCompanionAvailable || componentParameters.isFamiliarAvailable"
-                            class="list-item newrow"
-                        >
-                            <button
-                                type="button"
-                                class="center-aligned"
-                                [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.Character}"
-                                (click)="toggleShownCreature(creatureTypesEnum.Character)"
-                            >
-                                Character
-                            </button>
+                        @if (
+                            componentParameters.isCompanionAvailable ||
+                            componentParameters.isFamiliarAvailable
+                        ) {
+                            <div class="list-item newrow">
+                                <button
+                                    type="button"
+                                    class="center-aligned"
+                                    [ngClass]="{
+                                        'fancy-button':
+                                            shownCreature() ===
+                                            creatureTypesEnum.Character,
+                                    }"
+                                    (click)="
+                                        toggleShownCreature(
+                                            creatureTypesEnum.Character
+                                        )
+                                    "
+                                >
+                                    Character
+                                </button>
 
-                            <button
-                                *ngIf="componentParameters.isCompanionAvailable"
-                                type="button"
-                                class="center-aligned"
-                                [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.AnimalCompanion}"
-                                (click)="toggleShownCreature(creatureTypesEnum.AnimalCompanion)"
-                            >
-                                Companion
-                            </button>
+                                @if (componentParameters.isCompanionAvailable) {
+                                    <button
+                                        type="button"
+                                        class="center-aligned"
+                                        [ngClass]="{
+                                            'fancy-button':
+                                                shownCreature() ===
+                                                creatureTypesEnum.AnimalCompanion,
+                                        }"
+                                        (click)="
+                                            toggleShownCreature(
+                                                creatureTypesEnum.AnimalCompanion
+                                            )
+                                        "
+                                    >
+                                        Companion
+                                    </button>
+                                }
 
-                            <button
-                                *ngIf="componentParameters.isFamiliarAvailable"
-                                type="button"
-                                class="center-aligned"
-                                [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.Familiar}"
-                                (click)="toggleShownCreature(creatureTypesEnum.Familiar)"
-                            >
-                                Familiar
-                            </button>
-                        </div>
+                                @if (componentParameters.isFamiliarAvailable) {
+                                    <button
+                                        type="button"
+                                        class="center-aligned"
+                                        [ngClass]="{
+                                            'fancy-button':
+                                                shownCreature() ===
+                                                creatureTypesEnum.Familiar,
+                                        }"
+                                        (click)="
+                                            toggleShownCreature(
+                                                creatureTypesEnum.Familiar
+                                            )
+                                        "
+                                    >
+                                        Familiar
+                                    </button>
+                                }
+                            </div>
+                        }
 
-                        <app-effects
-                            *ngIf="creatureFromShownCreature$() | async as creature"
-                            class="fullwidth"
-                            [creature]="creature"
-                            [fullDisplay]="true"
-                        />
+                        @if (
+                            creatureFromShownCreature$() | async;
+                            as creature
+                        ) {
+                            <app-effects
+                                class="fullwidth"
+                                [creature]="creature"
+                                [fullDisplay]="true"
+                            />
+                        }
                     </div>
                 </div>
-            </ng-container>
-        </ng-container>
+            }
+        }
     </div>
 </app-fly-in-menu>

@@ -108,7 +108,6 @@ export class WornItem extends Equipment implements MessageSerializable<WornItem>
             );
     }
 
-
     public get battleforged(): boolean {
         return this._battleforged;
     }

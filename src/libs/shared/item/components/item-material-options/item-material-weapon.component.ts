@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';

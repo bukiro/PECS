@@ -55,21 +55,20 @@ import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observabl
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu, selectItemsMenuTarget } from 'src/libs/store/menu/menu.selectors';
-import { InventoryComponent } from '../../../libs/inventory/components/inventory/inventory.component';
+import { InventoryComponent } from 'src/libs/inventory/components/inventory/inventory.component';
 import { NewItemPropertyComponent } from './components/new-item-property/new-item-property.component';
-import { GridIconComponent } from '../../../libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
-import { ItemTalismansComponent } from '../../../libs/shared/item/components/item-talismans/item-talismans.component';
-import { ItemRunesComponent } from '../../../libs/shared/item/components/item-runes/item-runes.component';
-import { ItemMaterialComponent } from '../../../libs/shared/item/components/item-material/item-material.component';
+import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { ItemTalismansComponent } from 'src/libs/shared/item/components/item-talismans/item-talismans.component';
+import { ItemRunesComponent } from 'src/libs/shared/item/components/item-runes/item-runes.component';
+import { ItemMaterialComponent } from 'src/libs/shared/item/components/item-material/item-material.component';
 import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { ItemComponent } from '../../../libs/shared/item/components/item/item.component';
-import { DescriptionComponent } from '../../../libs/shared/ui/description/components/description/description.component';
-import { TagsComponent } from '../../../libs/shared/tags/components/tags/tags.component';
-import { CashComponent } from '../../../libs/shared/cash/components/cash/cash.component';
+import { ItemComponent } from 'src/libs/shared/item/components/item/item.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
+import { CashComponent } from 'src/libs/shared/cash/components/cash/cash.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
-
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -735,7 +734,6 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
                             },
                     ),
                 );
-
 
         return this.characterHasFeat$('Snare Specialist')
             .pipe(

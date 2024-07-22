@@ -1,249 +1,253 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<div
-    *ngIf="spell.inputRequired"
-    class="list-item lower newrow problem"
->
-    <strong>Player input required:</strong>
+@if (spell.inputRequired) {
+    <div class="list-item lower newrow problem">
+        <strong>Player input required:</strong>
 
-    <div
-        *ngFor="let inputRequired of spell.inputRequired.split('\n\n'); trackBy:trackByIndex;"
-        class="newrow left-aligned"
-    >
-        <app-description
-            class="newrow"
-            [text]="inputRequired"
-        />
+        @for (
+            inputRequired of spell.inputRequired.split("\n\n");
+            track $index
+        ) {
+            <div class="newrow left-aligned">
+                <app-description
+                    class="newrow"
+                    [text]="inputRequired"
+                />
+            </div>
+        }
     </div>
-</div>
+}
 
-<div
-    *ngIf="spell.sourceBook"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>Source</strong>
+@if (spell.sourceBook) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>Source</strong>
 
-        <i>{{spell.sourceBook}}</i>
-    </span>
-</div>
+            <i>{{ spell.sourceBook }}</i>
+        </span>
+    </div>
+}
 
-<div
-    *ngIf="spell.PFSnote"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>PFS Note</strong>
+@if (spell.PFSnote) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>PFS Note</strong>
 
-        <i>{{spell.PFSnote}}</i>
-    </span>
-</div>
+            <i>{{ spell.PFSnote }}</i>
+        </span>
+    </div>
+}
 
-<div
-    *ngIf="spell.traditions && !spell.traditions.includes(spellTraditionsEnum.Focus)"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>Traditions</strong>
-        {{spell.traditions.join(', ')}}
-    </span>
-</div>
+@if (
+    spell.traditions && !spell.traditions.includes(spellTraditionsEnum.Focus)
+) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>Traditions</strong>
+            {{ spell.traditions.join(", ") }}
+        </span>
+    </div>
+}
 
-<div
-    *ngIf="spell.castType || spell.cost"
-    class="newrow left-aligned"
->
-    <ng-container *ngIf="spell.castType">
-        <strong>Cast</strong>
+@if (spell.castType || spell.cost) {
+    <div class="newrow left-aligned">
+        @if (spell.castType) {
+            <strong>Cast</strong>
 
-        <app-action-icons
-            *ngIf="spell.actions"
-            [actionString]="spell.actions"
-        />
+            @if (spell.actions) {
+                <app-action-icons [actionString]="spell.actions" />
+            }
 
-        <span>{{spell.castType}}</span>
-    </ng-container>
+            <span>{{ spell.castType }}</span>
+        }
 
-    <ng-container *ngIf="spell.cost">
-        <strong>Cost</strong>
-        {{spell.cost}}
-    </ng-container>
-</div>
+        @if (spell.cost) {
+            <strong>Cost</strong>
+            {{ spell.cost }}
+        }
+    </div>
+}
 
-<div
-    *ngIf="spell.requirements"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>Requirements</strong>
-        {{spell.requirements}}
-    </span>
-</div>
+@if (spell.requirements) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>Requirements</strong>
+            {{ spell.requirements }}
+        </span>
+    </div>
+}
 
-<div
-    *ngIf="spell.trigger"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>Trigger</strong>
-        {{spell.trigger}}
-    </span>
-</div>
+@if (spell.trigger) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>Trigger</strong>
+            {{ spell.trigger }}
+        </span>
+    </div>
+}
 
-<div
-    *ngIf="spell.range || spell.area || spell.targets"
-    class="newrow left-aligned"
->
-    <span *ngIf="spell.range">
-        <strong>Range</strong>
-        {{spell.range}}
-    </span>
+@if (spell.range || spell.area || spell.targets) {
+    <div class="newrow left-aligned">
+        @if (spell.range) {
+            <span>
+                <strong>Range</strong>
+                {{ spell.range }}
+            </span>
+        }
 
-    <span *ngIf="spell.area">
-        <strong>Area</strong>
-        {{spell.area}}
-    </span>
+        @if (spell.area) {
+            <span>
+                <strong>Area</strong>
+                {{ spell.area }}
+            </span>
+        }
 
-    <span *ngIf="spell.targets">
-        <strong>Targets</strong>
-        {{spell.targets}}
-    </span>
-</div>
+        @if (spell.targets) {
+            <span>
+                <strong>Targets</strong>
+                {{ spell.targets }}
+            </span>
+        }
+    </div>
+}
 
-<div
-    *ngIf="spell.savingThrow || spell.duration"
-    class="newrow left-aligned"
->
-    <span *ngIf="spell.savingThrow">
-        <strong>Saving Throw</strong>
-        {{spell.savingThrow}}
-    </span>
+@if (spell.savingThrow || spell.duration) {
+    <div class="newrow left-aligned">
+        @if (spell.savingThrow) {
+            <span>
+                <strong>Saving Throw</strong>
+                {{ spell.savingThrow }}
+            </span>
+        }
 
-    <span *ngIf="spell.duration">
-        <strong>Duration</strong>
-        {{spell.duration}}
-    </span>
-</div>
+        @if (spell.duration) {
+            <span>
+                <strong>Duration</strong>
+                {{ spell.duration }}
+            </span>
+        }
+    </div>
+}
 
-<div
-    *ngFor="let desc of heightenedText(spell.desc).split('\n\n'); trackBy:trackByIndex;"
-    class="newrow left-aligned"
->
-    <app-description
-        class="newrow"
-        [text]="desc"
-        [casting]="casting"
-    />
-</div>
-
-<div
-    *ngIf="spell.critsuccess"
-    class="newrow gap-text lower left-aligned"
->
-    <strong>Critical Success</strong>
-
-    <app-description
-        [text]="heightenedText(spell.critsuccess)"
-        [casting]="casting"
-        [oneLiner]="true"
-    />
-</div>
-
-<div
-    *ngIf="spell.success"
-    class="newrow gap-text lower left-aligned"
->
-    <strong>Success</strong>
-
-    <app-description
-        [text]="heightenedText(spell.success)"
-        [casting]="casting"
-        [oneLiner]="true"
-    />
-</div>
-
-<div
-    *ngIf="spell.failure"
-    class="newrow gap-text lower left-aligned"
->
-    <strong>Failure</strong>
-
-    <app-description
-        [text]="heightenedText(spell.failure)"
-        [casting]="casting"
-        [oneLiner]="true"
-    />
-</div>
-
-<div
-    *ngIf="spell.critfailure"
-    class="newrow gap-text lower left-aligned"
->
-    <strong>Critical Failure</strong>
-
-    <app-description
-        [text]="heightenedText(spell.critfailure)"
-        [casting]="casting"
-        [oneLiner]="true"
-    />
-</div>
-
-<ng-container *ngIf="spell.desc2">
-    <div
-        *ngFor="let desc of heightenedText(spell.desc2).split('\n\n'); trackBy:trackByIndex;"
-        class="newrow left-aligned"
-    >
+@for (desc of heightenedText(spell.desc).split("\n\n"); track $index) {
+    <div class="newrow left-aligned">
         <app-description
             class="newrow"
             [text]="desc"
             [casting]="casting"
         />
     </div>
-</ng-container>
+}
 
-<div
-    *ngFor="let heightened of spell.heightened; trackBy:trackByIndex;"
-    class="newrow left-aligned"
->
-    <span>
-        <strong>Heightened {{heightened.level}}</strong>
-        {{heightened.desc}}
-    </span>
-</div>
+@if (spell.critsuccess) {
+    <div class="newrow gap-text lower left-aligned">
+        <strong>Critical Success</strong>
 
-<div
-    *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;"
-    class="list-item left-aligned"
->
-    <div *ngIf="spellFromName(shownSpellSet.name) as shownSpell">
-        <header class="spellHeader left-aligned">
-            {{shownSpell.name}}
-            <app-action-icons
-                *ngIf="shownSpell.actions"
-                [actionString]="shownSpell.actions"
-            />
-            {{shownSpell.castType.toString()}}
-        </header>
-
-        <div class="newrow left-aligned">
-            <app-trait
-                *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
-                [name]="trait"
-                [trait]="traitFromName(trait)"
-            />
-
-            <app-trait
-                *ngFor="let trait of shownSpell.activationTraits(); trackBy:trackByIndex;"
-                [name]="trait"
-                [trait]="traitFromName(trait)"
-                [extraDescription]="'(This trait was derived from the action components.)'"
-            />
-        </div>
-
-        <app-spell-content
-            class="vlist fullwidth"
-            [spell]=shownSpell
-            [spellLevel]="shownSpellSet.level || spellLevel || 0"
+        <app-description
+            [text]="heightenedText(spell.critsuccess)"
             [casting]="casting"
+            [oneLiner]="true"
         />
     </div>
-</div>
+}
+
+@if (spell.success) {
+    <div class="newrow gap-text lower left-aligned">
+        <strong>Success</strong>
+
+        <app-description
+            [text]="heightenedText(spell.success)"
+            [casting]="casting"
+            [oneLiner]="true"
+        />
+    </div>
+}
+
+@if (spell.failure) {
+    <div class="newrow gap-text lower left-aligned">
+        <strong>Failure</strong>
+
+        <app-description
+            [text]="heightenedText(spell.failure)"
+            [casting]="casting"
+            [oneLiner]="true"
+        />
+    </div>
+}
+
+@if (spell.critfailure) {
+    <div class="newrow gap-text lower left-aligned">
+        <strong>Critical Failure</strong>
+
+        <app-description
+            [text]="heightenedText(spell.critfailure)"
+            [casting]="casting"
+            [oneLiner]="true"
+        />
+    </div>
+}
+
+@if (spell.desc2) {
+    @for (desc of heightenedText(spell.desc2).split("\n\n"); track $index) {
+        <div class="newrow left-aligned">
+            <app-description
+                class="newrow"
+                [text]="desc"
+                [casting]="casting"
+            />
+        </div>
+    }
+}
+
+@for (heightened of spell.heightened; track $index) {
+    <div class="newrow left-aligned">
+        <span>
+            <strong>Heightened {{ heightened.level }}</strong>
+            {{ heightened.desc }}
+        </span>
+    </div>
+}
+
+@for (shownSpellSet of spell.showSpells; track $index) {
+    <div class="list-item left-aligned">
+        @if (spellFromName(shownSpellSet.name); as shownSpell) {
+            <div>
+                <header class="spellHeader left-aligned">
+                    {{ shownSpell.name }}
+                    @if (shownSpell.actions) {
+                        <app-action-icons [actionString]="shownSpell.actions" />
+                    }
+                    {{ shownSpell.castType.toString() }}
+                </header>
+
+                <div class="newrow left-aligned">
+                    @for (trait of shownSpell.traits; track $index) {
+                        <app-trait
+                            [name]="trait"
+                            [trait]="traitFromName(trait)"
+                        />
+                    }
+
+                    @for (
+                        trait of shownSpell.activationTraits();
+                        track $index
+                    ) {
+                        <app-trait
+                            [name]="trait"
+                            [trait]="traitFromName(trait)"
+                            [extraDescription]="
+                                '(This trait was derived from the action components.)'
+                            "
+                        />
+                    }
+                </div>
+
+                <app-spell-content
+                    class="vlist fullwidth"
+                    [spell]="shownSpell"
+                    [spellLevel]="shownSpellSet.level || spellLevel || 0"
+                    [casting]="casting"
+                />
+            </div>
+        }
+    </div>
+}

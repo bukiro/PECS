@@ -50,7 +50,6 @@ export class WeaponPropertiesService {
                     // martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons."
                     const proficiencyChanges: Array<ProficiencyChange> = [];
 
-
                     characterFeats
                         .filter(feat => feat.changeProficiency.length)
                         .forEach(feat => {

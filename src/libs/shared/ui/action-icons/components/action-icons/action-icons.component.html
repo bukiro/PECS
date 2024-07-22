@@ -1,34 +1,30 @@
-<ng-container *ngFor="let phrase of phrases; trackBy:trackByIndex;">
-    <ng-container [ngSwitch]="phrase">
-        <span
-            *ngSwitchCase="'1A'"
-            class="actionIcon action1A"
-        ></span>
+@for (phrase of phrases; track $index) {
+    @switch (phrase) {
+        @case ("1A") {
+            <span class="actionIcon action1A"></span>
+        }
 
-        <span
-            *ngSwitchCase="'2A'"
-            class="actionIcon action2A"
-        ></span>
+        @case ("2A") {
+            <span class="actionIcon action2A"></span>
+        }
 
-        <span
-            *ngSwitchCase="'3A'"
-            class="actionIcon action3A"
-        ></span>
+        @case ("3A") {
+            <span class="actionIcon action3A"></span>
+        }
 
-        <span
-            *ngSwitchCase="'Free'"
-            class="actionIcon actionFree"
-        ></span>
+        @case ("Free") {
+            <span class="actionIcon actionFree"></span>
+        }
 
-        <span
-            *ngSwitchCase="'Reaction'"
-            class="actionIcon actionReaction"
-        ></span>
+        @case ("Reaction") {
+            <span class="actionIcon actionReaction"></span>
+        }
 
-        <span
-            *ngSwitchDefault
-
-            class="lower"            [innerHtml]="' '+phrase+' '"
-        ></span>
-    </ng-container>
-</ng-container>
+        @default {
+            <span
+                class="lower"
+                [innerHtml]="' ' + phrase + ' '"
+            ></span>
+        }
+    }
+}

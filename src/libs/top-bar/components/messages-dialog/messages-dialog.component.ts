@@ -11,13 +11,11 @@ import { MessagePropertiesService } from 'src/libs/shared/services/message-prope
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeZip } from 'src/libs/shared/util/observable-utils';
-import { DialogFooterComponent as DialogFooterComponent_1 } from '../../../shared/dialog/components/dialog-footer/dialog-footer.component';
-import { LabelInputPairComponent } from '../../../shared/ui/input/components/label-input-pair/label-input-pair.component';
-import { CommonModule } from '@angular/common';
+import { LabelInputPairComponent } from 'src/libs/shared/ui/input/components/label-input-pair/label-input-pair.component';
 import { FormsModule } from '@angular/forms';
-import { CheckboxInputComponent } from '../../../shared/ui/input/components/checkbox-input/checkbox-input.component';
-import { DialogHeaderComponent as DialogHeaderComponent_1 } from '../../../shared/dialog/components/dialog-header/dialog-header.component';
-import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
+import { CheckboxInputComponent } from 'src/libs/shared/ui/input/components/checkbox-input/checkbox-input.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
+import { CommonModule } from '@angular/common';
 
 interface EnrichedMessage {
     message: PlayerMessage;
@@ -36,12 +34,11 @@ interface EnrichedMessage {
     imports: [
         CommonModule,
         FormsModule,
-
         CharacterSheetCardComponent,
-        DialogHeaderComponent_1,
+        DialogHeaderComponent,
         CheckboxInputComponent,
         LabelInputPairComponent,
-        DialogFooterComponent_1,
+        DialogFooterComponent,
     ],
 })
 export class MessagesDialogComponent extends TrackByMixin(DialogComponent) implements AfterViewInit {

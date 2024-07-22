@@ -94,28 +94,44 @@
 
 <div class="character-sheet-columns">
     <div class="character-sheet-columns__column">
-        <ng-container *ngIf="shownMode !== 'ConditionsEffects'; else ConditionsAndEffectsTemplate">
-            <app-general *ngIf="shownMode === 'All'" />
+        @if (shownMode !== "ConditionsEffects") {
+            @if (shownMode === "All") {
+                <app-general />
+            }
 
-            <app-abilities *ngIf="shownMode === 'All'" />
+            @if (shownMode === "All") {
+                <app-abilities />
+            }
 
-            <app-health *ngIf="shownMode === 'Health'" />
+            @if (shownMode === "Health") {
+                <app-health />
+            }
 
-            <app-defense *ngIf="shownMode === 'Defense'" />
+            @if (shownMode === "Defense") {
+                <app-defense />
+            }
 
-            <app-attacks *ngIf="shownMode === 'Attacks'" />
+            @if (shownMode === "Attacks") {
+                <app-attacks />
+            }
 
-            <app-spellbook *ngIf="shownMode === 'Spells'" />
+            @if (shownMode === "Spells") {
+                <app-spellbook />
+            }
 
-            <app-skills *ngIf="shownMode === 'Skills'" />
+            @if (shownMode === "Skills") {
+                <app-skills />
+            }
 
-            <app-activities *ngIf="shownMode === 'Actions'" />
+            @if (shownMode === "Actions") {
+                <app-activities />
+            }
 
-            <app-inventory *ngIf="shownMode === 'Inventory'" />
-        </ng-container>
-
-        <ng-template #ConditionsAndEffectsTemplate>
+            @if (shownMode === "Inventory") {
+                <app-inventory />
+            }
+        } @else {
             <app-effects [fullDisplay]="true" />
-        </ng-template>
+        }
     </div>
 </div>

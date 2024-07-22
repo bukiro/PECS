@@ -218,7 +218,6 @@ export class ArmorPropertiesService {
                     }
                 }),
             );
-
     }
 
 }

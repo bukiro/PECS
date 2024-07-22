@@ -7,10 +7,9 @@ import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.ser
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
-import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
-import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
-import { CommonModule } from '@angular/common';
+import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 
 @Component({
     selector: 'app-spell-content',
@@ -19,8 +18,6 @@ import { CommonModule } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        CommonModule,
-
         DescriptionComponent,
         ActionIconsComponent,
         TraitComponent,

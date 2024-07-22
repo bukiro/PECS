@@ -20,9 +20,8 @@ import { skillLevelName } from 'src/libs/shared/util/skill-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { GridIconComponent } from '../../../ui/grid-icon/components/grid-icon/grid-icon.component';
+import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
 import { CommonModule } from '@angular/common';
-
 
 interface SkillChoiceParameters {
     listId: string;
@@ -288,7 +287,6 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                     return reasons;
                 }),
             );
-
     }
 
     public onSkillIncrease(skillName: string, event: Event, choice: SkillChoice, locked = false, maxAvailable: number): void {

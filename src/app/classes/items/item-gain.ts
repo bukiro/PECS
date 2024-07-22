@@ -70,7 +70,6 @@ export class ItemGain implements Serializable<ItemGain> {
      */
     public newPropertyRunes: Array<Partial<Rune> & { name: string }> = [];
 
-
     public static from(values: DeepPartial<ItemGain>): ItemGain {
         return new ItemGain().with(values);
     }

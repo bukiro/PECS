@@ -1,113 +1,141 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngFor="let hint of hints$() | async; trackBy:trackByIndex;">
-    <ng-container *ngIf="hintSource(hint) as source">
+@for (hint of hints$() | async; track $index) {
+    @if (hintSource(hint); as source) {
         <ng-template #SimpleHintContent>
-            <ng-container *ngFor="let text of hintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
+            @for (
+                text of hintDescription(hint).split("\n\n");
+                track $index
+            ) {
                 <app-description
                     class="newrow"
                     [text]="text"
                 />
-            </ng-container>
+            }
         </ng-template>
 
         <ng-template #HintContent>
-            <ng-container *ngFor="let text of hintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
+            @for (
+                text of hintDescription(hint).split("\n\n");
+                track $index
+            ) {
                 <app-description
                     class="newrow"
                     [text]="text"
                 />
-            </ng-container>
+            }
 
-            <label *ngIf="objectHasType(source)">
-                <div
-                    class="button newrow center-aligned"
-                    [ngClass]="{'fancy-button': character.settings.hintsShowMoreInformation}"
-                >
-                    {{character.settings.hintsShowMoreInformation ? 'Show Less' : 'Show More'}}
-                    <input
-                        type="checkbox"
-                        hidden
-                        [(ngModel)]="character.settings.hintsShowMoreInformation"
+            @if (objectHasType(source)) {
+                <label>
+                    <div
+                        class="button newrow center-aligned"
+                        [ngClass]="{
+                            'fancy-button':
+                                character.settings.hintsShowMoreInformation,
+                        }"
                     >
-                </div>
-            </label>
-
-            <div
-                *ngIf="character.settings.hintsShowMoreInformation && objectAsNamedObject(source) as namedObject"
-                class="list-item"
-            >
-                <header
-                    *ngIf="namedObject.name"
-                    class="spellHeader"
-                >
-                    {{namedObject.name}}
-                </header>
-
-                <div
-                    *ngIf="sourceBook"
-                    class="newrow left-aligned"
-                >
-                    <strong>Source</strong>
-
-                    <i>{{sourceBook}}</i>
-                </div>
-
-                <app-feat
-                    *ngIf="objectAsFeat(source) as feat"
-                    [feat]="feat"
-                />
-
-                <app-hint-condition
-                    *ngIf="objectAsConditionGainSet(source) as conditionSet"
-                    [condition]="conditionSet.condition"
-                    [conditionGain]="conditionSet.gain"
-                    [creature]="creature"
-                />
-
-                <ng-container *ngIf="objectAsActivity(source) as activity">
-                    <div class="newrow left-aligned">
-                        <app-trait
-                            *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
-                            [name]="trait"
-                            [trait]="traitFromName(trait)"
-                        />
-
-                        <app-trait
-                            *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
-                            [name]="trait"
-                            [trait]="traitFromName(trait)"
-                            [extraDescription]="'(This trait was derived from the action components.)'"
+                        {{
+                            character.settings.hintsShowMoreInformation
+                                ? "Show Less"
+                                : "Show More"
+                        }}
+                        <input
+                            type="checkbox"
+                            hidden
+                            [(ngModel)]="
+                                character.settings.hintsShowMoreInformation
+                            "
                         />
                     </div>
+                </label>
+            }
 
-                    <app-activity-content
-                        class="fullwidth vlist lower"
-                        [creature]="creature"
-                        [allowActivate]="false"
-                        [activity]="activity"
-                        [cooldown]="(activityCooldown$(activity) | async) ?? activity.cooldown"
-                    />
-                </ng-container>
+            @if (
+                character.settings.hintsShowMoreInformation &&
+                    objectAsNamedObject(source);
+                as namedObject
+            ) {
+                <div class="list-item">
+                    @if (namedObject.name) {
+                        <header class="spellHeader">
+                            {{ namedObject.name }}
+                        </header>
+                    }
 
-                <app-hint-item
-                    *ngIf="objectAsItem(source) as item"
-                    [item]="item"
-                    [creature]="creature"
-                />
+                    @if (sourceBook) {
+                        <div class="newrow left-aligned">
+                            <strong>Source</strong>
 
-                <div
-                    *ngIf="objectAsDescOnly(source) as descOnly"
-                    class="newrow left-aligned"
-                >
-                    <app-description
-                        class="newrow"
-                        [text]="descOnly.desc"
-                    />
+                            <i>{{ sourceBook }}</i>
+                        </div>
+                    }
+
+                    @if (objectAsFeat(source); as feat) {
+                        <app-feat [feat]="feat" />
+                    }
+
+                    @if (objectAsConditionGainSet(source); as conditionSet) {
+                        <app-hint-condition
+                            [condition]="conditionSet.condition"
+                            [conditionGain]="conditionSet.gain"
+                            [creature]="creature"
+                        />
+                    }
+
+                    @if (objectAsActivity(source); as activity) {
+                        <div class="newrow left-aligned">
+                            @for (trait of activity.traits; track $index) {
+                                <app-trait
+                                    [name]="trait"
+                                    [trait]="traitFromName(trait)"
+                                />
+                            }
+
+                            @for (
+                                trait of activity.activationTraits();
+                                track $index
+                            ) {
+                                <app-trait
+                                    [name]="trait"
+                                    [trait]="traitFromName(trait)"
+                                    [extraDescription]="
+                                        '(This trait was derived from the action components.)'
+                                    "
+                                />
+                            }
+                        </div>
+
+                        <app-activity-content
+                            class="fullwidth vlist lower"
+                            [creature]="creature"
+                            [allowActivate]="false"
+                            [activity]="activity"
+                            [cooldown]="
+                                (activityCooldown$(activity) | async) ??
+                                activity.cooldown
+                            "
+                        />
+                    }
+
+                    @if (objectAsItem(source); as item) {
+                        <app-hint-item
+                            [item]="item"
+                            [creature]="creature"
+                        />
+                    }
+
+                    @if (objectAsDescOnly(source); as descOnly) {
+                        <div class="newrow left-aligned">
+                            <app-description
+                                class="newrow"
+                                [text]="descOnly.desc"
+                            />
+                        </div>
+                    }
                 </div>
-            </div>
+            }
         </ng-template>
 
-        <cite class="{{color}}">
+        <cite class="{{ color }}">
             <span
                 #fullDetailPopover="ngbPopover"
                 triggers="click"
@@ -115,13 +143,16 @@
             >
                 <span
                     triggers="hover"
-                    [ngbPopover]="(!fullDetailPopover.isOpen() && SimpleHintContent) || undefined"
+                    [ngbPopover]="
+                        (!fullDetailPopover.isOpen() && SimpleHintContent) ||
+                        undefined
+                    "
                 >
-                    {{hint.replaceTitle || description}}{{hintChoice(hint)}}
+                    {{ hint.replaceTitle || description }}{{ hintChoice(hint) }}
                 </span>
             </span>
 
-            <ng-container *ngIf="hint.effects && hint.effects.length">
+            @if (hint.effects && hint.effects.length) {
                 <input
                     aria-label="Activate the default level of this trait's effects"
                     type="checkbox"
@@ -129,44 +160,56 @@
                     [ngbTooltip]="'Activate any effects of this hint.'"
                     [(ngModel)]="hint.active"
                     (ngModelChange)="onActivateEffect()"
-                >
-                <input
-                    *ngIf="hint.extraActivations > 0"
-                    aria-label="Activate the second level of this trait's effects"
-                    type="checkbox"
-                    triggers="hover"
-                    [ngbTooltip]="'Activate the second level of this hint\'s effects.'"
-                    [(ngModel)]="hint.active2"
-                    (ngModelChange)="onActivateEffect()"
-                >
-                <input
-                    *ngIf="hint.extraActivations > 1"
-                    aria-label="Activate the third level of this trait's effects"
-                    type="checkbox"
-                    triggers="hover"
-                    [ngbTooltip]="'Activate the third level of this hint\'s effects.'"
-                    [(ngModel)]="hint.active3"
-                    (ngModelChange)="onActivateEffect()"
-                >
-                <input
-                    *ngIf="hint.extraActivations > 2"
-                    aria-label="Activate the fourth level of this trait's effects"
-                    type="checkbox"
-                    triggers="hover"
-                    [ngbTooltip]="'Activate the fourth level of this hint\'s effects.'"
-                    [(ngModel)]="hint.active4"
-                    (ngModelChange)="onActivateEffect()"
-                >
-                <input
-                    *ngIf="hint.extraActivations > 3"
-                    aria-label="Activate the fifth level of this trait's effects"
-                    type="checkbox"
-                    triggers="hover"
-                    [ngbTooltip]="'Activate the fifth level of this hint\'s effects.'"
-                    [(ngModel)]="hint.active5"
-                    (ngModelChange)="onActivateEffect()"
-                >
-            </ng-container>
+                />
+                @if (hint.extraActivations > 0) {
+                    <input
+                        aria-label="Activate the second level of this trait's effects"
+                        type="checkbox"
+                        triggers="hover"
+                        [ngbTooltip]="
+                            'Activate the second level of this hint\'s effects.'
+                        "
+                        [(ngModel)]="hint.active2"
+                        (ngModelChange)="onActivateEffect()"
+                    />
+                }
+                @if (hint.extraActivations > 1) {
+                    <input
+                        aria-label="Activate the third level of this trait's effects"
+                        type="checkbox"
+                        triggers="hover"
+                        [ngbTooltip]="
+                            'Activate the third level of this hint\'s effects.'
+                        "
+                        [(ngModel)]="hint.active3"
+                        (ngModelChange)="onActivateEffect()"
+                    />
+                }
+                @if (hint.extraActivations > 2) {
+                    <input
+                        aria-label="Activate the fourth level of this trait's effects"
+                        type="checkbox"
+                        triggers="hover"
+                        [ngbTooltip]="
+                            'Activate the fourth level of this hint\'s effects.'
+                        "
+                        [(ngModel)]="hint.active4"
+                        (ngModelChange)="onActivateEffect()"
+                    />
+                }
+                @if (hint.extraActivations > 3) {
+                    <input
+                        aria-label="Activate the fifth level of this trait's effects"
+                        type="checkbox"
+                        triggers="hover"
+                        [ngbTooltip]="
+                            'Activate the fifth level of this hint\'s effects.'
+                        "
+                        [(ngModel)]="hint.active5"
+                        (ngModelChange)="onActivateEffect()"
+                    />
+                }
+            }
         </cite>
-    </ng-container>
-</ng-container>
+    }
+}

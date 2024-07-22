@@ -23,7 +23,6 @@ import { FeatRequirements } from './feat-requirements';
 import { Serializable } from '../interfaces/serializable';
 import { ProficiencyCopyGain } from 'src/app/classes/character-creation/proficiency-copy-gain';
 
-
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<Feat>({
     primitives: [
         'access',

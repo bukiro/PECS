@@ -1,114 +1,193 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="skillChoiceParameters$() | async as skillChoiceParameters">
-    <div
-        *ngIf="skillChoiceParameters.allowedIncreases"
-        class="featchoice-container"
-        [ngClass]="{'list-item': showTitle && !isTileMode, 'vlist': !showTitle, 'problem':(choice.increases.length > skillChoiceParameters.allowedIncreases || areAnyIncreasesIllegal), 'minimized-hide':skillChoiceParameters.cleared}"
-    >
-        <!-- Choice button shows in title mode -->
-        <!-- List mode button -->
-        <button
-            *ngIf="showTitle && (!isTileMode || choice.showOnSheet)"
-            type="button"
-            class="newrow left-aligned sublist-toggle skillincrease"
-            [ngClass]="{'fancy-button choicecleared':(skillChoiceParameters.cleared), 'activechoice':shownChoice()===skillChoiceParameters.listId && !choice.showOnSheet}"
-            (click)="toggleShownList(skillChoiceParameters.listId)"
-        >
-            {{skillChoiceParameters.buttonTitle}}
-        </button>
-
-        <!-- Tile mode button -->
-        <button
-            *ngIf="showTitle && isTileMode && !choice.showOnSheet"
-            type="button"
-            aria-label="Show skill increase"
-            class="skillincrease"
-            [ngClass]="{'fancy-button choicecleared':(skillChoiceParameters.cleared), 'activechoice':shownChoice()===skillChoiceParameters.listId && !choice.showOnSheet}"
-            (click)="toggleShownList(skillChoiceParameters.listId)"
-        >
-            <app-grid-icon
-                class="skillincrease"
-                [ngbTooltip]="skillChoiceParameters.buttonTitle"
-                [superTitle]="skillChoiceParameters.allowedIncreases.toString()"
-                [title]="gridIconTitle(skillChoiceParameters.allowedIncreases)"
-                [ngClass]="{'fancy-button':skillChoiceParameters.cleared}"
-            />
-        </button>
-
-        <!-- Choice title shows above content in content only mode -->
+@if (skillChoiceParameters$() | async; as skillChoiceParameters) {
+    @if (skillChoiceParameters.allowedIncreases) {
         <div
-            *ngIf="!showTitle"
-            class="newrow list-item padding-8 center-aligned"
+            class="featchoice-container"
+            [ngClass]="{
+                'list-item': showTitle && !isTileMode,
+                vlist: !showTitle,
+                problem:
+                    choice.increases.length >
+                        skillChoiceParameters.allowedIncreases ||
+                    areAnyIncreasesIllegal,
+                'minimized-hide': skillChoiceParameters.cleared,
+            }"
         >
-            <header class="box-header sectionHeader">{{skillChoiceParameters.buttonTitle}}</header>
-
-            <div class="newrow center-aligned">
-                <span>
-                    <button
-                        *ngIf="choice.bonus"
-                        type="button"
-                        class="center-aligned"
-                        (click)="removeBonusSkillChoice(choice)"
-                    >
-                        Remove bonus skill choice
-                    </button>
-                </span>
-            </div>
-        </div>
-
-        <!-- Choice content shows in content mode -->
-        <div
-            *ngIf="showContent && shownChoice()===skillChoiceParameters.listId"
-            class="list-item"
-            id="{{!showTitle ? 'choiceArea' : ''}}"
-            [ngClass]="{'sublist skillincrease':showTitle, 'fancy-list':showTitle && skillChoiceParameters.cleared}"
-        >
-            <ng-container *ngFor="let skillParameters of availableSkillsParameters$(choice, levelNumber, skillChoiceParameters.allowedIncreases) | async; trackBy:trackByIndex;">
-                <div
-                    class="list-item gridicon-fullsizebox"
-                    triggers="click"
-                    [ngClass]="{'selected':skillParameters.increased}"
+            <!-- Choice button shows in title mode -->
+            <!-- List mode button -->
+            @if (showTitle && (!isTileMode || choice.showOnSheet)) {
+                <button
+                    type="button"
+                    class="newrow left-aligned sublist-toggle skillincrease"
+                    [ngClass]="{
+                        'fancy-button choicecleared':
+                            skillChoiceParameters.cleared,
+                        activechoice:
+                            shownChoice() === skillChoiceParameters.listId &&
+                            !choice.showOnSheet,
+                    }"
+                    (click)="toggleShownList(skillChoiceParameters.listId)"
                 >
-                    <input
-                        aria-label="Increase skill"
-                        class="character-choice"
-                        type="checkbox"
-                        id="{{skillParameters.skill.name}}"
-                        [checked]="skillParameters.checked"
-                        [disabled]="skillParameters.disabled"
-                        (change)="onSkillIncrease(skillParameters.skill.name, $event, choice, false, skillChoiceParameters.allowedIncreases)"
-                    >
-                    <div class="gridicon-fullsizebox">
-                        <app-grid-icon
-                            [title]="skillParameters.skill.name"
-                            [ngbPopover]="skillLevelName(skillParameters.skillLevel, false)"
-                            [superTitle]="skillLevelName(skillParameters.skillLevel, true)"
-                        />
+                    {{ skillChoiceParameters.buttonTitle }}
+                </button>
+            }
 
-                        <header class="sectionHeader">
-                            <span>
-                                {{skillParameters.skill.name}}{{skillParameters.skill.ability ? " (" +
-                                skillParameters.skill.ability.substr(0,3) + ")" : ""}}&nbsp;
-                            </span>
+            <!-- Tile mode button -->
+            @if (showTitle && isTileMode && !choice.showOnSheet) {
+                <button
+                    type="button"
+                    aria-label="Show skill increase"
+                    class="skillincrease"
+                    [ngClass]="{
+                        'fancy-button choicecleared':
+                            skillChoiceParameters.cleared,
+                        activechoice:
+                            shownChoice() === skillChoiceParameters.listId &&
+                            !choice.showOnSheet,
+                    }"
+                    (click)="toggleShownList(skillChoiceParameters.listId)"
+                >
+                    <app-grid-icon
+                        class="skillincrease"
+                        [ngbTooltip]="skillChoiceParameters.buttonTitle"
+                        [superTitle]="
+                            skillChoiceParameters.allowedIncreases.toString()
+                        "
+                        [title]="
+                            gridIconTitle(
+                                skillChoiceParameters.allowedIncreases
+                            )
+                        "
+                        [ngClass]="{
+                            'fancy-button': skillChoiceParameters.cleared,
+                        }"
+                    />
+                </button>
+            }
 
-                            <cite
-                                *ngFor="let reason of skillParameters.cannotIncreaseReasons; trackBy:trackByIndex;"
-                                class="problem"
-                            >
-                                {{reason}}
-                            </cite>
+            <!-- Choice title shows above content in content only mode -->
+            @if (!showTitle) {
+                <div class="newrow list-item padding-8 center-aligned">
+                    <header class="box-header sectionHeader">
+                        {{ skillChoiceParameters.buttonTitle }}
+                    </header>
 
-                            <cite
-                                *ngIf="skillTooHigh(skillParameters.skill)"
-                                class="problem"
-                                [ngbPopover]="'This skill was raised higher than allowed.'"
-                            >
-                                Too high
-                            </cite>
-                        </header>
+                    <div class="newrow center-aligned">
+                        <span>
+                            @if (choice.bonus) {
+                                <button
+                                    type="button"
+                                    class="center-aligned"
+                                    (click)="removeBonusSkillChoice(choice)"
+                                >
+                                    Remove bonus skill choice
+                                </button>
+                            }
+                        </span>
                     </div>
                 </div>
-            </ng-container>
+            }
+
+            <!-- Choice content shows in content mode -->
+            @if (
+                showContent && shownChoice() === skillChoiceParameters.listId
+            ) {
+                <div
+                    class="list-item"
+                    id="{{ !showTitle ? 'choiceArea' : '' }}"
+                    [ngClass]="{
+                        'sublist skillincrease': showTitle,
+                        'fancy-list':
+                            showTitle && skillChoiceParameters.cleared,
+                    }"
+                >
+                    @for (
+                        skillParameters of availableSkillsParameters$(
+                            choice,
+                            levelNumber,
+                            skillChoiceParameters.allowedIncreases
+                        ) | async;
+                        track $index
+                    ) {
+                        <div
+                            class="list-item gridicon-fullsizebox"
+                            triggers="click"
+                            [ngClass]="{ selected: skillParameters.increased }"
+                        >
+                            <input
+                                aria-label="Increase skill"
+                                class="character-choice"
+                                type="checkbox"
+                                id="{{ skillParameters.skill.name }}"
+                                [checked]="skillParameters.checked"
+                                [disabled]="skillParameters.disabled"
+                                (change)="
+                                    onSkillIncrease(
+                                        skillParameters.skill.name,
+                                        $event,
+                                        choice,
+                                        false,
+                                        skillChoiceParameters.allowedIncreases
+                                    )
+                                "
+                            />
+                            <div class="gridicon-fullsizebox">
+                                <app-grid-icon
+                                    [title]="skillParameters.skill.name"
+                                    [ngbPopover]="
+                                        skillLevelName(
+                                            skillParameters.skillLevel,
+                                            false
+                                        )
+                                    "
+                                    [superTitle]="
+                                        skillLevelName(
+                                            skillParameters.skillLevel,
+                                            true
+                                        )
+                                    "
+                                />
+
+                                <header class="sectionHeader">
+                                    <span>
+                                        {{ skillParameters.skill.name
+                                        }}{{
+                                            skillParameters.skill.ability
+                                                ? " (" +
+                                                  skillParameters.skill.ability.substr(
+                                                      0,
+                                                      3
+                                                  ) +
+                                                  ")"
+                                                : ""
+                                        }}&nbsp;
+                                    </span>
+
+                                    @for (
+                                        reason of skillParameters.cannotIncreaseReasons;
+                                        track $index
+                                    ) {
+                                        <cite class="problem">
+                                            {{ reason }}
+                                        </cite>
+                                    }
+
+                                    @if (skillTooHigh(skillParameters.skill)) {
+                                        <cite
+                                            class="problem"
+                                            [ngbPopover]="
+                                                'This skill was raised higher than allowed.'
+                                            "
+                                        >
+                                            Too high
+                                        </cite>
+                                    }
+                                </header>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
         </div>
-    </div>
-</ng-container>
+    }
+}

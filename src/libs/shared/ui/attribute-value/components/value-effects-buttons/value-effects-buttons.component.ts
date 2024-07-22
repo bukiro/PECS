@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, input } from '@angular/core';
 import { Creature } from 'src/app/classes/creatures/creature';
-import { CommonModule } from '@angular/common';
 import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ButtonComponent } from '../../../button/components/button/button.component';
 import { combineLatest, map, Observable, shareReplay, switchMap, take } from 'rxjs';
 import { EffectGain } from 'src/app/classes/effects/effect-gain';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/components/object-effects/object-effects.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-value-effects-buttons',
@@ -19,7 +19,6 @@ import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/component
 
         NgbPopover,
         NgbTooltip,
-
         ButtonComponent,
         ObjectEffectsComponent,
     ],

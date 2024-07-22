@@ -100,7 +100,6 @@ describe('abilityBaseValueFromBaseValues', () => {
     });
 });
 
-
 describe('mapAbilityBoostsToBaseValueAggregate', () => {
     it('should apply boosts positively', () => {
         const parameters = {

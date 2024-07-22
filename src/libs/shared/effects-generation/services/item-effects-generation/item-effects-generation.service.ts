@@ -121,8 +121,6 @@ export class ItemEffectsGenerationService {
                     )(previous.hintSets, current.hintSets),
                 ),
             );
-
-
     }
 
     private _effectsGenerationObjects$(

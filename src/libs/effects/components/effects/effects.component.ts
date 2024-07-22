@@ -14,14 +14,14 @@ import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/ba
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
-import { TimeComponent } from '../../../shared/time/components/time/time.component';
-import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { TimeComponent } from 'src/libs/shared/time/components/time/time.component';
+import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { GridIconComponent } from '../../../shared/ui/grid-icon/components/grid-icon/grid-icon.component';
-import { StickyPopoverDirective } from '../../../shared/sticky-popover/directives/sticky-popover/sticky-popover.directive';
-import { ConditionComponent } from '../../../shared/condition/components/condition/condition.component';
+import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { StickyPopoverDirective } from 'src/libs/shared/sticky-popover/directives/sticky-popover/sticky-popover.directive';
+import { ConditionComponent } from 'src/libs/shared/condition/components/condition/condition.component';
 import { CommonModule } from '@angular/common';
-import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface ComponentParameters {
     effects: Array<Effect>;

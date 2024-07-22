@@ -61,7 +61,6 @@ export class MessageProcessingService {
                 )).forEach(senderId => {
                     let hasConditionBeenRemoved = false;
 
-
                     creatures.forEach(creature => {
                         this._creatureConditionsService.currentCreatureConditions(creature)
                             .filter(existingConditionGain =>
@@ -358,7 +357,6 @@ export class MessageProcessingService {
                     }
 
                     const itemName = foundItem?.effectiveNameSnapshot() ?? 'item';
-
 
                     if (message.acceptedItem) {
                         this._toastService.show(

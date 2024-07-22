@@ -16,12 +16,12 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { NewMessagesComponent } from '../new-messages/new-messages.component';
-import { DiceIconD20Component } from '../../../shared/ui/dice-icons/components/dice-icon-D20/dice-icon-D20.component';
+import { DiceIconD20Component } from 'src/libs/shared/ui/dice-icons/components/dice-icon-D20/dice-icon-D20.component';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../../../shared/ui/button/components/button/button.component';
+import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { LogoComponent } from '../../../shared/ui/logo/components/logo/logo.component';
-import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
+import { LogoComponent } from 'src/libs/shared/ui/logo/components/logo/logo.component';
+import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 
 @Component({
     selector: 'app-top-bar',

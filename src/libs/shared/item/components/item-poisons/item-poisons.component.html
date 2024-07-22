@@ -1,49 +1,60 @@
 <!-- Adding Poisons -->
-<ng-container *ngIf="availablePoisons() as availablePoisons">
-    <div
-        *ngIf="availablePoisons.length > 1 || item.poisonsApplied.length"
-        class="list-item"
-    >
-        <div class="newrow">
-            <strong title="{{item.poisonsApplied.length ? 'Applying a new poison will waste the currently applied poison.' : ''}}">
-                {{item.poisonsApplied.length ? 'Replace' : 'Apply'}} poison
-            </strong>
-
-            <select
-                aria-label="Select poison"
-                [(ngModel)]="newPoison"
-                (ngModelChange)="onSelectPoison()"
-            >
-                <option
-                    *ngFor="let poisonSet of availablePoisons; trackBy:trackByIndex;"
-                    [ngValue]="poisonSet"
+@if (availablePoisons(); as availablePoisons) {
+    @if (availablePoisons.length > 1 || item.poisonsApplied.length) {
+        <div class="list-item">
+            <div class="newrow">
+                <strong
+                    title="{{
+                        item.poisonsApplied.length
+                            ? 'Applying a new poison will waste the currently applied poison.'
+                            : ''
+                    }}"
                 >
-                    {{poisonSet.poison.amount !== 1 ? poisonSet.poison.amount : ''}}
-                    {{poisonSet.poison.effectiveName$()}}
-                </option>
-            </select>
-        </div>
+                    {{ item.poisonsApplied.length ? "Replace" : "Apply" }}
+                    poison
+                </strong>
 
-        <div
-            *ngIf="item.poisonsApplied.length"
-            class="newrow"
-        >
-            <strong>Applied poison</strong>
-
-            <div
-                *ngFor="let poison of item.poisonsApplied; let index = index; trackBy:trackByIndex;"
-                class="newrow"
-            >
-                <span>{{poison.effectiveName$()}}</span>
-
-                <button
-                    type="button"
-                    class="lower"
-                    (click)="onRemovePoison(index)"
+                <select
+                    aria-label="Select poison"
+                    [(ngModel)]="newPoison"
+                    (ngModelChange)="onSelectPoison()"
                 >
-                    Spend/Remove
-                </button>
+                    @for (poisonSet of availablePoisons; track $index) {
+                        <option [ngValue]="poisonSet">
+                            {{
+                                poisonSet.poison.amount !== 1
+                                    ? poisonSet.poison.amount
+                                    : ""
+                            }}
+                            {{ poisonSet.poison.effectiveName$() }}
+                        </option>
+                    }
+                </select>
             </div>
+
+            @if (item.poisonsApplied.length) {
+                <div class="newrow">
+                    <strong>Applied poison</strong>
+
+                    @for (
+                        poison of item.poisonsApplied;
+                        track index;
+                        let index = $index
+                    ) {
+                        <div class="newrow">
+                            <span>{{ poison.effectiveName$() }}</span>
+
+                            <button
+                                type="button"
+                                class="lower"
+                                (click)="onRemovePoison(index)"
+                            >
+                                Spend/Remove
+                            </button>
+                        </div>
+                    }
+                </div>
+            }
         </div>
-    </div>
-</ng-container>
+    }
+}

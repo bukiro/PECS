@@ -58,8 +58,6 @@ export class CreatureEffectsGenerationService {
                     )(previous.hintSets, current.hintSets),
                 ),
             );
-
-
     }
 
     private _animalCompanionEffectsGenerationObjects$(companion: AnimalCompanion): Observable<CreatureEffectsGenerationObjects> {

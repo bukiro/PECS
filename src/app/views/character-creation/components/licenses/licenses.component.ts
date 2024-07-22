@@ -4,7 +4,6 @@ import ogl from 'src/assets/json/licenses/ogl.json';
 import ogl15 from 'src/assets/json/licenses/ogl15.json';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-licenses',
@@ -12,7 +11,6 @@ import { CommonModule } from '@angular/common';
     styleUrls: ['./licenses.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [CommonModule],
 })
 export class LicensesComponent extends TrackByMixin(BaseClass) {
 

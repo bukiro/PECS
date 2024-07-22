@@ -1,134 +1,125 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="list-item newrow">
     <p>
-        Welcome to PECS, a largely automated character tool for Pathfinder RPG 2nd Edition. This tool is meant to allow
-        you to build your character according to the rules and options in PFRPG 2e and then use that character in play.
+        Welcome to PECS, a largely automated character tool for Pathfinder RPG
+        2nd Edition. This tool is meant to allow you to build your character
+        according to the rules and options in PFRPG 2e and then use that
+        character in play.
     </p>
 </div>
 
-<ng-container *ngIf="updateAvailable$ | async as updateAvailable">
-    <div
-        *ngIf="updateAvailable.available"
-        class="list-item newrow center-aligned"
-    >
-        <a
-            *ngIf="updateAvailable.desc !== 'n/a'"
-            href='https://github.com/bukiro/PECS/releases/latest'
-            target="_blank"
-            rel="noreferrer noopener"
-        >
-            {{updateAvailable.desc}}
-        </a>
+@if (updateAvailable$ | async; as updateAvailable) {
+    @if (updateAvailable.available) {
+        <div class="list-item newrow center-aligned">
+            @if (updateAvailable.desc !== "n/a") {
+                <a
+                    href="https://github.com/bukiro/PECS/releases/latest"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                >
+                    {{ updateAvailable.desc }}
+                </a>
+            }
 
-        <span *ngIf="updateAvailable.desc === 'n/a'">{{updateAvailable.desc}}</span>
-    </div>
-</ng-container>
+            @if (updateAvailable.desc === "n/a") {
+                <span>{{ updateAvailable.desc }}</span>
+            }
+        </div>
+    }
+}
 
-<div
-    *ngIf="version"
-    class="newrow list-item left-aligned lower"
->
-    <header class="spellHeader">
-        New in version
-        <select
-            aria-label="Select version"
-            [(ngModel)]="version"
-        >
-            <option
-                *ngFor="let versionChange of changelog; trackBy:trackByIndex;"
-                [ngValue]="versionChange.version"
+@if (version) {
+    <div class="newrow list-item left-aligned lower">
+        <header class="spellHeader">
+            New in version
+            <select
+                aria-label="Select version"
+                [(ngModel)]="version"
             >
-                {{versionChange.version}}
-            </option>
-        </select>
-    </header>
-
-    <div
-        *ngFor="let change of (selectedVersionLog$ | async)?.changes; trackBy:trackByIndex;"
-        class="newrow list-item left-aligned"
-    >
-        <header
-            *ngIf="change.header"
-            class="subsectionHeader"
-        >
-            {{change.header}}
+                @for (versionChange of changelog; track $index) {
+                    <option [ngValue]="versionChange.version">
+                        {{ versionChange.version }}
+                    </option>
+                }
+            </select>
         </header>
 
-        <app-description
-            *ngFor="let split of change.desc.split('\n\n'); trackBy:trackByIndex"
-            [text]="split"
-        />
+        @for (change of (selectedVersionLog$ | async)?.changes; track $index) {
+            <div class="newrow list-item left-aligned">
+                @if (change.header) {
+                    <header class="subsectionHeader">
+                        {{ change.header }}
+                    </header>
+                }
 
-        <div
-            *ngFor="let image of change.images; trackBy:trackByIndex"
-            class="newrow list-item center-aligned"
-        >
-            <img
-                style="max-width:100%; flex-grow: 0;"
-                title="{{change.header}}"
-                src="assets/img/about/{{image.file}}"
-            >
-            <span
-                *ngIf="image.title"
-                class="newrow center-aligned"
-            >
-                {{image.title}}
-            </span>
-        </div>
+                @for (split of change.desc.split("\n\n"); track $index) {
+                    <app-description [text]="split" />
+                }
+
+                @for (image of change.images; track $index) {
+                    <div class="newrow list-item center-aligned">
+                        <img
+                            style="max-width: 100%; flex-grow: 0"
+                            title="{{ change.header }}"
+                            src="assets/img/about/{{ image.file }}"
+                        />
+                        @if (image.title) {
+                            <span class="newrow center-aligned">
+                                {{ image.title }}
+                            </span>
+                        }
+                    </div>
+                }
+            </div>
+        }
     </div>
-</div>
+}
 
-<ng-container *ngFor="let paragraph of welcome; trackBy: trackByIndex;">
+@for (paragraph of welcome; track $index) {
     <div class="list-item newrow">
         <div class="newrow left-aligned">
-            <header
-                *ngIf="paragraph.header"
-                class="spellHeader"
-            >
-                {{paragraph.header}}
-            </header>
+            @if (paragraph.header) {
+                <header class="spellHeader">
+                    {{ paragraph.header }}
+                </header>
+            }
 
-            <app-description
-                *ngFor="let split of paragraph.desc.split('\n\n'); trackBy:trackByIndex"
-                [text]="split"
-            />
+            @for (split of paragraph.desc.split("\n\n"); track $index) {
+                <app-description [text]="split" />
+            }
         </div>
     </div>
-</ng-container>
+}
 
 <div class="list-item newrow">
     <header class="spellHeader">Hints and Tips</header>
 
-    <ng-container *ngFor="let hint of hints; trackBy:trackByIndex;">
+    @for (hint of hints; track $index) {
         <div class="newrow list-item left-aligned">
-            <header
-                *ngIf="hint.header"
-                class="subsectionHeader"
-            >
-                {{hint.header}}
-            </header>
+            @if (hint.header) {
+                <header class="subsectionHeader">
+                    {{ hint.header }}
+                </header>
+            }
 
-            <app-description
-                *ngFor="let split of hint.desc.split('\n\n'); trackBy:trackByIndex"
-                [text]="split"
-            />
+            @for (split of hint.desc.split("\n\n"); track $index) {
+                <app-description [text]="split" />
+            }
 
-            <div
-                *ngFor="let image of hint.images; trackBy:trackByIndex"
-                class="newrow list-item center-aligned"
-            >
-                <img
-                    style="max-width:100%; flex-grow: 0;"
-                    title="{{hint.header}}"
-                    src="assets/img/about/{{image.file}}"
-                >
-                <span
-                    *ngIf="image.title"
-                    class="newrow center-aligned"
-                >
-                    {{image.title}}
-                </span>
-            </div>
+            @for (image of hint.images; track $index) {
+                <div class="newrow list-item center-aligned">
+                    <img
+                        style="max-width: 100%; flex-grow: 0"
+                        title="{{ hint.header }}"
+                        src="assets/img/about/{{ image.file }}"
+                    />
+                    @if (image.title) {
+                        <span class="newrow center-aligned">
+                            {{ image.title }}
+                        </span>
+                    }
+                </div>
+            }
         </div>
-    </ng-container>
+    }
 </div>

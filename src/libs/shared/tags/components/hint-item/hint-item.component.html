@@ -1,101 +1,125 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="itemTraits$() | async as traits">
-    <div
-        *ngIf="traits.length"
-        class="newrow left-aligned tags"
-    >
-        <app-trait
-            *ngFor="let trait of traits; trackBy:trackByIndex;"
-            [name]="trait"
-            [trait]="traitFromName(trait)"
-        />
-    </div>
-</ng-container>
+@if (itemTraits$() | async; as traits) {
+    @if (traits.length) {
+        <div class="newrow left-aligned tags">
+            @for (trait of traits; track $index) {
+                <app-trait
+                    [name]="trait"
+                    [trait]="traitFromName(trait)"
+                />
+            }
+        </div>
+    }
+}
 
 <app-item-content [item]="item" />
 
 <!-- Item activities -->
-<ng-container *ngIf="itemParameters() as itemParameters">
-    <ng-container *ngIf="itemParameters.asHavingItemActivities?.activities as activities">
-        <div
-            *ngFor="let activity of activities; trackBy:trackByIndex;"
-            class="list-item left-aligned"
-        >
-            <header
-                *ngIf="activity.name"
-                class="spellHeader"
-            >
-                {{activity.name}}
-                <app-action-icons
-                    *ngIf="activity.actions"
-                    [actionString]="activity.actions"
-                />
-                {{(activity.activationType) ? activity.activationType : ""}}
-            </header>
-
-            <div class="newrow left-aligned">
-                <app-trait
-                    *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
-                    [name]="trait"
-                    [trait]="traitFromName(trait)"
-                />
-
-                <app-trait
-                    *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
-                    [name]="trait"
-                    [trait]="traitFromName(trait)"
-                    [extraDescription]="'(This trait was derived from the action components.)'"
-                />
-            </div>
-
-            <app-activity-content
-                [creature]="creature"
-                [activity]=activity
-                [gain]=activity
-                [allowActivate]="false"
-                [cooldown]="(activityCooldown$(activity) | async) ?? activity.cooldown"
-            />
-        </div>
-    </ng-container>
-
-    <!-- Common activities -->
-    <ng-container *ngIf="itemParameters.asGrantingActivities?.gainActivities as gainedActivities">
-        <ng-container *ngFor="let gain of gainedActivities; trackBy:trackByIndex;">
-            <div
-                *ngIf="gain.originalActivity as activity"
-                class="list-item left-aligned"
-            >
-                <header class="spellHeader">
-                    {{activity.name}}
-                    <app-action-icons
-                        *ngIf="activity.actions"
-                        [actionString]="activity.actions"
-                    />
-                    {{(activity.activationType) ? activity.activationType : ""}}
-                </header>
+@if (itemParameters(); as itemParameters) {
+    @if (itemParameters.asHavingItemActivities?.activities; as activities) {
+        @for (activity of activities; track $index) {
+            <div class="list-item left-aligned">
+                @if (activity.name) {
+                    <header class="spellHeader">
+                        {{ activity.name }}
+                        @if (activity.actions) {
+                            <app-action-icons
+                                [actionString]="activity.actions"
+                            />
+                        }
+                        {{
+                            activity.activationType
+                                ? activity.activationType
+                                : ""
+                        }}
+                    </header>
+                }
 
                 <div class="newrow left-aligned">
-                    <app-trait
-                        *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
-                        [name]="trait"
-                        [trait]="traitFromName(trait)"
-                    />
+                    @for (trait of activity.traits; track $index) {
+                        <app-trait
+                            [name]="trait"
+                            [trait]="traitFromName(trait)"
+                        />
+                    }
 
-                    <app-trait
-                        *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
-                        [name]="trait"
-                        [trait]="traitFromName(trait)"
-                        [extraDescription]="'(This trait was derived from the action components.)'"
-                    />
+                    @for (trait of activity.activationTraits(); track $index) {
+                        <app-trait
+                            [name]="trait"
+                            [trait]="traitFromName(trait)"
+                            [extraDescription]="
+                                '(This trait was derived from the action components.)'
+                            "
+                        />
+                    }
                 </div>
 
                 <app-activity-content
                     [creature]="creature"
-                    [activity]=activity
-                    [gain]=gain
+                    [activity]="activity"
+                    [gain]="activity"
                     [allowActivate]="false"
+                    [cooldown]="
+                        (activityCooldown$(activity) | async) ??
+                        activity.cooldown
+                    "
                 />
             </div>
-        </ng-container>
-    </ng-container>
-</ng-container>
+        }
+    }
+
+    <!-- Common activities -->
+    @if (
+        itemParameters.asGrantingActivities?.gainActivities;
+        as gainedActivities
+    ) {
+        @for (gain of gainedActivities; track $index) {
+            @if (gain.originalActivity; as activity) {
+                <div class="list-item left-aligned">
+                    <header class="spellHeader">
+                        {{ activity.name }}
+                        @if (activity.actions) {
+                            <app-action-icons
+                                [actionString]="activity.actions"
+                            />
+                        }
+                        {{
+                            activity.activationType
+                                ? activity.activationType
+                                : ""
+                        }}
+                    </header>
+
+                    <div class="newrow left-aligned">
+                        @for (trait of activity.traits; track $index) {
+                            <app-trait
+                                [name]="trait"
+                                [trait]="traitFromName(trait)"
+                            />
+                        }
+
+                        @for (
+                            trait of activity.activationTraits();
+                            track $index
+                        ) {
+                            <app-trait
+                                [name]="trait"
+                                [trait]="traitFromName(trait)"
+                                [extraDescription]="
+                                    '(This trait was derived from the action components.)'
+                                "
+                            />
+                        }
+                    </div>
+
+                    <app-activity-content
+                        [creature]="creature"
+                        [activity]="activity"
+                        [gain]="gain"
+                        [allowActivate]="false"
+                    />
+                </div>
+            }
+        }
+    }
+}

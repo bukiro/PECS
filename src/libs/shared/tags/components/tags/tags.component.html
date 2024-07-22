@@ -1,23 +1,23 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="collectAllTags() as allTags">
-    <div
-        class="minimized-hide newrow left-aligned"
-    >
-        <ng-container *ngFor="let traitSet of traits$ | async; trackBy:trackByIndex;">
-            <ng-container *ngFor="let trait of traitSet.traits; trackBy:trackByIndex;">
+@if (collectAllTags(); as allTags) {
+    <div class="minimized-hide newrow left-aligned">
+        @for (traitSet of traits$ | async; track $index) {
+            @for (trait of traitSet.traits; track $index) {
                 <app-hint
                     [creature]="creature"
                     [color]="'trait'"
                     [object]="trait.trait"
                     [objectName]="traitSet.setName"
                     [sourceBook]="trait.trait.sourceBook"
-                    [description]="trait.trait.name +' ('+ trait.itemNamesList + ')'"
+                    [description]="
+                        trait.trait.name + ' (' + trait.itemNamesList + ')'
+                    "
                 />
-            </ng-container>
-        </ng-container>
+            }
+        }
 
-        <ng-container *ngFor="let featSet of feats$ | async; trackBy:trackByIndex;">
-            <ng-container *ngFor="let feat of featSet.feats; trackBy:trackByIndex;">
+        @for (featSet of feats$ | async; track $index) {
+            @for (feat of featSet.feats; track $index) {
                 <app-hint
                     [creature]="creature"
                     [color]="'feat'"
@@ -25,11 +25,11 @@
                     [objectName]="featSet.setName"
                     [description]="feat.displayName || feat.name"
                 />
-            </ng-container>
-        </ng-container>
+            }
+        }
 
-        <ng-container *ngFor="let elementSet of companionElements$ | async; trackBy:trackByIndex;">
-            <ng-container *ngFor="let element of elementSet.elements; trackBy:trackByIndex;">
+        @for (elementSet of companionElements$ | async; track $index) {
+            @for (element of elementSet.elements; track $index) {
                 <app-hint
                     [creature]="creature"
                     [color]="'feat'"
@@ -37,11 +37,11 @@
                     [objectName]="elementSet.setName"
                     [description]="element.name"
                 />
-            </ng-container>
-        </ng-container>
+            }
+        }
 
-        <ng-container *ngFor="let elementSet of familiarElements$ | async; trackBy:trackByIndex;">
-            <ng-container *ngFor="let feat of elementSet.feats; trackBy:trackByIndex;">
+        @for (elementSet of familiarElements$ | async; track $index) {
+            @for (feat of elementSet.feats; track $index) {
                 <app-hint
                     [creature]="creature"
                     [color]="'feat'"
@@ -49,11 +49,11 @@
                     [objectName]="elementSet.setName"
                     [description]="feat.displayName || feat.name"
                 />
-            </ng-container>
-        </ng-container>
+            }
+        }
 
-        <ng-container *ngFor="let itemSet of items$ | async; trackBy:trackByIndex;">
-            <ng-container *ngFor="let item of itemSet.items; trackBy:trackByIndex;">
+        @for (itemSet of items$ | async; track $index) {
+            @for (item of itemSet.items; track $index) {
                 <app-hint
                     [creature]="creature"
                     [color]="'item'"
@@ -61,11 +61,11 @@
                     [objectName]="itemSet.setName"
                     [description]="item.name"
                 />
-            </ng-container>
-        </ng-container>
+            }
+        }
 
-        <ng-container *ngFor="let specializationSet of specializations$ | async; trackBy:trackByIndex;">
-            <ng-container *ngFor="let spec of specializationSet.specializations; trackBy:trackByIndex;">
+        @for (specializationSet of specializations$ | async; track $index) {
+            @for (spec of specializationSet.specializations; track $index) {
                 <app-hint
                     [creature]="creature"
                     [color]="'item'"
@@ -73,11 +73,11 @@
                     [objectName]="specializationSet.setName"
                     [description]="spec.name"
                 />
-            </ng-container>
-        </ng-container>
+            }
+        }
 
-        <ng-container *ngFor="let activitySet of activities$ | async; trackBy:trackByIndex;">
-            <ng-container *ngFor="let activity of activitySet.activities; trackBy:trackByIndex;">
+        @for (activitySet of activities$ | async; track $index) {
+            @for (activity of activitySet.activities; track $index) {
                 <app-hint
                     [creature]="creature"
                     [color]="'activity'"
@@ -85,11 +85,11 @@
                     [objectName]="activitySet.setName"
                     [description]="activity.name"
                 />
-            </ng-container>
-        </ng-container>
+            }
+        }
 
-        <ng-container *ngFor="let conditionSets of allTags.conditions; trackBy:trackByIndex;">
-            <ng-container *ngFor="let conditionSet of conditionSets.conditionSets; trackBy:trackByIndex;">
+        @for (conditionSets of allTags.conditions; track $index) {
+            @for (conditionSet of conditionSets.conditionSets; track $index) {
                 <app-hint
                     [creature]="creature"
                     [color]="'condition'"
@@ -97,66 +97,90 @@
                     [objectName]="conditionSets.setName"
                     [description]="conditionSet.condition.name"
                 />
-            </ng-container>
-        </ng-container>
+            }
+        }
 
-        <ng-container *ngFor="let effect of (effects$ | async); trackBy:trackByIndex;">
+        @for (effect of effects$ | async; track $index) {
             <ng-template #effectPopover>
                 <div class="newrow">
                     <span>
-                        <strong [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.hasSetValue, 'absolute':effect.hasSetValue}">
-                            {{effect.target}} {{effect.displayTitle(true)}}
+                        <strong
+                            [ngClass]="{
+                                penalty: effect.penalty,
+                                bonus: !effect.penalty && !effect.hasSetValue,
+                                absolute: effect.hasSetValue,
+                            }"
+                        >
+                            {{ effect.target }} {{ effect.displayTitle(true) }}
                         </strong>
                     </span>
                 </div>
 
-                <div
-                    *ngIf="effect.type !== 'untyped' && !effect.toggled && !effect.setValue"
-                    class="newrow"
-                >
-                    <span>
-                        <strong>Type</strong>
-                        {{effect.type + " " + (effect.penalty ? 'penalty' : 'bonus')}}
-                    </span>
-                </div>
+                @if (
+                    effect.type !== "untyped" &&
+                    !effect.toggled &&
+                    !effect.setValue
+                ) {
+                    <div class="newrow">
+                        <span>
+                            <strong>Type</strong>
+                            {{
+                                effect.type +
+                                    " " +
+                                    (effect.penalty ? "penalty" : "bonus")
+                            }}
+                        </span>
+                    </div>
+                }
 
-                <div
-                    *ngIf="effect.duration"
-                    class="newrow"
-                >
-                    <span>
-                        <strong>Duration</strong>
-                        {{effect.duration ? (durationDescription$(effect.duration) | async) : ''}}
-                    </span>
-                </div>
+                @if (effect.duration) {
+                    <div class="newrow">
+                        <span>
+                            <strong>Duration</strong>
+                            {{
+                                effect.duration
+                                    ? (durationDescription$(effect.duration)
+                                      | async)
+                                    : ""
+                            }}
+                        </span>
+                    </div>
+                }
 
                 <div class="newrow">
                     <span>
                         <strong>Granted by</strong>
-                        {{effect.source.includes('conditional, ') ?
-                        effect.source.substr(13) : effect.source}}
+                        {{
+                            effect.source.includes("conditional, ")
+                                ? effect.source.substr(13)
+                                : effect.source
+                        }}
                     </span>
                 </div>
 
-                <div
-                    *ngIf="effect.source.includes('conditional, ')"
-                    class="newrow"
-                >
-                    <span>
-                        <strong>Conditional</strong>
-                        This effect only applies for certain actions or under specific circumstances.
-                    </span>
-                </div>
+                @if (effect.source.includes("conditional, ")) {
+                    <div class="newrow">
+                        <span>
+                            <strong>Conditional</strong>
+                            This effect only applies for certain actions or
+                            under specific circumstances.
+                        </span>
+                    </div>
+                }
             </ng-template>
 
             <cite
                 class="effect"
-                [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
+                [ngClass]="{
+                    penalty: effect.penalty,
+                    bonus: !effect.penalty && !effect.setValue,
+                    absolute: effect.setValue,
+                }"
                 [ngbPopover]="effectPopover"
             >
-                {{effect.displayTitle(false)}}
-                ({{effect.source}})
+                {{ effect.displayTitle(false) }}
+                ({{ effect.source }})
             </cite>
-        </ng-container>
+        }
     </div>
-</ng-container>
+}

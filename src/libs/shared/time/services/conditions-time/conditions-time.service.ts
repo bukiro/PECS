@@ -326,7 +326,6 @@ export class ConditionsTimeService {
                         }
                     });
             });
-
     }
 
     public refocusConditions(creature: Creature): void {

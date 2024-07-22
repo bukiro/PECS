@@ -24,9 +24,9 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { SpellContentComponent } from '../../../spell-content/components/spell-content/spell-content.component';
 import { FormsModule } from '@angular/forms';
-import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
-import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
-import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
+import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 import { CommonModule } from '@angular/common';
 
 @Component({

@@ -54,7 +54,6 @@ export class DialogComponent extends TrackByMixin(BaseClass) implements AfterVie
             this.cancelLabel = values.cancelLabel;
         }
 
-
         if (values.buttons) {
             this.buttons = values.buttons;
         }

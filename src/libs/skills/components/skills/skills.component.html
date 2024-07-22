@@ -8,33 +8,36 @@
 >
     <div
         class="attributeBox"
-        id="{{creature}}-skills-height"
+        id="{{ creature }}-skills-height"
     >
         <header class="sectionHeader box-header">Perception</header>
 
-        <ng-container *ngIf="(ownedActivities$() | async) as activityGains">
-            <ng-container *ngFor="let skill of skillsOfType$('Perception') | async; trackBy:trackByIndex;">
+        @if (ownedActivities$() | async; as activityGains) {
+            @for (skill of skillsOfType$("Perception") | async; track $index) {
                 <app-skill
                     [creature]="creature"
-                    [skill]=skill
+                    [skill]="skill"
                     [isMinimized]="(isMinimized$ | async) ?? false"
                     [isTileMode]="(isTileMode$ | async) ?? false"
-                    [relatedActivityGains]="skillMatchingActivities(activityGains, skill.name)"
+                    [relatedActivityGains]="
+                        skillMatchingActivities(activityGains, skill.name)
+                    "
                     [showAction]="shownAction()"
                     (showActionMessage)="receiveShowActionMessage($event)"
                 />
-            </ng-container>
+            }
 
             <div class="vlist">
                 <header class="subsectionHeader">Senses</header>
 
-                <div
-                    *ngFor="let sense of senses$() | async; trackBy:trackByIndex;"
-                    class="list-item lower"
-                    [ngbPopover]="senseDesc(sense)"
-                >
-                    {{sense}}
-                </div>
+                @for (sense of senses$() | async; track $index) {
+                    <div
+                        class="list-item lower"
+                        [ngbPopover]="senseDesc(sense)"
+                    >
+                        {{ sense }}
+                    </div>
+                }
             </div>
 
             <app-tags
@@ -47,7 +50,7 @@
                 [showConditions]="true"
             />
 
-            <ng-container *ngIf="creature.isFamiliar()">
+            @if (creature.isFamiliar()) {
                 <header class="sectionHeader box-header">Attack Rolls</header>
 
                 <app-tags
@@ -60,15 +63,18 @@
                     [showConditions]="true"
                 />
 
-                <ng-container *ngFor="let skill of skillsOfType$('Familiar Proficiency') | async; trackBy:trackByIndex;">
+                @for (
+                    skill of skillsOfType$("Familiar Proficiency") | async;
+                    track $index
+                ) {
                     <app-skill
                         [creature]="creature"
                         [isMinimized]="(isMinimized$ | async) ?? false"
                         [isTileMode]="(isTileMode$ | async) ?? false"
-                        [skill]=skill
+                        [skill]="skill"
                     />
-                </ng-container>
-            </ng-container>
+                }
+            }
 
             <ng-template #SpeedEffectsPopoverContent>
                 <div class="minimized-hide newrow">
@@ -115,49 +121,59 @@
                     [ngbPopover]="SpeedEffectsPopoverContent"
                 >
                     <i
-                        class='bi-lightning-charge'
-                        [ngbTooltip]="!SpeedEffectsPopover.isOpen() ? 'Edit effects' : ''"
+                        class="bi-lightning-charge"
+                        [ngbTooltip]="
+                            !SpeedEffectsPopover.isOpen() ? 'Edit effects' : ''
+                        "
                     ></i>
                 </span>
                 Movement
             </header>
 
-            <div
-                *ngFor="let speedParameters of (speedParameters$() | async); trackBy:trackByIndex;"
-                class="list-item"
-            >
-                <div class="newrow">
-                    <span>
-                        <strong>
-                            {{(speedParameters.name==="Speed") ? "All Speeds" :
-                                speedParameters.name}}
-                        </strong>
-                    </span>
+            @for (speedParameters of speedParameters$() | async; track $index) {
+                <div class="list-item">
+                    <div class="newrow">
+                        <span>
+                            <strong>
+                                {{
+                                    speedParameters.name === "Speed"
+                                        ? "All Speeds"
+                                        : speedParameters.name
+                                }}
+                            </strong>
+                        </span>
 
-                    <span>
-                        <div
-                            class="value"
-                            [ngbPopover]="speedParameters.value.explain"
-                            [ngClass]="{'penalty':speedParameters.showPenalties,
-                            'bonus':speedParameters.showBonuses,
-                            'absolute':speedParameters.absolutes.length}"
-                        >
-                            {{speedParameters.value.result}}
-                        </div>
-                    </span>
+                        <span>
+                            <div
+                                class="value"
+                                [ngbPopover]="speedParameters.value.explain"
+                                [ngClass]="{
+                                    penalty: speedParameters.showPenalties,
+                                    bonus: speedParameters.showBonuses,
+                                    absolute: speedParameters.absolutes.length,
+                                }"
+                            >
+                                {{ speedParameters.value.result }}
+                            </div>
+                        </span>
+                    </div>
+
+                    <app-tags
+                        [creature]="creature"
+                        [objectName]="speedParameters.name"
+                        [showTraits]="true"
+                        [showFeats]="true"
+                        [showItems]="true"
+                        [showActivities]="true"
+                        [showConditions]="true"
+                        [specialEffects]="
+                            speedParameters.absolutes.concat(
+                                speedParameters.relatives
+                            )
+                        "
+                    />
                 </div>
-
-                <app-tags
-                    [creature]="creature"
-                    [objectName]="speedParameters.name"
-                    [showTraits]="true"
-                    [showFeats]="true"
-                    [showItems]="true"
-                    [showActivities]="true"
-                    [showConditions]="true"
-                    [specialEffects]="speedParameters.absolutes.concat(speedParameters.relatives)"
-                />
-            </div>
+            }
 
             <app-tags
                 [creature]="creature"
@@ -173,7 +189,7 @@
             <header class="sectionHeader box-header">Skills</header>
 
             <!-- Skill Increases -->
-            <ng-container *ngFor="let choice of skillChoices$() | async; trackBy:trackByIndex;">
+            @for (choice of skillChoices$() | async; track $index) {
                 <app-skill-choice
                     [showTitle]="true"
                     [showContent]="true"
@@ -181,7 +197,7 @@
                     [showChoice]="shownList()"
                     (showSkillChoiceMessage)="receiveShowChoiceMessage($event)"
                 />
-            </ng-container>
+            }
 
             <app-tags
                 [creature]="creature"
@@ -205,18 +221,19 @@
                 [showEffects]="true"
             />
 
-            <ng-container *ngFor="let skill of skillsOfType$('Skill') | async; trackBy:trackByIndex;">
+            @for (skill of skillsOfType$("Skill") | async; track $index) {
                 <app-skill
                     [creature]="creature"
-                    [skill]=skill
+                    [skill]="skill"
                     [isMinimized]="(isMinimized$ | async) ?? false"
                     [isTileMode]="(isTileMode$ | async) ?? false"
-                    [relatedActivityGains]="skillMatchingActivities(activityGains, skill.name)"
+                    [relatedActivityGains]="
+                        skillMatchingActivities(activityGains, skill.name)
+                    "
                     [showAction]="shownAction()"
                     (showActionMessage)="receiveShowActionMessage($event)"
                 />
-            </ng-container>
-        </ng-container>
+            }
+        }
     </div>
-
 </app-character-sheet-card>

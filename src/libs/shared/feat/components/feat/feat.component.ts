@@ -16,10 +16,10 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { SpellContentComponent } from '../../../spell-content/components/spell-content/spell-content.component';
 import { ActivityContentComponent } from '../../../activity-content/components/activity-content/activity-content.component';
-import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
-import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
+import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
 import { CommonModule } from '@angular/common';
 
 @Component({

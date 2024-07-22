@@ -6,14 +6,13 @@
     (toggleMinimized)="toggleMinimized.emit($event)"
     (toggleTileMode)="toggleTileMode.emit($event)"
 >
-    <ng-content select="buttons"/>
+    <ng-content select="buttons" />
 </app-corner-button-tray>
 
-<header
-    *ngIf="title"
-    class="header"
->
-    {{ title }}
-</header>
+@if (title) {
+    <header class="header">
+        {{ title }}
+    </header>
+}
 
 <ng-content />

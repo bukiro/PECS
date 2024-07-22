@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../button/components/button/button.component';
 import { ToggleButtonComponent } from '../button/components/toggle-button/toggle-button.component';
 
@@ -11,9 +10,7 @@ import { ToggleButtonComponent } from '../button/components/toggle-button/toggle
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        CommonModule,
         FormsModule,
-
         ButtonComponent,
         ToggleButtonComponent,
     ],

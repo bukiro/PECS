@@ -1,63 +1,69 @@
 <!-- Changing Material -->
-<div
-    *ngIf="materialOptionApplies"
-    class="list-item"
->
-    <div class="newrow">
-        <strong>Material</strong>
+@if (materialOptionApplies) {
+    <div class="list-item">
+        <div class="newrow">
+            <strong>Material</strong>
 
-        <select
-            aria-label="Select material"
-            [(ngModel)]="newMaterial[0]"
-            (ngModelChange)="onSelectMaterial()"
-        >
-            <ng-container *ngFor="let material of initialMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
-                <option
-                    *ngIf="initialRuneIndex === 0"
-                    [ngValue]="material"
-                    [selected]=!item.material[0]
-                >
-                    <!-- Blank option to deselect -->
-                </option>
-
-                <optgroup
-                    *ngIf="initialRuneIndex === 1"
-                    label="Current material"
-                >
-                    <option [ngValue]="material">{{material.material.name}}</option>
-                </optgroup>
-            </ng-container>
-
-            <ng-container *ngIf="availableMaterials$() | async as availableMaterials">
-                <optgroup
-                    *ngIf="availableMaterials.length"
-                    label="Available materials"
-                >
-                    <option
-                        *ngFor="let material of availableMaterials; trackBy:trackByIndex;"
-                        [ngValue]="material"
-                        [disabled]="material.disabled"
-                        title="{{materialTitle(material.material)}}"
-                    >
-                        {{material.material.name}}
-                    </option>
-                </optgroup>
-            </ng-container>
-        </select>
-    </div>
-
-    <ng-container *ngIf="craftingStation">
-        <ng-container *ngFor="let material of item.material; trackBy:trackByIndex;">
-            <div
-                *ngIf="material.craftRequirement"
-                class="newrow"
+            <select
+                aria-label="Select material"
+                [(ngModel)]="newMaterial[0]"
+                (ngModelChange)="onSelectMaterial()"
             >
-                <span>
-                    <strong>Craft Requirement&nbsp;</strong>
+                @for (
+                    material of initialMaterials();
+                    track $index
+                ) {
+                    @if ($first) {
+                        <option
+                            [ngValue]="material"
+                            [selected]="!item.material[0]"
+                        >
+                            <!-- Blank option to deselect -->
+                        </option>
+                    } @else {
+                        <optgroup label="Current material">
+                            <option [ngValue]="material">
+                                {{ material.material.name }}
+                            </option>
+                        </optgroup>
+                    }
+                }
 
-                    <span>{{material.craftRequirement}}</span>
-                </span>
-            </div>
-        </ng-container>
-    </ng-container>
-</div>
+                @if (availableMaterials$() | async; as availableMaterials) {
+                    @if (availableMaterials.length) {
+                        <optgroup label="Available materials">
+                            @for (
+                                material of availableMaterials;
+                                track $index
+                            ) {
+                                <option
+                                    [ngValue]="material"
+                                    [disabled]="material.disabled"
+                                    title="{{
+                                        materialTitle(material.material)
+                                    }}"
+                                >
+                                    {{ material.material.name }}
+                                </option>
+                            }
+                        </optgroup>
+                    }
+                }
+            </select>
+        </div>
+
+        @if (craftingStation) {
+            @for (material of item.material; track $index) {
+                @if (material.craftRequirement) {
+                    <div class="newrow">
+                        <span>
+                            <strong>Craft Requirement&nbsp;</strong>
+
+                            <span>{{ material.craftRequirement }}</span>
+                        </span>
+                    </div>
+                }
+            }
+        }
+    </div>
+}

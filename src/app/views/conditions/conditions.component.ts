@@ -43,12 +43,12 @@ import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
-import { EffectsComponent } from '../../../libs/effects/components/effects/effects.component';
-import { DescriptionComponent } from '../../../libs/shared/ui/description/components/description/description.component';
+import { EffectsComponent } from 'src/libs/effects/components/effects/effects.component';
+import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
+import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 const itemsPerPage = 40;
 
@@ -313,7 +313,6 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
                 ),
             )
             .sort((a, b) => sortAlphaNum(a.name, b.name));
-
     }
 
     public conditionsOfType(type: string): Array<Condition> {

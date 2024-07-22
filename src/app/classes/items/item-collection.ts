@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { BehaviorSubject, Observable, map, combineLatest } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
@@ -487,7 +488,6 @@ export class ItemCollection implements MessageSerializable<ItemCollection> {
     public with(values: DeepPartial<ItemCollection>, recastFns: RecastFns): ItemCollection {
         assign(this, values, recastFns);
 
-
         return this;
     }
 
@@ -581,7 +581,6 @@ export class ItemCollection implements MessageSerializable<ItemCollection> {
                         .concat(...consumables),
                 ),
             );
-
     }
 
     public allRunes(): Array<Rune> {

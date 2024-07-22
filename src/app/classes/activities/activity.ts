@@ -267,7 +267,6 @@ export class Activity implements Serializable<Activity> {
                         || !!cooldown,
                     ),
                 );
-
     }
 
     public isHostile(ignoreOverride = false): boolean {

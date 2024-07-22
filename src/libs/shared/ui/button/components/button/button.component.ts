@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
@@ -10,8 +10,6 @@ import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-util
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        CommonModule,
-
         NgbTooltipModule,
     ],
 })

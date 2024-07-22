@@ -1,4 +1,4 @@
-<ng-container *ngIf="loadingStatus">
+@if (loadingStatus) {
     <app-character-sheet-card>
         <form
             class="login-form"
@@ -9,9 +9,7 @@
                 <div class="text-large">Password Required</div>
             </div>
 
-            <p>
-                Please enter the password for this PECS server
-            </p>
+            <p>Please enter the password for this PECS server</p>
 
             <app-text-input
                 #PasswordInput
@@ -23,12 +21,11 @@
                 (keyDown.enter)="passwordForm.valid ? login() : null"
             />
 
-            <p
-                *ngIf="loadingStatus.message"
-                class="login-form__message"
-            >
-                {{loadingStatus.message}}
-            </p>
+            @if (loadingStatus.message) {
+                <p class="login-form__message">
+                    {{ loadingStatus.message }}
+                </p>
+            }
 
             <app-button
                 label="Login"
@@ -39,5 +36,4 @@
             </app-button>
         </form>
     </app-character-sheet-card>
-
-</ng-container>
+}

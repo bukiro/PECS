@@ -7,7 +7,6 @@ import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles
 import { ItemMaterialWeaponComponent } from '../item-material-options/item-material-weapon.component';
 import { ItemMaterialShieldComponent } from '../item-material-options/item-material-shield.component';
 import { ItemMaterialArmorComponent } from '../item-material-options/item-material-armor.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-item-material',
@@ -16,8 +15,6 @@ import { CommonModule } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        CommonModule,
-
         ItemMaterialArmorComponent,
         ItemMaterialShieldComponent,
         ItemMaterialWeaponComponent,

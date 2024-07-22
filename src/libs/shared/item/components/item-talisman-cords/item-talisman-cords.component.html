@@ -7,40 +7,42 @@
         [(ngModel)]="newTalismanCord"
         (change)="onSelectTalismanCord()"
     >
-        <ng-container *ngFor="let cord of initialTalismanCords(); let initialCordIndex = index; trackBy:trackByIndex;">
-            <option
-                *ngIf="initialCordIndex === 0"
-                [ngValue]="cord"
-            >
-            </option>
-
-            <optgroup
-                *ngIf="initialCordIndex === 1"
-                label="Current cord"
-            >
-                <option [ngValue]="cord">
-                    {{cord.talismanCord.name}}
-                    ({{talismanCordSchools(cord.talismanCord)}})
-                </option>
-            </optgroup>
-        </ng-container>
-
-        <ng-container *ngFor="let inv of inventories(); trackBy:trackByIndex;">
-            <ng-container *ngIf="availableTalismanCords(inv) as availableTalismanCords">
-                <optgroup
-                    *ngIf="availableTalismanCords.length"
-                    [label]="inventoryName$(inv) | async"
-                >
-                    <option
-                        *ngFor="let cordSet of availableTalismanCords; trackBy:trackByIndex;"
-                        [ngValue]="cordSet"
-                    >
-                        {{cordSet.talismanCord.amount > 1 ? cordSet.talismanCord.amount : ""}}
-                        {{cordSet.talismanCord.name}}
-                        ({{talismanCordSchools(cordSet.talismanCord)}})
+        @for (
+            cord of initialTalismanCords();
+            track $index
+        ) {
+            @if ($first) {
+                <option [ngValue]="cord"></option>
+            } @else {
+                <optgroup label="Current cord">
+                    <option [ngValue]="cord">
+                        {{ cord.talismanCord.name }}
+                        ({{ talismanCordSchools(cord.talismanCord) }})
                     </option>
                 </optgroup>
-            </ng-container>
-        </ng-container>
+            }
+        }
+
+        @for (inv of inventories(); track $index) {
+            @if (availableTalismanCords(inv); as availableTalismanCords) {
+                @if (availableTalismanCords.length) {
+                    <optgroup [label]="inventoryName$(inv) | async">
+                        @for (cordSet of availableTalismanCords; track $index) {
+                            <option [ngValue]="cordSet">
+                                {{
+                                    cordSet.talismanCord.amount > 1
+                                        ? cordSet.talismanCord.amount
+                                        : ""
+                                }}
+                                {{ cordSet.talismanCord.name }}
+                                ({{
+                                    talismanCordSchools(cordSet.talismanCord)
+                                }})
+                            </option>
+                        }
+                    </optgroup>
+                }
+            }
+        }
     </select>
 </div>

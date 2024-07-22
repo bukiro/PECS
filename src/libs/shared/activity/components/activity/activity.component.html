@@ -1,189 +1,234 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="activityParameters$() | async as activityParameters">
-    <div
-        *ngIf="allowActivate && gain"
-        class="newrow"
-    >
-        <!-- Buttons if the activity does anything, including activating a cooldown or toggling the activity status. -->
-        <ng-container *ngIf="activity.canActivate$(creature) | async; else NoEffectActivityTemplate">
-            <!-- Spell targets if a spell is cast by this activity. -->
-            <ng-container *ngIf="activityParameters.activitySpell">
-                <app-spell-target
-                    class="newrow vlist"
-                    [creature]="creature"
-                    [spell]="activityParameters.activitySpell.spell"
-                    [phrase]="'Activate' + (activityParameters.maxCharges ? ' (' + (activityParameters.maxCharges - gain.chargesUsed) + ' of ' + activityParameters.maxCharges + ' charges)' : '') + ' and cast'"
-                    [gain]="activityParameters.activitySpell.gain"
-                    [parentActivityGain]="gain"
-                    [parentActivity]="activity"
-                    [cannotCast]="activityParameters.disabledReason"
-                    [effectiveSpellLevel]="activityParameters.activitySpell.cast.level || activityParameters.activitySpell.spell.levelreq"
-                    [spellCast]="activityParameters.activitySpell.cast"
-                    [showDismiss]="true"
-                    [dismissPhrase]="activity.sustained ? 'Stop Sustaining' : 'Deactivate'"
-                    (castMessage)="onActivate(gain, activity, $event.activated, $event.target)"
-                />
-            </ng-container>
+@if (activityParameters$() | async; as activityParameters) {
+    @if (allowActivate && gain) {
+        <div class="newrow">
+            <!-- Buttons if the activity does anything, including activating a cooldown or toggling the activity status. -->
+            @if (activity.canActivate$(creature) | async) {
+                <!-- Spell targets if a spell is cast by this activity. -->
+                @if (activityParameters.activitySpell) {
+                    <app-spell-target
+                        class="newrow vlist"
+                        [creature]="creature"
+                        [spell]="activityParameters.activitySpell.spell"
+                        [phrase]="
+                            'Activate' +
+                            (activityParameters.maxCharges
+                                ? ' (' +
+                                  (activityParameters.maxCharges -
+                                      gain.chargesUsed) +
+                                  ' of ' +
+                                  activityParameters.maxCharges +
+                                  ' charges)'
+                                : '') +
+                            ' and cast'
+                        "
+                        [gain]="activityParameters.activitySpell.gain"
+                        [parentActivityGain]="gain"
+                        [parentActivity]="activity"
+                        [cannotCast]="activityParameters.disabledReason"
+                        [effectiveSpellLevel]="
+                            activityParameters.activitySpell.cast.level ||
+                            activityParameters.activitySpell.spell.levelreq
+                        "
+                        [spellCast]="activityParameters.activitySpell.cast"
+                        [showDismiss]="true"
+                        [dismissPhrase]="
+                            activity.sustained
+                                ? 'Stop Sustaining'
+                                : 'Deactivate'
+                        "
+                        (castMessage)="
+                            onActivate(
+                                gain,
+                                activity,
+                                $event.activated,
+                                $event.target
+                            )
+                        "
+                    />
+                }
 
-            <!-- Activity targets if no spell is cast. -->
-            <ng-container *ngIf="!activityParameters.activitySpell">
-                <app-spell-target
-                    class="newrow vlist"
-                    [creature]="creature"
-                    [activity]="activity"
-                    [phrase]="'Activate' + (activityParameters.maxCharges ? ' (' + (activityParameters.maxCharges - gain.chargesUsed) + ' of ' + activityParameters.maxCharges + ' charges)' : '')"
-                    [gain]="gain"
-                    [cannotCast]="activityParameters.disabledReason"
-                    [effectiveSpellLevel]="character.level"
-                    [showDismiss]="true"
-                    [dismissPhrase]="activity.sustained ? 'Stop Sustaining' : 'Deactivate'"
-                    (castMessage)="onActivate(gain, activity, $event.activated, $event.target)"
-                />
-            </ng-container>
-        </ng-container>
-
-        <ng-template #NoEffectActivityTemplate>
-            <!-- Activity with no effect, not even toggled. This button literally does nothing. -->
-            <button
-                type="button"
-                class="newrow center-aligned"
-                [ngbTooltip]="'The activity has no automatic effects and no target.'"
-            >
-                <span>
-                    Activate
-                    <i
-                        *ngIf="(isManualMode$ | async) === false"
-                        class='bi-peace'
-                    ></i>
-                </span>
-            </button>
-        </ng-template>
-
-
-
-        <ng-container *ngIf="isManualMode$ | async">
-            <!-- End cooldown and restore charges button in manual mode -->
-            <ng-container *ngIf="gain?.activeCooldown">
+                <!-- Activity targets if no spell is cast. -->
+                @if (!activityParameters.activitySpell) {
+                    <app-spell-target
+                        class="newrow vlist"
+                        [creature]="creature"
+                        [activity]="activity"
+                        [phrase]="
+                            'Activate' +
+                            (activityParameters.maxCharges
+                                ? ' (' +
+                                  (activityParameters.maxCharges -
+                                      gain.chargesUsed) +
+                                  ' of ' +
+                                  activityParameters.maxCharges +
+                                  ' charges)'
+                                : '')
+                        "
+                        [gain]="gain"
+                        [cannotCast]="activityParameters.disabledReason"
+                        [effectiveSpellLevel]="character.level"
+                        [showDismiss]="true"
+                        [dismissPhrase]="
+                            activity.sustained
+                                ? 'Stop Sustaining'
+                                : 'Deactivate'
+                        "
+                        (castMessage)="
+                            onActivate(
+                                gain,
+                                activity,
+                                $event.activated,
+                                $event.target
+                            )
+                        "
+                    />
+                }
+            } @else {
+                <!-- Activity with no effect, not even toggled. This button literally does nothing. -->
                 <button
                     type="button"
-                    class="center-aligned"
-                    (click)="onManualEndCooldown()"
+                    class="newrow center-aligned"
+                    [ngbTooltip]="
+                        'The activity has no automatic effects and no target.'
+                    "
                 >
-                    <span>End cooldown</span>
+                    <span>
+                        Activate
+                        @if ((isManualMode$ | async) === false) {
+                            <i class="bi-peace"></i>
+                        }
+                    </span>
                 </button>
-            </ng-container>
+            }
 
+            @if (isManualMode$ | async) {
+                <!-- End cooldown and restore charges button in manual mode -->
+                @if (gain.activeCooldown) {
+                    <button
+                        type="button"
+                        class="center-aligned"
+                        (click)="onManualEndCooldown()"
+                    >
+                        <span>End cooldown</span>
+                    </button>
+                }
 
-
-            <!-- Restore charges button in manual mode -->
-            <ng-container *ngIf="gain?.chargesUsed">
-                <button
-                    type="button"
-                    class="center-aligned"
-                    (click)="onManualRestoreCharge()"
-                >
-                    <span>Restore charge</span>
-                </button>
-            </ng-container>
-        </ng-container>
-    </div>
+                <!-- Restore charges button in manual mode -->
+                @if (gain.chargesUsed) {
+                    <button
+                        type="button"
+                        class="center-aligned"
+                        (click)="onManualRestoreCharge()"
+                    >
+                        <span>Restore charge</span>
+                    </button>
+                }
+            }
+        </div>
+    }
 
     <!-- Unslotted Aeon Stone warning -->
-    <button
-        *ngIf="isResonant && !(isSubItem || activityParameters.resonantAllowed) && !activityParameters.tooManySlottedAeonStones"
-        type="button"
-        class="newrow list-item"
-        disabled
-    >
-        <strong>
-            Slot this item into a Wayfinder to unlock this activation.
-        </strong>
-    </button>
+    @if (
+        isResonant &&
+        !(isSubItem || activityParameters.resonantAllowed) &&
+        !activityParameters.tooManySlottedAeonStones
+    ) {
+        <button
+            type="button"
+            class="newrow list-item"
+            disabled
+        >
+            <strong>
+                Slot this item into a Wayfinder to unlock this activation.
+            </strong>
+        </button>
+    }
 
     <!-- Too many slotted Aeon Stones warning -->
-    <div
-        *ngIf="isResonant && activityParameters.tooManySlottedAeonStones"
-        class="newrow list-item problem"
-    >
-        You have too many aeon stones slotted in wayfinders. All effects of these aeon stones are disabled, including this activation.
-    </div>
-
-
+    @if (isResonant && activityParameters.tooManySlottedAeonStones) {
+        <div class="newrow list-item problem">
+            You have too many aeon stones slotted in wayfinders. All effects of
+            these aeon stones are disabled, including this activation.
+        </div>
+    }
 
     <div class="newrow left-aligned">
-        <app-trait
-            *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
-            [name]="trait"
-            [trait]="traitFromName(trait)"
-        />
+        @for (trait of activity.traits; track $index) {
+            <app-trait
+                [name]="trait"
+                [trait]="traitFromName(trait)"
+            />
+        }
 
-
-
-        <app-trait
-            *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;"
-            [name]="trait"
-            [trait]="traitFromName(trait)"
-            [extraDescription]="'(This trait was derived from the action components.)'"
-        />
-
-
+        @for (trait of activity.activationTraits(); track $index) {
+            <app-trait
+                [name]="trait"
+                [trait]="traitFromName(trait)"
+                [extraDescription]="
+                    '(This trait was derived from the action components.)'
+                "
+            />
+        }
 
         <app-tags
             [creature]="creature"
             [objectName]="activity.name"
-            [showTraits]=true
-            [showFeats]=true
-            [showItems]=true
-            [showActivities]=true
-            [showConditions]=true
-            [showEffects]=true
+            [showTraits]="true"
+            [showFeats]="true"
+            [showItems]="true"
+            [showActivities]="true"
+            [showConditions]="true"
+            [showEffects]="true"
         />
     </div>
 
+    @for (data of gain?.data; track $index) {
+        <div class="newrow list-item">
+            <strong>{{ data.name }}</strong>
 
-
-    <div
-        *ngFor="let data of gain?.data; trackBy:trackByIndex"
-        class="newrow list-item"
-    >
-        <strong>{{data.name}}</strong>
-
-
-
-        <input
-            aria-label="Activity data value input"
-            class="left-aligned"
-            type="text"
-            [(ngModel)]="data.value"
-        >
-    </div>
-
-
-
-    <ng-container *ngFor="let conditionSet of activityConditions$() | async; let conditionSetIndex = index; trackBy:trackByIndex">
-        <div
-            *ngIf="gain && shownConditionChoice(conditionSet, {tooManySlottedAeonStones: activityParameters.tooManySlottedAeonStones, resonantAllowed: activityParameters.resonantAllowed})"
-            class="newrow list-item left-aligned"
-        >
-            <span>
-                {{conditionSet.condition.name}} effect selection:
-                <select
-                    aria-label="Select condition effect"
-                    [(ngModel)]="gain.effectChoices[conditionSetIndex].choice"
-                    (ngModelChange)="onEffectChoiceChange()"
-                >
-                    <option
-                        *ngFor="let choice of conditionSet.choices; trackBy:trackByIndex;"
-                        [ngValue]="choice"
-                    >
-                        {{choice}}
-                    </option>
-                </select>
-            </span>
+            <input
+                aria-label="Activity data value input"
+                class="left-aligned"
+                type="text"
+                [(ngModel)]="data.value"
+            />
         </div>
-    </ng-container>
+    }
 
-
+    @for (
+        conditionSet of activityConditions$() | async;
+        track conditionSetIndex;
+        let conditionSetIndex = $index
+    ) {
+        @if (
+            gain &&
+            shownConditionChoice(conditionSet, {
+                tooManySlottedAeonStones:
+                    activityParameters.tooManySlottedAeonStones,
+                resonantAllowed: activityParameters.resonantAllowed,
+            })
+        ) {
+            <div class="newrow list-item left-aligned">
+                <span>
+                    {{ conditionSet.condition.name }} effect selection:
+                    <select
+                        aria-label="Select condition effect"
+                        [(ngModel)]="
+                            gain.effectChoices[conditionSetIndex].choice
+                        "
+                        (ngModelChange)="onEffectChoiceChange()"
+                    >
+                        @for (choice of conditionSet.choices; track $index) {
+                            <option [ngValue]="choice">
+                                {{ choice }}
+                            </option>
+                        }
+                    </select>
+                </span>
+            </div>
+        }
+    }
 
     <!-- Additional information coming from other abilities. -->
     <div class="vlist lower">
@@ -197,113 +242,127 @@
             [maxCharges]="activityParameters.maxCharges"
         />
 
-
-
         <!-- Only show related feats and conditions if this activity is not currently being shown on another object - that is, if it's allowed to be activated. -->
-        <ng-container *ngIf="allowActivate">
-            <div
-                *ngFor="let feat of characterFeatsShowingHintsOnThis$(activity.name) | async; trackBy:trackByIndex;"
-                class="list-item newrow left-aligned"
-            >
-                <header class="spellHeader">{{feat.name}}</header>
+        @if (allowActivate) {
+            @for (
+                feat of characterFeatsShowingHintsOnThis$(activity.name)
+                    | async;
+                track $index
+            ) {
+                <div class="list-item newrow left-aligned">
+                    <header class="spellHeader">{{ feat.name }}</header>
 
+                    <div class="newrow left-aligned">
+                        @for (trait of feat.traits; track $index) {
+                            <app-trait
+                                [name]="trait"
+                                [trait]="traitFromName(trait)"
+                            />
+                        }
+                    </div>
 
+                    @for (desc of feat.desc.split("\n\n"); track $index) {
+                        <div class="newrow left-aligned">
+                            <app-description
+                                class="newrow"
+                                [text]="desc"
+                            />
+                        </div>
+                    }
+                </div>
+            }
 
+            @for (
+                conditionSet of conditionsShowingHintsOnThis(activity.name);
+                track $index
+            ) {
                 <div class="newrow left-aligned">
-                    <app-trait
-                        *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
-                        [name]="trait"
-                        [trait]="traitFromName(trait)"
-                    />
-                </div>
-
-
-
-                <div
-                    *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;"
-                    class="newrow left-aligned"
-                >
-                    <app-description
-                        class="newrow"
-                        [text]="desc"
-                    />
-                </div>
-            </div>
-
-
-
-            <div
-                *ngFor="let conditionSet of conditionsShowingHintsOnThis(activity.name); trackBy:trackByIndex;"
-                class="newrow left-aligned"
-            >
-                <header class="spellHeader">{{conditionSet.condition.name}}</header>
-
-
-
-                <div
-                    *ngFor="let desc of conditionSet.condition.heightenedText(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;"
-                    class="newrow left-aligned"
-                >
-                    <app-description
-                        class="newrow"
-                        [text]="desc"
-                    />
-                </div>
-            </div>
-
-
-
-            <div
-                *ngFor="let activityGain of activitiesShowingHintsOnThis$(activity.name) | async; trackBy:trackByIndex;"
-                class="list-item newrow left-aligned"
-            >
-                <header class="spellHeader">
-                    {{activityGain.originalActivity.name}}
-                    <app-action-icons
-                        *ngIf="activityGain.originalActivity.actions"
-                        [actionString]="activityGain.originalActivity.actions"
-                    />
-                    {{(activityGain.originalActivity.activationType) ? activityGain.originalActivity.activationType :
-                    ""}}
-                </header>
-
-
-
-                <app-activity
-                    [creature]="creature"
-                    [activity]="activityGain.originalActivity"
-                    [gain]="activityGain"
-                    [allowActivate]=true
-                />
-            </div>
-
-
-
-            <ng-container *ngIf="gain?.name === 'Fused Stance'">
-                <div
-                    *ngFor="let fusedStanceGain of fusedStances$() | async; trackBy:trackByIndex;"
-                    class="list-item newrow left-aligned"
-                >
                     <header class="spellHeader">
-                        {{fusedStanceGain.originalActivity.name}}
-                        <app-action-icons
-                            *ngIf="fusedStanceGain.originalActivity.actions"
-                            [actionString]="fusedStanceGain.originalActivity.actions"
-                        />
-                        {{(fusedStanceGain.originalActivity.activationType) ?
-                        fusedStanceGain.originalActivity.activationType : ""}}
+                        {{ conditionSet.condition.name }}
                     </header>
 
+                    @for (
+                        desc of conditionSet.condition
+                            .heightenedText(
+                                conditionSet.condition.desc,
+                                conditionSet.gain.heightened
+                            )
+                            .split("\n\n");
+                        track $index
+                    ) {
+                        <div class="newrow left-aligned">
+                            <app-description
+                                class="newrow"
+                                [text]="desc"
+                            />
+                        </div>
+                    }
+                </div>
+            }
 
+            @for (
+                activityGain of activitiesShowingHintsOnThis$(activity.name)
+                    | async;
+                track $index
+            ) {
+                <div class="list-item newrow left-aligned">
+                    <header class="spellHeader">
+                        {{ activityGain.originalActivity.name }}
+                        @if (activityGain.originalActivity.actions) {
+                            <app-action-icons
+                                [actionString]="
+                                    activityGain.originalActivity.actions
+                                "
+                            />
+                        }
+                        {{
+                            activityGain.originalActivity.activationType
+                                ? activityGain.originalActivity.activationType
+                                : ""
+                        }}
+                    </header>
 
                     <app-activity
                         [creature]="creature"
-                        [activity]="fusedStanceGain.originalActivity"
-                        [gain]="fusedStanceGain"
-                        [allowActivate]="false"
+                        [activity]="activityGain.originalActivity"
+                        [gain]="activityGain"
+                        [allowActivate]="true"
                     />
                 </div>
-            </ng-container>
-        </ng-container>
+            }
+
+            @if (gain?.name === "Fused Stance") {
+                @for (
+                    fusedStanceGain of fusedStances$() | async;
+                    track $index
+                ) {
+                    <div class="list-item newrow left-aligned">
+                        <header class="spellHeader">
+                            {{ fusedStanceGain.originalActivity.name }}
+                            @if (fusedStanceGain.originalActivity.actions) {
+                                <app-action-icons
+                                    [actionString]="
+                                        fusedStanceGain.originalActivity.actions
+                                    "
+                                />
+                            }
+                            {{
+                                fusedStanceGain.originalActivity.activationType
+                                    ? fusedStanceGain.originalActivity
+                                          .activationType
+                                    : ""
+                            }}
+                        </header>
+
+                        <app-activity
+                            [creature]="creature"
+                            [activity]="fusedStanceGain.originalActivity"
+                            [gain]="fusedStanceGain"
+                            [allowActivate]="false"
+                        />
+                    </div>
+                }
+            }
+        }
     </div>
-</ng-container>
+}

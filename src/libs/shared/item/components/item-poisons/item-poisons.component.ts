@@ -12,7 +12,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 interface PoisonSet {
     poison: AlchemicalPoison;
@@ -26,7 +25,6 @@ interface PoisonSet {
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        CommonModule,
         FormsModule,
     ],
 })

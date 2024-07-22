@@ -9,7 +9,7 @@ import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-
 import { CircularMenuOption } from 'src/libs/shared/ui/circular-menu';
 import { TurnService } from '../../services/turn/turn.service';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
-import { CircularMenuComponent } from '../../../ui/circular-menu/components/circular-menu/circular-menu.component';
+import { CircularMenuComponent } from 'src/libs/shared/ui/circular-menu/components/circular-menu/circular-menu.component';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 
@@ -59,7 +59,6 @@ export class TimeComponent extends TrackByMixin(CharacterSheetCardComponent) {
 
         this.timePassingOptions$ = this._timePassingOptions$();
         this.turnPassingBlocked$ = this.waitingDescription$(TimePeriods.Turn);
-
     }
 
     public durationDescription$(duration: number, includeTurnState = true, short = false): Observable<string> {
