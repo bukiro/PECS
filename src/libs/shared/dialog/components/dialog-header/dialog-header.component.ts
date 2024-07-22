@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
-import { ButtonComponent as ButtonComponent_1 } from 'src/libs/shared/ui/button/components/button/button.component';
 import { CornerButtonTrayComponent } from 'src/libs/shared/ui/corner-button-tray/corner-button-tray.component';
 
 @Component({
@@ -9,7 +8,10 @@ import { CornerButtonTrayComponent } from 'src/libs/shared/ui/corner-button-tray
     styleUrls: ['./dialog-header.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [CornerButtonTrayComponent, ButtonComponent_1],
+    imports: [
+        CornerButtonTrayComponent,
+        ButtonComponent,
+    ],
 })
 export class DialogHeaderComponent {
 
