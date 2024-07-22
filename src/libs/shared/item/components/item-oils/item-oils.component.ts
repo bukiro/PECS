@@ -16,6 +16,8 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface OilSet {
     oil: Oil;
@@ -27,6 +29,11 @@ interface OilSet {
     templateUrl: './item-oils.component.html',
     styleUrls: ['./item-oils.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+    ],
 })
 export class ItemOilsComponent extends TrackByMixin(BaseClass) {
 

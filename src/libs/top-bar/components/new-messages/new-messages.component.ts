@@ -10,12 +10,22 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { MessagesDialogComponent } from '../messages-dialog/messages-dialog.component';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { LoadingDiamondComponent } from '../../../shared/ui/diamond/components/loading-diamond/loading-diamond.component';
+import { ButtonComponent } from '../../../shared/ui/button/components/button/button.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-new-messages',
     templateUrl: './new-messages.component.html',
     styleUrls: ['./new-messages.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        ButtonComponent,
+        LoadingDiamondComponent,
+    ],
 })
 export class NewMessagesComponent {
 

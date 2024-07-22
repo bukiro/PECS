@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbTooltip, NgbCollapse, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { default as package_json } from 'package.json';
 import {
@@ -91,6 +91,21 @@ import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { selectGmMode, selectCharacterMenuClosedOnce } from 'src/libs/store/app/app.selectors';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { AboutComponent } from './components/about/about.component';
+import { LicensesComponent } from './components/licenses/licenses.component';
+import { SpellComponent } from '../../../libs/shared/spell/components/spell/spell.component';
+import { ActivityComponent } from '../../../libs/shared/activity/components/activity/activity.component';
+import { ActionIconsComponent } from '../../../libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { TraitComponent } from '../../../libs/shared/ui/trait/components/trait/trait.component';
+import { DescriptionComponent } from '../../../libs/shared/ui/description/components/description/description.component';
+import { FeatChoiceComponent } from '../../../libs/shared/feat-choice/components/feat-choice/feat-choice.component';
+import { FeatComponent } from '../../../libs/shared/feat/components/feat/feat.component';
+import { SkillChoiceComponent } from '../../../libs/shared/skill-choice/components/skill-choice/skill-choice.component';
+import { TagsComponent } from '../../../libs/shared/tags/components/tags/tags.component';
+import { FormsModule } from '@angular/forms';
+import { GridIconComponent } from '../../../libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { CommonModule } from '@angular/common';
+import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -99,6 +114,29 @@ type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id:
     templateUrl: './character-creation.component.html',
     styleUrls: ['./character-creation.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbTooltip,
+        NgbCollapse,
+        NgbPopover,
+
+        FlyInMenuComponent,
+        GridIconComponent,
+        TagsComponent,
+        SkillChoiceComponent,
+        FeatComponent,
+        FeatChoiceComponent,
+        DescriptionComponent,
+        TraitComponent,
+        ActionIconsComponent,
+        ActivityComponent,
+        SpellComponent,
+        LicensesComponent,
+        AboutComponent,
+    ],
 })
 export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseCreatureElementComponent)) implements OnInit, OnDestroy {
 

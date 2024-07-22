@@ -9,6 +9,9 @@ import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-
 import { CircularMenuOption } from 'src/libs/shared/ui/circular-menu';
 import { TurnService } from '../../services/turn/turn.service';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
+import { CircularMenuComponent } from '../../../ui/circular-menu/components/circular-menu/circular-menu.component';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 const timePassingDurations = [
     TimePeriods.Turn,
@@ -24,6 +27,14 @@ const timePassingDurations = [
     templateUrl: './time.component.html',
     styleUrls: ['./time.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        NgbTooltip,
+
+        CircularMenuComponent,
+    ],
 })
 export class TimeComponent extends TrackByMixin(CharacterSheetCardComponent) {
 

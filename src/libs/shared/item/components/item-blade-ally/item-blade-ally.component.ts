@@ -16,6 +16,8 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface RuneSet {
     rune: WeaponRune;
@@ -27,6 +29,11 @@ interface RuneSet {
     templateUrl: './item-blade-ally.component.html',
     styleUrls: ['./item-blade-ally.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+    ],
 })
 export class ItemBladeAllyComponent extends TrackByMixin(BaseClass) implements OnInit {
 

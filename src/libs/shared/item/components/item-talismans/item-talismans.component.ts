@@ -20,6 +20,8 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface TalismanOption {
     talisman: Talisman;
@@ -32,6 +34,11 @@ interface TalismanOption {
     templateUrl: './item-talismans.component.html',
     styleUrls: ['./item-talismans.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+    ],
 })
 export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements OnInit {
 

@@ -26,6 +26,15 @@ import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.ser
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { HintItemComponent } from '../hint-item/hint-item.component';
+import { ActivityContentComponent } from '../../../activity-content/components/activity-content/activity-content.component';
+import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { HintConditionComponent } from '../hint-condition/hint-condition.component';
+import { FeatComponent } from '../../../feat/components/feat/feat.component';
+import { FormsModule } from '@angular/forms';
+import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
+import { CommonModule } from '@angular/common';
 
 
 type HintObject =
@@ -45,6 +54,21 @@ type HintObject =
     templateUrl: './hint.component.html',
     styleUrls: ['./hint.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbPopover,
+        NgbTooltip,
+
+        DescriptionComponent,
+        FeatComponent,
+        HintConditionComponent,
+        TraitComponent,
+        ActivityContentComponent,
+        HintItemComponent,
+    ],
 })
 export class HintComponent extends TrackByMixin(BaseClass) {
 

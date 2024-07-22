@@ -28,6 +28,8 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface RuneItemType {
     armor: boolean;
@@ -74,6 +76,11 @@ interface WeaponPropertyRuneSet {
     templateUrl: './item-runes.component.html',
     styleUrls: ['./item-runes.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+    ],
 })
 export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnInit {
 

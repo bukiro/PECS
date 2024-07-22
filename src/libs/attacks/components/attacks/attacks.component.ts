@@ -52,6 +52,20 @@ import { AttacksService, AttackResult } from '../../services/attacks/attacks.ser
 import { DamageService, DamageResult } from '../../services/damage/damage.service';
 import { attackRuneSource$ } from '../../util/attack-rune-rource';
 import { Hint } from 'src/app/classes/hints/hint';
+import { SkillComponent } from '../../../shared/skill/components/skill/skill.component';
+import { GridIconComponent } from '../../../shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { DescriptionComponent } from '../../../shared/ui/description/components/description/description.component';
+import { ItemComponent } from '../../../shared/item/components/item/item.component';
+import { HintComponent } from '../../../shared/tags/components/hint/hint.component';
+import { TraitComponent } from '../../../shared/ui/trait/components/trait/trait.component';
+import { QuickdiceComponent } from '../../../shared/quickdice/components/quickdice/quickdice.component';
+import { ActionIconsComponent } from '../../../shared/ui/action-icons/components/action-icons/action-icons.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ObjectEffectsComponent } from '../../../shared/object-effects/components/object-effects/object-effects.component';
+import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -64,6 +78,26 @@ interface WeaponParameters {
     templateUrl: './attacks.component.html',
     styleUrls: ['./attacks.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbPopover,
+        NgbTooltip,
+
+        CharacterSheetCardComponent,
+        ObjectEffectsComponent,
+        TagsComponent,
+        ActionIconsComponent,
+        QuickdiceComponent,
+        TraitComponent,
+        HintComponent,
+        ItemComponent,
+        DescriptionComponent,
+        GridIconComponent,
+        SkillComponent,
+    ],
 })
 export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 

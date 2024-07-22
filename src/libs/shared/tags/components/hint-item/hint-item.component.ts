@@ -13,6 +13,11 @@ import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { ActivityContentComponent } from '../../../activity-content/components/activity-content/activity-content.component';
+import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { ItemContentComponent } from '../../../item-content/component/item-content/item-content.component';
+import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { CommonModule } from '@angular/common';
 
 interface ItemParameters {
     item: Item;
@@ -25,6 +30,15 @@ interface ItemParameters {
     templateUrl: './hint-item.component.html',
     styleUrls: ['./hint-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        TraitComponent,
+        ItemContentComponent,
+        ActionIconsComponent,
+        ActivityContentComponent,
+    ],
 })
 export class HintItemComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 

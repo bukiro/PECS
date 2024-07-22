@@ -17,6 +17,7 @@ import { ValueButtonsComponent } from '../value-buttons/value-buttons.component'
     standalone: true,
     imports: [
         CommonModule,
+
         PrettyValueComponent,
         ValueQuickdiceComponent,
         ValueButtonsComponent,

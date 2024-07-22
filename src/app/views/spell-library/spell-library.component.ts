@@ -32,6 +32,15 @@ import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observabl
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { GridIconComponent } from '../../../libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { TraitComponent } from '../../../libs/shared/ui/trait/components/trait/trait.component';
+import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { SpellComponent } from '../../../libs/shared/spell/components/spell/spell.component';
+import { ActionIconsComponent } from '../../../libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { DescriptionComponent } from '../../../libs/shared/ui/description/components/description/description.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 const itemsPerPage = 40;
 const showAllLists = -2;
@@ -47,6 +56,21 @@ interface ComponentParameters {
     templateUrl: './spell-library.component.html',
     styleUrls: ['./spell-library.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbTooltip,
+        NgbPopover,
+
+        FlyInMenuComponent,
+        DescriptionComponent,
+        ActionIconsComponent,
+        SpellComponent,
+        TraitComponent,
+        GridIconComponent,
+    ],
 })
 export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 

@@ -1,14 +1,13 @@
 import { Component, ChangeDetectionStrategy, Input, model } from '@angular/core';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CommonModule } from '@angular/common';
-import { NgbCollapseModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { ObjectEffectsModule } from 'src/libs/shared/object-effects/object-effects.module';
+import { NgbCollapse, NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ButtonComponent } from '../../../button/components/button/button.component';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 import { ToggleButtonComponent } from '../../../button/components/toggle-button/toggle-button.component';
-import { BonusListModule } from '../../../bonus-list/bonus-list.module';
 import { FormsModule } from '@angular/forms';
 import { ValueEffectsButtonsComponent } from '../value-effects-buttons/value-effects-buttons.component';
+import { BonusListComponent } from '../../../bonus-list/components/bonus-list/bonus-list.component';
 
 @Component({
     selector: 'app-value-buttons',
@@ -19,14 +18,15 @@ import { ValueEffectsButtonsComponent } from '../value-effects-buttons/value-eff
     imports: [
         CommonModule,
         FormsModule,
-        NgbPopoverModule,
-        NgbTooltipModule,
-        NgbCollapseModule,
-        ObjectEffectsModule,
+
+        NgbPopover,
+        NgbTooltip,
+        NgbCollapse,
+
         ButtonComponent,
         ToggleButtonComponent,
-        BonusListModule,
         ValueEffectsButtonsComponent,
+        BonusListComponent,
     ],
 })
 export class ValueButtonsComponent {

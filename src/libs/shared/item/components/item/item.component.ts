@@ -34,13 +34,38 @@ import { SpellPropertiesService } from 'src/libs/shared/services/spell-propertie
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { spellTraditionFromString } from 'src/libs/shared/util/spell-utils';
-
+import { QuickdiceComponent } from '../../../quickdice/components/quickdice/quickdice.component';
+import { SpellChoiceComponent } from '../../../spell-choice/components/spell-choice/spell-choice.component';
+import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
+import { SpellComponent } from '../../../spell/components/spell/spell.component';
+import { ActivityComponent } from '../../../activity/components/activity/activity.component';
+import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { ItemContentComponent } from '../../../item-content/component/item-content/item-content.component';
+import { FormsModule } from '@angular/forms';
+import { TagsComponent } from '../../../tags/components/tags/tags.component';
+import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-item',
     templateUrl: './item.component.html',
     styleUrls: ['./item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        TraitComponent,
+        TagsComponent,
+        ItemContentComponent,
+        ActionIconsComponent,
+        ActivityComponent,
+        SpellComponent,
+        DescriptionComponent,
+        SpellChoiceComponent,
+        QuickdiceComponent,
+    ],
 })
 export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 

@@ -18,6 +18,15 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { GridIconComponent } from '../../../ui/grid-icon/components/grid-icon/grid-icon.component';
+import { StickyPopoverDirective } from '../../../sticky-popover/directives/sticky-popover/sticky-popover.directive';
+import { ActivityComponent } from '../../../activity/components/activity/activity.component';
+import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { ConditionContentComponent } from '../../../condition-content/components/condition-content/condition-content.component';
+import { QuickdiceComponent } from '../../../quickdice/components/quickdice/quickdice.component';
+import { NgbTooltip, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -33,6 +42,21 @@ interface ActivityParameters {
     templateUrl: './condition.component.html',
     styleUrls: ['./condition.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbTooltip,
+        NgbCollapse,
+
+        QuickdiceComponent,
+        ConditionContentComponent,
+        ActionIconsComponent,
+        ActivityComponent,
+        StickyPopoverDirective,
+        GridIconComponent,
+    ],
 })
 export class ConditionComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 

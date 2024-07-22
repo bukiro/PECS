@@ -13,6 +13,10 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { FormsModule } from '@angular/forms';
+import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
+import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { CommonModule } from '@angular/common';
 
 interface ComparedValue {
     effective: number;
@@ -33,6 +37,14 @@ interface ComparedStringValue {
     templateUrl: './item-content.component.html',
     styleUrls: ['./item-content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        ActionIconsComponent,
+        DescriptionComponent,
+    ],
 })
 export class ItemContentComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 

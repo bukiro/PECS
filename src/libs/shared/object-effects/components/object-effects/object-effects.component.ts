@@ -7,6 +7,9 @@ import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluatio
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface EffectValueParameters {
     displayType?: 'Formula' | 'Toggle' | 'Value';
@@ -19,6 +22,13 @@ interface EffectValueParameters {
     templateUrl: './object-effects.component.html',
     styleUrls: ['./object-effects.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbPopover,
+    ],
 })
 export class ObjectEffectsComponent extends TrackByMixin(BaseClass) {
 

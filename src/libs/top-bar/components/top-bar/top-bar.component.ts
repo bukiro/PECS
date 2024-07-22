@@ -15,12 +15,31 @@ import { toggleLeftMenu, toggleTopMenu } from 'src/libs/store/menu/menu.actions'
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
+import { NewMessagesComponent } from '../new-messages/new-messages.component';
+import { DiceIconD20Component } from '../../../shared/ui/dice-icons/components/dice-icon-D20/dice-icon-D20.component';
+import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../../shared/ui/button/components/button/button.component';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { LogoComponent } from '../../../shared/ui/logo/components/logo/logo.component';
+import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @Component({
     selector: 'app-top-bar',
     templateUrl: './top-bar.component.html',
     styleUrls: ['./top-bar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        NgbTooltip,
+
+        CharacterSheetCardComponent,
+        LogoComponent,
+        ButtonComponent,
+        DiceIconD20Component,
+        NewMessagesComponent,
+    ],
 })
 export class TopBarComponent extends TrackByMixin(BaseClass) {
 

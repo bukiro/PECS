@@ -8,12 +8,40 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { selectLeftMenu, selectTopMenu } from 'src/libs/store/menu/menu.selectors';
 import { Store } from '@ngrx/store';
+import { DiceComponent } from '../dice/dice.component';
+import { FamiliarComponent } from '../familiar/familiar.component';
+import { AnimalCompanionComponent } from '../animal-companion/animal-companion.component';
+import { CharacterCreationComponent } from '../character-creation/character-creation.component';
+import { ConditionsComponent } from '../conditions/conditions.component';
+import { SpellLibraryComponent } from '../spell-library/spell-library.component';
+import { SpellSelectionComponent } from '../spell-selection/spell-selection.component';
+import { CraftingComponent } from '../crafting/crafting.component';
+import { ItemsComponent } from '../items/items.component';
+import { CharacterSheetMobileComponent } from './components/character-sheet-mobile/character-sheet-mobile.component';
+import { CharacterSheetDesktopComponent } from './components/character-sheet-desktop/character-sheet-desktop.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-character-sheet',
     templateUrl: './character-sheet.component.html',
     styleUrls: ['./character-sheet.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        CharacterSheetDesktopComponent,
+        CharacterSheetMobileComponent,
+        ItemsComponent,
+        CraftingComponent,
+        SpellSelectionComponent,
+        SpellLibraryComponent,
+        ConditionsComponent,
+        CharacterCreationComponent,
+        AnimalCompanionComponent,
+        FamiliarComponent,
+        DiceComponent,
+    ],
 })
 export class CharacterSheetComponent extends IsMobileMixin(TrackByMixin(BaseClass)) {
 

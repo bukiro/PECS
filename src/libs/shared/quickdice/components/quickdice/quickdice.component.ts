@@ -11,7 +11,7 @@ import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-v
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
-import { DiceIconsModule } from 'src/libs/shared/ui/dice-icons/dice-icons.module';
+import { DiceIconD20Component } from 'src/libs/shared/ui/dice-icons/components/dice-icon-D20/dice-icon-D20.component';
 
 @Component({
     selector: 'app-quickdice',
@@ -22,8 +22,8 @@ import { DiceIconsModule } from 'src/libs/shared/ui/dice-icons/dice-icons.module
     imports: [
         CommonModule,
 
-        DiceIconsModule,
         ButtonComponent,
+        DiceIconD20Component,
     ],
 })
 export class QuickdiceComponent implements OnChanges {

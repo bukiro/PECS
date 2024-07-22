@@ -31,6 +31,17 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$, deepDistinctUntilChanged, emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { SkillComponent } from '../../../shared/skill/components/skill/skill.component';
+import { FormsModule } from '@angular/forms';
+import { ItemComponent } from '../../../shared/item/components/item/item.component';
+import { ActionIconsComponent } from '../../../shared/ui/action-icons/components/action-icons/action-icons.component';
+import { QuickdiceComponent } from '../../../shared/quickdice/components/quickdice/quickdice.component';
+import { TraitComponent } from '../../../shared/ui/trait/components/trait/trait.component';
+import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ObjectEffectsComponent } from '../../../shared/object-effects/components/object-effects/object-effects.component';
+import { CommonModule } from '@angular/common';
+import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface ComponentParameters {
     ACSources: ACForDisplay;
@@ -39,11 +50,33 @@ interface ComponentParameters {
     hidden$: Observable<ConditionGain | undefined>;
 }
 
+interface ArmorParameters {
+    armor: Armor | WornItem;
+    specializations: Array<Specialization>;
+}
+
 @Component({
     selector: 'app-defense',
     templateUrl: './defense.component.html',
     styleUrls: ['./defense.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        NgbPopover,
+        NgbTooltip,
+        FormsModule,
+
+        ObjectEffectsComponent,
+        CharacterSheetCardComponent,
+        TagsComponent,
+        TraitComponent,
+        QuickdiceComponent,
+        ActionIconsComponent,
+        ItemComponent,
+        SkillComponent,
+    ],
 })
 export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
@@ -53,6 +86,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
     public isTileMode$: Observable<boolean>;
 
     public componentParameters$: Observable<ComponentParameters>;
+    public armorParameters$: Observable<Array<ArmorParameters>>;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -101,6 +135,31 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
                     hidden$: this._currentHidden$(),
                 })),
             );
+
+        this.armorParameters$ = this.creature$
+            .pipe(
+                switchMap(creature => combineLatest([
+                    this._creatureEquipmentService.equippedCreatureArmor$(creature),
+                    this._creatureEquipmentService.equippedCreatureBracersOfArmor$(creature),
+                ])),
+                map(([armor, bracers]) =>
+                    new Array<Armor | WornItem>()
+                        .concat(armor)
+                        .concat(bracers),
+                ),
+                switchMap(armors => emptySafeCombineLatest(
+                    armors
+                        .map(armor =>
+                            this._armorSpecializations$(armor)
+                                .pipe(
+                                    map(specializations => ({
+                                        armor,
+                                        specializations,
+                                    })),
+                                ),
+                        ),
+                )),
+            );
     }
 
     public get creature(): Creature {
@@ -122,21 +181,6 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     public toggleMinimized(minimized: boolean): void {
         SettingsService.settings.defenseMinimized = minimized;
-    }
-
-    public armorSpecialization$(armor: Armor | WornItem): Observable<Array<Specialization>> {
-        if (armor.isArmor()) {
-            return this.creature$
-                .pipe(
-                    switchMap(creature =>
-                        this._armorPropertiesService.armorSpecializations$(armor, creature),
-                    ),
-                );
-
-        }
-
-        //No armor specializations for bracers of armor.
-        return of([]);
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
@@ -196,21 +240,6 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
         }
 
         this._refreshService.processPreparedChanges();
-    }
-
-    public equippedArmor$(): Observable<Array<Armor | WornItem>> {
-        return this.creature$
-            .pipe(
-                switchMap(creature => combineLatest([
-                    this._creatureEquipmentService.equippedCreatureArmor$(creature),
-                    this._creatureEquipmentService.equippedCreatureBracersOfArmor$(creature),
-                ])),
-                map(([armor, bracers]) =>
-                    new Array<Armor | WornItem>()
-                        .concat(armor)
-                        .concat(bracers),
-                ),
-            );
     }
 
     public hintShowingRunes(armor: Armor | WornItem): Array<ArmorRune> {
@@ -353,6 +382,21 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
                     return specialNames;
                 }),
             );
+    }
+
+    private _armorSpecializations$(armor: Armor | WornItem): Observable<Array<Specialization>> {
+        if (armor.isArmor()) {
+            return this.creature$
+                .pipe(
+                    switchMap(creature =>
+                        this._armorPropertiesService.armorSpecializations$(armor, creature),
+                    ),
+                );
+
+        }
+
+        //No armor specializations for bracers of armor.
+        return of([]);
     }
 
     private _setDefenseChanged(): void {

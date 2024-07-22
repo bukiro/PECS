@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, Input, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
-import { BonusListModule } from '../../../bonus-list/bonus-list.module';
 import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
+import { BonusListComponent } from 'src/libs/shared/ui/bonus-list/components/bonus-list/bonus-list.component';
 
 @Component({
     selector: 'app-pretty-value',
@@ -13,8 +13,10 @@ import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-desc
     standalone: true,
     imports: [
         CommonModule,
+
         NgbPopoverModule,
-        BonusListModule,
+
+        BonusListComponent,
     ],
 })
 export class PrettyValueComponent {

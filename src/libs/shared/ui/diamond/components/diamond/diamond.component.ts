@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
 import { DiamondLetters } from '../../definitions/diamond-letters';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-diamond',
@@ -10,7 +10,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     standalone: true,
     imports: [
         CommonModule,
-        NgbTooltipModule,
+
+        NgbTooltip,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -8,12 +8,30 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { CharacterDeletingService } from '../../services/character-deleting/character-deleting.service';
 import { CharacterLoadingService } from '../../services/character-loading/character-loading.service';
+import { AttributeValueComponent } from '../../../ui/attribute-value/components/attribute-value/attribute-value.component';
+import { FormsModule } from '@angular/forms';
+import { LabelInputPairComponent } from '../../../ui/input/components/label-input-pair/label-input-pair.component';
+import { ButtonComponent } from '../../../ui/button/components/button/button.component';
+import { LogoComponent } from '../../../ui/logo/components/logo/logo.component';
+import { CommonModule } from '@angular/common';
+import { CharacterSheetCardComponent } from '../../../ui/character-sheet-card/character-sheet-card.component';
 
 @Component({
     selector: 'app-character-selection',
     templateUrl: './character-selection.component.html',
     styleUrls: ['./character-selection.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        CharacterSheetCardComponent,
+        LogoComponent,
+        ButtonComponent,
+        LabelInputPairComponent,
+        AttributeValueComponent,
+    ],
 })
 export class CharacterSelectionComponent extends TrackByMixin(BaseClass) {
 

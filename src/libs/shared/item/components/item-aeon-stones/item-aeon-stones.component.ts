@@ -13,6 +13,8 @@ import { DurationsService } from 'src/libs/shared/time/services/durations/durati
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface AeonStoneSet {
     aeonStone: WornItem;
@@ -24,6 +26,11 @@ interface AeonStoneSet {
     templateUrl: './item-aeon-stones.component.html',
     styleUrls: ['./item-aeon-stones.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+    ],
 })
 export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements OnInit {
 

@@ -18,12 +18,29 @@ import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/ba
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { FormsModule } from '@angular/forms';
+import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { NgbPopover, NgbProgressbar, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
 
 @Component({
     selector: 'app-health',
     templateUrl: './health.component.html',
     styleUrls: ['./health.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbPopover,
+        NgbProgressbar,
+        NgbTooltip,
+
+        CharacterSheetCardComponent,
+        TagsComponent,
+    ],
 })
 export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 

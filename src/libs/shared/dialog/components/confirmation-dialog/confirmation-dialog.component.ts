@@ -3,12 +3,19 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { DialogFooterComponent } from '../dialog-footer/dialog-footer.component';
 import { DialogHeaderComponent } from '../dialog-header/dialog-header.component';
 import { DialogComponent } from '../dialog/dialog.component';
+import { CharacterSheetCardComponent } from '../../../ui/character-sheet-card/character-sheet-card.component';
 
 @Component({
     selector: 'app-confirmation-dialog',
     templateUrl: './confirmation-dialog.component.html',
     styleUrls: ['./confirmation-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CharacterSheetCardComponent,
+        DialogHeaderComponent,
+        DialogFooterComponent,
+    ],
 })
 export class ConfirmationDialogComponent extends TrackByMixin(DialogComponent) {
 

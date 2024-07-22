@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { DiamondComponent } from '../diamond/diamond.component';
 import { CommonModule } from '@angular/common';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-loading-diamond',
@@ -11,7 +11,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     standalone: true,
     imports: [
         CommonModule,
-        NgbTooltipModule,
+
+        NgbTooltip,
     ],
 })
 export class LoadingDiamondComponent extends DiamondComponent {

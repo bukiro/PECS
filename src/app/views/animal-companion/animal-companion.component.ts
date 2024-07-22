@@ -13,12 +13,40 @@ import { Store } from '@ngrx/store';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { ActionIconsComponent } from '../../../libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { InventoryComponent } from '../../../libs/inventory/components/inventory/inventory.component';
+import { AttacksComponent } from '../../../libs/attacks/components/attacks/attacks.component';
+import { DefenseComponent } from '../../../libs/defense/components/defense/defense.component';
+import { AbilitiesComponent } from '../../../libs/abilities/components/abilities/abilities.component';
+import { ActivitiesComponent } from '../../../libs/activities/components/activities/activities.component';
+import { SkillsComponent } from '../../../libs/skills/components/skills/skills.component';
+import { HealthComponent } from '../../../libs/health/components/health/health.component';
+import { GeneralComponent } from '../../../libs/general/components/general/general.component';
+import { EffectsComponent } from '../../../libs/effects/components/effects/effects.component';
+import { CommonModule } from '@angular/common';
+import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @Component({
     selector: 'app-animal-companion',
     templateUrl: './animal-companion.component.html',
     styleUrls: ['./animal-companion.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        FlyInMenuComponent,
+        EffectsComponent,
+        GeneralComponent,
+        HealthComponent,
+        SkillsComponent,
+        ActivitiesComponent,
+        AbilitiesComponent,
+        DefenseComponent,
+        AttacksComponent,
+        InventoryComponent,
+        ActionIconsComponent,
+    ],
 })
 export class AnimalCompanionComponent extends IsMobileMixin(BaseClass) implements OnInit, OnDestroy {
 

@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
@@ -41,6 +40,9 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { ObjectPropertyAccessor } from 'src/libs/shared/util/object-property-accessor';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
+import { FormsModule } from '@angular/forms';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 //TODO: Rework this entire thing to make it work with strict mode and have fewer exceptions;
 
@@ -49,6 +51,13 @@ import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
     templateUrl: './new-item-property.component.html',
     styleUrls: ['./new-item-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbPopover,
+    ],
 })
 export class NewItemPropertyComponent<T extends Item | object> extends TrackByMixin(BaseClass) {
 

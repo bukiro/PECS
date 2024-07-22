@@ -13,6 +13,8 @@ import { BehaviorSubject, combineLatest, map, Observable, of, switchMap } from '
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 const materialLevelRequiredForFirstPotency = 2;
 const materialLevelRequiredForSecondPotency = 10;
@@ -46,6 +48,11 @@ interface WeaponMaterialSet {
     templateUrl: './item-material-option.component.html',
     styleUrls: ['./item-material-option.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+    ],
 })
 export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) implements OnInit {
 

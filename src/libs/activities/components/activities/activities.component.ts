@@ -21,6 +21,17 @@ import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/ba
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
+import { FeatChoiceComponent } from '../../../shared/feat-choice/components/feat-choice/feat-choice.component';
+import { GridIconComponent } from '../../../shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { StickyPopoverDirective } from '../../../shared/sticky-popover/directives/sticky-popover/sticky-popover.directive';
+import { ActivityComponent } from '../../../shared/activity/components/activity/activity.component';
+import { ActionIconsComponent } from '../../../shared/ui/action-icons/components/action-icons/action-icons.component';
+import { SkillComponent } from '../../../shared/skill/components/skill/skill.component';
+import { CommonModule } from '@angular/common';
+import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ObjectEffectsComponent } from '../../../shared/object-effects/components/object-effects/object-effects.component';
+import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface ActivitySet {
     name: string;
@@ -43,6 +54,23 @@ interface ActivityParameter {
     templateUrl: './activities.component.html',
     styleUrls: ['./activities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        NgbPopover,
+        NgbTooltip,
+
+        CharacterSheetCardComponent,
+        TagsComponent,
+        ObjectEffectsComponent,
+        SkillComponent,
+        ActionIconsComponent,
+        ActivityComponent,
+        StickyPopoverDirective,
+        GridIconComponent,
+        FeatChoiceComponent,
+    ],
 })
 export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 

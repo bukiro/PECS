@@ -3,12 +3,15 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { CopperAmounts } from 'src/libs/shared/definitions/currency';
 import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-cash',
     templateUrl: './cash.component.html',
     styleUrls: ['./cash.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FormsModule],
 })
 
 export class CashComponent {

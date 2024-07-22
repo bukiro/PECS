@@ -4,7 +4,6 @@ import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
 import { AbilityBoostType } from '../definitions/ability-boost-type';
 import { AbilityBaseValueSetting } from '../definitions/creature-properties/ability-base-value-setting';
 import { Defaults } from '../definitions/defaults';
-
 import {
     abilityAddedValueFromBoost,
     abilityAddedValueFromPositiveBoost,

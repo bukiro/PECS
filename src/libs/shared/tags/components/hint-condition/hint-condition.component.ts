@@ -6,12 +6,20 @@ import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { ConditionContentComponent } from '../../../condition-content/components/condition-content/condition-content.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-hint-condition',
     templateUrl: './hint-condition.component.html',
     styleUrls: ['./hint-condition.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        ConditionContentComponent,
+    ],
 })
 export class HintConditionComponent implements OnInit, OnDestroy {
 

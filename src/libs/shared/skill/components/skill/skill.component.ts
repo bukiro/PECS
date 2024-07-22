@@ -26,6 +26,16 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { GridIconComponent } from '../../../ui/grid-icon/components/grid-icon/grid-icon.component';
+import { StickyPopoverDirective } from '../../../sticky-popover/directives/sticky-popover/sticky-popover.directive';
+import { ActivityComponent } from '../../../activity/components/activity/activity.component';
+import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { FormsModule } from '@angular/forms';
+import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { TagsComponent } from '../../../tags/components/tags/tags.component';
+import { AttributeValueComponent } from '../../../ui/attribute-value/components/attribute-value/attribute-value.component';
+import { SkillProficiencyComponent } from '../skill-proficiency/skill-proficiency.component';
+import { CommonModule } from '@angular/common';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -39,6 +49,22 @@ interface ActivityParameters {
     templateUrl: './skill.component.html',
     styleUrls: ['./skill.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbCollapse,
+        NgbTooltip,
+
+        SkillProficiencyComponent,
+        AttributeValueComponent,
+        TagsComponent,
+        ActionIconsComponent,
+        ActivityComponent,
+        StickyPopoverDirective,
+        GridIconComponent,
+    ],
 })
 export class SkillComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy, OnChanges {
 

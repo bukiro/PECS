@@ -19,6 +19,9 @@ import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { skillLevelName } from 'src/libs/shared/util/skill-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { GridIconComponent } from '../../../ui/grid-icon/components/grid-icon/grid-icon.component';
+import { CommonModule } from '@angular/common';
 
 
 interface SkillChoiceParameters {
@@ -42,6 +45,15 @@ interface SkillParameters {
     templateUrl: './skill-choice.component.html',
     styleUrls: ['./skill-choice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        NgbTooltip,
+        NgbPopover,
+
+        GridIconComponent,
+    ],
 })
 export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 

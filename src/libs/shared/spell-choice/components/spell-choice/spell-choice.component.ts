@@ -31,6 +31,13 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive, capitalize } from 'src/libs/shared/util/string-utils';
+import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { SpellComponent } from '../../../spell/components/spell/spell.component';
+import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { FormsModule } from '@angular/forms';
+import { GridIconComponent } from '../../../ui/grid-icon/components/grid-icon/grid-icon.component';
+import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 
 interface SpellSet {
@@ -86,6 +93,19 @@ interface SpellBlendingParameters {
     templateUrl: './spell-choice.component.html',
     styleUrls: ['./spell-choice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbTooltip,
+        NgbPopover,
+
+        GridIconComponent,
+        ActionIconsComponent,
+        SpellComponent,
+        TraitComponent,
+    ],
 })
 export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 

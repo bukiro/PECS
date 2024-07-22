@@ -11,6 +11,8 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface PoisonSet {
     poison: AlchemicalPoison;
@@ -22,6 +24,11 @@ interface PoisonSet {
     templateUrl: './item-poisons.component.html',
     styleUrls: ['./item-poisons.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+    ],
 })
 export class ItemPoisonsComponent extends TrackByMixin(BaseClass) {
 

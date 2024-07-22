@@ -13,12 +13,38 @@ import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/ba
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { ActivitiesComponent } from '../../../libs/activities/components/activities/activities.component';
+import { ActionIconsComponent } from '../../../libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { InventoryComponent } from '../../../libs/inventory/components/inventory/inventory.component';
+import { DefenseComponent } from '../../../libs/defense/components/defense/defense.component';
+import { SkillsComponent } from '../../../libs/skills/components/skills/skills.component';
+import { HealthComponent } from '../../../libs/health/components/health/health.component';
+import { FamiliarabilitiesComponent } from './components/familiar-abilities/familiar-abilities.component';
+import { GeneralComponent } from '../../../libs/general/components/general/general.component';
+import { EffectsComponent } from '../../../libs/effects/components/effects/effects.component';
+import { CommonModule } from '@angular/common';
+import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 @Component({
     selector: 'app-familiar',
     templateUrl: './familiar.component.html',
     styleUrls: ['./familiar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        FlyInMenuComponent,
+        EffectsComponent,
+        GeneralComponent,
+        FamiliarabilitiesComponent,
+        HealthComponent,
+        SkillsComponent,
+        DefenseComponent,
+        InventoryComponent,
+        ActionIconsComponent,
+        ActivitiesComponent,
+    ],
 })
 export class FamiliarComponent extends IsMobileMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 

@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import {
     Component,
     OnInit,
@@ -9,7 +10,7 @@ import {
     OnDestroy,
     TemplateRef,
 } from '@angular/core';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription, combineLatest, map, switchMap, of, noop } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
@@ -37,6 +38,9 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;
@@ -55,6 +59,15 @@ interface ComponentParameters {
     templateUrl: './spell-target.component.html',
     styleUrls: ['./spell-target.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbTooltip,
+
+        ActionIconsComponent,
+    ],
 })
 export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 

@@ -21,6 +21,9 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { HintComponent } from '../hint/hint.component';
+import { CommonModule } from '@angular/common';
 
 
 interface TagCollection {
@@ -32,6 +35,14 @@ interface TagCollection {
     templateUrl: './tags.component.html',
     styleUrls: ['./tags.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        NgbPopover,
+
+        HintComponent,
+    ],
 })
 export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, OnChanges, OnDestroy {
 

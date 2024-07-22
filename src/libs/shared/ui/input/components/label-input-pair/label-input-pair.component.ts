@@ -3,7 +3,9 @@ import { BaseValueAccessorComponent } from '../base-value-accessor/base-value-ac
 import { v4 as uuidv4 } from 'uuid';
 import { TextInputComponent } from '../text-input/text-input.component';
 import { CheckboxInputComponent } from '../checkbox-input/checkbox-input.component';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-label-input-pair',
@@ -16,6 +18,16 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
             useExisting: forwardRef(() => LabelInputPairComponent),
             multi: true,
         },
+    ],
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbTooltip,
+
+        CheckboxInputComponent,
+        TextInputComponent,
     ],
 })
 export class LabelInputPairComponent extends BaseValueAccessorComponent<string | number | boolean> {

@@ -6,12 +6,26 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { FormsModule } from '@angular/forms';
+import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { DescriptionComponent } from '../../../description/components/description/description.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-trait',
     templateUrl: './trait.component.html',
     styleUrls: ['./trait.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbPopover,
+        NgbTooltip,
+
+        DescriptionComponent,
+    ],
 })
 export class TraitComponent extends TrackByMixin(BaseClass) {
 

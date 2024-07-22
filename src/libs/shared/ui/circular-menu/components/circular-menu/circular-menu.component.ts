@@ -3,6 +3,8 @@ import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-util
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { ButtonComponent } from '../../../button/components/button/button.component';
 import { CircularMenuOption } from '../../definitions/interfaces/circular-menu-option';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 const defaultDistanceRem = 5;
 
@@ -11,6 +13,14 @@ const defaultDistanceRem = 5;
     templateUrl: './circular-menu.component.html',
     styleUrls: ['./circular-menu.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        NgbTooltip,
+
+        ButtonComponent,
+    ],
 })
 export class CircularMenuComponent extends TrackByMixin(ButtonComponent) {
 

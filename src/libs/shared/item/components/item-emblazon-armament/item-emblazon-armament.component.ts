@@ -17,6 +17,9 @@ import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { FormsModule } from '@angular/forms';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 interface ComponentParameters {
     hasEmblazonDivinity: boolean;
@@ -33,6 +36,14 @@ interface ComponentParameters {
     templateUrl: './item-emblazon-armament.component.html',
     styleUrls: ['./item-emblazon-armament.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        NgbPopover,
+
+        FormsModule,
+    ],
 })
 export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) implements OnInit {
 

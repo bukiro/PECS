@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, OnInit, Input, Output, TemplateRef, EventEmitter } from '@angular/core';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Observable, BehaviorSubject, noop, of, combineLatest, distinctUntilChanged, switchMap, map } from 'rxjs';
 import { Character } from 'src/app/classes/creatures/character/character';
@@ -20,12 +20,21 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { selectGmMode } from 'src/libs/store/app/app.selectors';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-item-target',
     templateUrl: './item-target.component.html',
     styleUrls: ['./item-target.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbTooltip,
+    ],
 })
 export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnInit {
 

@@ -21,12 +21,20 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
+import { ActionIconsComponent } from '../../../action-icons/components/action-icons/action-icons.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-grid-icon',
     templateUrl: './grid-icon.component.html',
     styleUrls: ['./grid-icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        ActionIconsComponent,
+    ],
 })
 export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 

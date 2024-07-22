@@ -22,12 +22,28 @@ import { DurationsService } from 'src/libs/shared/time/services/durations/durati
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { SpellContentComponent } from '../../../spell-content/components/spell-content/spell-content.component';
+import { FormsModule } from '@angular/forms';
+import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { ActionIconsComponent } from '../../../ui/action-icons/components/action-icons/action-icons.component';
+import { DescriptionComponent } from '../../../ui/description/components/description/description.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-activity-content',
     templateUrl: './activity-content.component.html',
     styleUrls: ['./activity-content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        DescriptionComponent,
+        ActionIconsComponent,
+        TraitComponent,
+        SpellContentComponent,
+    ],
 })
 export class ActivityContentComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
 

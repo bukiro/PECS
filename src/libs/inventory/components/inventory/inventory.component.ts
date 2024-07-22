@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
 /* eslint-disable max-lines */
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDropListGroup, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef, TemplateRef } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltip, NgbCollapse, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, switchMap, distinctUntilChanged, shareReplay, combineLatest, of, map, noop, take } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
@@ -65,6 +65,25 @@ import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observabl
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { setItemsMenuTarget, toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { GridIconComponent } from '../../../shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { StickyPopoverDirective } from '../../../shared/sticky-popover/directives/sticky-popover/sticky-popover.directive';
+import { ItemAeonStonesComponent } from '../../../shared/item/components/item-aeon-stones/item-aeon-stones.component';
+import { ItemTalismanCordsComponent } from '../../../shared/item/components/item-talisman-cords/item-talisman-cords.component';
+import { ItemTalismansComponent } from '../../../shared/item/components/item-talismans/item-talismans.component';
+import { ItemPoisonsComponent } from '../../../shared/item/components/item-poisons/item-poisons.component';
+import { ItemOilsComponent } from '../../../shared/item/components/item-oils/item-oils.component';
+import { ItemEmblazonArmamentComponent } from '../../../shared/item/components/item-emblazon-armament/item-emblazon-armament.component';
+import { ItemBladeAllyComponent } from '../../../shared/item/components/item-blade-ally/item-blade-ally.component';
+import { ItemRunesComponent } from '../../../shared/item/components/item-runes/item-runes.component';
+import { FormsModule } from '@angular/forms';
+import { ItemTargetComponent } from '../../../shared/item-target/components/item-target/item-target.component';
+import { SpellTargetComponent } from '../../../shared/spell-target/components/spell-target/spell-target.component';
+import { ItemComponent } from '../../../shared/item/components/item/item.component';
+import { ActionIconsComponent } from '../../../shared/ui/action-icons/components/action-icons/action-icons.component';
+import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { AttributeValueComponent } from '../../../shared/ui/attribute-value/components/attribute-value/attribute-value.component';
+import { CommonModule } from '@angular/common';
+import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -84,6 +103,36 @@ interface ItemParameters extends ItemRoles {
     templateUrl: './inventory.component.html',
     styleUrls: ['./inventory.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbTooltip,
+        NgbPopover,
+        NgbCollapse,
+        CdkDrag,
+        CdkDropListGroup,
+        CdkDropList,
+
+        CharacterSheetCardComponent,
+        AttributeValueComponent,
+        TagsComponent,
+        ActionIconsComponent,
+        ItemComponent,
+        SpellTargetComponent,
+        ItemTargetComponent,
+        ItemRunesComponent,
+        ItemBladeAllyComponent,
+        ItemEmblazonArmamentComponent,
+        ItemOilsComponent,
+        ItemPoisonsComponent,
+        ItemTalismansComponent,
+        ItemTalismanCordsComponent,
+        ItemAeonStonesComponent,
+        StickyPopoverDirective,
+        GridIconComponent,
+    ],
 })
 export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 

@@ -140,17 +140,17 @@
                 <header class="subsectionHeader minimized-hide">Armor</header>
 
                 <div
-                    *ngFor="let armor of equippedArmor$() | async; let armorIndex = index; trackBy:trackByIndex;"
+                    *ngFor="let armorParameters of armorParameters$ | async; let armorIndex = index; trackBy:trackByIndex;"
                     class="minimized-hide list-item"
                 >
-                    <div>{{armor.effectiveName$()}}</div>
+                    <div>{{armorParameters.armor.effectiveName$() | async}}</div>
 
                     <div
-                        *ngIf="armor.traits.length"
+                        *ngIf="armorParameters.armor.traits.length"
                         class="minimized-hide newrow left-aligned"
                     >
                         <app-trait
-                            *ngFor="let trait of armor.traits; trackBy:trackByIndex;"
+                            *ngFor="let trait of armorParameters.armor.traits; trackBy:trackByIndex;"
                             [name]="trait"
                             [trait]="traitFromName(trait)"
                         />
@@ -170,11 +170,11 @@
 
                     <app-tags
                         [creature]="creature"
-                        [objectName]="armor.name"
+                        [objectName]="armorParameters.armor.name"
                         [showItems]=true
                     />
 
-                    <ng-container *ngIf="hintShowingRunes(armor) as hintShowingRunes">
+                    <ng-container *ngIf="hintShowingRunes(armorParameters.armor) as hintShowingRunes">
                         <div
                             *ngIf="hintShowingRunes.length"
                             class="minimized-hide newrow left-aligned"
@@ -207,12 +207,12 @@
                     </ng-container>
 
                     <div
-                        *ngFor="let talisman of armor.talismans; let index = index; trackBy:trackByIndex;"
+                        *ngFor="let talisman of armorParameters.armor.talismans; let index = index; trackBy:trackByIndex;"
                         class="minimized-hide lower newrow left-aligned"
                     >
                         <ng-template #TalismanTemplate>
                             <div
-                                *ngFor="let cord of armor.talismanCords; trackBy:trackByIndex;"
+                                *ngFor="let cord of armorParameters.armor.talismanCords; trackBy:trackByIndex;"
                                 class="list-item left-aligned lower"
                             >
                                 <header class="spellHeader newrow">
@@ -249,7 +249,7 @@
                             <button
                                 type="button"
                                 class="newrow left-aligned"
-                                (click)="onTalismanUse(armor, talisman, index)"
+                                (click)="onTalismanUse(armorParameters.armor, talisman, index)"
                             >
                                 <span>
                                     Activate
@@ -262,10 +262,10 @@
                             </button>
 
                             <button
-                                *ngIf="hasMatchingTalismanCord(armor, talisman)"
+                                *ngIf="hasMatchingTalismanCord(armorParameters.armor, talisman)"
                                 type="button"
                                 class="newrow left-aligned"
-                                (click)="onTalismanUse(armor, talisman, index, true)"
+                                (click)="onTalismanUse(armorParameters.armor, talisman, index, true)"
                             >
                                 <span>
                                     Activate and preserve with talisman cord
@@ -292,14 +292,14 @@
                         >
                             <span>
                                 {{talisman.name}}
-                                    {{hasMatchingTalismanCord(armor, talisman) ?
+                                    {{hasMatchingTalismanCord(armorParameters.armor, talisman) ?
                                     "(matching talisman cord attached)" : ""}}
                             </span>
                         </button>
                     </div>
 
                     <div
-                        *ngFor="let spec of armorSpecialization$(armor) | async; trackBy:trackByIndex;"
+                        *ngFor="let spec of armorParameters.specializations; trackBy:trackByIndex;"
                         class="minimized-hide lower newrow left-aligned"
                     >
                         <strong>Armor specialization effect&nbsp;</strong>

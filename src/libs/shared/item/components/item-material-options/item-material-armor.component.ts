@@ -15,6 +15,8 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 const materialLevelRequiredForFirstPotency = 5;
 const materialLevelRequiredForSecondPotency = 11;
@@ -48,6 +50,11 @@ interface ArmorMaterialSet {
     templateUrl: './item-material-option.component.html',
     styleUrls: ['./item-material-option.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+    ],
 })
 export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implements OnInit {
 

@@ -32,6 +32,16 @@ import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observabl
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { InventoryComponent } from '../../../libs/inventory/components/inventory/inventory.component';
+import { ItemMaterialComponent } from '../../../libs/shared/item/components/item-material/item-material.component';
+import { TagsComponent } from '../../../libs/shared/tags/components/tags/tags.component';
+import { GridIconComponent } from '../../../libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ItemComponent } from '../../../libs/shared/item/components/item/item.component';
+import { CashComponent } from '../../../libs/shared/cash/components/cash/cash.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 const itemsPerPage = 40;
 
@@ -46,6 +56,22 @@ interface ItemParameters extends ItemRoles {
     templateUrl: './crafting.component.html',
     styleUrls: ['./crafting.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbPopover,
+        NgbTooltip,
+
+        FlyInMenuComponent,
+        CashComponent,
+        ItemComponent,
+        GridIconComponent,
+        TagsComponent,
+        ItemMaterialComponent,
+        InventoryComponent,
+    ],
 })
 export class CraftingComponent extends TrackByMixin(BaseClass) {
 

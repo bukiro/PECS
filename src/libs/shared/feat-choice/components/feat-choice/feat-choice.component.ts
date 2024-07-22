@@ -26,6 +26,12 @@ import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { TraitComponent } from '../../../ui/trait/components/trait/trait.component';
+import { FeatComponent } from '../../../feat/components/feat/feat.component';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip, NgbCollapse, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { GridIconComponent } from '../../../ui/grid-icon/components/grid-icon/grid-icon.component';
+import { CommonModule } from '@angular/common';
 
 interface CannotTakeSet {
     reason: string;
@@ -73,6 +79,19 @@ interface FeatSetParameters {
     templateUrl: './feat-choice.component.html',
     styleUrls: ['./feat-choice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbTooltip,
+        NgbCollapse,
+        NgbPopover,
+
+        GridIconComponent,
+        FeatComponent,
+        TraitComponent,
+    ],
 })
 export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
 

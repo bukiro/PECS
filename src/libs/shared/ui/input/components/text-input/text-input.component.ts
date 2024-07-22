@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, Input, ViewChild } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 import { BaseValueAccessorComponent } from '../base-value-accessor/base-value-accessor.component';
 
@@ -15,6 +15,8 @@ import { BaseValueAccessorComponent } from '../base-value-accessor/base-value-ac
             multi: true,
         },
     ],
+    standalone: true,
+    imports: [FormsModule],
 })
 export class TextInputComponent extends BaseValueAccessorComponent<string> {
 

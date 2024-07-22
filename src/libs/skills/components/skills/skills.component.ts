@@ -24,6 +24,13 @@ import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { selectEffects } from 'src/libs/store/effects';
+import { SkillChoiceComponent } from '../../../shared/skill-choice/components/skill-choice/skill-choice.component';
+import { ObjectEffectsComponent } from '../../../shared/object-effects/components/object-effects/object-effects.component';
+import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { SkillComponent } from '../../../shared/skill/components/skill/skill.component';
+import { CommonModule } from '@angular/common';
+import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
 
 
 interface SpeedParameters {
@@ -40,6 +47,19 @@ interface SpeedParameters {
     templateUrl: './skills.component.html',
     styleUrls: ['./skills.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+
+        NgbPopover,
+        NgbTooltip,
+
+        CharacterSheetCardComponent,
+        SkillComponent,
+        TagsComponent,
+        ObjectEffectsComponent,
+        SkillChoiceComponent,
+    ],
 })
 export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 

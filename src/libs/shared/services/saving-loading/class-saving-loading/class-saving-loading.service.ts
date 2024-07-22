@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
-
 import { Injectable } from '@angular/core';
 import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
 import { CharacterClassLevel } from 'src/app/classes/creatures/character/character-class-level';

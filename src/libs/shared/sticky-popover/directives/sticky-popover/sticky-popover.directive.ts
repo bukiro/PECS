@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 @Directive({
     selector: '[stickyPopover]',
     exportAs: 'stickyPopover',
+    standalone: true,
 })
 export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDestroy {
     // Most popovers in this app are configured to close when clicking outside them.

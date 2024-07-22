@@ -44,6 +44,19 @@ import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { Condition } from 'src/app/classes/conditions/condition';
 import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
+import { GridIconComponent } from '../../../shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { StickyPopoverDirective } from '../../../shared/sticky-popover/directives/sticky-popover/sticky-popover.directive';
+import { SpellComponent } from '../../../shared/spell/components/spell/spell.component';
+import { FormsModule } from '@angular/forms';
+import { SpellTargetComponent } from '../../../shared/spell-target/components/spell-target/spell-target.component';
+import { ActionIconsComponent } from '../../../shared/ui/action-icons/components/action-icons/action-icons.component';
+import { SpellChoiceComponent } from '../../../shared/spell-choice/components/spell-choice/spell-choice.component';
+import { SkillComponent } from '../../../shared/skill/components/skill/skill.component';
+import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ObjectEffectsComponent } from '../../../shared/object-effects/components/object-effects/object-effects.component';
+import { CommonModule } from '@angular/common';
+import { TagsComponent } from '../../../shared/tags/components/tags/tags.component';
+import { CharacterSheetCardComponent } from '../../../shared/ui/character-sheet-card/character-sheet-card.component';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -104,6 +117,25 @@ interface SpellSet {
     templateUrl: './spellbook.component.html',
     styleUrls: ['./spellbook.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbPopover,
+        NgbTooltip,
+
+        CharacterSheetCardComponent,
+        TagsComponent,
+        ObjectEffectsComponent,
+        SkillComponent,
+        SpellChoiceComponent,
+        ActionIconsComponent,
+        SpellTargetComponent,
+        SpellComponent,
+        StickyPopoverDirective,
+        GridIconComponent,
+    ],
 })
 export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 

@@ -25,6 +25,15 @@ import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observabl
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { selectLeftMenu } from 'src/libs/store/menu/menu.selectors';
+import { SpellChoiceComponent } from '../../../libs/shared/spell-choice/components/spell-choice/spell-choice.component';
+import { GridIconComponent } from '../../../libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
+import { SpellComponent } from '../../../libs/shared/spell/components/spell/spell.component';
+import { ActionIconsComponent } from '../../../libs/shared/ui/action-icons/components/action-icons/action-icons.component';
+import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { TagsComponent } from '../../../libs/shared/tags/components/tags/tags.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FlyInMenuComponent } from '../../../libs/shared/ui/fly-in-menu/fly-in-menu.component';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -52,6 +61,21 @@ interface SpellParameters {
     templateUrl: './spell-selection.component.html',
     styleUrls: ['./spell-selection.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+
+        NgbPopover,
+        NgbTooltip,
+
+        FlyInMenuComponent,
+        TagsComponent,
+        ActionIconsComponent,
+        SpellComponent,
+        GridIconComponent,
+        SpellChoiceComponent,
+    ],
 })
 export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCreatureElementComponent)) implements OnInit, OnDestroy {
 
