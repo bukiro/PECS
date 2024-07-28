@@ -10,17 +10,17 @@ const selectFeatsFeature = createFeatureSelector<FeatsState>(
 
 export const selectAllCharacterFeats = createSelector(
     selectFeatsFeature,
-    state => state.levelFeats[Defaults.maxCharacterLevel],
+    state => state.levelFeats[Defaults.maxCharacterLevel] ?? new Map<string, Feat>(),
 );
 
 export const selectAllCharacterFeatsAtLevel = (levelNumber: number): MemoizedSelector<object, Array<Feat>> => createSelector(
     selectFeatsFeature,
-    state => Array.from(state.levelFeats[levelNumber].values()),
+    state => Array.from(state.levelFeats[levelNumber]?.values() ?? []),
 );
 
 export const selectAllCharacterFeatsTakenAtLevel = (levelNumber: number): MemoizedSelector<object, Array<Feat>> => createSelector(
     selectFeatsFeature,
-    state => Array.from(state.levelTakenFeats[levelNumber].values()),
+    state => Array.from(state.levelTakenFeats[levelNumber]?.values() ?? []),
 );
 
 export const selectAllCharacterFeatsTaken = createSelector(
@@ -31,14 +31,14 @@ export const selectAllCharacterFeatsTaken = createSelector(
 export const selectCharacterHasFeatAtLevel = (featName: string, level: number, options?: { allowCountAs?: boolean }): MemoizedSelector<object, boolean> => createSelector(
     selectFeatsFeature,
     state =>
-        !!state.levelFeats[level].get(featName.toLowerCase())
+        !!state.levelFeats[level]?.get(featName.toLowerCase())
             || options?.allowCountAs
-            ? !!state.levelCountAs[level].get(featName.toLowerCase())
+            ? !!state.levelCountAs[level]?.get(featName.toLowerCase())
             : false,
 );
 
 export const selectCharacterHasTakenFeatAtLevel = (featName: string, level: number): MemoizedSelector<object, boolean> => createSelector(
     selectFeatsFeature,
     state =>
-        !!state.levelTakenFeats[level].get(featName.toLowerCase()),
+        !!state.levelTakenFeats[level]?.get(featName.toLowerCase()),
 );

@@ -94,16 +94,21 @@ export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements O
 
     public initialTalismans(index: number): Array<TalismanOption> {
         const item = this.item;
-        //Start with one empty talisman to select nothing.
-        const allTalismans: Array<TalismanOption> = [{ talisman: new Talisman(), inv: undefined, talismanCordCompatible: false }];
 
-        allTalismans[0].talisman.name = '';
+        const defaultTalisman = {
+            talisman: Talisman.from({ name: '' }, RecastService.recastFns),
+            inv: undefined,
+            talismanCordCompatible: false,
+        };
+
+        //Start with one empty talisman to select nothing.
+        const allTalismans: Array<TalismanOption> = [defaultTalisman];
 
         //Add the current choice, if the item has a talisman at that index.
-        if (item.talismans[index]) {
+        if (item.talismans[index] && this.newTalisman[index]) {
             allTalismans.push(
                 {
-                    ...this.newTalisman[index],
+                    ... this.newTalisman[index],
                     talismanCordCompatible: this._isTalismanCompatibleWithTalismanCord(this.newTalisman[index].talisman),
                 },
             );
@@ -146,14 +151,15 @@ export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements O
     }
 
     public onSelectTalisman(index: number): void {
-        const item: Equipment = this.item;
-        const talisman: Talisman = this.newTalisman[index].talisman;
-        const inv: ItemCollection | undefined = this.newTalisman[index].inv;
+        const item = this.item;
+        const newTalisman = this.newTalisman[index]?.talisman;
+        const itemTalismanAtIndex = item.talismans[index];
+        const newTalismanInv = this.newTalisman[index]?.inv;
 
-        if (!item.talismans[index] || talisman !== item.talismans[index]) {
+        if (!itemTalismanAtIndex || newTalisman !== itemTalismanAtIndex) {
             // If there is a Talisman in this slot, return the old one to the inventory,
             // unless we are in the item store. Then remove it from the item.
-            if (item.talismans[index]) {
+            if (itemTalismanAtIndex) {
                 if (!this.itemStore) {
                     this._removeTalisman(index);
                 }
@@ -162,17 +168,16 @@ export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements O
             }
 
             //Then add the new Talisman to the item and (unless we are in the item store) remove it from the inventory.
-            if (talisman.name !== '') {
-                //Add a copy of Talisman to the item
-                const newLength = item.talismans.push(talisman.clone(RecastService.recastFns));
-                const newTalisman = item.talismans[newLength - 1];
+            if (newTalisman && newTalisman.name !== '') {
+                const addedTalisman = newTalisman.clone(RecastService.recastFns).with({ amount: 1 }, RecastService.recastFns);
 
-                newTalisman.amount = 1;
+                //Add a copy of Talisman to the item
+                item.talismans.push(addedTalisman);
 
                 // If we are not in the item store, remove the inserted Talisman from the inventory,
                 // either by decreasing the amount or by dropping the item.
-                if (!this.itemStore && inv) {
-                    this._inventoryService.dropInventoryItem(this._character, inv, talisman, false, false, false, 1);
+                if (!this.itemStore && newTalismanInv) {
+                    this._inventoryService.dropInventoryItem(this._character, newTalismanInv, newTalisman, false, false, false, 1);
                 }
             }
         }
@@ -250,10 +255,14 @@ export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements O
         const character = this._character;
         const oldTalisman = this.item.talismans[index];
 
+        if (!oldTalisman) {
+            return;
+        }
+
         //Add the extracted stone back to the inventory.
         this._inventoryService.grantInventoryItem(
             oldTalisman,
-            { creature: character, inventory: character.inventories[0] },
+            { creature: character, inventory: character.mainInventory },
             { resetRunes: false, changeAfter: false, equipAfter: false },
         );
     }

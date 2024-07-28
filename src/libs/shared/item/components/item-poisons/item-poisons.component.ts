@@ -42,7 +42,6 @@ export class ItemPoisonsComponent extends TrackByMixin(BaseClass) {
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryService: InventoryService,
-        private readonly _recastService: RecastService,
     ) {
         super();
     }
@@ -52,9 +51,11 @@ export class ItemPoisonsComponent extends TrackByMixin(BaseClass) {
     }
 
     public availablePoisons(): Array<PoisonSet> {
-        const allPoisons: Array<PoisonSet> = [{ poison: new AlchemicalPoison() }];
+        const defaultPoison = { poison: new AlchemicalPoison() };
 
-        allPoisons[0].poison.name = '';
+        defaultPoison.poison.name = '';
+
+        const allPoisons: Array<PoisonSet> = [defaultPoison];
 
         if (this.itemStore) {
             allPoisons.push(

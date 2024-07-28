@@ -1,6 +1,5 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { LoreChoice } from 'src/app/classes/character-creation/lore-choice';
 import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
 import { Background } from 'src/app/classes/creatures/character/background';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
@@ -43,9 +42,9 @@ export class CharacterBackgroundChangeService {
         const characterClass = character.class;
         const background = characterClass?.background;
 
-        if (background?.name) {
-            const level = characterClass.levels[1];
+        const level = characterClass.levels[1];
 
+        if (background?.name && level) {
             level.skillChoices = level.skillChoices.filter(choice => choice.source !== 'Background');
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source !== 'Background');
 
@@ -60,10 +59,9 @@ export class CharacterBackgroundChangeService {
             level.featChoices = level.featChoices.filter(choice => choice.source !== 'Background');
 
             //Remove all Lores
-            const oldChoices: Array<LoreChoice> = level.loreChoices.filter(choice => choice.source === 'Background');
-            const oldChoice = oldChoices[oldChoices.length - 1];
+            const oldChoice = level.loreChoices.find(choice => choice.source === 'Background');
 
-            if (oldChoice.increases.length) {
+            if (oldChoice?.increases.length) {
                 this._characterLoreService.removeLore(oldChoice);
             }
 
@@ -83,9 +81,9 @@ export class CharacterBackgroundChangeService {
         const characterClass = character.class;
         const background = characterClass?.background;
 
-        if (background.name) {
-            const level = characterClass.levels[1];
+        const level = characterClass.levels[1];
 
+        if (background.name && level) {
             level.abilityChoices.push(...background.abilityChoices);
             level.skillChoices.push(...background.skillChoices);
             level.featChoices.push(...background.featChoices);
@@ -105,7 +103,7 @@ export class CharacterBackgroundChangeService {
                 });
             });
 
-            if (background.loreChoices[0].loreName) {
+            if (background.loreChoices[0]?.loreName) {
                 if (this._skillsDataService.skills(
                     character.customSkills,
                     `Lore: ${ background.loreChoices[0].loreName }`,
@@ -122,7 +120,7 @@ export class CharacterBackgroundChangeService {
                                 increase.sourceId.includes('-Lore-'),
                             );
 
-                    if (increases.length) {
+                    if (increases[0]) {
                         const oldChoice = character.class.getLoreChoiceBySourceId(increases[0].sourceId);
 
                         if (oldChoice?.available === 1) {
@@ -134,11 +132,11 @@ export class CharacterBackgroundChangeService {
                 this._characterLoreService.addLore(background.loreChoices[0]);
             }
 
-            if (background.skillChoices[0].increases.length) {
+            if (background.skillChoices[0]?.increases[0]) {
                 const existingIncreases =
                     character.skillIncreases(1, 1, background.skillChoices[0].increases[0].name, '');
 
-                if (existingIncreases.length) {
+                if (existingIncreases[0]) {
                     const existingIncrease = existingIncreases[0];
                     const existingSkillChoice: SkillChoice | undefined = characterClass.getSkillChoiceBySourceId(existingIncrease.sourceId);
 

@@ -51,7 +51,6 @@ export class ItemOilsComponent extends TrackByMixin(BaseClass) {
         private readonly _durationsService: DurationsService,
         private readonly _inventoryService: InventoryService,
         private readonly _characterLoreService: CharacterLoreService,
-        private readonly _recastService: RecastService,
     ) {
         super();
     }
@@ -66,9 +65,10 @@ export class ItemOilsComponent extends TrackByMixin(BaseClass) {
 
     public availableOils(): Array<OilSet> {
         const item = this.item;
-        const allOils: Array<OilSet> = [{ oil: new Oil() }];
 
-        allOils[0].oil.name = '';
+        const defaultOil = { oil: Oil.from({ name: '' }, RecastService.recastFns) };
+
+        const allOils: Array<OilSet> = [defaultOil];
 
         if (this.itemStore) {
             allOils.push(...this._itemsDataService.cleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil })));
@@ -112,21 +112,21 @@ export class ItemOilsComponent extends TrackByMixin(BaseClass) {
     public onSelectOil(): void {
         if (this.newOil.oil.name) {
             const item = this.item;
-            const newLength = item.oilsApplied.push(this.newOil.oil.clone(RecastService.recastFns));
+
+            const newOil = this.newOil.oil.clone(RecastService.recastFns);
+
+            item.oilsApplied.push(newOil);
 
             if (this.newOil.inv) {
                 this._inventoryService.dropInventoryItem(this._character, this.newOil.inv, this.newOil.oil, false, false, false, 1);
             }
 
             //Add RuneLore if the oil's Rune Effect includes one
-            const newOil = item.oilsApplied[newLength - 1];
-
-            if (newOil.runeEffect && newOil.runeEffect.loreChoices.length) {
+            if (newOil.runeEffect?.loreChoices.length) {
                 this._characterLoreService.addRuneLore(newOil.runeEffect);
             }
 
-            this.newOil = { oil: new Oil() };
-            this.newOil.oil.name = '';
+            this.newOil = { oil: Oil.from({ name: '' }, RecastService.recastFns) };
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
             this._refreshService.prepareChangesByItem(this._character, this.item);
             this._refreshService.processPreparedChanges();
@@ -137,7 +137,7 @@ export class ItemOilsComponent extends TrackByMixin(BaseClass) {
         //Remove RuneLore if applicable.
         const oil = this.item.oilsApplied[index];
 
-        if (oil.runeEffect && oil.runeEffect.loreChoices.length) {
+        if (oil?.runeEffect?.loreChoices.length) {
             this._characterLoreService.removeRuneLore(oil.runeEffect);
         }
 

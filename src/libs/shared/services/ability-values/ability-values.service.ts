@@ -47,6 +47,10 @@ export class AbilityValuesService {
     ): Observable<AbilityLiveValue> {
         const ability = this._normalizeAbilityOrName(abilityOrName);
 
+        if (!ability) {
+            return of({ ability: new Ability(), value: { result: 0, bonuses: [] }, mod: { result: 0, bonuses: [] } });
+        }
+
         return CharacterFlatteningService.levelOrCurrent$()
             .pipe(
                 switchMap(charLevel =>
@@ -72,6 +76,10 @@ export class AbilityValuesService {
             return of({ result: 0, bonuses: [] });
         } else {
             const ability = this._normalizeAbilityOrName(abilityOrName);
+
+            if (!ability) {
+                return of({ result: 0, bonuses: [] });
+            }
 
             //Get manual baseValues for the character if they exist, otherwise 10
             const baseValue = abilityBaseValueFromCreature(ability.name, creature);
@@ -111,6 +119,10 @@ export class AbilityValuesService {
             return of({ result: 0, bonuses: [] });
         } else {
             const ability = this._normalizeAbilityOrName(abilityOrName);
+
+            if (!ability) {
+                return of({ result: 0, bonuses: [] });
+            }
 
             return combineLatest([
                 (
@@ -159,6 +171,10 @@ export class AbilityValuesService {
         } else {
             const ability = this._normalizeAbilityOrName(abilityOrName);
 
+            if (!ability) {
+                return of({ result: 0, bonuses: [] });
+            }
+
             return combineLatest([
                 (
                     value
@@ -195,7 +211,7 @@ export class AbilityValuesService {
         }
     }
 
-    private _normalizeAbilityOrName(abilityOrName: Ability | string): Ability {
+    private _normalizeAbilityOrName(abilityOrName: Ability | string): Ability | undefined {
         if (typeof abilityOrName === 'string') {
             return this._abilitiesDataService.abilities(abilityOrName)[0];
         } else {

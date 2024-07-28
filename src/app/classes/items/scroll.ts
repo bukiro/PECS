@@ -36,7 +36,7 @@ export class Scroll extends Consumable implements MessageSerializable<Scroll> {
     public effectiveNameSnapshot(): string {
         if (this.displayName) {
             return this.displayName;
-        } else if (this.storedSpells.length && this.storedSpells[0].spells.length) {
+        } else if (this.storedSpells[0]?.spells?.[0]) {
             return `${ this.name } of ${ this.storedSpells[0].spells[0].name }`;
         } else {
             return this.name;

@@ -297,8 +297,12 @@ export class ItemTransferService {
                     const included = this.packGrantingItemForTransfer(creature, item);
                     const targetInventory = toCreature.inventories[0];
 
+                    if (!targetInventory) {
+                        return;
+                    }
+
                     //Iterate through the main item and all its granted items and inventories.
-                    [item].concat(included.items).forEach(includedItem => {
+                    [item, ...included.items].forEach(includedItem => {
                         //If any existing, stackable items are found, add this item's amount on top and finish.
                         //If no items are found, add the new item and its included items to the inventory.
                         let existingItems: Array<Item> = [];
@@ -315,41 +319,37 @@ export class ItemTransferService {
                         }
 
                         if (existingItems.length) {
-                            existingItems[0].amount += includedItem.amount;
-                            //Update the item's gridicon to reflect its changed amount.
-                            this._refreshService.setComponentChanged(existingItems[0].id);
-                        } else {
-                            const targetItems = targetInventory.itemsOfType(includedItem.type);
+                            if (existingItems[0]) {
+                                existingItems[0].amount += includedItem.amount;
 
-                            const movedItem = includedItem.clone(RecastService.recastFns);
-                            const newLength = targetInventory.addItem(movedItem);
-
-                            if (newLength) {
-                                const newItem = targetItems[newLength - 1];
-
-                                this._psp.inventoryItemProcessingService?.processGrantedItem(
-                                    toCreature,
-                                    newItem,
-                                    targetInventory,
-                                    true,
-                                    false,
-                                    true,
-                                    true,
-                                );
+                                //Update the item's gridicon to reflect its changed amount.
+                                this._refreshService.setComponentChanged(existingItems[0].id);
                             }
+                        } else {
+                            const movedItem = includedItem.clone(RecastService.recastFns);
 
+                            targetInventory.addItem(movedItem);
+
+                            this._psp.inventoryItemProcessingService?.processGrantedItem(
+                                toCreature,
+                                movedItem,
+                                targetInventory,
+                                true,
+                                false,
+                                true,
+                                true,
+                            );
                         }
                     });
                     //Add included inventories and process all items inside them.
                     included.inventories.forEach(includedInventory => {
-                        const newLength = toCreature.inventories.push(includedInventory);
-                        const newInventory = toCreature.inventories[newLength - 1];
+                        toCreature.inventories.push(includedInventory);
 
-                        newInventory.allItems().forEach(invItem => {
+                        includedInventory.allItems().forEach(invItem => {
                             this._psp.inventoryItemProcessingService?.processGrantedItem(
                                 toCreature,
                                 invItem,
-                                newInventory,
+                                includedInventory,
                                 true,
                                 false,
                                 true,

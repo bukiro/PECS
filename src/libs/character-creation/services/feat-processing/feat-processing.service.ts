@@ -152,7 +152,7 @@ export class FeatProcessingService {
         }
     }
 
-    private _determineFeat(feat: Feat | undefined, featName: string, context: { creature: Character | Familiar }): Feat {
+    private _determineFeat(feat: Feat | undefined, featName: string, context: { creature: Character | Familiar }): Feat | undefined {
         if (feat) {
             return feat;
         }
@@ -610,12 +610,12 @@ export class FeatProcessingService {
                 });
             } else {
                 feat.gainConditions.forEach(conditionGain => {
-                    const conditionGains =
+                    const existingConditionGain =
                         this._creatureConditionsService.currentCreatureConditions(character, { name: conditionGain.name })
-                            .filter(currentConditionGain => currentConditionGain.source === conditionGain.source);
+                            .find(currentConditionGain => currentConditionGain.source === conditionGain.source);
 
-                    if (conditionGains.length) {
-                        this._creatureConditionsService.removeCondition(character, conditionGains[0], false);
+                    if (existingConditionGain) {
+                        this._creatureConditionsService.removeCondition(character, existingConditionGain, false);
                     }
                 });
             }
@@ -699,11 +699,9 @@ export class FeatProcessingService {
 
             if (taken) {
                 feat.gainHeritage.forEach(() => {
-                    const newLength = character.class.additionalHeritages.push(new AdditionalHeritage());
-                    const newHeritage = character.class.additionalHeritages[newLength - 1];
+                    const newHeritage = AdditionalHeritage.from({ source: feat.name, charLevelAvailable: context.level.number });
 
-                    newHeritage.source = feat.name;
-                    newHeritage.charLevelAvailable = context.level.number;
+                    character.class.additionalHeritages.push(newHeritage);
                 });
             } else {
                 feat.gainHeritage.forEach(() => {
@@ -793,9 +791,7 @@ export class FeatProcessingService {
                                 .filter(characterFeat => characterFeat.feat.gainAnimalCompanion === 'Specialized');
 
                         if (specializations.length >= specializationFeatsAtLevel.length) {
-                            companion.class.specializations =
-                                companion.class.specializations
-                                    .filter(spec => spec.name !== specializations[specializations.length - 1].name);
+                            companion.class.specializations.pop();
                         }
                     });
             }
@@ -817,7 +813,8 @@ export class FeatProcessingService {
 
                     if (spellCasting) {
                         for (let index = 0; index < spellCasting.spellBookSlots.length; index++) {
-                            spellCasting.spellBookSlots[index] += slots.spellBookSlots[index];
+                            spellCasting.spellBookSlots[index] =
+                                (spellCasting.spellBookSlots[index] ?? 0) + (slots.spellBookSlots[index] ?? 0);
                         }
                     }
                 });
@@ -828,7 +825,8 @@ export class FeatProcessingService {
 
                     if (spellCasting) {
                         for (let index = 0; index < spellCasting.spellBookSlots.length; index++) {
-                            spellCasting.spellBookSlots[index] -= slots.spellBookSlots[index];
+                            spellCasting.spellBookSlots[index] =
+                                (spellCasting.spellBookSlots[index] ?? 0) - (slots.spellBookSlots[index] ?? 0);
                         }
                     }
                 });
@@ -884,9 +882,9 @@ export class FeatProcessingService {
             const character = CreatureService.character;
 
             if (taken) {
-                const newLength =
-                    character.class.featData.push(new FeatData(context.level.number, feat.name, context.choice.id));
-                const newData = character.class.featData[newLength - 1];
+                const newData = new FeatData(context.level.number, feat.name, context.choice.id);
+
+                character.class.featData.push(newData);
 
                 feat.customData.forEach(customData => {
                     switch (customData.type) {
@@ -952,9 +950,9 @@ export class FeatProcessingService {
             !effect.affected.toLowerCase().includes('ignore'),
         ).forEach(effect => {
             if (taken) {
-                const newLength = context.creature.speeds.push(new Speed(effect.affected));
+                const newFeat = new Speed(effect.affected).with({ source: `Feat: ${ feat.name }` });
 
-                context.creature.speeds[newLength - 1].source = `Feat: ${ feat.name }`;
+                context.creature.speeds.push(newFeat);
             } else {
                 context.creature.speeds = context.creature.speeds
                     .filter(speed => !(speed.name === effect.affected && speed.source === `Feat: ${ feat.name }`));

@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Equipment } from 'src/app/classes/items/equipment';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
-import { Rune } from 'src/app/classes/items/rune';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WeaponRune } from 'src/app/classes/items/weapon-rune';
 import { WornItem } from 'src/app/classes/items/worn-item';
@@ -45,7 +44,6 @@ export class ItemBladeAllyComponent extends TrackByMixin(BaseClass) implements O
         private readonly _itemsDataService: ItemsDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _basicEquipemntService: BasicEquipmentService,
-        private readonly _recastService: RecastService,
     ) {
         super();
     }
@@ -56,14 +54,15 @@ export class ItemBladeAllyComponent extends TrackByMixin(BaseClass) implements O
 
     public initialPropertyRunes(): Array<RuneSet> {
         const weapon = this.item;
-        //Start with one empty rune to select nothing.
-        const allRunes: Array<RuneSet> = [{ rune: new WeaponRune() }];
 
-        allRunes[0].rune.name = '';
+        const defaultRune = { rune: WeaponRune.from({ name: '' }, RecastService.recastFns) };
+
+        //Start with one empty rune to select nothing.
+        const allRunes: Array<RuneSet> = [defaultRune];
 
         //Add the current choice, if the item has a rune at that index.
-        if (weapon.bladeAllyRunes[0]) {
-            allRunes.push(this.newPropertyRune as { rune: WeaponRune });
+        if (weapon.bladeAllyRunes[0] && this.newPropertyRune) {
+            allRunes.push(this.newPropertyRune);
         }
 
         return allRunes;
@@ -187,7 +186,11 @@ export class ItemBladeAllyComponent extends TrackByMixin(BaseClass) implements O
 
     private _removeBladeAllyRune(): void {
         const weapon: Equipment = this.item;
-        const oldRune: Rune = weapon.bladeAllyRunes[0];
+        const oldRune = weapon.bladeAllyRunes[0];
+
+        if (!oldRune) {
+            return;
+        }
 
         if (oldRune.activities?.length) {
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');

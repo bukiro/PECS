@@ -74,9 +74,9 @@
                                     [detail]="
                                         allowedFeatsAmount === 1 &&
                                         choice.feats.length
-                                            ? choice.feats[0].name.split(
+                                            ? choice.feats[0]?.name?.split(
                                                   ': '
-                                              )[1] || ''
+                                              )?.[1] ?? ''
                                             : ''
                                     "
                                     [ngClass]="{
@@ -89,12 +89,12 @@
                                     [subTitle]="
                                         choice.feats.length
                                             ? ''
-                                            : choice.type
+                                            : (choice.type
                                                   .split(' ')
                                                   [
                                                       choice.type.split(' ')
                                                           .length - 1
-                                                  ].substr(0, 8)
+                                                  ]?.substr(0, 8) ?? '')
                                     "
                                 />
                             </button>
@@ -736,7 +736,7 @@
                                                                   featParameters
                                                                       .feat
                                                                       .skillreq[0]
-                                                                      .skill +
+                                                                      ?.skill +
                                                                   ") "
                                                                 : ""
                                                         }}{{

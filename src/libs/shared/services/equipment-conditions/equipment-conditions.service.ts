@@ -140,12 +140,12 @@ export class EquipmentConditionsService {
                                     // Add Clumsy for each large weapon if you don't have it,
                                     // and remove Clumsy if you have it and don't have a large weapon equipped.
                                     if (
-                                        creature.inventories[0].weapons
+                                        creature.mainInventory.weapons
                                             .find(weapon => weapon.large && weapon.equipped) && !hasThisCondition('Clumsy', 'Large Weapon')
                                     ) {
                                         addCondition('Clumsy', 1, 'Large Weapon');
                                     } else if (
-                                        !creature.inventories[0].weapons
+                                        !creature.mainInventory.weapons
                                             .find(weapon => weapon.large && weapon.equipped) && hasThisCondition('Clumsy', 'Large Weapon')
                                     ) {
                                         removeCondition('Clumsy', 1, 'Large Weapon');
@@ -240,14 +240,14 @@ export class EquipmentConditionsService {
                                         });
                                     };
 
-                                    creature.inventories[0].allEquipment()
+                                    creature.mainInventory.allEquipment()
                                         .filter(item => item.gainConditions.length)
                                         .forEach(item => {
                                             refreshPermanentConditions(item, item);
                                         });
 
                                     if (creature.isCharacter() && creature.hasTooManySlottedAeonStones()) {
-                                        creature.inventories[0].wornitems
+                                        creature.mainInventory.wornitems
                                             .filter(item => item.isWayfinder)
                                             .forEach(item => {
                                                 item.aeonStones.forEach(stone => {

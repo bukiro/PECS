@@ -74,7 +74,7 @@ export class Wand extends Equipment implements MessageSerializable<Wand> {
     public effectiveNameSnapshot(): string {
         if (this.displayName) {
             return this.displayName;
-        } else if (this.storedSpells.length && this.storedSpells[0].spells.length) {
+        } else if (this.storedSpells[0]?.spells[0]) {
             if (this.name.includes('Magic Wand (')) {
                 return `Wand of ${ this.storedSpells[0].spells[0].name }`;
             } else {

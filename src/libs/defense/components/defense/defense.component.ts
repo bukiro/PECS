@@ -277,7 +277,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
             shield.broken = true;
             this._creatureEquipmentService.equipItem(
                 this.creature,
-                this.creature.inventories[0],
+                this.creature.mainInventory,
                 shield,
                 false,
                 false,

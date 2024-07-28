@@ -194,7 +194,7 @@ export class HintComponent extends TrackByMixin(BaseClass) {
         if (hint.replaceSource.length) {
             const replaceSource = hint.replaceSource[0];
 
-            if (replaceSource.source) {
+            if (replaceSource?.source) {
                 switch (replaceSource.type) {
                     case 'feat':
                         return this._featsDataService.featOrFeatureFromName(this.character.customFeats, replaceSource.source)

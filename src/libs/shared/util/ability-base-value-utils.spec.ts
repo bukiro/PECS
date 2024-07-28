@@ -163,8 +163,8 @@ describe('mapAbilityBoostsToBaseValueAggregate', () => {
 
         expect(mapAbilityBoostsToBaseValueAggregate(boosts, parameters).bonuses)
             .toStrictEqual([
-                { title: boosts[0].source, value: '2' },
-                { title: boosts[1].source, value: '-2' },
+                { title: boosts[0]?.source, value: '2' },
+                { title: boosts[1]?.source, value: '-2' },
             ]);
     });
 });

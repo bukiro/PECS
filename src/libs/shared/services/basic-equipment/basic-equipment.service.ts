@@ -32,31 +32,31 @@ export class BasicEquipmentService {
         if (this._basicItems.weapon && this._basicItems.armor && !(creature.isFamiliar())) {
             // A creature should start with the basic items. Granting them shouldn't count as touching the inventory,
             // So we save its touched state and revert it afterwards.
-            const isInventoryTouchedBefore = creature.inventories[0].touched;
+            const isInventoryTouchedBefore = creature.mainInventory.touched;
 
-            if (!creature.inventories[0].weapons.some(weapon => !weapon.broken) && (creature.isCharacter())) {
+            if (!creature.mainInventory.weapons.some(weapon => !weapon.broken) && (creature.isCharacter())) {
                 this._inventoryService.grantInventoryItem(
                     this._basicItems.weapon,
-                    { creature, inventory: creature.inventories[0] },
+                    { creature, inventory: creature.mainInventory },
                     { changeAfter: false, equipAfter: false },
                 );
             }
 
-            if (!creature.inventories[0].armors.some(armor => !armor.broken)) {
+            if (!creature.mainInventory.armors.some(armor => !armor.broken)) {
                 this._inventoryService.grantInventoryItem(
                     this._basicItems.armor,
-                    { creature, inventory: creature.inventories[0] },
+                    { creature, inventory: creature.mainInventory },
                     { changeAfter: false, equipAfter: false },
                 );
             }
 
-            if (!creature.inventories[0].weapons.some(weapon => weapon.equipped === true)) {
-                const firstAvailableWeapon = creature.inventories[0].weapons.find(weapon => !weapon.broken);
+            if (!creature.mainInventory.weapons.some(weapon => weapon.equipped === true)) {
+                const firstAvailableWeapon = creature.mainInventory.weapons.find(weapon => !weapon.broken);
 
                 if (firstAvailableWeapon) {
                     this._creatureEquipmentService.equipItem(
                         creature,
-                        creature.inventories[0],
+                        creature.mainInventory,
                         firstAvailableWeapon,
                         true,
                         changeAfter,
@@ -65,13 +65,13 @@ export class BasicEquipmentService {
 
             }
 
-            if (!creature.inventories[0].armors.some(armor => armor.equipped === true)) {
-                const firstAvailableArmor = creature.inventories[0].armors.find(armor => !armor.broken);
+            if (!creature.mainInventory.armors.some(armor => armor.equipped === true)) {
+                const firstAvailableArmor = creature.mainInventory.armors.find(armor => !armor.broken);
 
                 if (firstAvailableArmor) {
                     this._creatureEquipmentService.equipItem(
                         creature,
-                        creature.inventories[0],
+                        creature.mainInventory,
                         firstAvailableArmor,
                         true,
                         changeAfter,
@@ -79,7 +79,7 @@ export class BasicEquipmentService {
                 }
             }
 
-            creature.inventories[0].touched = isInventoryTouchedBefore;
+            creature.mainInventory.touched = isInventoryTouchedBefore;
         }
     }
 

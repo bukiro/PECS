@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, map, combineLatest, of, switchMap } from 'rxjs';
 import { Ability } from 'src/app/classes/abilities/ability';
-import { Skill } from 'src/app/classes/skills/skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
@@ -323,7 +322,7 @@ export class FeatRequirementsService {
                 switchMap(([character, customSkills, skillreq]) => emptySafeCombineLatest(
                     skillreq.map(requirement => {
                         const requiredSkillName: string = requirement.skill;
-                        const requiredSkill: Skill =
+                        const requiredSkill =
                             this._skillsDataService.skills(customSkills, requiredSkillName, {}, { noSubstitutions: true })[0];
                         const expected: number = requirement.value;
 
@@ -431,19 +430,21 @@ export class FeatRequirementsService {
                     featreq.toLowerCase().split(' or ')
                         .map(alternative => {
                             // Each alternative may ask for either a Familiar Ability or a Character Feat.
-                            if (stringEqualsCaseInsensitive(alternative, 'Familiar')) {
-                                const testFeat = alternative.split('Familiar:')[1].trim();
+                            if (stringEqualsCaseInsensitive(alternative, 'Familiar:', { allowPartialString: true })) {
+                                const testFeat = alternative.split('Familiar:')[1]?.trim();
 
                                 return combineLatest([
                                     CreatureService.familiar$,
                                     of(
-                                        this._familiarsDataService.familiarAbilities()
-                                            .filter(ability =>
-                                                stringsIncludeCaseInsensitive(
-                                                    [ability.name, ability.superType],
-                                                    testFeat,
-                                                ),
-                                            ),
+                                        testFeat
+                                            ? this._familiarsDataService.familiarAbilities()
+                                                .filter(ability =>
+                                                    stringsIncludeCaseInsensitive(
+                                                        [ability.name, ability.superType],
+                                                        testFeat,
+                                                    ),
+                                                )
+                                            : [],
                                     ),
                                 ]);
                             } else {

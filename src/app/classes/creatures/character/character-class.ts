@@ -4,7 +4,7 @@ import { Serializable } from 'src/libs/shared/definitions/interfaces/serializabl
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { safeParseInt, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ActivityGain } from '../../activities/activity-gain';
 import { LoreChoice } from '../../character-creation/lore-choice';
 import { SkillChoice } from '../../character-creation/skill-choice';
@@ -321,25 +321,25 @@ export class CharacterClass implements Serializable<CharacterClass> {
     }
 
     public getSkillChoiceBySourceId(sourceId: string): SkillChoice | undefined {
-        const levelNumber = parseInt(sourceId.split('-')[0], 10);
+        const levelNumber = safeParseInt(sourceId.split('-')[0], 0);
 
-        return this.levels[levelNumber].skillChoices.find(choice => choice.id === sourceId);
+        return this.levels[levelNumber]?.skillChoices.find(choice => choice.id === sourceId);
     }
 
     public getLoreChoiceBySourceId(sourceId: string): LoreChoice | undefined {
-        const levelNumber = parseInt(sourceId.split('-')[0], 10);
+        const levelNumber = safeParseInt(sourceId.split('-')[0], 0);
 
-        return this.levels[levelNumber].loreChoices.find(choice => choice.id === sourceId);
+        return this.levels[levelNumber]?.loreChoices.find(choice => choice.id === sourceId);
     }
 
     public addSpellCasting(level: CharacterClassLevel, newCasting: SpellCasting, recastFns: RecastFns): SpellCasting {
-        const newLength: number =
-            this.spellCasting.push(newCasting.clone(recastFns));
-        const newSpellCasting = this.spellCasting[newLength - 1];
+        const newSpellCasting = newCasting.clone(recastFns);
+
+        this.spellCasting.push(newSpellCasting);
 
         //If the SpellCasting has a charLevelAvailable above 0, but lower than the current level, you could use it before you get it.
         //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
-        if (newSpellCasting.charLevelAvailable) {
+        if (newSpellCasting?.charLevelAvailable) {
             newSpellCasting.charLevelAvailable = Math.max(newSpellCasting.charLevelAvailable, level.number);
         }
 
@@ -384,8 +384,7 @@ export class CharacterClass implements Serializable<CharacterClass> {
             // So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
             insertChoice.charLevelAvailable = Math.max(insertChoice.charLevelAvailable, levelNumber);
 
-            const newLength: number = spellCasting.spellChoices.push(insertChoice);
-            const choice = spellCasting.spellChoices[newLength - 1];
+            spellCasting.spellChoices.push(insertChoice);
 
             //If the spellcasting was not available so far, it is now available at your earliest spell choice.
             if (!spellCasting.charLevelAvailable) {
@@ -393,7 +392,7 @@ export class CharacterClass implements Serializable<CharacterClass> {
                     Math.max(1, Math.min(...spellCasting.spellChoices.map(existingChoice => existingChoice.charLevelAvailable)));
             }
 
-            return choice;
+            return insertChoice;
         } else {
             console.warn('No suitable spell casting ability found to add spell choice.');
         }
@@ -412,11 +411,11 @@ export class CharacterClass implements Serializable<CharacterClass> {
     }
 
     public gainActivity(newGain: ActivityGain, levelNumber: number): ActivityGain {
-        const newLength = this.activities.push(newGain);
+        const addedGain = newGain.clone().with({ level: levelNumber });
 
-        this.activities[newLength - 1].level = levelNumber;
+        this.activities.push(addedGain);
 
-        return this.activities[newLength - 1];
+        return addedGain;
     }
 
     public loseActivity(oldGain: ActivityGain): void {

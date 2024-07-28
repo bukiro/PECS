@@ -118,35 +118,37 @@ export class MessageProcessingService {
                 messagesWithCreature.forEach(({ message, targetCreature }) => {
                     if (message.selected) {
                         if (message.activateCondition) {
-                            if (targetCreature && message.gainCondition.length) {
-                                const conditionGain: ConditionGain = message.gainCondition[0];
+                            if (targetCreature && message.gainCondition[0]) {
+                                const mainConditionGain = message.gainCondition[0];
                                 const hasConditionBeenAdded =
-                                    this._creatureConditionsService.addCondition(targetCreature, conditionGain, {}, { noReload: true });
+                                    this._creatureConditionsService.addCondition(targetCreature, mainConditionGain, {}, { noReload: true });
 
                                 if (hasConditionBeenAdded) {
                                     const senderName = this._messagePropertiesService.messageSenderName(message);
 
                                     //If a condition was created, send a toast to inform the user.
                                     this._toastService.show(
-                                        `Added <strong>${ conditionGain.name }`
-                                        + `${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition to <strong>`
+                                        `Added <strong>${ mainConditionGain.name }`
+                                        + `${ mainConditionGain.choice
+                                            ? `: ${ mainConditionGain.choice }`
+                                            : '' }</strong> condition to <strong>`
                                         + `${ targetCreature.name || targetCreature.type }</strong> (sent by <strong>`
                                         + `${ senderName.trim() }</strong>)`);
                                 }
                             }
                         } else {
-                            if (targetCreature && message.gainCondition.length) {
-                                const conditionGain: ConditionGain = message.gainCondition[0];
+                            if (targetCreature && message.gainCondition[0]) {
+                                const mainConditionGain = message.gainCondition[0];
                                 let hasConditionBeenRemoved = false;
 
                                 this._creatureConditionsService
                                     .currentCreatureConditions(
                                         targetCreature,
-                                        { name: message.gainCondition[0].name },
+                                        { name: mainConditionGain.name },
                                     )
                                     .filter(existingConditionGain =>
                                         existingConditionGain.foreignPlayerId === message.senderId &&
-                                        existingConditionGain.source === message.gainCondition[0].source,
+                                        existingConditionGain.source === mainConditionGain.source,
                                     )
                                     .forEach(existingConditionGain => {
                                         hasConditionBeenRemoved =
@@ -158,8 +160,10 @@ export class MessageProcessingService {
 
                                     //If a condition was removed, send a toast to inform the user.
                                     this._toastService.show(
-                                        `Removed <strong>${ conditionGain.name }`
-                                        + `${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition from <strong>`
+                                        `Removed <strong>${ mainConditionGain.name }`
+                                        + `${ mainConditionGain.choice
+                                            ? `: ${ mainConditionGain.choice }`
+                                            : '' }</strong> condition from <strong>`
                                         + `${ targetCreature.name || targetCreature.type }</strong> (added by <strong>`
                                         + `${ senderName.trim() }</strong>)`);
                                 }
@@ -197,16 +201,18 @@ export class MessageProcessingService {
                     if (message.selected) {
                         const sender = this._messagePropertiesService.messageSenderName(message);
 
-                        if (targetCreature && message.offeredItem.length) {
+                        const mainOfferedItem = message.offeredItem[0];
+
+                        if (targetCreature && mainOfferedItem) {
                             // We can't use grant_InventoryItem,
                             // because these items are initialized and possibly bringing their own inventories and gained items.
                             // We have to process the item directly here.
                             if (targetCreature.isCharacter() || targetCreature.isAnimalCompanion()) {
-                                const targetInventory = targetCreature.inventories[0];
+                                const targetInventory = targetCreature.mainInventory;
                                 let addedPrimaryItem: Item | undefined;
 
                                 message.offeredItem.concat(message.includedItems).forEach(item => {
-                                    if (item === message.offeredItem[0]) {
+                                    if (item === mainOfferedItem) {
                                         item.amount = message.itemAmount;
                                     }
 
@@ -227,28 +233,27 @@ export class MessageProcessingService {
                                     // If any existing, stackable items are found, add this item's amount on top and finish.
                                     // If no items are found, add the new item to the inventory
                                     // and process it as a new item (skipping gained items and gained inventories).
-                                    if (existingItems.length) {
+                                    if (existingItems[0]) {
                                         existingItems[0].amount += typedItem.amount;
 
-                                        if (typedItem.id === message.offeredItem[0].id) {
+                                        if (typedItem.id === mainOfferedItem.id) {
                                             addedPrimaryItem = existingItems[0];
                                         }
 
                                         this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
                                         this._refreshService.setComponentChanged(existingItems[0].id);
                                     } else if (targetItemTypes) {
-                                        const newLength = targetItemTypes.push(typedItem);
-                                        const addedItem = targetItemTypes[newLength - 1];
+                                        targetItemTypes.push(typedItem);
 
                                         this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
 
-                                        if (item.id === message.offeredItem[0].id) {
-                                            addedPrimaryItem = addedItem;
+                                        if (item.id === mainOfferedItem.id) {
+                                            addedPrimaryItem = typedItem;
                                         }
 
                                         this._psp.inventoryItemProcessingService?.processGrantedItem(
                                             targetCreature,
-                                            addedItem,
+                                            typedItem,
                                             targetInventory,
                                             true,
                                             false,
@@ -259,14 +264,13 @@ export class MessageProcessingService {
                                 });
                                 //Add included inventories and process all items inside them.
                                 message.includedInventories.forEach(inventory => {
-                                    const newLength = targetCreature.inventories.push(inventory);
-                                    const newInventory = targetCreature.inventories[newLength - 1];
+                                    targetCreature.inventories.push(inventory);
 
-                                    newInventory.allItems().forEach(invItem => {
+                                    inventory.allItems().forEach(invItem => {
                                         this._psp.inventoryItemProcessingService?.processGrantedItem(
                                             targetCreature,
                                             invItem,
-                                            newInventory,
+                                            inventory,
                                             true,
                                             false,
                                             true,

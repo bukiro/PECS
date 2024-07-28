@@ -68,7 +68,7 @@ export class ItemTalismanCordsComponent extends TrackByMixin(BaseClass) implemen
         //Start with one empty cord to select nothing.
         const allCords: Array<TalismanCordSet> = [{ talismanCord: new WornItem(), inv: undefined }];
 
-        allCords[0].talismanCord.name = '';
+        (allCords[0] as TalismanCordSet).talismanCord.name = '';
 
         //Add the current choice, if the item has a cord at that index.
         if (item.talismanCords && this.newTalismanCord) {
@@ -118,10 +118,10 @@ export class ItemTalismanCordsComponent extends TrackByMixin(BaseClass) implemen
             // Then add the new Talisman Cord to the item and (unless we are in the item store) remove it from the inventory.
             if (cord.name !== '') {
                 //Add a copy of the cord to the item
-                const newLength = item.talismanCords.push(cord.clone(RecastService.recastFns));
-                const newCord = item.talismanCords[newLength - 1];
+                const newCord = cord.clone(RecastService.recastFns).with({ amount: 1 }, RecastService.recastFns);
 
-                newCord.amount = 1;
+                item.talismanCords.push(newCord);
+
                 //Remove the inserted Talisman Cord from the inventory, either by decreasing the amount or by dropping the item.
                 this._inventoryService.dropInventoryItem(this._character, inv, cord, false, false, false, 1);
             }
@@ -141,12 +141,14 @@ export class ItemTalismanCordsComponent extends TrackByMixin(BaseClass) implemen
         const item = this.item;
         const oldCord = item.talismanCords[index];
 
-        //Add the extracted cord back to the inventory.
-        this._inventoryService.grantInventoryItem(
-            oldCord,
-            { creature: character, inventory: character.inventories[0] },
-            { resetRunes: false, changeAfter: false, equipAfter: false },
-        );
+        if (oldCord) {
+            //Add the extracted cord back to the inventory.
+            this._inventoryService.grantInventoryItem(
+                oldCord,
+                { creature: character, inventory: character.mainInventory },
+                { resetRunes: false, changeAfter: false, equipAfter: false },
+            );
+        }
     }
 
     private _prepareToChange(): void {

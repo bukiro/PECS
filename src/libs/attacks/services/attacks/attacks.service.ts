@@ -109,7 +109,9 @@ export class AttacksService {
                                 weapon.activatedTraitsActivations().forEach(activation => {
                                     const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
-                                    traitEffects.push(...realTrait.objectBoundEffects(activation, ['Attack']));
+                                    if (realTrait) {
+                                        traitEffects.push(...realTrait.objectBoundEffects(activation, ['Attack']));
+                                    }
                                 });
 
                                 // Create a list of all target names under which an effect may affect this attack.

@@ -102,7 +102,7 @@ export class Familiar extends Creature implements Serializable<Familiar> {
         let explain = '';
         let sum = 0;
 
-        if (speedName === this.speeds[1].name) {
+        if (speedName === this.speeds[1]?.name) {
             sum = Defaults.defaultFamiliarSpeed;
             explain = `\nBase speed: ${ sum }`;
         }

@@ -615,7 +615,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
             if (!this.canEquipItem(item, 0) && item.equipped) {
                 this._creatureEquipmentService.equipItem(
                     this.creature,
-                    this.creature.inventories[0],
+                    this.creature.mainInventory,
                     item,
                     false,
                     false,
@@ -657,15 +657,16 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
     }
 
     public onUseSpellCastingItem(item: Item, creature: '' | 'self' | 'Selected' | CreatureTypes, inventory: ItemCollection): void {
-        const spellName = item.storedSpells[0]?.spells[0]?.name || '';
         const spellChoice = item.storedSpells[0];
+        const spellGain = spellChoice?.spells[0];
+        const spellName = spellGain?.name || '';
 
         this.isManualMode$
             .pipe(
                 take(1),
             )
             .subscribe(isManualMode => {
-                if (spellChoice && spellName) {
+                if (spellChoice && spellGain && spellName) {
                     const spell = this._spellFromName(spellName);
 
                     if (spell && (!(item instanceof Wand && item.overcharged) || isManualMode)) {
@@ -676,7 +677,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
                                 creature: this.character,
                                 choice: spellChoice,
                                 target: creature,
-                                gain: item.storedSpells[0].spells[0],
+                                gain: spellGain,
                                 level: spellChoice.level,
                             },
                             { manual: true },
@@ -886,7 +887,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
 
         this._inventoryService.grantInventoryItem(
             item,
-            { creature: CreatureService.character, inventory: CreatureService.character.inventories[0], amount },
+            { creature: CreatureService.character, inventory: CreatureService.character.mainInventory, amount },
             { resetRunes: false },
         );
 
@@ -922,11 +923,13 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
     }
 
     public itemStoredSpell(item: Item): Array<{ spell: Spell; gain: SpellGain; choice: SpellChoice }> {
-        if (item.storedSpells.length && item.storedSpells[0].spells.length) {
-            const spell = this._spellFromName(item.storedSpells[0].spells[0].name);
+        const storedSpellChoice = item.storedSpells[0];
+
+        if (storedSpellChoice?.spells[0]) {
+            const spell = this._spellFromName(storedSpellChoice.spells[0].name);
 
             if (spell) {
-                return [{ spell, gain: item.storedSpells[0].spells[0], choice: item.storedSpells[0] }];
+                return [{ spell, gain: storedSpellChoice.spells[0], choice: storedSpellChoice }];
             } else {
                 return [];
             }

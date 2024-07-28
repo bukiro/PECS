@@ -85,7 +85,7 @@ export class PlayerMessage implements PlayerMessageBase, MessageSerializable<Pla
         assign(this, values, recastFns);
 
         //Cut off the time zone.
-        this.time = this.time.split('(')[0].trim();
+        this.time = this.time.split('(')[0]?.trim() ?? '';
 
         return this;
     }

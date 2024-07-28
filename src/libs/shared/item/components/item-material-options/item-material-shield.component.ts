@@ -78,14 +78,14 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
 
     public initialMaterials(): Array<ShieldMaterialSet> {
         const shield = this.item as Shield;
-        //Start with one empty slot to select nothing.
-        const allShieldMaterials: Array<ShieldMaterialSet> = [{ material: new ShieldMaterial() }];
 
-        allShieldMaterials[0].material.name = '';
+        const defaultMaterial = { material: ShieldMaterial.from({ name: '' }) };
+        //Start with one empty slot to select nothing.
+        const allShieldMaterials: Array<ShieldMaterialSet> = [defaultMaterial];
 
         //Add the current choice, if the item has a material at that index.
-        if (shield.material[0]) {
-            allShieldMaterials.push(this.newMaterial[0] as { material: ShieldMaterial });
+        if (shield.material[0] && this.newMaterial[0]) {
+            allShieldMaterials.push(this.newMaterial[0]);
         }
 
         return allShieldMaterials;
@@ -121,7 +121,7 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
 
                     //Set all materials to disabled that have the same name as any that is already equipped.
                     allMaterials.forEach(materialSet => {
-                        if (item.material.length && item.material[0].name === materialSet.material.name) {
+                        if (item.material[0] && item.material[0].name === materialSet.material.name) {
                             materialSet.disabled = true;
                         }
                     });
@@ -179,7 +179,7 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
 
     public onSelectMaterial(): void {
         const shield = this.item;
-        const material = this.newMaterial[0].material;
+        const material = this.newMaterial[0]?.material;
 
         if (!shield.material.length || material !== shield.material[0]) {
             //If there is a material in this slot, remove the old material from the item.
@@ -188,7 +188,7 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
             }
 
             //Then add the new material to the item.
-            if (material.name) {
+            if (material?.name) {
                 //Add a copy of the material to the item
                 shield.material.push(material.clone());
             }

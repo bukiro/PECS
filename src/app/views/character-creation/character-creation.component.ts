@@ -447,10 +447,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         }
     }
 
-    public classLevelByNumber(number: number): CharacterClassLevel {
-        return this.character.class.levels[number];
-    }
-
     public onBaseValueChange(): void {
         if (this.character.settings.useIndividualAbilityBaseValues) {
             this.character.settings.useIndividualAbilityBaseValues = false;
@@ -464,7 +460,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
             // Remove all Level 1 ability boosts that are now illegal
             if (this.character.class.name) {
-                this.character.class.levels[1].abilityChoices.filter(choice => choice.available).forEach(choice => {
+                this.character.class.levels[1]?.abilityChoices.filter(choice => choice.available).forEach(choice => {
                     choice.boosts.length = Math.min(choice.available - choice.baseValuesLost, choice.boosts.length);
                 });
             }
@@ -621,7 +617,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         if (maxAvailable > 1) {
             title += `: ${ choice.boosts.length }/${ maxAvailable }`;
         } else {
-            if (choice.boosts.length) {
+            if (choice.boosts[0]) {
                 title += `: ${ choice.boosts[0].name }`;
             }
         }
@@ -630,7 +626,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public abilityChoiceIconTitle(maxAvailable: number, choice: AbilityChoice): string {
-        if (choice.boosts.length) {
+        if (choice.boosts[0]) {
             if (maxAvailable === 1) {
                 return choice.boosts[0].name;
             } else if (maxAvailable > 1) {
@@ -720,11 +716,15 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         return !!anytrue;
     }
 
-    public isAbilityIllegal$(levelNumber: number, ability: Ability): Observable<boolean> {
+    public isAbilityIllegal$(levelNumber: number, ability: Ability | undefined): Observable<boolean> {
         const maxAbilityValueOnFirstLevel = 18;
 
         if (levelNumber !== 1) {
             return of(false);
+        }
+
+        if (!ability) {
+            return of(true);
         }
 
         return this._abilityValuesService.baseValue$(
@@ -756,10 +756,14 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     /**
      * Check for any reasons why the ability cannot be boosted.
      */
-    public cannotBoostAbilityReasons$(ability: Ability, levelNumber: number, choice: AbilityChoice): Observable<Array<string>> {
+    public cannotBoostAbilityReasons$(ability: Ability | undefined, levelNumber: number, choice: AbilityChoice): Observable<Array<string>> {
 
         //Info only choices that don't grant a boost (like for the key ability for archetypes) don't need to be checked.
         if (choice.infoOnly) { return of([]); }
+
+        if (!ability) {
+            return of(['Invalid Ability.']);
+        }
 
         return of(this.abilityBoostsOnLevel(levelNumber, ability.name, choice.type, choice.source))
             .pipe(
@@ -769,7 +773,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 switchMap(sameBoostsThisLevel => {
                     const reasons: Array<string> = [];
 
-                    if (sameBoostsThisLevel.length) {
+                    if (sameBoostsThisLevel[0]) {
                         // The ability may have been boosted by the same source,
                         // but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
                         // This does not apply to flaws - you can boost a flawed ability.
@@ -1037,7 +1041,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public setSplinterFaithDomains(domains: Array<string>): void {
-        this.character.class.filteredFeatDataSnapshot(0, 0, 'Splinter Faith')[0].setValue('domains', domains);
+        this.character.class.filteredFeatDataSnapshot(0, 0, 'Splinter Faith')[0]?.setValue('domains', domains);
     }
 
     public splinterFaithAvailableDomains(): Array<{ title: string; type: number; domain: Domain }> {
@@ -1170,6 +1174,10 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         const character = this.character;
         const level = character.class.levels[levelNumber];
 
+        if (!level) {
+            return;
+        }
+
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
 
         if (isChecked) {
@@ -1194,7 +1202,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                                     increase.sourceId.includes('-Lore-'),
                                 );
 
-                        if (increases.length) {
+                        if (increases[0]) {
                             const oldChoice = character.class.getLoreChoiceBySourceId(increases[0].sourceId);
 
                             if (oldChoice?.available === 1) {
@@ -1537,7 +1545,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 map(showOtherOptions => {
                     let heritage = this.character.class.heritage;
 
-                    if (index !== -1) {
+                    if (index !== -1 && this.character.class.additionalHeritages[index]) {
                         heritage = this.character.class.additionalHeritages[index];
                     }
 
@@ -1822,10 +1830,12 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 map(familiar => {
                     const isChecked = (checkedEvent.target as HTMLInputElement).checked;
 
-                    if (isChecked) {
-                        familiar.speeds[1].name = 'Swim Speed';
-                    } else {
-                        familiar.speeds[1].name = 'Land Speed';
+                    if (familiar.speeds[1]) {
+                        if (isChecked) {
+                            familiar.speeds[1].name = 'Swim Speed';
+                        } else {
+                            familiar.speeds[1].name = 'Land Speed';
+                        }
                     }
 
                     familiar.speeds.triggerOnChange();
@@ -1840,7 +1850,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public isFamiliarSwimmer$(): Observable<boolean> {
         return propMap$(this.familiar$, 'speeds', 'values$')
             .pipe(
-                map(speeds => speeds[1].name === 'Swim Speed'),
+                map(speeds => speeds[1]?.name === 'Swim Speed'),
             );
     }
 
@@ -1863,8 +1873,8 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                     this._abilitiesDataService.abilities().forEach(ability => {
                         const name = ability.modifierName;
                         let modifier = 0;
-                        const classboosts = levels[1].abilityChoices[0].boosts.filter(boost => boost.name === ability.name);
-                        const ancestryboosts = type.abilityChoices[0].boosts.filter(boost => boost.name === ability.name);
+                        const classboosts = levels[1]?.abilityChoices[0]?.boosts.filter(boost => boost.name === ability.name) ?? [];
+                        const ancestryboosts = type.abilityChoices[0]?.boosts.filter(boost => boost.name === ability.name) ?? [];
 
                         modifier = ancestryboosts
                             .concat(classboosts)

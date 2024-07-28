@@ -14,7 +14,7 @@
                 <app-attribute-value
                     class="skill__value"
                     [title]="displayName(skill)"
-                    [sublines]="[calculatedSkill.ability]"
+                    [sublines]="calculatedSkill.ability ? [calculatedSkill.ability] : undefined"
                     [creature]="creature"
                     [customEffectsTarget]="
                         skill.name.includes(' DC') === isDC && showValue

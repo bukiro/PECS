@@ -373,14 +373,18 @@ export class InventoryItemProcessingService {
 
         item.gainActivities.forEach(gain => {
             if (gain.active) {
-                this._psp.activitiesProcessingService?.activateActivity(
-                    this._activitiesDataService.activities(gain.name)[0],
-                    false,
-                    {
-                        creature,
-                        gain,
-                    },
-                );
+                const activity = this._activitiesDataService.activities(gain.name)[0];
+
+                if (activity) {
+                    this._psp.activitiesProcessingService?.activateActivity(
+                        activity,
+                        false,
+                        {
+                            creature,
+                            gain,
+                        },
+                    );
+                }
             }
         });
 
@@ -416,7 +420,7 @@ export class InventoryItemProcessingService {
                     if (!invItem.markedForDeletion) {
                         found++;
                         this._itemTransferService
-                            .moveItemLocally(creature, invItem, creature.inventories[0], inv, invItem.amount, true);
+                            .moveItemLocally(creature, invItem, creature.mainInventory, inv, invItem.amount, true);
                     }
                 });
         });

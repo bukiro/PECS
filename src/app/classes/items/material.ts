@@ -97,7 +97,7 @@ export abstract class Material implements Serializable<Material> {
     }
 
     public effectiveName(): string {
-        return this.name.split('(')[0].trim();
+        return this.name.split('(')[0]?.trim() ?? this.name;
     }
 
     public abstract clone(): Material;

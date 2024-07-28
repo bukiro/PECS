@@ -11,6 +11,7 @@ import { CreatureAvailabilityService } from '../creature-availability/creature-a
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { SpellsDataService } from '../data/spells-data.service';
 import { Scroll } from 'src/app/classes/items/scroll';
+import { safeParseInt } from '../../util/string-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -108,7 +109,7 @@ export class ItemTraitsService {
         const reachTrait = traits.find(trait => trait.includes('Reach'));
 
         if (reachTrait) {
-            reach = reachTrait.includes(' ') ? parseInt(reachTrait.split(' ')[1], 10) : typicalReach;
+            reach = reachTrait.includes(' ') ? safeParseInt(reachTrait.split(' ')[1], typicalReach) : typicalReach;
         }
 
         let newReach = reach;
@@ -211,13 +212,17 @@ export class ItemTraitsService {
     }
 
     private _storedSpellsEffectiveTraits(item: Scroll | Wand): Array<string> {
-        let traits: Array<string> = item.traits;
+        let traits: Array<string> = [...item.traits];
 
         if (item.storedSpells[0]?.spells.length) {
-            const spell = this._spellsDataService.spellFromName(item.storedSpells[0].spells[0].name);
+            const spellName = item.storedSpells[0]?.spells[0]?.name;
 
-            if (spell) {
-                traits = item.traits.concat(spell.traits);
+            if (spellName) {
+                const spell = this._spellsDataService.spellFromName(spellName);
+
+                if (spell) {
+                    traits = item.traits.concat(spell.traits);
+                }
             }
         }
 

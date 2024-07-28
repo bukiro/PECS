@@ -72,7 +72,7 @@ export class Ammunition extends Consumable implements MessageSerializable<Ammuni
     public effectiveNameSnapshot(): string {
         if (this.displayName) {
             return this.displayName;
-        } else if (this.storedSpells[0]?.spells?.length) {
+        } else if (this.storedSpells[0]?.spells[0]) {
             return `${ this.name } of ${ this.storedSpells[0].spells[0].name }`;
         } else {
             return this.name;

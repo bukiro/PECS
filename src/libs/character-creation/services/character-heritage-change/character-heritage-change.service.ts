@@ -45,8 +45,8 @@ export class CharacterHeritageChangeService {
             }
         } else {
             const heritageToChange = characterClass.additionalHeritages[additionalHeritageIndex];
-            const source = heritageToChange.source;
-            const levelNumber = heritageToChange.charLevelAvailable;
+            const source = heritageToChange?.source;
+            const levelNumber = heritageToChange?.charLevelAvailable;
 
             if (heritage) {
                 characterClass.additionalHeritages[additionalHeritageIndex] =
@@ -75,15 +75,15 @@ export class CharacterHeritageChangeService {
         const characterClass = character.class;
         const ancestry = characterClass?.ancestry;
 
-        let heritage: Heritage = characterClass.heritage;
+        let heritage: Heritage | undefined = characterClass.heritage;
 
         if (index !== -1) {
             heritage = characterClass.additionalHeritages[index];
         }
 
-        if (ancestry && heritage?.name) {
-            const level = characterClass.levels[1];
+        const level = characterClass.levels[1];
 
+        if (ancestry && heritage?.name && level) {
             heritage.ancestries.forEach(ancestryListing => {
                 const ancestries = ancestry.ancestries;
 
@@ -115,10 +115,16 @@ export class CharacterHeritageChangeService {
             // Also remove the 5th level skill increase from Skilled Heritage if you are removing Skilled Heritage.
             // It is a basic skill increase and doesn't need processing.
             if (heritage.name === 'Skilled Heritage') {
-                const skilledHeritageExtraIncreaseLevel = 5;
+                const skilledHeritageExtraIncreaseLevelNumber = 5;
 
-                characterClass.levels[skilledHeritageExtraIncreaseLevel].skillChoices =
-                    characterClass.levels[skilledHeritageExtraIncreaseLevel].skillChoices.filter(choice => choice.source !== heritage.name);
+                const skilledHeritageExtraIncreaseLevel = characterClass.levels[skilledHeritageExtraIncreaseLevelNumber];
+
+                if (skilledHeritageExtraIncreaseLevel) {
+                    skilledHeritageExtraIncreaseLevel.skillChoices =
+                        skilledHeritageExtraIncreaseLevel.skillChoices.filter(choice => choice.source !== heritage.name);
+                }
+
+
             }
 
             heritage.gainActivities.forEach((gainActivity: string) => {
@@ -171,15 +177,15 @@ export class CharacterHeritageChangeService {
         const characterClass = character.class;
         const ancestry = characterClass?.ancestry;
 
-        let heritage: Heritage = characterClass?.heritage;
+        let heritage: Heritage | undefined = characterClass?.heritage;
 
         if (index !== -1) {
             heritage = characterClass.additionalHeritages[index];
         }
 
-        if (ancestry && heritage?.name) {
-            const level = characterClass.levels[1];
+        const level = characterClass.levels[1];
 
+        if (ancestry && heritage?.name && level) {
             ancestry.traits.push(...heritage.traits);
             ancestry.ancestries.push(...heritage.ancestries);
             level.skillChoices.push(...heritage.skillChoices);
@@ -202,11 +208,11 @@ export class CharacterHeritageChangeService {
             // Check if it is a free training (not locked). If so, remove it and reimburse the skill point,
             // then replace it with the heritage's.
             // If it is locked, we better not replace it. Instead, you get a free Heritage skill increase.
-            if (heritage.skillChoices.length && heritage.skillChoices[0].increases.length) {
+            if (heritage.skillChoices.length && heritage.skillChoices[0]?.increases[0]) {
                 const existingIncreases =
                     character.skillIncreases(1, 1, heritage.skillChoices[0].increases[0].name, '');
 
-                if (existingIncreases.length) {
+                if (existingIncreases[0]) {
                     const existingIncrease = existingIncreases[0];
                     const existingSkillChoice = characterClass.getSkillChoiceBySourceId(existingIncrease.sourceId);
 

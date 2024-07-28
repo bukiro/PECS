@@ -603,7 +603,7 @@ export class CreatureConditionsService {
         }
 
         // If there are choices, and the choice is not set by the gain, take the default or the first choice.
-        if (originalCondition.choices.length && !conditionGain.choice) {
+        if (originalCondition.choices[0] && !conditionGain.choice) {
             conditionGain.choice = originalCondition.choice || originalCondition.choices[0].name;
         }
 

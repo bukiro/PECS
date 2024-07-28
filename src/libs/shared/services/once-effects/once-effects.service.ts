@@ -268,7 +268,7 @@ export class OnceEffectsService {
                 creature.health.temporaryHP[0] = { amount: value, source: context.source, sourceId: '' };
                 creature.health.temporaryHP.length = 1;
                 this._toastService.show(`${ phrases.name } gained ${ value } temporary HP.`);
-            } else if (creature.health.temporaryHP[0].amount === 0) {
+            } else if (creature.health.temporaryHP[0]?.amount === 0) {
                 creature.health.temporaryHP[0] = { amount: value, source: context.source, sourceId: context.sourceId };
                 creature.health.temporaryHP.length = 1;
                 this._toastService.show(`${ phrases.name } gained ${ value } temporary HP from ${ context.source }.`);
@@ -361,7 +361,7 @@ export class OnceEffectsService {
     }
 
     private _raiseCharacterShieldWithNotification(value: number): void {
-        const equippedShield = CreatureService.character.inventories[0].shields.find(shield => shield.equipped);
+        const equippedShield = CreatureService.character.mainInventory?.shields.find(shield => shield.equipped);
 
         if (equippedShield) {
             if (value > 0) {

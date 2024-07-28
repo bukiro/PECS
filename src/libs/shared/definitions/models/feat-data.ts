@@ -80,7 +80,7 @@ export class FeatData implements Serializable<FeatData> {
     }
 
     public getValue(key: string): Readonly<FeatDataValue> {
-        return this._data[key];
+        return this._data[key] ?? null;
     }
 
     public valueAsString(key: string): Readonly<string | null> {
@@ -114,7 +114,7 @@ export class FeatData implements Serializable<FeatData> {
     public getValue$(key: string): Observable<Readonly<FeatDataValue>> {
         return this._data$
             .pipe(
-                map(data => data[key]),
+                map(data => data[key] ?? null),
             );
     }
 

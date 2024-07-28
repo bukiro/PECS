@@ -1,7 +1,9 @@
 export function skillLevelName(skillLevel: number, options: { shortForm?: boolean } = {}): string {
     if (options.shortForm) {
-        return ['U', 'U', 'T', 'T', 'E', 'E', 'M', 'M', 'L'][skillLevel];
+        return ['U', 'U', 'T', 'T', 'E', 'E', 'M', 'M', 'L'][skillLevel]
+            ?? 'U';
     } else {
-        return ['Untrained', 'Untrained', 'Trained', 'Trained', 'Expert', 'Expert', 'Master', 'Master', 'Legendary'][skillLevel];
+        return ['Untrained', 'Untrained', 'Trained', 'Trained', 'Expert', 'Expert', 'Master', 'Master', 'Legendary'][skillLevel]
+            ?? 'Untrained';
     }
 }

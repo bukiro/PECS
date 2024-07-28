@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
+import { signNumber } from 'src/libs/shared/util/number-utils';
+import { safeParseInt } from 'src/libs/shared/util/string-utils';
 
 const { assign, forExport, isEqual } = setupSerialization<Effect>({
     primitives: [
@@ -68,7 +70,7 @@ export class Effect implements Serializable<Effect> {
         const valueNumerical = parseInt(value, 10);
 
         if (value && !isNaN(valueNumerical)) {
-            this._value = (valueNumerical >= 0 ? '+' : '') + valueNumerical;
+            this._value = signNumber(valueNumerical);
             this.valueNumerical = valueNumerical;
         } else {
             this._value = '';
@@ -144,7 +146,7 @@ export class Effect implements Serializable<Effect> {
         if (this.title) {
             return (signed ? '= ' : '') + this.title;
         } else {
-            if (parseInt(this.value, 10)) {
+            if (safeParseInt(this.value, 0)) {
                 return this.value;
             } else if (this.setValue) {
                 return (signed ? '= ' : '') + this.setValue;

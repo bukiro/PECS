@@ -18,7 +18,7 @@ export class EquipmentSpellsService {
     public allGrantedEquipmentSpells(creature: Creature): Array<{ choice: SpellChoice; gain: SpellGain }> {
         const spellsGranted: Array<{ choice: SpellChoice; gain: SpellGain }> = [];
 
-        creature.inventories[0].allEquipment().filter(equipment => equipment.investedOrEquipped())
+        creature.mainInventory.allEquipment().filter(equipment => equipment.investedOrEquipped())
             .forEach(equipment => {
                 equipment.gainSpells.forEach(choice => {
                     choice.spells.forEach(gain => {
@@ -58,7 +58,7 @@ export class EquipmentSpellsService {
 
         const hasTooManySlottedAeonStones = creature.isCharacter() && creature.hasTooManySlottedAeonStones();
 
-        creature.inventories[0].allEquipment()
+        creature.mainInventory.allEquipment()
             .filter(equipment => equipment.investedOrEquipped())
             .forEach(equipment => {
                 equipment.gainSpells

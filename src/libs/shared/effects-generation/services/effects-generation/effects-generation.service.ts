@@ -526,14 +526,14 @@ export class EffectsGenerationService {
         options: { readonly ignoreArmorPenalties: boolean; readonly ignoreArmorSpeedPenalties: boolean },
     ): Observable<Array<Effect>> {
         return combineLatest([
-            creature.inventories[0].equippedArmors$
+            creature.mainInventory.equippedArmors$
                 .pipe(
                     switchMap(armors => emptySafeCombineLatest(
                         armors
                             .map(armor => this._generateArmorEffects$(armor, { creature }, options)),
                     )),
                 ),
-            creature.inventories[0].equippedShields$
+            creature.mainInventory.equippedShields$
                 .pipe(
                     switchMap(shields => emptySafeCombineLatest(
                         shields
@@ -724,7 +724,7 @@ export class EffectsGenerationService {
                     specificIgnoreEffectExists(type, 'bonuses and penalties'),
                 )
                 .forEach(ignoreeffect => {
-                    let target = 'all';
+                    let target: string | undefined = 'all';
 
                     if (ignoreeffect.target.toLowerCase().includes(' to ')) {
                         target = ignoreeffect.target.toLowerCase().split(' to ')[1];
@@ -745,7 +745,7 @@ export class EffectsGenerationService {
             effects
                 .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, 'bonuses'))
                 .forEach(ignoreeffect => {
-                    let target = 'all';
+                    let target: string | undefined = 'all';
 
                     if (ignoreeffect.target.toLowerCase().includes(' to ')) {
                         target = ignoreeffect.target.toLowerCase().split(' to ')[1];
@@ -767,7 +767,7 @@ export class EffectsGenerationService {
             effects
                 .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, 'penalties'))
                 .forEach(ignoreeffect => {
-                    let target = 'all';
+                    let target: string | undefined = 'all';
 
                     if (ignoreeffect.target.toLowerCase().includes(' to ')) {
                         target = ignoreeffect.target.toLowerCase().split(' to ')[1];
@@ -806,7 +806,7 @@ export class EffectsGenerationService {
         effects
             .filter(effect => !effect.ignored && effect.target.toLowerCase().includes('ignore absolute effects'))
             .forEach(ignoreeffect => {
-                let target = 'all';
+                let target: string | undefined = 'all';
 
                 if (ignoreeffect.target.toLowerCase().includes(' on ')) {
                     target = ignoreeffect.target.toLowerCase().split(' on ')[1];

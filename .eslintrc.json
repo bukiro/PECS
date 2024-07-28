@@ -29,6 +29,10 @@
                         ]
                     }
                 ],
+                "max-lines": [
+                    "error",
+                    1000
+                ],
                 "linebreak-style": [
                     "error",
                     "unix"
@@ -39,9 +43,7 @@
                     "always"
                 ],
                 "no-invalid-this": "off",
-                "@typescript-eslint/no-invalid-this": [
-                    "error"
-                ],
+                "@typescript-eslint/no-invalid-this": "error",
                 "object-shorthand": "warn",
                 "@typescript-eslint/no-magic-numbers": [
                     "error",
@@ -232,9 +234,7 @@
                 "project": "./tsconfig.spec.json"
             },
             "rules": {
-                "@typescript-eslint/no-magic-numbers": [
-                    "off"
-                ]
+                "@typescript-eslint/no-magic-numbers": "off"
             }
         }
     ],

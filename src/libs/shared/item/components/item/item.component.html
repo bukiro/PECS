@@ -59,7 +59,9 @@
             !itemStore &&
             asWornItem.isDoublingRings &&
             !asWornItem.isTalismanCord &&
-            !asWornItem.isRingOfWizardry.length
+            !asWornItem.isRingOfWizardry.length &&
+            item.data[0] &&
+            item.data[1]
         ) {
             <div class="newrow">
                 <header class="spellHeader">Doubling Rings</header>
@@ -107,7 +109,8 @@
                 </div>
 
                 @if (
-                    asWornItem.isDoublingRings === "Doubling Rings (Greater)"
+                    asWornItem.isDoublingRings === "Doubling Rings (Greater)" &&
+                    item.data[2]
                 ) {
                     <div class="newrow left-aligned">
                         <input
@@ -147,28 +150,30 @@
                             {{ ringOfWizardrySlotName(wizardrySlot) }}
                         </strong>
 
-                        <select
-                            aria-label="Select spellcasting for ring of wizardry"
-                            [(ngModel)]="item.data[wizardryIndex].value"
-                            (ngModelChange)="
-                                onSelectRingOfWizardryOption(
-                                    asWornItem,
-                                    wizardrySlot,
-                                    wizardryIndex
-                                )
-                            "
-                        >
-                            @for (
-                                spellCasting of ringOfWizardryOptions(
-                                    wizardrySlot
-                                );
-                                track $index
-                            ) {
-                                <option [ngValue]="spellCasting">
-                                    {{ spellCasting }}
-                                </option>
-                            }
-                        </select>
+                        @if (item.data[wizardryIndex]; as wizardryData) {
+                            <select
+                                aria-label="Select spellcasting for ring of wizardry"
+                                [(ngModel)]="wizardryData.value"
+                                (ngModelChange)="
+                                    onSelectRingOfWizardryOption(
+                                        asWornItem,
+                                        wizardrySlot,
+                                        wizardryIndex
+                                    )
+                                "
+                            >
+                                @for (
+                                    spellCasting of ringOfWizardryOptions(
+                                        wizardrySlot
+                                    );
+                                    track $index
+                                ) {
+                                    <option [ngValue]="spellCasting">
+                                        {{ spellCasting }}
+                                    </option>
+                                }
+                            </select>
+                        }
                     </div>
                 }
             </div>
@@ -186,16 +191,16 @@
                 @for (talismanCordIndex of [0, 1, 2]; track $index) {
                     @if (
                         asWornItem.isTalismanCord > talismanCordIndex &&
-                        item.data[talismanCordIndex]
+                        item.data[talismanCordIndex]; as talismanData
                     ) {
                         <div class="newrow">
                             <strong>{{
-                                item.data[talismanCordIndex].name
+                                talismanData.name
                             }}</strong>
 
                             <select
                                 aria-label="Select wizard school for talisman cord"
-                                [(ngModel)]="item.data[talismanCordIndex].value"
+                                [(ngModel)]="talismanData.value"
                             >
                                 @for (
                                     school of talismanCordOptions(
@@ -412,23 +417,27 @@
                                 <span>
                                     {{ conditionSet.condition.name }} effect
                                     selection:
-                                    <select
-                                        aria-label="Select condition effect"
-                                        [(ngModel)]="
-                                            spellSet.taken.effectChoices[
-                                                conditionSetIndex
-                                            ].choice
-                                        "
-                                    >
-                                        @for (
-                                            choice of conditionSet.choices;
-                                            track $index
-                                        ) {
-                                            <option [ngValue]="choice">
-                                                {{ choice }}
-                                            </option>
-                                        }
-                                    </select>
+
+                                    @if (
+                                        spellSet.taken.effectChoices[
+                                            conditionSetIndex
+                                        ];
+                                        as effectChoice
+                                    ) {
+                                        <select
+                                            aria-label="Select condition effect"
+                                            [(ngModel)]="effectChoice.choice"
+                                        >
+                                            @for (
+                                                choice of conditionSet.choices;
+                                                track $index
+                                            ) {
+                                                <option [ngValue]="choice">
+                                                    {{ choice }}
+                                                </option>
+                                            }
+                                        </select>
+                                    }
                                 </span>
                             </div>
                         }
@@ -576,11 +585,11 @@
             @for (talismanCordIndex of [0, 1, 2]; track $index) {
                 @if (
                     cord.isTalismanCord > talismanCordIndex &&
-                    cord.data[talismanCordIndex]
+                    cord.data[talismanCordIndex]; as talismanCordData
                 ) {
                     <div class="newrow">
-                        <strong>{{ cord.data[talismanCordIndex].name }}</strong>
-                        {{ cord.data[talismanCordIndex].value }}
+                        <strong>{{ talismanCordData.name }}</strong>
+                        {{ talismanCordData.value }}
                     </div>
                 }
             }

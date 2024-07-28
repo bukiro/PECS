@@ -6,6 +6,7 @@ import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
 import { FeatTaken } from 'src/libs/shared/definitions/models/feat-taken';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
+import { safeParseInt } from 'src/libs/shared/util/string-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -25,7 +26,8 @@ export class FeatTakingService {
         locked?: boolean,
         automatic?: boolean,
     ): void {
-        const levelNumber = parseInt(choice.id.split('-')[0], 10);
+        const levelNumber = safeParseInt(choice.id.split('-')[0], 0);
+
         const level =
             creature.isCharacter()
                 ? creature.classLevelFromNumber(levelNumber)
@@ -34,18 +36,16 @@ export class FeatTakingService {
                 : CreatureService.character.classLevelFromNumber(CreatureService.character.level);
 
         if (taken) {
-            const newLength =
-                choice.feats.push(
-                    FeatTaken.from({
-                        name: (feat?.name || featName),
-                        source: choice.source,
-                        locked,
-                        automatic,
-                        sourceId: choice.id,
-                        countAsFeat: (feat?.countAsFeat || feat?.superType || ''),
-                    }),
-                );
-            const gain = choice.feats[newLength - 1];
+            const gain = FeatTaken.from({
+                name: (feat?.name || featName),
+                source: choice.source,
+                locked,
+                automatic,
+                sourceId: choice.id,
+                countAsFeat: (feat?.countAsFeat || feat?.superType || ''),
+            });
+
+            choice.feats.push(gain);
 
             this._psp.featProcessingService?.processFeat(feat, taken, { creature, gain, choice, level });
         } else {

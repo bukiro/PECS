@@ -66,7 +66,7 @@ export class ItemsTimeService {
                             casting.scrollSavant.forEach(scroll => {
                                 this._inventoryService.grantInventoryItem(
                                     scroll,
-                                    { creature, inventory: creature.inventories[0] },
+                                    { creature, inventory: creature.mainInventory },
                                     { resetRunes: false, changeAfter: false, equipAfter: false },
                                 );
                             });
@@ -165,7 +165,7 @@ export class ItemsTimeService {
                                         this._itemTransferService.moveItemLocally(
                                             creature,
                                             invItem,
-                                            creature.inventories[0],
+                                            creature.mainInventory,
                                             creatureInventory,
                                         );
                                     });

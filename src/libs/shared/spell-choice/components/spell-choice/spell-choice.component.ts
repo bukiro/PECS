@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity */
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
-import { Subscription, Observable, combineLatest, switchMap, map, of, zip, tap } from 'rxjs';
+import { Subscription, Observable, combineLatest, switchMap, map, of, tap } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Trait } from 'src/app/classes/hints/trait';
@@ -28,7 +28,7 @@ import { SpellPropertiesService } from 'src/libs/shared/services/spell-propertie
 import { spellLevelFromCharLevel } from 'src/libs/shared/util/character-utils';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, emptySafeZip } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive, capitalize } from 'src/libs/shared/util/string-utils';
 import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
@@ -367,18 +367,18 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                     const spellBlendingOneLevelHigherIndex = 1;
                     const spellBlendingTwoLevelsHigherIndex = 2;
 
-                    const slotsTradedInFromThisForCantrips = this.choice.spellBlending[spellBlendingCantripIndex];
-                    const slotsTradedInFromThisForOneLevelHigher = this.choice.spellBlending[spellBlendingOneLevelHigherIndex];
-                    const slotsTradedInFromThisForTwoLevelsHigher = this.choice.spellBlending[spellBlendingTwoLevelsHigherIndex];
+                    const slotsTradedInFromThisForCantrips = this.choice.spellBlending[spellBlendingCantripIndex] ?? 0;
+                    const slotsTradedInFromThisForOneLevelHigher = this.choice.spellBlending[spellBlendingOneLevelHigherIndex] ?? 0;
+                    const slotsTradedInFromThisForTwoLevelsHigher = this.choice.spellBlending[spellBlendingTwoLevelsHigherIndex] ?? 0;
                     const areNoSlotsTradedInFromThis =
                         !slotsTradedInFromThisForCantrips &&
                         !slotsTradedInFromThisForOneLevelHigher &&
                         !slotsTradedInFromThisForTwoLevelsHigher;
 
                     return {
-                        isUnlockedForCantrips: spellBlendingUnlockedAmounts[0],
-                        isUnlockedForOneLevelHigher: spellBlendingUnlockedAmounts[oneLevelHigher],
-                        isUnlockedForTwoLevelsHigher: spellBlendingUnlockedAmounts[twoLevelsHigher],
+                        isUnlockedForCantrips: spellBlendingUnlockedAmounts[0] ?? 0,
+                        isUnlockedForOneLevelHigher: spellBlendingUnlockedAmounts[oneLevelHigher] ?? 0,
+                        isUnlockedForTwoLevelsHigher: spellBlendingUnlockedAmounts[twoLevelsHigher] ?? 0,
                         slotsTradedInFromThisForCantrips,
                         slotsTradedInFromThisForOneLevelHigher,
                         slotsTradedInFromThisForTwoLevelsHigher,
@@ -389,7 +389,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
     }
 
     public onSpellBlendingSlotTradedIn(tradeLevel: number, value: number): void {
-        this.choice.spellBlending[tradeLevel] += value;
+        this.choice.spellBlending[tradeLevel] = (this.choice.spellBlending[tradeLevel] ?? 0) + value;
         this._refreshService.setComponentChanged('spellchoices');
         this._refreshService.processPreparedChanges();
     }
@@ -545,14 +545,14 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                     choice.spellCombination &&
                     (
                         !choice.spells.length ||
-                        choice.spells[0].name === spell.name
+                        choice.spells[0]?.name === spell.name
                     );
                 const isSecondSpellCombinationSpell =
                     choice.spellCombination &&
                     !!choice.spells.length &&
-                    choice.spells[0].name !== spell.name &&
+                    choice.spells[0]?.name !== spell.name &&
                     (
-                        !choice.spells[0].combinationSpellName ||
+                        !choice.spells[0]?.combinationSpellName ||
                         choice.spells[0].combinationSpellName === spell.name
                     );
                 const shouldSecondSpellCombinationSpellBeDisabled =
@@ -649,14 +649,20 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
     }
 
     public onSpellCombinationTaken(spellName: string, taken: boolean): void {
+        const targetSpell = this.choice.spells[0];
+
+        if (!targetSpell) {
+            return;
+        }
+
         if (taken) {
             if (SettingsService.settings.autoCloseChoices) {
                 this.toggleShownChoice('');
             }
 
-            this.choice.spells[0].combinationSpellName = spellName;
+            targetSpell.combinationSpellName = spellName;
         } else {
-            this.choice.spells[0].combinationSpellName = '';
+            targetSpell.combinationSpellName = '';
         }
     }
 
@@ -1168,37 +1174,38 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                             );
 
                             if (choice.spells.length) {
-                                const chosenSpellName = choice.spells[0].name;
+                                const chosenSpellName = choice.spells[0]?.name;
 
-                                // If both spell combination spells are taken,
-                                // return the two taken spells and sort the first to the top.
-                                // If not, return all spells that match the success determination method of the first.
-                                if (chosenSpellName && choice.spells[0].combinationSpellName) {
-                                    const spellCombinationAvailableSpells =
-                                        spellSets.filter(spell => spell.takenByThisChoice);
+                                if (chosenSpellName) {
+                                    // If both spell combination spells are taken,
+                                    // return the two taken spells and sort the first to the top.
+                                    // If not, return all spells that match the success determination method of the first.
+                                    if (choice.spells[0]?.combinationSpellName) {
+                                        const spellCombinationAvailableSpells =
+                                            spellSets.filter(spell => spell.takenByThisChoice);
 
-                                    return spellCombinationAvailableSpells
-                                        .sort((a, b) => (chosenSpellName === b.spell.name) ? 1 : -1);
-                                } else {
-                                    const existingSpell = this._spellsDataService.spellFromName(chosenSpellName);
+                                        return spellCombinationAvailableSpells
+                                            .sort((a, b) => (chosenSpellName === b.spell.name) ? 1 : -1);
+                                    } else {
+                                        const existingSpell = this._spellsDataService.spellFromName(chosenSpellName);
 
-                                    spellSets = spellSets.filter(spell =>
-                                        (existingSpell.traits.includes('Attack') === spell.spell.traits.includes('Attack')) &&
-                                        (
-                                            existingSpell.savingThrow.toLowerCase().includes('Fortitude') ===
-                                            spell.spell.savingThrow.toLowerCase().includes('Fortitude')
-                                        ) &&
-                                        (
-                                            existingSpell.savingThrow.toLowerCase().includes('Reflex') ===
-                                            spell.spell.savingThrow.toLowerCase().includes('Reflex')
-                                        ) &&
-                                        (
-                                            existingSpell.savingThrow.toLowerCase().includes('Will') ===
-                                            spell.spell.savingThrow.toLowerCase().includes('Will')
-                                        ),
-                                    );
+                                        spellSets = spellSets.filter(spell =>
+                                            (existingSpell.traits.includes('Attack') === spell.spell.traits.includes('Attack')) &&
+                                            (
+                                                existingSpell.savingThrow.toLowerCase().includes('Fortitude') ===
+                                                spell.spell.savingThrow.toLowerCase().includes('Fortitude')
+                                            ) &&
+                                            (
+                                                existingSpell.savingThrow.toLowerCase().includes('Reflex') ===
+                                                spell.spell.savingThrow.toLowerCase().includes('Reflex')
+                                            ) &&
+                                            (
+                                                existingSpell.savingThrow.toLowerCase().includes('Will') ===
+                                                spell.spell.savingThrow.toLowerCase().includes('Will')
+                                            ),
+                                        );
+                                    }
                                 }
-
                             }
 
                             const availableSpells = spellSets.filter(spell =>
@@ -1273,9 +1280,9 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
 
         let shouldRefresh = false;
 
-        return zip([
+        return emptySafeZip(
             this.choice.spells.map(
-                gain => this._cannotTakeSpell$(this._spells(gain.name)[0])
+                gain => this._cannotTakeSpell$(this._spellsDataService.spellFromName(gain.name))
                     .pipe(
                         tap(cannotTakeReasons => {
                             if (cannotTakeReasons.length) {
@@ -1288,8 +1295,9 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                                 }
                             }
                         }),
-                    )),
-        ])
+                    ),
+            ),
+        )
             .pipe(
                 tap(() => {
                     if (shouldRefresh) {
@@ -1438,9 +1446,9 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             title += `: ${ this.choice.spells.length } /${ available }`;
         } else {
             if (this.choice.spells.length) {
-                title += `: ${ this.choice.spells[0].name }`;
+                title += `: ${ this.choice.spells[0]?.name }`;
 
-                if (this.choice.spells[0].combinationSpellName) {
+                if (this.choice.spells[0]?.combinationSpellName) {
                     title += ` & ${ this.choice.spells[0].combinationSpellName }`;
                 }
             }
@@ -1454,7 +1462,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
 
         if (availableSpellSlots && !!choice.spells.length) {
             return availableSpellSlots === 1
-                ? choice.spells[0].name
+                ? choice.spells[0]?.name ?? ''
                 : choice.spells.length.toString();
         }
 
@@ -1484,10 +1492,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         return icons.join('|');
     }
 
-    private _spells(name = '', type = '', tradition: SpellTraditions | '' = ''): Array<Spell> {
-        return this._spellsDataService.spells(name, type, tradition);
-    }
-
     private _dynamicSpellLevel$(choice: SpellChoice = this.choice): Observable<number> {
         return this._spellsService.dynamicSpellLevel$(this.spellCasting, choice);
     }
@@ -1499,9 +1503,9 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         // For now, we figure out which feats are going to be needed and get them before the eval.
         // Do check if this actually works once the app compiles again.
         const requiredFeatsRegex = /Has_Feat\('(.+?)'\)/gm;
-        const requiredFeatNames: Array<string> = [];
+        const requiredFeatNames: Array<string | undefined> = [];
         const abilityModifierRegex = /Modifier\('(.+?)'\)/gm;
-        const abilityModifierNames: Array<string> = [];
+        const abilityModifierNames: Array<string | undefined> = [];
 
         requiredFeatsRegex.exec(choice.dynamicAvailable)?.forEach(match => {
             requiredFeatNames.push(match[1]);
@@ -1515,6 +1519,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             this._highestSpellLevel$(),
             emptySafeCombineLatest(
                 requiredFeatNames
+                    .filter((featName): featName is string => !!featName)
                     .map(featName => this._characterFeatsService.characterHasFeatAtLevel$(featName, 0, { allowCountAs: true })
                         .pipe(
                             map(hasFeat => hasFeat ? featName : ''),
@@ -1522,6 +1527,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             ),
             emptySafeCombineLatest(
                 abilityModifierNames
+                    .filter((abilityName): abilityName is string => !!abilityName)
                     .map(abilityName => this._abilityValuesService.mod$(abilityName, this._character)
                         .pipe(
                             map(value => ({ ability: abilityName, value })),
@@ -1680,7 +1686,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             return of(
                 this.spellCasting.spellChoices.filter(choice =>
                     choice.level > 0 &&
-                    choice.spellBlending[cantripSpellBlendingIndex] > 0,
+                    (choice.spellBlending[cantripSpellBlendingIndex] ?? 0) > 0,
                 ).length * cantripMultiplier,
             );
         }
@@ -1694,18 +1700,18 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                                 this.spellCasting.spellChoices
                                     .filter(choice =>
                                         choice.level === level - oneLevelHigherSpellBlendingIndex &&
-                                        choice.spellBlending[oneLevelHigherSpellBlendingIndex] > 0,
+                                        (choice.spellBlending[oneLevelHigherSpellBlendingIndex] ?? 0) > 0,
                                     )
-                                    .map(choice => choice.spellBlending[oneLevelHigherSpellBlendingIndex])
+                                    .map(choice => choice.spellBlending[oneLevelHigherSpellBlendingIndex] ?? 0)
                                     .reduce((sum, current) => sum + current, 0) >= requiredSlots
                             )
                             || (
                                 this.spellCasting.spellChoices
                                     .filter(choice =>
                                         choice.level === level - twoLevelsHigherSpellBlendingIndex &&
-                                        choice.spellBlending[twoLevelsHigherSpellBlendingIndex] > 0,
+                                        (choice.spellBlending[twoLevelsHigherSpellBlendingIndex] ?? 0) > 0,
                                     )
-                                    .map(choice => choice.spellBlending[twoLevelsHigherSpellBlendingIndex])
+                                    .map(choice => choice.spellBlending[twoLevelsHigherSpellBlendingIndex] ?? 0)
                                     .reduce((sum, current) => sum + current, 0) >= requiredSlots
                             )
                         ) {

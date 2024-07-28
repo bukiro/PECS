@@ -8,6 +8,7 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { safeParseInt } from 'src/libs/shared/util/string-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -41,7 +42,11 @@ export class CharacterSkillIncreaseService {
     }
 
     public processSkillIncrease(skillName: string, train: boolean, choice: SkillChoice): void {
-        const levelNumber = parseInt(choice.id.split('-')[0], 10);
+        const levelNumber = safeParseInt(choice.id.split('-')[0], 0);
+
+        if (!levelNumber) {
+            return;
+        }
 
         if (train) {
             this._processSkillIncreaseTaken(skillName, choice, levelNumber);
@@ -59,6 +64,10 @@ export class CharacterSkillIncreaseService {
     ): void {
         const character = CreatureService.character;
 
+        const takenFeat = choice.source.includes('Feat: ')
+            ? this._featsDataService.feats(character.customFeats, choice.source.replace('Feat: ', ''))[0]
+            : null;
+
         // If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
         // We have to create that skill here in that case.
         if (!this._skillsDataService.skills(character.customSkills, skillName, {}, { noSubstitutions: true }).length) {
@@ -74,14 +83,17 @@ export class CharacterSkillIncreaseService {
                         character.addCustomSkill(skillName, 'Class DC', 'Charisma');
                         break;
                     default:
-                        // The Ability is the subtype of the taken feat.
+                        // When gaining a class DC that can have multiple Abilities, the Ability is the subtype of the taken feat.
                         // The taken feat is found in the source as "Feat: [name]",
                         // so we remove the "Feat: " part with substr to find it and its subType.
-                        character.addCustomSkill(
-                            skillName,
-                            'Class DC',
-                            this._featsDataService.feats(character.customFeats, choice.source.replace('Feat: ', ''))[0].subType,
-                        );
+                        if (takenFeat) {
+                            character.addCustomSkill(
+                                skillName,
+                                'Class DC',
+                                takenFeat.subType,
+                            );
+                        }
+
                         break;
                 }
             } else if (skillName.includes('Spell DC')) {
@@ -207,11 +219,11 @@ export class CharacterSkillIncreaseService {
         }
 
         //Remove custom skill if previously created and this was the last increase of it
-        const matchingCustomSkills = character.customSkills.filter(skill => skill.name === skillName);
+        const matchingCustomSkill = character.customSkills.find(skill => skill.name === skillName);
         const maxLevel = 20;
 
-        if (matchingCustomSkills.length && !character.skillIncreases(1, maxLevel, skillName).length) {
-            character.removeCustomSkill(matchingCustomSkills[0]);
+        if (matchingCustomSkill && !character.skillIncreases(1, maxLevel, skillName).length) {
+            character.removeCustomSkill(matchingCustomSkill);
 
             //For Monks, remove the tradition from the Monk spellcasting abilities if you removed the Monk Divine/Occult Spell DC.
             if (skillName.includes('Monk') && skillName.includes('Spell DC')) {

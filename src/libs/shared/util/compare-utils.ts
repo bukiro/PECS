@@ -14,11 +14,11 @@ export const isEqualSerializableWithoutId = <T extends Serializable<unknown>>(a:
 
 export const isEqualSerializableArray = <T extends Serializable<unknown>>(a: Array<T>, b: Array<T>): boolean =>
     a.length === b.length
-    && b.every((_, index) => b[index].isEqual(a[index]));
+    && b.every((_, index) => a[index] !== undefined && b[index] !== undefined && b[index].isEqual(a[index]));
 
 export const isEqualSerializableArrayWithoutId = <T extends Serializable<unknown>>(a: Array<T>, b: Array<T>): boolean =>
     a.length === b.length
-    && b.every((_, index) => b[index].isEqual(a[index], { withoutId: true }));
+    && b.every((_, index) => a[index] !== undefined && b[index] !== undefined && b[index].isEqual(a[index], { withoutId: true }));
 
 export const isEqualPrimitiveObject = (a: object | undefined, b: object | undefined): boolean =>
     JSON.parse(JSON.stringify(a)) === JSON.parse(JSON.stringify(b));
@@ -26,4 +26,4 @@ export const isEqualPrimitiveObject = (a: object | undefined, b: object | undefi
 export const isEqualArray = <T>(compareFn: (a: T, b: T) => boolean): (a: Array<T>, b: Array<T>) => boolean =>
     (a: Array<T>, b: Array<T>) =>
         a.length === b.length
-        && b.every((_, index) => compareFn(a[index], b[index]));
+        && b.every((_, index) => a[index] !== undefined && b[index] !== undefined && compareFn(a[index], b[index]));

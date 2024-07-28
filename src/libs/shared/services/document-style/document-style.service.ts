@@ -77,9 +77,9 @@ export class DocumentStyleService {
                 result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 
                 return result ? {
-                    r: parseInt(result[redIndex], 16),
-                    g: parseInt(result[greenIndex], 16),
-                    b: parseInt(result[blueIndex], 16),
+                    r: parseInt(result[redIndex] ?? '00', 16),
+                    g: parseInt(result[greenIndex] ?? '00', 16),
+                    b: parseInt(result[blueIndex] ?? '00', 16),
                 } : undefined;
             } else {
                 return undefined;

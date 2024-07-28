@@ -91,9 +91,9 @@ export class CharacterSavingService {
         const minorVersionPosition = 2;
 
         if (versionString) {
-            savegame.appVersionMajor = parseInt(versionString.split('.')[majorVersionPosition], 10) || 0;
-            savegame.appVersion = parseInt(versionString.split('.')[versionPosition], 10) || 0;
-            savegame.appVersionMinor = parseInt(versionString.split('.')[minorVersionPosition], 10) || 0;
+            savegame.appVersionMajor = parseInt(versionString.split('.')[majorVersionPosition] ?? '0', 10) || 0;
+            savegame.appVersion = parseInt(versionString.split('.')[versionPosition] ?? '0', 10) || 0;
+            savegame.appVersionMinor = parseInt(versionString.split('.')[minorVersionPosition] ?? '0', 10) || 0;
         }
 
         // Go through all the items, class, ancestry, heritage, background and

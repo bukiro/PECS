@@ -148,9 +148,11 @@ export class SkillComponent extends TrackByMixin(BaseClass) implements OnInit, O
         if (foundSkillNotes) {
             return foundSkillNotes;
         } else {
-            const newLength = this.creature.skillNotes.push({ name: skill.name, showNotes: false, notes: '' });
+            const newSkillNotes = { name: skill.name, showNotes: false, notes: '' };
 
-            return this.creature.skillNotes[newLength - 1];
+            this.creature.skillNotes.push(newSkillNotes);
+
+            return newSkillNotes;
         }
     }
 

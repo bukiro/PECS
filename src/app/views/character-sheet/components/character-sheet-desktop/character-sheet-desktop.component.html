@@ -62,25 +62,25 @@
         @for (column of [0, 1]; track $index) {
             <div class="character-sheet-columns__column">
                 @if (
-                    showInColumn[column][shownMode]?.includes("general_upper")
+                    showInColumn[column]?.[shownMode]?.includes("general_upper")
                 ) {
                     <app-general />
                 }
 
-                @if (showInColumn[column][shownMode]?.includes("defense")) {
+                @if (showInColumn[column]?.[shownMode]?.includes("defense")) {
                     <app-defense />
                 }
 
                 @for (order of [0, 1]; track $index) {
                     @if (
-                        showInColumn[column][shownMode]?.includes("attacks") &&
+                        showInColumn[column]?.[shownMode]?.includes("attacks") &&
                         attacksAndSpellsOrder["attacks"] === order
                     ) {
                         <app-attacks />
                     }
 
                     @if (
-                        showInColumn[column][shownMode]?.includes(
+                        showInColumn[column]?.[shownMode]?.includes(
                             "spellbook_upper"
                         ) && attacksAndSpellsOrder["spells"] === order
                     ) {
@@ -88,35 +88,35 @@
                     }
                 }
 
-                @if (showInColumn[column][shownMode]?.includes("health")) {
+                @if (showInColumn[column]?.[shownMode]?.includes("health")) {
                     <app-health [forceMinimized]="shownMode === 'Downtime'" />
                 }
 
                 @if (
-                    showInColumn[column][shownMode]?.includes("general_lower")
+                    showInColumn[column]?.[shownMode]?.includes("general_lower")
                 ) {
                     <app-general />
                 }
 
-                @if (showInColumn[column][shownMode]?.includes("abilities")) {
+                @if (showInColumn[column]?.[shownMode]?.includes("abilities")) {
                     <app-abilities />
                 }
 
-                @if (showInColumn[column][shownMode]?.includes("skills")) {
+                @if (showInColumn[column]?.[shownMode]?.includes("skills")) {
                     <app-skills />
                 }
 
-                @if (showInColumn[column][shownMode]?.includes("activities")) {
+                @if (showInColumn[column]?.[shownMode]?.includes("activities")) {
                     <app-activities />
                 }
 
                 @if (
-                    showInColumn[column][shownMode]?.includes("spellbook_lower")
+                    showInColumn[column]?.[shownMode]?.includes("spellbook_lower")
                 ) {
                     <app-spellbook />
                 }
 
-                @if (showInColumn[column][shownMode]?.includes("inventory")) {
+                @if (showInColumn[column]?.[shownMode]?.includes("inventory")) {
                     <app-inventory />
                 }
             </div>

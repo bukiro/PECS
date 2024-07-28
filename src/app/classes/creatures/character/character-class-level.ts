@@ -56,13 +56,13 @@ export class CharacterClassLevel implements Serializable<CharacterClassLevel> {
 
     public addAbilityChoice(newChoice: AbilityChoice): AbilityChoice {
         const existingChoices = this.abilityChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = newChoice.clone();
+        const addedChoice = newChoice.clone().with({
+            id: `${ this.number }-Ability-${ newChoice.source }-${ existingChoices.length }`,
+        });
 
-        tempChoice.id = `${ this.number }-Ability-${ tempChoice.source }-${ existingChoices.length }`;
+        this.abilityChoices.push(addedChoice);
 
-        const newLength = this.abilityChoices.push(tempChoice);
-
-        return this.abilityChoices[newLength - 1];
+        return addedChoice;
     }
 
     public removeAbilityChoice(oldChoice: AbilityChoice): void {
@@ -82,13 +82,11 @@ export class CharacterClassLevel implements Serializable<CharacterClassLevel> {
 
     public addSkillChoice(newChoice: SkillChoice): SkillChoice {
         const existingChoices = this.skillChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = newChoice.clone();
+        const addedChoice = newChoice.clone().with({ id: `${ this.number }-Skill-${ newChoice.source }-${ existingChoices.length }` });
 
-        tempChoice.id = `${ this.number }-Skill-${ tempChoice.source }-${ existingChoices.length }`;
+        this.skillChoices.push(addedChoice);
 
-        const newLength: number = this.skillChoices.push(tempChoice);
-
-        return this.skillChoices[newLength - 1];
+        return addedChoice;
     }
 
     public removeSkillChoice(oldChoice: SkillChoice): void {
@@ -108,13 +106,11 @@ export class CharacterClassLevel implements Serializable<CharacterClassLevel> {
 
     public addLoreChoice(newChoice: LoreChoice): LoreChoice {
         const existingChoices = this.loreChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = newChoice.clone();
+        const addedChoice = newChoice.clone().with({ id: `${ this.number }-Lore-${ newChoice.source }-${ existingChoices.length }` });
 
-        tempChoice.id = `${ this.number }-Lore-${ tempChoice.source }-${ existingChoices.length }`;
+        this.loreChoices.push(addedChoice);
 
-        const newLength: number = this.loreChoices.push(tempChoice);
-
-        return this.loreChoices[newLength - 1];
+        return addedChoice;
     }
 
     public removeLoreChoice(oldChoice: LoreChoice): void {
@@ -123,19 +119,18 @@ export class CharacterClassLevel implements Serializable<CharacterClassLevel> {
 
     public addFeatChoice(newChoice: FeatChoice): FeatChoice {
         const existingChoices = this.featChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = newChoice.clone();
-
-        tempChoice.id =
-            `${ this.number }-${ tempChoice.type ? tempChoice.type : 'Feat' }-${ tempChoice.source }-${ existingChoices.length }`;
-
-        const newLength: number = this.featChoices.push(tempChoice);
-
-        this.featChoices[newLength - 1].feats.forEach(feat => {
-            feat.source = this.featChoices[newLength - 1].source;
-            feat.sourceId = this.featChoices[newLength - 1].id;
+        const addedChoice = newChoice.clone().with({
+            id: `${ this.number }-${ newChoice.type ? newChoice.type : 'Feat' }-${ newChoice.source }-${ existingChoices.length }`,
         });
 
-        return this.featChoices[newLength - 1];
+        addedChoice.feats.forEach(feat => {
+            feat.source = addedChoice.source;
+            feat.sourceId = addedChoice.id;
+        });
+
+        this.featChoices.push(addedChoice);
+
+        return addedChoice;
     }
 
     public removeFeatChoice(oldChoice: FeatChoice): void {

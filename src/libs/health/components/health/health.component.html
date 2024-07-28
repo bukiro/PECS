@@ -147,9 +147,12 @@
                                 </span>
                             }
 
-                            @if (temporaryHP.length === 1) {
+                            @if (
+                                temporaryHP.length === 1 && temporaryHP[0];
+                                as mainTemporaryHP
+                            ) {
                                 <span class="gap-text">
-                                    @if (temporaryHP[0].amount > 0) {
+                                    @if (mainTemporaryHP.amount > 0) {
                                         <button (click)="onSetTemporaryHP(0)">
                                             Remove
                                         </button>
@@ -158,16 +161,16 @@
                                     <div
                                         class="value"
                                         [ngbPopover]="
-                                            temporaryHP[0].source
+                                            mainTemporaryHP.source
                                                 ? 'Source: ' +
-                                                  temporaryHP[0].source
+                                                  mainTemporaryHP.source
                                                 : ''
                                         "
                                         [ngClass]="{
-                                            bonus: temporaryHP[0].amount > 0,
+                                            bonus: mainTemporaryHP.amount > 0,
                                         }"
                                     >
-                                        {{ temporaryHP[0].amount }}
+                                        {{ mainTemporaryHP.amount }}
                                     </div>
                                 </span>
                             }

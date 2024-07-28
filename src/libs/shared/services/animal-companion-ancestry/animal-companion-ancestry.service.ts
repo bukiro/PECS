@@ -72,13 +72,13 @@ export class AnimalCompanionAncestryService {
             if (_class.ancestry.gainItems.length) {
                 _class.ancestry.gainItems.forEach(freeItem => {
                     const items: Array<Equipment> =
-                        companion.inventories[0].itemsOfType<Equipment>(freeItem.type)
+                        companion.mainInventory.itemsOfType<Equipment>(freeItem.type)
                             ?.filter((item: Equipment) => item.id === freeItem.grantedItemID) || [];
 
                     items.forEach(item => {
                         this._inventoryService.dropInventoryItem(
                             companion,
-                            companion.inventories[0],
+                            companion.mainInventory,
                             item,
                             false,
                             true,

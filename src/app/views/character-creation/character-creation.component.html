@@ -2019,7 +2019,8 @@
                                                                                 feat.name
                                                                             ).split(
                                                                                 ': '
-                                                                            )[0]
+                                                                            )[0] ??
+                                                                            ''
                                                                         "
                                                                         [detail]="
                                                                             (
@@ -2027,7 +2028,7 @@
                                                                                 feat.name
                                                                             ).split(
                                                                                 ': '
-                                                                            )[1] ||
+                                                                            )[1] ??
                                                                             ''
                                                                         "
                                                                         [superTitle]="
@@ -2253,7 +2254,8 @@
                                                                                 feature.name
                                                                             ).split(
                                                                                 ': '
-                                                                            )[0]
+                                                                            )[0] ??
+                                                                            ''
                                                                         "
                                                                         [detail]="
                                                                             (
@@ -2261,7 +2263,7 @@
                                                                                 feature.name
                                                                             ).split(
                                                                                 ': '
-                                                                            )[1] ||
+                                                                            )[1] ??
                                                                             ''
                                                                         "
                                                                         [superTitle]="
@@ -2672,7 +2674,7 @@
                                                                                 ? takenSpecializations.length.toString() +
                                                                                   '/' +
                                                                                   available.toString()
-                                                                                : takenSpecializations.length
+                                                                                : takenSpecializations[0]
                                                                                   ? takenSpecializations[0]
                                                                                   : ''
                                                                         "
@@ -3137,7 +3139,7 @@
                                                                     .class
                                                                     .additionalHeritages[
                                                                     heritageIndex
-                                                                ].name,
+                                                                ]?.name,
                                                             ];
                                                             track $index
                                                         ) {
@@ -3156,12 +3158,12 @@
                                                                         class="newrow specialchoice"
                                                                         [ngClass]="{
                                                                             'fancy-button choicecleared':
-                                                                                character
+                                                                                !!character
                                                                                     .class
                                                                                     .additionalHeritages[
                                                                                     heritageIndex
                                                                                 ]
-                                                                                    .name,
+                                                                                    ?.name,
                                                                             activechoice:
                                                                                 shownList() ===
                                                                                     'additionalheritage' &&
@@ -3196,7 +3198,7 @@
                                                                                       .additionalHeritages[
                                                                                       heritageIndex
                                                                                   ]
-                                                                                      .name
+                                                                                      ?.name
                                                                                 : ""
                                                                         }}
                                                                     </button>
@@ -3253,17 +3255,18 @@
                                                                                       .additionalHeritages[
                                                                                       heritageIndex
                                                                                   ]
-                                                                                      .name
+                                                                                      ?.name
                                                                                 : '')
                                                                         "
                                                                         [title]="
                                                                             finished
-                                                                                ? character
+                                                                                ? (character
                                                                                       .class
                                                                                       .additionalHeritages[
                                                                                       heritageIndex
                                                                                   ]
-                                                                                      .name
+                                                                                      ?.name ??
+                                                                                  '')
                                                                                 : ''
                                                                         "
                                                                         [superTitle]="
@@ -3551,7 +3554,7 @@
                                                                         ? ": " +
                                                                           choice
                                                                               .increases[0]
-                                                                              .name
+                                                                              ?.name
                                                                         : ""
                                                                 }}
                                                             </button>
@@ -6673,8 +6676,8 @@
                                                         <strong>Skill</strong>
                                                         {{
                                                             type.skillChoices[0]
-                                                                .increases[0]
-                                                                .name
+                                                                ?.increases?.[0]
+                                                                ?.name
                                                         }}
                                                     </p>
 
@@ -7437,7 +7440,7 @@
                                                                 {{
                                                                     background
                                                                         .loreChoices[0]
-                                                                        .loreName
+                                                                        ?.loreName
                                                                 }}
                                                                 Lore.
                                                             </p>
@@ -7453,14 +7456,14 @@
                                                                 You're trained
                                                                 in
                                                                 {{
-                                                                    background.loreChoices[0].loreDesc
-                                                                        .substr(
+                                                                    background.loreChoices[0]?.loreDesc
+                                                                        ?.substr(
                                                                             0,
                                                                             1
                                                                         )
-                                                                        .toLowerCase()
+                                                                        ?.toLowerCase()
                                                                 }}{{
-                                                                    background.loreChoices[0].loreDesc.substr(
+                                                                    background.loreChoices[0]?.loreDesc?.substr(
                                                                         1
                                                                     )
                                                                 }}.
@@ -8154,12 +8157,12 @@
                                                 character.class
                                                     .additionalHeritages[
                                                     heritageIndex
-                                                ].name
+                                                ]?.name
                                                     ? ": " +
                                                       character.class
                                                           .additionalHeritages[
                                                           heritageIndex
-                                                      ].name
+                                                      ]?.name
                                                     : ""
                                             }}
                                         </header>
@@ -8183,7 +8186,7 @@
                                                         character.class
                                                             .additionalHeritages[
                                                             heritageIndex
-                                                        ].name,
+                                                        ]?.name,
                                                 ];
                                                 track $index
                                             ) {
@@ -8204,7 +8207,7 @@
                                                                         .class
                                                                         .additionalHeritages[
                                                                         heritageIndex
-                                                                    ].name),
+                                                                    ]?.name),
                                                         ];
                                                         track $index
                                                     ) {
@@ -8376,7 +8379,7 @@
                                                                                 .additionalHeritages[
                                                                                 heritageIndex
                                                                             ]
-                                                                                .name,
+                                                                                ?.name,
                                                                     ];
                                                                     track $index
                                                                 ) {
@@ -8398,7 +8401,7 @@
                                                                                             .additionalHeritages[
                                                                                             heritageIndex
                                                                                         ]
-                                                                                            .name),
+                                                                                            ?.name),
                                                                             ];
                                                                             track $index
                                                                         ) {

@@ -222,7 +222,7 @@ export class ArmorClassService {
                     this._creatureEquipmentService.equippedCreatureArmor$(armorCreature)
                         .pipe(
                             switchMap(armors =>
-                                (!isBaseArmorBonusSet && !!armors.length)
+                                (!isBaseArmorBonusSet && armors[0])
                                     ? combineLatest([
                                         CharacterFlatteningService.characterLevel$,
                                         // Get the profiency with either this armor or its category.
@@ -309,7 +309,7 @@ export class ArmorClassService {
                                                     );
                                                 }
 
-                                                if (armor.battleforged) {
+                                                if (armor?.battleforged) {
                                                     adHocRelatives.push(
                                                         Effect.from({
                                                             value: '+1',

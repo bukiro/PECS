@@ -7,6 +7,7 @@ import { EffectGain } from 'src/app/classes/effects/effect-gain';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/components/object-effects/object-effects.component';
 import { CommonModule } from '@angular/common';
+import { safeParseInt } from 'src/libs/shared/util/string-utils';
 
 @Component({
     selector: 'app-value-effects-buttons',
@@ -56,7 +57,7 @@ export class ValueEffectsButtonsComponent {
         this.quickValue$ =
             this.quickEffect$
                 .pipe(
-                    map(effect => parseInt(effect?.value ?? '0', 10) ?? 0),
+                    map(effect => safeParseInt(effect?.value, 0)),
                     shareReplay({ refCount: true, bufferSize: 1 }),
                 );
     }

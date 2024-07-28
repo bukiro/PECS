@@ -209,7 +209,7 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
                         (typeFilter.length || nameFilter.length) ? filteredConditions.includes(conditionName.toLowerCase()) : true
                     ),
                 )
-                .concat('', gain.selectedOtherConditions[index]),
+                .concat('', gain.selectedOtherConditions[index] ?? ''),
         )).sort();
     }
 

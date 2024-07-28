@@ -256,7 +256,7 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
                         ? this._creatureActivitiesService.creatureOwnedActivities$(this.creature)
                             .pipe(
                                 map(gains =>
-                                    gains.filter(gain => featData[0].valueAsStringArray('stances')?.includes(gain.name)),
+                                    gains.filter(gain => featData[0]?.valueAsStringArray('stances')?.includes(gain.name)),
                                 ),
                             )
                         : of([]),
@@ -300,7 +300,11 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
                                     activityGain.effectChoices.push({ condition: condition.name, choice: condition.choice });
                                 }
 
-                                if (condition && !choices.includes(activityGain.effectChoices?.[index]?.choice)) {
+                                if (
+                                    condition
+                                    && activityGain.effectChoices?.[index]
+                                    && !choices.includes(activityGain.effectChoices[index].choice)
+                                ) {
                                     activityGain.effectChoices[index] = { condition: condition.name, choice: condition.choice };
                                 }
                             });
@@ -348,11 +352,13 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
     }
 
     private _activitySpell(): ActivitySpellSet | undefined {
-        if (this.activity.castSpells.length) {
-            const spell = this._spellFromName(this.activity.castSpells[0].name);
+        const spellCast = this.activity.castSpells[0];
+
+        if (spellCast) {
+            const spell = this._spellFromName(spellCast.name);
 
             if (spell) {
-                return { spell, gain: this.activity.castSpells[0].spellGain, cast: this.activity.castSpells[0] };
+                return { spell, gain: spellCast.spellGain, cast: spellCast };
             } else {
                 return undefined;
             }

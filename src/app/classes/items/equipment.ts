@@ -6,7 +6,7 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/hint-effects-object';
 import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { safeParseInt, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ActivityGain } from '../activities/activity-gain';
 import { ItemActivity } from '../activities/item-activity';
 import { SpellChoice } from '../character-creation/spell-choice';
@@ -250,8 +250,8 @@ export abstract class Equipment extends Item {
             });
         });
 
-        if (this.choices.length && !this.choices.includes(this.choice)) {
-            this.choice = this.choices[0];
+        if (!this.choices.includes(this.choice)) {
+            this.choice = this.choices[0] ?? this.choice;
         }
 
         return this;
@@ -277,12 +277,12 @@ export abstract class Equipment extends Item {
     public gridIconValue(): string {
         const parts: Array<string> = [];
 
-        if (this.subType) {
-            parts.push(this.subType[0]);
+        if (this.subType.length) {
+            parts.push(this.subType.substring(0, 1));
         }
 
-        if (this.choice) {
-            parts.push(this.choice[0]);
+        if (this.choice.length) {
+            parts.push(this.choice.substring(0, 1));
         }
 
         return parts.join(',');
@@ -331,19 +331,6 @@ export abstract class Equipment extends Item {
 
     public effectiveBulk(): string {
         //Return either the bulk set by an oil, or the bulk of the item, possibly reduced by the material.
-        let bulk: string = this.bulk;
-
-        this.material.forEach(material => {
-            if (parseInt(this.bulk, 10) && parseInt(this.bulk, 10) !== 0) {
-                bulk = (parseInt(this.bulk, 10) + material.bulkModifier).toString();
-
-                if (parseInt(bulk, 10) === 0 && parseInt(this.bulk, 10) !== 0) {
-                    //Material can't reduce the bulk to 0.
-                    bulk = 'L';
-                }
-            }
-        });
-
         let oilBulk = '';
 
         this.oilsApplied.forEach(oil => {
@@ -351,9 +338,33 @@ export abstract class Equipment extends Item {
                 oilBulk = oil.bulkEffect;
             }
         });
-        bulk = (this.carryingBulk && !this.equipped) ? this.carryingBulk : bulk;
 
-        return oilBulk || bulk;
+        if (oilBulk) {
+            return oilBulk;
+        }
+
+        if (this.carryingBulk && !this.equipped) {
+            return this.carryingBulk;
+        }
+
+        let effectiveBulk: string = this.bulk;
+
+        const ownBulk = safeParseInt(this.bulk, 0);
+
+        if (ownBulk) {
+            this.material.forEach(material => {
+                const modifiedBulk = ownBulk + material.bulkModifier;
+
+                if (modifiedBulk === 0 && ownBulk !== 0) {
+                    //Material can't reduce the bulk to 0. If the bulk is reduced from above 0 to 0, it is 'L' instead.
+                    effectiveBulk = 'L';
+                } else {
+                    effectiveBulk = String(modifiedBulk);
+                }
+            });
+        }
+
+        return effectiveBulk;
     }
 
     /** Return the highest value of your potency rune or any oils that emulate one. */

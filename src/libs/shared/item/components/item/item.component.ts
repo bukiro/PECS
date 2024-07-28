@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { Subject, Subscription, Observable, switchMap } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
@@ -184,9 +185,9 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
     public doublingRingsOptions(ring: string): Array<Weapon> {
         switch (ring) {
             case 'gold':
-                return this.creature.inventories[0].weapons.filter(weapon => weapon.melee && weapon.potencyRune);
+                return this.creature.mainInventory.weapons.filter(weapon => weapon.melee && weapon.potencyRune);
             case 'iron':
-                return this.creature.inventories[0].weapons.filter(weapon => weapon.melee);
+                return this.creature.mainInventory.weapons.filter(weapon => weapon.melee);
             default:
                 return [];
         }
@@ -231,7 +232,7 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
         let hasFoundSpellGain = false;
 
         for (let index = 0; index < item.gainSpells.length; index++) {
-            if (!hasFoundSpellGain && item.gainSpells[index].ringOfWizardry === (wizardrySlotIndex + 1)) {
+            if (!hasFoundSpellGain && item.gainSpells[index]?.ringOfWizardry === (wizardrySlotIndex + 1)) {
                 hasFoundSpellGain = true;
                 item.gainSpells.splice(index, 1);
                 break;
@@ -241,31 +242,33 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
         let hasFoundEffect = false;
 
         for (let index = 0; index < item.effects.length; index++) {
-            if (!hasFoundEffect && item.effects[index].source === `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`) {
+            if (!hasFoundEffect && item.effects[index]?.source === `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`) {
                 hasFoundEffect = true;
                 item.effects.splice(index, 1);
                 break;
             }
         }
 
+        const dataValue = item.data[wizardrySlotIndex]?.value as string;
+
         //If a new spellcasting has been selected, either add a new spellgain or effectgain.
-        if (item.data[wizardrySlotIndex].value !== 'no spellcasting selected') {
-            const dataValue = (item.data[wizardrySlotIndex].value as string);
+        if (dataValue !== 'no spellcasting selected') {
             const [className, tradition, castingType] = dataValue.split(' ');
 
-            if (castingType.toLowerCase() === 'prepared') {
-                const newSpellGain = new SpellChoice();
+            if (castingType?.toLowerCase() === 'prepared') {
+                const newSpellGain = SpellChoice.from({
+                    available: 1,
+                    className,
+                    castingType: SpellCastingTypes.Prepared,
+                    tradition: tradition ? spellTraditionFromString(tradition) : undefined,
+                    level: wizardrySlot.level,
+                    ringOfWizardry: (wizardrySlotIndex + 1),
+                    source: item.name,
+                });
 
-                newSpellGain.available = 1;
-                newSpellGain.className = className;
-                newSpellGain.castingType = SpellCastingTypes.Prepared;
-                newSpellGain.tradition = spellTraditionFromString(tradition);
-                newSpellGain.level = wizardrySlot.level;
-                newSpellGain.ringOfWizardry = (wizardrySlotIndex + 1);
-                newSpellGain.source = item.name;
                 item.gainSpells.push(newSpellGain);
                 this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'Spells');
-            } else if (castingType.toLowerCase() === 'spontaneous') {
+            } else if (castingType?.toLowerCase() === 'spontaneous') {
                 item.effects.push(EffectGain.from({
                     affected: `${ className } ${ castingType } Level ${ wizardrySlot.level } Spell Slots`,
                     value: '1',
@@ -294,13 +297,13 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
             'Transmutation',
         ].filter(school =>
             school === 'no school attuned' ||
-            item.data[index].value === school ||
+            item.data[index]?.value === school ||
             !item.data.some((data, dataIndex) => dataIndex <= item.isTalismanCord && data.value === school),
         );
     }
 
     public runeStoredSpell(rune: Rune): Spell | undefined {
-        if (rune.storedSpells.length && rune.storedSpells[0].spells.length) {
+        if (rune.storedSpells.length && rune.storedSpells[0]?.spells[0]) {
             return this.spellFromName(rune.storedSpells[0].spells[0].name);
         }
     }
@@ -334,7 +337,7 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
         const spellChoice = rune.storedSpells[0];
 
         if (spellChoice && spellName) {
-            const spell = this.spellFromName(rune.storedSpells[0]?.spells[0]?.name);
+            const spell = this.spellFromName(spellName);
             let target: SpellTargetSelection = '';
 
             if (spell.target === 'self') {

@@ -330,7 +330,7 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
         item.crafted = true;
         this._inventoryService.grantInventoryItem(
             item,
-            { creature: CreatureService.character, inventory: CreatureService.character.inventories[0], amount },
+            { creature: CreatureService.character, inventory: CreatureService.character.mainInventory, amount },
             { resetRunes: false },
         );
     }
@@ -389,8 +389,10 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
     }
 
     public onPrepareForQuickCrafting(item: Item, amount: number): void {
-        if (this._learnedFormulas(item.id).length) {
-            this._learnedFormulas(item.id)[0].snareSpecialistPrepared += amount;
+        const learnedFormula = this._learnedFormulas(item.id)[0];
+
+        if (learnedFormula) {
+            learnedFormula.snareSpecialistPrepared += amount;
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
@@ -399,8 +401,10 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
     }
 
     public amountOfItemPreparedForQuickCrafting(item: Item): number {
-        if (this._learnedFormulas(item.id).length) {
-            return this._learnedFormulas(item.id)[0].snareSpecialistPrepared;
+        const learnedFormula = this._learnedFormulas(item.id)[0];
+
+        if (learnedFormula) {
+            return learnedFormula.snareSpecialistPrepared;
         } else {
             return 0;
         }

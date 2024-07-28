@@ -406,12 +406,12 @@ export class Character extends Creature implements Serializable<Character> {
     }
 
     public classLevelFromNumber(number: number): CharacterClassLevel {
-        return this.class.levels[number];
+        return this.class.levels[number] ?? new CharacterClassLevel();
     }
 
     public hasTooManySlottedAeonStones(): boolean {
         //If more than one wayfinder with slotted aeon stones is invested, you do not gain the benefits of any of them.
-        return this.inventories[0].wornitems
+        return this.mainInventory.wornitems
             .filter(item => item.isWayfinder && item.investedOrEquipped() && item.aeonStones.length)
             .length > Defaults.maxInvestedAeonStones;
     }

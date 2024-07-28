@@ -246,7 +246,7 @@ export class ActivitiesProcessingService {
                             const librarySpell = this._spellsDataService.spellFromName(cast.name);
 
                             if (librarySpell) {
-                                if (context.gain.spellEffectChoices[spellCastIndex].length) {
+                                if (context.gain.spellEffectChoices[spellCastIndex]?.length) {
                                     cast.spellGain.effectChoices = context.gain.spellEffectChoices[spellCastIndex];
                                 }
 

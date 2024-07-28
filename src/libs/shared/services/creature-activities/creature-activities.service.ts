@@ -15,6 +15,7 @@ import { sortAlphaNum } from '../../util/sort-utils';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { TraitsDataService } from '../data/traits-data.service';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
+import { Trait } from 'src/app/classes/hints/trait';
 
 @Injectable({
     providedIn: 'root',
@@ -132,7 +133,7 @@ export class CreatureActivitiesService {
 
                     item.traits
                         .map(trait => this._traitsDataService.traits(trait)[0])
-                        .filter(trait => trait?.gainActivities.length)
+                        .filter((trait): trait is Trait => !!trait?.gainActivities.length)
                         .forEach(trait => {
                             activities.push(...trait.gainActivities);
                         });
@@ -147,7 +148,7 @@ export class CreatureActivitiesService {
             //Without the all parameter, get activities only from equipped and invested items and their slotted items.
             const hasTooManySlottedAeonStones = creature.isCharacter() && creature.hasTooManySlottedAeonStones();
 
-            creature.inventories[0]?.allEquipment()
+            creature.mainInventory?.allEquipment()
                 .filter(item =>
                     item.investedOrEquipped() &&
                     !item.broken,
@@ -194,7 +195,7 @@ export class CreatureActivitiesService {
 
                     item.traits
                         .map(trait => this._traitsDataService.traits(trait)[0])
-                        .filter(trait => trait?.gainActivities.length)
+                        .filter((trait): trait is Trait => !!trait?.gainActivities.length)
                         .forEach(trait => {
                             activities.push(...trait.gainActivities);
                         });

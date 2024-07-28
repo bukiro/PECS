@@ -159,11 +159,17 @@ export class ScrollSavantService {
                                     const available = spellDCLevel * half;
 
                                     if (
-                                        casting.scrollSavant.some(scroll => scroll.storedSpells[0].level > maxSpellLevel)
+                                        casting.scrollSavant
+                                            .some(scroll =>
+                                                scroll.storedSpells[0] && scroll.storedSpells[0].level > maxSpellLevel,
+                                            )
                                         || casting.scrollSavant.length > available
                                     ) {
                                         const scrolls =
-                                            casting.scrollSavant.filter(scroll => scroll.storedSpells[0].level <= maxSpellLevel);
+                                            casting.scrollSavant
+                                                .filter(scroll =>
+                                                    scroll.storedSpells[0] && scroll.storedSpells[0].level <= maxSpellLevel,
+                                                );
 
                                         scrolls.length = Math.min(available, scrolls.length);
 

@@ -47,11 +47,21 @@ export class ArmorPropertiesService {
     ): Observable<number> {
         if (creature.isFamiliar()) { return of(0); }
 
+        const armorNameSkill =
+            this._skillsDataService.skills(
+                creature.customSkills,
+                armor.name,
+                { type: 'Specific Weapon Proficiency' },
+                { noSubstitutions: false },
+            )[0];
+
         return combineLatest([
-            this._skillValuesService.level$(
-                this._skillsDataService.skills(creature.customSkills, armor.name, { type: 'Specific Weapon Proficiency' })[0],
-                creature,
-            ),
+            armorNameSkill
+                ? this._skillValuesService.level$(
+                    armorNameSkill,
+                    creature,
+                )
+                : of(0),
             this.effectiveProficiency$(armor, { creature })
                 .pipe(
                     switchMap(proficiency => this._skillValuesService.level$(

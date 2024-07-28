@@ -17,7 +17,7 @@ import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
-import { stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { capitalize, stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { FormsModule } from '@angular/forms';
 import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { NgbPopover, NgbProgressbar, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -301,7 +301,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                             res.target = res.target.toLowerCase().replace('resistance', 'weakness');
                         }
 
-                        res.target = res.target.split(' ').map(word => word[0].toUpperCase() + word.substr(1).toLowerCase())
+                        res.target = res.target.split(' ').map(capitalize)
                             .join(' ');
                     });
 
@@ -323,7 +323,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                     });
 
                     immunities.forEach(immunity => {
-                        immunity.target = immunity.target.split(' ').map(word => word[0].toUpperCase() + word.substring(1).toLowerCase())
+                        immunity.target = immunity.target.split(' ').map(capitalize)
                             .join(' ');
                     });
 

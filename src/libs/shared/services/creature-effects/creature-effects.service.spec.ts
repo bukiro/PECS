@@ -34,7 +34,7 @@ describe('CreatureEffectsService', () => {
             ]);
 
             expect(result.length).toEqual(1);
-            expect(result[0].setValueNumerical).toEqual(highestSetValue);
+            expect(result[0]?.setValueNumerical).toEqual(highestSetValue);
         });
 
         it('should return an array including the lowest effect if lowerIsBetter is set', () => {
@@ -50,7 +50,7 @@ describe('CreatureEffectsService', () => {
             );
 
             expect(result.length).toEqual(1);
-            expect(result[0].setValueNumerical).toEqual(lowestSetValue);
+            expect(result[0]?.setValueNumerical).toEqual(lowestSetValue);
         });
     });
 });

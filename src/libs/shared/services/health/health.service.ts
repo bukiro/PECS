@@ -95,11 +95,13 @@ export class HealthService {
         return this.maxHP$(creature)
             .pipe(
                 map(maxHP => {
-                    let sum = maxHP.result + health.temporaryHP[0].amount - health.damage;
+                    const tempHP = health.mainTemporaryHP;
+
+                    let sum = maxHP.result + tempHP.amount - health.damage;
                     let explain = `Max HP: ${ maxHP.result }`;
 
-                    if (health.temporaryHP[0].amount) {
-                        explain += `\nTemporary HP: ${ health.temporaryHP[0].amount }`;
+                    if (tempHP.amount) {
+                        explain += `\nTemporary HP: ${ tempHP.amount }`;
                     }
 
                     //You can never get under 0 HP. If you do (because you just took damage), that gets corrected here,
@@ -173,21 +175,27 @@ export class HealthService {
     ): Observable<{ dyingAddedAmount: number; hasAddedUnconscious: boolean; hasRemovedUnconscious: boolean }> {
         const health = creature.health;
 
+        const tempHP = health.mainTemporaryHP;
+
         // First, absorb damage with temporary HP and add the rest to this.damage.
         // Reset temp HP if it has reached 0,
         // and remove other options if you are starting to use up your first amount of temp HP.
-        const diff = Math.min(health.temporaryHP[0].amount, amount);
+        if (tempHP.amount) {
+            const diff = Math.min(tempHP.amount, amount);
 
-        health.temporaryHP[0].amount -= diff;
-        health.temporaryHP.length = 1;
+            tempHP.amount -= diff;
+            health.temporaryHP.length = 1;
 
-        if (health.temporaryHP[0].amount <= 0) {
-            health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
+            if (tempHP.amount <= 0) {
+                health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
+            }
+
+            const remainingAmount = amount - diff;
+
+            health.damage += remainingAmount;
+        } else {
+            health.damage += amount;
         }
-
-        const remainingAmount = amount - diff;
-
-        health.damage += remainingAmount;
 
         return this.currentHP$(creature)
             .pipe(

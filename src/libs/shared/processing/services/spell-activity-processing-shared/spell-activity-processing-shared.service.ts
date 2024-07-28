@@ -197,8 +197,13 @@ export class SpellActivityProcessingSharedService {
             // no matter if they have choices in them, so the conditionIndex can be used to look them up.
             // We can compare the condition's choices directly without regenerating its effective choices,
             // since the selection can only have been among the effective choices.
-            if (condition.choices.some(choice => choice.name === context.gain.effectChoices[conditionIndex].choice)) {
-                return of(context.gain.effectChoices[conditionIndex].choice);
+            const effectChoice = context.gain.effectChoices[conditionIndex];
+
+            if (
+                effectChoice
+                && condition.choices.some(choice => choice.name === effectChoice.choice)
+            ) {
+                return of(effectChoice.choice);
             }
         }
 

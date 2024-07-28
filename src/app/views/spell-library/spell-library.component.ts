@@ -328,7 +328,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
                                 let adaptiveAdept1stLevelAvailable = 0;
 
                                 if (level === SpellLevels.Cantrip) {
-                                    wizardAvailable = wizardCasting.spellBookSlots[level];
+                                    wizardAvailable = wizardCasting.spellBookSlots[level] ?? 0;
                                     adaptedCantripAvailable = this._characterHasFeat$('Adapted Cantrip') ? 1 : 0;
                                     adaptiveAdeptCantripAvailable = this._characterHasFeat$('Adaptive Adept: Cantrip') ? 1 : 0;
                                 } else {
@@ -337,7 +337,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
                                     const maximumSpellbookSlot = Math.min(charLevel, level * SpellLevelToCharLevelFactor);
 
                                     for (let index = minimumSpellbookSlot; index <= maximumSpellbookSlot; index++) {
-                                        wizardAvailable += wizardCasting.spellBookSlots[index];
+                                        wizardAvailable += wizardCasting.spellBookSlots[index] ?? 0;
                                     }
                                 }
 
@@ -607,8 +607,8 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
         return options;
     }
 
-    public isSpellLearned(name: string): SpellLearned {
-        return this._character.class?.learnedSpells(name)[0] || null;
+    public isSpellLearned(name: string): SpellLearned | null {
+        return this._character.class?.learnedSpells(name)[0] ?? null;
     }
 
     public learnSpell(spell: Spell, source: string): void {
@@ -672,7 +672,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
                 selected
                     .sort((a, b) => sortAlphaNum(a.level.toString().padStart(twoDigits, '0'), b.level.toString().padStart(twoDigits, '0')))
                     .forEach(choice => {
-                        result += `\n${ choice.spells[0].name } (level ${ choice.level })`;
+                        result += `\n${ choice.spells[0]?.name } (level ${ choice.level })`;
                     });
 
                 return result;
@@ -809,19 +809,19 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
 
                         if (level === 0) {
                             wizardAvailableFromLevel =
-                                casting.spellBookSlots[level] - adaptedCantripAvailable - adaptiveAdeptCantripAvailable;
+                                (casting.spellBookSlots[level] ?? 0) - adaptedCantripAvailable - adaptiveAdeptCantripAvailable;
                             wizardAvailableAll =
-                                casting.spellBookSlots[level] - adaptedCantripAvailable - adaptiveAdeptCantripAvailable;
+                                (casting.spellBookSlots[level] ?? 0) - adaptedCantripAvailable - adaptiveAdeptCantripAvailable;
                         } else {
                             const SpellLevelToCharLevelFactor = 2;
                             const minimumSpellbookSlot = level * SpellLevelToCharLevelFactor - 1;
 
                             for (let index = minimumSpellbookSlot; index <= characterLevel; index++) {
-                                wizardAvailableFromLevel += casting.spellBookSlots[index];
+                                wizardAvailableFromLevel += casting.spellBookSlots[index] ?? 0;
                             }
 
                             for (let index = 1; index <= characterLevel; index++) {
-                                wizardAvailableAll += casting.spellBookSlots[index];
+                                wizardAvailableAll += casting.spellBookSlots[index] ?? 0;
                             }
                         }
 
@@ -848,7 +848,9 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
                         const schoolLearned: number = this._learnedSpells('school', level).length;
 
                         if (level === 1 && wizardSchool) {
-                            if (wizardSchool !== 'Universalist Wizard' && spell.traits.includes(wizardSchool.split(' ')[0])) {
+                            const schoolName = wizardSchool.split(' ')[0];
+
+                            if (wizardSchool !== 'Universalist Wizard' && schoolName && spell.traits.includes(schoolName)) {
                                 schoolAvailable += 1;
                             }
                         }

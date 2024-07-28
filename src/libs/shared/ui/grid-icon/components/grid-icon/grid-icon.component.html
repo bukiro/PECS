@@ -60,7 +60,7 @@
         @if (iconSubTitleResult.includes("actionIcons|")) {
             <span class="iconSubTitle disable-text-selection">
                 <app-action-icons
-                    [actionString]="iconSubTitleResult.split('|')[1]"
+                    [actionString]="iconSubTitleResult.split('|')[1] ?? ''"
                 />
 
                 @if (iconSubTitleResult.split("|").length > 1) {

@@ -92,16 +92,24 @@ export class CircularMenuComponent extends TrackByMixin(ButtonComponent) {
             return undefined;
         }
 
+        const oldOptions = this.options;
+
         // If the number of options has not changed, transfer the left and top values to the each equivalent new option.
         // That way, the buttons don't wildly change position.
         // If the number has changed, assume that the buttons have changed, and close the menu.
-        if (this.options && this.options.length === options.length) {
-            return options.map((option, index) => ({
-                ...option,
-                left: this.options?.[index].left,
-                top: this.options?.[index].top,
-                transform: this.options?.[index].transform,
-            }));
+        if (oldOptions?.length === options.length) {
+            return options.map((option, index) => {
+                const oldOption = oldOptions[index];
+
+                return oldOption
+                    ? {
+                        ...option,
+                        left: oldOption.left,
+                        top: oldOption.top,
+                        transform: oldOption.transform,
+                    }
+                    : { ...option };
+            });
         } else {
             this.showOptions = false;
         }

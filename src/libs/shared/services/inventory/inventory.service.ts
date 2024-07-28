@@ -71,7 +71,7 @@ export class InventoryService {
         // The amount must be parsed because it could be set to anything during custom item creation.
         // If no items are found, add the new item to the inventory.
         // Set returnedInventoryItem to either the found or the new item for further processing.
-        if (existingItems.length) {
+        if (existingItems[0]) {
             let intAmount = 1;
 
             try {
@@ -90,7 +90,7 @@ export class InventoryService {
             const newInventoryLength =
                 targetTypes.push(newInventoryItem);
 
-            returnedItem = targetTypes[newInventoryLength - 1];
+            returnedItem = targetTypes[newInventoryLength - 1] as T;
 
             if (context.amount > 1) {
                 returnedItem.amount = context.amount;

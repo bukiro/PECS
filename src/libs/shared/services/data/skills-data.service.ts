@@ -72,7 +72,7 @@ export class SkillsDataService {
     }
 
     public skillFromName(name: string, customSkills: Array<Skill> = []): Skill {
-        return this.skills(customSkills, name)[0];
+        return this.skills(customSkills, name)[0] ?? this._tempSkill(name, { type: '' });
     }
 
     public initialize(): void {
@@ -107,9 +107,11 @@ export class SkillsDataService {
         if (skill) {
             return skill;
         } else {
-            const newLength = this._tempSkills.push(new Skill('', name, filter.type, false, false));
+            const addedSkill = new Skill('', name, filter.type, false, false);
 
-            return this._tempSkills[newLength - 1];
+            this._tempSkills.push(addedSkill);
+
+            return addedSkill;
         }
     }
 

@@ -22,7 +22,6 @@ import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-p
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
@@ -97,7 +96,6 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
     private _itemRoles?: ItemRoles;
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _itemRolesService: ItemRolesService,
@@ -106,7 +104,6 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
         private readonly _inventoryService: InventoryService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _basicEquipmentService: BasicEquipmentService,
-        private readonly _recastService: RecastService,
     ) {
         super();
     }
@@ -218,7 +215,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
         const allRunes: Array<PropertyRuneSet> = [{ rune: undefined, inv: undefined }];
 
         //Add the current choice, if the item has a rune at that index.
-        if (item.propertyRunes[index]) {
+        if (item.propertyRunes[index] && this.newPropertyRune[index]) {
             allRunes.push(this.newPropertyRune[index]);
         }
 
@@ -263,8 +260,8 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
 
     public onSelectPropertyRune(index: number): void {
         const item = this.item;
-        const rune = this.newPropertyRune[index].rune;
-        const inv = this.newPropertyRune[index].inv;
+        const rune = this.newPropertyRune[index]?.rune;
+        const inv = this.newPropertyRune[index]?.inv;
 
         if (!item.propertyRunes[index] || rune !== item.propertyRunes[index]) {
             // If there is a rune in this slot, return the old rune to the inventory,
@@ -280,28 +277,28 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
             // Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
             if (rune) {
                 // Add a copy of the rune to the item
-                let newLength = 0;
+                let newRune: ArmorRune | WeaponRune | undefined;
 
                 if (item.isArmor()) {
-                    newLength = item.propertyRunes.push(rune.clone(RecastService.recastFns) as ArmorRune);
+                    newRune = rune.clone(RecastService.recastFns).with({ amount: 1 }, RecastService.recastFns) as ArmorRune;
+                    item.propertyRunes.push(newRune);
                 } else if (item.isWeapon() || item.isWornItem()) {
-                    newLength = item.propertyRunes.push(rune.clone(RecastService.recastFns) as WeaponRune);
+                    newRune = rune.clone(RecastService.recastFns).with({ amount: 1 }, RecastService.recastFns) as WeaponRune;
+                    item.propertyRunes.push(newRune);
                 }
 
-                const newRune = item.propertyRunes[newLength - 1];
+                if (newRune) {
+                    // If we are not in the item store, remove the inserted rune from the inventory,
+                    // either by decreasing the amount or by dropping the item.
+                    // Also add the rune's lore if needed.
+                    if (!this.itemStore) {
+                        if (inv) {
+                            this._inventoryService.dropInventoryItem(this._character, inv, rune, false, false, false, 1);
+                        }
 
-                newRune.amount = 1;
-
-                // If we are not in the item store, remove the inserted rune from the inventory,
-                // either by decreasing the amount or by dropping the item.
-                // Also add the rune's lore if needed.
-                if (!this.itemStore) {
-                    if (inv) {
-                        this._inventoryService.dropInventoryItem(this._character, inv, rune, false, false, false, 1);
-                    }
-
-                    if ((item.propertyRunes[newLength - 1]).loreChoices.length) {
-                        this._characterLoreService.addRuneLore(item.propertyRunes[newLength - 1]);
+                        if (newRune.loreChoices.length) {
+                            this._characterLoreService.addRuneLore(newRune);
+                        }
                     }
                 }
             }
@@ -684,12 +681,12 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
 
                     if (weapon.potencyRune > 0) {
                         const insertedRune: WeaponRune | undefined =
-                            character.inventories[0].weaponrunes.find(rune => rune.potency === weapon.potencyRune);
+                            character.mainInventory.weaponrunes.find(rune => rune.potency === weapon.potencyRune);
 
                         if (insertedRune) {
                             this._inventoryService.dropInventoryItem(
                                 character,
-                                character.inventories[0],
+                                character.mainInventory,
                                 insertedRune,
                                 false,
                                 false,
@@ -735,12 +732,12 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
 
                     if (weapon.strikingRune > 0) {
                         const insertedRune: WeaponRune | undefined =
-                            character.inventories[0].weaponrunes.find(rune => rune.striking === weapon.strikingRune);
+                            character.mainInventory.weaponrunes.find(rune => rune.striking === weapon.strikingRune);
 
                         if (insertedRune) {
                             this._inventoryService.dropInventoryItem(
                                 character,
-                                character.inventories[0],
+                                character.mainInventory,
                                 insertedRune,
                                 false,
                                 false,
@@ -778,12 +775,12 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
 
                     if (armor.potencyRune > 0) {
                         const insertedRune: ArmorRune | undefined =
-                            character.inventories[0].armorrunes.find(rune => rune.potency === armor.potencyRune);
+                            character.mainInventory.armorrunes.find(rune => rune.potency === armor.potencyRune);
 
                         if (insertedRune) {
                             this._inventoryService.dropInventoryItem(
                                 character,
-                                character.inventories[0],
+                                character.mainInventory,
                                 insertedRune,
                                 false,
                                 false,
@@ -829,12 +826,12 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
 
                     if (armor.strikingRune > 0) {
                         const insertedRune: ArmorRune | undefined =
-                            character.inventories[0].armorrunes.find(rune => rune.resilient === armor.resilientRune);
+                            character.mainInventory.armorrunes.find(rune => rune.resilient === armor.resilientRune);
 
                         if (insertedRune) {
                             this._inventoryService.dropInventoryItem(
                                 character,
-                                character.inventories[0],
+                                character.mainInventory,
                                 insertedRune,
                                 false,
                                 false,
@@ -855,7 +852,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
 
         this._inventoryService.grantInventoryItem(
             rune,
-            { creature: character, inventory: character.inventories[0] },
+            { creature: character, inventory: character.mainInventory },
             { resetRunes: false, changeAfter: false, equipAfter: false },
         );
     }
@@ -865,7 +862,11 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
     }
 
     private _returnPropertyRuneToInventory(index: number): void {
-        const oldRune: Rune = this.item.propertyRunes[index];
+        const oldRune = this.item.propertyRunes[index];
+
+        if (!oldRune) {
+            return;
+        }
 
         // Deactivate any active toggled activities of the removed rune.
         oldRune.activities

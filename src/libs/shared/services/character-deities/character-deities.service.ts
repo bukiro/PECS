@@ -54,7 +54,7 @@ export class CharacterDeitiesService {
                             .pipe(
                                 switchMap(characterClass => characterClass.filteredFeatData$(0, 0, 'Syncretism')),
                                 switchMap(featData =>
-                                    (featData[0].level && featData[0].level <= atLevel)
+                                    (featData[0]?.level && featData[0].level <= atLevel)
                                         ? featData[0].valueAsString$('deity')
                                         : of(null),
                                 ),

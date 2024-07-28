@@ -16,6 +16,7 @@ import { ConditionsDataService } from '../data/conditions-data.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 import { Condition } from 'src/app/classes/conditions/condition';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
+import { filterDefinedArrayMembers } from '../../util/array-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -34,7 +35,7 @@ export class SpellPropertiesService {
         // For now, we figure out which skills are going to be needed and get them before the eval.
         // Do check if this actually works once the app compiles again.
         const regex = /Skill_Level\('(.+?)'\)/gm;
-        const requiredSkillLevels: Array<string> = [];
+        const requiredSkillLevels: Array<string | undefined> = [];
 
         regex.exec(choice.dynamicAvailable)?.forEach(match => {
             requiredSkillLevels.push(match[1]);
@@ -42,11 +43,12 @@ export class SpellPropertiesService {
 
         return combineLatest([
             CharacterFlatteningService.characterLevel$,
-            emptySafeCombineLatest(requiredSkillLevels
-                .map(name => this._skillValuesService.level$(name, CreatureService.character)
-                    .pipe(
-                        map(skillLevel => ({ name, skillLevel })),
-                    )),
+            emptySafeCombineLatest(
+                filterDefinedArrayMembers(requiredSkillLevels)
+                    .map(name => this._skillValuesService.level$(name, CreatureService.character)
+                        .pipe(
+                            map(skillLevel => ({ name, skillLevel })),
+                        )),
             ),
         ])
             .pipe(

@@ -364,9 +364,9 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
     }
 
     public gridIconTitle(allowed: number, choice: FeatChoice): string {
-        if (choice.feats.length && allowed > 0) {
+        if (choice.feats[0] && allowed > 0) {
             if (allowed === 1) {
-                return choice.feats[0].name.split(': ')[0];
+                return choice.feats[0].name.split(': ')[0] ?? '';
             } else {
                 return choice.feats.length.toString();
             }
@@ -394,14 +394,14 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
     public removeBonusFeatChoice(choice: FeatChoice): void {
         const character = CreatureService.character;
         const level = character.class.levels[this.levelNumber];
-        const oldChoice = level.featChoices.find(existingChoice => existingChoice.id === choice.id);
+        const oldChoice = level?.featChoices.find(existingChoice => existingChoice.id === choice.id);
 
         //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
         if (oldChoice) {
             oldChoice.feats.forEach(feat => {
                 this._featTakingService.takeFeat(character, undefined, feat.name, false, oldChoice, false);
             });
-            level.removeFeatChoice(oldChoice);
+            level?.removeFeatChoice(oldChoice);
         }
 
         this.toggleShownList('');
@@ -444,7 +444,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
 
                     if (allowedFeats > 1) {
                         title += `: ${ takenFeats.length }/${ allowedFeats }`;
-                    } else if (takenFeats.length) {
+                    } else if (takenFeats[0]) {
                         title += `: ${ takenFeats[0].name }`;
                     }
 

@@ -212,24 +212,27 @@
                             <span>
                                 {{ conditionSet.condition.name }} effect
                                 selection:
-                                <select
-                                    aria-label="Select condition effect"
-                                    [(ngModel)]="
-                                        gain.spellEffectChoices[spellCastIndex][
-                                            conditionSetIndex
-                                        ].choice
-                                    "
-                                    (ngModelChange)="onEffectChoiceChange()"
-                                >
-                                    @for (
-                                        choice of conditionSet.choices;
-                                        track $index
-                                    ) {
-                                        <option [ngValue]="choice">
-                                            {{ choice }}
-                                        </option>
-                                    }
-                                </select>
+                                @if (
+                                    gain.spellEffectChoices[spellCastIndex]?.[
+                                        conditionSetIndex
+                                    ];
+                                    as effectChoice
+                                ) {
+                                    <select
+                                        aria-label="Select condition effect"
+                                        [(ngModel)]="effectChoice.choice"
+                                        (ngModelChange)="onEffectChoiceChange()"
+                                    >
+                                        @for (
+                                            choice of conditionSet.choices;
+                                            track $index
+                                        ) {
+                                            <option [ngValue]="choice">
+                                                {{ choice }}
+                                            </option>
+                                        }
+                                    </select>
+                                }
                             </span>
                         </div>
                     }

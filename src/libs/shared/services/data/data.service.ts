@@ -49,10 +49,14 @@ export class DataService {
         data: ImportedJsonFileList<T>,
         name: string,
     ): ImportedJsonFileList<T> {
-        if (this.extensions[name]) {
-            Object.keys(this.extensions[name]).forEach(key => {
-                data[key] = this.extensions[name][key];
-            });
+        const extension = this.extensions[name] as ImportedJsonFileList<T> | undefined;
+
+        if (extension) {
+            Object.keys(extension)
+                .forEach(key => {
+                    data[key] =
+                        extension[key] as ImportedJsonFileList<T>[keyof ImportedJsonFileList<T>];
+                });
         }
 
         return data;
@@ -102,6 +106,8 @@ export class DataService {
         identifiers: MultipleIdentifiers,
         listName: string,
     ): Array<T> {
+        const deleteIdentifier = identifiers[0];
+
         const oldcount = data.length;
         const duplicates: Array<string> = Array.from(new Set(
             data
@@ -128,16 +134,22 @@ export class DataService {
             const highestItem = data.find(item =>
                 !identifiers
                     .map((identifier, index) => item[identifier] === duplicateIdentifiers[index])
-                    .some(result => !result) && (item.overridePriority || 0) === highestPriority,
+                    .some(result => !result)
+                && (item.overridePriority || 0) === highestPriority,
             );
 
             data
                 .filter(item =>
                     !identifiers
                         .map((identifier, index) => item[identifier] === duplicateIdentifiers[index])
-                        .some(result => !result) && item !== highestItem,
+                        .some(result => !result)
+                    && item !== highestItem,
                 )
-                .forEach(item => { item[identifiers[0]] = 'DELETE'; });
+                .forEach(item => {
+                    if (deleteIdentifier) {
+                        item[deleteIdentifier] = 'DELETE';
+                    }
+                });
 
             if (highestItem) {
                 winners.push(
@@ -161,7 +173,7 @@ export class DataService {
             console.log(winners);
         }
 
-        return data.filter(item => item[identifiers[0]] !== 'DELETE');
+        return data.filter(item => !deleteIdentifier || item[deleteIdentifier] !== 'DELETE');
     }
 
     private _initialize(): void {
@@ -246,8 +258,8 @@ export class DataService {
 
                                 this.extensions[target][extension.key] = extension.data;
 
-                                this.extensions[target][extension.key]
-                                    .forEach((obj: OverrideType<object>) => { obj._extensionFileName = extension.filename; });
+                                (this.extensions[target][extension.key] as Array<OverrideType<object>>)
+                                    .forEach(obj => { obj._extensionFileName = extension.filename; });
                             });
                         }
                     },

@@ -458,7 +458,10 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
                                     (
                                         creatureType === CreatureTypes.Character &&
                                         item.isScroll() &&
-                                        item.storedSpells[0]?.level <= maxSpellLevel - scrollSavantMaxLevelDifference &&
+                                        (
+                                            !item.storedSpells[0] ||
+                                            item.storedSpells[0]?.level <= maxSpellLevel - scrollSavantMaxLevelDifference
+                                        ) &&
                                         !scrollSavant.find(scroll => scroll.refId === item.id)
                                     )
                                     : true
@@ -487,7 +490,7 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
         this._inventoryService.grantInventoryItem(
             item,
-            { creature: this.creature, inventory: this.creature.inventories[0], amount },
+            { creature: this.creature, inventory: this.creature.mainInventory, amount },
             { resetRunes: false },
         );
     }

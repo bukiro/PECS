@@ -14,6 +14,7 @@ import { ItemGain } from '../items/item-gain';
 import { HeightenedDescriptionVariableCollection } from '../spells/heightened-description-variable-collection';
 import { ConditionDuration } from './condition-duration';
 import { ConditionGain } from './condition-gain';
+import { safeParseInt } from 'src/libs/shared/util/string-utils';
 
 interface ConditionEnd {
     name: string;
@@ -177,7 +178,7 @@ export class Condition implements Serializable<Condition> {
     constructor() {
         //Initially, if this.choice is not one of the available choices, set it to the first.
         if (
-            this.choices.length
+            this.choices[0]
             && !this.choices
                 .map(choice => choice.name)
                 .includes(this.choice)
@@ -220,7 +221,7 @@ export class Condition implements Serializable<Condition> {
         this.gainConditions.forEach(gain => { gain.source = this.name; });
 
         //If choices exist and no default choice is given, take the first one as default.
-        if (this.choices.length && !this.choice) {
+        if (this.choices[0] && !this.choice) {
             this.choice = this.choices[0].name;
         }
 
@@ -246,7 +247,9 @@ export class Condition implements Serializable<Condition> {
             let overrideName = override.name;
 
             if (gain && override.name.toLowerCase().includes('selectedcondition|')) {
-                overrideName = gain.selectedOtherConditions[parseInt(override.name.toLowerCase().split('|')[1], 10) || 0] || overrideName;
+                overrideName =
+                    gain.selectedOtherConditions[safeParseInt(override.name.toLowerCase().split('|')[1], 0)]
+                    || overrideName;
             }
 
             return { name: overrideName, conditionChoiceFilter: override.conditionChoiceFilter };
@@ -258,7 +261,9 @@ export class Condition implements Serializable<Condition> {
             let pauseName = pause.name;
 
             if (gain && pause.name.toLowerCase().includes('selectedcondition|')) {
-                pauseName = gain.selectedOtherConditions[parseInt(pause.name.toLowerCase().split('|')[1], 10) || 0] || pauseName;
+                pauseName =
+                    gain.selectedOtherConditions[safeParseInt(pause.name.toLowerCase().split('|')[1], 0)]
+                    || pauseName;
             }
 
             return { name: pauseName, conditionChoiceFilter: pause.conditionChoiceFilter };

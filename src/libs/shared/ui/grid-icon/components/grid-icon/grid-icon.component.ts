@@ -291,7 +291,7 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
 
                 return iconDetail;
             } else if (this.condition.name === 'Persistent Damage') {
-                iconDetail = this.condition.choice.split(' ')[0].substring(0, stagePhraseLength);
+                iconDetail = this.condition.choice.split(' ')[0]?.substring(0, stagePhraseLength) ?? '';
 
                 return iconDetail;
             } else {
@@ -300,7 +300,9 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
         }
 
         if (iconDetail) {
-            if (isNaN(parseInt(iconDetail, 10))) {
+            const detailAsNumber = parseInt(iconDetail, 10);
+
+            if (isNaN(detailAsNumber)) {
                 if (iconDetail.match('.*[A-Z].*')) {
                     iconDetail = iconDetail.replace(/[^A-Z ]/g, '').split(' ')
                         .map(part => part.substring(0, 1))
@@ -314,7 +316,7 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
                         .substring(0, iconDetailMaxLength);
                 }
             } else {
-                iconDetail = parseInt(iconDetail, 10).toString();
+                iconDetail = detailAsNumber.toString();
             }
         }
 
@@ -479,7 +481,7 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
         // Shorter effect values will be shown as SuperTitle instead.
         if (this.effect) {
             if (this.effect.title && (this.effect.title.length || 0) > minIconValueLength) {
-                return of(this.effect.title.split(' (')[0].split(':')[0].substring(0, maxIconValueLength));
+                return of(this.effect.title.split(' (')[0]?.split(':')[0]?.substring(0, maxIconValueLength) ?? '');
             } else if (this.effect?.setValue && this.effect?.setValue?.length > minIconValueLength) {
                 return of(this.effect.setValue.substring(0, maxIconValueLength));
             } else if (this.effect?.value && this.effect?.value?.length > minIconValueLength) {

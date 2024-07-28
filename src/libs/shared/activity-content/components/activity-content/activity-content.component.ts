@@ -119,7 +119,7 @@ export class ActivityContentComponent extends TrackByMixin(BaseClass) implements
                 return this._spellPropertiesService.spellConditionsForComponent$(
                     spell,
                     spellCast.level,
-                    gain.spellEffectChoices[spellCastIndex],
+                    gain.spellEffectChoices[spellCastIndex] ?? [],
                 )
                     .pipe(
                         map(conditionSets =>

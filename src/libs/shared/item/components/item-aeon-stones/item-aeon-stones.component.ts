@@ -47,7 +47,6 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _durationsService: DurationsService,
         private readonly _inventoryService: InventoryService,
-        private readonly _recastService: RecastService,
     ) {
         super();
     }
@@ -80,14 +79,14 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
 
     public initialAeonStones(index: number): Array<AeonStoneSet> {
         const item = this.item;
-        //Start with one empty stone to select nothing.
-        const allStones: Array<AeonStoneSet> = [{ aeonStone: new WornItem() }];
 
-        allStones[0].aeonStone.name = '';
+        const defaultStone = { aeonStone: WornItem.from({ name: '' }, RecastService.recastFns) };
+        //Start with one empty stone to select nothing.
+        const allStones: Array<AeonStoneSet> = [defaultStone];
 
         //Add the current choice, if the item has a stone at that index.
-        if (item.aeonStones[index]) {
-            allStones.push(this.newAeonStone[index] as AeonStoneSet);
+        if (item.aeonStones[index] && this.newAeonStone[index]) {
+            allStones.push(this.newAeonStone[index]);
         }
 
         return allStones;
@@ -122,8 +121,12 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
 
     public onSelectAeonStone(index: number): void {
         const item: WornItem = this.item;
-        const stone: WornItem = this.newAeonStone[index].aeonStone;
-        const inv: ItemCollection | undefined = this.newAeonStone[index].inv;
+        const stone = this.newAeonStone[index]?.aeonStone;
+        const inv: ItemCollection | undefined = this.newAeonStone[index]?.inv;
+
+        if (!stone) {
+            return;
+        }
 
         if (!item.aeonStones[index] || stone !== item.aeonStones[index]) {
             // If there is an Aeon Stone in this slot, return the old stone to the inventory, unless we are in the item store.
@@ -139,14 +142,12 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
             //Then add the new Aeon Stone to the item and (unless we are in the item store) remove it from the inventory.
             if (stone.name !== '') {
                 //Add a copy of the stone to the item
-                const newLength =
-                    item.aeonStones.push(
-                        stone.clone(RecastService.recastFns),
-                    );
-                const newStone = item.aeonStones[newLength - 1];
 
-                newStone.amount = 1;
-                newStone.isSlottedAeonStone = true;
+                const newStone = stone
+                    .clone(RecastService.recastFns)
+                    .with({ amount: 1, isSlottedAeonStone: true }, RecastService.recastFns);
+
+                item.aeonStones.push(newStone);
 
                 // If we are not in the item store, remove the inserted Aeon Stone from the inventory,
                 // either by decreasing the amount or by dropping the item.
@@ -178,14 +179,18 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
     private _removeAeonStone(index: number): void {
         const character = this._character;
         const item: WornItem = this.item;
-        const oldStone: WornItem = item.aeonStones[index];
+        const oldStone = item.aeonStones[index];
+
+        if (!oldStone) {
+            return;
+        }
 
         oldStone.isSlottedAeonStone = false;
         this._prepareChanges(oldStone);
         //Add the extracted stone back to the inventory.
         this._inventoryService.grantInventoryItem(
             oldStone,
-            { creature: character, inventory: character.inventories[0] },
+            { creature: character, inventory: character.mainInventory },
             { resetRunes: false, changeAfter: false, equipAfter: false },
         );
     }

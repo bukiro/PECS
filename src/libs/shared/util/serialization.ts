@@ -608,7 +608,7 @@ namespace isEqual {
                         }
 
                         return valuesA.every((_, index) =>
-                            valuesA[index].isEqual(valuesB[index]),
+                            !!valuesB[index] && valuesA[index]?.isEqual(valuesB[index]),
                         );
                     }
 

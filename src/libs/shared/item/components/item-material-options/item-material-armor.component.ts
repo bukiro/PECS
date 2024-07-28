@@ -110,14 +110,15 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
 
     public initialMaterials(): Array<ArmorMaterialSet> {
         const armor = this.item as Armor;
-        //Start with one empty slot to select nothing.
-        const allArmorMaterials: Array<ArmorMaterialSet> = [{ material: new ArmorMaterial() }];
 
-        allArmorMaterials[0].material.name = '';
+        const defaultMaterial = { material: ArmorMaterial.from({ name: '' }) };
+
+        //Start with one empty slot to select nothing.
+        const allArmorMaterials: Array<ArmorMaterialSet> = [defaultMaterial];
 
         //Add the current choice, if the item has a material at that index.
-        if (armor.material[0]) {
-            allArmorMaterials.push(this.newMaterial[0] as { material: ArmorMaterial });
+        if (armor.material[0] && this.newMaterial[0]) {
+            allArmorMaterials.push(this.newMaterial[0]);
         }
 
         return allArmorMaterials;
@@ -150,7 +151,7 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
 
                     //Set all materials to disabled that have the same name as any that is already equipped.
                     allMaterials.forEach(materialSet => {
-                        if (item.material.length && item.material[0].name === materialSet.material.name) {
+                        if (item.material.length && item.material[0]?.name === materialSet.material.name) {
                             materialSet.disabled = true;
                         }
                     });
@@ -218,7 +219,7 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
 
     public onSelectMaterial(): void {
         const armor = this.item;
-        const material = this.newMaterial[0].material;
+        const material = this.newMaterial[0]?.material;
 
         if (!armor.material.length || material !== armor.material[0]) {
             //If there is a material in this slot, remove the old material from the item.
@@ -227,7 +228,7 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
             }
 
             //Then add the new material to the item.
-            if (material.name) {
+            if (material?.name) {
                 //Add a copy of the material to the item
                 armor.material.push(material.clone());
             }

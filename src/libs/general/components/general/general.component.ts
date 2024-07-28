@@ -31,6 +31,7 @@ import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.compone
 import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
 import { CommonModule } from '@angular/common';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
+import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
 
 interface ClassChoice {
     name: string;
@@ -207,7 +208,9 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
                         map(([level, species, levels, ancestry]) => {
                             if (level && levels.length) {
                                 // Start with 'Young', 'Mature' etc.
-                                const parts: Array<string> = [levels[level].name];
+                                const name = levels[level]?.name;
+
+                                const parts: Array<string> = name ? [name] : [];
 
                                 if (species) {
                                     // If the species is named, add the species.
@@ -332,7 +335,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
                     .filter(feat => feat.tenets?.length)
                     .map(feat => feat.tenets),
                 ),
-                map(tenetLists => new Array<string>().concat(...tenetLists)),
+                map(flattenArrayLists),
             );
     }
 
@@ -437,13 +440,13 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
                         return featChoices
                             .filter(choice => choice.source === characterClass.name)
                             .map(choice => {
-                                let choiceName = choice.feats[0].name;
+                                let choiceName = choice.feats[0]?.name;
 
-                                if (choiceName.includes(choice.type)) {
+                                if (choiceName?.includes(choice.type)) {
                                     choiceName = choiceName.replace(`${ choice.type }: `, '').replace(` ${ choice.type }`, '');
                                 }
 
-                                return { name: choice.type, choice: choiceName, subChoice: true };
+                                return { name: choice.type, choice: choiceName ?? '', subChoice: true };
                             })
                             .concat(
                                 // Add dedication feats and specialchoices that have one of these feats as their source.
@@ -452,7 +455,11 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
                                         .concat(
                                             ...featChoices
                                                 .filter(choice => choice.source === `Feat: ${ archetypeFeat.name }`)
-                                                .map(choice => ({ name: choice.type, choice: choice.feats[0].name, subChoice: true })),
+                                                .map(choice => ({
+                                                    name: choice.type,
+                                                    choice: choice.feats[0]?.name ?? '',
+                                                    subChoice: true,
+                                                })),
                                         ),
                                 ),
                             );
@@ -497,7 +504,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
         let languages: Array<string> = [];
         const hasTooManySlottedAeonStones = CreatureService.character.hasTooManySlottedAeonStones();
 
-        CreatureService.character.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped()).forEach(wornItem => {
+        CreatureService.character.mainInventory.wornitems.filter(wornItem => wornItem.investedOrEquipped()).forEach(wornItem => {
             languages = languages.concat(wornItem.gainLanguages.filter(language => language.name).map(language => language.name));
 
             if (!hasTooManySlottedAeonStones) {

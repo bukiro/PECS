@@ -100,14 +100,14 @@ export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) impleme
 
     public initialMaterials(): Array<WeaponMaterialSet> {
         const weapon = this.item as Weapon;
-        //Start with one empty slot to select nothing.
-        const allWeaponMaterials: Array<WeaponMaterialSet> = [{ material: new WeaponMaterial() }];
 
-        allWeaponMaterials[0].material.name = '';
+        const defaultMaterial = { material: WeaponMaterial.from({ name: '' }) };
+        //Start with one empty slot to select nothing.
+        const allWeaponMaterials: Array<WeaponMaterialSet> = [defaultMaterial];
 
         //Add the current choice, if the item has a material at that index.
-        if (weapon.material[0]) {
-            allWeaponMaterials.push(this.newMaterial[0] as { material: WeaponMaterial });
+        if (weapon.material[0] && this.newMaterial[0]) {
+            allWeaponMaterials.push(this.newMaterial[0]);
         }
 
         return allWeaponMaterials;
@@ -211,7 +211,7 @@ export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) impleme
 
     public onSelectMaterial(): void {
         const weapon = this.item;
-        const material = this.newMaterial[0].material;
+        const material = this.newMaterial[0]?.material;
 
         if (!weapon.material[0] || material !== weapon.material[0]) {
             //If there is a material in this slot, remove the old material from the item.
@@ -220,7 +220,7 @@ export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) impleme
             }
 
             //Then add the new material to the item.
-            if (material.name) {
+            if (material?.name) {
                 //Add a copy of the material to the item
                 weapon.material.push(material.clone());
             }

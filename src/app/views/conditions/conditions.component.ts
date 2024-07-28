@@ -495,11 +495,9 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
                 take(1),
             )
             .subscribe(([effectiveDuration, yourTurn]) => {
-                const newLength =
-                    creature.effects.push(
-                        this.newEffect.clone(),
-                    );
-                const newEffect = creature.effects[newLength - 1];
+                const newEffect = this.newEffect.clone();
+
+                creature.effects.push(newEffect);
 
                 if (effectiveDuration < 0) {
                     newEffect.maxDuration = newEffect.duration = effectiveDuration;

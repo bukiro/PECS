@@ -7,6 +7,7 @@ import { Defaults } from '../../definitions/defaults';
 import { Store } from '@ngrx/store';
 import { selectConfigStatus } from 'src/libs/store/status/status.selectors';
 import { setConfigStatus } from 'src/libs/store/status/status.actions';
+import { isAvailableVersionNewer, parseVersion } from './version-util';
 
 @Injectable({
     providedIn: 'root',
@@ -126,31 +127,17 @@ export class ConfigService {
         this._httpClient.get(Defaults.updateURL)
             .subscribe({
                 next: response => {
-                    const cvs = package_json.version.split('.').map(version => parseInt(version, 10));
-                    const availableVersion: string = JSON.parse(JSON.stringify(response)).tag_name?.replace('v', '') || 'n/a';
+                    const currentVersion = parseVersion(package_json.version);
+                    const avs: string = JSON.parse(JSON.stringify(response)).tag_name?.replace('v', '') || 'n/a';
 
-                    if (availableVersion !== 'n/a') {
-                        const avs = availableVersion.split('.').map(version => parseInt(version, 10));
-                        const majorVersionIndex = 0;
-                        const versionIndex = 1;
-                        const minorVersionIndex = 2;
-
-                        if (
-                            avs[majorVersionIndex] > cvs[majorVersionIndex] ||
-                            (
-                                avs[majorVersionIndex] === cvs[majorVersionIndex] &&
-                                avs[versionIndex] > cvs[versionIndex]
-                            ) ||
-                            (
-                                avs[majorVersionIndex] === cvs[majorVersionIndex] &&
-                                avs[versionIndex] === cvs[versionIndex] &&
-                                avs[minorVersionIndex] > cvs[minorVersionIndex]
-                            )
-                        ) {
-                            this.updateVersionAvailable$.next(availableVersion);
-                        }
+                    if (avs === 'n/a') {
+                        this.updateVersionAvailable$.next('n/a');
                     } else {
-                        this.updateVersionAvailable$.next(availableVersion);
+                        const availableVersion = parseVersion(avs);
+
+                        if (isAvailableVersionNewer({ currentVersion, availableVersion })) {
+                            this.updateVersionAvailable$.next(avs);
+                        }
                     }
                 },
                 error: () => {
@@ -159,5 +146,4 @@ export class ConfigService {
                 },
             });
     }
-
 }

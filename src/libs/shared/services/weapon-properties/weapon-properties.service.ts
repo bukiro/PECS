@@ -108,86 +108,163 @@ export class WeaponPropertiesService {
                     // Many of the skills requested here do not actually exist, but they will be created by the skillsDataService
                     // for the purpose of these calculations.
                     // Generally, if a skill is requested from the skillsDataService and noSubstitutions is not set,
-                    // a skill will be returned.
+                    // a skill with that name will be returned.
                     const levelSources: Array<Observable<number>> = [];
 
                     // If useHighestAttackProficiency is true,
                     // the proficiency level will be copied from your highest unarmed or weapon proficiency.
                     if (weapon.useHighestAttackProficiency) {
+                        const highestAttackProficiencySkill =
+                            this._skillsDataService
+                                .skills(
+                                    customSkills,
+                                    'Highest Attack Proficiency',
+                                    { type: 'Specific Weapon Proficiency' },
+                                    { noSubstitutions: false },
+                                )[0];
+
+                        if (highestAttackProficiencySkill) {
+                            levelSources.push(
+                                this._skillValuesService.level$(
+                                    highestAttackProficiencySkill,
+                                    creature,
+                                ),
+                            );
+                        }
+                    }
+
+                    //Weapon name, e.g. Demon Sword.
+                    const weaponNameSkill =
+                        this._skillsDataService
+                            .skills(
+                                customSkills,
+                                weapon.name,
+                                { type: 'Specific Weapon Proficiency' },
+                                { noSubstitutions: false },
+                            )[0];
+
+                    if (weaponNameSkill) {
                         levelSources.push(
                             this._skillValuesService.level$(
-                                this._skillsDataService
-                                    .skills(customSkills, 'Highest Attack Proficiency', { type: 'Specific Weapon Proficiency' })[0],
+                                weaponNameSkill,
                                 creature,
                             ),
                         );
                     }
 
-                    //Weapon name, e.g. Demon Sword.
-                    levelSources.push(
-                        this._skillValuesService.level$(
-                            this._skillsDataService.skills(customSkills, weapon.name, { type: 'Specific Weapon Proficiency' })[0],
-                            creature,
-                        ),
-                    );
                     //Weapon base, e.g. Longsword.
-                    levelSources.push(
+                    const weaponBaseSkill =
                         weapon.weaponBase
-                            ? this._skillValuesService.level$(
-                                this._skillsDataService
-                                    .skills(customSkills, weapon.weaponBase, { type: 'Specific Weapon Proficiency' })[0],
+                            ? this._skillsDataService
+                                .skills(
+                                    customSkills,
+                                    weapon.weaponBase,
+                                    { type: 'Specific Weapon Proficiency' },
+                                    { noSubstitutions: false },
+                                )[0]
+                            : undefined;
+
+                    if (weaponBaseSkill) {
+                        levelSources.push(
+                            this._skillValuesService.level$(
+                                weaponBaseSkill,
                                 creature,
-                            )
-                            : of(0),
-                    );
+                            ),
+                        );
+                    }
 
                     // Proficiency and Group, e.g. Martial Sword.
                     // There are proficiencies for "Simple Sword" or "Advanced Bow" that we need to consider, so we build that phrase here.
                     const profAndGroup = `${ prof.split(' ')[0] } ${ weapon.group }`;
+                    const profAndGroupSkill =
+                        this._skillsDataService
+                            .skills(
+                                customSkills,
+                                profAndGroup,
+                                { type: 'Specific Weapon Proficiency' },
 
-                    levelSources.push(
-                        this._skillValuesService.level$(
-                            this._skillsDataService.skills(customSkills, profAndGroup, { type: 'Specific Weapon Proficiency' })[0],
-                            creature,
-                        ),
-                    );
+                                { noSubstitutions: false },
+                            )[0];
+
+                    if (profAndGroupSkill) {
+                        levelSources.push(
+                            this._skillValuesService.level$(
+                                profAndGroupSkill,
+                                creature,
+                            ),
+                        );
+                    }
+
                     // Proficiency, e.g. Martial Weapons.
                     levelSources.push(
                         this._skillValuesService.level$(prof, creature) || 0);
+
                     // Any traits, e.g. Monk. Will include, for instance, "Thrown 20 ft",
                     // so we also test the first word of any multi-word trait.
                     levelSources.push(
                         ...weapon.traits
-                            .map(trait =>
-                                this._skillValuesService.level$(
+                            .map(trait => {
+                                const traitSkill =
                                     this._skillsDataService
-                                        .skills(customSkills, trait, { type: 'Specific Weapon Proficiency' })[0],
-                                    creature,
-                                ),
-                            ),
+                                        .skills(
+                                            customSkills,
+                                            trait,
+                                            { type: 'Specific Weapon Proficiency' },
+                                            { noSubstitutions: false },
+                                        )[0];
+
+                                return traitSkill
+                                    ? this._skillValuesService.level$(
+                                        traitSkill,
+                                        creature,
+                                    )
+                                    : of(0);
+                            }),
                     );
                     levelSources.push(
                         ...weapon.traits
                             .filter(trait => trait.includes(' '))
-                            .map(trait =>
-                                this._skillValuesService.level$(
+                            .map(trait => {
+                                const traitSkill =
                                     this._skillsDataService
-                                        .skills(customSkills, trait.split(' ')[0], { type: 'Specific Weapon Proficiency' })[0],
-                                    creature,
-                                ),
-                            ),
+                                        .skills(
+                                            customSkills,
+                                            trait.split(' ')[0] ?? trait,
+                                            { type: 'Specific Weapon Proficiency' },
+                                            { noSubstitutions: false },
+                                        )[0];
+
+                                return traitSkill
+                                    ? this._skillValuesService.level$(
+                                        traitSkill,
+                                        creature,
+                                    )
+                                    : of(0);
+                            }),
                     );
                     // Favored Weapon.
                     levelSources.push(
                         this.isFavoredWeapon$(weapon, creature)
-                            .pipe(isFavoredWeapon =>
-                                isFavoredWeapon
-                                    ? this._skillValuesService.level$(
-                                        this._skillsDataService.skills(customSkills, 'Favored Weapon', { type: 'Favored Weapon' })[0],
-                                        creature,
-                                    )
-                                    : of(0),
-                            ),
+                            .pipe(isFavoredWeapon => {
+                                if (isFavoredWeapon) {
+                                    const favoredWeaponSkill =
+                                        this._skillsDataService.skills(
+                                            customSkills,
+                                            'Favored Weapon',
+                                            { type: 'Favored Weapon' },
+                                            { noSubstitutions: false },
+                                        )[0];
+
+                                    if (favoredWeaponSkill) {
+                                        return this._skillValuesService.level$(
+                                            favoredWeaponSkill,
+                                            creature,
+                                        );
+                                    }
+                                }
+
+                                return of(0);
+                            }),
                     );
 
                     return emptySafeCombineLatest(levelSources);

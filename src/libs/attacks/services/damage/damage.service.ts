@@ -337,7 +337,9 @@ export class DamageService {
                         .forEach(activation => {
                             const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
-                            traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Number']));
+                            if (realTrait) {
+                                traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Number']));
+                            }
                         });
 
                     // Apply global effects and effects added in this method.
@@ -530,7 +532,9 @@ export class DamageService {
                     context.weapon.activatedTraitsActivations().forEach(activation => {
                         const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
-                        traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Size']));
+                        if (realTrait) {
+                            traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Size']));
+                        }
                     });
 
                     // Apply global effects and effects added in this method.
@@ -949,7 +953,9 @@ export class DamageService {
         context.weapon.activatedTraitsActivations().forEach(activation => {
             const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
-            traitEffects.push(...realTrait.objectBoundEffects(activation, ['Damage per Die']));
+            if (realTrait) {
+                traitEffects.push(...realTrait.objectBoundEffects(activation, ['Damage per Die']));
+            }
         });
 
         const effectPhrasesDamagePerDie: Array<string> = [];
@@ -991,5 +997,4 @@ export class DamageService {
                 ),
             );
     }
-
 }

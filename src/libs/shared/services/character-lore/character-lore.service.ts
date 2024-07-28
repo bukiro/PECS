@@ -19,7 +19,6 @@ export class CharacterLoreService {
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _refreshService: RefreshService,
-        private readonly _recastService: RecastService,
     ) { }
 
     public addLore(source: LoreChoice): void {
@@ -221,13 +220,13 @@ export class CharacterLoreService {
             // Check if only one (=this) item's rune has this lore
             // (and therefore no other item has already created it on the character), and if so, create it.
             if (
-                character.inventories[0]?.allEquipment()
+                character.mainInventory?.allEquipment()
                     .filter(item => item.propertyRunes
                         .some(propertyRune => propertyRune.loreChoices
                             .some(otherchoice => otherchoice.loreName === choice.loreName),
                         ),
                     ).length +
-                character.inventories[0]?.allEquipment()
+                character.mainInventory?.allEquipment()
                     .filter(item => item.oilsApplied
                         .some(oil => oil.runeEffect && oil.runeEffect.loreChoices
                             .some(otherchoice => otherchoice.loreName === choice.loreName),
@@ -245,13 +244,13 @@ export class CharacterLoreService {
         rune?.loreChoices.forEach(choice => {
             //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
             if (
-                character.inventories[0]?.allEquipment()
+                character.mainInventory?.allEquipment()
                     .filter(item => item.propertyRunes
                         .some(propertyRune => propertyRune.loreChoices
                             .some(otherchoice => otherchoice.loreName === choice.loreName),
                         ),
                     ).length
-                + character.inventories[0]?.allEquipment()
+                + character.mainInventory?.allEquipment()
                     .filter(item => item.oilsApplied
                         .some(oil => oil.runeEffect && oil.runeEffect.loreChoices
                             .some(otherchoice => otherchoice.loreName === choice.loreName),

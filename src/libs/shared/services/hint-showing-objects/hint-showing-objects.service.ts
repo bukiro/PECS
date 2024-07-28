@@ -319,7 +319,7 @@ export class HintShowingObjectsService {
 
     public creatureArmorSpecializationsShowingHintsOnThis$(creature: Creature, objectName = 'all'): Observable<Array<Specialization>> {
         if (creature.isCharacter()) {
-            const equippedArmor = creature.inventories[0].armors.find(armor => armor.equipped);
+            const equippedArmor = creature.mainInventory?.armors.find(armor => armor.equipped);
 
             return equippedArmor
                 ? this._armorPropertiesService

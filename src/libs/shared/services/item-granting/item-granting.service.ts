@@ -40,6 +40,12 @@ export class ItemGrantingService {
                 default: break;
             }
         } else {
+            const mainInventory = creature.mainInventory;
+
+            if (!mainInventory) {
+                return;
+            }
+
             const newItem: Item | undefined =
                 this._itemsDataService.cleanItems().itemsOfType(itemGain.type.toLowerCase())
                     .find(item => itemGain.isMatchingItem(item));
@@ -52,7 +58,7 @@ export class ItemGrantingService {
                             newItem,
                             {
                                 creature,
-                                inventory: creature.inventories[0],
+                                inventory: mainInventory,
                                 amount: (itemGain.amount + (itemGain.amountPerLevel * creature.level)),
                             },
                             {
@@ -86,7 +92,7 @@ export class ItemGrantingService {
                             newItem,
                             {
                                 creature,
-                                inventory: creature.inventories[0],
+                                inventory: mainInventory,
                                 amount: 1,
                             },
                             {

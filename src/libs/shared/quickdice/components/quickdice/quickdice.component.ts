@@ -4,6 +4,7 @@ import { Component, ChangeDetectionStrategy, OnChanges, Input } from '@angular/c
 import { Observable, take, of, zip, map } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
+import { DiceSizes } from 'src/libs/shared/definitions/dice-sizes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
@@ -12,6 +13,14 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { DiceIconD20Component } from 'src/libs/shared/ui/dice-icons/components/dice-icon-D20/dice-icon-D20.component';
+import { safeParseInt } from 'src/libs/shared/util/string-utils';
+
+interface DiceRoll {
+    diceNum: number;
+    diceSize: number;
+    bonus: number;
+    type: string;
+}
 
 @Component({
     selector: 'app-quickdice',
@@ -126,7 +135,7 @@ export class QuickdiceComponent implements OnChanges {
                         take(1),
                     )
                     .subscribe(cleanDiceString => {
-                        const diceRolls: Array<{ diceNum: number; diceSize: number; bonus: number; type: string }> = [];
+                        const diceRolls: Array<DiceRoll> = [];
                         let index = 0;
                         let arithmetic = '';
 
@@ -135,35 +144,41 @@ export class QuickdiceComponent implements OnChanges {
                             .forEach(dicePart => {
                                 if (dicePart.match('^[0-9]+d[0-9]+$')) {
                                     if (
-                                        !diceRolls.length
-                                        || diceRolls[index].diceNum
-                                        || diceRolls[index].diceSize
-                                        || diceRolls[index].type
+                                        !diceRolls[index]
+                                        || diceRolls[index]?.diceNum
+                                        || diceRolls[index]?.diceSize
+                                        || diceRolls[index]?.type
                                     ) {
                                         index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
                                     }
 
-                                    diceRolls[index].diceNum = parseInt(dicePart.split('d')[0], 10);
-                                    diceRolls[index].diceSize = parseInt(dicePart.split('d')[1], 10);
+                                    const currentRoll = diceRolls[index] as DiceRoll;
+
+                                    currentRoll.diceNum = safeParseInt(dicePart.split('d')[0], 1);
+                                    currentRoll.diceSize = safeParseInt(dicePart.split('d')[1], DiceSizes.D20);
                                 } else if (dicePart === '+' || dicePart === '-') {
                                     arithmetic = dicePart;
                                 } else if (dicePart.match('^[0-9]+$')) {
                                     //Bonuses accumulate on the current roll until a type is given.
                                     //That means that 5 + 1d6 + 5 Fire + 5 Force will create two rolls: (1d6 + 10) Fire and 5 Force.
                                     //If no roll exists yet, create one.
-                                    if (!diceRolls.length || diceRolls[index].type) {
+                                    if (!diceRolls[index] || diceRolls[index]?.type) {
                                         index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
                                     }
 
+                                    const currentRoll = diceRolls[index] as DiceRoll;
+
                                     if (arithmetic) {
-                                        diceRolls[index].bonus += parseInt(arithmetic + dicePart, 10);
+                                        currentRoll.bonus += parseInt(arithmetic + dicePart, 10);
                                         arithmetic = '';
                                     } else {
-                                        diceRolls[index].bonus = parseInt(dicePart, 10);
+                                        currentRoll.bonus = parseInt(dicePart, 10);
                                     }
                                 } else {
-                                    if (diceRolls[index]) {
-                                        diceRolls[index].type += ` ${ dicePart }`;
+                                    const currentRoll = diceRolls[index];
+
+                                    if (currentRoll) {
+                                        currentRoll.type += ` ${ dicePart }`;
                                     }
                                 }
                             });

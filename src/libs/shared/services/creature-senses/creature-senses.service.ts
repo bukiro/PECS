@@ -7,6 +7,7 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { FamiliarsDataService } from '../data/familiars-data.service';
+import { Feat } from '../../definitions/models/feat';
 
 @Injectable({
     providedIn: 'root',
@@ -59,7 +60,7 @@ export class CreatureSensesService {
                     if (creature.isFamiliar()) {
                         creature.abilities.feats
                             .map(gain => this._familiarsDataService.familiarAbilities(gain.name)[0])
-                            .filter(ability => ability?.senses.length)
+                            .filter((ability): ability is Feat => !!ability?.senses.length)
                             .forEach(ability => {
                                 senses.push(...ability.senses);
                             });
@@ -102,7 +103,7 @@ export class CreatureSensesService {
     private _sensesGrantedByEquipment(creature: Creature): Array<string> {
         const senses: Array<string> = [];
 
-        creature.inventories[0].allEquipment().filter(equipment => equipment.gainSenses.length && equipment.investedOrEquipped())
+        creature.mainInventory.allEquipment().filter(equipment => equipment.gainSenses.length && equipment.investedOrEquipped())
             .forEach(equipment => {
                 senses.push(...equipment.gainSenses);
             });

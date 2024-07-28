@@ -6,7 +6,7 @@ import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { safeParseInt, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ActivityGain } from '../activities/activity-gain';
 import { Creature } from '../creatures/creature';
 import { Effect } from '../effects/effect';
@@ -175,7 +175,7 @@ export class Trait implements Serializable<Trait> {
                         // eslint-disable-next-line no-eval
                         value = eval(effect.value).toString();
 
-                        valueNumerical = parseInt(value, 10);
+                        valueNumerical = safeParseInt(value, 0);
 
                         if (valueNumerical > 0) {
                             value = `+${ value }`;

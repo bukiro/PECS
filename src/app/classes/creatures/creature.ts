@@ -165,6 +165,14 @@ export abstract class Creature implements Serializable<Creature> {
 
     public get requiresConForHP(): boolean { return false; }
 
+    public get mainInventory(): ItemCollection {
+        if (!this.inventories[0]) {
+            this.inventories[0] = new ItemCollection();
+        }
+
+        return this.inventories[0] as ItemCollection;
+    }
+
     public with(values: DeepPartial<Creature>, recastFns: RecastFns): Creature {
         assign(this, values, recastFns);
 

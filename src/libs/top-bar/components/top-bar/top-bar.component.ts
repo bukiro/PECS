@@ -22,6 +22,7 @@ import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/but
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { LogoComponent } from 'src/libs/shared/ui/logo/components/logo/logo.component';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
+import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
 
 @Component({
     selector: 'app-top-bar',
@@ -119,11 +120,12 @@ export class TopBarComponent extends TrackByMixin(BaseClass) {
                             spellCastings
                                 .map(casting => casting.spellChoices.values$),
                         )),
+                        map(flattenArrayLists),
                     ),
                 CharacterFlatteningService.characterLevel$,
             ])
                 .pipe(
-                    map(([[spellChoices], charLevel]) => spellChoices.some(choice => choice.charLevelAvailable <= charLevel)),
+                    map(([spellChoices, charLevel]) => spellChoices.some(choice => choice.charLevelAvailable <= charLevel)),
                 );
     }
 

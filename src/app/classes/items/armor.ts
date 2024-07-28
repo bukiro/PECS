@@ -12,6 +12,7 @@ import { AdventuringGear } from './adventuring-gear';
 import { ArmorMaterial } from './armor-material';
 import { ArmorRune } from './armor-rune';
 import { Equipment } from './equipment';
+import { safeParseInt } from 'src/libs/shared/util/string-utils';
 
 const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Armor>({
     primitives: [
@@ -191,14 +192,16 @@ export class Armor extends Equipment implements MessageSerializable<Armor> {
             }
         });
 
+        if (oilBulk) {
+            return oilBulk;
+        }
+
         //Fortification Runes raise the bulk by 1
         const fortification = this.propertyRunes.some(rune => rune.name.includes('Fortification')) ? 1 : 0;
 
-        if (parseInt(this.bulk, 10)) {
-            return oilBulk || (parseInt(this.bulk, 10) + fortification).toString();
-        } else {
-            return oilBulk || fortification ? fortification.toString() : this.bulk;
-        }
+        const bulk = safeParseInt(this.bulk, 0);
+
+        return String(bulk + fortification);
     }
 
     public effectiveACBonus$(): Observable<number> {

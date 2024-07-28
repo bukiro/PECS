@@ -120,7 +120,7 @@ export class ConditionPropertiesService {
                                     emptySafeCombineLatest(
                                         testFeats.map(testFeat => {
                                             if (featreq.includes('Familiar:')) {
-                                                testFeat = featreq.split('Familiar:')[1].trim();
+                                                testFeat = featreq.split('Familiar:')[1]?.trim() ?? '';
 
                                                 if (testFeat) {
                                                     return CreatureService.familiar$

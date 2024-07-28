@@ -229,7 +229,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         this._setAttackRestrictions();
 
         return new Array<Weapon>()
-            .concat(this.creature.inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken))
+            .concat(this.creature.mainInventory.weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken))
             .concat(...this.creature.inventories.map(inv => inv.alchemicalbombs))
             .concat(...this.creature.inventories.map(inv => inv.otherconsumablesbombs))
             .sort((a, b) => (a.name === b.name) ? 0 : ((a.name > b.name) ? 1 : -1))
@@ -357,7 +357,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
             const spellChoice = item.storedSpells[0];
 
             if (spellChoice && spellName) {
-                const spell = this._spellsDataService.spellFromName(item.storedSpells[0]?.spells[0]?.name);
+                const spell = this._spellsDataService.spellFromName(spellName);
 
                 if (spell) {
                     const tempGain: SpellGain = new SpellGain();
@@ -443,7 +443,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     public applyingHandwrapsOfMightyBlows(weapon: Weapon): WornItem | undefined {
         if (weapon.traits.includes('Unarmed')) {
-            return this.creature.inventories[0].wornitems
+            return this.creature.mainInventory.wornitems
                 .find(wornItem => wornItem.isHandwrapsOfMightyBlows && wornItem.invested);
         } else {
             return undefined;

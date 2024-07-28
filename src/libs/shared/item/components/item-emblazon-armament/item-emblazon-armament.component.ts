@@ -153,11 +153,15 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
                 take(1),
             )
             .subscribe(deities => {
+                const deity = deities[0];
+
+                if (!deity) {
+                    return;
+                }
+
                 switch (type) {
                     case EmblazonArmamentTypes.EmblazonArmament:
                         if (this.emblazonArmamentActivated) {
-                            const deity = deities[0];
-
                             this.item.emblazonArmament = {
                                 type,
                                 choice: '',
@@ -186,8 +190,6 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
                         break;
                     case EmblazonArmamentTypes.EmblazonEnergy:
                         if (this.emblazonEnergyActivated) {
-                            const deity = deities[0];
-
                             this.item.emblazonArmament = {
                                 type,
                                 choice: this.emblazonEnergyChoice,
@@ -259,8 +261,6 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
                         break;
                     case EmblazonArmamentTypes.EmblazonAntimagic:
                         if (this.emblazonAntimagicActivated) {
-                            const deity = deities[0];
-
                             this.item.emblazonArmament = {
                                 type,
                                 choice: this.emblazonEnergyChoice,

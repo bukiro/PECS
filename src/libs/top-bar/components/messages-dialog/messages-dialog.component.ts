@@ -131,7 +131,7 @@ export class MessagesDialogComponent extends TrackByMixin(DialogComponent) imple
     }
 
     private _conditionMessageDurationDescription$(message: PlayerMessage): Observable<string> {
-        const duration = message.gainCondition[0].duration;
+        const duration = message.gainCondition[0]?.duration ?? 0;
 
         if (duration === TimePeriods.Default) {
             return of('(Default duration)');

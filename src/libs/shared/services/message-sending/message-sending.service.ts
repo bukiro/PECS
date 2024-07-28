@@ -288,8 +288,8 @@ export class MessageSendingService {
                                             time: `${ date.getHours() }:${ date.getMinutes() }`,
                                             timeStamp,
                                             itemAmount: message.itemAmount,
-                                            acceptedItem: accepted ? message.offeredItem[0].id : '',
-                                            rejectedItem: accepted ? '' : message.offeredItem[0].id,
+                                            acceptedItem: accepted ? message.offeredItem[0]?.id ?? '' : '',
+                                            rejectedItem: accepted ? '' : message.offeredItem[0]?.id ?? '',
                                         },
                                         RecastService.recastFns,
                                     );

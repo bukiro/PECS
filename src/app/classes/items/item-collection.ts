@@ -34,6 +34,7 @@ import { Wand } from './wand';
 import { Weapon } from './weapon';
 import { WeaponRune } from './weapon-rune';
 import { WornItem } from './worn-item';
+import { safeParseInt } from 'src/libs/shared/util/string-utils';
 
 /** These are all the keys of the item lists in this ItemCollection.
  * They are used to verify that this[key] can and should return an item list.
@@ -709,14 +710,10 @@ export class ItemCollection implements MessageSerializable<ItemCollection> {
 
                     break;
                 default:
-                    if (item.amount) {
-                        sum +=
-                            parseInt(bulk, 10) *
-                            decimal *
-                            Math.floor(item.amount / stack);
-                    } else {
-                        sum += parseInt(bulk, 10) * decimal;
-                    }
+                    sum +=
+                        safeParseInt(bulk, 0) *
+                        decimal *
+                        Math.floor(item.amount ? (item.amount / stack) : 1);
 
                     break;
             }

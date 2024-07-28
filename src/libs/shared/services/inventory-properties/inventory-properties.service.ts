@@ -26,7 +26,7 @@ export class InventoryPropertiesService {
                 });
             }
         } else {
-            if (creature.inventories[0] === inventory) {
+            if (creature.mainInventory === inventory) {
                 name = of(creature.name || creature.type);
             }
 

@@ -166,7 +166,7 @@ export class CharacterLanguagesService {
 
                     // If the current INT is positive and higher than the base INT for the current level
                     // (e.g. because of an item bonus), add another temporary language source.
-                    const diff = currentLiveInt.result - Math.min(0, intByLevel[characterLevel]);
+                    const diff = currentLiveInt.result - Math.min(0, intByLevel[characterLevel] ?? 0);
 
                     if (diff > 0) {
                         languagesFromIntelligence.push({

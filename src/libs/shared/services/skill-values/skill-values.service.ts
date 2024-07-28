@@ -26,7 +26,7 @@ const DCBasis = 10;
 
 export interface SkillLiveValue {
     skillLevel: number;
-    ability: string;
+    ability: string | undefined;
     result: number;
     bonuses: Array<BonusDescription>;
     effects: Array<Effect>;
@@ -36,7 +36,7 @@ export interface SkillBaseValue {
     result: number;
     bonuses: Array<BonusDescription>;
     skillLevel: number;
-    ability: string;
+    ability: string | undefined;
 }
 
 @Injectable({
@@ -491,7 +491,7 @@ export class SkillValuesService {
             );
     }
 
-    private _modifierAbility(skill: Skill, creature: Creature): string {
+    private _modifierAbility(skill: Skill, creature: Creature): string | undefined{
         if (creature.isFamiliar()) {
             const character = CreatureService.character;
 

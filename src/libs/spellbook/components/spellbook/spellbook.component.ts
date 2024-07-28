@@ -57,6 +57,7 @@ import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/component
 import { CommonModule } from '@angular/common';
 import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
+import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -200,11 +201,12 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                         switchMap(spellCastings => emptySafeCombineLatest(
                             spellCastings.map(casting => casting.spellChoices.values$),
                         )),
+                        map(flattenArrayLists),
                     ),
                 CharacterFlatteningService.characterLevel$,
             ])
                 .pipe(
-                    map(([[spellChoices], charLevel]) => spellChoices.some(choice => choice.charLevelAvailable <= charLevel)),
+                    map(([spellChoices, charLevel]) => spellChoices.some(choice => choice.charLevelAvailable <= charLevel)),
                 );
     }
 
@@ -544,7 +546,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
 
     public onManualIncSpellSlots(casting: SpellCasting, level: number, amount: number): void {
         //The amount is subtracted: We gain more spell slots by lowering the amount of used spell slots.
-        casting.spellSlotsUsed[level] -= amount;
+        casting.spellSlotsUsed[level] = (casting.spellSlotsUsed[level] ?? 0) - amount;
     }
 
     public onRefocus(): void {
@@ -836,20 +838,25 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                         const firstGreaterEvolutionSpellLevel = 11;
                         const secondGreaterEvolutionSpellLevel = 12;
 
+                        const casting = context.spellCastingParameters.casting;
+
                         if (
                             context.spellCastingParameters.casting.castingType === 'Spontaneous'
                             && !context.spellParameters.spell.traits.includes('Cantrip')
                         ) {
                             if (context.spellCastingLevelParameters.usedSpellSlots < context.spellCastingLevelParameters.maxSpellSlots) {
-                                context.spellCastingParameters.casting.spellSlotsUsed[context.spellCastingLevelParameters.level] += 1;
-                            } else if (context.spellCastingParameters.casting.className === 'Bard') {
-                                context.spellCastingParameters.casting.spellSlotsUsed[0] += 1;
-                            } else if (context.spellCastingParameters.casting.className === 'Sorcerer') {
-                                if (context.spellCastingParameters.casting.spellSlotsUsed[firstGreaterEvolutionSpellLevel] === 0) {
-                                    context.spellCastingParameters.casting.spellSlotsUsed[firstGreaterEvolutionSpellLevel] =
+                                casting.spellSlotsUsed[context.spellCastingLevelParameters.level] =
+                                    (casting.spellSlotsUsed[context.spellCastingLevelParameters.level] ?? 0)
+                                    + 1;
+                            } else if (casting.className === 'Bard') {
+                                casting.spellSlotsUsed[0] =
+                                    (casting.spellSlotsUsed[0]) ?? 0 + 1;
+                            } else if (casting.className === 'Sorcerer') {
+                                if (casting.spellSlotsUsed[firstGreaterEvolutionSpellLevel] === 0) {
+                                    casting.spellSlotsUsed[firstGreaterEvolutionSpellLevel] =
                                         context.spellCastingLevelParameters.level;
-                                } else if (context.spellCastingParameters.casting.spellSlotsUsed[secondGreaterEvolutionSpellLevel] === 0) {
-                                    context.spellCastingParameters.casting.spellSlotsUsed[secondGreaterEvolutionSpellLevel] =
+                                } else if (casting.spellSlotsUsed[secondGreaterEvolutionSpellLevel] === 0) {
+                                    casting.spellSlotsUsed[secondGreaterEvolutionSpellLevel] =
                                         context.spellCastingLevelParameters.level;
                                 }
                             }
@@ -1047,7 +1054,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
 
     private _usedSpellSlots(spellLevel: number, casting: SpellCasting): number {
         if (casting.castingType === SpellCastingTypes.Spontaneous) {
-            return casting.spellSlotsUsed[spellLevel];
+            return casting.spellSlotsUsed[spellLevel] ?? 0;
         } else {
             return 0;
         }
@@ -1340,14 +1347,14 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
 
                     // True if there is more than one general charge available -
                     // it means we have Superior Bond, and the first charge can be applied to every level.
-                    if (spellCastingParameters.casting.bondedItemCharges[0] > 1) {
+                    if (spellCastingParameters.casting.bondedItemCharges[0] ?? 0 > 1) {
                         return true;
                     }
 
                     // If there is only one charge, we need to check if this came from the Superior Bond feat.
                     // If we have that feat, the last charge is the Superior Bond charge
                     // and can only be applied to a spell 2 or more levels lower than the highest-level spell.
-                    if (spellCastingParameters.casting.bondedItemCharges[0] > 0) {
+                    if (spellCastingParameters.casting.bondedItemCharges[0] ?? 0 > 0) {
                         const minLevelDiffForSuperiorBond = 2;
 
                         if (level <= spellCastingParameters.maxSpellLevel - minLevelDiffForSuperiorBond) {

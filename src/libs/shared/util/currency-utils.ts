@@ -26,7 +26,7 @@ export const priceTextFromCopper = (copper: number): string => {
 };
 
 export const copperAmountFromCashObject = (cash: Array<number>): number =>
-    (cash[CurrencyIndices.Platinum] * CopperAmounts.CopperInPlatinum)
-    + (cash[CurrencyIndices.Gold] * CopperAmounts.CopperInGold)
-    + (cash[CurrencyIndices.Silver] * CopperAmounts.CopperInSilver)
-    + (cash[CurrencyIndices.Copper]);
+    ((cash[CurrencyIndices.Platinum] ?? 0) * CopperAmounts.CopperInPlatinum)
+    + ((cash[CurrencyIndices.Gold] ?? 0) * CopperAmounts.CopperInGold)
+    + ((cash[CurrencyIndices.Silver] ?? 0) * CopperAmounts.CopperInSilver)
+    + (cash[CurrencyIndices.Copper] ?? 0);

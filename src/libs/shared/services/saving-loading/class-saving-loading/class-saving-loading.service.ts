@@ -57,7 +57,7 @@ export class ClassSavingLoadingService {
                             (Object.keys(level) as Array<keyof CharacterClassLevel>)
                                 .forEach(key => {
                                     if (key !== 'number') {
-                                        if (JSON.stringify(level[key]) === JSON.stringify(libraryObject.levels[index][key])) {
+                                        if (JSON.stringify(level[key]) === JSON.stringify(libraryObject.levels[index]?.[key])) {
                                             delete level[key];
                                         }
                                     }

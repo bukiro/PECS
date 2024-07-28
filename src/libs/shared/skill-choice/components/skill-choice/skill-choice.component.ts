@@ -110,7 +110,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
     public gridIconTitle(allowedIncreases: number): string {
         if (this.choice.increases.length && allowedIncreases > 0) {
             if (allowedIncreases === 1) {
-                return this.choice.increases[0].name;
+                return this.choice.increases[0]?.name ?? '';
             } else {
                 return this.choice.increases.length.toString();
             }
@@ -225,12 +225,15 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             );
 
         if (allIncreases.length) {
+            const firstIncrease = allIncreases[0];
+
             if (
-                allIncreases[0].locked &&
-                allIncreases[0].source.includes('Feat: ') &&
-                !['Feat: Additional Lore', 'Feat: Gnome Obsession'].includes(allIncreases[0].source)
+                firstIncrease &&
+                firstIncrease.locked &&
+                firstIncrease.source.includes('Feat: ') &&
+                !['Feat: Additional Lore', 'Feat: Gnome Obsession'].includes(firstIncrease.source)
             ) {
-                const trainedOnHigherLevelByFeat = `Trained on a higher level by ${ allIncreases[0].source }.`;
+                const trainedOnHigherLevelByFeat = `Trained on a higher level by ${ firstIncrease.source }.`;
 
                 reasons.push(trainedOnHigherLevelByFeat);
             }
@@ -368,7 +371,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             title += `: ${ this.choice.increases.length }/${ allowedIncreases }`;
         } else {
             if (this.choice.increases.length) {
-                title += `: ${ this.choice.increases[0].name }`;
+                title += `: ${ this.choice.increases[0]?.name }`;
             }
         }
 
@@ -388,7 +391,11 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
 
     private _intelligenceBonusToAllowedIncreases$(): Observable<number> {
         //Allow INT more skills if INT has been raised since the last level.
-        const levelNumber = parseInt(this.choice.id.split('-')[0], 10);
+        const levelNumber = parseInt(this.choice.id.split('-')[0] ?? '0', 10);
+
+        if (!levelNumber) {
+            return of(0);
+        }
 
         if (this.choice.source === 'Intelligence') {
             return combineLatest([
@@ -414,7 +421,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         let areAnyLockedIncreasesIllegal = false;
 
         this.choice.increases.forEach(increase => {
-            let levelNumber = parseInt(this.choice.id.split('-')[0], 10);
+            let levelNumber = parseInt(this.choice.id.split('-')[0] ?? '', 10);
 
             //Temporary choices are compared to the character level, not their own.
             if (this.choice.showOnSheet) {

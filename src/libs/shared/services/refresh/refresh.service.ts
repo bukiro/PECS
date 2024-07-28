@@ -250,7 +250,7 @@ export class RefreshService {
 
         //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.
         if (
-            context.creature.inventories[0].weapons.some(weapon =>
+            context.creature.mainInventory?.weapons.some(weapon =>
                 weapon.equipped &&
                 changedEffects.some(effect => effect.target.toLowerCase() === weapon.name.toLowerCase()),
             )
@@ -259,7 +259,7 @@ export class RefreshService {
         }
 
         if (
-            context.creature.inventories[0].armors.some(armor =>
+            context.creature.mainInventory?.armors.some(armor =>
                 armor.equipped &&
                 changedEffects.some(effect => effect.target.toLowerCase() === armor.name.toLowerCase()),
             )
@@ -268,7 +268,7 @@ export class RefreshService {
         }
 
         if (
-            context.creature.inventories[0].shields.some(shield =>
+            context.creature.mainInventory?.shields.some(shield =>
                 shield.equipped &&
                 changedEffects.some(effect => effect.target.toLowerCase() === shield.name.toLowerCase()),
             )

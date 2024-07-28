@@ -38,7 +38,7 @@
                             @if (
                                 $first ||
                                 savegame.partyName !==
-                                    savegames[$index - 1].partyName
+                                    savegames[$index - 1]?.partyName
                             ) {
                                 <div class="savegames__header">
                                     {{ savegame.partyName }}

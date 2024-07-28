@@ -44,9 +44,9 @@ export class CharacterAncestryChangeService {
         const characterClass = character.class;
         const ancestry = characterClass?.ancestry;
 
-        if (ancestry?.name) {
-            const level = characterClass.levels[1];
+        const level = characterClass.levels[1];
 
+        if (ancestry?.name && level) {
             characterClass.languages = characterClass.languages.filter(language => language.source !== ancestry.name);
 
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
@@ -85,9 +85,9 @@ export class CharacterAncestryChangeService {
         const characterClass = character.class;
         const ancestry = characterClass?.ancestry;
 
-        if (characterClass?.ancestry.name) {
-            const level = characterClass.levels[1];
+        const level = characterClass.levels[1];
 
+        if (characterClass?.ancestry.name && level) {
             characterClass.languages.push(
                 ...ancestry.languages
                     .map(language => LanguageGain.from({ name: language, locked: true, source: ancestry.name })),

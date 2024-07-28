@@ -21,26 +21,26 @@ export class CreatureEquipmentService {
     ) { }
 
     public equippedCreatureArmor$(creature: Creature): Observable<Array<Armor>> {
-        return creature.inventories[0].equippedArmors$;
+        return creature.mainInventory.equippedArmors$;
     }
 
     public equippedCreatureBracersOfArmor$(creature: Creature): Observable<Array<WornItem>> {
-        return creature.inventories[0].activeWornItems$
+        return creature.mainInventory.activeWornItems$
             .pipe(
                 map(wornItems => wornItems.filter(wornItem => wornItem.isBracersOfArmor)),
             );
     }
 
     public equippedCreatureShield$(creature: Creature): Observable<Array<Shield>> {
-        return creature.inventories[0].equippedShields$;
+        return creature.mainInventory.equippedShields$;
     }
 
     public equippedCreatureWeapons(creature: Creature): Observable<Array<Weapon>> {
-        return creature.inventories[0].equippedWeapons$;
+        return creature.mainInventory.equippedWeapons$;
     }
 
     public investedCreatureEquipment$(creature: Creature): Observable<Array<Equipment>> {
-        return creature.inventories[0].allEquipment$()
+        return creature.mainInventory.allEquipment$()
             .pipe(
                 map(items =>
                     items
@@ -116,7 +116,7 @@ export class CreatureEquipmentService {
         // If a wayfinder is invested or uninvested, all other invested wayfinders need to run updates as well,
         // because too many invested wayfinders disable each other's aeon stones.
         if (item.isWornItem() && item.aeonStones.length) {
-            creature.inventories[0].wornitems
+            creature.mainInventory.wornitems
                 .filter(wornItem => wornItem.invested && wornItem !== item && wornItem.aeonStones.length)
                 .forEach(wornItem => {
                     this._refreshService.prepareChangesByItem(creature, wornItem);

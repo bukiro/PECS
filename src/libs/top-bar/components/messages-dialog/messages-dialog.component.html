@@ -79,12 +79,12 @@
                             @if (enriched.message.gainCondition.length) {
                                 <strong>
                                     {{
-                                        enriched.message.gainCondition[0].name +
+                                        enriched.message.gainCondition[0]?.name +
                                             (enriched.message.gainCondition[0]
-                                                .choice
+                                                ?.choice
                                                 ? ": " +
                                                   enriched.message
-                                                      .gainCondition[0].choice
+                                                      .gainCondition[0]?.choice
                                                 : "")
                                     }}
                                 </strong>
@@ -99,7 +99,7 @@
                                         (enriched.message.itemAmount !== 1
                                             ? enriched.message.itemAmount + " "
                                             : "") +
-                                            enriched.message.offeredItem[0].name
+                                            enriched.message.offeredItem[0]?.name
                                     }}
                                 </strong>
                                 {{ enriched.itemMessageIncludedAmount }}

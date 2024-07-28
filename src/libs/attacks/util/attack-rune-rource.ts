@@ -23,7 +23,7 @@ export interface RuneSourceSet {
  * @returns
  */
 export const attackRuneSource$ = (weapon: Weapon, creature: Creature, range: string): Observable<RuneSourceSet> =>
-    creature.inventories[0].activeWornItems$
+    creature.mainInventory.activeWornItems$
         .pipe(
             distinctUntilChanged(isEqualSerializableArray),
             switchMap(activeWornItems => {
@@ -63,7 +63,7 @@ export const attackRuneSource$ = (weapon: Weapon, creature: Creature, range: str
                                     ),
                                 ),
                             ),
-                        creature.inventories[0].equippedWeapons$
+                        creature.mainInventory.equippedWeapons$
                             .pipe(
                                 distinctUntilChanged(isEqualSerializableArray),
                             ),
@@ -72,17 +72,17 @@ export const attackRuneSource$ = (weapon: Weapon, creature: Creature, range: str
                             map(([doublingRingsDataSets, equippedWeapons]) => {
                                 const matchingDataSet =
                                     doublingRingsDataSets
-                                        .find(dataSet => dataSet.data[ironRingIndex].value === weapon.id);
+                                        .find(dataSet => dataSet.data[ironRingIndex]?.value === weapon.id);
 
-                                if (matchingDataSet?.data[goldRingIndex].value) {
+                                if (matchingDataSet?.data[goldRingIndex]?.value) {
                                     const goldItem =
                                         equippedWeapons
-                                            .find(inventoryWeapon => inventoryWeapon.id === matchingDataSet.data[goldRingIndex].value);
+                                            .find(inventoryWeapon => inventoryWeapon.id === matchingDataSet.data[goldRingIndex]?.value);
 
                                     if (goldItem) {
                                         const shouldTransferPropertyRunes =
                                             matchingDataSet.item.isDoublingRings === 'Doubling Rings (Greater)'
-                                            && matchingDataSet.data[propertyRunesIndex].value === true;
+                                            && matchingDataSet.data[propertyRunesIndex]?.value === true;
 
                                         return {
                                             forFundamentalRunes: goldItem,

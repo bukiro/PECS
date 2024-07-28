@@ -83,7 +83,8 @@ export class ActivityPropertiesService {
 
                             return matchingTargetNumber?.number
                                 || firstTargetNumberWithoutFeatreq?.number
-                                || activity.targetNumbers[0].number;
+                                || activity.targetNumbers[0]?.number
+                                || 0;
                         }),
                     );
             } else {
@@ -103,7 +104,9 @@ export class ActivityPropertiesService {
                                 targetNumberWithFeatReqSets
                                     .find(targetNumberSet => targetNumberSet.hasRequiredFeat)?.targetNumber;
 
-                            return matchingTargetNumber?.number || activity.targetNumbers[0].number;
+                            return matchingTargetNumber?.number
+                            || activity.targetNumbers[0]?.number
+                            || 0;
                         }),
                     );
             }
