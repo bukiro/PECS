@@ -143,7 +143,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
     }
 
     public toggleTileMode(isTileMode: boolean): void {
-        SettingsService.settings.activitiesTileMode = !isTileMode;
+        SettingsService.settings.activitiesTileMode = isTileMode;
     }
 
     public toggleShownActivity(id: string): void {
