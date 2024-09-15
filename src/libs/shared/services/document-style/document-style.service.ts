@@ -23,9 +23,7 @@ export class DocumentStyleService {
             });
 
         propMap$(SettingsService.settings$, 'darkmode$')
-            .pipe(
-                distinctUntilChanged(),
-            )
+            .pipe(distinctUntilChanged())
             .subscribe(darkmode => {
                 this._setDarkmode(darkmode);
             });

@@ -65,7 +65,7 @@ export class TypeService {
             }
         }
 
-        if (options.type ?? obj.type) {
+        if (options.type ?? obj.type ?? options.prototype) {
             return this.getPrototypeItem<T>(obj, options);
         }
 

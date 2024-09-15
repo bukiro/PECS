@@ -11,6 +11,8 @@ import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { SpellTarget } from 'src/app/classes/spells/spell-target';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
+import { conditionFilter } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
@@ -32,11 +34,11 @@ export class SpellProcessingService {
         private readonly _refreshService: RefreshService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellTargetService: SpellTargetService,
         private readonly _messageSendingService: MessageSendingService,
-        private readonly _recastService: RecastService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
@@ -336,19 +338,17 @@ export class SpellProcessingService {
                 (conditionGain.targetFilter === 'caster' ? [context.creature] : targets);
 
             conditionTargets
-                .filter(target => !(target instanceof SpellTarget))
+                .filter((target): target is Creature => (target instanceof Creature))
                 .forEach(target => {
-                    if (!(target instanceof SpellTarget)) {
-                        this._creatureConditionsService.currentCreatureConditions(target, { name: conditionGain.name })
-                            .filter(existingConditionGain =>
-                                existingConditionGain.source === conditionGain.source &&
-                                existingConditionGain.sourceGainID === (context.gain?.id || ''),
-                            )
-                            .forEach(existingConditionGain => {
-                                this._creatureConditionsService.removeCondition(target, existingConditionGain, false);
-                            });
-                    }
-
+                    this._creatureConditionRemovalService.removeConditionGains(
+                        target.conditions
+                            .filter(conditionFilter({ name: conditionGain.name }))
+                            .filter(creatureGain =>
+                                creatureGain.source === conditionGain.source &&
+                                creatureGain.sourceGainID === (context.gain?.id || ''),
+                            ),
+                        target,
+                    );
                 });
             this._messageSendingService
                 .sendConditionToPlayers(

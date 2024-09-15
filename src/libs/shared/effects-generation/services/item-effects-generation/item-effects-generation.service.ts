@@ -7,7 +7,7 @@ import { Equipment } from 'src/app/classes/items/equipment';
 import { Rune } from 'src/app/classes/items/rune';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
-import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
+import { isEqualSerializableArray, isEqualObjectArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
 import { HintEffectsObject } from '../../definitions/interfaces/hint-effects-object';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
@@ -113,7 +113,7 @@ export class ItemEffectsGenerationService {
                 }),
                 distinctUntilChanged((previous, current) =>
                     isEqualSerializableArray(previous.objects, current.objects)
-                    && isEqualArray<HintEffectsObject>((previousObj, currentObj) =>
+                    && isEqualObjectArray<HintEffectsObject>((previousObj, currentObj) =>
                         previousObj.objectName === currentObj.objectName
                         && isEqualSerializable(previousObj.hint, currentObj.hint)
                         && isEqualSerializable(previousObj.parentItem, currentObj.parentItem)

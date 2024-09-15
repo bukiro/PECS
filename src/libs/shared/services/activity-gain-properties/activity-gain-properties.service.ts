@@ -5,6 +5,7 @@ import { ItemActivity } from 'src/app/classes/activities/item-activity';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { DurationsService } from '../../time/services/durations/durations.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { ActivityPropertiesService } from '../activity-properties/activity-properties.service';
 
 @Injectable({
     providedIn: 'root',
@@ -14,6 +15,7 @@ export class ActivityGainPropertiesService {
     constructor(
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _durationsService: DurationsService,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
     ) { }
 
     public disabledReason$(
@@ -79,14 +81,9 @@ export class ActivityGainPropertiesService {
             gain.activeCooldownByCreature$.set(
                 context.creature.id,
                 combineLatest([
-                    gain.originalActivity.effectiveCooldownByCreature$.get(context.creature.id)
-                        ?.pipe(
-                            distinctUntilChanged(),
-                        ) ?? of(0),
-                    gain.activeCooldown$
-                        .pipe(
-                            distinctUntilChanged(),
-                        ),
+                    this._activityPropertiesService
+                        .effectiveCooldown$(gain.originalActivity, context).pipe(distinctUntilChanged()),
+                    gain.activeCooldown$.pipe(distinctUntilChanged()),
                 ])
                     .pipe(
                         map(cooldowns =>

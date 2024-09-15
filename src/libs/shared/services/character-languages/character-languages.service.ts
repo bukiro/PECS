@@ -7,12 +7,13 @@ import { Effect } from 'src/app/classes/effects/effect';
 import { FeatTaken } from '../../definitions/models/feat-taken';
 import { ObjectEffectsGenerationService } from '../../effects-generation/services/object-effects-generation/object-effects-generation.service';
 import { abilityModFromAbilityValue } from '../../util/ability-base-value-utils';
-import { propMap$, deepDistinctUntilChanged, emptySafeCombineLatest } from '../../util/observable-utils';
+import { propMap$, emptySafeCombineLatest } from '../../util/observable-utils';
 import { sortAlphaNum } from '../../util/sort-utils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { CreatureService } from '../creature/creature.service';
+import { isEqualObjectArray, isEqualPrimitiveObject } from '../../util/compare-utils';
 
 const noLanguageSourceLevel = -1;
 const temporaryLanguageSourceLevel = -2;
@@ -123,7 +124,7 @@ export class CharacterLanguagesService {
     private _languagesFromIntelligence$(character: Character): Observable<Array<LanguageSource>> {
         return combineLatest([
             character.level$,
-            this._abilityValuesService.mod$('Intelligence', character),
+            this._abilityValuesService.mod$('Intelligence', character).pipe(distinctUntilChanged(isEqualPrimitiveObject)),
             propMap$(character.class$, 'levels')
                 .pipe(
                     switchMap(levels => emptySafeCombineLatest(
@@ -131,10 +132,10 @@ export class CharacterLanguagesService {
                             this._abilityValuesService.baseValue$('Intelligence', character, level.number),
                         ),
                     )),
+                    distinctUntilChanged(isEqualObjectArray(isEqualPrimitiveObject)),
                 ),
         ])
             .pipe(
-                deepDistinctUntilChanged(),
                 map(([characterLevel, currentLiveInt, intelligenceByLevel]) => {
                     const languagesFromIntelligence = new Array<LanguageSource>();
 

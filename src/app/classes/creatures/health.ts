@@ -22,6 +22,7 @@ export class Health implements Serializable<Health> {
     public manualWounded = 0;
     public manualDying = 0;
 
+    // TODO: Should be async
     public temporaryHP: Array<TemporaryHP> = [
         { ...defaultTemporaryHP },
     ];

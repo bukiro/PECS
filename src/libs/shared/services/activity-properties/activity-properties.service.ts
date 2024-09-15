@@ -10,6 +10,7 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { HeightenedDescriptionVariable } from 'src/app/classes/spells/heightened-description-variable';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
+import { cachedObservable } from '../../util/cache-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -105,8 +106,8 @@ export class ActivityPropertiesService {
                                     .find(targetNumberSet => targetNumberSet.hasRequiredFeat)?.targetNumber;
 
                             return matchingTargetNumber?.number
-                            || activity.targetNumbers[0]?.number
-                            || 0;
+                                || activity.targetNumbers[0]?.number
+                                || 0;
                         }),
                     );
             }
@@ -177,51 +178,45 @@ export class ActivityPropertiesService {
      * then saves it on the activity for later use and returns it.
      * If the observable exists on the activity already, just returns it.
      */
-    public effectiveCooldown$(activity: Activity, context: { creature: Creature }): Observable<number> {
-        if (!activity.effectiveCooldownByCreature$.get(context.creature.id)) {
-            activity.effectiveCooldownByCreature$.set(
-                context.creature.id,
-                combineLatest([
-                    //Use get_AbsolutesOnThese() because it allows to prefer lower values. We still sort the effects in descending setValue.
-                    this._creatureEffectsService.absoluteEffectsOnThese$(
-                        context.creature,
-                        [`${ activity.name } Cooldown`],
-                        { lowerIsBetter: true },
-                    ),
-                    //Use get_RelativesOnThese() because it allows to prefer lower values. We still sort the effects in descending value.
-                    this._creatureEffectsService.relativeEffectsOnThese$(
-                        context.creature,
-                        [`${ activity.name } Cooldown`],
-                        { lowerIsBetter: true },
-                    ),
-                ])
-                    .pipe(
-                        map(([absolutes, relatives]) => {
-                            //Add any effects to the activity's cooldown.
-                            let cooldown = activity.cooldown;
+    public effectiveCooldown$(activity: Activity, { creature }: { creature: Creature }): Observable<number> {
+        return cachedObservable(
+            combineLatest([
+                //Use get_AbsolutesOnThese() because it allows to prefer lower values. We still sort the effects in descending setValue.
+                this._creatureEffectsService.absoluteEffectsOnThese$(
+                    creature,
+                    [`${ activity.name } Cooldown`],
+                    { lowerIsBetter: true },
+                ),
+                //Use get_RelativesOnThese() because it allows to prefer lower values. We still sort the effects in descending value.
+                this._creatureEffectsService.relativeEffectsOnThese$(
+                    creature,
+                    [`${ activity.name } Cooldown`],
+                    { lowerIsBetter: true },
+                ),
+            ])
+                .pipe(
+                    map(([absolutes, relatives]) => {
+                        //Add any effects to the activity's cooldown.
+                        let cooldown = activity.cooldown;
 
-                            absolutes
-                                .sort((a, b) => parseInt(b.setValue, 10) - parseInt(a.setValue, 10))
-                                .forEach(effect => {
-                                    cooldown = effect.setValueNumerical;
-                                });
+                        absolutes
+                            .sort((a, b) => parseInt(b.setValue, 10) - parseInt(a.setValue, 10))
+                            .forEach(effect => {
+                                cooldown = effect.setValueNumerical;
+                            });
 
-                            relatives
-                                .sort((a, b) => parseInt(b.value, 10) - parseInt(a.value, 10))
-                                .forEach(effect => {
-                                    cooldown += effect.valueNumerical;
-                                });
+                        relatives
+                            .sort((a, b) => parseInt(b.value, 10) - parseInt(a.value, 10))
+                            .forEach(effect => {
+                                cooldown += effect.valueNumerical;
+                            });
 
-                            return cooldown;
-                        }),
-                        shareReplay({ refCount: true, bufferSize: 1 }),
-                    ),
-            );
-        }
-
-        return activity.effectiveCooldownByCreature$.get(context.creature.id)
-            // This fallback can never happen, but is needed for code safety.
-            ?? of(activity.cooldown);
+                        return cooldown;
+                    }),
+                    shareReplay({ refCount: true, bufferSize: 1 }),
+                ),
+            { store: activity.effectiveCooldownByCreature$, key: creature.id },
+        );
     }
 
     public heightenedText(activity: Activity, text: string, levelNumber: number): string {

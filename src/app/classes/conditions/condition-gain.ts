@@ -6,6 +6,8 @@ import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ActivityGain } from '../activities/activity-gain';
 import { ItemGain } from '../items/item-gain';
+import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
+import { BehaviorSubject } from 'rxjs';
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<ConditionGain>({
     primitives: [
@@ -15,8 +17,6 @@ const { assign, forExport, isEqual } = setupSerializationWithHelpers<ConditionGa
         'increaseRadius',
         'id',
         'foreignPlayerId',
-        'apply',
-        'paused',
         'decreasingValue',
         'duration',
         'maxDuration',
@@ -76,20 +76,7 @@ export class ConditionGain implements Serializable<ConditionGain> {
     public increaseRadius = 0;
     public id = uuidv4();
     public foreignPlayerId = '';
-    public apply = true;
-    public paused = false;
     public decreasingValue = false;
-    /**
-     * Duration in turns * 10 (+1 to resolve afterwards, +2 to end on another character's turn afterwards), or:
-     * - -5 for automatic - the duration will be determined by choice and level (for spells).
-     * - -1 for permanent
-     * - -2 for until rest
-     * - -3 for until refocus
-     * - 1 for until resolved - will need to be resolved and removed manually before time can pass
-     * - 2 for until another character's turn - will end when the other character starts their turn
-     * - 0 for no duration - will be processed and then immediately removed, useful for instant effects and chaining conditions
-     */
-    public duration = -1;
     public maxDuration = -1;
     /** nextStage in turns * 10 */
     public nextStage = 0;
@@ -110,7 +97,6 @@ export class ConditionGain implements Serializable<ConditionGain> {
     public notes = '';
     public source = '';
     public parentID = '';
-    public value = 0;
     /**
      * Only activate this condition if this string evaluates to a numeral nonzero value (so use "<evaluation> ? 1 : null").
      * This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
@@ -158,8 +144,6 @@ export class ConditionGain implements Serializable<ConditionGain> {
     public valueLockedByParent = false;
     /** For spells, designate if the condition is meant for the caster or "" for the normal target creature. */
     public targetFilter = '';
-    /** Some conditions have a choice that you can make. That is stored in this value. */
-    public choice = '';
     /**
      * If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType,
      * the choice will be set to the subtype of that feat. This overrides any manual choice.
@@ -189,13 +173,40 @@ export class ConditionGain implements Serializable<ConditionGain> {
 
     /** For conditions within conditions, activate this condition only if this choice was made on the original condition. */
     public conditionChoiceFilter: Array<string> = [];
-    /** Some conditions allow you to select other conditions to override. These are saved here. */
-    public selectedOtherConditions: Array<string> = [];
 
     /** A condition's gainActivities gets copied here to track. */
     public gainActivities: Array<ActivityGain> = [];
     /** A condition's gainItems gets copied here to track. */
     public gainItems: Array<ItemGain> = [];
+
+    public choice$: BehaviorSubject<string>;
+    public duration$: BehaviorSubject<number>;
+    public value$: BehaviorSubject<number>;
+
+    /** Some conditions have a choice that you can make. That is stored in this value. */
+    private _choice = '';
+    /**
+     * Duration in turns * 10 (+1 to resolve afterwards, +2 to end on another character's turn afterwards), or:
+     * - -5 for automatic - the duration will be determined by choice and level (for spells). Active Conditions cannot have duration -5.
+     * - -1 for permanent
+     * - -2 for until rest
+     * - -3 for until refocus
+     * - 1 for until resolved - will need to be resolved and removed manually before time can pass
+     * - 2 for until another character's turn - will end when the other character starts their turn
+     * - 3 for until resolved, then another character's turn
+     * - 0 for no duration - will be processed and then immediately removed, useful for instant effects and chaining conditions
+     */
+    private _duration = -1;
+    private _value = 0;
+
+    /** Some conditions allow you to select other conditions to override. These are saved here. */
+    private readonly _selectedOtherConditions = new OnChangeArray<string>();
+
+    constructor() {
+        this.choice$ = new BehaviorSubject(this._choice);
+        this.duration$ = new BehaviorSubject(this._duration);
+        this.value$ = new BehaviorSubject(this._value);
+    }
 
     public get durationIsDynamic(): boolean {
         return this.duration === TimePeriods.Default;
@@ -226,6 +237,41 @@ export class ConditionGain implements Serializable<ConditionGain> {
 
     public get durationEndsOnOtherTurnChange(): boolean {
         return [TimePeriods.UntilOtherCharactersTurn, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(this.duration);
+    }
+
+    public get choice(): string {
+        return this._choice;
+    }
+
+    public set choice(value: string) {
+        this._choice = value;
+        this.choice$.next(this._choice);
+    }
+
+    public get duration(): number {
+        return this._duration;
+    }
+
+    public set duration(value: number) {
+        this._duration = value;
+        this.duration$.next(this._duration);
+    }
+
+    public get value(): number {
+        return this._value;
+    }
+
+    public set value(value: number) {
+        this._value = value;
+        this.value$.next(this._value);
+    }
+
+    public get selectedOtherConditions(): OnChangeArray<string> {
+        return this._selectedOtherConditions;
+    }
+
+    public set selectedOtherConditions(value: Array<string>) {
+        this._selectedOtherConditions.setValues(...value);
     }
 
     public static from(values: DeepPartial<ConditionGain>, recastFns: RecastFns): ConditionGain {

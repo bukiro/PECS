@@ -33,9 +33,7 @@ export class SavegamesService {
         private readonly _store$: Store,
     ) {
         _store$.select(selectAuthStatus)
-            .pipe(
-                distinctUntilChanged(),
-            )
+            .pipe(distinctUntilChanged())
             .subscribe(config => {
                 if (config.key === ApiStatusKey.Ready) {
                     this.reset();

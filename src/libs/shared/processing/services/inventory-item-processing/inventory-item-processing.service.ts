@@ -16,6 +16,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ArmorClassService } from 'src/libs/shared/services/armor-class/armor-class.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
@@ -39,6 +40,7 @@ export class InventoryItemProcessingService {
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemTransferService: ItemTransferService,
         private readonly _toastService: ToastService,
@@ -203,7 +205,7 @@ export class InventoryItemProcessingService {
 
         //If the item can't be un-invested, make sure you lose the conditions you gained from equipping it.
         if (!item.canInvest()) {
-            this._creatureConditionsService.removeGainedItemConditions(creature, item);
+            this._creatureConditionRemovalService.removeGainedItemConditions(item, creature);
         }
 
         item.propertyRunes?.forEach(rune => {
@@ -262,7 +264,7 @@ export class InventoryItemProcessingService {
                 },
             );
         });
-        this._creatureConditionsService.removeGainedItemConditions(creature, item);
+        this._creatureConditionRemovalService.removeGainedItemConditions(item, creature);
         this._refreshService.prepareChangesByItem(
             creature,
             item,
@@ -362,7 +364,7 @@ export class InventoryItemProcessingService {
         } else if (item.invested && item.canInvest()) {
             this._creatureEquipmentService.investItem(creature, inventory, item, false, false);
         } else if (!item.equippable && !item.canInvest()) {
-            this._creatureConditionsService.removeGainedItemConditions(creature, item);
+            this._creatureConditionRemovalService.removeGainedItemConditions(item, creature);
         }
 
         item.propertyRunes

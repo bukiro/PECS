@@ -1,15 +1,12 @@
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { Observable, BehaviorSubject, Subscription, combineLatest, switchMap, map, distinctUntilChanged, of } from 'rxjs';
-import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { HealthService, CalculatedHealth } from 'src/libs/shared/services/health/health.service';
+import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { TimeBlockingService } from 'src/libs/shared/time/services/time-blocking/time-blocking.service';
@@ -23,6 +20,16 @@ import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.compone
 import { NgbPopover, NgbProgressbar, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
+import { filterConditions } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
+
+interface CollectedHealth {
+    maxHP: { result: number; explain: string };
+    currentHP: { result: number; explain: string };
+    wounded: number;
+    dying: number;
+    maxDying: number;
+}
 
 @Component({
     selector: 'app-health',
@@ -63,7 +70,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
         private readonly _timeService: TimeService,
         private readonly _refreshService: RefreshService,
         private readonly _creatureEffectsService: CreatureEffectsService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _healthService: HealthService,
         private readonly _timeBlockingService: TimeBlockingService,
         private readonly _characterFeatsService: CharacterFeatsService,
@@ -92,7 +99,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                 this._isForcedMinimized$,
             ])
                 .pipe(
-                    map(([forced, bySetting]) => forced || bySetting),
+                    map(([bySetting, forced]) => forced || bySetting),
                     distinctUntilChanged(),
                 );
 
@@ -141,10 +148,14 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
         this._timeService.rest();
     }
 
-    public calculatedHealth(): CalculatedHealth {
-        const calculatedHealth = this._healthService.calculate(this.creature);
-
-        return calculatedHealth;
+    public calculatedHealth$(): Observable<CollectedHealth> {
+        return combineLatest({
+            maxHP: this._healthService.maxHP$(this.creature),
+            currentHP: this._healthService.currentHP$(this.creature),
+            wounded: this._healthService.wounded$(this.creature),
+            dying: this._healthService.dying$(this.creature),
+            maxDying: this._healthService.maxDying$(this.creature),
+        });
     }
 
     public damageSliderMax(maxHP: number): number {
@@ -164,21 +175,15 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
             //Reduce all dying conditions by 1
             //Conditions with Value 0 get cleaned up in the conditions Service
             //Wounded is added automatically when Dying is removed
-            this._creatureConditionsService
-                .currentCreatureConditions(this.creature, { name: 'Dying' })
+            filterConditions(this.creature.conditions, { name: 'Dying' })
                 .forEach(gain => {
                     gain.value = Math.max(gain.value - 1, 0);
                 });
         } else {
-            this._creatureConditionsService
-                .currentCreatureConditions(this.creature, { name: 'Dying' })
+            filterConditions(this.creature.conditions, { name: 'Dying' })
                 .forEach(gain => {
                     gain.value = Math.min(gain.value + 1, maxDying);
                 });
-
-            if (this._healthService.dying(this.creature) >= maxDying) {
-                this._die('Failed Dying Save');
-            }
         }
 
         this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
@@ -186,11 +191,12 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
     }
 
     public onHeroPointRecover(): void {
-        this._creatureConditionsService
-            .currentCreatureConditions(this.creature, { name: 'Dying' })
-            .forEach(gain => {
-                this._creatureConditionsService.removeCondition(this.creature, gain, false, false, false);
-            });
+        this._creatureConditionRemovalService.removeConditionGains(
+            filterConditions(this.creature.conditions, { name: 'Dying' }),
+            this.creature,
+            { preventWoundedIncrease: true, allowRemovePersistentConditions: true },
+        );
+
         CreatureService.character.heroPoints = 0;
         this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
         this._refreshService.prepareDetailToChange(this.creature.type, 'general');
@@ -198,11 +204,11 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
     }
 
     public onHealWounded(): void {
-        this._creatureConditionsService
-            .currentCreatureConditions(this.creature, { name: 'Wounded' })
-            .forEach(gain => {
-                this._creatureConditionsService.removeCondition(this.creature, gain, false);
-            });
+        this._creatureConditionRemovalService.removeConditionGains(
+            filterConditions(this.creature.conditions, { name: 'Wounded' }),
+            this.creature,
+        );
+
         this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
         this._refreshService.processPreparedChanges();
     }
@@ -372,25 +378,4 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
         this._changeSubscription?.unsubscribe();
         this._viewChangeSubscription?.unsubscribe();
     }
-
-    private _die(reason: string): void {
-        if (
-            !this._creatureConditionsService
-                .currentCreatureConditions(this.creature, { name: 'Dead' })
-                .length
-        ) {
-            this._creatureConditionsService.addCondition(
-                this.creature,
-                ConditionGain.from({ name: 'Dead', source: reason }, RecastService.recastFns),
-                {},
-                { noReload: true },
-            );
-            this._creatureConditionsService
-                .currentCreatureConditions(this.creature, { name: 'Doomed' }, { readonly: true })
-                .forEach(gain => {
-                    this._creatureConditionsService.removeCondition(this.creature, gain, false);
-                });
-        }
-    }
-
 }

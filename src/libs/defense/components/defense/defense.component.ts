@@ -28,7 +28,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$, deepDistinctUntilChanged, emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
+import { propMap$, emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { SkillComponent } from 'src/libs/shared/skill/components/skill/skill.component';
@@ -42,6 +42,10 @@ import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/components/object-effects/object-effects.component';
 import { CommonModule } from '@angular/common';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
+import { isEqualPrimitiveObject } from 'src/libs/shared/util/compare-utils';
+import { AppliedCreatureConditionsService } from 'src/libs/shared/services/creature-conditions/applied-creature-conditions.service';
+import { filterConditions } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
 
 interface ComponentParameters {
     ACSources: ACForDisplay;
@@ -95,7 +99,9 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
         private readonly _toastService: ToastService,
         private readonly _armorClassService: ArmorClassService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _itemActivationService: ItemActivationService,
         private readonly _skillsDataService: SkillsDataService,
     ) {
@@ -216,7 +222,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
         const creature = this.creature;
 
         if (currentFlatFooted) {
-            this._creatureConditionsService.removeCondition(creature, currentFlatFooted, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(currentFlatFooted, creature);
         } else {
             const newCondition =
                 ConditionGain.from({ name: 'Flat-Footed', source: 'Quick Status', duration: -1 }, RecastService.recastFns);
@@ -231,7 +237,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
         const creature = this.creature;
 
         if (currentHidden) {
-            this._creatureConditionsService.removeCondition(creature, currentHidden, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(currentHidden, creature);
         } else {
             const newCondition: ConditionGain =
                 ConditionGain.from({ name: 'Hidden', source: 'Quick Status', duration: -1 }, RecastService.recastFns);
@@ -331,7 +337,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
         //Return names that get_FeatsShowingOn should run on for a shield.
         return item.effectiveEmblazonArmament$
             .pipe(
-                deepDistinctUntilChanged(),
+                distinctUntilChanged(isEqualPrimitiveObject),
                 map(emblazonArmament => {
                     const specialNames: Array<string> = [];
 
@@ -405,25 +411,20 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     private _currentCover$(): Observable<CoverTypes> {
-        return this.creature$
+        return propMap$(this.creature$, 'conditions', 'values$')
             .pipe(
-                map(creature => {
-                    const conditions: Array<ConditionGain> =
-                        this._creatureConditionsService.currentCreatureConditions(
-                            creature,
-                            { name: 'Cover', source: 'Quick Status' },
-                            { readonly: true },
-                        );
+                map(conditions => {
+                    const coverConditions = filterConditions(conditions, { name: 'cover', source: 'quick status' });
 
-                    if (conditions.some(gain => gain.choice === 'Greater')) {
+                    if (coverConditions.some(({ choice }) => choice === 'Greater')) {
                         return CoverTypes.GreaterCover;
                     }
 
-                    if (conditions.some(gain => gain.choice === 'Standard')) {
+                    if (coverConditions.some(({ choice }) => choice === 'Standard')) {
                         return CoverTypes.Cover;
                     }
 
-                    if (conditions.some(gain => gain.choice === 'Lesser')) {
+                    if (coverConditions.some(({ choice }) => choice === 'Lesser')) {
                         return CoverTypes.LesserCover;
                     }
 
@@ -433,25 +434,19 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     private _currentHidden$(): Observable<ConditionGain | undefined> {
-        return this.creature$
+        return propMap$(this.creature$, 'conditions', 'values$')
             .pipe(
-                map(creature => this._creatureConditionsService.currentCreatureConditions(
-                    creature,
-                    { name: 'Hidden', source: 'Quick Status' },
-                    { readonly: true },
-                )[0]),
+                map(conditions =>
+                    filterConditions(conditions, { name: 'Hidden', source: 'Quick Status' })[0],
+                ),
             );
     }
 
     private _currentFlatFooted$(): Observable<ConditionGain | undefined> {
-        return this.creature$
+        return propMap$(this.creature$, 'conditions', 'values$')
             .pipe(
-                map(creature =>
-                    this._creatureConditionsService.currentCreatureConditions(
-                        creature,
-                        { name: 'Flat-Footed', source: 'Quick Status' },
-                        { readonly: true },
-                    )[0],
+                map(conditions =>
+                    filterConditions(conditions, { name: 'Flat-Footed', source: 'Quick Status' })[0],
                 ),
             );
     }

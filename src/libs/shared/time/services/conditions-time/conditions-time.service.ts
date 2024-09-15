@@ -7,6 +7,8 @@ import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
+import { AppliedCreatureConditionsService } from 'src/libs/shared/services/creature-conditions/applied-creature-conditions.service';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
@@ -21,7 +23,9 @@ export class ConditionsTimeService {
 
     constructor(
         private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _itemsDataService: ItemsDataService,
@@ -31,30 +35,24 @@ export class ConditionsTimeService {
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
-    public async tickConditions(
-        creature: Creature,
-        turns = 10,
-        yourTurn: number,
-    ): Promise<void> {
-        const creatureConditions = creature.conditions;
-        //If any conditions are currently stopping time, these are the only ones processed.
-        const IsConditionStoppingTime = (gain: ConditionGain): boolean =>
-            !!gain.duration && this._conditionsDataService.conditionFromName(gain.name).isStoppingTime(gain);
-
-        const timeStoppingConditions = creatureConditions.filter(gain => IsConditionStoppingTime(gain));
-
-        const includedConditions =
-            timeStoppingConditions.length
-                ? timeStoppingConditions.filter(gain => !gain.paused)
-                : creatureConditions.filter(gain => !gain.paused);
-
+    public tickConditions(
+        conditions: Array<ConditionGain>,
+        { creature, turns, yourTurn }: {
+            creature: Creature;
+            turns: number;
+            yourTurn: number;
+        },
+    ): void {
         //If for any reason the maxDuration for a condition is lower than the duration, this is corrected here.
-        includedConditions.filter(gain => gain.maxDuration > 0 && gain.maxDuration < gain.duration).forEach(gain => {
-            gain.maxDuration = gain.duration;
-        });
+        //TODO: Why?
+        conditions
+            .filter(gain => gain.maxDuration > 0 && gain.maxDuration < gain.duration)
+            .forEach(gain => {
+                gain.maxDuration = gain.duration;
+            });
 
-        const SortByShortestDuration = (conditions: Array<ConditionGain>): Array<ConditionGain> =>
-            conditions.sort((a, b) => {
+        const sortByShortestDuration = (conditionsToSort: Array<ConditionGain>): Array<ConditionGain> =>
+            conditionsToSort.sort((a, b) => {
                 // Sort conditions by the length of either their nextstage or their duration, whichever is shorter.
                 const compareA: Array<number> = [];
 
@@ -81,14 +79,14 @@ export class ConditionsTimeService {
 
         while (remainingTurns > 0) {
             if (
-                includedConditions.some(gain =>
+                conditions.some(gain =>
                     (
                         gain.duration > 0 &&
                         gain.choice !== 'Onset'
                     ) ||
                     gain.nextStage > 0,
                 ) ||
-                includedConditions.some(gain =>
+                conditions.some(gain =>
                     gain.decreasingValue &&
                     !gain.valueLockedByParent &&
                     !(
@@ -104,7 +102,7 @@ export class ConditionsTimeService {
                 // step 5 (to the end of the Turn) if it is your Turn or 10 (1 turn) at most.
                 // Otherwise find the next step from either the duration or the nextStage of the first gain of the sorted list.
                 if (
-                    includedConditions.some(gain =>
+                    conditions.some(gain =>
                         gain.value &&
                         gain.decreasingValue &&
                         !gain.valueLockedByParent &&
@@ -120,9 +118,9 @@ export class ConditionsTimeService {
                         first = TimePeriods.Turn;
                     }
                 } else {
-                    if (includedConditions.some(gain => (gain.duration > 0 && gain.choice !== 'Onset') || gain.nextStage > 0)) {
+                    if (conditions.some(gain => (gain.duration > 0 && gain.choice !== 'Onset') || gain.nextStage > 0)) {
                         const firstObject: ConditionGain | undefined =
-                            SortByShortestDuration(includedConditions).find(gain => gain.duration > 0 || gain.nextStage > 0);
+                            sortByShortestDuration(conditions).find(gain => gain.duration > 0 || gain.nextStage > 0);
                         const durations: Array<number> = [];
 
                         if (firstObject) {
@@ -142,12 +140,12 @@ export class ConditionsTimeService {
                     ? Math.min(first, remainingTurns)
                     : remainingTurns;
 
-                includedConditions.filter(gain => gain.duration > 0 && gain.choice !== 'Onset').forEach(gain => {
+                conditions.filter(gain => gain.duration > 0 && gain.choice !== 'Onset').forEach(gain => {
                     gain.duration -= step;
                 });
                 //Conditions that have a nextStage value move that value forward, unless they don't have a duration.
                 //If they don't have a duration, they will be removed in the conditions processing and should not change anymore.
-                includedConditions.filter(gain => gain.nextStage > 0 && gain.duration !== 0).forEach(gain => {
+                conditions.filter(gain => gain.nextStage > 0 && gain.duration !== 0).forEach(gain => {
                     gain.nextStage -= step;
 
                     if (gain.nextStage <= 0) {
@@ -184,7 +182,7 @@ export class ConditionsTimeService {
                     (yourTurn === TimePeriods.HalfTurn && step === TimePeriods.HalfTurn) ||
                     (yourTurn === TimePeriods.NoTurn && step === TimePeriods.Turn)
                 ) {
-                    includedConditions
+                    conditions
                         .filter(gain => gain.decreasingValue && !gain.valueLockedByParent && !(gain.value === 1 && gain.lockedByParent))
                         .forEach(gain => {
                             gain.value--;
@@ -205,11 +203,12 @@ export class ConditionsTimeService {
             creature.isCharacter()
                 ? this._characterFeatsService.characterHasFeatAtLevel$('Fast Recovery')
                 : of(false),
+            this._appliedCreatureConditionsService.appliedCreatureConditions$(creature),
         ])
             .pipe(
                 take(1),
             )
-            .subscribe(([verdantMetamorphosisEffects, afterRestEffects, hasFastRecovery]) => {
+            .subscribe(([verdantMetamorphosisEffects, afterRestEffects, hasFastRecovery, appliedConditions]) => {
                 creature.conditions.filter(gain => gain.durationIsUntilRest).forEach(gain => {
                     gain.duration = 0;
                 });
@@ -218,7 +217,9 @@ export class ConditionsTimeService {
                 if (creature.health.damage === 0) {
                     creature.conditions
                         .filter(gain => gain.name === 'Wounded')
-                        .forEach(gain => this._creatureConditionsService.removeCondition(creature, gain, false));
+                        .forEach(gain => {
+                            this._creatureConditionRemovalService.removeSingleCondition({ gain }, creature);
+                        });
                 }
 
                 if (verdantMetamorphosisEffects.length) {
@@ -260,30 +261,41 @@ export class ConditionsTimeService {
                 // and the value of Doomed and Drained is reduced (unless locked by its parent).
                 creature.conditions
                     .filter(gain => gain.name === 'Fatigued' && !gain.valueLockedByParent)
-                    .forEach(gain => this._creatureConditionsService.removeCondition(creature, gain), false);
+                    .forEach(gain => {
+                        this._creatureConditionRemovalService.removeSingleCondition({ gain }, creature);
+                    });
                 creature.conditions
                     .filter(gain => gain.name === 'Doomed' && !gain.valueLockedByParent && !(gain.lockedByParent && gain.value === 1))
                     .forEach(gain => { gain.value -= 1; });
                 creature.conditions
                     .filter(gain => gain.name === 'Drained' && !gain.valueLockedByParent && !(gain.lockedByParent && gain.value === 1))
                     .forEach(gain => {
+                        const doesGainApply = appliedConditions.some(({ gain: appliedGain }) => appliedGain.id === gain.id);
+                        const twice = 2;
+                        const once = 1;
+
                         gain.value -= 1;
 
-                        if (gain.apply) {
-                            creature.health.damage += creature.level;
-                        }
+                        // If you have Fast Recovery or have activated the effect of Forge-Day's Rest,
+                        // reduce the value by 2 instead of 1 (unless there is no value )
+                        const amount =
+                            (
+                                gain.value > 1
+                                && (
+                                    hasFastRecovery
+                                    || this._featsDataService.feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)
+                                )
+                            )
+                                ? twice
+                                : once;
 
-                        if (
-                            // If you have Fast Recovery or have activated the effect of Forge-Day's Rest,
-                            // reduce the value by 2 instead of 1.
-                            hasFastRecovery
-                            || this._featsDataService.feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)
-                        ) {
-                            gain.value -= 1;
+                        gain.value -= amount;
 
-                            if (gain.apply) {
-                                creature.health.damage += creature.level;
-                            }
+                        // When the Drained condition is lessened, max HP is restored, but you are not supposed to heal the lost HP.
+                        // Because lost HP is max HP - damage,
+                        // you need to actually take damage at the moment when the condition is lessened.
+                        if (doesGainApply) {
+                            creature.health.damage += creature.level * amount;
                         }
                     });
 

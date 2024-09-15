@@ -1,13 +1,13 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, map } from 'rxjs';
+import { Observable, switchMap, map, combineLatest, of } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Effect } from 'src/app/classes/effects/effect';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { AppliedCreatureConditionsService } from 'src/libs/shared/services/creature-conditions/applied-creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
+import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -16,8 +16,7 @@ export class TimeBlockingService {
 
     constructor(
         private readonly _creatureEffectsService: CreatureEffectsService,
-        private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) { }
 
@@ -25,28 +24,39 @@ export class TimeBlockingService {
         duration: number,
         options: { includeResting: boolean },
     ): Observable<string | undefined> {
-        const afflictionOnsetsWithinDuration = (creature: Creature): boolean =>
-            this._creatureConditionsService
-                .currentCreatureConditions(creature, {}, { readonly: true })
-                .some(gain =>
-                    (
-                        !this._conditionsDataService.conditionFromName(gain.name).automaticStages &&
-                        !gain.paused &&
-                        gain.nextStage < duration &&
-                        gain.nextStage > 0
-                    ) ||
-                    gain.nextStage === -1 ||
-                    gain.durationIsInstant);
-
-        const timeStopConditionsActive = (creature: Creature): boolean =>
-            this._creatureConditionsService
-                .currentCreatureConditions(creature, {}, { readonly: true })
-                .some(gain =>
-                    this._conditionsDataService
-                        .conditionFromName(gain.name)
-                        .stopTimeChoiceFilter
-                        .some(filter => [gain.choice, 'All'].includes(filter)),
+        const afflictionOnsetsWithinDuration$ = (creature: Creature): Observable<boolean> =>
+            this._appliedCreatureConditionsService
+                .appliedCreatureConditions$(creature)
+                .pipe(
+                    map(conditions =>
+                        conditions.some(({ gain, condition, paused }) =>
+                            (
+                                !condition.automaticStages &&
+                                !paused &&
+                                gain.nextStage < duration &&
+                                gain.nextStage > 0
+                            ) ||
+                            gain.nextStage === -1 ||
+                            gain.durationIsInstant,
+                        ),
+                    ),
                 );
+
+        const timeStopConditionsActive$ = (creature: Creature): Observable<boolean> =>
+            this._appliedCreatureConditionsService
+                .appliedCreatureConditions$(creature)
+                .pipe(
+                    map(conditions =>
+                        conditions.some(({ gain, condition }) =>
+                            condition
+                                .stopTimeChoiceFilter
+                                .some(filter =>
+                                    stringsIncludeCaseInsensitive([gain.choice, 'All'], filter),
+                                ),
+                        ),
+                    ),
+                );
+
         const multipleTempHPAvailable = (creature: Creature): boolean =>
             creature.health.temporaryHP.length > 1;
         const restingBlockingEffectsActive = (blockingEffects: Array<Effect>): boolean =>
@@ -57,17 +67,28 @@ export class TimeBlockingService {
                 switchMap(creatures => emptySafeCombineLatest(
                     creatures
                         .map(creature =>
-                            this._creatureEffectsService.effectsOnThis$(creature, 'Resting Blocked')
+                            combineLatest([
+                                this._creatureEffectsService.effectsOnThis$(creature, 'Resting Blocked'),
+                                afflictionOnsetsWithinDuration$(creature),
+                                options.includeResting
+                                    ? timeStopConditionsActive$(creature)
+                                    : of(false),
+                            ])
                                 .pipe(
-                                    map(blockedEffects => ({ creature, blockedEffects })),
+                                    map(([blockedEffects, hasAfflictionOnsets, hasTimeStops]) => ({
+                                        creature,
+                                        blockedEffects,
+                                        hasAfflictionOnsets,
+                                        hasTimeStops,
+                                    })),
                                 ),
                         ),
                 )),
                 map(creatureSets => {
                     let result: string | undefined;
 
-                    creatureSets.forEach(({ creature, blockedEffects }) => {
-                        if (afflictionOnsetsWithinDuration(creature)) {
+                    creatureSets.forEach(({ creature, blockedEffects, hasAfflictionOnsets, hasTimeStops }) => {
+                        if (hasAfflictionOnsets) {
                             result =
                                 `One or more conditions${ creature.isCharacter()
                                     ? ''
@@ -75,7 +96,7 @@ export class TimeBlockingService {
                                 } need to be resolved before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
                         }
 
-                        if (options.includeResting && timeStopConditionsActive(creature)) {
+                        if (hasTimeStops) {
                             result =
                                 `Time is stopped for ${ creature.isCharacter()
                                     ? ' you'

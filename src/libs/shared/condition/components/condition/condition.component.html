@@ -508,7 +508,7 @@
             </div>
         }
 
-        @if (isInformationalCondition()) {
+        @if (isInformationalCondition$() | async) {
             <div class="newrow left-aligned lower">
                 <span
                     class="gap-text"
@@ -523,7 +523,7 @@
             </div>
         }
 
-        @if (conditionGain.paused) {
+        @if (paused) {
             <div class="newrow left-aligned lower">
                 <span
                     class="gap-text"
@@ -538,7 +538,7 @@
             </div>
         }
 
-        @if (condition.isStoppingTime(conditionGain)) {
+        @if (condition.isStoppingTime$(conditionGain) | async) {
             <div class="newrow left-aligned lower">
                 <span
                     class="gap-text"
@@ -778,11 +778,11 @@
                             (ngModelChange)="changeOtherConditionSelection()"
                         >
                             @for (
-                                otherCondition of selectOtherConditionOptions(
+                                otherCondition of selectOtherConditionOptions$(
                                     conditionSelection,
                                     conditionGain,
                                     selectIndex
-                                );
+                                ) | async;
                                 track $index
                             ) {
                                 <option [ngValue]="otherCondition">

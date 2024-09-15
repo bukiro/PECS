@@ -16,7 +16,7 @@ import { ConditionsDataService } from '../data/conditions-data.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 import { Condition } from 'src/app/classes/conditions/condition';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
-import { filterDefinedArrayMembers } from '../../util/array-utils';
+import { isDefined } from '../../util/type-guard-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -44,7 +44,8 @@ export class SpellPropertiesService {
         return combineLatest([
             CharacterFlatteningService.characterLevel$,
             emptySafeCombineLatest(
-                filterDefinedArrayMembers(requiredSkillLevels)
+                requiredSkillLevels
+                    .filter(isDefined)
                     .map(name => this._skillValuesService.level$(name, CreatureService.character)
                         .pipe(
                             map(skillLevel => ({ name, skillLevel })),

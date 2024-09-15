@@ -14,6 +14,7 @@ import { ItemSpecializationsDataService } from '../data/item-specializations-dat
 import { SkillsDataService } from '../data/skills-data.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
+import { AppliedCreatureConditionsService } from '../creature-conditions/applied-creature-conditions.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +23,7 @@ export class ArmorPropertiesService {
 
     constructor(
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemSpecializationsDataService: ItemSpecializationsDataService,
         private readonly _characterFeatsService: CharacterFeatsService,
@@ -29,16 +31,16 @@ export class ArmorPropertiesService {
     ) { }
 
     public effectiveProficiency$(armor: Armor, context: { creature: Creature }): Observable<string> {
-        if (
-            this._creatureConditionsService
-                .currentCreatureConditions(context.creature, { name: 'Mage Armor' }, { readonly: true })
-                .length
-        ) {
-            //While wearing mage armor, you use your unarmored proficiency to calculate your AC.
-            return of('Unarmored Defense');
-        }
-
-        return armor.effectiveProficiencyWithoutEffects$();
+        return this._appliedCreatureConditionsService.appliedCreatureConditions$(context.creature, { name: 'Mage Armor' })
+            .pipe(
+                map(conditions => !!conditions.length),
+                switchMap(hasMageArmor =>
+                    //While wearing mage armor, you use your unarmored proficiency to calculate your AC.
+                    hasMageArmor
+                        ? of('Unarmored Defense')
+                        : armor.effectiveProficiencyWithoutEffects$(),
+                ),
+            );
     }
 
     public profLevel$(

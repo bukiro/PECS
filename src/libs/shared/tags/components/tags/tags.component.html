@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-@if (collectAllTags(); as allTags) {
+@if (collectAllTags$() | async; as allTags) {
     <div class="minimized-hide newrow left-aligned">
         @for (traitSet of traits$ | async; track $index) {
             @for (trait of traitSet.traits; track $index) {

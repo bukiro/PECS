@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, of } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
@@ -15,6 +15,8 @@ import { HeightenedDescriptionVariableCollection } from '../spells/heightened-de
 import { ConditionDuration } from './condition-duration';
 import { ConditionGain } from './condition-gain';
 import { safeParseInt } from 'src/libs/shared/util/string-utils';
+import { matchStringListFilter } from 'src/libs/shared/util/filter-utils';
+import { isDefined } from 'src/libs/shared/util/type-guard-utils';
 
 interface ConditionEnd {
     name: string;
@@ -187,6 +189,37 @@ export class Condition implements Serializable<Condition> {
         }
     }
 
+    public get isChangeable(): boolean {
+        //Return whether the condition has values that you can change.
+        return this.hasValue || this.allowRadiusChange;
+    }
+
+    public get hasEffects(): boolean {
+        //Return whether the condition has any effects beyond showing text.
+        return this.hasInstantEffects || this.hasDurationEffects;
+    }
+
+    public get hasInstantEffects(): boolean {
+        //Return whether the condition has any effects that are instantly applied even if the condition has no duration.
+        return (!!this.endConditions.length || !!this.onceEffects.length);
+    }
+
+    public get hasDurationEffects(): boolean {
+        //Return whether the condition has any effects that persist during its duration.
+        return (
+            !!this.effects?.length ||
+            this.hints.some(hint => hint.effects?.length) ||
+            !!this.gainConditions.length ||
+            !!this.nextCondition.length ||
+            !!this.overrideConditions.length ||
+            !!this.denyConditions.length ||
+            !!this.gainItems.length ||
+            !!this.gainActivities.length ||
+            !!this.senses.length ||
+            !!this.endEffects.length
+        );
+    }
+
     public static from(values: DeepPartial<Condition>, recastFns: RecastFns): Condition {
         return new Condition().with(values, recastFns);
     }
@@ -242,67 +275,93 @@ export class Condition implements Serializable<Condition> {
         return isEqual(this, compared, options);
     }
 
-    public conditionOverrides(gain?: ConditionGain): Array<ConditionOverride> {
-        return this.overrideConditions.map(override => {
-            let overrideName = override.name;
-
-            if (gain && override.name.toLowerCase().includes('selectedcondition|')) {
-                overrideName =
-                    gain.selectedOtherConditions[safeParseInt(override.name.toLowerCase().split('|')[1], 0)]
-                    || overrideName;
-            }
-
-            return { name: overrideName, conditionChoiceFilter: override.conditionChoiceFilter };
-        });
+    public appliedAttackRestrictions$(gain?: ConditionGain): Observable<Array<AttackRestriction>> {
+        return gain
+            ? gain.choice$
+                .pipe(
+                    map(choice =>
+                        this.attackRestrictions
+                            // Remove restrictions that don't match the choice filter.
+                            .filter(restriction =>
+                                matchStringListFilter({ value: choice, match: restriction.conditionChoiceFilter }),
+                            ),
+                    ),
+                )
+            : of(
+                this.attackRestrictions
+                    .filter(override => !override.conditionChoiceFilter?.length),
+            );
     }
 
-    public conditionPauses(gain?: ConditionGain): Array<ConditionOverride> {
-        return this.pauseConditions.map(pause => {
-            let pauseName = pause.name;
+    public appliedConditionOverrides$(gain?: ConditionGain): Observable<Array<string>> {
+        return gain
+            ? combineLatest([
+                gain.selectedOtherConditions.values$,
+                gain.choice$,
+            ])
+                .pipe(
+                    map(([selectedOtherConditions, choice]) =>
+                        this.overrideConditions
+                            // Remove overrides that don't match the choice filter.
+                            .filter(override =>
+                                matchStringListFilter({ value: choice, match: override.conditionChoiceFilter }),
+                            )
+                            .map(override => {
+                                if (override.name.toLowerCase().includes('selectedcondition|')) {
+                                    return selectedOtherConditions[safeParseInt(override.name.toLowerCase().split('|')[1], 0)];
+                                }
 
-            if (gain && pause.name.toLowerCase().includes('selectedcondition|')) {
-                pauseName =
-                    gain.selectedOtherConditions[safeParseInt(pause.name.toLowerCase().split('|')[1], 0)]
-                    || pauseName;
-            }
-
-            return { name: pauseName, conditionChoiceFilter: pause.conditionChoiceFilter };
-        });
+                                return override.name;
+                            })
+                            .filter(isDefined),
+                    ),
+                )
+            : of(
+                this.overrideConditions
+                    .filter(override => !override.conditionChoiceFilter?.length)
+                    .map(({ name }) => name));
     }
 
-    public hasEffects(): boolean {
-        //Return whether the condition has any effects beyond showing text.
-        return this.hasInstantEffects() || this.hasDurationEffects();
+    public appliedConditionPauses$(gain?: ConditionGain): Observable<Array<string>> {
+        return gain
+            ? combineLatest([
+                gain.selectedOtherConditions.values$,
+                gain.choice$,
+            ])
+                .pipe(
+                    map(([selectedOtherConditions, choice]) =>
+                        this.pauseConditions
+                            // Remove pauses that don't match the choice filter.
+                            .filter(pause =>
+                                matchStringListFilter({ value: choice, match: pause.conditionChoiceFilter }),
+                            )
+                            .map(pause => {
+                                if (pause.name.toLowerCase().includes('selectedcondition|')) {
+                                    return selectedOtherConditions[safeParseInt(pause.name.toLowerCase().split('|')[1], 0)];
+                                }
+
+                                return pause.name;
+                            })
+                            .filter(isDefined),
+                    ),
+                )
+            : of(
+                this.pauseConditions
+                    .filter(pause => !pause.conditionChoiceFilter?.length)
+                    .map(({ name }) => name),
+            );
     }
 
-    public hasInstantEffects(): boolean {
-        //Return whether the condition has any effects that are instantly applied even if the condition has no duration.
-        return (!!this.endConditions.length || !!this.onceEffects.length);
-    }
-
-    public hasDurationEffects(): boolean {
-        //Return whether the condition has any effects that persist during its duration.
+    public isStoppingTime$(gain?: ConditionGain): Observable<boolean> {
         return (
-            !!this.effects?.length ||
-            this.hints.some(hint => hint.effects?.length) ||
-            !!this.gainConditions.length ||
-            !!this.nextCondition.length ||
-            !!this.overrideConditions.length ||
-            !!this.denyConditions.length ||
-            !!this.gainItems.length ||
-            !!this.gainActivities.length ||
-            !!this.senses.length ||
-            !!this.endEffects.length
-        );
-    }
-
-    public isChangeable(): boolean {
-        //Return whether the condition has values that you can change.
-        return this.hasValue || this.allowRadiusChange;
-    }
-
-    public isStoppingTime(conditionGain?: ConditionGain): boolean {
-        return this.stopTimeChoiceFilter.some(filter => ['All', (conditionGain?.choice || 'All')].includes(filter));
+            gain?.choice$
+            ?? of('All')
+        )
+            .pipe(
+                map(choice =>
+                    this.stopTimeChoiceFilter.some(filter => ['All', choice].includes(filter)),
+                ),
+            );
     }
 
     public unfilteredChoices(): Array<string> {

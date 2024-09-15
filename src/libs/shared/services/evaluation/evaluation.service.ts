@@ -17,7 +17,6 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { creatureSizeName } from 'src/libs/shared/util/creature-utils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
@@ -32,7 +31,9 @@ import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
 import { Equipment } from 'src/app/classes/items/equipment';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
-import { filterDefinedArrayMembers } from '../../util/array-utils';
+import { AppliedCreatureConditionsService } from '../creature-conditions/applied-creature-conditions.service';
+import { filterConditions } from '../creature-conditions/condition-filter-utils';
+import { isDefined } from '../../util/type-guard-utils';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -61,7 +62,7 @@ export class EvaluationService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _healthService: HealthService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
         private readonly _speedValuesService: SpeedValuesService,
         private readonly _creatureEffectsService: CreatureEffectsService,
@@ -115,6 +116,9 @@ export class EvaluationService {
         // While this still uses eval, it can't be reactive. As a workaround, we need to prepare the results beforehand.
         const ownedActivitiesRegex = /Owned_Activities\('(.+?)'\)/gm;
         let shouldPrepareActivities = false;
+        const hasConditionRegex = /Has_Condition\('(.+?)'\)/gm;
+        const ownedConditionsRegex = /Owned_Conditions\('(.+?)'\)/gm;
+        let shouldPrepareConditions = false;
         const hasFeatRegex = /Has_Feat\('(.+?),[ ]*(.+?)'\)/gm;
         const hasFeatNames: Array<{ creature?: string; featName?: string }> = [];
         const featsTakenRegex = /Feats_Taken\('(.+?)'\)/gm;
@@ -135,11 +139,19 @@ export class EvaluationService {
         let shouldPrepareDeities = false;
         const sizeRegex = /Size\(\)/gm;
         let shouldPrepareSize = false;
-        const SpellcastingModifierRegex = /SpellcastingModifier\(\)/gm;
+        const spellcastingModifierRegex = /SpellcastingModifier\(\)/gm;
         let shouldPrepareSpellcastingModifier = false;
 
         ownedActivitiesRegex.exec(formula)?.forEach(() => {
             shouldPrepareActivities = true;
+        });
+
+        hasConditionRegex.exec(formula)?.forEach(() => {
+            shouldPrepareConditions = true;
+        });
+
+        ownedConditionsRegex.exec(formula)?.forEach(() => {
+            shouldPrepareConditions = true;
         });
 
         hasFeatRegex.exec(formula)?.forEach(match => {
@@ -170,7 +182,7 @@ export class EvaluationService {
             abilityModNames.push(match[1]);
         });
 
-        SpellcastingModifierRegex.exec(formula)?.forEach(() => {
+        spellcastingModifierRegex.exec(formula)?.forEach(() => {
             shouldPrepareSpellcastingModifier = true;
         });
 
@@ -241,6 +253,9 @@ export class EvaluationService {
             shouldPrepareActivities
                 ? this._creatureActivitiesService.creatureOwnedActivities$(Creature)
                 : of([]),
+            shouldPrepareConditions
+                ? this._appliedCreatureConditionsService.appliedCreatureConditions$(Creature)
+                : of([]),
             emptySafeCombineLatest(
                 hasFeatNames
                     .filter((requiredFeat): requiredFeat is { creature: string; featName: string } =>
@@ -252,7 +267,8 @@ export class EvaluationService {
                         )),
             ),
             emptySafeCombineLatest(
-                filterDefinedArrayMembers(speedNames)
+                speedNames
+                    .filter(isDefined)
                     .map(speedName =>
                         //This tests if you have a certain speed, either from your ancestry or from absolute effects.
                         // Bonuses and penalties are ignored, since you shouldn't get a bonus to a speed you don't have.
@@ -270,7 +286,8 @@ export class EvaluationService {
 
             ),
             emptySafeCombineLatest(
-                filterDefinedArrayMembers(speedNames)
+                speedNames
+                    .filter(isDefined)
                     .map(speedName =>
                         this._speedValuesService.value$(this._testSpeed(speedName), Creature)
                             .pipe(
@@ -280,7 +297,8 @@ export class EvaluationService {
 
             ),
             emptySafeCombineLatest(
-                filterDefinedArrayMembers(featsTakenCreatures)
+                featsTakenCreatures
+                    .filter(isDefined)
                     .map(creature => featsTaken$(creature)
                         .pipe(
                             map(feats => ({ creature, feats })),
@@ -288,7 +306,8 @@ export class EvaluationService {
                     ),
             ),
             emptySafeCombineLatest(
-                filterDefinedArrayMembers(skillValueNames)
+                skillValueNames
+                    .filter(isDefined)
                     .map(skillName =>
                         // Skill value comparisons use the base value, i.e. before effects.
                         // This prevents an effect from flipflopping if it changes the skill value and therefore its own value,
@@ -303,7 +322,8 @@ export class EvaluationService {
                     ),
             ),
             emptySafeCombineLatest(
-                filterDefinedArrayMembers(skillLevelNames)
+                skillLevelNames
+                    .filter(isDefined)
                     .map(skillName => (Creature === Familiar)
                         ? of({ skill: skillName, value: 0 })
                         : this._skillValuesService.level$(skillName, Creature, Level)
@@ -313,7 +333,8 @@ export class EvaluationService {
                     ),
             ),
             emptySafeCombineLatest(
-                filterDefinedArrayMembers(abilityValueNames)
+                abilityValueNames
+                    .filter(isDefined)
                     .map(abilityName => (Creature === Familiar)
                         ? of({ ability: abilityName, value: { result: 0 } })
                         : this._abilityValuesService.value$(abilityName, Creature, Level)
@@ -323,7 +344,8 @@ export class EvaluationService {
                     ),
             ),
             emptySafeCombineLatest(
-                filterDefinedArrayMembers(abilityModNames)
+                abilityModNames
+                    .filter(isDefined)
                     .map(abilityName => (Creature === Familiar)
                         ? of({ ability: abilityName, value: { result: 0 } })
                         : this._abilityValuesService.mod$(abilityName, Creature, Level)
@@ -350,6 +372,7 @@ export class EvaluationService {
                     currentHP,
                     maxHP,
                     ownedActivities,
+                    ownedConditions,
                     takenFeatNames,
                     availableSpeedNames,
                     speedValues,
@@ -398,10 +421,10 @@ export class EvaluationService {
                     const Has_Speed = (name: string): boolean => availableSpeedNames.includes(name);
                     const Speed = (name: string): number => speedValues.find(speedValue => speedValue.name === name)?.value ?? 0;
                     const Has_Condition = (name: string): boolean => (
-                        !!this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true }).length
+                        !!filterConditions(ownedConditions.map(({ gain }) => gain), { name }).length
                     );
                     const Owned_Conditions = (name: string): Array<ConditionGain> => (
-                        this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true })
+                        filterConditions(ownedConditions.map(({ gain }) => gain), { name })
                     );
                     const Owned_Activities = (name: string): Array<ActivityGain | ItemActivity> =>
                         ownedActivities.filter(gain => gain.name === name);

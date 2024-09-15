@@ -8,6 +8,8 @@ import { EffectGain } from 'src/app/classes/effects/effect-gain';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { conditionFilter, filterConditions } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
@@ -21,6 +23,8 @@ import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-s
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
+import { matchStringFilter } from 'src/libs/shared/util/filter-utils';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 @Injectable({
@@ -31,6 +35,7 @@ export class ConditionProcessingService {
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _healthService: HealthService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
@@ -64,7 +69,7 @@ export class ConditionProcessingService {
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities
-            .map(activityGain => activityGain.clone());
+            .map(activityGain => activityGain.clone().with({ heightened: gain.heightened }));
 
         //Process adding or removing other conditions.
         if (taken) {
@@ -109,7 +114,7 @@ export class ConditionProcessingService {
         }
 
         //Stuff that happens when your Dying value is raised or lowered beyond a limit.
-        if (gain.name === 'Dying') {
+        if (stringEqualsCaseInsensitive(gain.name, 'Dying')) {
             didConditionDoAnything = true;
 
             this._processDyingCondition(creature, taken, increaseWounded);
@@ -178,44 +183,48 @@ export class ConditionProcessingService {
     }
 
     private _processEndConditions(creature: Creature, condition: Condition, gain: ConditionGain): boolean {
-        let areEndConditionsProcessed = false;
+        const processedEndConditions =
+            condition.endConditions
+                .map(end => {
+                    const conditionsToRemove =
+                        creature.conditions
+                            .filter(conditionFilter({ name: end.name }))
+                            .filter(creatureGain =>
+                                creatureGain !== gain &&
+                                (
+                                    !end.sameCasterOnly ||
+                                    (
+                                        creatureGain.foreignPlayerId === gain.foreignPlayerId
+                                    )
+                                ),
+                            );
 
-        condition.endConditions.forEach(end => {
-            this._creatureConditionsService.currentCreatureConditions(creature, { name: end.name })
-                .filter(conditionGain =>
-                    conditionGain !== gain &&
-                    (
-                        !end.sameCasterOnly ||
-                        (
-                            conditionGain.foreignPlayerId === gain.foreignPlayerId
-                        )
-                    ),
-                )
-                .forEach(conditionGain => {
-                    this._creatureConditionsService.removeCondition(creature, conditionGain, false, end.increaseWounded);
+                    return this._creatureConditionRemovalService.removeConditionGains(
+                        conditionsToRemove,
+                        creature,
+                        { preventWoundedIncrease: !end.increaseWounded },
+                    );
                 });
 
-            areEndConditionsProcessed = true;
-        });
-
-        return areEndConditionsProcessed;
+        return processedEndConditions.includes(true);
     }
 
     private _processEndsWithConditions(creature: Creature, condition: Condition, gain: ConditionGain): boolean {
-        let areEndsWithConditionsProcessed = false;
+        const conditionsToRemove =
+            creature.conditions
+                .map(creatureGain => ({
+                    gain: creatureGain,
+                    condition: this._conditionsDataService.conditionFromName(creatureGain.name),
+                }))
+                .filter(({ condition: creatureCondition }) =>
+                    creatureCondition.endsWithConditions
+                        .some(endsWith =>
+                            endsWith.name === condition.name
+                            && matchStringFilter({ value: gain.source, match: endsWith.source }),
+                        ),
+                );
 
-        this._creatureConditionsService.currentCreatureConditions(creature)
-            .filter(conditionGain =>
-                this._conditionsDataService.conditionFromName(conditionGain.name).endsWithConditions
-                    .some(endsWith => endsWith.name === condition.name && (!endsWith.source || gain.source === endsWith.source)),
-            )
-            .map(conditionGain => conditionGain.clone(RecastService.recastFns))
-            .forEach(conditionGain => {
-                areEndsWithConditionsProcessed = true;
-                this._creatureConditionsService.removeCondition(creature, conditionGain, false);
-            });
-
-        return areEndsWithConditionsProcessed;
+        return this._creatureConditionRemovalService.removeConditions(conditionsToRemove, creature);
     }
 
     private _processNextConditions(creature: Creature, condition: Condition, gain: ConditionGain): boolean {
@@ -257,7 +266,6 @@ export class ConditionProcessingService {
 
                 addCondition.source = gain.name;
                 addCondition.parentID = gain.id;
-                addCondition.apply = true;
                 this._creatureConditionsService.addCondition(creature, addCondition, { parentConditionGain: gain }, { noReload: true });
 
             });
@@ -302,67 +310,47 @@ export class ConditionProcessingService {
         return areGainItemsProcessed;
     }
 
+    // TODO: Dying is also handled in the health service. Consolidate this there, if "increaseWounded" can be transferred.
     private _processDyingCondition(creature: Creature, taken: boolean, increaseWounded: boolean): void {
-        if (taken) {
-            this._healthService.maxDying$(creature)
+        if (!taken) {
+            this._healthService.currentHP$(creature)
                 .pipe(
                     take(1),
                 )
-                .subscribe(maxDying => {
-                    if (this._healthService.dying(creature) >= maxDying) {
-                        if (!this._creatureConditionsService.currentCreatureConditions(creature, { name: 'Dead' }).length) {
+                .subscribe(currentHP => {
+                    if (increaseWounded) {
+                        const woundedConditions = filterConditions(creature.conditions, { name: 'Wounded' });
+
+                        if (woundedConditions.length) {
+                            woundedConditions
+                                .forEach(existingGain => {
+                                    existingGain.value++;
+                                    existingGain.source = 'Recovered from Dying';
+                                });
+                        } else {
                             this._creatureConditionsService.addCondition(
                                 creature,
-                                ConditionGain.from({ name: 'Dead', source: 'Dying value too high' }, RecastService.recastFns),
-                                {},
-                                { noReload: true },
+                                ConditionGain.from(
+                                    { name: 'Wounded', value: 1, source: 'Recovered from Dying' },
+                                    RecastService.recastFns,
+                                ),
+                            );
+                        }
+                    }
+
+                    if (currentHP.result <= 0) {
+                        if (
+                            !filterConditions(creature.conditions, { name: 'Unconscious', source: '0 Hit Points' }).length
+                                && !filterConditions(creature.conditions, { name: 'Unconscious', source: 'Dying' }).length
+                        ) {
+                            this._creatureConditionsService.addCondition(
+                                creature,
+                                ConditionGain.from({ name: 'Unconscious', source: '0 Hit Points' }, RecastService.recastFns),
                             );
                         }
                     }
                 });
-        } else {
-            if (this._healthService.dying(creature) === 0) {
-                if (increaseWounded) {
-                    if (this._healthService.wounded(creature) > 0) {
-                        this._creatureConditionsService.currentCreatureConditions(creature, { name: 'Wounded' })
-                            .forEach(existingGain => {
-                                existingGain.value++;
-                                existingGain.source = 'Recovered from Dying';
-                            });
-                    } else {
-                        this._creatureConditionsService.addCondition(
-                            creature,
-                            ConditionGain.from({ name: 'Wounded', value: 1, source: 'Recovered from Dying' }, RecastService.recastFns),
-                            {},
-                            { noReload: true },
-                        );
-                    }
-                }
 
-                this._healthService.currentHP$(creature)
-                    .pipe(
-                        take(1),
-                    )
-                    .subscribe(currentHP => {
-                        if (currentHP.result <= 0) {
-                            if (
-                                !this._creatureConditionsService
-                                    .currentCreatureConditions(creature, { name: 'Unconscious', source: '0 Hit Points' })
-                                    .length &&
-                                !this._creatureConditionsService
-                                    .currentCreatureConditions(creature, { name: 'Unconscious', source: 'Dying' })
-                                    .length
-                            ) {
-                                this._creatureConditionsService.addCondition(
-                                    creature,
-                                    ConditionGain.from({ name: 'Unconscious', source: '0 Hit Points' }, RecastService.recastFns),
-                                    {},
-                                    { noReload: true },
-                                );
-                            }
-                        }
-                    });
-            }
         }
     }
 
@@ -371,8 +359,11 @@ export class ConditionProcessingService {
 
         //If no other conditions have this ConditionGain's sourceGainID, find the matching SpellGain or ActivityGain and disable it.
         if (
-            !this._creatureConditionsService.currentCreatureConditions(character)
-                .some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID === gain.sourceGainID)
+            !character.conditions
+                .some(conditionGain =>
+                    conditionGain !== gain
+                    && conditionGain.sourceGainID === gain.sourceGainID,
+                )
         ) {
             this._spellsTakenService.takenSpells$(0, Defaults.maxCharacterLevel)
                 .pipe(

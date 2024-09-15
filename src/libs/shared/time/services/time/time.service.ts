@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of, switchMap, zip, map, take, withLatestFrom } from 'rxjs';
+import { of, switchMap, zip, map, take, withLatestFrom, Observable, distinctUntilChanged } from 'rxjs';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { AbsoluteEffect } from 'src/app/classes/effects/effect';
@@ -9,7 +9,6 @@ import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
@@ -25,7 +24,12 @@ import { CustomEffectsTimeService } from '../custom-effects-time/custom-effects-
 import { ItemsTimeService } from '../items-time/items-time.service';
 import { SpellsTimeService } from '../spells-time/spells-time.service';
 import { TurnService } from '../turn/turn.service';
-import { emptySafeZip } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, emptySafeZip } from 'src/libs/shared/util/observable-utils';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
+import { filterConditions } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
+import { AppliedCreatureConditionsService } from 'src/libs/shared/services/creature-conditions/applied-creature-conditions.service';
+import { filterDefinedArrayMembers$ } from 'src/libs/shared/util/array-utils';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 
 @Injectable({
     providedIn: 'root',
@@ -41,7 +45,8 @@ export class TimeService {
         private readonly _abilityValueService: AbilityValuesService,
         private readonly _healthService: HealthService,
         private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _conditionsTimeService: ConditionsTimeService,
         private readonly _spellsTimeService: SpellsTimeService,
         private readonly _itemsTimeService: ItemsTimeService,
@@ -132,36 +137,22 @@ export class TimeService {
     public rest(): void {
         const charLevel: number = CreatureService.character.level;
 
-        this.tick(TimePeriods.EightHours, false);
+        this.tick(TimePeriods.EightHours);
 
         this._creatureAvailabilityService.allAvailableCreatures$()
             .pipe(
-                switchMap(creatures => emptySafeZip(
-                    creatures
-                        .map(creature => zip([
-                            this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Resting HP Gain'),
-                            this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Resting HP Gain'),
-                            this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Resting HP Multiplier'),
-                            this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Resting HP Multiplier'),
-                            this._abilityValueService.mod$('Constitution', creature),
-                        ])
-                            .pipe(
-                                map(([
-                                    gainAbsolutes,
-                                    gainRelatives,
-                                    multiplierAbsolutes,
-                                    multiplierRelatives,
-                                    constitutionModifier,
-                                ]) => ({
-                                    creature,
-                                    gainAbsolutes,
-                                    gainRelatives,
-                                    multiplierAbsolutes,
-                                    multiplierRelatives,
-                                    constitutionModifier,
-                                })),
-                            ),
-                        )),
+                switchMap(creatures =>
+                    emptySafeZip(
+                        creatures
+                            .map(creature => zip([
+                                of(creature),
+                                this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Resting HP Gain'),
+                                this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Resting HP Gain'),
+                                this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Resting HP Multiplier'),
+                                this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Resting HP Multiplier'),
+                                this._abilityValueService.mod$('Constitution', creature),
+                            ])),
+                    ),
                 ),
                 withLatestFrom(zip([
                     this._characterFeatsService.characterHasFeatAtLevel$('Superior Bond'),
@@ -172,14 +163,14 @@ export class TimeService {
             )
             .subscribe(([creatureSets, [hasSuperiorBond, hasUniversalistWizard, maxFocusPoints]]) => {
                 creatureSets.forEach(
-                    ({
+                    ([
                         creature,
                         gainAbsolutes,
                         gainRelatives,
                         multiplierAbsolutes,
                         multiplierRelatives,
                         constitutionModifier,
-                    }) => {
+                    ]) => {
                         this._refreshService.prepareDetailToChange(creature.type, 'health');
                         this._refreshService.prepareDetailToChange(creature.type, 'effects');
 
@@ -270,7 +261,7 @@ export class TimeService {
         tick = true,
     ): void {
         if (tick) {
-            this.tick(TimePeriods.TenMinutes, false);
+            this.tick(TimePeriods.TenMinutes);
         }
 
         const character = CreatureService.character;
@@ -333,78 +324,103 @@ export class TimeService {
 
     public tick(
         turns = 10,
-        reload = true,
     ): void {
         zip([
-            this._creatureAvailabilityService.allAvailableCreatures$(),
+            this._creatureAvailabilityService.allAvailableCreatures$()
+                .pipe(
+                    // For each creature, also collect all applied conditions that stop time.
+                    switchMap(creatures =>
+                        emptySafeCombineLatest(
+                            creatures.map(creature =>
+                                this._collectTimeStoppingConditions$(creature)
+                                    .pipe(
+                                        map(timeStopConditions => ({ creature, timeStopConditions })),
+                                    ),
+                            ),
+                        )),
+                ),
             TurnService.yourTurn$,
         ])
             .pipe(
                 take(1),
             )
-            .subscribe(([creatures, yourTurn]) => {
-                creatures.forEach(creature => {
+            .subscribe(([creatureSets, yourTurn]) => {
+                creatureSets.forEach(({ creature, timeStopConditions }) => {
+                    const timeStopDurations = timeStopConditions.map(gain => gain.duration);
+
                     //If any conditions are currently stopping time, process these first before continuing with the rest.
-                    const timeStopDurations = creature.conditions
-                        .filter(gain => gain.apply && this._conditionsDataService.conditionFromName(gain.name).isStoppingTime(gain))
-                        .map(gain => gain.duration);
-
                     //If any time stopping condition is permanent, no time passes at all.
-                    if (!timeStopDurations.includes(-1)) {
-                        let timeStopDuration: number = Math.max(0, ...timeStopDurations);
+                    if (timeStopDurations.includes(-1)) {
+                        return;
+                    }
 
-                        //Round the duration up to half turns, but no longer than the entered amount of turns.
-                        timeStopDuration = Math.min(Math.ceil(timeStopDuration / TimePeriods.HalfTurn) * TimePeriods.HalfTurn, turns);
+                    let highestTimeStopDuration: number = Math.max(0, ...timeStopDurations);
 
-                        if (timeStopDuration) {
-                            if (creature.conditions.filter(gain => gain.nextStage > 0)) {
-                                this._refreshService.prepareDetailToChange(creature.type, 'time');
-                                this._refreshService.prepareDetailToChange(creature.type, 'health');
-                            }
+                    //Round the duration up to half turns, but no longer than the entered amount of turns.
+                    highestTimeStopDuration =
+                        Math.min(Math.ceil(highestTimeStopDuration / TimePeriods.HalfTurn) * TimePeriods.HalfTurn, turns);
 
-                            this._conditionsTimeService.tickConditions(creature, timeStopDuration, yourTurn);
-                            this._refreshService.prepareDetailToChange(creature.type, 'effects');
+                    if (highestTimeStopDuration) {
+                        this._conditionsTimeService.tickConditions(
+                            timeStopConditions,
+                            { creature, turns: highestTimeStopDuration, yourTurn },
+                        );
+                    }
+
+                    const creatureTurns = turns - highestTimeStopDuration;
+
+                    if (creatureTurns > 0) {
+                        // Tick activities before conditions because activities can end conditions,
+                        // which might go wrong if the condition has already ended (particularly where cooldowns are concerned).
+                        this._activitiesTimeService.tickActivities(creature, creatureTurns);
+
+                        if (creature.conditions.length) {
+                            this._conditionsTimeService.tickConditions(
+                                creature.conditions,
+                                { creature, turns: creatureTurns, yourTurn },
+                            );
                         }
 
-                        const creatureTurns = turns - timeStopDuration;
+                        this._customEffectsTimeService.tickCustomEffects(creature, creatureTurns);
+                        this._itemsTimeService.tickItems(creature, creatureTurns);
 
-                        if (creatureTurns > 0) {
-                            // Tick activities before conditions because activities can end conditions,
-                            // which might go wrong if the condition has already ended (particularly where cooldowns are concerned).
-                            this._activitiesTimeService.tickActivities(creature, creatureTurns);
+                        if (creature.isCharacter()) {
+                            this._spellsTimeService.tickSpells(creatureTurns);
+                        }
 
-                            if (creature.conditions.length) {
-                                if (creature.conditions.filter(gain => gain.nextStage > 0)) {
-                                    this._refreshService.prepareDetailToChange(creature.type, 'time');
-                                    this._refreshService.prepareDetailToChange(creature.type, 'health');
-                                }
-
-                                this._conditionsTimeService.tickConditions(creature, creatureTurns, yourTurn);
-                                this._refreshService.prepareDetailToChange(creature.type, 'effects');
-                            }
-
-                            this._customEffectsTimeService.tickCustomEffects(creature, creatureTurns);
-                            this._itemsTimeService.tickItems(creature, creatureTurns);
-
-                            if (creature.isCharacter()) {
-                                this._spellsTimeService.tickSpells(creatureTurns);
-                            }
-
-                            //If you are at full health and rest for 10 minutes, you lose the wounded condition.
-                            if (creatureTurns >= TimePeriods.TenMinutes && creature.health.damage === 0) {
-                                this._creatureConditionsService
-                                    .currentCreatureConditions(creature, { name: 'Wounded' })
-                                    .forEach(gain => this._creatureConditionsService.removeCondition(creature, gain, false));
-                            }
+                        //If you are at full health and rest for 10 minutes, you lose the wounded condition.
+                        if (creatureTurns >= TimePeriods.TenMinutes && creature.health.damage === 0) {
+                            this._creatureConditionRemovalService.removeConditionGains(
+                                filterConditions(creature.conditions, { name: 'Wounded' }),
+                                creature,
+                            );
                         }
                     }
                 });
-                TurnService.setYourTurn((yourTurn + turns) % TimePeriods.Turn);
 
-                if (reload) {
-                    this._refreshService.processPreparedChanges();
-                }
+                TurnService.setYourTurn((yourTurn + turns) % TimePeriods.Turn);
             });
+    }
+
+    private _collectTimeStoppingConditions$(creature: Creature): Observable<Array<ConditionGain>> {
+        return this._appliedCreatureConditionsService.appliedCreatureConditions$(creature)
+            .pipe(
+                switchMap(conditions =>
+                    emptySafeCombineLatest(
+                        conditions
+                            .map(({ condition, gain }) =>
+                                condition.isStoppingTime$(gain)
+                                    .pipe(
+                                        distinctUntilChanged(),
+                                        map(isStoppingTime =>
+                                            isStoppingTime ? gain : undefined,
+                                        ),
+                                    ),
+                            ),
+                    ),
+                ),
+                filterDefinedArrayMembers$(),
+            );
     }
 
 }

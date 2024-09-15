@@ -12,14 +12,14 @@ const { assign, forExport } = setupSerialization<ConditionEffectsCollection>({
 });
 
 export class ConditionEffectsCollection extends ConditionGain implements Serializable<ConditionEffectsCollection> {
-    constructor(
-        public effects: Array<EffectGain>,
-    ) {
+    public effects: Array<EffectGain> = [];
+
+    constructor() {
         super();
     }
 
     public static from(values: DeepPartial<ConditionEffectsCollection>): ConditionEffectsCollection {
-        return new ConditionEffectsCollection([]).with(values);
+        return new ConditionEffectsCollection().with(values);
     }
 
     public with(values: DeepPartial<ConditionEffectsCollection>): ConditionEffectsCollection {

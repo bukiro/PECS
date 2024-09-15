@@ -279,7 +279,7 @@
             }
 
             @for (
-                conditionSet of conditionsShowingHintsOnThis(activity.name);
+                conditionSet of conditionsShowingHintsOnThis$(activity.name) | async;
                 track $index
             ) {
                 <div class="newrow left-aligned">

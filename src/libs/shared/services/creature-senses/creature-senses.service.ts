@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable, combineLatest, map, of } from 'rxjs';
 import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
-import { ConditionsDataService } from '../data/conditions-data.service';
 import { FamiliarsDataService } from '../data/familiars-data.service';
 import { Feat } from '../../definitions/models/feat';
+import { AppliedCreatureConditionsService } from '../creature-conditions/applied-creature-conditions.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,8 +14,7 @@ import { Feat } from '../../definitions/models/feat';
 export class CreatureSensesService {
 
     constructor(
-        private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
@@ -24,7 +22,7 @@ export class CreatureSensesService {
     public creatureSenses$(creature: Creature, charLevel?: number, allowTemporary = false): Observable<Array<string>> {
         let senses: Array<string> = [];
 
-        return (
+        return combineLatest([
             creature.isCharacter()
                 ? this._characterFeatsService.characterFeatsAtLevel$(charLevel)
                     .pipe(
@@ -34,10 +32,13 @@ export class CreatureSensesService {
                                 .map(feat => feat.senses),
                         ),
                     )
-                : of([])
-        )
+                : of([]),
+            allowTemporary
+                ? this._appliedCreatureConditionsService.appliedCreatureConditions$(creature)
+                : of([]),
+        ])
             .pipe(
-                map(featSenses => {
+                map(([featSenses, conditions]) => {
                     const ancestrySenses: Array<string> =
                         creature.isFamiliar()
                             ? creature.senses
@@ -68,11 +69,8 @@ export class CreatureSensesService {
 
                     if (allowTemporary) {
                         senses.push(...this._sensesGrantedByEquipment(creature));
-                        this._creatureConditionsService.currentCreatureConditions(creature)
-                            .filter(gain => gain.apply)
-                            .forEach(gain => {
-                                const condition = this._conditionsDataService.conditionFromName(gain.name);
-
+                        conditions
+                            .forEach(({ gain, condition }) => {
                                 if (condition?.senses.length) {
                                     //Add all non-excluding senses.
                                     senses.push(
@@ -100,6 +98,7 @@ export class CreatureSensesService {
             );
     }
 
+    // TODO: async
     private _sensesGrantedByEquipment(creature: Creature): Array<string> {
         const senses: Array<string> = [];
 

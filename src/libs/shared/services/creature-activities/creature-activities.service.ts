@@ -16,6 +16,8 @@ import { CreatureConditionsService } from '../creature-conditions/creature-condi
 import { TraitsDataService } from '../data/traits-data.service';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
 import { Trait } from 'src/app/classes/hints/trait';
+import { AppliedCreatureConditionsService } from '../creature-conditions/applied-creature-conditions.service';
+import { flattenArrayLists } from '../../util/array-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -23,6 +25,7 @@ import { Trait } from 'src/app/classes/hints/trait';
 export class CreatureActivitiesService {
 
     constructor(
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _traitsDataService: TraitsDataService,
     ) { }
@@ -46,14 +49,17 @@ export class CreatureActivitiesService {
 
         // Get all applied condition gains' activity gains. These were copied from the condition when it was added.
         // Also set the condition gain's spell level to the activity gain.
-        this._creatureConditionsService.currentCreatureConditions(creature, {}, { readonly: true })
-            .filter(gain => gain.apply)
-            .forEach(gain => {
-                gain.gainActivities.forEach(activityGain => {
-                    activityGain.heightened = gain.heightened;
-                });
-                activities.push(...gain.gainActivities);
-            });
+        activitySources$.push(
+            this._appliedCreatureConditionsService.appliedCreatureConditions$(creature, {})
+                .pipe(
+                    map(conditions =>
+                        flattenArrayLists(
+                            conditions.map(({ gain }) => gain.gainActivities),
+                        ),
+                    ),
+                ),
+
+        );
 
         //With the all parameter, get all activities of all items regardless of whether they are equipped or invested or slotted.
         // This is used for ticking down cooldowns.

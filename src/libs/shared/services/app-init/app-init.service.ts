@@ -53,6 +53,7 @@ import { EquipmentPropertiesService } from '../equipment-properties/equipment-pr
 import { ItemTraitsService } from '../item-traits/item-traits.service';
 import { AuthService } from '../auth/auth.service';
 import { filter, take } from 'rxjs';
+import { CreatureConditionsCleanupService } from '../creature-conditions/creature-conditions-cleanup.service';
 
 @Injectable({
     providedIn: 'root',
@@ -65,6 +66,7 @@ export class AppInitService {
         _extensionsService: DataService,
         _documentStyleService: DocumentStyleService,
         _animalCompanionLevelsService: AnimalCompanionLevelsService,
+        _creatureConditionsCleanupService: CreatureConditionsCleanupService,
         private readonly _authService: AuthService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,

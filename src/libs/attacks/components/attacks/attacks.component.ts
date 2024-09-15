@@ -12,7 +12,6 @@ import { AlchemicalBomb } from 'src/app/classes/items/alchemical-bomb';
 import { AlchemicalPoison } from 'src/app/classes/items/alchemical-poison';
 import { Ammunition } from 'src/app/classes/items/ammunition';
 import { Consumable } from 'src/app/classes/items/consumable';
-import { Equipment } from 'src/app/classes/items/equipment';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { Oil } from 'src/app/classes/items/oil';
 import { OtherConsumableBomb } from 'src/app/classes/items/other-consumable-bomb';
@@ -33,7 +32,6 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
@@ -66,11 +64,21 @@ import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.compone
 import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/components/object-effects/object-effects.component';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
+import { AppliedCreatureConditionsService } from 'src/libs/shared/services/creature-conditions/applied-creature-conditions.service';
+import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
+import { isEqualPrimitiveArray, isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
+import { isDefined } from 'src/libs/shared/util/type-guard-utils';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
     asBomb?: AlchemicalBomb | OtherConsumableBomb;
     isAllowed: boolean;
+}
+
+interface AttackRestrictions {
+    onlyAttacks: Array<AttackRestriction>;
+    forbiddenAttacks: Array<AttackRestriction>;
 }
 
 @Component({
@@ -101,13 +109,14 @@ interface WeaponParameters {
 })
 export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
 
-    public onlyAttacks: Array<AttackRestriction> = [];
-    public forbiddenAttacks: Array<AttackRestriction> = [];
     public showRestricted = false;
 
     public isMinimized$: Observable<boolean>;
     public isInventoryTileMode$: Observable<boolean>;
     public isManualMode$: Observable<boolean>;
+
+    public attackRestrictions$: Observable<AttackRestrictions>;
+    public equippedWeaponsParameters$: Observable<Array<WeaponParameters>>;
 
     private _showItem = '';
     private _showList = '';
@@ -119,8 +128,9 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _refreshService: RefreshService,
-        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _attacksService: AttacksService,
         private readonly _damageService: DamageService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
@@ -156,6 +166,20 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$')
             .pipe(
                 distinctUntilChanged(),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.attackRestrictions$ = this._attackRestrictions$()
+            .pipe(
+                distinctUntilChanged((previous, current) =>
+                    isEqualSerializableArray(current.forbiddenAttacks, previous.forbiddenAttacks)
+                    && isEqualSerializableArray(current.onlyAttacks, previous.onlyAttacks),
+                ),
+                shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+
+        this.equippedWeaponsParameters$ = this._equippedWeaponsParameters$()
+            .pipe(
                 shareReplay({ refCount: true, bufferSize: 1 }),
             );
     }
@@ -225,22 +249,6 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         return this._damageService.critSpecialization$(weapon, this.creature, range);
     }
 
-    public equippedWeaponsParameters(): Array<WeaponParameters> {
-        this._setAttackRestrictions();
-
-        return new Array<Weapon>()
-            .concat(this.creature.mainInventory.weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken))
-            .concat(...this.creature.inventories.map(inv => inv.alchemicalbombs))
-            .concat(...this.creature.inventories.map(inv => inv.otherconsumablesbombs))
-            .sort((a, b) => (a.name === b.name) ? 0 : ((a.name > b.name) ? 1 : -1))
-            .sort((a, b) => (a.type === b.type) ? 0 : ((a.type < b.type) ? 1 : -1))
-            .map(weapon => ({
-                weapon,
-                asBomb: this._weaponAsBomb(weapon),
-                isAllowed: this._isWeaponAllowed(weapon),
-            }));
-    }
-
     public hasMatchingTalismanCord(weapon: Weapon, talisman: Talisman): boolean {
         return weapon.talismanCords.some(cord => cord.isCompatibleWithTalisman(talisman));
     }
@@ -267,12 +275,18 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         this._refreshService.processPreparedChanges();
     }
 
-    public ammoTypes(): Array<string> {
-        return Array.from(new Set(
-            this.equippedWeaponsParameters()
-                .map(weaponParameters => weaponParameters.weapon.ammunition)
-                .filter(ammunition => !!ammunition),
-        ));
+    public ammoTypes$(): Observable<Array<string>> {
+        return this.equippedWeaponsParameters$
+            .pipe(
+                map(equippedWeaponsParameters =>
+                    Array.from(new Set(
+                        equippedWeaponsParameters
+                            .map(({ weapon: { ammunition } }) => ammunition)
+                            .filter(isDefined),
+                    )),
+                ),
+                distinctUntilChanged(isEqualPrimitiveArray),
+            );
     }
 
     public availableAmmo$(type: string): Observable<Array<{ item: Ammunition; name: string; inventory: ItemCollection }>> {
@@ -579,79 +593,99 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         const creature = this.creature;
         const character = CreatureService.character;
 
-        //TODO: Shouldn't it be the character that has Hunt Prey active?
-        const hasCondition = (conditionCreature: Creature, name: string): boolean => (
-            !!this._creatureConditionsService.currentCreatureConditions(conditionCreature, { name }, { readonly: true }).length
-        );
-
-        if (hasCondition(creature, 'Hunt Prey: Flurry')) {
-            return of(true);
-        }
-
-        if (creature.isCharacter()) {
-            if (hasCondition(creature, 'Hunt Prey')) {
-                return this._characterFeatsService.characterHasFeatAtLevel$('Flurry');
-            }
-        }
-
-        if (creature.isAnimalCompanion()) {
-            if (hasCondition(character, 'Hunt Prey')) {
-                return combineLatest([
-                    this._characterFeatsService.characterHasFeatAtLevel$('Flurry'),
-                    this._characterFeatsService.characterHasFeatAtLevel$('Animal Companion (Ranger)'),
-                ])
-                    .pipe(
-                        map(([hasFlurry, hasRangerCompanion]) => !!hasFlurry && !!hasRangerCompanion),
-                    );
-            }
-
-            if (hasCondition(creature, 'Hunt Prey: Flurry')) {
-                return this._characterFeatsService.characterHasFeatAtLevel$('Animal Companion (Ranger)');
-            }
-        }
-
-        return of(false);
-    }
-
-    public multipleAttackPenalty(): string {
-        const creature = this.creature;
-        const conditions: Array<ConditionGain> =
-            this._creatureConditionsService
-                .currentCreatureConditions(creature, {}, { readonly: true })
-                .filter(gain =>
-                    ['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'].includes(gain.name) &&
-                    gain.source === 'Quick Status',
+        const hasCondition$ = (conditionCreature: Creature, name: string): Observable<boolean> =>
+            this._appliedCreatureConditionsService.appliedCreatureConditions$(conditionCreature, { name })
+                .pipe(
+                    map(conditions => !!conditions.length),
                 );
 
-        for (const gain of conditions) {
-            if (gain.name === 'Multiple Attack Penalty (Flurry)') {
-                switch (gain.choice) {
-                    case 'Third Attack': return '3f';
-                    case 'Second Attack': return '2f';
-                    default: break;
-                }
-            }
+        return combineLatest({
+            hasHuntPrey: creature.isCharacter() ? hasCondition$(creature, 'Hunt Prey') : of(false),
+            hasHuntPreyFlurry: hasCondition$(creature, 'Hunt Prey: Flurry'),
+            characterHasHuntPrey: creature.isAnimalCompanion() ? hasCondition$(character, 'Hunt Prey') : of(false),
+            characterHasHuntPreyFlurry: creature.isAnimalCompanion() ? hasCondition$(character, 'Hunt Prey: Flurry') : of(false),
+        })
+            .pipe(
+                switchMap(({ hasHuntPrey, hasHuntPreyFlurry, characterHasHuntPrey, characterHasHuntPreyFlurry }) => {
+                    // Characters can apply flurry if they have Hunt Prey active and own the Ranger Flurry feature.
+                    if (hasHuntPrey) {
+                        return this._characterFeatsService.characterHasFeatAtLevel$('Flurry');
+                    }
 
-            if (gain.name === 'Multiple Attack Penalty') {
-                switch (gain.choice) {
-                    case 'Third Attack': return '3';
-                    case 'Second Attack': return '2';
-                    default: break;
-                }
-            }
-        }
+                    // Any creature can apply flurry if they have the Hunt Prey: Flurry condition active.
+                    if (hasHuntPreyFlurry) {
+                        return of(true);
+                    }
 
-        return '1';
+                    // Companions can apply flurry if the character has Hunt Prey active,
+                    // owns the Ranger Flurry feature and the Ranger Animal Companion feat,
+                    // which allows sharing the Hunter's Edge benefit with the companion.
+                    if (characterHasHuntPrey) {
+                        return combineLatest([
+                            this._characterFeatsService.characterHasFeatAtLevel$('Flurry'),
+                            this._characterFeatsService.characterHasFeatAtLevel$('Animal Companion (Ranger)'),
+                        ])
+                            .pipe(
+                                map(([hasFlurry, hasRangerCompanion]) => !!hasFlurry && !!hasRangerCompanion),
+                            );
+                    }
+
+                    // Companions can apply flurry if the character has the Hunt Prey: Flurry condition active
+                    // and owns the Ranger Animal Companion feat,
+                    // which allows sharing the Hunter's Edge benefit with the companion.
+                    if (characterHasHuntPreyFlurry) {
+                        return this._characterFeatsService.characterHasFeatAtLevel$('Animal Companion (Ranger)');
+                    }
+
+                    return of(false);
+                }),
+            );
+    }
+
+    public multipleAttackPenalty$(): Observable<string> {
+        return propMap$(this.creature$, 'conditions', 'values$')
+            .pipe(
+                map(conditions => conditions.filter(gain =>
+                    stringsIncludeCaseInsensitive(['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'], gain.name)
+                    && stringEqualsCaseInsensitive(gain.source, 'Quick Status'),
+                )),
+                switchMap(conditions => emptySafeCombineLatest(
+                    conditions.map(gain =>
+                        gain.choice$
+                            .pipe(map(choice => ({ gain, choice }))),
+                    ),
+                )),
+                map(mapConditions => {
+                    for (const { gain, choice } of mapConditions) {
+                        if (stringEqualsCaseInsensitive(gain.name, 'Multiple Attack Penalty (Flurry)')) {
+                            switch (choice) {
+                                case 'Third Attack': return '3f';
+                                case 'Second Attack': return '2f';
+                                default: break;
+                            }
+                        }
+
+                        if (stringEqualsCaseInsensitive(gain.name, 'Multiple Attack Penalty')) {
+                            switch (choice) {
+                                case 'Third Attack': return '3';
+                                case 'Second Attack': return '2';
+                                default: break;
+                            }
+                        }
+                    }
+
+                    return '1';
+                }),
+            );
     }
 
     public setMultipleAttackPenalty(mapValue: '1' | '2' | '3' | '2f' | '3f'): void {
         const creature = this.creature;
         const conditions: Array<ConditionGain> =
-            this._creatureConditionsService
-                .currentCreatureConditions(creature, {}, { readonly: true })
+            this.creature.conditions
                 .filter(gain =>
-                    ['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'].includes(gain.name) &&
-                    gain.source === 'Quick Status',
+                    stringsIncludeCaseInsensitive(['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'], gain.name)
+                    && stringEqualsCaseInsensitive(gain.source, 'Quick Status'),
                 );
         const map2 = conditions.find(gain => gain.name === 'Multiple Attack Penalty' && gain.choice === 'Second Attack');
         const map3 = conditions.find(gain => gain.name === 'Multiple Attack Penalty' && gain.choice === 'Third Attack');
@@ -693,19 +727,19 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         }
 
         if (map2 && mapValue !== '2') {
-            this._creatureConditionsService.removeCondition(creature, map2, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(map2, creature);
         }
 
         if (map3 && mapValue !== '3') {
-            this._creatureConditionsService.removeCondition(creature, map3, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(map3, creature);
         }
 
         if (map2f && mapValue !== '2f') {
-            this._creatureConditionsService.removeCondition(creature, map2f, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(map2f, creature);
         }
 
         if (map3f && mapValue !== '3f') {
-            this._creatureConditionsService.removeCondition(creature, map3f, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(map3f, creature);
         }
 
         if (mapName) {
@@ -721,33 +755,43 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         this._refreshService.processPreparedChanges();
     }
 
-    public rangePenalty(): string {
-        const creature = this.creature;
-        const conditions: Array<ConditionGain> =
-            this._creatureConditionsService
-                .currentCreatureConditions(creature, {}, { readonly: true })
-                .filter(gain => gain.name === 'Range Penalty' && gain.source === 'Quick Status');
+    public rangePenalty$(): Observable<string> {
+        return propMap$(this.creature$, 'conditions', 'values$')
+            .pipe(
+                map(conditions => conditions.filter(gain =>
+                    stringEqualsCaseInsensitive(gain.name, 'Range Penalty')
+                    && stringEqualsCaseInsensitive(gain.source, 'Quick Status'),
+                )),
+                switchMap(conditions => emptySafeCombineLatest(
+                    conditions.map(gain => gain.choice$),
+                )),
+                map(choices => {
+                    for (const choice of choices) {
+                        switch (choice) {
+                            case 'Sixth Range Increment': return '6';
+                            case 'Fifth Range Increment': return '5';
+                            case 'Fourth Range Increment': return '4';
+                            case 'Third Range Increment': return '3';
+                            case 'Second Range Increment': return '2';
+                            default: break;
+                        }
+                    }
 
-        for (const gain of conditions) {
-            switch (gain.choice) {
-                case 'Sixth Range Increment': return '6';
-                case 'Fifth Range Increment': return '5';
-                case 'Fourth Range Increment': return '4';
-                case 'Third Range Increment': return '3';
-                case 'Second Range Increment': return '2';
-                default: break;
-            }
-        }
+                    return '1';
+                }),
+            );
 
-        return '1';
+
     }
 
     public setRangePenalty(rap: '1' | '2' | '3' | '4' | '5' | '6'): void {
         const creature = this.creature;
         const conditions: Array<ConditionGain> =
-            this._creatureConditionsService
-                .currentCreatureConditions(creature, {}, { readonly: true })
-                .filter(gain => gain.name === 'Range Penalty' && gain.source === 'Quick Status');
+            creature.conditions
+                .filter(gain =>
+                    stringEqualsCaseInsensitive(gain.name, 'Range Penalty')
+                    && stringEqualsCaseInsensitive(gain.source, 'Quick Status'),
+                );
         const rap2 = conditions.find(gain => gain.choice === 'Second Range Increment');
         const rap3 = conditions.find(gain => gain.choice === 'Third Range Increment');
         const rap4 = conditions.find(gain => gain.choice === 'Fourth Range Increment');
@@ -790,23 +834,23 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         }
 
         if (rap2 && rap !== '2') {
-            this._creatureConditionsService.removeCondition(creature, rap2, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(rap2, creature);
         }
 
         if (rap3 && rap !== '3') {
-            this._creatureConditionsService.removeCondition(creature, rap3, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(rap3, creature);
         }
 
         if (rap4 && rap !== '4') {
-            this._creatureConditionsService.removeCondition(creature, rap4, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(rap4, creature);
         }
 
         if (rap5 && rap !== '5') {
-            this._creatureConditionsService.removeCondition(creature, rap5, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(rap5, creature);
         }
 
         if (rap6 && rap !== '6') {
-            this._creatureConditionsService.removeCondition(creature, rap6, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(rap6, creature);
         }
 
         if (rapChoice) {
@@ -874,68 +918,104 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         this._viewChangeSubscription?.unsubscribe();
     }
 
-    private _setAttackRestrictions(): void {
-        const onlyAttacks: Array<AttackRestriction> = [];
-        const forbiddenAttacks: Array<AttackRestriction> = [];
-
-        this._creatureConditionsService.currentCreatureConditions(this.creature).filter(gain => gain.apply)
-            .forEach(gain => {
-                const condition = this._conditionsDataService.conditionFromName(gain.name);
-
-                this.onlyAttacks.push(
-                    ...condition.attackRestrictions
-                        .filter(restriction =>
-                            !restriction.excluding &&
-                            (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)),
-                        )
-                    || [],
-                );
-                this.forbiddenAttacks.push(
-                    ...condition.attackRestrictions
-                        .filter(restriction =>
-                            restriction.excluding &&
-                            (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)),
-                        )
-                    || [],
-                );
-            });
-
-        this.onlyAttacks = onlyAttacks;
-        this.forbiddenAttacks = forbiddenAttacks;
+    private _attackRestrictions$(): Observable<AttackRestrictions> {
+        return this._appliedCreatureConditionsService.appliedCreatureConditions$(this.creature)
+            .pipe(
+                switchMap(conditions =>
+                    emptySafeCombineLatest(
+                        conditions.map(({ condition, gain }) =>
+                            condition.appliedAttackRestrictions$(gain)
+                                .pipe(distinctUntilChanged(isEqualSerializableArray)),
+                        ),
+                    ),
+                ),
+                map(flattenArrayLists),
+                map(restrictions => ({
+                    onlyAttacks: restrictions.filter(({ excluding }) => !excluding),
+                    forbiddenAttacks: restrictions.filter(({ excluding }) => excluding),
+                })),
+            );
     }
 
-    private _onEquipmentChange(item: Equipment): void {
-        this._refreshService.prepareChangesByItem(this.creature, item);
-        this._refreshService.processPreparedChanges();
+    private _equippedWeaponsParameters$(): Observable<Array<WeaponParameters>> {
+        return combineLatest({
+            weapons: this.creature.mainInventory.equippedWeapons$,
+            bombSets: this.creature.inventories.values$
+                .pipe(
+                    switchMap(inventories =>
+                        combineLatest({
+                            alchemicalBombs: emptySafeCombineLatest(
+                                inventories.map(inventory => inventory.alchemicalbombs.values$),
+                            ),
+                            otherConsumablesBombs: emptySafeCombineLatest(
+                                inventories.map(inventory => inventory.otherconsumablesbombs.values$),
+                            ),
+                        })),
+                ),
+        })
+            .pipe(
+                map(({ weapons, bombSets }) =>
+                    weapons
+                        .concat(
+                            ...bombSets.alchemicalBombs,
+                            ...bombSets.otherConsumablesBombs,
+                        )
+                        .sort((a, b) => (a.name === b.name) ? 0 : ((a.name > b.name) ? 1 : -1))
+                        .sort((a, b) => (a.type === b.type) ? 0 : ((a.type < b.type) ? 1 : -1)),
+                ),
+                switchMap(weapons =>
+                    emptySafeCombineLatest(
+                        weapons.map(weapon => this._isWeaponAllowed$(weapon)
+                            .pipe(
+                                distinctUntilChanged(),
+                                map(isAllowed => ({
+                                    weapon,
+                                    isAllowed,
+                                    asBomb: this._weaponAsBomb(weapon),
+                                })),
+                            )),
+                    ),
+                ),
+            );
     }
 
     private _weaponAsBomb(weapon: Weapon): AlchemicalBomb | OtherConsumableBomb | undefined {
-        return (weapon instanceof AlchemicalBomb || weapon instanceof OtherConsumableBomb) ? weapon : undefined;
+        return weapon.isAlchemicalBomb() || weapon.isOtherConsumableBomb() ? weapon : undefined;
     }
 
-    private _isWeaponAllowed(weapon: Weapon): boolean {
-        const creature = this.creature;
-
-        const doesListMatchWeapon =
-            (list: Array<AttackRestriction>): boolean =>
-                list.some(restriction => {
-                    if (restriction.name) {
-                        return restriction.name === weapon.name;
-                    } else if (restriction.special) {
-                        switch (restriction.special) {
-                            case 'Favored Weapon':
-                                return this._weaponPropertiesService.isFavoredWeapon$(weapon, creature);
-                            default: break;
+    private _isWeaponAllowed$(weapon: Weapon): Observable<boolean> {
+        const doesListMatchWeapon$ =
+            (list: Array<AttackRestriction>): Observable<boolean> =>
+                emptySafeCombineLatest(
+                    list.map(restriction => {
+                        if (restriction.name) {
+                            return of(restriction.name === weapon.name);
+                        } else if (restriction.special) {
+                            switch (restriction.special) {
+                                case 'Favored Weapon':
+                                    return this._weaponPropertiesService.isFavoredWeapon$(weapon, this.creature);
+                                default: break;
+                            }
                         }
-                    }
-                });
 
-        return (
-            !(
-                this.onlyAttacks.length && !doesListMatchWeapon(this.onlyAttacks)
-            ) &&
-            !doesListMatchWeapon(this.forbiddenAttacks)
-        );
+                        return of(false);
+                    }),
+                )
+                    .pipe(
+                        map(results => results.includes(true)),
+                        distinctUntilChanged(),
+                    );
+
+        return this.attackRestrictions$
+            .pipe(
+                switchMap(({ onlyAttacks, forbiddenAttacks }) =>
+                    combineLatest([
+                        onlyAttacks.length ? doesListMatchWeapon$(onlyAttacks) : of(true),
+                        doesListMatchWeapon$(forbiddenAttacks),
+                    ]),
+                ),
+                map(([isAllowed, isForbidden]) => isAllowed && !isForbidden),
+            );
     }
 
 }

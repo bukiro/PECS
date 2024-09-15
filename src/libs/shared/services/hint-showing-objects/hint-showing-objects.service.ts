@@ -16,12 +16,12 @@ import { ArmorPropertiesService } from '../armor-properties/armor-properties.ser
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
-import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CreatureService } from '../creature/creature.service';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { FamiliarsDataService } from '../data/familiars-data.service';
 import { ConditionGainSet } from 'src/app/classes/conditions/condition-gain-set';
+import { AppliedCreatureConditionsService } from '../creature-conditions/applied-creature-conditions.service';
 
 @Injectable({
     providedIn: 'root',
@@ -30,7 +30,7 @@ export class HintShowingObjectsService {
 
     constructor(
         private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
@@ -158,28 +158,29 @@ export class HintShowingObjectsService {
             );
     }
 
-    public creatureConditionsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<ConditionGainSet> {
+    public creatureConditionsShowingHintsOnThis$(creature: Creature, objectName = 'all'): Observable<Array<ConditionGainSet>> {
         const character = CreatureService.character;
 
-        return this._creatureConditionsService.currentCreatureConditions(creature)
-            .filter(conditionGain => conditionGain.apply)
-            .map(conditionGain =>
-                new ConditionGainSet(this._conditionsDataService.conditionFromName(conditionGain.name), conditionGain),
-            )
-            .filter(conditionGainSet =>
-                conditionGainSet.condition.hints.find(hint =>
-                    (hint.minLevel ? character.level >= hint.minLevel : true) &&
-                    hint.showon?.split(',').find(showon =>
-                        objectName.trim().toLowerCase() === 'all' ||
-                        showon.trim().toLowerCase() === objectName.toLowerCase() ||
-                        (
-                            (
-                                objectName.toLowerCase().includes('lore:') ||
-                                objectName.toLowerCase().includes(' lore')
-                            ) &&
-                            showon.trim().toLowerCase() === 'lore'
+        return this._appliedCreatureConditionsService.appliedCreatureConditions$(creature)
+            .pipe(
+                map(conditions =>
+                    conditions
+                        .filter(({ condition }) =>
+                            condition.hints.find(hint =>
+                                (hint.minLevel ? character.level >= hint.minLevel : true) &&
+                                hint.showon?.split(',').find(showon =>
+                                    objectName.trim().toLowerCase() === 'all' ||
+                                    showon.trim().toLowerCase() === objectName.toLowerCase() ||
+                                    (
+                                        (
+                                            objectName.toLowerCase().includes('lore:') ||
+                                            objectName.toLowerCase().includes(' lore')
+                                        ) &&
+                                        showon.trim().toLowerCase() === 'lore'
+                                    ),
+                                ),
+                            ),
                         ),
-                    ),
                 ),
             );
     }

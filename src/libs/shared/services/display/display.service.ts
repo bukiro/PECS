@@ -22,10 +22,7 @@ export class DisplayService {
     public static get isMobile$(): Observable<boolean> {
         if (!DisplayService._isMobileDistinct$) {
             DisplayService._isMobileDistinct$ =
-                DisplayService._isMobile$
-                    .pipe(
-                        distinctUntilChanged(),
-                    );
+                DisplayService._isMobile$.pipe(distinctUntilChanged());
         }
 
         return DisplayService._isMobileDistinct$;

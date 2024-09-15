@@ -85,15 +85,6 @@ function forceObservable<O>(input: O | Observable<O>): Observable<O> {
     }
 }
 
-//TODO: Don't stringify OnChangeArray. Find another way to compare PECS classes.
-/** distinctUntilChanged with a deep stringify comparison */
-export const deepDistinctUntilChanged = <T>(): OperatorFunction<T, T> =>
-    (source: Observable<T>): Observable<T> =>
-        source
-            .pipe(
-                distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
-            );
-
 /**
  * distinctUntilChanged with a deep stringify comparison where ids are nulled before the comparison.
  * This allows comparing regenerated objects with unique ids.

@@ -6,3 +6,6 @@ export const signNumber = (number: number): string => `${ number > 0 ? '+' : '' 
  */
 const digitPointer = 10;
 export const CutOffDecimals = (number: number, digits: number): number => Math.floor(number / Math.pow(digitPointer, digits)) * Math.pow(digitPointer, digits);
+
+const even = 2;
+export const isEven = (number: number): boolean => number % even === 0;

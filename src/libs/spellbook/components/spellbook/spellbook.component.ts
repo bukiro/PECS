@@ -58,6 +58,9 @@ import { CommonModule } from '@angular/common';
 import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
+import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { filterConditions } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -165,6 +168,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
         private readonly _timeService: TimeService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _spellsDataService: SpellsDataService,
@@ -632,14 +636,14 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
 
                     // Remove all Conditions that were marked for removal because they affect this spell or "the next spell you cast".
                     if (conditionsToRemove.length) {
-                        this._creatureConditionsService
-                            .currentCreatureConditions(character, {}, { readonly: true })
-                            .filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
-                            .forEach(conditionGain => {
-                                if (conditionGain.durationIsInstant) {
-                                    this._creatureConditionsService.removeCondition(character, conditionGain, false);
-                                }
-                            });
+                        this._creatureConditionRemovalService.removeConditionGains(
+                            character.conditions
+                                .filter(creatureGain =>
+                                    creatureGain.durationIsInstant
+                                    && stringsIncludeCaseInsensitive(conditionsToRemove, creatureGain.name),
+                                ),
+                            character,
+                        );
                     }
 
                     //Trigger bloodline powers or other additional effects.
@@ -729,14 +733,21 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
             .pipe(
                 take(1),
             )
-            .subscribe(bondedItemCharges => {
-                if (bondedItemCharges.length) {
-                    bondedItemCharges.forEach(effect => {
-                        this._creatureConditionsService.currentCreatureConditions(character, { name: effect.source })
-                            .forEach(conditionGain => {
-                                this._creatureConditionsService.removeCondition(character, conditionGain, false, false);
-                            });
-                    });
+            .subscribe(freeBondedItemChargeEffects => {
+                // If free bonded item charges are available, usually from a condition,
+                // pay for the charge only by removing matching conditions.
+                if (freeBondedItemChargeEffects.length) {
+                    const freeBondedItemChargeConditions = new Array<ConditionGain>()
+                        .concat(
+                            ...freeBondedItemChargeEffects.map(effect =>
+                                filterConditions(character.conditions, { name: effect.source }),
+                            ),
+                        );
+
+                    this._creatureConditionRemovalService.removeConditionGains(
+                        freeBondedItemChargeConditions,
+                        character,
+                    );
                 } else {
                     if ((casting.bondedItemCharges[level] || casting.bondedItemCharges[0]) && !gain.prepared) {
                         if (casting.bondedItemCharges[level]) {

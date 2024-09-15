@@ -5,6 +5,9 @@ import { Creature } from 'src/app/classes/creatures/creature';
 import { selectAllCharacterFeatsAtLevel } from 'src/libs/store/feats/feats.selectors';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureService } from '../creature/creature.service';
+import { isDefined } from '../../util/type-guard-utils';
+import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
+import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
 
 @Injectable({
     providedIn: 'root',
@@ -44,20 +47,34 @@ export class CreatureAvailabilityService {
     public allAvailableCreatures$(levelNumber?: number): Observable<Array<Creature>> {
         return combineLatest([
             CreatureService.character$,
-            this.isCompanionAvailable$(levelNumber)
-                .pipe(
-                    switchMap(isCompanionAvailable => isCompanionAvailable ? CreatureService.companion$ : of(undefined)),
-                ),
-            this.isFamiliarAvailable$(levelNumber)
-                .pipe(
-                    switchMap(isFamiliarAvailable => isFamiliarAvailable ? CreatureService.familiar$ : of(undefined)),
-                ),
+            this.companionIfAvailable$(levelNumber),
+            this.familiarIfAvailable$(levelNumber),
         ])
             .pipe(
-                map<Array<Creature | undefined>, Array<Creature>>(creatures => creatures
-                    .filter((creature): creature is Creature => creature !== undefined),
-                ),
+                map(creatures => creatures.filter(isDefined)),
                 shareReplay({ refCount: true, bufferSize: 1 }),
+            );
+    }
+
+    public companionIfAvailable$(levelNumber?: number): Observable<AnimalCompanion | undefined> {
+        return this.isCompanionAvailable$(levelNumber)
+            .pipe(
+                switchMap(isCompanionAvailable =>
+                    isCompanionAvailable
+                        ? CreatureService.companion$
+                        : of(undefined),
+                ),
+            );
+    }
+
+    public familiarIfAvailable$(levelNumber?: number): Observable<Familiar | undefined> {
+        return this.isFamiliarAvailable$(levelNumber)
+            .pipe(
+                switchMap(isFamiliarAvailable =>
+                    isFamiliarAvailable
+                        ? CreatureService.familiar$
+                        : of(undefined),
+                ),
             );
     }
 }

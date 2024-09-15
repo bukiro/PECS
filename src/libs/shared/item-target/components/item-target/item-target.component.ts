@@ -221,14 +221,8 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
     private _createItemTargetsObservable(): Observable<Array<ItemCollection | SpellTarget>> {
         return combineLatest([
             this._savegamesService.savegames$,
-            propMap$(SettingsService.settings$, 'manualMode$')
-                .pipe(
-                    distinctUntilChanged(),
-                ),
-            this.isGmMode$
-                .pipe(
-                    distinctUntilChanged(),
-                ),
+            propMap$(SettingsService.settings$, 'manualMode$').pipe(distinctUntilChanged()),
+            this.isGmMode$.pipe(distinctUntilChanged()),
             this._isExcludingParts$,
         ])
             .pipe(

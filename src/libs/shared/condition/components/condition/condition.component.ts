@@ -9,7 +9,6 @@ import { Creature } from 'src/app/classes/creatures/creature';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -27,6 +26,8 @@ import { QuickdiceComponent } from '../../../quickdice/components/quickdice/quic
 import { NgbTooltip, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
+import { matchStringListFilter } from 'src/libs/shared/util/filter-utils';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -63,6 +64,8 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
     @Input()
     public conditionGain?: ConditionGain;
     @Input()
+    public paused?: boolean;
+    @Input()
     public condition!: Condition;
     @Input()
     public showItem = '';
@@ -84,7 +87,7 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _durationsService: DurationsService,
     ) {
@@ -107,8 +110,11 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
         return this._durationsService.durationDescription$(duration);
     }
 
-    public isInformationalCondition(): boolean {
-        return this._conditionPropertiesService.isConditionInformational(this.creature, this.condition, this.conditionGain);
+    public isInformationalCondition$(): Observable<boolean> {
+        return this._conditionPropertiesService.isConditionInformational$(
+            this.condition,
+            { creature: this.creature, gain: this.conditionGain },
+        );
     }
 
     public setConditionDuration(gain: ConditionGain, turns: number): void {
@@ -190,27 +196,27 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
         return condition.selectOtherConditions;
     }
 
-    public selectOtherConditionOptions(selection: OtherConditionSelection, gain: ConditionGain, index: number): Array<string> {
+    public selectOtherConditionOptions$(selection: OtherConditionSelection, gain: ConditionGain, index: number): Observable<Array<string>> {
         const creature = this.creature;
-        const typeFilter = selection.typeFilter?.map(filter => filter.toLowerCase()) || [];
-        const nameFilter = selection.nameFilter?.map(filter => filter.toLowerCase()) || [];
-        const filteredConditions = this._conditionsDataService.conditions().filter(libraryCondition =>
-            (typeFilter.length ? typeFilter.includes(libraryCondition.type.toLowerCase()) : true) &&
-            (nameFilter.length ? nameFilter.includes(libraryCondition.name.toLowerCase()) : true),
+        const allowedConditions = this._conditionsDataService.conditions().filter(libraryCondition =>
+            matchStringListFilter({ match: selection.typeFilter, value: libraryCondition.type })
+            && matchStringListFilter({ match: selection.nameFilter, value: libraryCondition.name }),
         )
-            .map(libraryCondition => libraryCondition.name.toLowerCase());
+            .map(libraryCondition => libraryCondition.name);
 
-        return Array.from(new Set(
-            this._creatureConditionsService.currentCreatureConditions(creature, {}, { readonly: true })
-                .map(conditionGain => conditionGain.name)
-                .filter(conditionName =>
-                    (conditionName.toLowerCase() !== gain.name.toLowerCase()) &&
-                    (
-                        (typeFilter.length || nameFilter.length) ? filteredConditions.includes(conditionName.toLowerCase()) : true
-                    ),
-                )
-                .concat('', gain.selectedOtherConditions[index] ?? ''),
-        )).sort();
+        return creature.conditions.values$
+            .pipe(
+                map(conditions =>
+                    conditions
+                        .map(conditionGain => conditionGain.name)
+                        .filter(conditionName =>
+                            !stringEqualsCaseInsensitive(conditionName, gain.name)
+                            && matchStringListFilter({ match: allowedConditions, value: conditionName }),
+                        )
+                        .concat('', gain.selectedOtherConditions[index] ?? ''),
+                ),
+                map(conditionNames => Array.from(new Set(conditionNames)).sort()),
+            );
     }
 
     public setConditionStage(gain: ConditionGain, condition: Condition, choices: Array<string>, change: number): void {
@@ -232,7 +238,7 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
     }
 
     public removeCondition(conditionGain: ConditionGain): void {
-        this._creatureConditionsService.removeCondition(this.creature, conditionGain, true);
+        this._creatureConditionRemovalService.removeSingleConditionGain(conditionGain, this.creature);
         this._refreshService.setComponentChanged('close-popovers');
     }
 

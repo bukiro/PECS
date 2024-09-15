@@ -14,7 +14,7 @@ import {
 } from 'src/libs/store/feats/feats.selectors';
 import { Feat } from '../../definitions/models/feat';
 import { FeatTaken } from '../../definitions/models/feat-taken';
-import { isEqualPrimitiveObject, isEqualArray, isEqualSerializable } from '../../util/compare-utils';
+import { isEqualPrimitiveObject, isEqualObjectArray, isEqualSerializable } from '../../util/compare-utils';
 import { stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { FeatsDataService } from '../data/feats-data.service';
@@ -86,7 +86,7 @@ export class CharacterFeatsService {
     ): Observable<Array<{ levelNumber: number; gain: FeatTaken; feat: Feat }>> {
         return this._store$.select(selectAllCharacterFeatsTaken)
             .pipe(
-                distinctUntilChanged(isEqualArray((previous, current) =>
+                distinctUntilChanged(isEqualObjectArray((previous, current) =>
                     previous.feat.name === current.feat.name
                     && previous.levelNumber === current.levelNumber
                     && previous.temporary === current.temporary
@@ -150,7 +150,7 @@ export class CharacterFeatsService {
         return CharacterFlatteningService.levelOrCurrent$(levelNumber)
             .pipe(
                 switchMap(level => this._store$.select(selectAllCharacterFeatsAtLevel(level))),
-                distinctUntilChanged(isEqualArray((previous, current) =>
+                distinctUntilChanged(isEqualObjectArray((previous, current) =>
                     previous.name === current.name,
                 )),
             );
@@ -163,7 +163,7 @@ export class CharacterFeatsService {
         return CharacterFlatteningService.levelOrCurrent$(levelNumber)
             .pipe(
                 switchMap(level => this._store$.select(selectAllCharacterFeatsTakenAtLevel(level))),
-                distinctUntilChanged(isEqualArray((previous, current) =>
+                distinctUntilChanged(isEqualObjectArray((previous, current) =>
                     previous.name === current.name,
                 )),
             );

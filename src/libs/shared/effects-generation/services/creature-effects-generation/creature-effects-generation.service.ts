@@ -8,7 +8,7 @@ import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
-import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
+import { isEqualSerializableArray, isEqualObjectArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
 import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { HintEffectsObject } from '../../definitions/interfaces/hint-effects-object';
 
@@ -50,7 +50,7 @@ export class CreatureEffectsGenerationService {
             .pipe(
                 distinctUntilChanged((previous, current) =>
                     isEqualSerializableArray(previous.feats, current.feats)
-                    && isEqualArray<HintEffectsObject>((previousObj, currentObj) =>
+                    && isEqualObjectArray<HintEffectsObject>((previousObj, currentObj) =>
                         previousObj.objectName === currentObj.objectName
                         && isEqualSerializable(previousObj.hint, currentObj.hint)
                         && isEqualSerializable(previousObj.parentItem, currentObj.parentItem)

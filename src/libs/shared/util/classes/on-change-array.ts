@@ -6,7 +6,7 @@ export class OnChangeArray<T> extends Array<T> {
     constructor(...values: Array<T>) {
         super(...values);
 
-        this.values$ = new BehaviorSubject<Array<T>>(this);
+        this.values$ = new BehaviorSubject<Array<T>>([...this]);
 
         this.onChange();
     }
@@ -32,7 +32,7 @@ export class OnChangeArray<T> extends Array<T> {
     }
 
     public onChange(): void {
-        this.values$.next(this);
+        this.values$.next([...this]);
     }
 
     public override pop(): T | undefined {

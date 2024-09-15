@@ -4,6 +4,9 @@ import * as json_conditions from 'src/assets/json/conditions';
 import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { RecastService } from '../recast/recast.service';
 import { DataLoadingService } from './data-loading.service';
+import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { ConditionGainPair } from '../creature-conditions/condition-gain-pair';
+import { stringEqualsCaseInsensitive } from '../../util/string-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -20,6 +23,21 @@ export class ConditionsDataService {
 
     public get stillLoading(): boolean {
         return !this._initialized;
+    }
+
+    public matchGains(
+        gains: Array<ConditionGain>,
+        { onlyMatches: onlyExisting }: { onlyMatches?: boolean } = {},
+    ): Array<ConditionGainPair> {
+        return gains
+            .map(gain => ({
+                gain,
+                condition: this.conditionFromName(gain.name),
+            }))
+            .filter(({ gain, condition }) => onlyExisting
+                ? stringEqualsCaseInsensitive(gain.name, condition.name)
+                : true,
+            );
     }
 
     public conditionFromName(name: string): Condition {

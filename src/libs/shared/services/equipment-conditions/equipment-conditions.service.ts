@@ -15,6 +15,9 @@ import { EvaluationService } from '../evaluation/evaluation.service';
 import { OnceEffectsService } from '../once-effects/once-effects.service';
 import { RecastService } from '../recast/recast.service';
 import { SettingsService } from '../settings/settings.service';
+import { CreatureConditionRemovalService } from '../creature-conditions/creature-condition-removal.service';
+import { AppliedCreatureConditionsService } from '../creature-conditions/applied-creature-conditions.service';
+import { filterConditionPairs } from '../creature-conditions/condition-filter-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +30,8 @@ export class EquipmentConditionsService {
     constructor(
         private readonly _bulkService: BulkService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _onceEffectsService: OnceEffectsService,
     ) { }
@@ -40,7 +45,7 @@ export class EquipmentConditionsService {
 
         CreatureService.character$
             .pipe(
-                switchMap(creature => this._generateCreatureEquipmentConditions(creature)),
+                switchMap(creature => this._generateCreatureEquipmentConditions$(creature)),
             )
             .subscribe();
 
@@ -50,7 +55,7 @@ export class EquipmentConditionsService {
                     isCompanionAvailable
                         ? CreatureService.companion$
                             .pipe(
-                                switchMap(creature => this._generateCreatureEquipmentConditions(creature)),
+                                switchMap(creature => this._generateCreatureEquipmentConditions$(creature)),
                             )
                         : of(),
                 ),
@@ -63,7 +68,7 @@ export class EquipmentConditionsService {
                     isFamiliarAvailable
                         ? CreatureService.familiar$
                             .pipe(
-                                switchMap(creature => this._generateCreatureEquipmentConditions(creature)),
+                                switchMap(creature => this._generateCreatureEquipmentConditions$(creature)),
                             )
                         : of(),
                 ),
@@ -74,6 +79,7 @@ export class EquipmentConditionsService {
     private _generateItemGrantedConditions$(creature: Creature): Observable<boolean> {
         //Calculate whether any items should grant a condition under the given circumstances and add or remove conditions accordingly.
         //Conditions caused by equipment are not calculated in manual mode.
+        // TODO: equipped/invested items should be async
         return propMap$(SettingsService.settings$, 'manualMode$')
             .pipe(
                 switchMap(isManualMode =>
@@ -82,9 +88,10 @@ export class EquipmentConditionsService {
                         : combineLatest([
                             creature.alignment$,
                             creature.inventories.values$,
+                            this._appliedCreatureConditionsService.appliedCreatureConditions$(creature),
                         ])
                             .pipe(
-                                tap(([alignment, inventories]) => {
+                                tap(([alignment, inventories, appliedConditions]) => {
                                     let hasFoundSpeedRune = false;
                                     let shouldApplyAlignmentRunePenalty = false;
 
@@ -116,24 +123,24 @@ export class EquipmentConditionsService {
                                     });
 
                                     const hasThisCondition = (name: string, source: string): boolean =>
-                                        !!this._creatureConditionsService.currentCreatureConditions(
-                                            creature,
+                                        !!filterConditionPairs(
+                                            appliedConditions,
                                             { name, source },
-                                            { readonly: true },
                                         ).length;
                                     const addCondition = (name: string, value: number, source: string): void => {
                                         this._creatureConditionsService.addCondition(
                                             creature,
-                                            ConditionGain.from({ name, value, source, apply: true }, RecastService.recastFns),
+                                            ConditionGain.from({ name, value, source }, RecastService.recastFns),
                                             {},
                                             { noReload: true },
                                         );
                                     };
                                     const removeCondition = (name: string, value: number, source: string): void => {
-                                        this._creatureConditionsService.removeCondition(
+                                        this._creatureConditionRemovalService.removeSingleCondition(
+                                            {
+                                                gain: ConditionGain.from({ name, value, source }, RecastService.recastFns),
+                                            },
                                             creature,
-                                            ConditionGain.from({ name, value, source, apply: true }, RecastService.recastFns),
-                                            false,
                                         );
                                     };
 
@@ -201,31 +208,32 @@ export class EquipmentConditionsService {
                                             }
 
                                             if (
-                                                this._creatureConditionsService
-                                                    .currentCreatureConditions(creature, { name: gain.name, source: gain.source })
-                                                    .some(existingGain => !gain.choice || (existingGain.choice === gain.choice))
+                                                filterConditionPairs(appliedConditions, { name: gain.name, source: gain.source })
+                                                    .some(({ gain: existingGain }) => !gain.choice || (existingGain.choice === gain.choice))
                                             ) {
                                                 if (!shouldActivate) {
-                                                    this._creatureConditionsService.removeCondition(creature, gain, false);
-                                                } else {
-                                                    if (gain.activationPrerequisite) {
-                                                        if (!this._evaluationService) {
-                                                            console.error('EvaluationService missing in EquipmentConditionsService!');
-                                                        }
-
-                                                        this._evaluationService?.valueFromFormula$(
-                                                            gain.activationPrerequisite,
-                                                            { creature, object: gain, parentItem: item },
-                                                        )
-                                                            .pipe(
-                                                                take(1),
-                                                            )
-                                                            .subscribe(testResult => {
-                                                                if (testResult === '0' || !(parseInt(testResult as string, 10))) {
-                                                                    this._creatureConditionsService.removeCondition(creature, gain, false);
-                                                                }
-                                                            });
+                                                    this._creatureConditionRemovalService.removeSingleCondition({ gain }, creature);
+                                                } else if (gain.activationPrerequisite) {
+                                                    if (!this._evaluationService) {
+                                                        console.error('EvaluationService missing in EquipmentConditionsService!');
                                                     }
+
+                                                    this._evaluationService?.valueFromFormula$(
+                                                        gain.activationPrerequisite,
+                                                        { creature, object: gain, parentItem: item },
+                                                    )
+                                                        .pipe(
+                                                            take(1),
+                                                        )
+                                                        .subscribe(testResult => {
+                                                            if (testResult === '0' || !(parseInt(testResult as string, 10))) {
+                                                                this._creatureConditionRemovalService.removeSingleCondition(
+                                                                    { gain },
+                                                                    creature,
+                                                                );
+                                                            }
+                                                        });
+
                                                 }
                                             } else {
                                                 if (shouldActivate) {
@@ -280,21 +288,23 @@ export class EquipmentConditionsService {
                         : combineLatest([
                             this._bulkService.currentValue$(creature),
                             this._bulkService.encumberedLimit$(creature),
+                            this._appliedCreatureConditionsService.appliedCreatureConditions$(
+                                creature,
+                                { name: 'Encumbered', source: 'Bulk' },
+                            ),
                         ])
                             .pipe(
-                                map(([currentBulk, encumberedLimit]) => {
+                                map(([currentBulk, encumberedLimit, bulkEncumberedConditions]) => {
                                     let didBulkConditionsChange = false;
 
                                     if (
                                         currentBulk.result > encumberedLimit.result &&
-                                        !this._creatureConditionsService
-                                            .currentCreatureConditions(creature, { name: 'Encumbered', source: 'Bulk' })
-                                            .length
+                                        !bulkEncumberedConditions.length
                                     ) {
                                         this._creatureConditionsService.addCondition(
                                             creature,
                                             ConditionGain.from(
-                                                { name: 'Encumbered', value: 0, source: 'Bulk', apply: true },
+                                                { name: 'Encumbered', value: 0, source: 'Bulk' },
                                                 RecastService.recastFns,
                                             ),
                                             {},
@@ -306,17 +316,16 @@ export class EquipmentConditionsService {
 
                                     if (
                                         currentBulk.result <= encumberedLimit.result &&
-                                        !!this._creatureConditionsService
-                                            .currentCreatureConditions(creature, { name: 'Encumbered', source: 'Bulk' })
-                                            .length
+                                        !!bulkEncumberedConditions.length
                                     ) {
-                                        this._creatureConditionsService.removeCondition(
+                                        this._creatureConditionRemovalService.removeSingleCondition(
+                                            {
+                                                gain: ConditionGain.from(
+                                                    { name: 'Encumbered', value: 0, source: 'Bulk' },
+                                                    RecastService.recastFns,
+                                                ),
+                                            },
                                             creature,
-                                            ConditionGain.from(
-                                                { name: 'Encumbered', value: 0, source: 'Bulk', apply: true },
-                                                RecastService.recastFns,
-                                            ),
-                                            true,
                                         );
 
                                         didBulkConditionsChange = true;
@@ -329,7 +338,7 @@ export class EquipmentConditionsService {
             );
     }
 
-    private _generateCreatureEquipmentConditions(creature: Creature): Observable<[boolean, boolean]> {
+    private _generateCreatureEquipmentConditions$(creature: Creature): Observable<[boolean, boolean]> {
         // Perpetually add or remove conditions depending on the creature's equipment.
         return combineLatest([
             this._generateItemGrantedConditions$(creature),

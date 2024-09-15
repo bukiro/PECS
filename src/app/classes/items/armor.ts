@@ -36,7 +36,7 @@ const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers
         // Treat all propertyRunes on Armor as ArmorRune.
         propertyRunes:
             recastFns => obj =>
-                recastFns.getItemPrototype<ArmorRune>(obj, { type: 'armorrunes' })
+                recastFns.getItemPrototype<ArmorRune>(obj, { prototype: new ArmorRune() })
                     .with(obj, recastFns),
     },
 });
@@ -214,11 +214,10 @@ export class Armor extends Equipment implements MessageSerializable<Armor> {
 
     public effectiveSkillPenalty$(): Observable<number> {
         return combineLatest([
-            this.effectiveArmoredSkirt$,
-            this.effectiveShoddy$,
+            this.effectiveArmoredSkirt$.pipe(distinctUntilChanged()),
+            this.effectiveShoddy$.pipe(distinctUntilChanged()),
         ])
             .pipe(
-                distinctUntilChanged(),
                 map(([armoredSkirtModifier, shoddy]) => Math.min(
                     0,
                     (

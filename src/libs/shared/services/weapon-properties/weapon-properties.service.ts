@@ -15,6 +15,7 @@ import { SkillsDataService } from '../data/skills-data.service';
 import { EquipmentPropertiesSharedService } from '../equipment-properties-shared/equipment-properties-shared.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
+import { isEqualPrimitiveObject } from '../../util/compare-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -314,7 +315,7 @@ export class WeaponPropertiesService {
                 ),
             this._equipmentPropertiesSharedService.calculateEmblazonArmament(weapon, creature)
                 .pipe(
-                    distinctUntilChanged(),
+                    distinctUntilChanged(isEqualPrimitiveObject),
                     tap(emblazonArmament => {
                         weapon.effectiveEmblazonArmament$.next(emblazonArmament);
                     }),

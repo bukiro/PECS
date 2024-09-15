@@ -213,12 +213,16 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
         }
     }
 
-    public conditionsShowingHintsOnThis(activityName: string): Array<{ gain: ConditionGain; condition: Condition }> {
+    public conditionsShowingHintsOnThis$(activityName: string): Observable<Array<{ gain: ConditionGain; condition: Condition }>> {
         if (activityName) {
-            return this._hintShowingObjectsService.creatureConditionsShowingHintsOnThis(this.creature, activityName)
-                .sort((a, b) => sortAlphaNum(a.condition.name, b.condition.name));
+            return this._hintShowingObjectsService.creatureConditionsShowingHintsOnThis$(this.creature, activityName)
+                .pipe(
+                    map(conditions =>
+                        conditions.sort((a, b) => sortAlphaNum(a.condition.name, b.condition.name)),
+                    ),
+                );
         } else {
-            return [];
+            return of([]);
         }
     }
 

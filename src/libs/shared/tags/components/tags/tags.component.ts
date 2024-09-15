@@ -180,17 +180,20 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
         }
     }
 
-    public collectAllTags(): TagCollection {
-        const allTags: TagCollection = {
-            conditions: [],
-        };
-
-        allTags.conditions =
+    public collectAllTags$(): Observable<TagCollection> {
+        return emptySafeCombineLatest(
             [this.objectName]
                 .concat(this.specialNames)
-                .map(name => ({ setName: name, conditionSets: this._conditionsShowingHintsOnThis(name) }));
-
-        return allTags;
+                .map(setName =>
+                    this._conditionsShowingHintsOnThis$(setName)
+                        .pipe(
+                            map(conditionSets => ({ setName, conditionSets })),
+                        ),
+                ),
+        )
+            .pipe(
+                map(conditions => ({ conditions })),
+            );
     }
 
     public durationDescription$(duration: number): Observable<string> {
@@ -289,12 +292,16 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
         }
     }
 
-    private _conditionsShowingHintsOnThis(name: string): Array<ConditionGainSet> {
+    private _conditionsShowingHintsOnThis$(name: string): Observable<Array<ConditionGainSet>> {
         if (this.showConditions && name) {
-            return this._hintShowingObjectsService.creatureConditionsShowingHintsOnThis(this.creature, name)
-                .sort((a, b) => sortAlphaNum(a.condition.name, b.condition.name));
+            return this._hintShowingObjectsService.creatureConditionsShowingHintsOnThis$(this.creature, name)
+                .pipe(
+                    map(conditions =>
+                        conditions.sort((a, b) => sortAlphaNum(a.condition.name, b.condition.name)),
+                    ),
+                );
         } else {
-            return [];
+            return of([]);
         }
     }
 

@@ -213,7 +213,6 @@
                 "@team23/eslint-config-team23-angular"
             ],
             "rules": {
-                "@angular-eslint/template/no-call-expression": "off",
                 "@angular-eslint/template/cyclomatic-complexity": [
                     "error",
                     {

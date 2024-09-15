@@ -5,6 +5,7 @@ import { Shield } from 'src/app/classes/items/shield';
 import { ShoddyPenalties } from '../../definitions/shoddy-penalties';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { EquipmentPropertiesSharedService } from '../equipment-properties-shared/equipment-properties-shared.service';
+import { isEqualPrimitiveObject } from '../../util/compare-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -34,7 +35,7 @@ export class ShieldPropertiesService {
                 ),
             this._equipmentPropertiesSharedService.calculateEmblazonArmament(shield, creature)
                 .pipe(
-                    distinctUntilChanged(),
+                    distinctUntilChanged(isEqualPrimitiveObject),
                     tap(emblazonArmament => {
                         shield.effectiveEmblazonArmament$.next(emblazonArmament);
                     }),

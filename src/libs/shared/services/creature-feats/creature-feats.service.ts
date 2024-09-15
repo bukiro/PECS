@@ -24,11 +24,11 @@ export class CreatureFeatsService {
      */
     public creatureHasFeat$(
         featName: string,
-        context: { creature: Creature },
+        { creature }: { creature: Creature },
         filter: { charLevel?: number; minLevel?: number } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
     ): Observable<number> {
-        if (context.creature.isCharacter()) {
+        if (creature.isCharacter()) {
             return this._characterFeatsService.characterFeatsTaken$(
                 filter.minLevel,
                 filter.charLevel,
@@ -38,8 +38,15 @@ export class CreatureFeatsService {
                 .pipe(
                     map(featsTaken => featsTaken.length),
                 );
-        } else if (context.creature.isFamiliar()) {
-            return of(context.creature.abilities.feats.filter(gain => stringEqualsCaseInsensitive(gain.name, featName))?.length ?? 0);
+        } else if (creature.isFamiliar()) {
+            return creature.abilities.feats.values$
+                .pipe(
+                    map(feats =>
+                        feats
+                            .filter(gain => stringEqualsCaseInsensitive(gain.name, featName))
+                            .length,
+                    ),
+                );
         } else {
             return of(0);
         }

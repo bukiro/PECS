@@ -13,10 +13,12 @@ import { SpellTarget } from 'src/app/classes/spells/spell-target';
 import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -26,6 +28,7 @@ export class SpellActivityProcessingSharedService {
     constructor(
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _messageSendingService: MessageSendingService,
@@ -63,8 +66,8 @@ export class SpellActivityProcessingSharedService {
                         options.isCasterConditionSameAsTargetCondition ||
                         (
                             !condition.alwaysApplyCasterCondition &&
-                            !condition.hasEffects() &&
-                            !condition.isChangeable()
+                            !condition.hasEffects &&
+                            !condition.isChangeable
                         )
                     )
                 ) ||
@@ -75,8 +78,8 @@ export class SpellActivityProcessingSharedService {
                             SettingsService.settings.noFriendlyCasterConditions
                     ) &&
                     (
-                        !condition.hasEffects() &&
-                        !condition.isChangeable() &&
+                        !condition.hasEffects &&
+                        !condition.isChangeable &&
                         !source.cannotTargetCaster
                     )
                 )
@@ -109,9 +112,9 @@ export class SpellActivityProcessingSharedService {
             options.hasTargetCondition &&
             options.isCasterATarget &&
             !condition.alwaysApplyCasterCondition &&
-            !condition.isChangeable() &&
-            !condition.hasDurationEffects() &&
-            condition.hasInstantEffects()
+            !condition.isChangeable &&
+            !condition.hasDurationEffects &&
+            condition.hasInstantEffects
         ) {
             // If the condition is only granted because it has instant effects,
             // we set the duration to 0, so it can do its thing and then leave.
@@ -340,14 +343,15 @@ export class SpellActivityProcessingSharedService {
         conditionsToRemove: Array<string>,
         context: { creature: Creature },
     ): void {
-        if (conditionsToRemove.length) {
-            this._creatureConditionsService
-                .currentCreatureConditions(context.creature, {}, { readonly: true })
-                .filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
-                .forEach(conditionGain => {
-                    this._creatureConditionsService.removeCondition(context.creature, conditionGain, false);
-                });
+        if (!conditionsToRemove.length) {
+            return;
         }
+
+        this._creatureConditionRemovalService.removeConditionGains(
+            context.creature.conditions
+                .filter(conditionGain => stringsIncludeCaseInsensitive(conditionsToRemove, conditionGain.name)),
+            context.creature,
+        );
     }
 
     private _determineEffectConditionDuration$(

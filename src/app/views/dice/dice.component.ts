@@ -127,19 +127,16 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
 
     public onHeal(creature: Creature): void {
         const amount = this.totalDiceSum();
-        const dying = this._healthService.dying(creature);
 
-        this._healthService.heal$(creature, amount, true, true, dying)
+        this._healthService.heal$(creature, amount, true, true)
             .subscribe(() => { this._refreshHealth(creature.type); });
     }
 
     public onTakeDamage(creature: Creature): void {
         const amount = this.totalDiceSum();
-        const wounded = this._healthService.wounded(creature);
-        const dying = this._healthService.dying(creature);
 
         this._healthService
-            .takeDamage$(creature, amount, false, wounded, dying)
+            .takeDamage$(creature, amount, false)
             .subscribe(() => { this._refreshHealth(creature.type); });
     }
 

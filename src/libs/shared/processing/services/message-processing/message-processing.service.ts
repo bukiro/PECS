@@ -7,6 +7,8 @@ import { Creature } from 'src/app/classes/creatures/creature';
 import { Item } from 'src/app/classes/items/item';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { conditionFilter } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
@@ -30,13 +32,13 @@ export class MessageProcessingService {
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _savegamesService: SavegamesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
         private readonly _messagesService: MessagesService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _inventoryService: InventoryService,
         private readonly _typeService: TypeService,
-        private readonly _recastService: RecastService,
         private readonly _messagePropertiesService: MessagePropertiesService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
@@ -59,25 +61,23 @@ export class MessageProcessingService {
                         .filter(message => message.selected)
                         .map(message => message.senderId),
                 )).forEach(senderId => {
-                    let hasConditionBeenRemoved = false;
-
                     creatures.forEach(creature => {
-                        this._creatureConditionsService.currentCreatureConditions(creature)
-                            .filter(existingConditionGain =>
-                                existingConditionGain.foreignPlayerId === senderId &&
-                                existingConditionGain.durationEndsOnOtherTurnChange,
+                        creature.conditions
+                            .filter(creatureGain =>
+                                creatureGain.foreignPlayerId === senderId &&
+                                creatureGain.durationEndsOnOtherTurnChange,
                             )
-                            .forEach(existingConditionGain => {
-                                hasConditionBeenRemoved =
-                                    this._creatureConditionsService.removeCondition(creature, existingConditionGain, false);
+                            .forEach(creatureGain => {
+                                const hasConditionBeenRemoved =
+                                    this._creatureConditionRemovalService.removeSingleConditionGain(creatureGain, creature);
 
                                 if (hasConditionBeenRemoved) {
                                     const senderName =
                                         this._savegamesService.savegames.find(savegame => savegame.id === senderId)?.name || 'Unknown';
 
                                     this._toastService.show(
-                                        `Automatically removed <strong>${ existingConditionGain.name }`
-                                        + `${ existingConditionGain.choice ? `: ${ existingConditionGain.choice }` : '' }`
+                                        `Automatically removed <strong>${ creatureGain.name }`
+                                        + `${ creatureGain.choice ? `: ${ creatureGain.choice }` : '' }`
                                         + `</strong> condition from <strong>${ creature.name || creature.type }`
                                         + `</strong> on turn of <strong>${ senderName }</strong>`);
                                     this._refreshService.prepareDetailToChange(creature.type, 'effects');
@@ -116,59 +116,62 @@ export class MessageProcessingService {
             )
             .subscribe(messagesWithCreature => {
                 messagesWithCreature.forEach(({ message, targetCreature }) => {
-                    if (message.selected) {
-                        if (message.activateCondition) {
-                            if (targetCreature && message.gainCondition[0]) {
-                                const mainConditionGain = message.gainCondition[0];
-                                const hasConditionBeenAdded =
-                                    this._creatureConditionsService.addCondition(targetCreature, mainConditionGain, {}, { noReload: true });
+                    if (!message.selected || !targetCreature) {
+                        return;
+                    }
 
-                                if (hasConditionBeenAdded) {
-                                    const senderName = this._messagePropertiesService.messageSenderName(message);
+                    if (message.activateCondition) {
+                        if (message.gainCondition[0]) {
+                            const mainConditionGain = message.gainCondition[0];
+                            const hasConditionBeenAdded =
+                                this._creatureConditionsService.addCondition(targetCreature, mainConditionGain, {}, { noReload: true });
 
-                                    //If a condition was created, send a toast to inform the user.
-                                    this._toastService.show(
-                                        `Added <strong>${ mainConditionGain.name }`
-                                        + `${ mainConditionGain.choice
-                                            ? `: ${ mainConditionGain.choice }`
-                                            : '' }</strong> condition to <strong>`
-                                        + `${ targetCreature.name || targetCreature.type }</strong> (sent by <strong>`
-                                        + `${ senderName.trim() }</strong>)`);
-                                }
+                            if (hasConditionBeenAdded) {
+                                const senderName = this._messagePropertiesService.messageSenderName(message);
+
+                                //If a condition was created, send a toast to inform the user.
+                                this._toastService.show(
+                                    `Added <strong>${ mainConditionGain.name }`
+                                    + `${ mainConditionGain.choice
+                                        ? `: ${ mainConditionGain.choice }`
+                                        : '' }</strong> condition to <strong>`
+                                    + `${ targetCreature.name || targetCreature.type }</strong> (sent by <strong>`
+                                    + `${ senderName.trim() }</strong>)`);
                             }
-                        } else {
-                            if (targetCreature && message.gainCondition[0]) {
-                                const mainConditionGain = message.gainCondition[0];
-                                let hasConditionBeenRemoved = false;
+                        }
+                    } else {
+                        const mainConditionGain = message.gainCondition[0];
 
-                                this._creatureConditionsService
-                                    .currentCreatureConditions(
-                                        targetCreature,
-                                        { name: mainConditionGain.name },
-                                    )
-                                    .filter(existingConditionGain =>
-                                        existingConditionGain.foreignPlayerId === message.senderId &&
-                                        existingConditionGain.source === mainConditionGain.source,
-                                    )
-                                    .forEach(existingConditionGain => {
-                                        hasConditionBeenRemoved =
-                                            this._creatureConditionsService.removeCondition(targetCreature, existingConditionGain, false);
-                                    });
+                        if (mainConditionGain) {
+                            targetCreature.conditions
+                                .filter(conditionFilter({ name: mainConditionGain.name, source: mainConditionGain.source }))
+                                .filter(creatureGain =>
+                                    creatureGain.foreignPlayerId === message.senderId,
+                                )
+                                .forEach(creatureGain => {
+                                    const hasConditionBeenRemoved =
+                                        this._creatureConditionRemovalService.removeSingleCondition(
+                                            { gain: creatureGain },
+                                            targetCreature,
+                                        );
 
-                                if (hasConditionBeenRemoved) {
+                                    if (!hasConditionBeenRemoved) {
+                                        return;
+                                    }
+
                                     const senderName = this._messagePropertiesService.messageSenderName(message);
 
                                     //If a condition was removed, send a toast to inform the user.
                                     this._toastService.show(
-                                        `Removed <strong>${ mainConditionGain.name }`
-                                        + `${ mainConditionGain.choice
-                                            ? `: ${ mainConditionGain.choice }`
-                                            : '' }</strong> condition from <strong>`
+                                        `Removed <strong>${ creatureGain.name }`
+                                        + `${ creatureGain.choice ? `: ${ creatureGain.choice }` : '' }</strong> condition from <strong>`
                                         + `${ targetCreature.name || targetCreature.type }</strong> (added by <strong>`
                                         + `${ senderName.trim() }</strong>)`);
-                                }
-                            }
+                                });
+
+
                         }
+
                     }
 
                     this._messagesService.markMessageAsIgnored(message);

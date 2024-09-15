@@ -55,7 +55,7 @@
         <div class="list-item newrow">
             <strong>Multiple Attack Penalty</strong>
 
-            @if (multipleAttackPenalty(); as map) {
+            @if (multipleAttackPenalty$() | async; as map) {
                 <span class="hlist left-aligned">
                     <button
                         type="button"
@@ -141,7 +141,7 @@
         <div class="list-item newrow">
             <strong>Range Penalty</strong>
 
-            @if (rangePenalty(); as rap) {
+            @if (rangePenalty$() | async; as rap) {
                 <span class="hlist left-aligned">
                     <button
                         type="button"
@@ -221,28 +221,24 @@
             }
         </div>
 
-        @for (
-            weaponParameters of equippedWeaponsParameters();
-            track $index
+        @let attackRestrictions = attackRestrictions$ | async;
+        @if (
+            attackRestrictions?.onlyAttacks?.length ||
+            attackRestrictions?.forbiddenAttacks?.length
         ) {
-            @if (
-                (onlyAttacks.length || forbiddenAttacks.length) &&
-                $first
-            ) {
-                <div class="minimized-hide list-item">
-                    <strong class="gap-text">
-                        <input
-                            id="showRestricted"
-                            type="checkbox"
-                            [(ngModel)]="showRestricted"
-                        />
-                        <label for="showRestricted"
-                            >Show restricted attacks</label
-                        >
-                    </strong>
-                </div>
-            }
+            <div class="minimized-hide list-item">
+                <strong class="gap-text">
+                    <input
+                        id="showRestricted"
+                        type="checkbox"
+                        [(ngModel)]="showRestricted"
+                    />
+                    <label for="showRestricted">Show restricted attacks</label>
+                </strong>
+            </div>
+        }
 
+        @for (weaponParameters of equippedWeaponsParameters$ | async; track $index) {
             @for (
                 attack of attacksOfWeapon$(weaponParameters.weapon) | async;
                 track $index
@@ -939,7 +935,7 @@
             }
         }
 
-        @for (ammoType of ammoTypes(); track $index) {
+        @for (ammoType of ammoTypes$() | async; track $index) {
             @if ($first) {
                 <header class="sectionHeader box-header">Ammunition</header>
             }

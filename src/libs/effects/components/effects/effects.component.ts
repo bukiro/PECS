@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Observable, distinctUntilChanged, shareReplay, map } from 'rxjs';
+import { Observable, distinctUntilChanged, shareReplay, map, combineLatest, switchMap } from 'rxjs';
 import { Condition } from 'src/app/classes/conditions/condition';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
@@ -12,7 +12,7 @@ import { SettingsService } from 'src/libs/shared/services/settings/settings.serv
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
+import { emptySafeCombineLatest, propMap$ } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { TimeComponent } from 'src/libs/shared/time/components/time/time.component';
 import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
@@ -22,15 +22,17 @@ import { StickyPopoverDirective } from 'src/libs/shared/sticky-popover/directive
 import { ConditionComponent } from 'src/libs/shared/condition/components/condition/condition.component';
 import { CommonModule } from '@angular/common';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
+import { AppliedCreatureConditionsService } from 'src/libs/shared/services/creature-conditions/applied-creature-conditions.service';
+import { ConditionGainPair } from 'src/libs/shared/services/creature-conditions/condition-gain-pair';
 
 interface ComponentParameters {
     effects: Array<Effect>;
-    conditions: Array<ConditionGain>;
+    activeConditions: Array<ConditionGainPair>;
+    inactiveConditions: Array<ConditionGainPair>;
     isTimeStopped: boolean;
 }
 
 interface ConditionParameters {
-    condition: Condition;
     isStoppedInTime: boolean;
 }
 
@@ -71,6 +73,7 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _durationsService: DurationsService,
     ) {
         super();
@@ -120,16 +123,23 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     public componentParameters$(): Observable<ComponentParameters> {
-        const conditions = this._creatureConditionsService.currentCreatureConditions(this.creature);
-        const isTimeStopped = this._isTimeStopped(conditions);
-
-        return this._creatureEffectsService.allCreatureEffects$(this.creature.type)
+        return combineLatest([
+            this._creatureEffectsService.allCreatureEffects$(this.creature.type),
+            this._appliedCreatureConditionsService.appliedCreatureConditions$(this.creature),
+            this._appliedCreatureConditionsService.notAppliedCreatureConditions$(this.creature),
+        ])
             .pipe(
-                map(effects => ({
-                    effects,
-                    conditions,
-                    isTimeStopped,
-                })),
+                switchMap(([effects, activeConditions, inactiveConditions]) =>
+                    this._isTimeStopped$(activeConditions)
+                        .pipe(
+                            map(isTimeStopped => ({
+                                effects,
+                                activeConditions,
+                                inactiveConditions,
+                                isTimeStopped,
+                            })),
+                        ),
+                ),
             );
     }
 
@@ -156,33 +166,21 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
             .sort((a, b) => sortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
-    public appliedConditions(
-        conditions: Array<ConditionGain>,
-        apply: boolean,
-        forceAllowInstantConditions: boolean = false,
-    ): Array<ConditionGain> {
-        return conditions
-            .filter(gain =>
-                gain.apply === apply ||
-                (forceAllowInstantConditions && gain.durationIsInstant) ||
-                (forceAllowInstantConditions && gain.nextStage === -1),
-            );
-    }
-
-    public conditionParameters(conditionGain: ConditionGain, isTimeStopped: boolean): ConditionParameters {
-        const condition = this.conditionFromName(conditionGain.name);
-
+    public conditionParameters(conditionGainPair: ConditionGainPair, isTimeStopped: boolean): ConditionParameters {
         return {
-            condition,
-            isStoppedInTime: isTimeStopped && !condition.isStoppingTime(conditionGain),
+            isStoppedInTime: isTimeStopped && !conditionGainPair.condition.isStoppingTime$(conditionGainPair.gain),
         };
     }
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    public conditionClasses(conditionParameters: ConditionParameters): { penalty: boolean; bonus: boolean; 'inactive-button': boolean } {
+
+    public conditionClasses(
+        conditionParameters: ConditionParameters,
+        condition: Condition,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+    ): { penalty: boolean; bonus: boolean; 'inactive-button': boolean } {
         return {
-            penalty: !conditionParameters.isStoppedInTime && !conditionParameters.condition.buff,
-            bonus: !conditionParameters.isStoppedInTime && conditionParameters.condition.buff,
+            penalty: !conditionParameters.isStoppedInTime && !condition.buff,
+            bonus: !conditionParameters.isStoppedInTime && condition.buff,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             'inactive-button': conditionParameters.isStoppedInTime,
         };
@@ -192,20 +190,28 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
         return this._durationsService.durationDescription$(duration);
     }
 
-    public conditionSuperTitle(conditionGain: ConditionGain, condition: Condition): string {
-        if (condition.isStoppingTime(conditionGain)) {
-            return 'icon-ra ra-hourglass';
-        }
+    public conditionSuperTitle$(gain: ConditionGain, condition: Condition, paused: boolean): Observable<string> {
+        return combineLatest([
+            condition.isStoppingTime$(gain),
+            this._conditionPropertiesService.isConditionInformational$(condition, { creature: this.creature, gain }),
+        ])
+            .pipe(
+                map(([isStoppingTime, isInformational]) => {
+                    if (isStoppingTime) {
+                        return 'icon-ra ra-hourglass';
+                    }
 
-        if (conditionGain.paused) {
-            return 'icon-bi-pause-circle';
-        }
+                    if (paused) {
+                        return 'icon-bi-pause-circle';
+                    }
 
-        if (this._conditionPropertiesService.isConditionInformational(this.creature, condition, conditionGain)) {
-            return 'icon-bi-info-circle';
-        }
+                    if (isInformational) {
+                        return 'icon-bi-info-circle';
+                    }
 
-        return '';
+                    return '';
+                }),
+            );
     }
 
     public onIgnoreEffect(effect: Effect, ignore: boolean): void {
@@ -222,9 +228,14 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
         }
     }
 
-    private _isTimeStopped(conditions: Array<ConditionGain>): boolean {
-        return this.appliedConditions(conditions, true, true)
-            .some(gain => this._conditionsDataService.conditionFromName(gain.name).isStoppingTime(gain));
+    private _isTimeStopped$(conditions: Array<ConditionGainPair>): Observable<boolean> {
+        return emptySafeCombineLatest(
+            conditions
+                .map(({ gain, condition }) => condition.isStoppingTime$(gain)),
+        )
+            .pipe(
+                map(isStoppingTimeList => isStoppingTimeList.includes(true)),
+            );
     }
 
 }

@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { switchMap, combineLatest, Observable, of, tap, map } from 'rxjs';
+import { switchMap, combineLatest, Observable, of, tap, map, distinctUntilChanged } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Armor } from 'src/app/classes/items/armor';
 import { Item } from 'src/app/classes/items/item';
 import { Wand } from 'src/app/classes/items/wand';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
-import { deepDistinctUntilChanged, emptySafeCombineLatest } from '../../util/observable-utils';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { SpellsDataService } from '../data/spells-data.service';
 import { Scroll } from 'src/app/classes/items/scroll';
 import { safeParseInt } from '../../util/string-utils';
+import { isEqualPrimitiveArray } from '../../util/compare-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -74,7 +75,7 @@ export class ItemTraitsService {
             return of([]);
         })()
             .pipe(
-                deepDistinctUntilChanged(),
+                distinctUntilChanged(isEqualPrimitiveArray),
                 // TO-DO: ideally, item.effectiveTraits$ should embody this method and be queried instead of it.
                 tap(effectiveTraits => { item.effectiveTraits$.next(effectiveTraits); }),
             );

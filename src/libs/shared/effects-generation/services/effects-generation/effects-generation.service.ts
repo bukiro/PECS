@@ -142,19 +142,17 @@ export class EffectsGenerationService {
             this._creatureEffectsGenerationService.creatureEffectsGenerationObjects$(creature),
             // Collect inventory items and their hints, if the item is equipped and invested as needed.
             this._itemEffectsGenerationService.collectEffectItems$(creature),
+            // Collect active conditions and their hints.
+            this._creatureConditionsService.collectEffectConditions$(creature),
             // Collect hints of active activities.
             this._creatureActivitiesService.collectActivityEffectHints$(creature),
             //Collect hints of Traits that are on currently equipped items.
             this._collectTraitEffectHints$(creature),
         ])
             .pipe(
-                switchMap(([creatureObjects, effectItems, activeActivitiesHintSets, traitEffectHintSets]) => {
+                switchMap(([creatureObjects, effectItems, effectConditions, activeActivitiesHintSets, traitEffectHintSets]) => {
                     // Collect objects, conditions and objects' hints to generate effects from.
                     // Hint effects will be handled separately at first.
-
-                    // Collect active conditions and their hints.
-                    //TODO: Will eventually be reactive.
-                    const effectConditions = this._creatureConditionsService.collectEffectConditions(creature);
 
                     const feats: Array<Feat | AnimalCompanionSpecialization> = creatureObjects.feats;
                     const hintSets = new Array<HintEffectsObject>()
@@ -562,7 +560,7 @@ export class EffectsGenerationService {
 
                         effect.value = (effect.valueNumerical + speedPenaltyReduction).toString();
 
-                        if (!effect.value || !effect.value) {
+                        if (!effect.valueNumerical) {
                             effect.applied = false;
                             effect.source = `${ effect.source } (Cancelled by Unburdened Iron)`;
                         } else {
@@ -907,19 +905,19 @@ export class EffectsGenerationService {
                     // We don't want these to influence or be influenced by the next steps.
                     const effectsForOthers = effects.filter(effect => effect.creature !== creature.id);
 
-                    effects = effects.filter(effect => effect.creature === creature.id);
+                    let finalEffects = effects.filter(effect => effect.creature === creature.id);
 
                     // Enable ignored on all effects that match the creature's ignored effects list.
-                    effects = this._setEffectsIgnored(effects, { creature });
+                    finalEffects = this._setEffectsIgnored(finalEffects, { creature });
 
                     // Enable or disable applied on all effects according to various considerations.
-                    effects = this._setEffectsApplied(effects, { creature });
+                    finalEffects = this._setEffectsApplied(finalEffects, { creature });
 
                     // Enable or disable shown on all effects depending on whether they match a list of targets.
-                    effects = this._setEffectsShown(effects);
+                    finalEffects = this._setEffectsShown(finalEffects);
 
                     // Add back the effects that affect another creature.
-                    return effects.concat(effectsForOthers);
+                    return finalEffects.concat(effectsForOthers);
                 }),
                 distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 tap(effects => {

@@ -7,7 +7,7 @@ import { CreatureTypes } from '../../definitions/creature-types';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureService } from '../creature/creature.service';
 import { DeepPartial } from '../../definitions/types/deep-partial';
-import { isEqualArray } from '../../util/compare-utils';
+import { isEqualObjectArray } from '../../util/compare-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -77,7 +77,7 @@ export class AnimalCompanionLevelsService {
                             feat.gainAnimalCompanion,
                         ),
                     ),
-                    distinctUntilChanged(isEqualArray((previous, current) => previous.name === current.name)),
+                    distinctUntilChanged(isEqualObjectArray((previous, current) => previous.name === current.name)),
                 ),
         ])
             .subscribe(([companion, companionGainingFeats]) => {

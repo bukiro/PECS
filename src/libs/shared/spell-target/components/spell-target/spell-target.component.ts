@@ -532,8 +532,8 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
                                             gainConditions.some(gain => gain.name === condition.name && gain.targetFilter === 'caster'),
                                         )
                                         .some(condition =>
-                                            condition.hasEffects() ||
-                                            condition.isChangeable(),
+                                            condition.hasEffects ||
+                                            condition.isChangeable,
                                         )
                                 )
                             )

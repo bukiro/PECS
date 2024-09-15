@@ -8,11 +8,11 @@
         @if (componentParameters$() | async; as componentParameters) {
             <ng-template
                 #conditionTemplate
-                let-conditionGain="conditionGain"
+                let-conditionPair="conditionPair"
             >
                 @if (
                     conditionParameters(
-                        conditionGain,
+                        conditionPair,
                         componentParameters.isTimeStopped
                     );
                     as conditionParameters
@@ -21,16 +21,17 @@
                         style="display: flex"
                         [ngClass]="{
                             attention:
-                                conditionGain.durationIsInstant ||
-                                conditionGain.nextStage === -1,
+                            conditionPair.gain.durationIsInstant ||
+                            conditionPair.gain.nextStage === -1,
                         }"
                     >
                         <ng-template #conditionContent>
                             <app-condition
                                 class="newrow"
                                 [creature]="creature"
-                                [conditionGain]="conditionGain"
-                                [condition]="conditionParameters.condition"
+                                [conditionGain]="conditionPair.gain"
+                                [paused]="conditionPair.paused"
+                                [condition]="conditionPair.condition"
                                 [showItem]="shownItem()"
                                 [fullDisplay]="fullDisplay"
                                 (showItemMessage)="
@@ -48,21 +49,22 @@
                                 <app-grid-icon
                                     class="condition"
                                     placement="right bottom top"
-                                    [updateId]="conditionGain.id"
+                                    [updateId]="conditionPair.gain.id"
                                     [ngClass]="
-                                        conditionClasses(conditionParameters)
+                                        conditionClasses(conditionParameters, conditionPair.condition)
                                     "
-                                    [condition]="conditionGain"
+                                    [condition]="conditionPair.gain"
                                     [originalCondition]="
-                                        conditionParameters.condition
+                                        conditionPair.condition
                                     "
                                     [superTitle]="
-                                        conditionSuperTitle(
-                                            conditionGain,
-                                            conditionParameters.condition
-                                        )
+                                        (conditionSuperTitle$(
+                                            conditionPair.gain,
+                                            conditionPair.condition,
+                                            conditionPair.paused
+                                        ) | async) ?? ''
                                     "
-                                    [ngbTooltip]="conditionGain.name"
+                                    [ngbTooltip]="conditionPair.gain.name"
                                     [openDelay]="0"
                                 />
                             </div>
@@ -72,19 +74,18 @@
                             <div class="list-item gridicon-fullsizebox">
                                 <app-grid-icon
                                     class="condition"
-                                    [updateId]="conditionGain.id"
-                                    [condition]="conditionGain"
-                                    [originalCondition]="
-                                        conditionParameters.condition
-                                    "
+                                    [updateId]="conditionPair.gain.id"
+                                    [condition]="conditionPair.gain"
+                                    [originalCondition]="conditionPair.condition"
                                     [superTitle]="
-                                        conditionSuperTitle(
-                                            conditionGain,
-                                            conditionParameters.condition
-                                        )
+                                        (conditionSuperTitle$(
+                                            conditionPair.gain,
+                                            conditionPair.condition,
+                                            conditionPair.paused
+                                        ) | async) ?? ''
                                     "
                                     [ngClass]="
-                                        conditionClasses(conditionParameters)
+                                        conditionClasses(conditionParameters, conditionPair.condition)
                                     "
                                 />
 
@@ -291,17 +292,13 @@
                         </div>
 
                         @for (
-                            conditionGain of appliedConditions(
-                                componentParameters.conditions,
-                                true,
-                                true
-                            );
-                            track conditionGain.id
+                            conditionPair of componentParameters.activeConditions;
+                            track conditionPair.gain.id
                         ) {
                             <ng-container
                                 *ngTemplateOutlet="
                                     conditionTemplate;
-                                    context: { conditionGain: conditionGain }
+                                    context: { conditionPair: conditionPair }
                                 "
                             />
                         }
@@ -356,16 +353,13 @@
                     <header class="subsectionHeader">Active Conditions</header>
 
                     @for (
-                        conditionGain of appliedConditions(
-                            componentParameters.conditions,
-                            true
-                        );
-                        track conditionGain.id
+                        conditionPair of componentParameters.activeConditions;
+                        track conditionPair.gain.id
                     ) {
                         <ng-container
                             *ngTemplateOutlet="
                                 conditionTemplate;
-                                context: { conditionGain: conditionGain }
+                                context: { conditionPair: conditionPair }
                             "
                         />
                     }
@@ -393,16 +387,13 @@
                     </header>
 
                     @for (
-                        conditionGain of appliedConditions(
-                            componentParameters.conditions,
-                            false
-                        );
-                        track conditionGain.id
+                        conditionPair of componentParameters.inactiveConditions;
+                        track conditionPair.gain.id
                     ) {
                         <ng-container
                             *ngTemplateOutlet="
                                 conditionTemplate;
-                                context: { conditionGain: conditionGain }
+                                context: { conditionPair: conditionPair }
                             "
                         />
                     }

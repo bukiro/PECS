@@ -11,3 +11,8 @@ export interface RecastFns {
     getItemPrototype: ItemPrototypeFn;
     getOriginalActivity: ActivityLookupFn;
 }
+
+export const mockRecastFns = ({ item, activity }: { item?: Item; activity?: Activity } = {}): RecastFns => ({
+    getItemPrototype: <T extends Item>(obj: DeepPartial<T>) => (obj ?? item) as T,
+    getOriginalActivity: () => activity ?? new Activity(),
+});

@@ -15,6 +15,8 @@ import { CreatureEquipmentService } from '../creature-equipment/creature-equipme
 import { CreatureService } from '../creature/creature.service';
 import { RecastService } from '../recast/recast.service';
 import { RefreshService } from '../refresh/refresh.service';
+import { CreatureConditionRemovalService } from '../creature-conditions/creature-condition-removal.service';
+import { filterConditions } from '../creature-conditions/condition-filter-utils';
 
 export interface ACForDisplay {
     bonuses$: Observable<boolean>;
@@ -43,6 +45,7 @@ export class ArmorClassService {
 
     constructor(
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
@@ -56,9 +59,7 @@ export class ArmorClassService {
         shield?: Shield,
     ): void {
         const conditions: Array<ConditionGain> =
-            this._creatureConditionsService
-                .currentCreatureConditions(creature, {}, { readonly: true })
-                .filter(gain => gain.name === 'Cover' && gain.source === 'Quick Status');
+            filterConditions(creature.conditions, { name: 'Cover', source: 'Quick Status' });
         const lesserCover = conditions.find(gain => gain.name === 'Cover' && gain.choice === 'Lesser');
         const standardCover = conditions.find(gain => gain.name === 'Cover' && gain.choice === 'Standard');
         const greaterCover = conditions.find(gain => gain.name === 'Cover' && gain.choice === 'Greater');
@@ -100,15 +101,15 @@ export class ArmorClassService {
         }
 
         if (lesserCover && cover !== CoverTypes.LesserCover) {
-            this._creatureConditionsService.removeCondition(creature, lesserCover, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(lesserCover, creature);
         }
 
         if (standardCover && cover !== CoverTypes.Cover) {
-            this._creatureConditionsService.removeCondition(creature, standardCover, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(standardCover, creature);
         }
 
         if (greaterCover && cover !== CoverTypes.GreaterCover) {
-            this._creatureConditionsService.removeCondition(creature, greaterCover, false);
+            this._creatureConditionRemovalService.removeSingleConditionGain(greaterCover, creature);
         }
 
         if (coverChoice) {

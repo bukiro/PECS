@@ -36,6 +36,7 @@ import { CharacterHeritageChangeService } from '../character-heritage-change/cha
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 import { FeatProcessingRefreshService } from './feat-processing-refresh.service';
 import { NamedFeatProcessingService } from './named-feat-processing.service';
+import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 
 export interface FeatProcessingContext {
     creature: Character | Familiar;
@@ -52,6 +53,7 @@ export class FeatProcessingService {
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
@@ -609,15 +611,7 @@ export class FeatProcessingService {
                     this._creatureConditionsService.addCondition(character, newConditionGain, {}, { noReload: true });
                 });
             } else {
-                feat.gainConditions.forEach(conditionGain => {
-                    const existingConditionGain =
-                        this._creatureConditionsService.currentCreatureConditions(character, { name: conditionGain.name })
-                            .find(currentConditionGain => currentConditionGain.source === conditionGain.source);
-
-                    if (existingConditionGain) {
-                        this._creatureConditionsService.removeCondition(character, existingConditionGain, false);
-                    }
-                });
+                this._creatureConditionRemovalService.removeConditionGains(feat.gainConditions, character);
             }
         }
     }

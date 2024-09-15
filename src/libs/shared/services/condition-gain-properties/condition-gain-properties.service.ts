@@ -11,6 +11,8 @@ import { ItemGrantingService } from '../item-granting/item-granting.service';
 import { RecastService } from '../recast/recast.service';
 import { RefreshService } from '../refresh/refresh.service';
 import { Condition } from 'src/app/classes/conditions/condition';
+import { CreatureConditionRemovalService } from '../creature-conditions/creature-condition-removal.service';
+import { stringsIncludeCaseInsensitive } from '../../util/string-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -21,9 +23,9 @@ export class ConditionGainPropertiesService {
         private readonly _refreshService: RefreshService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _toastService: ToastService,
         private readonly _itemGrantingService: ItemGrantingService,
-        private readonly _recastService: RecastService,
     ) { }
 
     public changeConditionChoice(
@@ -59,25 +61,34 @@ export class ConditionGainPropertiesService {
             // Remove any conditions that were granted by the previous choice,
             // unless they are persistent (but still remove them if they are ignorePersistentAtChoiceChange).
             if (oldChoice) {
-                condition.gainConditions
-                    .filter(extraCondition => extraCondition.conditionChoiceFilter.includes(oldChoice))
-                    .forEach(extraCondition => {
-                        const conditionToAdd = extraCondition.clone(RecastService.recastFns);
+                const conditionsToRemove = condition.gainConditions
+                    .filter(extraCondition => stringsIncludeCaseInsensitive(extraCondition.conditionChoiceFilter, oldChoice))
+                    .map(extraCondition => ({
+                        gain: extraCondition.clone(RecastService.recastFns),
+                        condition: this._conditionsDataService.conditionFromName(extraCondition.name),
+                    }))
+                    .filter(({ gain: extraGain, condition: extraCondition }) =>
+                        !(
+                            extraGain.persistent ||
+                            extraCondition?.persistent
+                        ) ||
+                        extraGain.ignorePersistentAtChoiceChange,
+                    )
+                    .map(pair => {
+                        pair.gain.source = gain.name;
 
-                        conditionToAdd.source = gain.name;
-
-                        const originalCondition = this._conditionsDataService.conditionFromName(conditionToAdd.name);
-
-                        if (
-                            !(
-                                conditionToAdd.persistent ||
-                                originalCondition?.persistent
-                            ) ||
-                            conditionToAdd.ignorePersistentAtChoiceChange
-                        ) {
-                            this._creatureConditionsService.removeCondition(creature, conditionToAdd, false, false, true, true, true);
-                        }
+                        return pair;
                     });
+
+                this._creatureConditionRemovalService.removeConditions(
+                    conditionsToRemove,
+                    creature,
+                    {
+                        preventWoundedIncrease: true,
+                        allowRemoveLockedByParentConditions: true,
+                        allowRemovePersistentConditions: true,
+                    },
+                );
             }
 
             //Add any conditions that are granted by the new choice.
@@ -95,7 +106,6 @@ export class ConditionGainPropertiesService {
 
                         conditionToAdd.source = gain.name;
                         conditionToAdd.parentID = gain.id;
-                        conditionToAdd.apply = true;
                         this._creatureConditionsService.addCondition(
                             creature,
                             conditionToAdd,

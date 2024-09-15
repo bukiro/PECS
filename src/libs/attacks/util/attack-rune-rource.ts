@@ -3,7 +3,7 @@ import { Creature } from 'src/app/classes/creatures/creature';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weapon-proficiencies';
-import { isEqualSerializableArray, isEqualArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
+import { isEqualSerializableArray, isEqualObjectArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 export interface RuneSourceSet {
@@ -57,7 +57,7 @@ export const attackRuneSource$ = (weapon: Weapon, creature: Creature, range: str
                         )
                             .pipe(
                                 distinctUntilChanged(
-                                    isEqualArray((a, b) =>
+                                    isEqualObjectArray((a, b) =>
                                         JSON.parse(JSON.stringify(a.data)) === JSON.parse(JSON.stringify(b.data))
                                         && isEqualSerializable(a.item, b.item),
                                     ),
