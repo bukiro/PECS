@@ -1,6 +1,5 @@
 import { signal, WritableSignal } from '@angular/core';
-
-type DeepPartial<T> = Partial<{ [P in keyof T]: DeepPartial<T[P]> }>;
+import { DeepPartial } from '../definitions/types/deep-partial';
 
 // TYPES
 
