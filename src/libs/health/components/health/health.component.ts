@@ -104,13 +104,19 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
 
         this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$');
 
-        this.calculatedHealth$ = combineLatest({
-            maxHP: this._healthService.maxHP$(this.creature),
-            currentHP: this._healthService.currentHP$(this.creature),
-            wounded: this._healthService.wounded$(this.creature),
-            dying: this._healthService.dying$(this.creature),
-            maxDying: this._healthService.maxDying$(this.creature),
-        });
+        this.calculatedHealth$ = this.creature$
+            .pipe(
+                switchMap(creature =>
+                    combineLatest({
+                        maxHP: this._healthService.maxHP$(creature),
+                        currentHP: this._healthService.currentHP$(creature),
+                        wounded: this._healthService.wounded$(creature),
+                        dying: this._healthService.dying$(creature),
+                        maxDying: this._healthService.maxDying$(creature),
+                    }),
+                ),
+            );
+
     }
 
     public get creature(): Creature {
