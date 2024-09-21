@@ -218,6 +218,12 @@
                     {
                         "maxComplexity": 10
                     }
+                ],
+                "@angular-eslint/template/no-call-expression": [
+                    "error",
+                    {
+                        "allowSuffix": "$$"
+                    }
                 ]
             }
         },

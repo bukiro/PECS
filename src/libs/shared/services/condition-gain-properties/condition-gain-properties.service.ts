@@ -3,13 +3,11 @@ import { Injectable } from '@angular/core';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
-import { CreatureTypes } from '../../definitions/creature-types';
 import { TimePeriods } from '../../definitions/time-periods';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
 import { RecastService } from '../recast/recast.service';
-import { RefreshService } from '../refresh/refresh.service';
 import { Condition } from 'src/app/classes/conditions/condition';
 import { CreatureConditionRemovalService } from '../creature-conditions/creature-condition-removal.service';
 import { stringsIncludeCaseInsensitive } from '../../util/string-utils';
@@ -20,7 +18,6 @@ import { stringsIncludeCaseInsensitive } from '../../util/string-utils';
 export class ConditionGainPropertiesService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
@@ -110,14 +107,8 @@ export class ConditionGainPropertiesService {
                             creature,
                             conditionToAdd,
                             { parentConditionGain: gain },
-                            { noReload: true },
                         );
                     });
-            }
-
-            //If the current duration is locking the time buttons, refresh the time bar after the change.
-            if (gain.durationIsInstant || gain.nextStage) {
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
             }
 
             // If the current duration is the default duration of the previous choice,
@@ -146,11 +137,6 @@ export class ConditionGainPropertiesService {
                 gain.maxDuration = gain.duration;
             }
 
-            //If the new duration is locking the time buttons, refresh the time bar after the change.
-            if (gain.durationIsInstant) {
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
-            }
-
             //Show a notification if the new condition has no duration and did nothing, because it will be removed in the next cycle.
             if (!didConditionDoAnything && gain.duration === 0) {
                 this._toastService.show(
@@ -160,18 +146,7 @@ export class ConditionGainPropertiesService {
 
         }
 
-        this._refreshService.prepareDetailToChange(creature.type, 'effects');
-
-        if (condition.attackRestrictions.length) {
-            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-        }
-
-        if (condition.senses.length) {
-            this._refreshService.prepareDetailToChange(creature.type, 'skills');
-        }
-
         gain.showChoices = false;
-        this._refreshService.prepareChangesByHints(creature, condition.hints);
     }
 
     public changeConditionStage(
@@ -184,9 +159,6 @@ export class ConditionGainPropertiesService {
         if (change === 0) {
             //If no change, the condition remains, but the onset is reset.
             gain.nextStage = condition.timeToNextStage(gain.choice);
-            this._refreshService.prepareDetailToChange(creature.type, 'time');
-            this._refreshService.prepareDetailToChange(creature.type, 'health');
-            this._refreshService.prepareDetailToChange(creature.type, 'effects');
         } else {
             let newIndex = choices.indexOf(gain.choice) + change;
 
@@ -202,11 +174,6 @@ export class ConditionGainPropertiesService {
 
             if (newChoice) {
                 gain.nextStage = condition.timeToNextStage(newChoice);
-
-                if (gain.nextStage) {
-                    this._refreshService.prepareDetailToChange(creature.type, 'time');
-                    this._refreshService.prepareDetailToChange(creature.type, 'health');
-                }
 
                 const oldChoice = gain.choice;
 

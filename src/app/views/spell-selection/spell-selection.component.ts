@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, distinctUntilChanged, shareReplay, map, switchMap, of, delay, combineLatest } from 'rxjs';
+import { Observable, distinctUntilChanged, shareReplay, map, switchMap, of, delay, combineLatest } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Spell } from 'src/app/classes/spells/spell';
@@ -34,6 +34,7 @@ import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.compone
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -77,7 +78,7 @@ interface SpellParameters {
         SpellChoiceComponent,
     ],
 })
-export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCreatureElementComponent)) implements OnInit, OnDestroy {
+export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCreatureElementComponent)) {
 
     @Input()
     public show = false;
@@ -94,11 +95,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
     private _showSpellCasting?: SpellCasting;
     private _showContentLevelNumber = 0;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
@@ -132,6 +129,14 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
                         ),
                 ),
             );
+
+        this._refreshService.closeSpellSelections$
+            .pipe(
+                takeUntilDestroyed(),
+            )
+            .subscribe(() => {
+                this.toggleShownChoice('');
+            });
     }
 
     public get character(): Character {
@@ -305,30 +310,6 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
                 choice: spellSet.choice,
                 gain: spellSet.gain,
             }));
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['spells', 'all', 'character'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() === 'character' && ['spells', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-
-                    if (view.subtarget === 'clear') {
-                        this.toggleShownChoice('');
-                    }
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     //TODO: This method and others are also used in the spellbook. Can they be centralized, e.g. in the SpellCasting class?

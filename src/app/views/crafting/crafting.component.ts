@@ -9,7 +9,6 @@ import { Item } from 'src/app/classes/items/item';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { ItemRoles } from 'src/app/classes/items/item-roles';
 import { Snare } from 'src/app/classes/items/snare';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
@@ -22,7 +21,6 @@ import { InputValidationService } from 'src/libs/shared/services/input-validatio
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
@@ -90,7 +88,6 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
 
     constructor(
         private readonly _itemsDataService: ItemsDataService,
-        private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
@@ -394,10 +391,6 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
         if (learnedFormula) {
             learnedFormula.snareSpecialistPrepared += amount;
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-        //this.refreshService.set_ToChange("Character", "crafting");
-        this._refreshService.processPreparedChanges();
     }
 
     public amountOfItemPreparedForQuickCrafting(item: Item): number {

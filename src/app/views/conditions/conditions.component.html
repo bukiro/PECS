@@ -988,11 +988,6 @@
                                                                 [(ngModel)]="
                                                                     effect.affected
                                                                 "
-                                                                (blur)="
-                                                                    refreshEffects(
-                                                                        creature
-                                                                    )
-                                                                "
                                                             />
                                                         </span>
                                                     </div>
@@ -1015,11 +1010,6 @@
                                                                 [(ngModel)]="
                                                                     effect.source
                                                                 "
-                                                                (blur)="
-                                                                    refreshEffects(
-                                                                        creature
-                                                                    )
-                                                                "
                                                             />
                                                         </span>
 
@@ -1033,11 +1023,6 @@
                                                                 aria-label="Select effect type"
                                                                 [(ngModel)]="
                                                                     effect.type
-                                                                "
-                                                                (ngModelChange)="
-                                                                    refreshEffects(
-                                                                        creature
-                                                                    )
                                                                 "
                                                             >
                                                                 @for (

@@ -4,18 +4,15 @@ import { Character } from 'src/app/classes/creatures/character/character';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { AbsoluteEffect } from 'src/app/classes/effects/effect';
 import { EffectGain } from 'src/app/classes/effects/effect-gain';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { ActivitiesTimeService } from '../activities-time/activities-time.service';
@@ -41,10 +38,8 @@ export class TimeService {
         private readonly _customEffectsTimeService: CustomEffectsTimeService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _toastService: ToastService,
-        private readonly _refreshService: RefreshService,
         private readonly _abilityValueService: AbilityValuesService,
         private readonly _healthService: HealthService,
-        private readonly _conditionsDataService: ConditionsDataService,
         private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _conditionsTimeService: ConditionsTimeService,
@@ -98,16 +93,14 @@ export class TimeService {
 
                         if (!timeStopEffects.length) {
                             if (fastHealing && currentHP.result > 0) {
-                                this._refreshService.prepareDetailToChange(creature.type, 'health');
-                                this._healthService.heal$(creature, fastHealing)
-                                    .subscribe(() => {
-                                        this._toastService.show(
-                                            `${ creature.isCharacter()
-                                                ? 'You'
-                                                : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`)
-                                            } gained ${ (fastHealing).toString() } HP from fast healing.`,
-                                        );
-                                    });
+                                this._healthService.heal(creature, fastHealing);
+
+                                this._toastService.show(
+                                    `${ creature.isCharacter()
+                                        ? 'You'
+                                        : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`)
+                                    } gained ${ (fastHealing).toString() } HP from fast healing.`,
+                                );
                             }
                         }
                     });
@@ -118,8 +111,6 @@ export class TimeService {
                 if (character.partyName && character.settings.sendTurnStartMessage && !character.settings.sendTurnEndMessage) {
                     this._messageSendingService.sendTurnChangeToPlayers();
                 }
-
-                this._refreshService.processPreparedChanges();
             });
     }
 
@@ -171,9 +162,6 @@ export class TimeService {
                         multiplierRelatives,
                         constitutionModifier,
                     ]) => {
-                        this._refreshService.prepareDetailToChange(creature.type, 'health');
-                        this._refreshService.prepareDetailToChange(creature.type, 'effects');
-
                         let con = 1;
 
                         con = Math.max(
@@ -199,15 +187,13 @@ export class TimeService {
                             multiplier += effect.valueNumerical;
                         });
                         multiplier = Math.max(1, multiplier);
-                        this._healthService.heal$(creature, heal * multiplier, true, true)
-                            .subscribe(() => {
-                                this._toastService.show(
-                                    `${ creature.isCharacter()
-                                        ? 'You'
-                                        : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`)
-                                    } gained ${ (heal * multiplier).toString() } HP from resting.`,
-                                );
-                            });
+                        this._healthService.heal(creature, heal * multiplier, true, true);
+                        this._toastService.show(
+                            `${ creature.isCharacter()
+                                ? 'You'
+                                : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`)
+                            } gained ${ (heal * multiplier).toString() } HP from resting.`,
+                        );
                         //Reset all "once per day" activity cooldowns.
                         this._activitiesTimeService.restActivities(creature);
                         //Reset all conditions that are "until the next time you make your daily preparations".
@@ -234,7 +220,6 @@ export class TimeService {
                             character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                                 learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
                             });
-                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
                             //Regenerate bonded item charges.
                             character.class.spellCasting
                                 .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')
@@ -250,8 +235,6 @@ export class TimeService {
                         }
                     },
                 );
-
-                this._refreshService.processPreparedChanges();
             });
     }
 
@@ -315,10 +298,6 @@ export class TimeService {
                 );
 
                 character.class.focusPointsLast = character.class.focusPoints;
-
-                if (reload) {
-                    this._refreshService.processPreparedChanges();
-                }
             });
     }
 
@@ -388,7 +367,7 @@ export class TimeService {
                             this._spellsTimeService.tickSpells(creatureTurns);
                         }
 
-                        //If you are at full health and rest for 10 minutes, you lose the wounded condition.
+                        // If you are at full health and take a break for at least 10 minutes, you lose the wounded condition.
                         if (creatureTurns >= TimePeriods.TenMinutes && creature.health.damage === 0) {
                             this._creatureConditionRemovalService.removeConditionGains(
                                 filterConditions(creature.conditions, { name: 'Wounded' }),

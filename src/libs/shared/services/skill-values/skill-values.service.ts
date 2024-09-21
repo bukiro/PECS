@@ -9,7 +9,7 @@ import { Skill } from 'src/app/classes/skills/skill';
 import { SkillIncrease } from 'src/app/classes/skills/skill-increase';
 import { BonusTypes } from '../../definitions/bonus-types';
 import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from '../../definitions/skill-levels';
-import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
+import { addBonusDescriptionFromEffect } from '../../util/bonus-description-utils';
 import { signNumber } from '../../util/number-utils';
 import { stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
@@ -474,7 +474,7 @@ export class SkillValuesService {
                                         .concat(familiarSaveRelatives)
                                         .forEach(effect => {
                                             result += effect.valueNumerical;
-                                            addBonusDescriptionFromEffect(bonuses, effect);
+                                            bonuses = addBonusDescriptionFromEffect(bonuses, effect);
                                         });
                                 }
 

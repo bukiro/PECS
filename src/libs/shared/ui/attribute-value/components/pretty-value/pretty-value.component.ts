@@ -1,9 +1,13 @@
-import { Component, ChangeDetectionStrategy, Input, input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, booleanAttribute, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 import { BonusListComponent } from 'src/libs/shared/ui/bonus-list/components/bonus-list/bonus-list.component';
+import { HasPenaltiesPipe } from '../../pipes/has-penalties.pipe';
+import { HasAbsolutesPipe } from '../../pipes/has-absolutes.pipe';
+import { HasBonusesPipe } from '../../pipes/has-bonuses.pipe';
+
 
 @Component({
     selector: 'app-pretty-value',
@@ -13,36 +17,85 @@ import { BonusListComponent } from 'src/libs/shared/ui/bonus-list/components/bon
     standalone: true,
     imports: [
         CommonModule,
-
         NgbPopoverModule,
-
         BonusListComponent,
+        HasAbsolutesPipe,
+        HasBonusesPipe,
+        HasPenaltiesPipe,
     ],
 })
 export class PrettyValueComponent {
-    @Input()
-    public value?: number | string;
+    public readonly value$$ = input<number | string | undefined>(undefined, { alias: 'value' });
 
-    @Input()
-    public clickLabel?: string;
+    public readonly clickLabel$$ = input<string | undefined>(undefined, { alias: 'clickLabel' });
 
-    public opaque = input<boolean, boolean | string | number>(false, { transform: value => forceBooleanFromInput(value) });
+    public readonly forceAbsolute$$ = input<boolean, unknown>(
+        false,
+        { alias: 'forceAbsolute', transform: booleanAttribute },
+    );
+    public readonly forceBonus$$ = input<boolean, unknown>(
+        false,
+        { alias: 'forceBonus', transform: booleanAttribute },
+    );
+    public readonly forcePenalty$$ = input<boolean, unknown>(
+        false,
+        { alias: 'forcePenalty', transform: booleanAttribute },
+    );
 
-    public hasBonuses = false;
-    public hasPenalties = false;
-    public hasAbsolutes = false;
+    public readonly bonuses$$ = input<Array<BonusDescription>, Array<BonusDescription> | undefined>(
+        [],
+        { alias: 'bonuses', transform: value => value ?? [] },
+    );
 
-    private _bonuses?: Array<BonusDescription>;
+    public readonly opaque$$ = input<boolean, boolean | string | number>(
+        false,
+        { alias: 'opaque', transform: value => forceBooleanFromInput(value) },
+    );
 
-    public get bonuses(): Array<BonusDescription> | undefined {
-        return this._bonuses;
-    }
+    public readonly isAbsolute$$ = computed(() => {
+        if (this.forceAbsolute$$()) {
+            return true;
+        }
 
-    @Input()
-    public set bonuses(bonuses: Array<BonusDescription> | undefined) {
-        this._bonuses = bonuses;
-        this.hasBonuses = !!bonuses?.some(bonus => bonus.isBonus);
-        this.hasPenalties = !!bonuses?.some(bonus => bonus.isPenalty);
-        this.hasAbsolutes = !!bonuses?.some(bonus => bonus.isAbsolute);
-    }
+        if (this.forcePenalty$$() || this.forceBonus$$()) {
+            return false;
+        }
+
+        return this._hasAbsolutes$$();
+    });
+
+    public readonly isPenalty$$ = computed(() => {
+        if (this.forceAbsolute$$()) {
+            return false;
+        }
+
+        if (this.forcePenalty$$()) {
+            return true;
+        }
+
+        if (this.forceBonus$$()) {
+            return false;
+        }
+
+        return !this._hasAbsolutes$$()
+            && this._hasPenalties$$();
+    });
+
+    public readonly isBonus$$ = computed(() => {
+        if (this.forceAbsolute$$() || this.forcePenalty$$()) {
+            return false;
+        }
+
+        if (this.forceBonus$$()) {
+            return true;
+        }
+
+        return !this._hasAbsolutes$$()
+            && !this._hasPenalties$$()
+            && this._hasBonuses$$();
+    });
+
+    private readonly _hasAbsolutes$$ = computed(() => !!this.bonuses$$()?.some(bonus => bonus.isAbsolute));
+    private readonly _hasBonuses$$ = computed(() => !!this.bonuses$$()?.some(bonus => bonus.isBonus));
+    private readonly _hasPenalties$$ = computed(() => !!this.bonuses$$()?.some(bonus => bonus.isPenalty));
 }

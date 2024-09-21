@@ -57,8 +57,8 @@ export class TimeBlockingService {
                     ),
                 );
 
-        const multipleTempHPAvailable = (creature: Creature): boolean =>
-            creature.health.temporaryHP.length > 1;
+        const multipleTempHPAvailable$ = (creature: Creature): Observable<boolean> =>
+            creature.health.temporaryHP.values$.pipe(map(temporaryHP => temporaryHP.length > 1));
         const restingBlockingEffectsActive = (blockingEffects: Array<Effect>): boolean =>
             blockingEffects.some(effect => !effect.ignored);
 
@@ -73,13 +73,15 @@ export class TimeBlockingService {
                                 options.includeResting
                                     ? timeStopConditionsActive$(creature)
                                     : of(false),
+                                multipleTempHPAvailable$(creature),
                             ])
                                 .pipe(
-                                    map(([blockedEffects, hasAfflictionOnsets, hasTimeStops]) => ({
+                                    map(([blockedEffects, hasAfflictionOnsets, hasTimeStops, areMultipleTempHPAvailable]) => ({
                                         creature,
                                         blockedEffects,
                                         hasAfflictionOnsets,
                                         hasTimeStops,
+                                        areMultipleTempHPAvailable,
                                     })),
                                 ),
                         ),
@@ -87,7 +89,7 @@ export class TimeBlockingService {
                 map(creatureSets => {
                     let result: string | undefined;
 
-                    creatureSets.forEach(({ creature, blockedEffects, hasAfflictionOnsets, hasTimeStops }) => {
+                    creatureSets.forEach(({ creature, blockedEffects, hasAfflictionOnsets, hasTimeStops, areMultipleTempHPAvailable }) => {
                         if (hasAfflictionOnsets) {
                             result =
                                 `One or more conditions${ creature.isCharacter()
@@ -104,7 +106,7 @@ export class TimeBlockingService {
                                 }, and you cannot ${ options.includeResting ? 'rest' : 'continue' } until this effect has ended.`;
                         }
 
-                        if (multipleTempHPAvailable(creature)) {
+                        if (areMultipleTempHPAvailable) {
                             result =
                                 `You need to select one set of temporary Hit Points${ creature.isCharacter()
                                     ? ''

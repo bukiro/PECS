@@ -1933,11 +1933,6 @@
                                                                         .item
                                                                         .displayName
                                                                 "
-                                                                (blur)="
-                                                                    onItemChange(
-                                                                        itemParameters.item
-                                                                    )
-                                                                "
                                                             />
                                                         </div>
                                                     }
@@ -2193,11 +2188,6 @@
                                                                                     .asEquipment
                                                                                     .shoddy
                                                                             "
-                                                                            (ngModelChange)="
-                                                                                onItemChange(
-                                                                                    itemParameters.asEquipment
-                                                                                )
-                                                                            "
                                                                         />
                                                                         <label
                                                                             for="{{
@@ -2343,11 +2333,6 @@
                                                                             .asWeapon
                                                                             .large
                                                                     "
-                                                                    (ngModelChange)="
-                                                                        onItemChange(
-                                                                            itemParameters.item
-                                                                        )
-                                                                    "
                                                                 />
                                                                 <label
                                                                     for="{{
@@ -2476,11 +2461,6 @@
                                                                             itemParameters
                                                                                 .asBladeAllyChangeable
                                                                                 .bladeAlly
-                                                                        "
-                                                                        (ngModelChange)="
-                                                                            onItemChange(
-                                                                                itemParameters.item
-                                                                            )
                                                                         "
                                                                     />
                                                                     <label
@@ -2636,11 +2616,6 @@
                                                                         itemParameters
                                                                             .asBattleforgedChangeable
                                                                             .battleforged
-                                                                    "
-                                                                    (ngModelChange)="
-                                                                        onItemChange(
-                                                                            itemParameters.item
-                                                                        )
                                                                     "
                                                                 />
                                                                 <label
@@ -3019,10 +2994,6 @@
                                                         "
                                                     >
                                                         <app-grid-icon
-                                                            [updateId]="
-                                                                itemParameters
-                                                                    .item.id
-                                                            "
                                                             [ngClass]="{
                                                                 'fancy-button':
                                                                     itemParameters.item.investedOrEquipped(),

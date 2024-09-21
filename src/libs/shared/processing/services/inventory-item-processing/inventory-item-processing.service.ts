@@ -3,21 +3,15 @@ import { Injectable } from '@angular/core';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
 import { Creature } from 'src/app/classes/creatures/creature';
-import { AlchemicalBomb } from 'src/app/classes/items/alchemical-bomb';
-import { Ammunition } from 'src/app/classes/items/ammunition';
 import { Equipment } from 'src/app/classes/items/equipment';
 import { Item } from 'src/app/classes/items/item';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { Oil } from 'src/app/classes/items/oil';
-import { OtherConsumableBomb } from 'src/app/classes/items/other-consumable-bomb';
-import { Rune } from 'src/app/classes/items/rune';
-import { Snare } from 'src/app/classes/items/snare';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ArmorClassService } from 'src/libs/shared/services/armor-class/armor-class.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
@@ -26,7 +20,6 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 @Injectable({
@@ -35,11 +28,9 @@ import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 export class InventoryItemProcessingService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _characterLoreService: CharacterLoreService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemTransferService: ItemTransferService,
@@ -60,27 +51,16 @@ export class InventoryItemProcessingService {
         skipGainedInventories = false,
     ): void {
         inventory.touched = true;
-        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
         //Disable activities on equipment and runes. Refresh all affected components.
         if (item.hasActivities()) {
             item.activities.forEach(activity => {
                 activity.active = false;
-                this._refreshService.prepareChangesByHints(creature, activity.hints);
             });
-            this._refreshService.prepareDetailToChange(creature.type, 'activities');
-        }
-
-        if (item.hasHints()) {
-            this._refreshService.prepareChangesByHints(creature, item.hints);
         }
 
         if (item.isEquipment()) {
             this._processGrantedEquipment(creature, item, inventory, equip, resetRunes, skipGrantedItems, skipGainedInventories);
-        }
-
-        if (item.isWeapon() || item instanceof Ammunition || item instanceof Snare) {
-            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
         }
     }
 
@@ -93,14 +73,6 @@ export class InventoryItemProcessingService {
         inventoryService: InventoryService,
     ): void {
         const character = CreatureService.character;
-
-        if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-            this._refreshService.prepareChangesByHints(creature, item.hints);
-        }
-
-        if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
-            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-        }
 
         if (item.hasActivities()) {
             item.activities.forEach(activity => {
@@ -154,7 +126,7 @@ export class InventoryItemProcessingService {
         // If you get an Activity from an item that doesn't need to be invested,
         // immediately invest it in secret so the Activity is gained
         if ((item.gainActivities || item.activities) && !item.canInvest()) {
-            this._creatureEquipmentService.investItem(creature, inventory, item, true, false);
+            this._creatureEquipmentService.investItem(creature, inventory, item, true);
         }
 
         // Add all Items that you get from equipping this one.
@@ -194,7 +166,7 @@ export class InventoryItemProcessingService {
 
         //If the item was invested, it isn't now.
         if (item.invested) {
-            this._creatureEquipmentService.investItem(creature, inventory, item, false, false);
+            this._creatureEquipmentService.investItem(creature, inventory, item, false);
         }
 
         if (item.gainItems?.length) {
@@ -231,8 +203,6 @@ export class InventoryItemProcessingService {
     ): void {
         if (!item.equipped) {
             this._creatureEquipmentService.equipItem(creature, inventory, item, true, false);
-        } else {
-            this._refreshService.prepareChangesByItem(creature, item);
         }
     }
 
@@ -265,10 +235,6 @@ export class InventoryItemProcessingService {
             );
         });
         this._creatureConditionRemovalService.removeGainedItemConditions(item, creature);
-        this._refreshService.prepareChangesByItem(
-            creature,
-            item,
-        );
     }
 
     private _processGrantedEquipment(
@@ -286,7 +252,6 @@ export class InventoryItemProcessingService {
             item.gainActivities.forEach(gain => {
                 gain.active = false;
             });
-            this._refreshService.prepareDetailToChange(creature.type, 'activities');
         }
 
         if (equip && Object.prototype.hasOwnProperty.call(item, 'equipped') && item.equippable) {
@@ -304,8 +269,6 @@ export class InventoryItemProcessingService {
                 }
 
                 character.addCustomFeat(customFeat);
-
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
             });
         }
 
@@ -362,7 +325,7 @@ export class InventoryItemProcessingService {
         if (item.equipped) {
             this._creatureEquipmentService.equipItem(creature, inventory, item, false, false);
         } else if (item.invested && item.canInvest()) {
-            this._creatureEquipmentService.investItem(creature, inventory, item, false, false);
+            this._creatureEquipmentService.investItem(creature, inventory, item, false);
         } else if (!item.equippable && !item.canInvest()) {
             this._creatureConditionRemovalService.removeGainedItemConditions(item, creature);
         }

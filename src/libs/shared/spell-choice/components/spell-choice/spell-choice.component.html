@@ -187,9 +187,6 @@
                                                 !adaptedCantripParameters.areSlotsTradedInFromThis
                                             "
                                             [(ngModel)]="choice.adaptedCantrip"
-                                            (ngModelChange)="
-                                                onAdaptedCantripTradedIn()
-                                            "
                                         />
                                         <strong>
                                             Trade one spell slot in for an
@@ -236,9 +233,6 @@
                                                 !adaptiveAdeptParameters.areSlotsTradedInFromThis
                                             "
                                             [(ngModel)]="choice.adaptiveAdept"
-                                            (ngModelChange)="
-                                                onAdaptiveAdeptTradedIn()
-                                            "
                                         />
                                         <strong>
                                             Trade one spell slot in for an
@@ -480,9 +474,6 @@
                                             "
                                             [(ngModel)]="
                                                 choice.infinitePossibilities
-                                            "
-                                            (ngModelChange)="
-                                                onInfinitePossibilitiesTradedIn()
                                             "
                                         />
                                         <strong>
@@ -759,9 +750,6 @@
                                             type="checkbox"
                                             [(ngModel)]="
                                                 choice.crossbloodedEvolution
-                                            "
-                                            (ngModelChange)="
-                                                onCrossbloodedEvolutionAssigned()
                                             "
                                         />
                                         <strong>
@@ -1236,9 +1224,6 @@
                                                                 signatureSpellParameters
                                                                     .takenSpell
                                                                     .signatureSpell
-                                                            "
-                                                            (ngModelChange)="
-                                                                onSelectSignatureSpell()
                                                             "
                                                         />
                                                         <i class="bi-stars"></i>

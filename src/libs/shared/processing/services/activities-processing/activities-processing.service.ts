@@ -15,7 +15,6 @@ import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-ta
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { conditionFilter } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
 import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
@@ -40,7 +39,6 @@ export class ActivitiesProcessingService {
         private readonly _refreshService: RefreshService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _spellsDataService: SpellsDataService,
@@ -62,15 +60,6 @@ export class ActivitiesProcessingService {
     ): void {
         // Find item, if it exists.
         const item: Equipment | Rune | undefined = this._activitiesDataService.itemFromActivityGain(context.creature, context.gain);
-
-        if (item) { this._refreshService.prepareDetailToChange(context.creature.type, 'inventory'); }
-
-        if (activity.hints.length) {
-            this._refreshService.prepareChangesByHints(context.creature, activity.hints);
-        }
-
-        this._refreshService.prepareDetailToChange(context.creature.type, 'activities');
-        this._refreshService.prepareDetailToChange(context.creature.type, context.gain.id);
 
         const targets: Array<Creature | SpellTarget> =
             this._spellTargetService.determineTargetsFromSpellTarget(context.target || '', context);
@@ -105,10 +94,6 @@ export class ActivitiesProcessingService {
             item?: Equipment | Rune;
         },
     ): void {
-        if (activity.hints.length) {
-            this._refreshService.prepareChangesByHints(context.creature, activity.hints);
-        }
-
         let shouldClosePopupsAfterActivation = false;
 
         this._activityPropertiesService.effectiveMaxCharges$(activity, context);
@@ -287,7 +272,7 @@ export class ActivitiesProcessingService {
                 this._psp.spellActivityProcessingSharedService?.removeConditionsToRemove(conditionsToRemove, context);
 
                 if (shouldClosePopupsAfterActivation) {
-                    this._refreshService.prepareDetailToChange(context.creature.type, 'close-popovers');
+                    this._refreshService.closePopovers();
                 }
             });
     }
@@ -586,10 +571,6 @@ export class ActivitiesProcessingService {
             targets: Array<Creature | SpellTarget>;
         },
     ): void {
-        if (activity.hints.length) {
-            this._refreshService.prepareChangesByHints(context.creature, activity.hints);
-        }
-
         if (activity.cooldownAfterEnd) {
             this._activityPropertiesService.effectiveCooldown$(activity, context)
                 .pipe(

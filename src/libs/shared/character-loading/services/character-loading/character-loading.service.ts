@@ -7,7 +7,6 @@ import { Settings } from 'src/app/classes/app/settings';
 import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { ApiStatusKey } from 'src/libs/shared/definitions/api-status-key';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-companion-ancestry/animal-companion-ancestry.service';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
@@ -18,7 +17,6 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { ConfigService } from 'src/libs/shared/services/config/config.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ClassSavingLoadingService } from 'src/libs/shared/services/saving-loading/class-saving-loading/class-saving-loading.service';
 import { HistorySavingLoadingService } from 'src/libs/shared/services/saving-loading/history-saving-loading/history-saving-loading.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
@@ -51,7 +49,6 @@ export class CharacterLoadingService {
         private readonly _classSavingLoadingService: ClassSavingLoadingService,
         private readonly _historySavingLoadingService: HistorySavingLoadingService,
         private readonly _characterPatchingService: CharacterPatchingService,
-        private readonly _refreshService: RefreshService,
         private readonly _toastService: ToastService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _basicEquipmentService: BasicEquipmentService,
@@ -139,25 +136,12 @@ export class CharacterLoadingService {
         this._setAllReady();
 
         this._tokenService.writeSessionCharacterId(character.id);
-
-        this._refreshAfterLoading();
     }
 
     private _cancelLoading(): void {
         this._store$.dispatch(setCharacterStatus({ status: { key: ApiStatusKey.NoCharacter } }));
         this._creatureService.resetCharacter(new Character());
         this._tokenService.writeSessionCharacterId();
-
-        this._refreshAfterLoading();
-    }
-
-    private _refreshAfterLoading(): void {
-        //Update everything once, then effects, and then the player can take over.
-        this._refreshService.setComponentChanged();
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-
-        this._refreshService.processPreparedChanges();
-        this._refreshService.setComponentChanged();
     }
 
     private _setAllReady(): void {

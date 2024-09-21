@@ -1,18 +1,13 @@
 import { Injectable } from '@angular/core';
 import { zip, take } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
-import { Armor } from 'src/app/classes/items/armor';
 import { Equipment } from 'src/app/classes/items/equipment';
 import { Item } from 'src/app/classes/items/item';
-import { Shield } from 'src/app/classes/items/shield';
-import { Weapon } from 'src/app/classes/items/weapon';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,7 +16,6 @@ export class ItemsTimeService {
 
     constructor(
         private readonly _itemTransferService: ItemTransferService,
-        private readonly _refreshService: RefreshService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _inventoryService: InventoryService,
@@ -34,7 +28,6 @@ export class ItemsTimeService {
             itemsToDrop.forEach(item => {
                 this._inventoryService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
-            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
             //Grant items that are granted by other items on rest.
             inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped())
@@ -75,40 +68,18 @@ export class ItemsTimeService {
 
                     //If you have Battleforger, all your battleforged items are reset.
                     if (hasBattleforger) {
-                        let shouldAttacksRefresh = false;
-                        let shouldDefenseRefresh = false;
 
                         creature.inventories.forEach(inv => {
                             inv.weapons.forEach(weapon => {
-                                if (weapon.battleforged) {
-                                    shouldAttacksRefresh = true;
-                                }
-
                                 weapon.battleforged = false;
                             });
                             inv.armors.forEach(armor => {
-                                if (armor.battleforged) {
-                                    shouldDefenseRefresh = true;
-                                }
-
                                 armor.battleforged = false;
                             });
                             inv.wornitems.forEach(wornitem => {
-                                if (wornitem.battleforged) {
-                                    shouldAttacksRefresh = true;
-                                }
-
                                 wornitem.battleforged = false;
                             });
                         });
-
-                        if (shouldAttacksRefresh) {
-                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-                        }
-
-                        if (shouldDefenseRefresh) {
-                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-                        }
                     }
 
                     //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
@@ -132,7 +103,6 @@ export class ItemsTimeService {
             itemsToDrop.forEach(item => {
                 this._inventoryService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
-            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
         });
     }
 
@@ -172,26 +142,14 @@ export class ItemsTimeService {
                                 });
                         }
                     }
-
-                    this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-
-                    if (item instanceof Shield && item.equipped) {
-                        this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-                    }
-
-                    if ((item instanceof Armor || item instanceof Shield) && item.equipped) {
-                        this._refreshService.prepareDetailToChange(creature.type, 'defense');
-                    }
                 });
             inv.wands.filter(wand => wand.cooldown > 0).forEach(wand => {
                 wand.cooldown = Math.max(wand.cooldown - turns, 0);
-                this._refreshService.prepareDetailToChange(creature.type, 'inventory');
             });
 
             itemsToDrop.forEach(item => {
                 this._inventoryService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
-            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
             inv.allItems().filter(item => item.oilsApplied && item.oilsApplied.length)
                 .forEach(item => {
@@ -200,16 +158,6 @@ export class ItemsTimeService {
 
                         if (oil.duration <= 0) {
                             oil.name = 'DELETE';
-                        }
-
-                        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-
-                        if (item instanceof Weapon && item.equipped) {
-                            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-                        }
-
-                        if ((item instanceof Armor || item instanceof Shield) && item.equipped) {
-                            this._refreshService.prepareDetailToChange(creature.type, 'defense');
                         }
                     });
                     item.oilsApplied = item.oilsApplied.filter(oil => oil.name !== 'DELETE');

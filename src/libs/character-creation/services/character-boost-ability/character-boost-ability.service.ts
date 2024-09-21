@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AbilityChoice } from 'src/app/classes/character-creation/ability-choice';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CharacterBoostAbilityService {
-
-    constructor(
-        private readonly _refreshService: RefreshService,
-    ) { }
 
     public boostAbility(
         abilityName: string,
@@ -31,10 +25,6 @@ export class CharacterBoostAbilityService {
 
             choice.boosts = choice.boosts.filter(boost => boost !== oldBoost);
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'abilities');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualskills', 'all');
     }
 
 }

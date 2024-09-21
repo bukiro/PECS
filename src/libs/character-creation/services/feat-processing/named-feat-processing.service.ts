@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { zip, take, Observable, tap, switchMap, of } from 'rxjs';
 import { LoreChoice } from 'src/app/classes/character-creation/lore-choice';
 import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { FeatProcessingContext } from './feat-processing.service';
 
 @Injectable({
@@ -16,7 +14,6 @@ import { FeatProcessingContext } from './feat-processing.service';
 export class NamedFeatProcessingService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
@@ -33,23 +30,23 @@ export class NamedFeatProcessingService {
 
         this._processBlessedBlood(feat, taken);
 
-        this._processSpellBlending(feat, context);
+        this._processSpellBlending(feat);
 
-        this._processInfinitePossibilities(feat, context);
+        this._processInfinitePossibilities(feat);
 
-        this._processAdaptedCantrip(feat, context);
+        this._processAdaptedCantrip(feat);
 
-        this._processAdaptiveAdept(feat, context);
+        this._processAdaptiveAdept(feat);
 
-        this._processGiantInstinct(feat, context);
+        this._processGiantInstinct(feat);
 
-        this._processBladeAlly(feat, context);
+        this._processBladeAlly(feat);
 
-        this._processSpellCombination(feat, taken, context);
+        this._processSpellCombination(feat, taken);
 
-        this._processArcaneEvolution(feat, context);
+        this._processArcaneEvolution(feat);
 
-        this._processSpellMastery(feat, context);
+        this._processSpellMastery(feat);
 
         zip([
             this._processWizardSchools$(feat, taken),
@@ -75,8 +72,6 @@ export class NamedFeatProcessingService {
                     character.cash[1] -= bargainHunterGoldBonus;
                 }
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
         }
     }
 
@@ -142,7 +137,7 @@ export class NamedFeatProcessingService {
                                     character.class.addSpellChoice(familiarFeatTaken.levelNumber, newSpellChoice);
                                 }
                             }),
-                            switchMap(() => of()),
+                            switchMap(() => of(undefined)),
                         );
                 }
             } else {
@@ -155,7 +150,7 @@ export class NamedFeatProcessingService {
             }
         }
 
-        return of();
+        return of(undefined);
     }
 
     private _processSpellBattery$(feat: Feat, taken: boolean): Observable<void> {
@@ -187,7 +182,7 @@ export class NamedFeatProcessingService {
                                     character.class.addSpellChoice(familiarFeatTaken.levelNumber, newSpellChoice);
                                 }
                             }),
-                            switchMap(() => of()),
+                            switchMap(() => of(undefined)),
                         );
                 }
             } else {
@@ -200,7 +195,7 @@ export class NamedFeatProcessingService {
             }
         }
 
-        return of();
+        return of(undefined);
     }
 
     private _processWizardSchools$(feat: Feat, taken: boolean): Observable<void> {
@@ -225,7 +220,7 @@ export class NamedFeatProcessingService {
                                     }
                                 });
                         }),
-                        switchMap(() => of()),
+                        switchMap(() => of(undefined)),
                     );
 
             } else {
@@ -239,10 +234,10 @@ export class NamedFeatProcessingService {
             }
         }
 
-        return of();
+        return of(undefined);
     }
 
-    private _processSpellBlending(feat: Feat, context: FeatProcessingContext): void {
+    private _processSpellBlending(feat: Feat): void {
         //Reset changes made with Spell Blending.
         if (feat.name === 'Spell Blending') {
             const character = CreatureService.character;
@@ -252,12 +247,10 @@ export class NamedFeatProcessingService {
                     spellChoice.spellBlending = [0, 0, 0];
                 });
             });
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spells');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
         }
     }
 
-    private _processInfinitePossibilities(feat: Feat, context: FeatProcessingContext): void {
+    private _processInfinitePossibilities(feat: Feat): void {
         //Reset changes made with Infinite Possibilities.
         if (feat.name === 'Infinite Possibilities') {
             const character = CreatureService.character;
@@ -267,12 +260,10 @@ export class NamedFeatProcessingService {
                     spellChoice.infinitePossibilities = false;
                 });
             });
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spells');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
         }
     }
 
-    private _processAdaptedCantrip(feat: Feat, context: FeatProcessingContext): void {
+    private _processAdaptedCantrip(feat: Feat): void {
         //Reset changes made with Adapted Cantrip.
         if (feat.name === 'Adapted Cantrip') {
             const character = CreatureService.character;
@@ -284,12 +275,10 @@ export class NamedFeatProcessingService {
             });
             character.class.spellBook =
                 character.class.spellBook.filter(learned => learned.source !== 'adaptedcantrip');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spells');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
         }
     }
 
-    private _processAdaptiveAdept(feat: Feat, context: FeatProcessingContext): void {
+    private _processAdaptiveAdept(feat: Feat): void {
         //Reset changes made with Adaptive Adept.
         if (feat.name.includes('Adaptive Adept')) {
             const character = CreatureService.character;
@@ -301,12 +290,10 @@ export class NamedFeatProcessingService {
             });
             character.class.spellBook =
                 character.class.spellBook.filter(learned => learned.source !== 'adaptiveadept');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spells');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
         }
     }
 
-    private _processGiantInstinct(feat: Feat, context: FeatProcessingContext): void {
+    private _processGiantInstinct(feat: Feat): void {
         //Reset changes made with Giant Instinct.
         if (feat.name === 'Giant Instinct') {
             const character = CreatureService.character;
@@ -316,12 +303,10 @@ export class NamedFeatProcessingService {
                     weapon.large = false;
                 });
             });
-            this._refreshService.prepareDetailToChange(context.creature.type, 'inventory');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'attacks');
         }
     }
 
-    private _processBladeAlly(feat: Feat, context: FeatProcessingContext): void {
+    private _processBladeAlly(feat: Feat): void {
         //Reset changes made with Blade Ally.
         if (feat.name === 'Divine Ally: Blade Ally') {
             const character = CreatureService.character;
@@ -335,13 +320,11 @@ export class NamedFeatProcessingService {
                     wornItem.bladeAlly = false;
                     wornItem.bladeAllyRunes = [];
                 });
-                this._refreshService.prepareDetailToChange(context.creature.type, 'inventory');
-                this._refreshService.prepareDetailToChange(context.creature.type, 'attacks');
             });
         }
     }
 
-    private _processSpellCombination(feat: Feat, taken: boolean, context: FeatProcessingContext): void {
+    private _processSpellCombination(feat: Feat, taken: boolean): void {
         //Spell Combination changes certain spell choices permanently.
         if (feat.name === 'Spell Combination') {
             const character = CreatureService.character;
@@ -362,9 +345,6 @@ export class NamedFeatProcessingService {
                             }
                         }
                     });
-                this._refreshService.prepareDetailToChange(context.creature.type, 'spells');
-                this._refreshService.prepareDetailToChange(context.creature.type, 'spellchoices');
-                this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
             } else {
                 character.class.spellCasting
                     .filter(casting => casting.className === 'Wizard' && casting.castingType === 'Prepared')
@@ -377,27 +357,21 @@ export class NamedFeatProcessingService {
                                 spellChoice.spells.forEach(spellGain => spellGain.combinationSpellName = '');
                             });
                     });
-                this._refreshService.prepareDetailToChange(context.creature.type, 'spells');
-                this._refreshService.prepareDetailToChange(context.creature.type, 'spellchoices');
-                this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
             }
         }
     }
 
-    private _processArcaneEvolution(feat: Feat, context: FeatProcessingContext): void {
+    private _processArcaneEvolution(feat: Feat): void {
         //Reset changes made with Arcane Evolution.
         if (feat.name.includes('Arcane Evolution')) {
             const character = CreatureService.character;
 
             character.class.spellBook =
                 character.class.spellBook.filter(learned => learned.source !== 'arcaneevolution');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spells');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spellchoices');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
         }
     }
 
-    private _processSpellMastery(feat: Feat, context: FeatProcessingContext): void {
+    private _processSpellMastery(feat: Feat): void {
         //Reset changes made with Spell Mastery
         if (feat.name === 'Spell Mastery') {
             const character = CreatureService.character;
@@ -405,8 +379,6 @@ export class NamedFeatProcessingService {
             character.class.spellCasting.forEach(casting => {
                 casting.spellChoices = casting.spellChoices.filter(spellChoice => spellChoice.source !== 'Feat: Spell Mastery');
             });
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spells');
-            this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
         }
     }
 

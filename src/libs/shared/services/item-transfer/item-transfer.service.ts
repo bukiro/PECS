@@ -6,14 +6,12 @@ import { Equipment } from 'src/app/classes/items/equipment';
 import { Item } from 'src/app/classes/items/item';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { SpellTarget } from 'src/app/classes/spells/spell-target';
-import { CreatureTypes } from '../../definitions/creature-types';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 import { CreatureService } from '../creature/creature.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { ItemBulkService } from '../item-bulk/item-bulk.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 import { RecastService } from '../recast/recast.service';
-import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,11 +19,9 @@ import { RefreshService } from '../refresh/refresh.service';
 export class ItemTransferService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _itemBulkService: ItemBulkService,
         private readonly _inventoryService: InventoryService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
-        private readonly _recastService: RecastService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
@@ -218,7 +214,6 @@ export class ItemTransferService {
     ): void {
         if (targetInventory && targetInventory !== inventory && targetInventory.itemId !== item.id) {
             this.updateGrantingItemBeforeTransfer(creature, item);
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
 
             //Only move the item locally if the item still exists in the inventory.
             if (
@@ -273,8 +268,6 @@ export class ItemTransferService {
 
                 inventory.touched = true;
                 targetInventory.touched = true;
-
-                this._refreshService.prepareChangesByItem(creature, movedItem);
             }
         }
     }
@@ -321,9 +314,6 @@ export class ItemTransferService {
                         if (existingItems.length) {
                             if (existingItems[0]) {
                                 existingItems[0].amount += includedItem.amount;
-
-                                //Update the item's gridicon to reflect its changed amount.
-                                this._refreshService.setComponentChanged(existingItems[0].id);
                             }
                         } else {
                             const movedItem = includedItem.clone(RecastService.recastFns);
@@ -364,11 +354,6 @@ export class ItemTransferService {
                     ) {
                         this._inventoryService.dropInventoryItem(creature, inventory, item, false, true, true, amount);
                     }
-
-                    this._refreshService.prepareDetailToChange(toCreature.type, 'inventory');
-                    this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-                    this._refreshService.prepareDetailToChange(toCreature.type, 'effects');
-                    this._refreshService.prepareDetailToChange(creature.type, 'effects');
                 });
         }
     }

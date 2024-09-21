@@ -6,8 +6,6 @@ import { ItemMaterialsDataService } from '../data/item-materials-data.service';
 import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';
 import { ItemPropertiesDataService } from '../data/item-properties-data.service';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
-import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionProcessingService } from 'src/libs/shared/processing/services/condition-processing/condition-processing.service';
@@ -89,8 +87,6 @@ export class AppInitService {
         private readonly _effectsGenerationService: EffectsGenerationService,
         private readonly _effectsPropertiesDataService: EffectPropertiesDataService,
         private readonly _itemInitializationService: ItemInitializationService,
-        private readonly _refreshService: RefreshService,
-        private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _basicEquipmentService: BasicEquipmentService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _conditionProcessingService: ConditionProcessingService,
@@ -201,7 +197,6 @@ export class AppInitService {
                 this._itemTraitsService.initialize();
 
                 // Pass some services to other services that shouldn't have them in their dependency injection.
-                this._refreshService.initialize(this._creatureActivitiesService);
                 this._equipmentConditionsService.initialize(this._evaluationService);
                 this._onceEffectsService.initialize(this._evaluationService);
                 this._inventoryService.initialize(

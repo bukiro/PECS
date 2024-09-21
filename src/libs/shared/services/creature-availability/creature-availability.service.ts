@@ -8,6 +8,7 @@ import { CreatureService } from '../creature/creature.service';
 import { isDefined } from '../../util/type-guard-utils';
 import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
 import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
+import { emptySafeCombineLatest } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -75,6 +76,15 @@ export class CreatureAvailabilityService {
                         ? CreatureService.familiar$
                         : of(undefined),
                 ),
+            );
+    }
+
+    public forAllAvailableCreatures$<T>(creatureFn$: (creature: Creature) => Observable<T>, levelNumber?: number): Observable<Array<T>> {
+        return this.allAvailableCreatures$(levelNumber)
+            .pipe(
+                switchMap(creatures => emptySafeCombineLatest(
+                    creatures.map(creatureFn$),
+                )),
             );
     }
 }

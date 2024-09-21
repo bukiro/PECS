@@ -3,12 +3,10 @@ import { LoreChoice } from 'src/app/classes/character-creation/lore-choice';
 import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
 import { Rune } from 'src/app/classes/items/rune';
 import { CharacterSkillIncreaseService } from 'src/libs/character-creation/services/character-skill-increase/character-skill-increase.service';
-import { CreatureTypes } from '../../definitions/creature-types';
 import { SkillLevels } from '../../definitions/skill-levels';
 import { CreatureService } from '../creature/creature.service';
 import { FeatsDataService } from '../data/feats-data.service';
 import { RecastService } from '../recast/recast.service';
-import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +16,6 @@ export class CharacterLoreService {
     constructor(
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _featsDataService: FeatsDataService,
-        private readonly _refreshService: RefreshService,
     ) { }
 
     public addLore(source: LoreChoice): void {
@@ -328,8 +325,6 @@ export class CharacterLoreService {
                 newFeat.hide = false;
                 newFeat.generatedLoreFeat = true;
                 character.addCustomFeat(newFeat);
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
             });
     }
 
@@ -344,9 +339,6 @@ export class CharacterLoreService {
             .forEach(loreFeat => {
                 character.removeCustomFeat(loreFeat);
             });
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
     }
 
 }

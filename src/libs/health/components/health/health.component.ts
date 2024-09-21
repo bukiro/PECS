@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
-import { Observable, BehaviorSubject, Subscription, combineLatest, switchMap, map, distinctUntilChanged, of } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Observable, BehaviorSubject, combineLatest, switchMap, map, distinctUntilChanged, of } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -7,14 +7,13 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { TimeBlockingService } from 'src/libs/shared/time/services/time-blocking/time-blocking.service';
 import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
-import { capitalize, stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { capitalize, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { FormsModule } from '@angular/forms';
 import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { NgbPopover, NgbProgressbar, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -22,13 +21,16 @@ import { CommonModule } from '@angular/common';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { filterConditions } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
+import { TemporaryHP } from 'src/app/classes/creatures/temporary-hp';
+import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
+import { PrettyValueComponent } from 'src/libs/shared/ui/attribute-value/components/pretty-value/pretty-value.component';
 
 interface CollectedHealth {
-    maxHP: { result: number; explain: string };
-    currentHP: { result: number; explain: string };
+    maxHP: { result: number; bonuses: Array<BonusDescription> };
+    currentHP: { result: number; bonuses: Array<BonusDescription> };
     wounded: number;
     dying: number;
-    maxDying: number;
+    maxDying: { result: number; bonuses: Array<BonusDescription> };
 }
 
 @Component({
@@ -40,16 +42,15 @@ interface CollectedHealth {
     imports: [
         CommonModule,
         FormsModule,
-
         NgbPopover,
         NgbProgressbar,
         NgbTooltip,
-
         CharacterSheetCardComponent,
         TagsComponent,
+        PrettyValueComponent,
     ],
 })
-export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
+export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     public damage = 0;
     public nonlethal?: boolean;
@@ -59,16 +60,14 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
     public readonly isManualMode$: Observable<boolean>;
     public isMinimized$: Observable<boolean>;
 
+    public calculatedHealth$: Observable<CollectedHealth>;
+
     private _forceMinimized = false;
 
     private readonly _isForcedMinimized$ = new BehaviorSubject<boolean>(false);
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _timeService: TimeService,
-        private readonly _refreshService: RefreshService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _healthService: HealthService,
@@ -104,6 +103,14 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                 );
 
         this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$');
+
+        this.calculatedHealth$ = combineLatest({
+            maxHP: this._healthService.maxHP$(this.creature),
+            currentHP: this._healthService.currentHP$(this.creature),
+            wounded: this._healthService.wounded$(this.creature),
+            dying: this._healthService.dying$(this.creature),
+            maxDying: this._healthService.maxDying$(this.creature),
+        });
     }
 
     public get creature(): Creature {
@@ -148,18 +155,8 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
         this._timeService.rest();
     }
 
-    public calculatedHealth$(): Observable<CollectedHealth> {
-        return combineLatest({
-            maxHP: this._healthService.maxHP$(this.creature),
-            currentHP: this._healthService.currentHP$(this.creature),
-            wounded: this._healthService.wounded$(this.creature),
-            dying: this._healthService.dying$(this.creature),
-            maxDying: this._healthService.maxDying$(this.creature),
-        });
-    }
-
     public damageSliderMax(maxHP: number): number {
-        return (maxHP + (this.creature.health.temporaryHP[0]?.amount || 0)) || 1;
+        return (maxHP + this.creature.health.mainTemporaryHP.amount) || 1;
     }
 
     public incManualDying(amount: number): void {
@@ -170,7 +167,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
         this.creature.health.manualWounded += amount;
     }
 
-    public onDyingSave(success: boolean, maxDying: number): void {
+    public onDyingSave(success: boolean): void {
         if (success) {
             //Reduce all dying conditions by 1
             //Conditions with Value 0 get cleaned up in the conditions Service
@@ -182,12 +179,9 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
         } else {
             filterConditions(this.creature.conditions, { name: 'Dying' })
                 .forEach(gain => {
-                    gain.value = Math.min(gain.value + 1, maxDying);
+                    gain.value = Math.min(gain.value + 1);
                 });
         }
-
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
     }
 
     public onHeroPointRecover(): void {
@@ -198,9 +192,6 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
         );
 
         CreatureService.character.heroPoints = 0;
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.prepareDetailToChange(this.creature.type, 'general');
-        this._refreshService.processPreparedChanges();
     }
 
     public onHealWounded(): void {
@@ -208,9 +199,6 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
             filterConditions(this.creature.conditions, { name: 'Wounded' }),
             this.creature,
         );
-
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
     }
 
     public isNumbToDeathAvailable$(): Observable<boolean> {
@@ -221,47 +209,25 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
         }
     }
 
-    public onHealDamage(dying: number): void {
-        this._healthService.heal$(this.creature, this.damage, true, true, dying);
-        this._refreshService.prepareDetailToChange(this.creature.type, 'health');
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
+    public onHealDamage(): void {
+        this._healthService.heal(this.creature, this.damage, true, true);
     }
 
-    public onActivateNumbToDeath(dying: number): void {
-        this._healthService.heal$(this.creature, CreatureService.character.level, true, false, dying);
-        this._refreshService.prepareDetailToChange(this.creature.type, 'health');
-        this._refreshService.processPreparedChanges();
+    public onActivateNumbToDeath(): void {
+        this._healthService.heal(this.creature, CreatureService.character.level, true, false);
     }
 
-    public onTakeDamage(wounded: number, dying: number): void {
-        this._healthService
-            .takeDamage$(this.creature, this.damage, this.nonlethal, wounded, dying)
-            .subscribe(() => {
-                this._refreshService.prepareDetailToChange(this.creature.type, 'health');
-                this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-                this._refreshService.processPreparedChanges();
-            });
+    public onTakeDamage(): void {
+        this._healthService.takeDamage$(this.creature, this.damage, { nonlethal: this.nonlethal });
     }
 
     public onSetTemporaryHP(amount: number): void {
-        this.creature.health.temporaryHP[0] = { amount, source: 'Manual', sourceId: '' };
-        this.creature.health.temporaryHP.length = 1;
-        this._refreshService.prepareDetailToChange(this.creature.type, 'health');
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
+        this.creature.health.temporaryHP = [TemporaryHP.from({ amount, source: 'Manual', sourceId: '' })];
     }
 
     public onSelectTemporaryHPSet(tempSet?: { amount: number; source: string; sourceId: string }): void {
         if (tempSet) {
-            this.creature.health.temporaryHP[0] = tempSet;
-            this.creature.health.temporaryHP.length = 1;
-            this._refreshService.prepareDetailToChange(this.creature.type, 'health');
-            this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-            //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
-            this._refreshService.processPreparedChanges();
+            this.creature.health.temporaryHP = [TemporaryHP.from(tempSet)];
         }
     }
 
@@ -354,28 +320,5 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
     //TODO: This should come as part of the respective value instead of separately.
     public doPenaltyEffectsExistOnThis$(name: string): Observable<boolean> {
         return this._creatureEffectsService.doPenaltyEffectsExistOnThis$(this.creature, name);
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (stringsIncludeCaseInsensitive(['health', 'all', this.creature.type], target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    stringEqualsCaseInsensitive(view.creature, this.creature.type)
-                    && stringsIncludeCaseInsensitive(['health', 'all'], view.target)
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 }

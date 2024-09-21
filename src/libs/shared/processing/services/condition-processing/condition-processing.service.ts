@@ -5,7 +5,6 @@ import { Condition } from 'src/app/classes/conditions/condition';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { EffectGain } from 'src/app/classes/effects/effect-gain';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { conditionFilter, filterConditions } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
@@ -21,7 +20,6 @@ import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { matchStringFilter } from 'src/libs/shared/util/filter-utils';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
@@ -33,7 +31,6 @@ import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 export class ConditionProcessingService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _conditionsDataService: ConditionsDataService,
@@ -57,15 +54,7 @@ export class ConditionProcessingService {
         increaseWounded = true,
         ignoreEndsWithConditions = false,
     ): void {
-        //Prepare components for refresh.
-        if (condition.gainActivities.length) {
-            this._refreshService.prepareDetailToChange(creature.type, 'activities');
-        }
-
-        this._refreshService.prepareChangesByHints(creature, condition.hints);
-
         let didConditionDoAnything = false;
-        let areOnceEffectsPrepared = false;
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities
@@ -84,7 +73,6 @@ export class ConditionProcessingService {
             //This is done after all steps where conditions are removed, so we don't accidentally remove these newly gained conditions.
             const areGainConditionsProcessed = this._processGainConditions(creature, condition, gain);
 
-            areOnceEffectsPrepared = areGainEffectsPrepared || areOnceEffectsPrepared;
             didConditionDoAnything =
                 areGainEffectsPrepared ||
                 areEndConditionsProcessed ||
@@ -98,7 +86,6 @@ export class ConditionProcessingService {
             //Conditions that start when this ends. This happens if there is a nextCondition value.
             const areNextConditionsProcessed = this._processNextConditions(creature, condition, gain);
 
-            areOnceEffectsPrepared = areEndEffectsPrepared ? true : areOnceEffectsPrepared;
             didConditionDoAnything =
                 areEndEffectsPrepared ||
                 areEndsWithConditionsProcessed ||
@@ -118,8 +105,6 @@ export class ConditionProcessingService {
             didConditionDoAnything = true;
 
             this._processDyingCondition(creature, taken, increaseWounded);
-
-            this._refreshService.prepareDetailToChange(creature.type, 'health');
         }
 
         //End the spell or activity causing this condition if there is one and it is active.
@@ -137,8 +122,6 @@ export class ConditionProcessingService {
             )
             .subscribe(didNamedConditionsDoAnything => {
                 didConditionDoAnything = didNamedConditionsDoAnything || didConditionDoAnything;
-
-                this._prepareChanges(creature, condition, gain, areOnceEffectsPrepared);
 
                 //Show a notification if a new condition has no duration and did nothing, because it will be removed in the next cycle.
                 this._notifyOnUselessCondition(gain, taken, didConditionDoAnything);
@@ -240,7 +223,7 @@ export class ConditionProcessingService {
                 newGain.name = nextCondition.name;
                 newGain.duration = nextCondition.duration || -1;
                 newGain.choice = nextCondition.choice || this._conditionsDataService.conditionFromName(newGain.name)?.choice || '';
-                this._creatureConditionsService.addCondition(creature, newGain, {}, { noReload: true });
+                this._creatureConditionsService.addCondition(creature, newGain, {});
             }
         });
 
@@ -266,7 +249,7 @@ export class ConditionProcessingService {
 
                 addCondition.source = gain.name;
                 addCondition.parentID = gain.id;
-                this._creatureConditionsService.addCondition(creature, addCondition, { parentConditionGain: gain }, { noReload: true });
+                this._creatureConditionsService.addCondition(creature, addCondition, { parentConditionGain: gain });
 
             });
 
@@ -277,9 +260,6 @@ export class ConditionProcessingService {
         let areGainItemsProcessed = false;
 
         if (condition.gainItems.length) {
-            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-
             if (taken) {
                 gain.gainItems = condition.heightenedItemGains(gain.heightened)
                     .map(itemGain => itemGain.clone());
@@ -383,8 +363,6 @@ export class ConditionProcessingService {
                                     { creature, target: takenSpell.gain.selectedTarget, gain: takenSpell.gain, level: 0 },
                                 );
                             }
-
-                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
                         });
                 });
 
@@ -409,8 +387,6 @@ export class ConditionProcessingService {
                                     },
                                 );
                             }
-
-                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
                         });
                 });
         }
@@ -437,7 +413,6 @@ export class ConditionProcessingService {
                         shields.forEach(shield => {
                             if (shield.takingCover) {
                                 shield.takingCover = false;
-                                this._refreshService.prepareDetailToChange(creature.type, 'defense');
 
                                 didNamedConditionsDoAnything = true;
                             }
@@ -450,44 +425,6 @@ export class ConditionProcessingService {
         }
 
         return of(false);
-    }
-
-    private _prepareChanges(creature: Creature, condition: Condition, gain: ConditionGain, areOnceEffectsPrepared: boolean): void {
-        //If one-time-Effects are prepared, effects should be generated. Prepared one-time-effects get processed after effects generation.
-        if (areOnceEffectsPrepared) {
-            this._refreshService.prepareDetailToChange(creature.type, 'effects');
-        }
-
-        //Changing senses should update senses.
-        if (condition.senses.length) {
-            this._refreshService.prepareDetailToChange(creature.type, 'skills');
-        }
-
-        //Update Health when Wounded changes.
-        if (condition.name === 'Wounded') {
-            this._refreshService.prepareDetailToChange(creature.type, 'health');
-        }
-
-        //Update Attacks when Hunt Prey or Flurry changes.
-        if (['Hunt Prey', 'Hunt Prey: Flurry'].includes(condition.name)) {
-            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-        }
-
-        //Update Attacks if attack restrictions apply.
-        if (condition.attackRestrictions.length) {
-            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-        }
-
-        //Update Defense if Defense conditions are changed.
-        if (gain.source === 'Defense') {
-            this._refreshService.prepareDetailToChange(creature.type, 'defense');
-        }
-
-        //Update Time and Health if the condition needs attention.
-        if (gain.durationIsInstant) {
-            this._refreshService.prepareDetailToChange(creature.type, 'time');
-            this._refreshService.prepareDetailToChange(creature.type, 'health');
-        }
     }
 
     private _notifyOnUselessCondition(gain: ConditionGain, taken: boolean, didConditionDoAnything: boolean): void {

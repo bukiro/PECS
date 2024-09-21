@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity */
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
-import { Subscription, Observable, combineLatest, switchMap, map, of, tap } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Observable, combineLatest, switchMap, map, of, tap } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Trait } from 'src/app/classes/hints/trait';
@@ -10,7 +10,6 @@ import { Spell } from 'src/app/classes/spells/spell';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { SpellLearned } from 'src/app/classes/spells/spell-learned';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
 import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
@@ -21,7 +20,6 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
@@ -105,7 +103,7 @@ interface SpellBlendingParameters {
         TraitComponent,
     ],
 })
-export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public spellCasting!: SpellCasting;
@@ -142,12 +140,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
     @Output()
     public readonly shownSpellMessage = new EventEmitter<string>();
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsDataService: TraitsDataService,
@@ -337,12 +330,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         return '';
     }
 
-    public onSelectSignatureSpell(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        this._refreshService.processPreparedChanges();
-    }
-
     public spellBlendingParameters$(): Observable<SpellBlendingParameters | undefined> {
         const oneLevelHigher = 1;
         const twoLevelsHigher = 2;
@@ -390,8 +377,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
 
     public onSpellBlendingSlotTradedIn(tradeLevel: number, value: number): void {
         this.choice.spellBlending[tradeLevel] = (this.choice.spellBlending[tradeLevel] ?? 0) + value;
-        this._refreshService.setComponentChanged('spellchoices');
-        this._refreshService.processPreparedChanges();
     }
 
     public infinitePossibilitiesParameters(): {
@@ -404,12 +389,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                 areSlotsTradedInFromThis: !!this._amountOfSlotsTradedInForInfinitePossibilitiesFromThis(),
             };
         }
-    }
-
-    public onInfinitePossibilitiesTradedIn(): void {
-        this._refreshService.setComponentChanged('spellchoices');
-        this._refreshService.setComponentChanged('spellbook');
-        this._refreshService.processPreparedChanges();
     }
 
     public isInfinitePossibilitiesUnlockedForThisLevel(level = 0): number {
@@ -439,12 +418,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         }
     }
 
-    public onAdaptedCantripTradedIn(): void {
-        this._refreshService.setComponentChanged('spellchoices');
-        this._refreshService.setComponentChanged('spellbook');
-        this._refreshService.processPreparedChanges();
-    }
-
     public adaptiveAdeptParameters(): {
         isUnlocked: number;
         areSlotsTradedInFromThis: boolean;
@@ -455,12 +428,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                 areSlotsTradedInFromThis: !!this._amountOfSlotsTradedInForAdaptiveAdeptFromThis(),
             };
         }
-    }
-
-    public onAdaptiveAdeptTradedIn(): void {
-        this._refreshService.setComponentChanged('spellchoices');
-        this._refreshService.setComponentChanged('spellbook');
-        this._refreshService.processPreparedChanges();
     }
 
     public amountOfCrossbloodedEvolutionSlotsAllowed$(): Observable<number> {
@@ -502,21 +469,12 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         }
     }
 
-    public onCrossbloodedEvolutionAssigned(): void {
-        this._refreshService.setComponentChanged('spellchoices');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        this._refreshService.processPreparedChanges();
-    }
-
     public onIncSpellLevel(amount: number): void {
         this.choice.level += amount;
     }
 
     public onSpellCombinationAssigned(): void {
         this.choice.spells.length = 0;
-        this._refreshService.setComponentChanged('spellchoices');
-        this._refreshService.setComponentChanged('spellbook');
-        this._refreshService.processPreparedChanges();
     }
 
     public spellParameters(componentParameters: ComponentParameters): Array<SpellParameters> {
@@ -614,8 +572,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             choice.removeSpell(spellName);
         }
 
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-
         // For the Esoteric Polymath feat and the Arcane Evolution feat,
         // if you choose a spell that is in your repertoire (i.e. if other spell choices have this spell in it),
         // the choice is turned into a signature spell choice. If you drop the spell, turn signature spell off.
@@ -634,18 +590,8 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             }
         }
 
-        //The Interweave Dispel feat is dependent on having Dispel in your repertoire, so we update that here.
-        if (spellName === 'Dispel Magic' && !isTaken) {
-            if (this._characterFeatsService.characterHasFeatAtLevel$('Interweave Dispel')) {
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
-            }
-        }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-        this._refreshService.processPreparedChanges();
+        // TODO: The Interweave Dispel feat is dependent on having Dispel in your repertoire.
+        // Check if that updates automatically when async.
     }
 
     public onSpellCombinationTaken(spellName: string, taken: boolean): void {
@@ -664,30 +610,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         } else {
             targetSpell.combinationSpellName = '';
         }
-    }
-
-    public ngOnInit(): void {
-        if (!this.level) {
-            this.level = this.choice.level;
-        }
-
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['spellchoices', 'all', CreatureTypes.Character].includes(target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature === CreatureTypes.Character && ['spellchoices', 'all'].includes(view.target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _highestSpellLevel$(): Observable<number> {
@@ -1085,8 +1007,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                     }
 
                     // If any spells in the choice have become invalid (i.e. they aren't on the list),
-                    // remove them, unless they are locked or borrowed. You need to reload the spells area if this happens.
-                    const spellNumber = choice.spells.length;
+                    // remove them, unless they are locked or borrowed.
 
                     choice.spells = this.choice.spells
                         .filter(spell =>
@@ -1094,11 +1015,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                             spell.borrowed ||
                             spellSets.some(availableSpell => availableSpell.spell.name === spell.name),
                         );
-
-                    if (choice.spells.length !== spellNumber) {
-                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-                        this._refreshService.processPreparedChanges();
-                    }
 
                     //If any locked or borrowed spells remain in the filter that aren't in the list, add them to the list.
                     choice.spells.filter(spell =>
@@ -1258,27 +1174,18 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
     private _cleanupIllegalSpells(
         spellList: Array<SpellSet>,
     ): void {
-        let shouldRefresh = false;
 
         this.choice.spells.forEach(gain => {
             if (!spellList?.map(spell => spell.spell.name)?.includes(gain.name)) {
                 if (!gain.locked) {
                     this.choice.removeSpell(gain.name);
-
-                    shouldRefresh = true;
                 }
             }
         });
-
-        if (shouldRefresh) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        }
     }
 
     private _cannotTakeSome$(): Observable<boolean> {
         let canAnySpellsNotBeTaken = false;
-
-        let shouldRefresh = false;
 
         return emptySafeZip(
             this.choice.spells.map(
@@ -1290,8 +1197,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
                                     canAnySpellsNotBeTaken = true;
                                 } else {
                                     this.choice.removeSpell(gain.name);
-
-                                    shouldRefresh = true;
                                 }
                             }
                         }),
@@ -1299,12 +1204,6 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             ),
         )
             .pipe(
-                tap(() => {
-                    if (shouldRefresh) {
-                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-                        this._refreshService.processPreparedChanges();
-                    }
-                }),
                 map(() => canAnySpellsNotBeTaken),
             );
     }

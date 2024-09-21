@@ -1,11 +1,10 @@
 /* eslint-disable max-lines */
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { NgbActiveModal, NgbTooltip, NgbCollapse, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { default as package_json } from 'package.json';
 import {
     Observable,
-    Subscription,
     BehaviorSubject,
     map,
     distinctUntilChanged,
@@ -77,7 +76,6 @@ import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.ser
 import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CharacterSavingService } from 'src/libs/shared/services/saving-loading/character-saving/character-saving.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
@@ -138,7 +136,7 @@ type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id:
         AboutComponent,
     ],
 })
-export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseCreatureElementComponent)) implements OnInit, OnDestroy {
+export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseCreatureElementComponent)) {
 
     @Input()
     public show = false;
@@ -175,15 +173,10 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     private _showContentLevelNumber = 0;
     private _showFixedChangesLevelNumber = 0;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     private readonly _activeChoiceContent$
         = new BehaviorSubject<{ name: string; levelNumber: number; choice?: ShowContent } | undefined>(undefined);
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _classesDataService: ClassesDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _historyDataService: HistoryDataService,
@@ -408,21 +401,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         return this._showFixedChangesLevelNumber;
     }
 
-    public onToggleManualMode(): void {
-        //Manual mode changes some buttons on some components, so we need to refresh these.
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'activities');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'activities');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'health');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'health');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'inventory');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-        this._refreshService.processPreparedChanges();
-    }
-
     public saveCharacterToDB(): void {
         this._characterSavingService.saveCharacter();
     }
@@ -465,47 +443,10 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 });
             }
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'abilities');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualskills', 'all');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-        this._refreshService.processPreparedChanges();
     }
 
-    public onAbilityBaseValueChange(name: string): void {
-        this._refreshService.prepareChangesByAbility(CreatureTypes.Character, name);
-
+    public onAbilityBaseValueChange(): void {
         this.character.baseValues.triggerOnChange();
-    }
-
-    public setComponentChanged(target = ''): void {
-        this._refreshService.setComponentChanged(target);
-    }
-
-    public onLanguageChange(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-        this._refreshService.processPreparedChanges();
-    }
-
-    public onNameChange(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-        this._refreshService.processPreparedChanges();
-    }
-
-    public onAlignmentChange(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-        this._refreshService.processPreparedChanges();
-    }
-
-    public onHiddenFeatsChange(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
-        this._refreshService.processPreparedChanges();
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
@@ -546,16 +487,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                         });
                 });
         }
-    }
-
-    public onUpdateSkills(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
-        this._refreshService.processPreparedChanges();
-    }
-
-    public onUpdateSpellbook(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        this._refreshService.processPreparedChanges();
     }
 
     public areLanguagesAvailableOnLevel$(levelNumber = 0): Observable<boolean> {
@@ -706,7 +637,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             if (this.isAbilityIllegal$(levelNumber, this.abilities(boost.name)[0])) {
                 if (!boost.locked) {
                     this._characterBoostAbilityService.boostAbility(boost.name, false, choice, boost.locked);
-                    this._refreshService.processPreparedChanges();
                 } else {
                     anytrue += 1;
                 }
@@ -850,8 +780,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         ) { this.toggleShownList(); }
 
         this._characterBoostAbilityService.boostAbility(abilityName, hasBeenTaken, choice, locked);
-        this._refreshService.prepareChangesByAbility(CreatureTypes.Character, abilityName);
-        this._refreshService.processPreparedChanges();
     }
 
     public skillIncreasesByLevel(
@@ -947,13 +875,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         } else {
             this._characterLoreService.removeLore(choice);
         }
-
-        this._refreshService.processPreparedChanges();
-    }
-
-    public onLoreNameChange(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-        this._refreshService.processPreparedChanges();
     }
 
     public characterFeatsAndFeatures$(name = '', type = ''): Observable<Array<Feat>> {
@@ -970,7 +891,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 switchMap(hasFeat =>
                     hasFeat
                         ? this.character.class.filteredFeatData$(levelNumber, levelNumber, 'Different Worlds')
-                        : of(),
+                        : of(undefined),
                 ),
             );
     }
@@ -1022,9 +943,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         } else {
             this.character.class.removeSpellListSpell(spell.name, 'Feat: Blessed Blood', levelNumber);
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
-        this._refreshService.processPreparedChanges();
     }
 
     public isSplinterFaithAvailable$(levelNumber: number): Observable<boolean> {
@@ -1164,9 +1082,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         } else {
             this._characterHeritageChangeService.changeHeritage(undefined, index);
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'all');
-        this._refreshService.processPreparedChanges();
     }
 
     public onDifferentWorldsBackgroundChange(levelNumber: number, data: FeatData, background: Background, checkedEvent: Event): void {
@@ -1177,8 +1092,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         if (!level) {
             return;
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
 
         if (isChecked) {
             if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
@@ -1228,8 +1141,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 level.removeLoreChoice(oldChoice);
             }
         }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public fuseStanceData$(
@@ -1258,7 +1169,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                                         )),
                                 ),
                             )
-                        : of(),
+                        : of(undefined),
                 ),
             );
     }
@@ -1353,11 +1264,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             );
     }
 
-    public onFuseStanceNameChange(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
-        this._refreshService.processPreparedChanges();
-    }
-
     public onFuseStanceStanceChange(data: FeatData, stance: string, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
         const stances = Array.from(data.valueAsStringArray('stances') || []);
@@ -1370,9 +1276,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         } else {
             data.setValue('stances', stances.filter((existingStance: string) => existingStance !== stance));
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
-        this._refreshService.processPreparedChanges();
     }
 
     public syncretismData$(levelNumber: number): Observable<Array<{ featData: FeatData; deity: Readonly<string | null> }> | undefined> {
@@ -1390,7 +1293,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                                             )),
                                 )),
                             )
-                        : of(),
+                        : of(undefined),
                 ),
             );
     }
@@ -1473,9 +1376,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         } else {
             this._characterAncestryChangeService.changeAncestry();
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'all');
-        this._refreshService.processPreparedChanges();
     }
 
     public availableDeities$(options?: { filterForSyncretism?: boolean; charLevel?: number }): Observable<Array<Deity>> {
@@ -1535,8 +1435,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         } else {
             this._characterDeitiesService.changeDeity(new Deity());
         }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public availableHeritages$(name = '', ancestryName = '', index = -1): Observable<Array<Heritage>> {
@@ -1576,9 +1474,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         } else {
             this._characterHeritageChangeService.changeHeritage();
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'all');
-        this._refreshService.processPreparedChanges();
     }
 
     public filteredBackgrounds(): Array<Background> {
@@ -1627,9 +1522,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         } else {
             this._characterBackgroundChangeService.changeBackground();
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'all');
-        this._refreshService.processPreparedChanges();
     }
 
     public hasCompanionBecomeAvailableOnLevel$(levelNumber: number): Observable<boolean> {
@@ -1659,7 +1551,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             if (specializations.length) { character.class.animalCompanion.class.specializations = specializations; }
 
             this._animalCompanionService.initializeAnimalCompanion();
-            this._refreshService.processPreparedChanges();
         }
     }
 
@@ -1694,9 +1585,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 } else {
                     this._animalCompanionAncestryService.changeAncestry(companion, undefined);
                 }
-
-                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
-                this._refreshService.processPreparedChanges();
             });
     }
 
@@ -1724,12 +1612,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 } else {
                     this._animalCompanionSpecializationsService.removeSpecialization(companion, spec);
                 }
-
-                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'abilities');
-                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'skills');
-                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'attacks');
-                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'defense');
-                this._refreshService.processPreparedChanges();
             });
     }
 
@@ -1818,9 +1700,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             if (originClass) { character.class.familiar.originClass = originClass; }
 
             if (previousId) { character.class.familiar.id = previousId; }
-
-            this._familiarService.initializeFamiliar();
-            this._refreshService.processPreparedChanges();
         }
     }
 
@@ -1839,10 +1718,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                     }
 
                     familiar.speeds.triggerOnChange();
-
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'general');
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'familiarabilities');
-                    this._refreshService.processPreparedChanges();
                 }),
             );
     }
@@ -1910,14 +1785,12 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     public removeBonusAbilityChoice(choice: AbilityChoice, levelNumber: number): void {
         choice.boosts.forEach(boost => {
             this._characterBoostAbilityService.boostAbility(boost.name, false, choice, false);
-            this._refreshService.prepareChangesByAbility(CreatureTypes.Character, boost.name);
         });
 
         const level = this.character.classLevelFromNumber(levelNumber);
 
         level.removeAbilityChoice(choice);
         this.toggleShownList();
-        this._refreshService.processPreparedChanges();
     }
 
     public addBonusSkillChoice(level: CharacterClassLevel, type: 'Perception' | 'Save' | 'Skill'): void {
@@ -1960,30 +1833,6 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         level.removeLoreChoice(choice);
 
         this.toggleShownList();
-        this._refreshService.processPreparedChanges();
-    }
-
-    public ngOnInit(): void {
-        //Start with the about page in desktop mode, and without it on mobile.
-        this._showList = this.isMobile ? '' : 'about';
-
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['character', 'all', 'charactersheet'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() === 'character' && ['charactersheet', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _resetChoiceArea(): void {

@@ -11,9 +11,9 @@ export const addBonusDescriptionFromEffect = (bonuses: Array<BonusDescription>, 
 export const bonusDescriptionFromEffect = (effect: Effect, valueDescription: string = ''): BonusDescription => {
     const setValue = effect.setValue ? effect.setValueNumerical : undefined;
     const value = effect ? effect.valueNumerical : undefined;
-    const isAbsolute = !!effect.setValue;
-    const isPenalty = !!effect.value && effect.penalty;
-    const isBonus = !!effect.value && !effect.penalty;
+    const isAbsolute = effect.isAbsoluteEffect();
+    const isPenalty = effect.isRelativeEffect() && effect.penalty;
+    const isBonus = effect.isRelativeEffect() && !effect.penalty;
     const type = effect.type
         ? `${ capitalize(effect.type) } ${ isPenalty ? 'penalty' : 'bonus' }`
         : undefined;

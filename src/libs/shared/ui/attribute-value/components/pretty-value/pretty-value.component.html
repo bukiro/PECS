@@ -1,28 +1,27 @@
-@if (value !== undefined) {
+@if (value$$() !== undefined) {
     <div class="value">
         <div
             class="value__value"
             [ngClass]="{
-                'background-color-default': opaque(),
-                'background-color-penalty': hasPenalties && !hasAbsolutes,
-                'background-color-bonus':
-                    hasBonuses && !hasAbsolutes && !hasPenalties,
-                'background-color-absolute': hasAbsolutes,
+                'background-color-default': opaque$$(),
+                'background-color-penalty': isPenalty$$(),
+                'background-color-bonus': isBonus$$(),
+                'background-color-absolute': isAbsolute$$(),
             }"
             [ngbPopover]="BonusesTemplate"
-            [disablePopover]="!bonuses?.length"
+            [disablePopover]="!bonuses$$().length"
         >
-            {{ value }}
+            {{ value$$() }}
         </div>
     </div>
 }
 
 <ng-template #BonusesTemplate>
-    @if (bonuses?.length) {
-        <app-bonus-list [bonuses]="bonuses" />
+    @if (bonuses$$().length) {
+        <app-bonus-list [bonuses]="bonuses$$()" />
     }
 
-    @if (clickLabel) {
+    @if (clickLabel$$(); as clickLabel) {
         <div>
             {{ clickLabel }}
         </div>

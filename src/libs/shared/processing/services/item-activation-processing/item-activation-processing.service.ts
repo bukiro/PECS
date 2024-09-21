@@ -43,7 +43,7 @@ export class ItemActivationProcessingService {
             item.gainConditions.forEach(gain => {
                 const newConditionGain = ConditionGain.from(gain, RecastService.recastFns);
 
-                this._creatureConditionsService.addCondition(creature, newConditionGain, {}, { noReload: true });
+                this._creatureConditionsService.addCondition(creature, newConditionGain);
             });
 
             //Cast Spells

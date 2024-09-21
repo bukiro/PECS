@@ -25,33 +25,15 @@ export class CreatureConditionsCleanupService {
             )
             .subscribe();
 
-        this._creatureAvailabilityService.isCompanionAvailable$()
+        this._creatureAvailabilityService.companionIfAvailable$()
             .pipe(
-                switchMap(isCompanionAvailable =>
-                    isCompanionAvailable
-                        ? CreatureService.companion$
-                            .pipe(
-                                switchMap(creature =>
-                                    this._cleanupInvalidConditions$(creature),
-                                ),
-                            )
-                        : of(),
-                ),
+                switchMap(creature => creature ? this._cleanupInvalidConditions$(creature) : of(undefined)),
             )
             .subscribe();
 
-        this._creatureAvailabilityService.isFamiliarAvailable$()
+        this._creatureAvailabilityService.familiarIfAvailable$()
             .pipe(
-                switchMap(isFamiliarAvailable =>
-                    isFamiliarAvailable
-                        ? CreatureService.familiar$
-                            .pipe(
-                                switchMap(creature =>
-                                    this._cleanupInvalidConditions$(creature),
-                                ),
-                            )
-                        : of(),
-                ),
+                switchMap(creature => creature ? this._cleanupInvalidConditions$(creature) : of(undefined)),
             )
             .subscribe();
     }

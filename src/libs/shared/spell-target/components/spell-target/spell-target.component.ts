@@ -1,17 +1,14 @@
 /* eslint-disable complexity */
 import {
     Component,
-    OnInit,
     Input,
     Output,
     EventEmitter,
     ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    OnDestroy,
     TemplateRef,
 } from '@angular/core';
 import { NgbModal, NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subscription, combineLatest, map, switchMap, of, noop } from 'rxjs';
+import { Observable, combineLatest, map, switchMap, of, noop } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
@@ -30,14 +27,12 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
-import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -69,7 +64,7 @@ interface ComponentParameters {
         ActionIconsComponent,
     ],
 })
-export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class SpellTargetComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public creature?: Creature;
@@ -120,18 +115,12 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
     public spellTargets$: Observable<Array<SpellTarget>>;
     public isManualMode$: Observable<boolean>;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _savegamesService: SavegamesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _modalService: NgbModal,
         private readonly _durationsService: DurationsService,
-        private readonly _creatureService: CreatureService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
     ) {
@@ -342,34 +331,6 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) implements OnI
 
     public durationDescription$(turns: number, includeTurnState = true, inASentence = false): Observable<string> {
         return this._durationsService.durationDescription$(turns, includeTurnState, inASentence);
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (
-                    target === 'activities' ||
-                    target === 'spellbook' ||
-                    target === 'all' ||
-                    stringEqualsCaseInsensitive(target, this.creature?.type)
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    stringEqualsCaseInsensitive(view.creature, this.creature?.type)
-                    && ['activities', 'spellbook', 'all'].includes(view.target.toLowerCase())
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _createSpellTargetObservable$(): Observable<Array<SpellTarget>> {

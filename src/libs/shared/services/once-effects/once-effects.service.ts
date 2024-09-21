@@ -9,9 +9,9 @@ import { ArmorClassService, CoverTypes } from '../armor-class/armor-class.servic
 import { CreatureService } from '../creature/creature.service';
 import { EvaluationService } from '../evaluation/evaluation.service';
 import { HealthService } from '../health/health.service';
-import { RefreshService } from '../refresh/refresh.service';
 import { SpellCastingPrerequisitesService } from '../spell-casting-prerequisites/spell-casting-prerequisites.service';
 import { emptySafeZip } from '../../util/observable-utils';
+import { TemporaryHP } from 'src/app/classes/creatures/temporary-hp';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -41,7 +41,6 @@ export class OnceEffectsService {
 
     constructor(
         private readonly _toastService: ToastService,
-        private readonly _refreshService: RefreshService,
         private readonly _armorClassService: ArmorClassService,
         private readonly _healthService: HealthService,
         private readonly _spellCastingPrerequisitesService: SpellCastingPrerequisitesService,
@@ -241,8 +240,6 @@ export class OnceEffectsService {
                 } else {
                     this._toastService.show(`You lost ${ value * -1 } focus point${ value === 1 ? '' : 's' }.`);
                 }
-
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
             });
     }
 
@@ -265,15 +262,13 @@ export class OnceEffectsService {
         // -- Remove it if it's not the effective amount.
         if (value > 0) {
             if (context.source === 'Manual') {
-                creature.health.temporaryHP[0] = { amount: value, source: context.source, sourceId: '' };
-                creature.health.temporaryHP.length = 1;
+                creature.health.temporaryHP = [TemporaryHP.from({ amount: value, source: context.source, sourceId: '' })];
                 this._toastService.show(`${ phrases.name } gained ${ value } temporary HP.`);
-            } else if (creature.health.temporaryHP[0]?.amount === 0) {
-                creature.health.temporaryHP[0] = { amount: value, source: context.source, sourceId: context.sourceId };
-                creature.health.temporaryHP.length = 1;
+            } else if (creature.health.mainTemporaryHP.amount === 0) {
+                creature.health.temporaryHP = [TemporaryHP.from({ amount: value, source: context.source, sourceId: context.sourceId })];
                 this._toastService.show(`${ phrases.name } gained ${ value } temporary HP from ${ context.source }.`);
             } else {
-                creature.health.temporaryHP.push({ amount: value, source: context.source, sourceId: context.sourceId });
+                creature.health.temporaryHP.push(TemporaryHP.from({ amount: value, source: context.source, sourceId: context.sourceId }));
                 this._toastService.show(
                     `${ phrases.name } gained ${ value } temporary HP from ${ context.source }. `
                     + `${ phrases.name } already had temporary HP and must choose which amount to keep.`,
@@ -290,11 +285,13 @@ export class OnceEffectsService {
             if (targetTempHPSet) {
                 targetTempHPSet.amount += value;
 
-                if (targetTempHPSet === creature.health.temporaryHP[0]) {
+                // If this is the main temporary HP set, register it as the only set as you have started to use it.
+                if (targetTempHPSet === creature.health.mainTemporaryHP) {
                     creature.health.temporaryHP.length = 1;
 
+                    // If its amount is reduced to 0, remove it entirely.
                     if (targetTempHPSet.amount <= 0) {
-                        creature.health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
+                        creature.health.temporaryHP.length = 0;
                     }
 
                     this._toastService.show(`${ phrases.name } lost ${ value * -1 } temporary HP.`);
@@ -310,48 +307,38 @@ export class OnceEffectsService {
                 }
             }
         }
-
-        this._refreshService.prepareDetailToChange(creature.type, 'health');
-        //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
     }
 
     private _changeCreatureHPWithNotification(creature: Creature, value: number, context: { source: string }): void {
         const phrases = this._effectRecipientPhrases(creature);
 
         if (value > 0) {
-            this._healthService.heal$(creature, value, true)
-                .subscribe(result => {
-                    let results = '';
+            const { hasRemovedUnconscious, hasRemovedDying } = this._healthService.heal(creature, value, true);
+            let results = '';
 
-                    if (result.hasRemovedUnconscious) {
-                        results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
-                    }
+            if (hasRemovedUnconscious) {
+                results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
+            }
 
-                    if (result.hasRemovedDying) {
-                        results = ` This removed ${ phrases.pronounGenitive } Dying condition.`;
-                    }
+            if (hasRemovedDying) {
+                results = ` This removed ${ phrases.pronounGenitive } Dying condition.`;
+            }
 
-                    this._toastService.show(`${ phrases.name } gained ${ value } HP from ${ context.source }.${ results }`);
-
-                    this._refreshService.prepareDetailToChange(creature.type, 'health');
-                    this._refreshService.prepareDetailToChange(creature.type, 'effects');
-                });
+            this._toastService.show(`${ phrases.name } gained ${ value } HP from ${ context.source }.${ results }`);
         } else if (value < 0) {
-            this._healthService.takeDamage$(creature, -value, false)
-                .subscribe(result => {
+            this._healthService.takeDamage$(creature, -value)
+                .then(({ hasAddedUnconscious, dyingAddedAmount, hasRemovedUnconscious }) => {
                     let results = '';
 
-                    if (result.hasAddedUnconscious) {
+                    if (hasAddedUnconscious) {
                         results = ` ${ phrases.name } ${ phrases.verbIs } now Unconscious.`;
                     }
 
-                    if (result.dyingAddedAmount && context.source !== 'Dead') {
-                        results = ` ${ phrases.pronounCap } ${ phrases.verbIs } now Dying ${ result.dyingAddedAmount }.`;
+                    if (dyingAddedAmount && context.source !== 'Dead') {
+                        results = ` ${ phrases.pronounCap } ${ phrases.verbIs } now Dying ${ dyingAddedAmount }.`;
                     }
 
-                    if (result.hasRemovedUnconscious) {
+                    if (hasRemovedUnconscious) {
                         results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
                     }
 
@@ -371,9 +358,6 @@ export class OnceEffectsService {
                 equippedShield.raised = false;
                 this._toastService.show('Your shield was lowered.');
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
         }
     }
 

@@ -2,7 +2,6 @@
 import { Injectable } from '@angular/core';
 import { take, zip, map, of } from 'rxjs';
 import { PlayerMessage } from 'src/app/classes/api/player-message';
-import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Item } from 'src/app/classes/items/item';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
@@ -16,7 +15,6 @@ import { MessageSendingService } from 'src/libs/shared/services/message-sending/
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
@@ -34,7 +32,6 @@ export class MessageProcessingService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _toastService: ToastService,
-        private readonly _refreshService: RefreshService,
         private readonly _messagesService: MessagesService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _inventoryService: InventoryService,
@@ -80,7 +77,6 @@ export class MessageProcessingService {
                                         + `${ creatureGain.choice ? `: ${ creatureGain.choice }` : '' }`
                                         + `</strong> condition from <strong>${ creature.name || creature.type }`
                                         + `</strong> on turn of <strong>${ senderName }</strong>`);
-                                    this._refreshService.prepareDetailToChange(creature.type, 'effects');
                                 }
                             });
                     });
@@ -115,7 +111,7 @@ export class MessageProcessingService {
                 take(1),
             )
             .subscribe(messagesWithCreature => {
-                messagesWithCreature.forEach(({ message, targetCreature }) => {
+                messagesWithCreature.forEach(async ({ message, targetCreature }) => {
                     if (!message.selected || !targetCreature) {
                         return;
                     }
@@ -124,7 +120,11 @@ export class MessageProcessingService {
                         if (message.gainCondition[0]) {
                             const mainConditionGain = message.gainCondition[0];
                             const hasConditionBeenAdded =
-                                this._creatureConditionsService.addCondition(targetCreature, mainConditionGain, {}, { noReload: true });
+                                await this._creatureConditionsService.addCondition(
+                                    targetCreature,
+                                    mainConditionGain,
+                                    {},
+                                );
 
                             if (hasConditionBeenAdded) {
                                 const senderName = this._messagePropertiesService.messageSenderName(message);
@@ -242,13 +242,8 @@ export class MessageProcessingService {
                                         if (typedItem.id === mainOfferedItem.id) {
                                             addedPrimaryItem = existingItems[0];
                                         }
-
-                                        this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
-                                        this._refreshService.setComponentChanged(existingItems[0].id);
                                     } else if (targetItemTypes) {
                                         targetItemTypes.push(typedItem);
-
-                                        this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
 
                                         if (item.id === mainOfferedItem.id) {
                                             addedPrimaryItem = typedItem;
@@ -337,7 +332,7 @@ export class MessageProcessingService {
             .subscribe(([creatures, isManualMode]) => {
                 //Don't receive messages in manual mode.
                 if (isManualMode) {
-                    return of();
+                    return of(undefined);
                 }
 
                 //Iterate through all messages that have an offeredItem (only one per message will be applied) and add the items.

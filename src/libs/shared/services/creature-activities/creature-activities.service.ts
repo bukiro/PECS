@@ -12,7 +12,6 @@ import { EmblazonArmamentTypes } from '../../definitions/emblazon-armament-types
 import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/hint-effects-object';
 import { isEqualSerializableArray } from '../../util/compare-utils';
 import { sortAlphaNum } from '../../util/sort-utils';
-import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { TraitsDataService } from '../data/traits-data.service';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
 import { Trait } from 'src/app/classes/hints/trait';
@@ -26,7 +25,6 @@ export class CreatureActivitiesService {
 
     constructor(
         private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _traitsDataService: TraitsDataService,
     ) { }
 

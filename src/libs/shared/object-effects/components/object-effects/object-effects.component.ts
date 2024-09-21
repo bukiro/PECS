@@ -4,7 +4,6 @@ import { EffectGain } from 'src/app/classes/effects/effect-gain';
 import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
@@ -38,7 +37,6 @@ export class ObjectEffectsComponent extends TrackByMixin(BaseClass) {
     public creature: Creature = CreatureService.character;
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _evaluationService: EvaluationService,
     ) {
         super();
@@ -48,8 +46,6 @@ export class ObjectEffectsComponent extends TrackByMixin(BaseClass) {
         if (this._isFormula(effect.value)) {
             effect.value = '0';
         }
-
-        this.updateEffects();
     }
 
     public customEffectsOnThis(): Array<EffectGain> {
@@ -66,12 +62,6 @@ export class ObjectEffectsComponent extends TrackByMixin(BaseClass) {
 
     public removeCustomEffect(effect: EffectGain): void {
         this.creature.effects.splice(this.creature.effects.indexOf(effect), 1);
-        this.updateEffects();
-    }
-
-    public updateEffects(): void {
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
     }
 
     public effectValueParameters(effect: EffectGain): EffectValueParameters {

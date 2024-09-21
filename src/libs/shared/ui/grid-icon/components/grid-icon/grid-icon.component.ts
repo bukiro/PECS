@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
-import { Subscription, Observable, of, combineLatest, map } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Observable, of, combineLatest, map } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
@@ -18,7 +18,6 @@ import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { ActionIconsComponent } from '../../../action-icons/components/action-icons/action-icons.component';
@@ -36,7 +35,7 @@ import { CommonModule } from '@angular/common';
         ActionIconsComponent,
     ],
 })
-export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class GridIconComponent extends TrackByMixin(BaseClass) {
 
     //TODO: This component should be much dumber.
     // Create wrappers for the different objects that build a gridIcon, and let them create the title, subTitle, superTitle etc.
@@ -75,16 +74,8 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
     public item?: Item;
     @Input()
     public itemStore?: boolean;
-    //The gridicon will refresh if this ID is updated by this.refreshService.set_Changed().
-    @Input()
-    public updateId?: string;
-
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
 
     constructor(
-        private readonly _refreshService: RefreshService,
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _activityPropertiesService: ActivityPropertiesService,
     ) {
         super();
@@ -571,28 +562,6 @@ export class GridIconComponent extends TrackByMixin(BaseClass) implements OnInit
         } else {
             return [];
         }
-    }
-
-    public ngOnInit(): void {
-        if (this.updateId) {
-            this._changeSubscription = this._refreshService.componentChanged$
-                .subscribe(target => {
-                    if (target === this.updateId || (target === 'effects' && this.condition)) {
-                        this._changeDetector.detectChanges();
-                    }
-                });
-            this._viewChangeSubscription = this._refreshService.detailChanged$
-                .subscribe(view => {
-                    if (view.target === this.updateId || (view.target.toLowerCase() === 'effects' && this.condition)) {
-                        this._changeDetector.detectChanges();
-                    }
-                });
-        }
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _isOneWordTitle(): boolean {

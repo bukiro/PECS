@@ -177,7 +177,7 @@ export class ScrollSavantService {
                                     }
                                 }),
                             )
-                        : of(),
+                        : of(undefined),
                 ),
             )
             .subscribe();

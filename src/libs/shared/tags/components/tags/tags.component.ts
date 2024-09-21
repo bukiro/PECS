@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
-import { Component, ChangeDetectionStrategy, OnInit, OnChanges, OnDestroy, Input, ChangeDetectorRef, SimpleChanges } from '@angular/core';
-import { Observable, Subscription, map, of } from 'rxjs';
+import { Component, ChangeDetectionStrategy, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { Observable, map, of } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { Specialization } from 'src/app/classes/attacks/specialization';
 import { ConditionGainSet } from 'src/app/classes/conditions/condition-gain-set';
@@ -15,7 +15,6 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -43,7 +42,7 @@ interface TagCollection {
         HintComponent,
     ],
 })
-export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, OnChanges, OnDestroy {
+export class TagsComponent extends TrackByMixin(BaseClass) implements OnChanges {
 
     @Input()
     public creature: Creature = CreatureService.character;
@@ -78,12 +77,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
     public specializations$?: Observable<Array<{ setName: string; specializations: Array<Specialization> }>>;
     public traits$?: Observable<Array<{ setName: string; traits: Array<{ trait: Trait; itemNamesList: string }> }>>;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _durationsService: DurationsService,
@@ -198,35 +192,6 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnInit, On
 
     public durationDescription$(duration: number): Observable<string> {
         return this._durationsService.durationDescription$(duration);
-    }
-
-    public onActivateEffect(): void {
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['tags', 'all', this.creature, this.objectName].includes(target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature === this.creature?.type &&
-                    (
-                        view.target === 'all' ||
-                        (view.target === 'tags' && [this.objectName, ...this.specialNames, 'all'].includes(view.subtarget))
-                    )) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _traitsShowingHintsOnThis$(name: string): Observable<Array<{ trait: Trait; itemNamesList: string }>> {

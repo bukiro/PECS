@@ -9,7 +9,6 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { DiceIconD20Component } from 'src/libs/shared/ui/dice-icons/components/dice-icon-D20/dice-icon-D20.component';
@@ -70,7 +69,6 @@ export class QuickdiceComponent implements OnChanges {
     public description$?: Observable<string>;
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _diceService: DiceService,
         private readonly _integrationsService: FoundryVTTIntegrationService,
         private readonly _abilityValuesService: AbilityValuesService,
@@ -194,8 +192,6 @@ export class QuickdiceComponent implements OnChanges {
                     });
             }
         }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public ngOnChanges(): void {

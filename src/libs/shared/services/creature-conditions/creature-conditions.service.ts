@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Observable, of, map } from 'rxjs';
+import { Observable, of, map, firstValueFrom } from 'rxjs';
 import { Condition } from 'src/app/classes/conditions/condition';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
@@ -11,7 +11,6 @@ import { ConditionsDataService } from '../data/conditions-data.service';
 import { EvaluationService } from '../evaluation/evaluation.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 import { RecastService } from '../recast/recast.service';
-import { RefreshService } from '../refresh/refresh.service';
 import { ConditionEffectsCollection } from 'src/app/classes/conditions/condition-effects-collection';
 import { AppliedCreatureConditionsService } from './applied-creature-conditions.service';
 import { conditionPairFilter, filterConditions } from './condition-filter-utils';
@@ -29,7 +28,6 @@ export class CreatureConditionsService {
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _toastService: ToastService,
-        private readonly _refreshService: RefreshService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
@@ -48,12 +46,11 @@ export class CreatureConditionsService {
             );
     }
 
-    public addCondition(
+    public async addCondition(
         creature: Creature,
         gain: ConditionGain,
         context: { parentItem?: Item; parentConditionGain?: ConditionGain } = {},
-        options: { noReload?: boolean } = {},
-    ): boolean {
+    ): Promise<boolean> {
         const workingGain: ConditionGain = gain.clone(RecastService.recastFns);
         const originalCondition = this._conditionsDataService.conditionFromName(workingGain.name);
 
@@ -62,9 +59,10 @@ export class CreatureConditionsService {
                 workingGain.heightened = originalCondition.minLevel;
             }
 
+
             const shouldActivate =
-                this._activationPrerequisiteMet$(creature, gain, context) &&
-                !this._shouldDenyCondition$(creature, gain);
+                await firstValueFrom(this._activationPrerequisiteMet$(creature, gain, context)) &&
+                !(await firstValueFrom(this._shouldDenyCondition$(creature, gain)));
 
             if (!shouldActivate) {
                 return false;
@@ -132,18 +130,6 @@ export class CreatureConditionsService {
                     true,
                 );
 
-                this._refreshService.prepareDetailToChange(creature.type, 'effects');
-                this._refreshService.prepareDetailToChange(creature.type, 'effects-component');
-
-                if (workingGain.nextStage) {
-                    this._refreshService.prepareDetailToChange(creature.type, 'time');
-                    this._refreshService.prepareDetailToChange(creature.type, 'health');
-                }
-
-                if (!options.noReload) {
-                    this._refreshService.processPreparedChanges();
-                }
-
                 return true;
             }
         }
@@ -197,11 +183,6 @@ export class CreatureConditionsService {
 
         //If this condition is locked by its parent, it can't be removed.
         if (oldConditionGain && (ignoreLockedByParent || !oldConditionGain.lockedByParent)) {
-            if (oldConditionGain.nextStage || oldConditionGain.durationIsInstant) {
-                this._refreshService.prepareDetailToChange(creature.type, 'time');
-                this._refreshService.prepareDetailToChange(creature.type, 'health');
-            }
-
             // Remove the parent lock for all conditions locked by this,
             // so that they can be removed in the next step or later (if persistent).
             this._removeLockedByParentFromMatchingConditions(creature, oldConditionGain.id);
@@ -237,18 +218,6 @@ export class CreatureConditionsService {
                 increaseWounded,
                 ignoreEndsWithConditions,
             );
-
-            if (oldConditionGain.source === 'Quick Status') {
-                this._refreshService.prepareDetailToChange(creature.type, 'defense');
-                this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-            }
-
-            this._refreshService.prepareDetailToChange(creature.type, 'effects');
-            this._refreshService.prepareDetailToChange(creature.type, 'effects-component');
-
-            if (reload) {
-                this._refreshService.processPreparedChanges();
-            }
 
             return true;
         }

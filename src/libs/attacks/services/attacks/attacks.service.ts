@@ -14,7 +14,7 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-uils';
+import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-utils';
 import { skillLevelName } from 'src/libs/shared/util/skill-utils';
 import { attackEffectPhrases } from '../../util/attack-effect-phrases';
 import { RuneSourceSet, attackRuneSource$ } from '../../util/attack-rune-rource';
@@ -157,7 +157,7 @@ export class AttacksService {
                                             shoddyEffect,
                                             powerfulFistApplies,
                                         ]) => {
-                                            const bonuses = new Array<BonusDescription>();
+                                            let bonuses = new Array<BonusDescription>();
 
                                             // If the creature is trained or better with the weapon,
                                             // add the skill level bonus and the character level.
@@ -178,7 +178,7 @@ export class AttacksService {
 
                                             reducedAbsolutes.forEach(effect => {
                                                 result = effect.setValueNumerical;
-                                                addBonusDescriptionFromEffect(bonuses, effect);
+                                                bonuses = addBonusDescriptionFromEffect(bonuses, effect);
                                             });
 
                                             const reducedRelatives = this._creatureEffectsService.reduceRelativesByType(
@@ -202,7 +202,7 @@ export class AttacksService {
                                                         bonuses.push({ value: '-0', title: 'Nonlethal (cancelled by Powerful Fist)' });
                                                     } else {
                                                         result += effect.valueNumerical;
-                                                        addBonusDescriptionFromEffect(bonuses, effect);
+                                                        bonuses = addBonusDescriptionFromEffect(bonuses, effect);
                                                     }
                                                 });
 

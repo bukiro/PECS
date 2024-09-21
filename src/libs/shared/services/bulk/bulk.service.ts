@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, combineLatest, map, tap, take } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureSizes } from '../../definitions/creature-sizes';
-import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
+import { addBonusDescriptionFromEffect } from '../../util/bonus-description-utils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { CreaturePropertiesService } from '../creature-properties/creature-properties.service';

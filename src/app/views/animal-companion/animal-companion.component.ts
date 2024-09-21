@@ -1,10 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { delay, distinctUntilChanged, map, Observable, of, Subscription, switchMap } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { delay, distinctUntilChanged, map, Observable, of, switchMap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { IsMobileMixin } from 'src/libs/shared/util/mixins/is-mobile-mixin';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
@@ -48,7 +46,7 @@ import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.c
         ActionIconsComponent,
     ],
 })
-export class AnimalCompanionComponent extends IsMobileMixin(BaseClass) implements OnInit, OnDestroy {
+export class AnimalCompanionComponent extends IsMobileMixin(BaseClass) {
 
     @Input()
     public show = false;
@@ -63,13 +61,9 @@ export class AnimalCompanionComponent extends IsMobileMixin(BaseClass) implement
     public readonly isMenuOpen$: Observable<boolean>;
 
     private _showMode = '';
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _store$: Store,
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
     ) {
         super();
 
@@ -104,32 +98,6 @@ export class AnimalCompanionComponent extends IsMobileMixin(BaseClass) implement
 
     public showMode(): string {
         return this._showMode;
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .pipe(
-                takeUntilDestroyed(),
-            )
-            .subscribe(target => {
-                if (['companion', 'all'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .pipe(
-                takeUntilDestroyed(),
-            )
-            .subscribe(view => {
-                if (view.creature.toLowerCase() === 'companion' && ['companion', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
 }

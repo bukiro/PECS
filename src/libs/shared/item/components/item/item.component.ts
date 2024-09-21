@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
-import { Subject, Subscription, Observable, switchMap } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Subject, Observable, switchMap } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
 import { Condition } from 'src/app/classes/conditions/condition';
@@ -68,7 +68,7 @@ import { CommonModule } from '@angular/common';
         QuickdiceComponent,
     ],
 })
-export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class ItemComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public item!: Item;
@@ -85,11 +85,7 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
 
     private _creature: Creature = CreatureService.character;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
@@ -161,25 +157,12 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
         if (!options.preserve) {
             itemRoles.asEquipment?.talismans.splice(index, 1);
         }
-
-        if (itemRoles.asArmor || itemRoles.asShield) {
-            this._refreshService.prepareDetailToChange(this.creature.type, 'defense');
-        }
-
-        if (itemRoles.asWeapon) {
-            this._refreshService.prepareDetailToChange(this.creature.type, 'attacks');
-        }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public onActivatePoison(weapon: Weapon, poison: AlchemicalPoison): void {
         this._itemActivationService.useConsumable(this.creature, poison);
 
         weapon.poisonsApplied.length = 0;
-        this._refreshService.prepareDetailToChange(this.creature.type, 'attacks');
-
-        this._refreshService.processPreparedChanges();
     }
 
     public doublingRingsOptions(ring: string): Array<Weapon> {
@@ -267,21 +250,17 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
                 });
 
                 item.gainSpells.push(newSpellGain);
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'Spells');
             } else if (castingType?.toLowerCase() === 'spontaneous') {
                 item.effects.push(EffectGain.from({
                     affected: `${ className } ${ castingType } Level ${ wizardrySlot.level } Spell Slots`,
                     value: '1',
                     source: `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`,
                 }));
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
             }
         }
 
-        //Close any open spell choices.
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells', 'clear');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        this._refreshService.processPreparedChanges();
+        // Close any open spell choices.
+        this._refreshService.closeSpellSelections();
     }
 
     public talismanCordOptions(item: WornItem, index: number): Array<string> {
@@ -357,46 +336,6 @@ export class ItemComponent extends TrackByMixin(BaseClass) implements OnInit, On
 
             spellChoice.spells.shift();
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-        this._refreshService.processPreparedChanges();
-    }
-
-    public onSelectVariation(): void {
-        this._refreshService.prepareChangesByItem(this.creature, this.item);
-        this._refreshService.processPreparedChanges();
-        this._updateItem();
-    }
-
-    public ngOnInit(): void {
-        if (['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type) && !this.isSubItem) {
-            this.allowActivate = false;
-        }
-
-        if (this.item.id) {
-            this._changeSubscription = this._refreshService.componentChanged$
-                .subscribe(target => {
-                    if (target === this.item.id) {
-                        this._changeDetector.detectChanges();
-                    }
-                });
-            this._viewChangeSubscription = this._refreshService.detailChanged$
-                .subscribe(view => {
-                    if (view.target === this.item.id) {
-                        this._changeDetector.detectChanges();
-                    }
-                });
-        }
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
-    }
-
-    private _updateItem(): void {
-        //This updates any gridicon that has this item's id set as its update id.
-        this._refreshService.setComponentChanged(this.item.id);
     }
 
 }

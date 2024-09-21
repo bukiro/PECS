@@ -24,7 +24,6 @@ import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.ser
 import { InputValidationService } from 'src/libs/shared/services/input-validation/input-validation.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -44,7 +43,6 @@ import { CommonModule } from '@angular/common';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { isEqualPrimitiveObject } from 'src/libs/shared/util/compare-utils';
-import { AppliedCreatureConditionsService } from 'src/libs/shared/services/creature-conditions/applied-creature-conditions.service';
 import { filterConditions } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
 
 interface ComponentParameters {
@@ -93,13 +91,11 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
     public armorParameters$: Observable<Array<ArmorParameters>>;
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _toastService: ToastService,
         private readonly _armorClassService: ArmorClassService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
-        private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _itemActivationService: ItemActivationService,
@@ -213,8 +209,6 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
             if (!raised && shield.takingCover) {
                 this.onSetCover(0, shield);
             }
-
-            this._setDefenseChanged();
         }
     }
 
@@ -227,10 +221,8 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
             const newCondition =
                 ConditionGain.from({ name: 'Flat-Footed', source: 'Quick Status', duration: -1 }, RecastService.recastFns);
 
-            this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
+            this._creatureConditionsService.addCondition(creature, newCondition);
         }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public toggleHidden(currentHidden: ConditionGain | undefined): void {
@@ -242,10 +234,8 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
             const newCondition: ConditionGain =
                 ConditionGain.from({ name: 'Hidden', source: 'Quick Status', duration: -1 }, RecastService.recastFns);
 
-            this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
+            this._creatureConditionsService.addCondition(creature, newCondition);
         }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public hintShowingRunes(armor: Armor | WornItem): Array<ArmorRune> {
@@ -293,10 +283,6 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
         } else {
             shield.broken = false;
         }
-
-        this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
-        this._refreshService.prepareDetailToChange(this.creature.type, 'defense');
-        this._refreshService.processPreparedChanges();
     }
 
     public skillsOfType$(type: string): Observable<Array<Skill>> {
@@ -323,14 +309,11 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
             return;
         }
 
-        this._refreshService.prepareDetailToChange(this.creature.type, 'defense');
         this._itemActivationService.useConsumable(this.creature, talisman, preserve);
 
         if (!preserve) {
             item.talismans.splice(index, 1);
         }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public specialShowOnNamesShield$(item: Shield): Observable<Array<string>> {
@@ -403,11 +386,6 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
 
         //No armor specializations for bracers of armor.
         return of([]);
-    }
-
-    private _setDefenseChanged(): void {
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
     }
 
     private _currentCover$(): Observable<CoverTypes> {

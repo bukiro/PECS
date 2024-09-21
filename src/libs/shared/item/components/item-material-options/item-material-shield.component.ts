@@ -7,7 +7,6 @@ import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
 import { CharacterFlatteningService } from 'src/libs/shared/services/character-flattening/character-flattening.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ItemMaterialsDataService } from 'src/libs/shared/services/data/item-materials-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
@@ -47,7 +46,6 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
     private _item!: Shield;
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _itemMaterialsDataService: ItemMaterialsDataService,
         private readonly _skillValuesService: SkillValuesService,
     ) {
@@ -195,8 +193,6 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
         }
 
         this._setMaterialNames();
-        this._refreshService.processPreparedChanges();
-        this._updateItem();
     }
 
     public materialTitle(material: Material): string | undefined {
@@ -241,10 +237,6 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
                 : [
                     { material: new ShieldMaterial() },
                 ];
-    }
-
-    private _updateItem(): void {
-        this._refreshService.setComponentChanged(this.item.id);
     }
 
 }

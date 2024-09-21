@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { AdditionalHeritage } from 'src/app/classes/creatures/character/additional-heritage';
 import { Heritage } from 'src/app/classes/creatures/character/heritage';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
 import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
@@ -11,7 +10,6 @@ import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { spellTraditionFromString } from 'src/libs/shared/util/spell-utils';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
@@ -22,7 +20,6 @@ import { FeatTakingService } from '../feat-taking/feat-taking.service';
 export class CharacterHeritageChangeService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
@@ -92,8 +89,6 @@ export class CharacterHeritageChangeService {
 
             heritage.traits.forEach(traitListing => {
                 ancestry.traits = ancestry.traits.filter(trait => trait !== traitListing);
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
             });
 
             // Of each granted Item, find the item with the stored id and drop it.
@@ -236,17 +231,12 @@ export class CharacterHeritageChangeService {
                     }),
                     1,
                 );
-
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
             });
 
             //Gain Spell or Spell Option
             heritage.spellChoices.forEach(newSpellChoice => {
                 characterClass.addSpellChoice(level.number, newSpellChoice);
             });
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
 
             //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:

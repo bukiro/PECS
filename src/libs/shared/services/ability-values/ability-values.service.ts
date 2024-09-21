@@ -8,7 +8,7 @@ import {
     mapAbilityBoostsToBaseValueAggregate,
     abilityModFromAbilityValue,
 } from '../../util/ability-base-value-utils';
-import { addBonusDescriptionFromEffect } from '../../util/bonus-description-uils';
+import { addBonusDescriptionFromEffect } from '../../util/bonus-description-utils';
 import { isEqualPrimitiveObject, isEqualSerializableArrayWithoutId } from '../../util/compare-utils';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';

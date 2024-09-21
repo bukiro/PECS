@@ -322,7 +322,7 @@ export class WeaponPropertiesService {
                 ),
         ])
             .pipe(
-                switchMap(() => of()),
+                switchMap(() => of(undefined)),
             );
     }
 

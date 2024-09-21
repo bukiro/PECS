@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
-import { Observable, Subscription, switchMap, distinctUntilChanged, map, shareReplay, combineLatest, of } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Observable, switchMap, distinctUntilChanged, map, shareReplay, combineLatest, of } from 'rxjs';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Domain } from 'src/app/classes/deities/domain';
@@ -19,13 +19,12 @@ import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.s
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
 import { creatureSizeName } from 'src/libs/shared/util/creature-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { propMap$ } from 'src/libs/shared/util/observable-utils';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive, capitalize } from 'src/libs/shared/util/string-utils';
+import { capitalize } from 'src/libs/shared/util/string-utils';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
@@ -55,7 +54,7 @@ interface ClassChoice {
         TagsComponent,
     ],
 })
-export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
+export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     public creatureTypes = CreatureTypes;
 
@@ -75,13 +74,9 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
     public familiarTraits$: Observable<Array<Trait>>;
     public familiarAbilities$: Observable<Array<{ ability: Feat; traits: Array<Trait> }>>;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
     private readonly _archetypeFeats$: Observable<Array<Feat>>;
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
@@ -160,29 +155,6 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     public familiarAbilityFromName(name: string): Feat {
         return this._familiarsDataService.familiarAbilityFromName(name);
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (stringsIncludeCaseInsensitive(['general', 'all', this.creature.type], target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    stringEqualsCaseInsensitive(view.creature, this.creature.type)
-                    && stringsIncludeCaseInsensitive(['general', 'all'], view.target)
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     //TODO: Pretty sure this should be async.

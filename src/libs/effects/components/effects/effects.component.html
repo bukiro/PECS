@@ -49,7 +49,6 @@
                                 <app-grid-icon
                                     class="condition"
                                     placement="right bottom top"
-                                    [updateId]="conditionPair.gain.id"
                                     [ngClass]="
                                         conditionClasses(conditionParameters, conditionPair.condition)
                                     "
@@ -74,7 +73,6 @@
                             <div class="list-item gridicon-fullsizebox">
                                 <app-grid-icon
                                     class="condition"
-                                    [updateId]="conditionPair.gain.id"
                                     [condition]="conditionPair.gain"
                                     [originalCondition]="conditionPair.condition"
                                     [superTitle]="

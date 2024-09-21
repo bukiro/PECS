@@ -294,6 +294,7 @@ export class ConditionsTimeService {
                         // When the Drained condition is lessened, max HP is restored, but you are not supposed to heal the lost HP.
                         // Because lost HP is max HP - damage,
                         // you need to actually take damage at the moment when the condition is lessened.
+                        // Changing the damage value directly circumvents unwanted side effects like reducing temporary HP or dying.
                         if (doesGainApply) {
                             creature.health.damage += creature.level * amount;
                         }
@@ -329,7 +330,7 @@ export class ConditionsTimeService {
                                 }
 
                                 newCondition.source = effect.source;
-                                this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
+                                this._creatureConditionsService.addCondition(creature, newCondition, {});
                                 this._toastService.show(
                                     `Added <strong>${ conditionName }</strong> condition to <strong>${ creature.name || creature.type }`
                                     + `</strong> after resting (caused by <strong>${ effect.source }</strong>)`,

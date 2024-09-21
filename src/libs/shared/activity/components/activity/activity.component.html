@@ -219,7 +219,6 @@
                         <select
                             aria-label="Select condition effect"
                             [(ngModel)]="effectChoice.choice"
-                            (ngModelChange)="onEffectChoiceChange()"
                         >
                             @for (
                                 choice of conditionSet.choices;

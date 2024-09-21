@@ -8,7 +8,6 @@ import { ItemsDataService } from 'src/libs/shared/services/data/items-data.servi
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
@@ -42,7 +41,6 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
     public newAeonStone: Array<AeonStoneSet> = [];
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _durationsService: DurationsService,
@@ -157,9 +155,7 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
             }
         }
 
-        this._prepareChanges(stone);
         this._setAeonStoneNames();
-        this._refreshService.processPreparedChanges();
     }
 
     public hint(stone: WornItem): string | undefined {
@@ -186,17 +182,12 @@ export class ItemAeonStonesComponent extends TrackByMixin(BaseClass) implements 
         }
 
         oldStone.isSlottedAeonStone = false;
-        this._prepareChanges(oldStone);
         //Add the extracted stone back to the inventory.
         this._inventoryService.grantInventoryItem(
             oldStone,
             { creature: character, inventory: character.mainInventory },
             { resetRunes: false, changeAfter: false, equipAfter: false },
         );
-    }
-
-    private _prepareChanges(stone: WornItem): void {
-        this._refreshService.prepareChangesByItem(this._character, stone);
     }
 
     private _priceText(stone: WornItem): string {

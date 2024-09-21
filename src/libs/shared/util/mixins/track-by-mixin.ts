@@ -6,6 +6,7 @@ interface TrackBy {
     trackByObjectId: (_index: number, object: { id: string }) => string;
 }
 
+// TODO: Remove!
 export function TrackByMixin<T extends Constructable<BaseClass>>(base: T): Constructable<TrackBy> & T {
     return class extends base {
         public trackByIndex(index: number): number { return index; }

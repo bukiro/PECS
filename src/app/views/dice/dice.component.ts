@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, map, distinctUntilChanged, switchMap, of, delay, combineLatest } from 'rxjs';
+import { Observable, map, distinctUntilChanged, switchMap, of, delay, combineLatest } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { DiceResult } from 'src/app/classes/dice/dice-result';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
@@ -10,7 +10,6 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 import { DiceService } from 'src/libs/shared/services/dice/dice.service';
 import { FoundryVTTIntegrationService } from 'src/libs/shared/services/foundry-vtt-integration/foundry-vtt-integration.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -26,6 +25,7 @@ import { DiceIconD4Component } from 'src/libs/shared/ui/dice-icons/components/di
 import { NgbTooltip, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
+import { TemporaryHP } from 'src/app/classes/creatures/temporary-hp';
 
 const defaultDiceNum = 5;
 
@@ -51,7 +51,7 @@ const defaultDiceNum = 5;
         DiceIconD20Component,
     ],
 })
-export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class DiceComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public show = false;
@@ -61,12 +61,7 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
 
     public isMenuOpen$: Observable<boolean>;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _diceService: DiceService,
         private readonly _integrationsService: FoundryVTTIntegrationService,
         private readonly _healthService: HealthService,
@@ -114,7 +109,6 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
     public roll(amount: number, size: number): void {
         this._diceService.roll(amount, size, this.bonus, false);
         this.bonus = 0;
-        this._refreshService.processPreparedChanges();
     }
 
     public signedBonus(bonus: number): string {
@@ -128,24 +122,19 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
     public onHeal(creature: Creature): void {
         const amount = this.totalDiceSum();
 
-        this._healthService.heal$(creature, amount, true, true)
-            .subscribe(() => { this._refreshHealth(creature.type); });
+        this._healthService.heal(creature, amount, true, true);
     }
 
     public onTakeDamage(creature: Creature): void {
         const amount = this.totalDiceSum();
 
-        this._healthService
-            .takeDamage$(creature, amount, false)
-            .subscribe(() => { this._refreshHealth(creature.type); });
+        this._healthService.takeDamage$(creature, amount);
     }
 
     public setTempHP(creature: Creature): void {
         const amount = this.totalDiceSum();
 
-        creature.health.temporaryHP[0] = { amount, source: 'Manual', sourceId: '' };
-        creature.health.temporaryHP.length = 1;
-        this._refreshHealth(creature.type);
+        creature.health.temporaryHP = [TemporaryHP.from({ amount, source: 'Manual', sourceId: '' })];
     }
 
     public diceResultSum(diceResult: DiceResult): number {
@@ -167,32 +156,6 @@ export class DiceComponent extends TrackByMixin(BaseClass) implements OnInit, On
 
     public clear(): void {
         this._diceService.clear();
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['dice', 'all'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (['dice', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
-    }
-
-    private _refreshHealth(creatureType: CreatureTypes): void {
-        this._refreshService.prepareDetailToChange(creatureType, 'health');
-        this._refreshService.prepareDetailToChange(creatureType, 'effects');
-        this._refreshService.processPreparedChanges();
     }
 
 }

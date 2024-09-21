@@ -23,7 +23,6 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { NgbPopover, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -87,7 +86,6 @@ export class HintComponent extends TrackByMixin(BaseClass) {
     public color = '';
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _featsDataService: FeatsDataService,
@@ -179,11 +177,6 @@ export class HintComponent extends TrackByMixin(BaseClass) {
         }
 
         return '';
-    }
-
-    public onActivateEffect(): void {
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
     }
 
     public traitFromName(traitName: string): Trait {

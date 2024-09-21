@@ -42,7 +42,7 @@ export class ShieldPropertiesService {
                 ),
         ])
             .pipe(
-                switchMap(() => of()),
+                switchMap(() => of(undefined)),
             );
     }
 

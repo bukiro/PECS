@@ -775,7 +775,6 @@
                                     selectIndex
                                 ]
                             "
-                            (ngModelChange)="changeOtherConditionSelection()"
                         >
                             @for (
                                 otherCondition of selectOtherConditionOptions$(
@@ -861,7 +860,6 @@
                         [title]="activityParameters.activity.name"
                         [activity]="activityParameters.activity"
                         [activityGain]="activityParameters.gain"
-                        [updateId]="activityParameters.gain.id"
                     />
                 </button>
             }

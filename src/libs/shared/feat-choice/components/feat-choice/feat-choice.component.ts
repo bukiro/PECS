@@ -20,7 +20,6 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -140,7 +139,6 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
     private readonly _showArchetypeFeats$ = new BehaviorSubject(this._showArchetypeFeats);
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _traitsDataService: TraitsDataService,
@@ -525,8 +523,6 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
                     } else {
                         areAnyLockedFeatsIllegal = true;
                     }
-
-                    this._refreshService.processPreparedChanges();
                 }
             }
         });

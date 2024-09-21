@@ -47,7 +47,6 @@
                 triggers="hover"
                 [ngbTooltip]="'Activate any effects of this trait.'"
                 [(ngModel)]="activation.active"
-                (ngModelChange)="onActivateEffect()"
             />
 
             @if (trait.extraActivations > 0) {
@@ -59,7 +58,6 @@
                         'Activate the second level of this trait\'s effects.'
                     "
                     [(ngModel)]="activation.active2"
-                    (ngModelChange)="onActivateEffect()"
                 />
             }
 
@@ -72,7 +70,6 @@
                         'Activate the third level of this trait\'s effects.'
                     "
                     [(ngModel)]="activation.active3"
-                    (ngModelChange)="onActivateEffect()"
                 />
             }
         }

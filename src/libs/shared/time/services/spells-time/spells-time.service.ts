@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs';
 import { Spell } from 'src/app/classes/spells/spell';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 
 @Injectable({
@@ -17,7 +15,6 @@ import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells
 export class SpellsTimeService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
@@ -61,10 +58,8 @@ export class SpellsTimeService {
                     .forEach(casting => {
                         casting.spellChoices.filter(choice => choice.source === 'Feat: Occult Evolution').forEach(choice => {
                             choice.spells.length = 0;
-                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
                         });
                     });
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
             });
     }
 
@@ -87,7 +82,6 @@ export class SpellsTimeService {
                             taken.gain.chargesUsed = 0;
                         }
                     });
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
             });
     }
 
@@ -120,8 +114,6 @@ export class SpellsTimeService {
                                 }
                             }
                         }
-
-                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
 
                         if (taken.gain.activeCooldown) {
                             taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - turns, 0);

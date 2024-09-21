@@ -7,8 +7,6 @@ export class OnChangeArray<T> extends Array<T> {
         super(...values);
 
         this.values$ = new BehaviorSubject<Array<T>>([...this]);
-
-        this.onChange();
     }
 
     public override get length(): number {

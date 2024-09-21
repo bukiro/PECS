@@ -9,17 +9,14 @@ import { Spell } from 'src/app/classes/spells/spell';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { SpellTarget } from 'src/app/classes/spells/spell-target';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
 import { conditionFilter } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
 import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
@@ -31,9 +28,7 @@ import { emptySafeZip, propMap$ } from 'src/libs/shared/util/observable-utils';
 export class SpellProcessingService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _creatureEffectsService: CreatureEffectsService,
@@ -75,7 +70,6 @@ export class SpellProcessingService {
                     if (activated && context.choice?.cooldown && !context.gain.activeCooldown) {
                         //Start cooldown if the choice has a cooldown and there isn't one running already.
                         context.gain.activeCooldown = context.choice.cooldown;
-                        this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
                     }
 
                     if (context.choice?.charges) {
@@ -163,11 +157,6 @@ export class SpellProcessingService {
             .subscribe(conditionsToRemove => {
                 //All Conditions that have affected the duration of this spell or its conditions are now removed.
                 this._psp.spellActivityProcessingSharedService?.removeConditionsToRemove(conditionsToRemove, context);
-
-                //The Heal Spell from the Divine Font should update effects, because Channeled Succor depends on it.
-                if (spell.name === 'Heal' && context.choice?.source === 'Divine Font') {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-                }
             });
     }
 

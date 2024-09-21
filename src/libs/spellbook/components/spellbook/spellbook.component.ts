@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
@@ -8,8 +8,7 @@ import { TimeService } from 'src/libs/shared/time/services/time/time.service';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Feat } from 'src/libs/shared/definitions/models/feat';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { combineLatest, distinctUntilChanged, map, Observable, of, Subscription, switchMap, take } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, Observable, of, switchMap, take } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { SpellLevels } from 'src/libs/shared/definitions/spell-levels';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
@@ -141,7 +140,7 @@ interface SpellSet {
         GridIconComponent,
     ],
 })
-export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
+export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     public creatureTypes = CreatureTypes;
 
@@ -155,14 +154,9 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
     private _showSpell = '';
     private _showList = '';
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     private readonly _character$ = CreatureService.character$;
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _spellPropertiesService: SpellPropertiesService,
         private readonly _timeService: TimeService,
@@ -670,7 +664,6 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                                             character,
                                             conditionGain,
                                             {},
-                                            { noReload: true },
                                         );
                                     }
                                 }
@@ -712,15 +705,11 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                         );
                     }
                 }
-
-                this._refreshService.processPreparedChanges();
             });
     }
 
     public onRestoreSpellFromBondedItem(gain: SpellGain, casting: SpellCasting, level: number): void {
         const character = CreatureService.character;
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
 
         if (this._characterHasFeat$('Linked Focus')) {
             this._onceEffectsService.processOnceEffect(
@@ -759,34 +748,11 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                 }
 
                 gain.prepared = true;
-                this._refreshService.processPreparedChanges();
             });
     }
 
     public onReprepareSpell(gain: SpellGain): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
         gain.prepared = true;
-        this._refreshService.processPreparedChanges();
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['spellbook', 'all', 'character'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() === 'character' && ['spellbook', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
     }
 
     // eslint-disable-next-line complexity
@@ -819,9 +785,6 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                     if (divineFontSpell) {
                         divineFontSpell.gain.prepared = false;
                     }
-
-                    //Update effects because Channeled Succor gets disabled after you expend all your divine font heal spells.
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
                 });
         } else if (context.spellParameters.choice.cooldown) {
             //Spells with a cooldown don't use any resources. They will start their cooldown in spell processing.

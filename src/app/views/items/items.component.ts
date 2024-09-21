@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
-import { Component, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, distinctUntilChanged, shareReplay, map, switchMap, of, delay, combineLatest } from 'rxjs';
+import { Observable, distinctUntilChanged, shareReplay, map, switchMap, of, delay, combineLatest } from 'rxjs';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { FormulaLearned } from 'src/app/classes/creatures/character/formula-learned';
 import { ItemPropertyConfiguration } from 'src/app/classes/item-creation/item-property-configuration';
@@ -43,7 +43,6 @@ import { ItemInitializationService } from 'src/libs/shared/services/item-initial
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ScrollSavantService } from 'src/libs/shared/services/scroll-savant/scroll-savant.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
@@ -142,15 +141,10 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
     private _showItem = '';
     private _purpose: PurposeOption = 'items';
 
-    private readonly _changeSubscription?: Subscription;
-    private readonly _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _itemPropertiesDataService: ItemPropertiesDataService,
         private readonly _itemInitializationService: ItemInitializationService,
-        private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
@@ -161,7 +155,6 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _currencyService: CurrencyService,
-        private readonly _recastService: RecastService,
         private readonly _scrollSavantService: ScrollSavantService,
         private readonly _store$: Store,
     ) {
@@ -873,12 +866,8 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
         return of(undefined);
     }
 
-    private _changeCash(multiplier: 1 | -1 = 1, sum = 0, changeafter = false): void {
+    private _changeCash(multiplier: 1 | -1 = 1, sum = 0): void {
         this._currencyService.addCash(multiplier, sum);
-
-        if (changeafter) {
-            this._refreshService.setComponentChanged('inventory');
-        }
     }
 
     private _canLearnFormulaWithAlchemicalCrafting(item: Item, availableForLearningParameters: AvailableForLearningParameters): boolean {

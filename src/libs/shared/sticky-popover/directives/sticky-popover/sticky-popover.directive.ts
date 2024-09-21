@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
     selector: '[stickyPopover]',
@@ -31,18 +31,24 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     @Input()
     public ignorePopoverKeepalive = false;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _refreshService: RefreshService) {
+        refreshService: RefreshService,
+    ) {
         super();
+
+        refreshService.closePopovers$
+            .pipe(
+                takeUntilDestroyed(),
+            ).subscribe(() => {
+                if (super.isOpen()) {
+                    super.close();
+                }
+            });
     }
 
     public ngOnInit(): void {
         super.ngOnInit();
         this.ngbPopover = this.stickyPopover;
-        this._subscribeToChanges();
     }
 
     public close(): void {
@@ -55,34 +61,6 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
         } else {
             super.close();
         }
-    }
-
-    public ngOnDestroy(): void {
-        if (!super.isOpen()) {
-            this._unsubscribe();
-        }
-
-        super.ngOnDestroy();
-    }
-
-    private _subscribeToChanges(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (target === 'close-popovers' && super.isOpen()) {
-                    super.close();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.target === 'close-popovers' && super.isOpen()) {
-                    super.close();
-                }
-            });
-    }
-
-    private _unsubscribe(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
 }

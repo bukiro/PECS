@@ -159,7 +159,6 @@
                     triggers="hover"
                     [ngbTooltip]="'Activate any effects of this hint.'"
                     [(ngModel)]="hint.active"
-                    (ngModelChange)="onActivateEffect()"
                 />
                 @if (hint.extraActivations > 0) {
                     <input
@@ -170,7 +169,6 @@
                             'Activate the second level of this hint\'s effects.'
                         "
                         [(ngModel)]="hint.active2"
-                        (ngModelChange)="onActivateEffect()"
                     />
                 }
                 @if (hint.extraActivations > 1) {
@@ -182,7 +180,6 @@
                             'Activate the third level of this hint\'s effects.'
                         "
                         [(ngModel)]="hint.active3"
-                        (ngModelChange)="onActivateEffect()"
                     />
                 }
                 @if (hint.extraActivations > 2) {
@@ -194,7 +191,6 @@
                             'Activate the fourth level of this hint\'s effects.'
                         "
                         [(ngModel)]="hint.active4"
-                        (ngModelChange)="onActivateEffect()"
                     />
                 }
                 @if (hint.extraActivations > 3) {
@@ -206,7 +202,6 @@
                             'Activate the fifth level of this hint\'s effects.'
                         "
                         [(ngModel)]="hint.active5"
-                        (ngModelChange)="onActivateEffect()"
                     />
                 }
             }

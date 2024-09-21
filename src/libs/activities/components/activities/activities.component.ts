@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
-import { Observable, Subscription, switchMap, distinctUntilChanged, shareReplay, combineLatest, map, of } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Observable, switchMap, distinctUntilChanged, shareReplay, combineLatest, map, of } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
@@ -13,7 +13,6 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
@@ -72,7 +71,7 @@ interface ActivityParameter {
         FeatChoiceComponent,
     ],
 })
-export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
+export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     public isMinimized$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
@@ -81,12 +80,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
     private _showItem = '';
     private _showFeatChoice = '';
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
@@ -233,29 +227,6 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
         }
 
         return choices;
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (target === 'activities' || target === 'all' || target.toLowerCase() === this.creature.type.toLowerCase()) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    view.creature.toLowerCase() === this.creature.type.toLowerCase() &&
-                    ['activities', 'all'].includes(view.target.toLowerCase())
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _toggleShownItem(name: string): void {

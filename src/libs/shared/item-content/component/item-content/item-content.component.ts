@@ -1,15 +1,13 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
-import { Subscription, Observable, map, of, combineLatest } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Observable, map, of, combineLatest } from 'rxjs';
 import { LanguageGain } from 'src/app/classes/creatures/character/language-gain';
 import { AlchemicalElixir } from 'src/app/classes/items/alchemical-elixir';
 import { AlchemicalPoison } from 'src/app/classes/items/alchemical-poison';
 import { Item } from 'src/app/classes/items/item';
 import { ItemRoles } from 'src/app/classes/items/item-roles';
 import { WornItem } from 'src/app/classes/items/worn-item';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -46,17 +44,12 @@ interface ComparedStringValue {
         DescriptionComponent,
     ],
 })
-export class ItemContentComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class ItemContentComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public item!: Item;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _itemPriceService: ItemPriceService,
     ) {
@@ -331,11 +324,6 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) implements OnI
         }
     }
 
-    public onUpdateLanguage(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-        this._refreshService.processPreparedChanges();
-    }
-
     public doesItemHaveShownData(): boolean {
         return this.item.data?.some(data => data.show);
     }
@@ -346,28 +334,6 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) implements OnI
 
     public asAlchemicalPoison(): AlchemicalPoison | undefined {
         return this.item.isAlchemicalPoison() ? this.item : undefined;
-    }
-
-    public ngOnInit(): void {
-        if (this.item.id) {
-            this._changeSubscription = this._refreshService.componentChanged$
-                .subscribe(target => {
-                    if (target === this.item.id) {
-                        this._changeDetector.detectChanges();
-                    }
-                });
-            this._viewChangeSubscription = this._refreshService.detailChanged$
-                .subscribe(view => {
-                    if (view.target === this.item.id) {
-                        this._changeDetector.detectChanges();
-                    }
-                });
-        }
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _bulkDifference(item: Item, effectiveBulk: string): number {

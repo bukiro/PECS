@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, switchMap, distinctUntilChanged, shareReplay, combineLatest, map, of } from 'rxjs';
+import { Observable, switchMap, distinctUntilChanged, shareReplay, combineLatest, map, of } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
 import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
@@ -15,7 +15,6 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
@@ -60,7 +59,7 @@ interface SpeedParameters {
         SkillChoiceComponent,
     ],
 })
-export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
+export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     public character$ = CreatureService.character$;
 
@@ -70,12 +69,7 @@ export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) 
     private _showList = '';
     private _showAction = '';
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
@@ -338,29 +332,6 @@ export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) 
 
                 return '';
         }
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['skills', 'alls', this.creature.type.toLowerCase()].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    view.creature.toLowerCase() === this.creature.type.toLowerCase()
-                    && ['skills', 'all'].includes(view.target.toLowerCase())
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
     }
 
 }

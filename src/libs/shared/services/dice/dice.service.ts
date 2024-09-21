@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DiceResult } from 'src/app/classes/dice/dice-result';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { MenuNames } from 'src/libs/shared/definitions/menu-names';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { setTopMenu } from 'src/libs/store/menu/menu.actions';
 import { Store } from '@ngrx/store';
 
@@ -14,7 +12,6 @@ export class DiceService {
     private readonly _diceResults: Array<DiceResult> = [];
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _store$: Store,
     ) { }
 
@@ -62,10 +59,6 @@ export class DiceService {
         this._diceResults.unshift(diceResult);
 
         this._store$.dispatch(setTopMenu({ menu: MenuNames.DiceMenu }));
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'dice');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'character-sheet');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
     }
 
     public unselectAll(): void {

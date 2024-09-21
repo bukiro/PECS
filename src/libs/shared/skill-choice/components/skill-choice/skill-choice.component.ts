@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
-import { Subscription, Observable, map, switchMap, combineLatest, of } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Observable, map, switchMap, combineLatest, of } from 'rxjs';
 import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Skill } from 'src/app/classes/skills/skill';
@@ -9,7 +9,6 @@ import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/ski
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { abilityModFromAbilityValue } from 'src/libs/shared/util/ability-base-value-utils';
@@ -54,7 +53,7 @@ interface SkillParameters {
         GridIconComponent,
     ],
 })
-export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class SkillChoiceComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public choice!: SkillChoice;
@@ -75,13 +74,8 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
 
     public areAnyIncreasesIllegal = false;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _abilityValuesService: AbilityValuesService,
-        private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _skillsDataService: SkillsDataService,
@@ -302,7 +296,6 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         ) { this.toggleShownList(); }
 
         this._characterSkillIncreaseService.increaseSkill(skillName, hasBeenIncreased, choice, locked);
-        this._refreshService.processPreparedChanges();
     }
 
     public removeBonusSkillChoice(choice: SkillChoice): void {
@@ -313,31 +306,6 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
         this.character.classLevelFromNumber(this.choice.insertLevel || this.levelNumber)?.removeSkillChoice(choice);
 
         this.toggleShownList();
-        this._refreshService.processPreparedChanges();
-    }
-
-    public ngOnInit(): void {
-        if (!this.levelNumber) {
-            this.levelNumber = this.character.level;
-        }
-
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['skillchoices', 'all', 'character'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() === 'character' && ['skillchoices', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _skills$(
@@ -431,7 +399,6 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) implements OnI
             if (!this._skillValuesService.isSkillLegal$(increase.name, this.character, levelNumber, this.choice.maxRank)) {
                 if (!increase.locked) {
                     this._characterSkillIncreaseService.increaseSkill(increase.name, false, this.choice, increase.locked);
-                    this._refreshService.processPreparedChanges();
                 } else {
                     areAnyLockedIncreasesIllegal = true;
                 }

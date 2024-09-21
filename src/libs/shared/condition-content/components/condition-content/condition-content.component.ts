@@ -1,13 +1,10 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Condition } from 'src/app/classes/conditions/condition';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
@@ -26,7 +23,7 @@ import { CommonModule } from '@angular/common';
         DescriptionComponent,
     ],
 })
-export class ConditionContentComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class ConditionContentComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public conditionGain?: ConditionGain;
@@ -40,16 +37,6 @@ export class ConditionContentComponent extends TrackByMixin(BaseClass) implement
     public fullDisplay = false;
     @Output()
     public readonly showItemMessage = new EventEmitter<string>();
-
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
-    constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
-    ) {
-        super();
-    }
 
     public toggleShownItem(name: string): void {
         this.showItem = this.showItem === name ? '' : name;
@@ -67,29 +54,6 @@ export class ConditionContentComponent extends TrackByMixin(BaseClass) implement
         } else {
             return this.condition.heightenedText(this.condition.desc, this.condition.minLevel);
         }
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (stringsIncludeCaseInsensitive(['effects', 'all', this.creature.type], target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    stringEqualsCaseInsensitive(view.creature, this.creature.type)
-                    && stringsIncludeCaseInsensitive(['effects', 'all'], view.target)
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
 }

@@ -14,7 +14,6 @@ import { CreatureEffectsService } from '../creature-effects/creature-effects.ser
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 import { CreatureService } from '../creature/creature.service';
 import { RecastService } from '../recast/recast.service';
-import { RefreshService } from '../refresh/refresh.service';
 import { CreatureConditionRemovalService } from '../creature-conditions/creature-condition-removal.service';
 import { filterConditions } from '../creature-conditions/condition-filter-utils';
 
@@ -50,7 +49,6 @@ export class ArmorClassService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
-        private readonly _refreshService: RefreshService,
     ) { }
 
     public setCover(
@@ -119,10 +117,8 @@ export class ArmorClassService {
                     RecastService.recastFns,
                 );
 
-            this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
+            this._creatureConditionsService.addCondition(creature, newCondition, {});
         }
-
-        this._refreshService.processPreparedChanges();
     }
     public collectForDisplay(
         creature: Creature,

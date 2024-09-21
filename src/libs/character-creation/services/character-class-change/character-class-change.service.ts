@@ -6,7 +6,6 @@ import { CreatureService } from 'src/libs/shared/services/creature/creature.serv
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { resetFeats } from 'src/libs/store/feats/feats.actions';
 import { CharacterAncestryChangeService } from '../character-ancestry-change/character-ancestry-change.service';
 import { CharacterBackgroundChangeService } from '../character-background-change/character-background-change.service';
@@ -17,7 +16,6 @@ import { CharacterBackgroundChangeService } from '../character-background-change
 export class CharacterClassChangeService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
         private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
         private readonly _itemGrantingService: ItemGrantingService,
@@ -40,8 +38,6 @@ export class CharacterClassChangeService {
         } else {
             character.class = new CharacterClass();
         }
-
-        this._refreshService.setComponentChanged();
     }
 
     private _processRemovingOldClass(): void {

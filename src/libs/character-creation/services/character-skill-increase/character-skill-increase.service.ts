@@ -1,13 +1,11 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { SkillChoice } from 'src/app/classes/character-creation/skill-choice';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
 import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { safeParseInt } from 'src/libs/shared/util/string-utils';
 
 @Injectable({
@@ -16,7 +14,6 @@ import { safeParseInt } from 'src/libs/shared/util/string-utils';
 export class CharacterSkillIncreaseService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _featsDataService: FeatsDataService,
     ) { }
@@ -53,8 +50,6 @@ export class CharacterSkillIncreaseService {
         } else {
             this._processSkillIncreaseLost(skillName, choice, levelNumber);
         }
-
-        this._prepareChangesFromSkillIncrease(skillName);
     }
 
     private _processSkillIncreaseTaken(
@@ -231,57 +226,6 @@ export class CharacterSkillIncreaseService {
                     casting.tradition = '';
                 });
             }
-        }
-    }
-
-    private _prepareChangesFromSkillIncrease(skillName: string): void {
-        const character = CreatureService.character;
-
-        //Set components to update according to the skill type.
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualskills', skillName);
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skillchoices', skillName);
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skillchoices');
-
-        //Some effects depend on skill levels, so we refresh effects when changing skills.
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-
-        switch (this._skillsDataService.skills(character.customSkills, skillName)[0]?.type) {
-            case 'Skill':
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
-                break;
-            case 'Perception':
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
-                break;
-            case 'Save':
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-                break;
-            case 'Armor Proficiency':
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-                break;
-            case 'Weapon Proficiency':
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-                break;
-            case 'Specific Weapon Proficiency':
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-                break;
-            case 'Spell DC':
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-                break;
-            case 'Class DC':
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-                break;
-            default: break;
-        }
-
-        //Set components to update according to the skill name.
-        switch (skillName) {
-            case 'Crafting':
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'crafting');
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-                break;
-            default: break;
         }
     }
 

@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
-import { BehaviorSubject, Subscription, Observable, of, combineLatest, map } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { BehaviorSubject, Observable, of, combineLatest, map } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
@@ -16,7 +16,7 @@ import { DurationsService } from 'src/libs/shared/time/services/durations/durati
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
 import { StickyPopoverDirective } from '../../../sticky-popover/directives/sticky-popover/sticky-popover.directive';
 import { ActivityComponent } from '../../../activity/components/activity/activity.component';
@@ -59,7 +59,7 @@ interface ActivityParameters {
         GridIconComponent,
     ],
 })
-export class ConditionComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class ConditionComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public conditionGain?: ConditionGain;
@@ -78,11 +78,7 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
 
     private _creature: Creature = CreatureService.character;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
@@ -120,17 +116,11 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
     public setConditionDuration(gain: ConditionGain, turns: number): void {
         gain.duration = turns;
         gain.maxDuration = gain.duration;
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
-        this._updateCondition();
     }
 
     public incConditionDuration(gain: ConditionGain, turns: number): void {
         gain.duration += turns;
         gain.maxDuration = gain.duration;
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
-        this._updateCondition();
     }
 
     public setConditionValue(gain: ConditionGain, event: Event): void {
@@ -145,17 +135,15 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
         gain.value += change;
 
         if (gain.name === 'Drained' && change < 0) {
-            //When you lower your drained value, you regain Max HP, but not the lost HP.
-            //Because HP is Max HP - Damage, we increase damage to represent not regaining the HP.
-            //We subtract level*change from damage because change is negative.
+            // When you lower your drained value, you regain Max HP, but not the lost HP.
+            // Because HP is Max HP - Damage, we increase damage to represent not regaining the HP.
+            // We subtract level*change from damage because change is negative.
+            // Changing the damage value directly circumvents any natural side effects, like reducing temporary HP or dying.
             this.creature.health.damage =
                 Math.max(0, (this.creature.health.damage - (this.creature.level * change)));
         }
 
         gain.showValue = false;
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
-        this._updateCondition();
     }
 
     public incConditionRadius(gain: ConditionGain, change: number): void {
@@ -181,8 +169,6 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
             condition,
             oldChoice,
         );
-        this._refreshService.processPreparedChanges();
-        this._updateCondition();
     }
 
     public prepareSelectingOtherConditions(gain: ConditionGain, condition: Condition): Array<OtherConditionSelection> {
@@ -227,19 +213,11 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
             choices,
             change,
         );
-        this._refreshService.processPreparedChanges();
-        this._updateCondition();
-    }
-
-    public changeOtherConditionSelection(): void {
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
-        this._updateCondition();
     }
 
     public removeCondition(conditionGain: ConditionGain): void {
         this._creatureConditionRemovalService.removeSingleConditionGain(conditionGain, this.creature);
-        this._refreshService.setComponentChanged('close-popovers');
+        this._refreshService.closePopovers();
     }
 
     public conditionActivitiesParameters$(): Observable<Array<ActivityParameters>> {
@@ -301,36 +279,6 @@ export class ConditionComponent extends TrackByMixin(BaseClass) implements OnIni
             bonus: !activityParameters.canNotActivate && !activityParameters.isHostile,
         };
         /* eslint-enable @typescript-eslint/naming-convention */
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (stringsIncludeCaseInsensitive(['effects', 'all', this.creature.type], target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    stringEqualsCaseInsensitive(view.creature, this.creature.type)
-                    && stringsIncludeCaseInsensitive(['effects', 'all'], view.target)
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
-    }
-
-    private _updateCondition(): void {
-        //This updates any gridicon that has this condition gain's id set as its update id.
-        if (this.conditionGain?.id) {
-            this._refreshService.setComponentChanged(this.conditionGain.id);
-        }
     }
 
 }

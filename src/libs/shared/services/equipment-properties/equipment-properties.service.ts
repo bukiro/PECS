@@ -108,7 +108,7 @@ export class EquipmentPropertiesService {
                             ),
                     ])),
                 )),
-                switchMap(() => of()),
+                switchMap(() => of(undefined)),
             );
     }
 

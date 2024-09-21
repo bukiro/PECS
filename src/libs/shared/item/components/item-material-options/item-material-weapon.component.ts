@@ -1,7 +1,6 @@
 /* eslint-disable complexity */
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WeaponMaterial } from 'src/app/classes/items/weapon-material';
 import { Material } from 'src/app/classes/items/material';
@@ -69,7 +68,6 @@ export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) impleme
     private _item!: Weapon;
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _itemMaterialsDataService: ItemMaterialsDataService,
         private readonly _skillValuesService: SkillValuesService,
     ) {
@@ -227,8 +225,6 @@ export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) impleme
         }
 
         this._setMaterialNames();
-        this._refreshService.processPreparedChanges();
-        this._updateItem();
     }
 
     public materialTitle(material: Material): string | undefined {
@@ -273,10 +269,6 @@ export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) impleme
                 : [
                     { material: new WeaponMaterial() },
                 ];
-    }
-
-    private _updateItem(): void {
-        this._refreshService.setComponentChanged(this.item.id);
     }
 
 }

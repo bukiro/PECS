@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/creatures/creature';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CustomEffectsTimeService {
-
-    constructor(
-        private readonly _refreshService: RefreshService,
-    ) { }
 
     public tickCustomEffects(creature: Creature, turns: number): void {
         //Tick down all custom effects and set them to remove when they expire.
@@ -20,8 +15,6 @@ export class CustomEffectsTimeService {
             if (gain.duration <= 0) {
                 gain.affected = 'DELETE';
             }
-
-            this._refreshService.prepareDetailToChange(creature.type, 'effects');
         });
         //Remove all effects that were marked for removal.
         creature.effects = creature.effects.filter(gain => gain.affected !== 'DELETE');

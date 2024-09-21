@@ -18,7 +18,7 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { ItemSpecializationsDataService } from 'src/libs/shared/services/data/item-specializations-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-uils';
+import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-utils';
 import { strikingTitleFromLevel } from 'src/libs/shared/util/rune-utils';
 import { skillLevelName } from 'src/libs/shared/util/skill-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
@@ -349,7 +349,7 @@ export class DamageService {
                     ])
                         .pipe(
                             map(([absolutes, relatives]) => {
-                                const effectBonuses = new Array<BonusDescription>();
+                                let effectBonuses = new Array<BonusDescription>();
                                 let result = diceNum;
 
                                 const reducedAbsolutes =
@@ -364,7 +364,7 @@ export class DamageService {
                                 reducedAbsolutes
                                     .forEach(effect => {
                                         result = effect.setValueNumerical;
-                                        addBonusDescriptionFromEffect(effectBonuses, effect, 'Dice number');
+                                        effectBonuses = addBonusDescriptionFromEffect(effectBonuses, effect, 'Dice number');
                                     });
 
                                 const reducedRelatives =
@@ -379,7 +379,7 @@ export class DamageService {
 
                                 reducedRelatives.forEach(effect => {
                                     result += effect.valueNumerical;
-                                    addBonusDescriptionFromEffect(effectBonuses, effect, 'Dice number');
+                                    effectBonuses = addBonusDescriptionFromEffect(effectBonuses, effect, 'Dice number');
                                 });
 
                                 const bonuses =
@@ -414,17 +414,17 @@ export class DamageService {
             .pipe(
                 map(([absolutes, relatives]) => {
                     let result = 1;
-                    const bonuses = new Array<BonusDescription>();
+                    let bonuses = new Array<BonusDescription>();
 
                     absolutes
                         .forEach(effect => {
                             result = effect.setValueNumerical;
-                            addBonusDescriptionFromEffect(bonuses, effect, 'Dice number multiplier');
+                            bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Dice number multiplier');
                         });
                     relatives
                         .forEach(effect => {
                             result += effect.valueNumerical;
-                            addBonusDescriptionFromEffect(bonuses, effect, 'Dice number multiplier');
+                            bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Dice number multiplier');
                         });
 
                     const effects =
@@ -545,7 +545,7 @@ export class DamageService {
                         .pipe(
                             map(([absolutes, relatives]) => {
                                 let result = weaponDiceSize;
-                                const bonuses = new Array<BonusDescription>();
+                                let bonuses = new Array<BonusDescription>();
 
                                 const reducedAbsolutes =
                                     this._creatureEffectsService.reduceAbsolutes(
@@ -558,7 +558,7 @@ export class DamageService {
 
                                 reducedAbsolutes.forEach(effect => {
                                     result = effect.setValueNumerical;
-                                    addBonusDescriptionFromEffect(bonuses, effect, 'Dice size');
+                                    bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Dice size');
                                 });
 
                                 const reducedRelatives =
@@ -574,7 +574,7 @@ export class DamageService {
                                         result += effect.valueNumerical;
                                         //Don't raise dice size over 12.
                                         result = Math.min(DiceSizes.D12, result);
-                                        addBonusDescriptionFromEffect(bonuses, effect, 'Dice size');
+                                        bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Dice size');
                                     });
 
                                 const effects =
@@ -708,12 +708,12 @@ export class DamageService {
                         .pipe(
                             map(([absolutes, relatives]) => {
                                 let result = 0;
-                                const bonuses = new Array<BonusDescription>();
+                                let bonuses = new Array<BonusDescription>();
 
                                 absolutes
                                     .forEach(effect => {
                                         result = effect.setValueNumerical;
-                                        addBonusDescriptionFromEffect(bonuses, effect, 'Bonus damage');
+                                        bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Bonus damage');
                                     });
 
                                 const allRelatives =
@@ -731,7 +731,7 @@ export class DamageService {
                                 allRelatives
                                     .forEach(effect => {
                                         result += effect.valueNumerical;
-                                        addBonusDescriptionFromEffect(bonuses, effect, 'Bonus Damage');
+                                        bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Bonus Damage');
                                     });
 
                                 const effects: Array<Effect> = [

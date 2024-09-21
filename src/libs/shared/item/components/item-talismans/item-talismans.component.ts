@@ -2,20 +2,16 @@
 import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Character } from 'src/app/classes/creatures/character/character';
-import { Armor } from 'src/app/classes/items/armor';
 import { Equipment } from 'src/app/classes/items/equipment';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
-import { Shield } from 'src/app/classes/items/shield';
 import { Talisman } from 'src/app/classes/items/talisman';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { priceTextFromCopper } from 'src/libs/shared/util/currency-utils';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
@@ -50,11 +46,9 @@ export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements O
     public newTalisman!: Array<TalismanOption>;
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _inventoryService: InventoryService,
-        private readonly _recastService: RecastService,
     ) {
         super();
     }
@@ -182,19 +176,7 @@ export class ItemTalismansComponent extends TrackByMixin(BaseClass) implements O
             }
         }
 
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-
-        if (this.item instanceof Weapon) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-        }
-
-        if (this.item instanceof Armor || this.item instanceof Shield || this.item instanceof WornItem) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-        }
-
         this._setTalismanNames();
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, this.item.id);
-        this._refreshService.processPreparedChanges();
     }
 
     public talismanTitle(talisman: Talisman, talismanCordCompatible: boolean): string {

@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, distinctUntilChanged, shareReplay, map, switchMap, of, delay, combineLatest, zip, take } from 'rxjs';
+import { Observable, distinctUntilChanged, shareReplay, map, switchMap, of, delay, combineLatest, zip, take } from 'rxjs';
 import { Ability } from 'src/app/classes/abilities/ability';
 import { Activity } from 'src/app/classes/activities/activity';
 import { Condition } from 'src/app/classes/conditions/condition';
@@ -32,7 +32,6 @@ import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.servi
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { SkillsDataService } from 'src/libs/shared/services/data/skills-data.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { DurationsService } from 'src/libs/shared/time/services/durations/durations.service';
 import { TurnService } from 'src/libs/shared/time/services/turn/turn.service';
@@ -75,7 +74,7 @@ interface ConditionType {
         EffectsComponent,
     ],
 })
-export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class ConditionsComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public show = false;
@@ -123,12 +122,8 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
     private _showItem = '';
     private _showCreature: CreatureTypes = CreatureTypes.Character;
     private _showPurpose: 'conditions' | 'customeffects' = 'conditions';
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
@@ -514,15 +509,6 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
 
     public onRemoveEffect(creature: Creature, effect: EffectGain): void {
         creature.effects.splice(creature.effects.indexOf(effect), 1);
-        this._refreshService.prepareDetailToChange(creature.type, 'effects');
-        this._refreshService.prepareDetailToChange(creature.type, 'conditions');
-        this._refreshService.processPreparedChanges();
-    }
-
-    public refreshEffects(creature: Creature): void {
-        this._refreshService.prepareDetailToChange(creature.type, 'effects');
-        this._refreshService.prepareDetailToChange(creature.type, 'conditions');
-        this._refreshService.processPreparedChanges();
     }
 
     public objectPropertyAccessor(key: keyof EffectGain): ObjectPropertyAccessor<EffectGain> {
@@ -533,8 +519,6 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
         if (this.isValueFormula(effect.value)) {
             effect.value = '0';
         }
-
-        this.refreshEffects(creature);
     }
 
     public validateAdvancedEffect(propertyData: ItemPropertyConfiguration<EffectGain>, index: number): void {
@@ -760,26 +744,6 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) implements OnIn
 
     public bonusTypes(): Array<string> {
         return Object.values(BonusTypes).map(type => type === BonusTypes.Untyped ? '' : type);
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['conditions', 'all'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() === 'character' && ['conditions', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _cleanItems(): ItemCollection {

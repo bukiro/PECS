@@ -1,23 +1,24 @@
-/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, switchMap, map, of, take, distinctUntilChanged, tap, zip, filter } from 'rxjs';
+import { Observable, combineLatest, switchMap, map, of, distinctUntilChanged, tap, firstValueFrom } from 'rxjs';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { abilityModFromAbilityValue } from '../../util/ability-base-value-utils';
-import { emptySafeCombineLatest, propMap$ } from '../../util/observable-utils';
+import { propMap$ } from '../../util/observable-utils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { RecastService } from '../recast/recast.service';
-import { RefreshService } from '../refresh/refresh.service';
 import { SettingsService } from '../settings/settings.service';
 import { CreatureConditionRemovalService } from '../creature-conditions/creature-condition-removal.service';
 import { Defaults } from '../../definitions/defaults';
 import { AppliedCreatureConditionsService } from '../creature-conditions/applied-creature-conditions.service';
 import { filterConditions } from '../creature-conditions/condition-filter-utils';
 import { cachedObservable } from '../../util/cache-utils';
+import { TemporaryHP } from 'src/app/classes/creatures/temporary-hp';
+import { applyEffectsToValue } from '../../util/effect.utils';
+import { BonusDescription } from '../../definitions/bonuses/bonus-description';
 
 @Injectable({
     providedIn: 'root',
@@ -25,26 +26,26 @@ import { cachedObservable } from '../../util/cache-utils';
 export class HealthService {
 
     private readonly _cache = {
-        maxHP: new Map<string, Observable<{ result: number; explain: string }>>(),
-        currentHP: new Map<string, Observable<{ result: number; explain: string }>>(),
+        maxHP: new Map<string, Observable<{ result: number; bonuses: Array<BonusDescription> }>>(),
+        currentHP: new Map<string, Observable<{ result: number; bonuses: Array<BonusDescription> }>>(),
         wounded: new Map<string, Observable<number>>(),
         dying: new Map<string, Observable<number>>(),
-        maxDying: new Map<string, Observable<number>>(),
+        maxDying: new Map<string, Observable<{ result: number; bonuses: Array<BonusDescription> }>>(),
     };
 
     constructor(
         private readonly _creatureEffectsService: CreatureEffectsService,
-        private readonly _refreshService: RefreshService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
-        this._keepCreatureDyingUpdated();
+        this._watchCreatureDying();
+        this._keepCreatureHealthAboveNegative();
     }
 
-    public maxHP$(creature: Creature): Observable<{ result: number; explain: string }> {
+    public maxHP$(creature: Creature): Observable<{ result: number; bonuses: Array<BonusDescription> }> {
         return cachedObservable(
             combineLatest([
                 CharacterFlatteningService.characterLevel$,
@@ -68,55 +69,40 @@ export class HealthService {
                     map(({ charLevel, absolutes, relatives, conValue }) => {
                         const conModifier = abilityModFromAbilityValue(conValue);
                         const baseHP = creature.baseHP(charLevel, conModifier);
-                        let effectsSum = 0;
 
-                        absolutes
-                            .forEach(effect => {
-                                effectsSum = effect.setValueNumerical;
-                                baseHP.explain = `${ effect.source }: ${ effect.setValue }`;
-                            });
-                        relatives.forEach(effect => {
-                            effectsSum += effect.valueNumerical;
-                            baseHP.explain += `\n${ effect.source }: ${ effect.value }`;
-                        });
-                        baseHP.result = Math.max(0, baseHP.result + effectsSum);
-                        baseHP.explain = baseHP.explain.trim();
+                        const { result, bonuses } =
+                            applyEffectsToValue(baseHP.result, { absoluteEffects: absolutes, relativeEffects: relatives });
 
-                        return baseHP;
+                        return { result: Math.max(0, result), bonuses };
                     }),
                 ),
             { store: this._cache.maxHP, key: creature.id },
         );
     }
 
-    public currentHP$(creature: Creature): Observable<{ result: number; explain: string }> {
-        const health = creature.health;
-
+    public currentHP$(creature: Creature): Observable<{ result: number; bonuses: Array<BonusDescription> }> {
         return cachedObservable(
-            this.maxHP$(creature)
+            combineLatest([
+                this.maxHP$(creature),
+                propMap$(creature.health.mainTemporaryHP$, 'amount$'),
+                creature.health.damage$,
+            ])
+
                 .pipe(
-                    map(maxHP => {
-                        const tempHP = health.mainTemporaryHP;
+                    map(([maxHP, tempHPAmount, damage]) => {
+                        const bonuses: Array<BonusDescription> = [{ title: 'Max HP', value: `${ maxHP.result }` }];
 
-                        let sum = maxHP.result + tempHP.amount - health.damage;
-                        let explain = `Max HP: ${ maxHP.result }`;
-
-                        if (tempHP.amount) {
-                            explain += `\nTemporary HP: ${ tempHP.amount }`;
+                        if (tempHPAmount) {
+                            bonuses.push({ title: 'Temporary HP', value: `${ tempHPAmount }` });
                         }
 
-                        //You can never get under 0 HP. If you do (because you just took damage), that gets corrected here,
-                        // and the health component gets reloaded in case we need to process new conditions.
-                        if (sum < 0) {
-                            health.damage = Math.max(0, health.damage + sum);
-                            sum = 0;
-                            this._refreshService.prepareDetailToChange(creature.type, 'health');
-                            this._refreshService.processPreparedChanges();
+                        if (damage) {
+                            bonuses.push({ title: 'Damage taken', value: `${ damage }` });
                         }
 
-                        explain += `\nDamage taken: ${ health.damage }`;
+                        const sum = maxHP.result + tempHPAmount - damage;
 
-                        return { result: sum, explain };
+                        return { result: Math.max(sum, 0), bonuses };
                     }),
                 ),
             { store: this._cache.currentHP, key: creature.id },
@@ -131,6 +117,7 @@ export class HealthService {
                         let woundeds = 0;
 
                         if (conditions.length) {
+                            // If multiple wounded conditions exist, the highest value counts.
                             woundeds = Math.max(...conditions.map(({ gain }) => gain.value));
                         }
 
@@ -146,52 +133,40 @@ export class HealthService {
             this._appliedCreatureConditionsService.appliedCreatureConditions$(creature, { name: 'Dying' })
                 .pipe(
                     map(conditions => {
-                        let woundeds = 0;
+                        let dyings = 0;
 
                         if (conditions.length) {
-                            woundeds = Math.max(...conditions.map(({ gain }) => gain.value));
+                            // If multiple dying conditions exist, the highest value counts.
+                            dyings = Math.max(...conditions.map(({ gain }) => gain.value));
                         }
 
-                        return Math.max(woundeds, 0);
+                        return Math.max(dyings, 0);
                     }),
                 ),
             { store: this._cache.dying, key: creature.id },
         );
     }
 
-    public maxDying$(creature: Creature): Observable<number> {
+    public maxDying$(creature: Creature): Observable<{ result: number; bonuses: Array<BonusDescription> }> {
         return cachedObservable(
             combineLatest([
                 this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Max Dying'),
                 this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Max Dying'),
             ])
                 .pipe(
-                    map(([absolutes, relatives]) => {
-                        let effectsSum = Defaults.maxDyingValue;
-
-                        absolutes
-                            .forEach(effect => {
-                                effectsSum = effect.valueNumerical;
-                            });
-                        relatives
-                            .forEach(effect => {
-                                effectsSum += effect.valueNumerical;
-                            });
-
-                        return effectsSum;
-                    }),
+                    map(([absoluteEffects, relativeEffects]) =>
+                        applyEffectsToValue(Defaults.maxDyingValue, { absoluteEffects, relativeEffects }),
+                    ),
                 ),
             { store: this._cache.maxDying, key: creature.id },
         );
     }
 
-    public takeDamage$(
+    public async takeDamage$(
         creature: Creature,
         amount: number,
-        nonlethal = false,
-        wounded?: number,
-        dying?: number,
-    ): Observable<{ dyingAddedAmount: number; hasAddedUnconscious: boolean; hasRemovedUnconscious: boolean }> {
+        { nonlethal }: { nonlethal?: boolean } = {},
+    ): Promise<{ dyingAddedAmount: number; hasAddedUnconscious: boolean; hasRemovedUnconscious: boolean }> {
         const health = creature.health;
 
         const tempHP = health.mainTemporaryHP;
@@ -206,7 +181,7 @@ export class HealthService {
             health.temporaryHP.length = 1;
 
             if (tempHP.amount <= 0) {
-                health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
+                health.temporaryHP = [TemporaryHP.from({ amount: 0, source: '', sourceId: '' })];
             }
 
             const remainingAmount = amount - diff;
@@ -216,143 +191,203 @@ export class HealthService {
             health.damage += amount;
         }
 
-        return zip(
-            this.currentHP$(creature),
-            wounded === undefined
-                ? this.wounded$(creature)
-                : of(wounded),
-            dying === undefined
-                ? this.dying$(creature)
-                : of(dying),
-        )
-            .pipe(
-                take(1),
-                map(([currentHP, currentWounded, currentDying]) => {
-                    const currentHPAmount = currentHP.result;
-                    let dyingAddedAmount = 0;
-                    let hasAddedUnconscious = false;
-                    let hasRemovedUnconscious = false;
+        // Don't process conditions in manual mode.
+        if (SettingsService.settings.manualMode) {
+            return ({ dyingAddedAmount: 0, hasAddedUnconscious: false, hasRemovedUnconscious: false });
+        }
 
-                    // Don't process conditions in manual mode.
-                    if (!SettingsService.settings.manualMode) {
-                        // Then, if you have reached 0 HP with lethal damage, get dying 1+wounded
-                        // Dying and maxDying are compared in the Conditions service when Dying is added
-                        if (!nonlethal && currentHPAmount === 0) {
-                            if (currentDying === 0) {
-                                if (
-                                    !filterConditions(creature.conditions, { name: 'Unconscious', source: '0 Hit Points' })
-                                        .length &&
-                                    !filterConditions(creature.conditions, { name: 'Unconscious', source: 'Dying' })
-                                        .length
-                                ) {
-                                    dyingAddedAmount = currentWounded + 1;
-                                    this._creatureConditionsService.addCondition(
-                                        creature,
-                                        ConditionGain.from(
-                                            { name: 'Dying', value: currentWounded + 1, source: '0 Hit Points' },
-                                            RecastService.recastFns,
-                                        ),
-                                        {},
-                                        { noReload: true },
-                                    );
-                                }
-                            }
-                        }
-
-                        if (nonlethal && currentHPAmount === 0) {
-                            if (
-                                !filterConditions(creature.conditions, { name: 'Unconscious', source: '0 Hit Points' })
-                                    .length &&
-                                !filterConditions(creature.conditions, { name: 'Unconscious', source: 'Dying' })
-                                    .length
-                            ) {
-                                hasAddedUnconscious = true;
-                                this._creatureConditionsService.addCondition(
-                                    creature,
-                                    ConditionGain.from(
-                                        { name: 'Unconscious', source: '0 Hit Points' },
-                                        RecastService.recastFns,
-                                    ),
-                                    {},
-                                    { noReload: true },
-                                );
-                            }
-                        }
-
-                        // Wake up if you are unconscious and take damage (without falling under 1 HP)
-                        if (currentHPAmount > 0) {
-                            filterConditions(creature.conditions, { name: 'Unconscious' })
-                                .forEach(gain => {
-                                    hasRemovedUnconscious = true;
-
-                                    this._creatureConditionRemovalService.removeSingleCondition({ gain }, creature);
-                                });
-                        }
-                    }
-
-                    return { dyingAddedAmount, hasAddedUnconscious, hasRemovedUnconscious };
-                }),
-            );
+        // Handle any condition changes resulting from taking damage.
+        return this._processDamageTriggeredConditions(creature, { nonlethal });
     }
 
-    public heal$(
+    public heal(
         creature: Creature,
         amount: number,
         wake = true,
         increaseWounded = true,
-        dying?: number,
-    ): Observable<{ hasRemovedDying: boolean; hasRemovedUnconscious: boolean }> {
-        const health = creature.health;
-
-        health.damage = Math.max(0, health.damage - amount);
-
+    ): { hasRemovedDying: boolean; hasRemovedUnconscious: boolean } {
         let hasRemovedDying = false;
         let hasRemovedUnconscious = false;
 
-        return zip([
-            this.currentHP$(creature),
-            dying === undefined
-                ? this.dying$(creature)
-                : of(dying),
-        ])
-            .pipe(
-                take(1),
-                map(([currentHP, currentDying]) => {
-                    //Don't process conditions in manual mode.
-                    if (SettingsService.settings.manualMode) {
-                        return { hasRemovedDying, hasRemovedUnconscious };
-                    }
+        const health = creature.health;
 
-                    //Recover from Dying and get Wounded++
-                    if (currentHP.result > 0 && currentDying > 0) {
-                        const dyingConditions = filterConditions(creature.conditions, { name: 'Dying' });
+        if (!amount) {
+            return { hasRemovedDying, hasRemovedUnconscious };
+        }
 
-                        hasRemovedDying = this._creatureConditionRemovalService.removeConditionGains(
-                            dyingConditions,
-                            creature,
-                            { preventWoundedIncrease: !increaseWounded },
-                        );
-                    }
+        health.damage = Math.max(0, health.damage - amount);
 
-                    //Wake up from Healing
-                    if (wake) {
-                        const unconsciousConditions = new Array<ConditionGain>()
-                            .concat(
-                                filterConditions(creature.conditions, { name: 'Unconscious', source: '0 Hit Points' }),
-                                filterConditions(creature.conditions, { name: 'Unconscious', source: 'Dying' }),
-                            );
+        //Don't process conditions in manual mode.
+        if (SettingsService.settings.manualMode) {
+            return { hasRemovedDying, hasRemovedUnconscious };
+        }
 
-                        hasRemovedUnconscious = this._creatureConditionRemovalService.removeConditionGains(
-                            unconsciousConditions,
-                            creature,
-                        );
-                    }
+        hasRemovedDying = this._stopDying({ creature, increaseWounded });
 
-                    return { hasRemovedDying, hasRemovedUnconscious };
-                }),
-            );
+        if (wake) {
+            hasRemovedUnconscious = this._wakeFromHealing({ creature });
+        }
+
+        return { hasRemovedDying, hasRemovedUnconscious };
     }
 
+    /**
+     * Handle any condition changes resulting from taking damage
+     */
+    private async _processDamageTriggeredConditions(
+        creature: Creature,
+        { nonlethal }: { nonlethal?: boolean },
+    ): Promise<{ dyingAddedAmount: number; hasAddedUnconscious: boolean; hasRemovedUnconscious: boolean }> {
+        const currentHPAmount = (await firstValueFrom(this.currentHP$(creature))).result;
+        const currentWounded = await firstValueFrom(this.wounded$(creature));
+        const currentDying = await firstValueFrom(this.dying$(creature));
+
+        let dyingAddedAmount = 0;
+        let hasAddedUnconscious = false;
+        let hasRemovedUnconscious = false;
+
+
+        if (currentHPAmount === 0) {
+            if (nonlethal) {
+                // If you have reached 0 HP with nonlethal damage and aren't yet unconscious, become unconscious.
+                hasAddedUnconscious = this._fallUnconsciousFromDamage(creature);
+            } else {
+                // If you have reached 0 HP with lethal damage and aren't yet dying, get dying 1+wounded.
+                dyingAddedAmount = this._startDyingFromDamage(creature, { currentWounded, currentDying });
+            }
+        }
+
+        // Wake up if you are unconscious and take damage (without falling under 1 HP)
+        if (currentHPAmount > 0) {
+            hasRemovedUnconscious = this._wakeFromDamage(creature);
+        }
+
+        return { dyingAddedAmount, hasAddedUnconscious, hasRemovedUnconscious };
+    }
+
+    /**
+     * If you aren't yet unconscious, become unconscious.
+     *
+     * @returns Whether Unconscious has been added
+     */
+    private _fallUnconsciousFromDamage(creature: Creature): boolean {
+        const dyingUnconsciousConditions =
+            filterConditions(creature.conditions, { name: 'Unconscious', source: '0 Hit Points' })
+                .concat(filterConditions(creature.conditions, { name: 'Unconscious', source: 'Dying' }));
+
+        if (!dyingUnconsciousConditions.length) {
+            this._creatureConditionsService.addCondition(
+                creature,
+                ConditionGain.from(
+                    { name: 'Unconscious', source: '0 Hit Points' },
+                    RecastService.recastFns,
+                ),
+            );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * If you aren't yet dying, get Dying 1+wounded.
+     *
+     * @returns The received Dying value
+     */
+    private _startDyingFromDamage(
+        creature: Creature,
+        { currentWounded, currentDying }: {
+            currentWounded: number;
+            currentDying: number;
+        },
+    ): number {
+        // TODO: This previously also tested whether there were any unconscious conditions.
+        // That doesn't seem to make sense to me at the moment, but if unusual behavior occurs, it might be restored.
+        // Check if the logic makes sense in the runtime.
+        if (!currentDying) {
+            const dyingAddedAmount = currentWounded + 1;
+
+            this._creatureConditionsService.addCondition(
+                creature,
+                ConditionGain.from(
+                    { name: 'Dying', value: dyingAddedAmount, source: '0 Hit Points' },
+                    RecastService.recastFns,
+                ),
+            );
+
+            return dyingAddedAmount;
+        }
+
+        return 0;
+    }
+
+    /**
+     * If you are unconscious, wake up.
+     *
+     * @returns Whether Unconscious has been removed
+     */
+    private _wakeFromDamage(creature: Creature): boolean {
+        const unconsciousConditions = filterConditions(creature.conditions, { name: 'Unconscious' });
+
+        if (unconsciousConditions.length) {
+            this._creatureConditionRemovalService.removeConditionGains(unconsciousConditions, creature);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove all Dying conditions and trigger an increase of the Wounded condition, unless prevented.
+     *
+     * @param increaseWounded Whether the Wounded condition should be increased by removing Dying
+     * @returns Whether any Dying condition was removed
+     */
+    private _stopDying({ creature, increaseWounded }: { creature: Creature; increaseWounded: boolean }): boolean {
+        let hasRemovedDying = false;
+
+        // Recover from Dying and get Wounded++
+        const dyingConditions = filterConditions(creature.conditions, { name: 'Dying' });
+
+        if (dyingConditions.length) {
+            // Removing the Dying condition automatically adds the Wounded condition, unless preventWoundedIncrease is set.
+            hasRemovedDying = this._creatureConditionRemovalService.removeConditionGains(
+                dyingConditions,
+                creature,
+                { preventWoundedIncrease: !increaseWounded },
+            );
+        }
+
+        return hasRemovedDying;
+    }
+
+    /**
+     * Remove all Unconscious conditions that are caused by Dying or HP being reduced to 0.
+     *
+     * @returns Whether any Unconscious condition was removed
+     */
+    private _wakeFromHealing({ creature }: { creature: Creature }): boolean {
+        let hasRemovedUnconscious = false;
+
+        const unconsciousConditions = new Array<ConditionGain>()
+            .concat(
+                filterConditions(creature.conditions, { name: 'Unconscious', source: '0 Hit Points' }),
+                filterConditions(creature.conditions, { name: 'Unconscious', source: 'Dying' }),
+            );
+
+        hasRemovedUnconscious = this._creatureConditionRemovalService.removeConditionGains(
+            unconsciousConditions,
+            creature,
+        );
+
+        return hasRemovedUnconscious;
+    }
+
+    /**
+     * If you aren't dead, die.
+     */
     private _die(creature: Creature, reason: string): void {
         const deadConditions = filterConditions(creature.conditions, { name: 'Dead' });
 
@@ -363,8 +398,6 @@ export class HealthService {
                     { name: 'Dead', source: reason },
                     RecastService.recastFns,
                 ),
-                {},
-                { noReload: true },
             );
 
             // Remove doomed conditions when dead.
@@ -374,38 +407,57 @@ export class HealthService {
         }
     }
 
-    private _keepCreatureDyingUpdated(): void {
-        // This pipe lets creatures die when their dying value is too high.
-        combineLatest([
-            propMap$(SettingsService.settings$, 'manualMode$'),
-            this._creatureAvailabilityService.allAvailableCreatures$(),
-        ])
+    /**
+     * Watches the Dying value of every creature and lets them die if the value gets too high.
+     */
+    private _watchCreatureDying(): void {
+        propMap$(SettingsService.settings$, 'manualMode$')
             .pipe(
                 // Don't do anything about your dying status in manual mode.
-                filter(([manualMode]) => !manualMode),
-                switchMap(([_, creatures]) =>
-                    emptySafeCombineLatest(
-                        creatures.map(creature =>
-                            combineLatest([
-                                this.maxDying$(creature).pipe(distinctUntilChanged()),
-                                this.dying$(creature).pipe(distinctUntilChanged()),
-                                this._appliedCreatureConditionsService.appliedCreatureConditions$(creature, { name: 'Doomed' }),
-                            ])
-                                .pipe(
-                                    tap(([maxDying, dying, doomedConditions]) => {
-                                        if (dying >= maxDying) {
-                                            if (doomedConditions.length) {
-                                                this._die(creature, 'Doomed');
-                                            } else {
-                                                this._die(creature, 'Dying value too high');
+                switchMap(isManualMode =>
+                    isManualMode
+                        ? of(undefined)
+                        : this._creatureAvailabilityService.forAllAvailableCreatures$(
+                            creature =>
+                                combineLatest([
+                                    this.maxDying$(creature).pipe(distinctUntilChanged()),
+                                    this.dying$(creature).pipe(distinctUntilChanged()),
+                                    this._appliedCreatureConditionsService.appliedCreatureConditions$(creature, { name: 'Doomed' }),
+                                ])
+                                    .pipe(
+                                        tap(([maxDying, dying, doomedConditions]) => {
+                                            if (dying >= maxDying.result) {
+                                                if (doomedConditions.length) {
+                                                    this._die(creature, 'Doomed');
+                                                } else {
+                                                    this._die(creature, 'Dying value too high');
+                                                }
                                             }
-                                        }
-                                    }),
-                                    map(() => undefined),
-                                ),
-                        ),
-                    )),
+                                        }),
+                                        map(() => undefined),
+                                    ),
+                        )),
             )
+            .subscribe();
+    }
+
+    /**
+     * Watches the damage of each creature and reduces it if it exceeds max HP.
+     */
+    private _keepCreatureHealthAboveNegative(): void {
+        this._creatureAvailabilityService.forAllAvailableCreatures$(
+            creature => combineLatest([
+                this.maxHP$(creature),
+                creature.health.damage$,
+            ])
+                .pipe(
+                    tap(([maxHP, damage]) => {
+                        if (damage > maxHP.result) {
+                            creature.health.damage = maxHP.result;
+                        }
+                    }),
+                ),
+        )
             .subscribe();
     }
 }

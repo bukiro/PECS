@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
-import { Subscription, Observable, combineLatest, of, map, switchMap, tap, take } from 'rxjs';
+import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
+import { Observable, combineLatest, of, map, switchMap, tap, take } from 'rxjs';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { ItemActivity } from 'src/app/classes/activities/item-activity';
@@ -28,13 +28,11 @@ import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
-import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ActionIconsComponent } from 'src/libs/shared/ui/action-icons/components/action-icons/action-icons.component';
 import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
 import { ActivityContentComponent } from '../../../activity-content/components/activity-content/activity-content.component';
@@ -78,7 +76,7 @@ interface ActivitySpellSet {
         ActionIconsComponent,
     ],
 })
-export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit {
 
     @Input()
     public creature: Creature = CreatureService.character;
@@ -97,12 +95,7 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
 
     public readonly isManualMode$ = SettingsService.settings.manualMode$;
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -176,8 +169,6 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
                 { creature: this.creature, target, gain },
             );
         }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public onManualRestoreCharge(): void {
@@ -334,25 +325,12 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
             (conditionSet.gain.resonant ? context.resonantAllowed : true);
     }
 
-    public onEffectChoiceChange(): void {
-        this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
-        this._refreshService.prepareDetailToChange(this.creature.type, 'activities');
-        this._refreshService.processPreparedChanges();
-    }
-
     public ngOnInit(): void {
         if (this.activity.displayOnly) {
             this.allowActivate = false;
         }
 
         this.item = this._activitiesDataService.itemFromActivityGain(this.creature, this.gain);
-
-        this._subscribeToChanges();
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _activitySpell(): ActivitySpellSet | undefined {
@@ -400,24 +378,6 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
 
     private _spellFromName(name: string): Spell {
         return this._spellsDataService.spellFromName(name);
-    }
-
-    private _subscribeToChanges(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (stringsIncludeCaseInsensitive(['activities', 'all', this.creature.type], target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    stringEqualsCaseInsensitive(view.creature, this.creature.type)
-                    && stringsIncludeCaseInsensitive(['activities', 'all'], view.target)
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
     }
 
 }

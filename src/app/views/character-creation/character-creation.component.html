@@ -343,7 +343,6 @@
                                         id="charactername"
                                         maxLength="100"
                                         [(ngModel)]="character.name"
-                                        (blur)="onNameChange()"
                                     />
                                 </span>
                             </div>
@@ -392,7 +391,6 @@
                                     <select
                                         aria-label="Select alignment"
                                         [(ngModel)]="character.alignment"
-                                        (ngModelChange)="onAlignmentChange()"
                                     >
                                         @for (
                                             alignment of alignments();
@@ -3823,7 +3821,6 @@
                                         [(ngModel)]="
                                             character.settings.hiddenFeats
                                         "
-                                        (ngModelChange)="onHiddenFeatsChange()"
                                     />
                                     <span>
                                         <label for="hiddenFeats">
@@ -3852,7 +3849,6 @@
                                             character.settings
                                                 .showSkillActivities
                                         "
-                                        (ngModelChange)="onUpdateSkills()"
                                     />
                                     <label for="showSkillActivities">
                                         <strong>
@@ -3893,7 +3889,6 @@
                                             character.settings
                                                 .noFriendlyCasterConditions
                                         "
-                                        (ngModelChange)="onUpdateSpellbook()"
                                     />
                                     <span>
                                         <label for="noFriendlyCasterConditions">
@@ -3921,7 +3916,6 @@
                                             character.settings
                                                 .noHostileCasterConditions
                                         "
-                                        (ngModelChange)="onUpdateSpellbook()"
                                     />
                                     <span>
                                         <label for="noHostileCasterConditions">
@@ -4261,7 +4255,6 @@
                                         [(ngModel)]="
                                             character.settings.manualMode
                                         "
-                                        (change)="onToggleManualMode()"
                                     />
                                     <span>
                                         <label for="manualMode">
@@ -4481,11 +4474,6 @@
                                         class="number2"
                                         maxlength="2"
                                         [(ngModel)]="ability.baseValue"
-                                        (blur)="
-                                            onAbilityBaseValueChange(
-                                                ability.name
-                                            )
-                                        "
                                         (keypress)="positiveNumbersOnly($event)"
                                     />
                                     <strong>{{ ability.name }}</strong>
@@ -5353,7 +5341,6 @@
                                                 type="text"
                                                 [disabled]="language.locked"
                                                 [(ngModel)]="language.name"
-                                                (blur)="onLanguageChange()"
                                             />
                                         </div>
                                     </div>
@@ -6429,7 +6416,6 @@
                                                         loreContent.choice
                                                             .loreName
                                                     "
-                                                    (blur)="onLoreNameChange()"
                                                 />
                                                 <span>Lore</span>
                                             </header>
@@ -7215,7 +7201,6 @@
                                                     $event
                                                 )
                                             "
-                                            (blur)="onNameChange()"
                                         />
                                     </div>
                                 </div>
@@ -7984,9 +7969,6 @@
                                                         'name',
                                                         $event
                                                     )
-                                                "
-                                                (blur)="
-                                                    onFuseStanceNameChange()
                                                 "
                                             />
                                         </div>

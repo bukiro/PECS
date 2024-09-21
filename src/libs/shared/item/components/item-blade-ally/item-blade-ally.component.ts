@@ -11,7 +11,6 @@ import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
@@ -40,7 +39,6 @@ export class ItemBladeAllyComponent extends TrackByMixin(BaseClass) implements O
     public newPropertyRune: RuneSet = { rune: new WeaponRune() };
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _basicEquipemntService: BasicEquipmentService,
@@ -168,16 +166,7 @@ export class ItemBladeAllyComponent extends TrackByMixin(BaseClass) implements O
             }
         }
 
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, this.item.id);
-
-        if (rune.activities?.length) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
-        }
-
         this._setPropertyRuneNames();
-        this._refreshService.processPreparedChanges();
     }
 
     public ngOnInit(): void {
@@ -190,10 +179,6 @@ export class ItemBladeAllyComponent extends TrackByMixin(BaseClass) implements O
 
         if (!oldRune) {
             return;
-        }
-
-        if (oldRune.activities?.length) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
         }
 
         //Deactivate any active toggled activities of the removed rune.

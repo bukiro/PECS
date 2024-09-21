@@ -1,7 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ToastService } from '../../services/toast/toast.service';
 import { Toast } from '../../definitions/interfaces/toast';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
@@ -17,14 +14,9 @@ import { NgbToast } from '@ng-bootstrap/ng-bootstrap';
         NgbToast,
     ],
 })
-export class ToastContainerComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
-
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
+export class ToastContainerComponent extends TrackByMixin(BaseClass) {
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _refreshService: RefreshService,
         private readonly _toastService: ToastService,
     ) {
         super();
@@ -35,36 +27,11 @@ export class ToastContainerComponent extends TrackByMixin(BaseClass) implements 
     }
 
     public onClick(toast: Toast): void {
-        if (toast.onClickAction) {
-            this._refreshService.prepareDetailToChange(toast.onClickCreature || CreatureTypes.Character, toast.onClickAction);
-            this._refreshService.processPreparedChanges();
-        }
-
         this._toastService.remove(toast);
     }
 
     public remove(toast: Toast): void {
         this._toastService.remove(toast);
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['toasts', 'all'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (['toasts', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
 }

@@ -8,7 +8,6 @@ import { Shield } from 'src/app/classes/items/shield';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
-import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,7 +15,6 @@ import { RefreshService } from '../refresh/refresh.service';
 export class CreatureEquipmentService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
@@ -77,17 +75,10 @@ export class CreatureEquipmentService {
 
         item.equipped = equip && canEquip();
 
-        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-        this._refreshService.prepareChangesByItem(creature, item);
-
         if (!isEquippedAtBeginning && item.equipped) {
             this._psp.inventoryItemProcessingService?.processEquippingItem(creature, inventory, item);
         } else if (isEquippedAtBeginning && !item.equipped) {
             this._psp.inventoryItemProcessingService?.processUnequippingItem(creature, inventory, item, equipBasicItems);
-        }
-
-        if (changeAfter) {
-            this._refreshService.processPreparedChanges();
         }
     }
 
@@ -96,35 +87,14 @@ export class CreatureEquipmentService {
         inventory: ItemCollection,
         item: Equipment,
         invest = true,
-        changeAfter = true,
     ): void {
         item.invested = invest;
-        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-        this._refreshService.prepareDetailToChange(creature.type, item.id);
-
-        if (item.gainSpells.length) {
-            this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
-        }
 
         //Items are automatically equipped if they are invested.
         if (item.invested) {
             this._psp.inventoryItemProcessingService?.processInvestingItem(creature, inventory, item);
         } else {
             this._psp.inventoryItemProcessingService?.processUninvestingItem(creature, item);
-        }
-
-        // If a wayfinder is invested or uninvested, all other invested wayfinders need to run updates as well,
-        // because too many invested wayfinders disable each other's aeon stones.
-        if (item.isWornItem() && item.aeonStones.length) {
-            creature.mainInventory.wornitems
-                .filter(wornItem => wornItem.invested && wornItem !== item && wornItem.aeonStones.length)
-                .forEach(wornItem => {
-                    this._refreshService.prepareChangesByItem(creature, wornItem);
-                });
-        }
-
-        if (changeAfter) {
-            this._refreshService.processPreparedChanges();
         }
     }
 

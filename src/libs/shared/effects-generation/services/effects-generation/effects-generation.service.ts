@@ -30,6 +30,7 @@ import { CreatureEffectsGenerationService } from '../creature-effects-generation
 import { ItemEffectsGenerationService } from '../item-effects-generation/item-effects-generation.service';
 import { ObjectEffectsGenerationService } from '../object-effects-generation/object-effects-generation.service';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
+import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -62,29 +63,15 @@ export class EffectsGenerationService {
             )
             .subscribe();
 
-        this._creatureAvailabilityService.isCompanionAvailable$()
+        this._creatureAvailabilityService.companionIfAvailable$()
             .pipe(
-                switchMap(isCompanionAvailable =>
-                    isCompanionAvailable
-                        ? CreatureService.companion$
-                            .pipe(
-                                switchMap(creature => this._generateCreatureEffects$(creature)),
-                            )
-                        : of(),
-                ),
+                switchMap(creature => creature ? this._generateCreatureEffects$(creature) : of(undefined)),
             )
             .subscribe();
 
-        this._creatureAvailabilityService.isFamiliarAvailable$()
+        this._creatureAvailabilityService.familiarIfAvailable$()
             .pipe(
-                switchMap(isFamiliarAvailable =>
-                    isFamiliarAvailable
-                        ? CreatureService.familiar$
-                            .pipe(
-                                switchMap(creature => this._generateCreatureEffects$(creature)),
-                            )
-                        : of(),
-                ),
+                switchMap(creature => creature ? this._generateCreatureEffects$(creature) : of(undefined)),
             )
             .subscribe();
     }
@@ -99,8 +86,7 @@ export class EffectsGenerationService {
         )
             .pipe(
                 map(otherCreatureEffectLists =>
-                    new Array<Effect>()
-                        .concat(...otherCreatureEffectLists)
+                    flattenArrayLists(otherCreatureEffectLists)
                         .filter(effect => effect.creature === creature.id),
                 ),
                 distinctUntilChanged(isEqualSerializableArrayWithoutId),
@@ -130,8 +116,7 @@ export class EffectsGenerationService {
                     traits.map(trait => trait.hints.map(hint => ({ hint, objectName: trait.name }))),
                 ),
                 map(hintSetLists =>
-                    new Array<HintEffectsObject>()
-                        .concat(...hintSetLists),
+                    flattenArrayLists(hintSetLists),
                 ),
             );
     }

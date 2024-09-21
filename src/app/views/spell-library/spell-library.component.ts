@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
 /* eslint-disable max-lines */
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, distinctUntilChanged, shareReplay, map, switchMap, of, delay, combineLatest } from 'rxjs';
+import { Observable, distinctUntilChanged, shareReplay, map, switchMap, of, delay, combineLatest } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { Trait } from 'src/app/classes/hints/trait';
@@ -10,7 +10,6 @@ import { Spell } from 'src/app/classes/spells/spell';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { SpellGain } from 'src/app/classes/spells/spell-gain';
 import { SpellLearned } from 'src/app/classes/spells/spell-learned';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
@@ -23,7 +22,6 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
@@ -72,7 +70,7 @@ interface ComponentParameters {
         GridIconComponent,
     ],
 })
-export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements OnInit, OnDestroy {
+export class SpellLibraryComponent extends TrackByMixin(BaseClass) {
 
     @Input()
     public show = false;
@@ -92,13 +90,9 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
     private _showList = -1;
     private _showItem = '';
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
 
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _characterFeatsService: CharacterFeatsService,
@@ -615,9 +609,6 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
         this._character.class.learnSpell(spell, source);
 
         if (SettingsService.settings.autoCloseChoices) { this.toggleShownItem(); }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-        this._refreshService.processPreparedChanges();
     }
 
     public unlearnSpell(spell: Spell): void {
@@ -739,10 +730,6 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
         newSpellTaken.source = 'Feat: Spell Mastery';
         newChoice.spells.push(newSpellTaken);
         this._character.class.addSpellChoice(spell.levelreq, newChoice);
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        this._refreshService.processPreparedChanges();
     }
 
     public removeSpellFromSpellMastery(casting: SpellCasting, spell: Spell): void {
@@ -755,28 +742,6 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) implements On
         if (oldChoice) {
             this._character.class.removeSpellChoice(oldChoice);
         }
-
-        this._refreshService.processPreparedChanges();
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['spelllibrary', 'all'].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() === 'character' && ['spelllibrary', 'all'].includes(view.target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _spellFromName(name: string): Spell {

@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { combineLatest, distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
 import { MenuNames } from 'src/libs/shared/definitions/menu-names';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
@@ -65,7 +64,6 @@ export class TopBarComponent extends TrackByMixin(BaseClass) {
     public readonly hasAnySpells$: Observable<boolean>;
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _characterSavingService: CharacterSavingService,
         private readonly _store$: Store,
         _creatureAvailabilityService: CreatureAvailabilityService,
@@ -127,10 +125,6 @@ export class TopBarComponent extends TrackByMixin(BaseClass) {
                 .pipe(
                     map(([spellChoices, charLevel]) => spellChoices.some(choice => choice.charLevelAvailable <= charLevel)),
                 );
-    }
-
-    public refreshAll(): void {
-        this._refreshService.setComponentChanged();
     }
 
     public toggleLeftMenu(menu: MenuNames): void {

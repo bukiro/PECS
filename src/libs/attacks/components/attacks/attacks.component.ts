@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
-import { Observable, Subscription, switchMap, distinctUntilChanged, shareReplay, combineLatest, map, of } from 'rxjs';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Observable, switchMap, distinctUntilChanged, shareReplay, combineLatest, map, of } from 'rxjs';
 import { AttackRestriction } from 'src/app/classes/attacks/attack-restriction';
 import { Specialization } from 'src/app/classes/attacks/specialization';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
@@ -38,7 +38,6 @@ import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.ser
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { BaseCreatureElementComponent } from 'src/libs/shared/util/components/base-creature-element/base-creature-element.component';
@@ -107,7 +106,7 @@ interface AttackRestrictions {
         SkillComponent,
     ],
 })
-export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
+export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     public showRestricted = false;
 
@@ -121,13 +120,8 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
     private _showItem = '';
     private _showList = '';
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _refreshService: RefreshService,
         private readonly _appliedCreatureConditionsService: AppliedCreatureConditionsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
@@ -258,21 +252,16 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     public onTalismanUse(weapon: Weapon, talisman: Talisman, index: number, preserve = false): void {
-        this._refreshService.prepareDetailToChange(this.creature.type, 'attacks');
         this._itemActivationService.useConsumable(this.creature, talisman, preserve);
 
         if (!preserve) {
             weapon.talismans.splice(index, 1);
         }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public onPoisonUse(weapon: Weapon, poison: AlchemicalPoison): void {
-        this._refreshService.prepareDetailToChange(this.creature.type, 'attacks');
         this._itemActivationService.useConsumable(this.creature, poison);
         weapon.poisonsApplied.length = 0;
-        this._refreshService.processPreparedChanges();
     }
 
     public ammoTypes$(): Observable<Array<string>> {
@@ -395,10 +384,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
 
         this._itemActivationService.useConsumable(this.creature, item as Consumable);
 
-        if (item.canStack()) {
-            this._refreshService.prepareDetailToChange(this.creature.type, 'attacks');
-            this._refreshService.processPreparedChanges();
-        } else if (inv) {
+        if (!item.canStack() && inv) {
             this._inventoryService.dropInventoryItem(this.creature, inv, item, true);
         }
     }
@@ -749,10 +735,8 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
                     RecastService.recastFns,
                 );
 
-            this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
+            this._creatureConditionsService.addCondition(creature, newCondition);
         }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public rangePenalty$(): Observable<string> {
@@ -860,10 +844,8 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
                     RecastService.recastFns,
                 );
 
-            this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
+            this._creatureConditionsService.addCondition(creature, newCondition);
         }
-
-        this._refreshService.processPreparedChanges();
     }
 
     public favoredWeapons$(): Observable<Array<string>> {
@@ -894,28 +876,6 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
                         .concat(...deities.map(deity => deity?.favoredWeapon ?? [])),
                 ),
             );
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (stringsIncludeCaseInsensitive(['attacks', 'all', this.creature.type], target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    stringEqualsCaseInsensitive(view.creature, this.creature.type)
-                    && stringsIncludeCaseInsensitive(['attacks', 'all'], view.target)) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _attackRestrictions$(): Observable<AttackRestrictions> {

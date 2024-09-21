@@ -2,11 +2,8 @@ import { Injectable } from '@angular/core';
 import { Ancestry } from 'src/app/classes/creatures/character/ancestry';
 import { LanguageGain } from 'src/app/classes/creatures/character/language-gain';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
-import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
 
@@ -16,11 +13,9 @@ import { FeatTakingService } from '../feat-taking/feat-taking.service';
 export class CharacterAncestryChangeService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _itemGrantingService: ItemGrantingService,
-        private readonly _characterLanguagesService: CharacterLanguagesService,
         private readonly _psp: ProcessingServiceProvider,
     ) { }
 
@@ -48,8 +43,6 @@ export class CharacterAncestryChangeService {
 
         if (ancestry?.name && level) {
             characterClass.languages = characterClass.languages.filter(language => language.source !== ancestry.name);
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
 
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source !== 'Ancestry');
 
@@ -93,12 +86,8 @@ export class CharacterAncestryChangeService {
                     .map(language => LanguageGain.from({ name: language, locked: true, source: ancestry.name })),
             );
 
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-
             level.abilityChoices.push(...ancestry.abilityChoices);
             level.featChoices.push(...ancestry.featChoices);
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
 
             //Grant all items and save their id in the ItemGain.
             ancestry.gainItems.forEach(freeItem => {

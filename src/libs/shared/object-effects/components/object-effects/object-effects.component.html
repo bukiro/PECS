@@ -26,7 +26,6 @@
                     maxLength="50"
                     id="customEffectSource{{ objectName }}{{ $index }}"
                     [(ngModel)]="effect.source"
-                    (blur)="updateEffects()"
                 />
             </span>
 
@@ -36,7 +35,6 @@
                 <select
                     aria-label="Select effect type"
                     [(ngModel)]="effect.type"
-                    (ngModelChange)="updateEffects()"
                 >
                     @for (type of bonusTypes(); track $index) {
                         <option>

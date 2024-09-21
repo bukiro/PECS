@@ -1,10 +1,10 @@
 /* eslint-disable complexity */
 /* eslint-disable max-lines */
 import { CdkDragDrop, CdkDropListGroup, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef, TemplateRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, TemplateRef } from '@angular/core';
 import { NgbModal, NgbTooltip, NgbCollapse, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, switchMap, distinctUntilChanged, shareReplay, combineLatest, of, map, noop, take } from 'rxjs';
+import { Observable, switchMap, distinctUntilChanged, shareReplay, combineLatest, of, map, noop, take } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/character-creation/spell-choice';
 import { Character } from 'src/app/classes/creatures/character/character';
 import { FormulaLearned } from 'src/app/classes/creatures/character/formula-learned';
@@ -134,7 +134,7 @@ interface ItemParameters extends ItemRoles {
         GridIconComponent,
     ],
 })
-export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponent) implements OnInit, OnDestroy {
+export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     @Input()
     public itemStore = false;
@@ -156,11 +156,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
     private _showItem = '';
     private _showList = '';
 
-    private _changeSubscription?: Subscription;
-    private _viewChangeSubscription?: Subscription;
-
     constructor(
-        private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _creatureEffectsService: CreatureEffectsService,
@@ -476,9 +472,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
             shouldPreserveInventoryContent,
         );
         this.toggleShownItem();
-        this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
-        this._refreshService.prepareDetailToChange(this.creature.type, 'close-popovers');
-        this._refreshService.processPreparedChanges();
+        this._refreshService.closePopovers();
     }
 
     public moveInventoryItem(
@@ -513,11 +507,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
                 }
 
                 if (reload) {
-                    this._refreshService.setComponentChanged('close-popovers');
-                    this._refreshService.setComponentChanged(item.id);
-                    this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
-                    this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-                    this._refreshService.processPreparedChanges();
+                    this._refreshService.closePopovers();
                 }
             });
     }
@@ -547,11 +537,8 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
                         item.amount,
                         true,
                     );
-                    this._refreshService.setComponentChanged('close-popovers');
-                    this._refreshService.setComponentChanged(item.id);
-                    this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
-                    this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-                    this._refreshService.processPreparedChanges();
+
+                    this._refreshService.closePopovers();
                 }
             }
         }
@@ -564,14 +551,12 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
     public dropContainerWithoutContent(item: Item, inventory: ItemCollection): void {
         this.toggleShownItem();
         this._inventoryService.dropInventoryItem(this.creature, inventory, item, false, true, false, item.amount, true);
-        this._refreshService.prepareDetailToChange(this.creature.type, 'close-popovers');
-        this._refreshService.processPreparedChanges();
+
+        this._refreshService.closePopovers();
     }
 
     public addNewOtherItem(inventory: ItemCollection): void {
         inventory.otheritems.push(new OtherItem());
-        this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
-        this._refreshService.processPreparedChanges();
     }
 
     public bulkOnlyInputValidation(event: InputEvent, currentBulk: string): boolean {
@@ -584,10 +569,6 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
         } else {
             item.bulk = '';
         }
-
-        //Update effects to re-calculate your bulk.
-        this._refreshService.prepareDetailToChange(this.creature.type, 'effects');
-        this._refreshService.processPreparedChanges();
     }
 
     public removeOtherItem(item: OtherItem, inventory: ItemCollection): void {
@@ -596,7 +577,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
 
     public durationDescription$(turns?: number): Observable<string | undefined> {
         if (!turns) {
-            return of();
+            return of(undefined);
         }
 
         return this._durationsService.durationDescription$(turns);
@@ -624,14 +605,6 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
                 this._toastService.show(`Your <strong>${ item.effectiveNameSnapshot() }</strong> was unequipped because it is broken.`);
             }
         }
-
-        this.onItemChange(item);
-    }
-
-    public onItemChange(item: Item): void {
-        this._refreshService.prepareChangesByItem(this.creature, item);
-        this._refreshService.processPreparedChanges();
-        this._refreshItem(item);
     }
 
     public onAmountChange(item: Item, amount: number, pay = false): void {
@@ -646,10 +619,6 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
                 this.changeCash(1, Math.floor(this.effectivePrice(item) * half));
             }
         }
-
-        this._refreshService.prepareChangesByItem(this.creature, item);
-        this._refreshService.processPreparedChanges();
-        this._refreshItem(item);
     }
 
     public inventoryName$(inventory: ItemCollection): Observable<string> {
@@ -709,17 +678,12 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
                         }
                     } else {
                         spellChoice.spells.shift();
-                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
                     }
                 }
 
                 if (item instanceof Consumable) {
                     this.onUseConsumable(item, creature as CreatureTypes, inventory);
-                } else {
-                    this._refreshService.processPreparedChanges();
                 }
-
-                this._refreshItem(item);
             });
     }
 
@@ -734,8 +698,6 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
                 if (this.canDropItem(item) && !item.canStack()) {
                     this.dropInventoryItem(item, inventory, false);
                 }
-
-                this._refreshService.processPreparedChanges();
             });
     }
 
@@ -776,12 +738,8 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
         return (sum <= funds);
     }
 
-    public changeCash(multiplier: 1 | -1 = 1, sum = 0, changeafter = false): void {
+    public changeCash(multiplier: 1 | -1 = 1, sum = 0): void {
         this._currencyService.addCash(multiplier, sum);
-
-        if (changeafter) {
-            this._refreshService.processPreparedChanges();
-        }
     }
 
     public creatureHasFeat$(name: string): Observable<boolean> {
@@ -894,9 +852,6 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
         if (type === 'snarespecialist') {
             learned.snareSpecialistAvailable--;
         }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-        this._refreshService.processPreparedChanges();
     }
 
     public snareSpecialistActions$(item: Snare): Observable<string> {
@@ -1034,19 +989,12 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
     public onShieldHPChange(shield: Shield, amount: number): void {
         shield.damage += amount;
 
-        if (shield.equipped) {
-            this._refreshService.prepareDetailToChange(this.creature.type, 'defense');
-        }
-
         if (shield.currentHitPoints$() < shield.effectiveBrokenThreshold$()) {
             shield.broken = true;
             this.onItemBroken(shield);
         } else {
             shield.broken = false;
         }
-
-        this._refreshService.prepareDetailToChange(this.creature.type, 'inventory');
-        this._refreshService.processPreparedChanges();
     }
 
     public isRepairAllowed(item: Equipment): boolean {
@@ -1057,29 +1005,6 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
         }
 
         return true;
-    }
-
-    public ngOnInit(): void {
-        this._changeSubscription = this._refreshService.componentChanged$
-            .subscribe(target => {
-                if (['inventory', 'all', this.creature.type.toLowerCase()].includes(target.toLowerCase())) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-        this._viewChangeSubscription = this._refreshService.detailChanged$
-            .subscribe(view => {
-                if (
-                    view.creature.toLowerCase() === this.creature.type.toLowerCase() &&
-                    ['inventory', 'all'].includes(view.target.toLowerCase())
-                ) {
-                    this._changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this._changeSubscription?.unsubscribe();
-        this._viewChangeSubscription?.unsubscribe();
     }
 
     private _allAvailableCreatures$(): Observable<Array<Creature>> {
@@ -1170,10 +1095,6 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
             .pipe(
                 map(level => level > 0),
             );
-    }
-
-    private _refreshItem(item: Item): void {
-        this._refreshService.setComponentChanged(item.id);
     }
 
     private _spellFromName(name: string): Spell {

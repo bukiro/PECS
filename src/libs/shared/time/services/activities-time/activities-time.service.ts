@@ -8,7 +8,6 @@ import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { emptySafeZip } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
@@ -17,7 +16,6 @@ import { emptySafeZip } from 'src/libs/shared/util/observable-utils';
 export class ActivitiesTimeService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
@@ -65,11 +63,6 @@ export class ActivitiesTimeService {
                             gainSet.gain.activeCooldown = 0;
                             gainSet.gain.chargesUsed = 0;
                         }
-
-                        activity.showonSkill?.split(',').forEach(skillName => {
-                            this._refreshService.prepareDetailToChange(creature.type, 'skills');
-                            this._refreshService.prepareDetailToChange(creature.type, 'individualskills', skillName.trim());
-                        });
                     });
             });
     }
@@ -114,11 +107,6 @@ export class ActivitiesTimeService {
                             gainSet.gain.activeCooldown = 0;
                             gainSet.gain.chargesUsed = 0;
                         }
-
-                        activity.showonSkill?.split(',').forEach(skillName => {
-                            this._refreshService.prepareDetailToChange(creature.type, 'skills');
-                            this._refreshService.prepareDetailToChange(creature.type, 'individualskills', skillName.trim());
-                        });
                     });
             });
     }
@@ -137,8 +125,6 @@ export class ActivitiesTimeService {
                         const activity: Activity | ItemActivity = gain.originalActivity;
                         // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
                         let remainingTurns = turns;
-
-                        this._refreshService.prepareDetailToChange(creature.type, 'activities');
 
                         if (gain.duration > 0) {
                             const difference = Math.min(gain.duration, remainingTurns);
@@ -171,15 +157,6 @@ export class ActivitiesTimeService {
                                 gain.chargesUsed = 0;
                             }
                         }
-
-                        if (gain instanceof ItemActivity) {
-                            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-                        }
-
-                        activity.showonSkill?.split(',').forEach(skillName => {
-                            this._refreshService.prepareDetailToChange(creature.type, 'skills');
-                            this._refreshService.prepareDetailToChange(creature.type, 'individualskills', skillName.trim());
-                        });
                     });
             });
     }

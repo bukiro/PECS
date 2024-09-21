@@ -3,12 +3,10 @@ import { Character } from 'src/app/classes/creatures/character/character';
 import { AlchemicalPoison } from 'src/app/classes/items/alchemical-poison';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { Weapon } from 'src/app/classes/items/weapon';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { FormsModule } from '@angular/forms';
@@ -39,7 +37,6 @@ export class ItemPoisonsComponent extends TrackByMixin(BaseClass) {
     public newPropertyRuneName: Array<string> = ['', '', ''];
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryService: InventoryService,
     ) {
@@ -97,23 +94,11 @@ export class ItemPoisonsComponent extends TrackByMixin(BaseClass) {
 
             this.newPoison = { poison: new AlchemicalPoison() };
             this.newPoison.poison.name = '';
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-            this._refreshService.prepareChangesByItem(
-                this._character,
-                this.item,
-            );
-            this._refreshService.processPreparedChanges();
         }
     }
 
     public onRemovePoison(index: number): void {
         this.item.poisonsApplied.splice(index, 1);
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-        this._refreshService.prepareChangesByItem(
-            this._character,
-            this.item,
-        );
-        this._refreshService.processPreparedChanges();
     }
 
 }

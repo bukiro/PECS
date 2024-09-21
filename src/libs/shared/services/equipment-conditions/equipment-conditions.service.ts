@@ -49,29 +49,15 @@ export class EquipmentConditionsService {
             )
             .subscribe();
 
-        this._creatureAvailabilityService.isCompanionAvailable$()
+        this._creatureAvailabilityService.companionIfAvailable$()
             .pipe(
-                switchMap(isCompanionAvailable =>
-                    isCompanionAvailable
-                        ? CreatureService.companion$
-                            .pipe(
-                                switchMap(creature => this._generateCreatureEquipmentConditions$(creature)),
-                            )
-                        : of(),
-                ),
+                switchMap(creature => creature ? this._generateCreatureEquipmentConditions$(creature) : of(undefined)),
             )
             .subscribe();
 
-        this._creatureAvailabilityService.isFamiliarAvailable$()
+        this._creatureAvailabilityService.familiarIfAvailable$()
             .pipe(
-                switchMap(isFamiliarAvailable =>
-                    isFamiliarAvailable
-                        ? CreatureService.familiar$
-                            .pipe(
-                                switchMap(creature => this._generateCreatureEquipmentConditions$(creature)),
-                            )
-                        : of(),
-                ),
+                switchMap(creature => creature ? this._generateCreatureEquipmentConditions$(creature) : of(undefined)),
             )
             .subscribe();
     }
@@ -132,7 +118,6 @@ export class EquipmentConditionsService {
                                             creature,
                                             ConditionGain.from({ name, value, source }, RecastService.recastFns),
                                             {},
-                                            { noReload: true },
                                         );
                                     };
                                     const removeCondition = (name: string, value: number, source: string): void => {
@@ -241,7 +226,6 @@ export class EquipmentConditionsService {
                                                         creature,
                                                         gain,
                                                         { parentItem: item },
-                                                        { noReload: true },
                                                     );
                                                 }
                                             }
@@ -307,8 +291,6 @@ export class EquipmentConditionsService {
                                                 { name: 'Encumbered', value: 0, source: 'Bulk' },
                                                 RecastService.recastFns,
                                             ),
-                                            {},
-                                            { noReload: true },
                                         );
 
                                         didBulkConditionsChange = true;

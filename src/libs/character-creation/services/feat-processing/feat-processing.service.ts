@@ -10,7 +10,6 @@ import { Character } from 'src/app/classes/creatures/character/character';
 import { CharacterClassLevel } from 'src/app/classes/creatures/character/character-class-level';
 import { Familiar } from 'src/app/classes/creatures/familiar/familiar';
 import { Speed } from 'src/app/classes/creatures/speed';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
 import { FeatData } from 'src/libs/shared/definitions/models/feat-data';
@@ -30,11 +29,9 @@ import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { spellTraditionFromString } from 'src/libs/shared/util/spell-utils';
 import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
-import { FeatProcessingRefreshService } from './feat-processing-refresh.service';
 import { NamedFeatProcessingService } from './named-feat-processing.service';
 import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 
@@ -51,7 +48,6 @@ export interface FeatProcessingContext {
 export class FeatProcessingService {
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -62,7 +58,6 @@ export class FeatProcessingService {
         private readonly _classesDataService: ClassesDataService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _featsDataService: FeatsDataService,
-        private readonly _featProcessingRefreshService: FeatProcessingRefreshService,
         private readonly _namedFeatProcessingService: NamedFeatProcessingService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _animalCompanionService: AnimalCompanionService,
@@ -84,12 +79,6 @@ export class FeatProcessingService {
 
         if (feat) {
             this._changeCharacterFeatList(feat, taken, context);
-
-            this._refreshService.prepareChangesByHints(context.creature, feat.hints);
-
-            if (feat.effects.length) {
-                this._refreshService.prepareDetailToChange(context.creature.type, 'effects');
-            }
 
             this._processGainFeatChoice(feat, taken, context);
 
@@ -148,8 +137,6 @@ export class FeatProcessingService {
 
                 character.class.featData.triggerOnChange();
             }
-
-            this._featProcessingRefreshService.processFeatRefreshing(feat, context);
 
         }
     }
@@ -221,10 +208,6 @@ export class FeatProcessingService {
                                 },
                             );
                         });
-
-                        if (insertedFeatChoice.showOnSheet) {
-                            this._refreshService.prepareDetailToChange(context.creature.type, 'activities');
-                        }
                     }
                 });
             } else {
@@ -232,10 +215,6 @@ export class FeatProcessingService {
                     // Skip if you don't have the required Class for this granted feat choice,
                     // since you didn't get the choice in the first place.
                     if (oldFeatChoice.insertClass ? (character.class.name === oldFeatChoice.insertClass) : true) {
-                        if (oldFeatChoice.showOnSheet) {
-                            this._refreshService.prepareDetailToChange(context.creature.type, 'activities');
-                        }
-
                         //If the feat choice got applied on a certain level, it needs to be removed from that level.
                         const insertLevel =
                             (oldFeatChoice.insertLevel && character.classLevelFromNumber(oldFeatChoice.insertLevel)) ||
@@ -288,13 +267,6 @@ export class FeatProcessingService {
                     context.level.removeAbilityChoiceBySource(oldAbilityChoice.source);
                 });
             }
-
-            this._refreshService.prepareDetailToChange(context.creature.type, 'abilities');
-            feat.gainAbilityChoice.forEach(abilityChoice => {
-                abilityChoice.boosts.forEach(boost => {
-                    this._refreshService.prepareChangesByAbility(context.creature.type, boost.name);
-                });
-            });
 
         }
     }
@@ -365,11 +337,6 @@ export class FeatProcessingService {
                             increase.sourceId = newChoice.id;
                             this._characterSkillIncreaseService.processSkillIncrease(increase.name, true, newChoice);
                         });
-
-                        if (newChoice.showOnSheet) {
-                            this._refreshService.prepareDetailToChange(context.creature.type, 'skills');
-                        }
-
                     }
                 });
             } else {
@@ -393,10 +360,6 @@ export class FeatProcessingService {
 
                         if (oldChoice) {
                             insertLevel.removeSkillChoice(oldChoice);
-
-                            if (oldChoice.showOnSheet) {
-                                this._refreshService.prepareDetailToChange(context.creature.type, 'skills');
-                            }
                         }
                     }
                 });
@@ -422,10 +385,6 @@ export class FeatProcessingService {
                     character.class.removeSpellCasting(casting);
                 });
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
         }
     }
 
@@ -483,10 +442,6 @@ export class FeatProcessingService {
                     }
                 });
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
         }
     }
 
@@ -590,8 +545,6 @@ export class FeatProcessingService {
                     }
                 });
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
         }
     }
 
@@ -608,7 +561,7 @@ export class FeatProcessingService {
                     const newConditionGain = conditionGain.clone(RecastService.recastFns);
 
                     newConditionGain.fromFeat = true;
-                    this._creatureConditionsService.addCondition(character, newConditionGain, {}, { noReload: true });
+                    this._creatureConditionsService.addCondition(character, newConditionGain);
                 });
             } else {
                 this._creatureConditionRemovalService.removeConditionGains(feat.gainConditions, character);
@@ -675,8 +628,6 @@ export class FeatProcessingService {
                     ancestries.splice(ancestries.indexOf(ancestryGain), 1);
                 });
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
         }
     }
 
@@ -743,9 +694,6 @@ export class FeatProcessingService {
                 this._familiarService?.removeAllFamiliarAbilities();
                 character.class.familiar = new Familiar();
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
         }
     }
 
@@ -859,8 +807,6 @@ export class FeatProcessingService {
                     }
                 });
             }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
         }
     }
 

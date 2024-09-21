@@ -1,18 +1,13 @@
 import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Character } from 'src/app/classes/creatures/character/character';
-import { Armor } from 'src/app/classes/items/armor';
 import { Equipment } from 'src/app/classes/items/equipment';
 import { ItemCollection } from 'src/app/classes/items/item-collection';
-import { Shield } from 'src/app/classes/items/shield';
-import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
@@ -43,10 +38,8 @@ export class ItemTalismanCordsComponent extends TrackByMixin(BaseClass) implemen
     public newTalismanCord?: TalismanCordSet;
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _inventoryService: InventoryService,
-        private readonly _recastService: RecastService,
     ) {
         super();
     }
@@ -65,13 +58,15 @@ export class ItemTalismanCordsComponent extends TrackByMixin(BaseClass) implemen
 
     public initialTalismanCords(): Array<TalismanCordSet> {
         const item = this.item;
-        //Start with one empty cord to select nothing.
-        const allCords: Array<TalismanCordSet> = [{ talismanCord: new WornItem(), inv: undefined }];
+        const newCord = { talismanCord: new WornItem(), inv: undefined };
 
-        (allCords[0] as TalismanCordSet).talismanCord.name = '';
+        newCord.talismanCord.name = '';
+
+        //Start with one empty cord to select nothing.
+        const allCords: Array<TalismanCordSet> = [newCord];
 
         //Add the current choice, if the item has a cord at that index.
-        if (item.talismanCords && this.newTalismanCord) {
+        if (item.talismanCords[0] && this.newTalismanCord) {
             allCords.push(this.newTalismanCord);
         }
 
@@ -127,9 +122,7 @@ export class ItemTalismanCordsComponent extends TrackByMixin(BaseClass) implemen
             }
         }
 
-        this._prepareToChange();
         this._setTalismanCordNames();
-        this._refreshService.processPreparedChanges();
     }
 
     public ngOnInit(): void {
@@ -149,20 +142,6 @@ export class ItemTalismanCordsComponent extends TrackByMixin(BaseClass) implemen
                 { resetRunes: false, changeAfter: false, equipAfter: false },
             );
         }
-    }
-
-    private _prepareToChange(): void {
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-
-        if (this.item instanceof Weapon) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-        }
-
-        if (this.item instanceof Armor || this.item instanceof Shield || this.item instanceof WornItem) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-        }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, this.item.id);
     }
 
     private _setTalismanCordNames(): void {

@@ -8,13 +8,11 @@ import { Hint } from 'src/app/classes/hints/hint';
 import { Shield } from 'src/app/classes/items/shield';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
-import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { EmblazonArmamentTypes } from 'src/libs/shared/definitions/emblazon-armament-types';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { FormsModule } from '@angular/forms';
@@ -58,7 +56,6 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
     public emblazonArmamentTypes = EmblazonArmamentTypes;
 
     constructor(
-        private readonly _refreshService: RefreshService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -335,18 +332,6 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
                         break;
                     default: break;
                 }
-
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-
-                if (this.item instanceof Weapon) {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-                } else {
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-                }
-
-                this._refreshService.processPreparedChanges();
             });
     }
 

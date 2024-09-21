@@ -3,7 +3,6 @@ import { Observable, map, of } from 'rxjs';
 import { Trait } from 'src/app/classes/hints/trait';
 import { Item, TraitActivation } from 'src/app/classes/items/item';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BaseClass } from 'src/libs/shared/util/classes/base-class';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { FormsModule } from '@angular/forms';
@@ -39,17 +38,6 @@ export class TraitComponent extends TrackByMixin(BaseClass) {
     public item?: Item;
     @Input()
     public extraDescription?: string;
-
-    constructor(
-        private readonly _refreshService: RefreshService,
-    ) {
-        super();
-    }
-
-    public onActivateEffect(): void {
-        this._refreshService.prepareDetailToChange(this.creatureType, 'effects');
-        this._refreshService.processPreparedChanges();
-    }
 
     public objectTraitActivations$(): Observable<Array<TraitActivation>> {
         if (this.item) {
