@@ -42,8 +42,8 @@ export class DataLoadingService {
 
         const extendedData = this._extensionsService.extend(data, target);
 
-        Object.keys(extendedData).forEach(filecontent => {
-            resultingData.push(...(extendedData[filecontent] as ImportedJsonFileList<T>[keyof ImportedJsonFileList<T>]).map(assignFn));
+        Object.values(extendedData).forEach(filecontent => {
+            resultingData.push(...filecontent.map(assignFn));
         });
 
         if (Array.isArray(identifier)) {

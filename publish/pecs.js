@@ -336,8 +336,8 @@ fs.readFile(__dirname + '/config.json', 'utf8', function (err, data) {
                     try {
                         var characterResults = await db.getData("/");
 
-                        if (Object.keys(characterResults).length) {
-                            result = Object.keys(characterResults).map(key => characterResults[key]);
+                        if (characterResults) {
+                            result = Object.values(characterResults);
                             res.send(result);
                         } else {
                             res.send([]);

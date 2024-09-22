@@ -284,9 +284,9 @@ export class ItemsDataService {
 
         //Initialize all clean items. Recasting happens in the initialization,
         // and the store and crafting items will be cloned afterwards.
-        Object.keys(extendedData).forEach(key => {
+        Object.values(extendedData).forEach(fileContent => {
             resultingData.push(
-                ...(extendedData[key] as typeof extendedData[keyof typeof extendedData])
+                ...fileContent
                     .map(entry =>
                         this._itemInitializationService?.initializeItem<T>(
                             constructor.from(entry, RecastService.recastFns),

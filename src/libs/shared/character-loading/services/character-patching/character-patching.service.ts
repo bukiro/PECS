@@ -205,9 +205,9 @@ export class CharacterPatchingService {
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionFour) {
             creatures.forEach(creature => {
                 creature?.inventories?.forEach(inv => {
-                    Object.keys(inv).forEach(key => {
-                        if (Array.isArray(inv[key as keyof ItemCollection])) {
-                            (inv[key as keyof ItemCollection] as Array<Item>)
+                    Object.values(inv).forEach(property => {
+                        if (Array.isArray(property)) {
+                            property
                                 .forEach((item: Item & { moddable?: string | boolean }) => {
                                     if (Object.prototype.hasOwnProperty.call(item, 'moddable')) {
                                         if (item.moddable === '-') {
