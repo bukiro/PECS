@@ -53,7 +53,7 @@ export class HealthService {
                 this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Max HP'),
             ])
                 .pipe(
-                    switchMap(([charLevel, absolutes, relatives]) =>
+                    switchMap(([charLevel, absoluteEffects, relativeEffects]) =>
                         (
                             creature.requiresConForHP
                                 ? this._abilityValuesService.baseValue$('Constitution', creature, charLevel)
@@ -63,15 +63,17 @@ export class HealthService {
                                 : of(0)
                         )
                             .pipe(
-                                map(conValue => ({ charLevel, absolutes, relatives, conValue })),
+                                map(conValue => ({ charLevel, absoluteEffects, relativeEffects, conValue })),
                             ),
                     ),
-                    map(({ charLevel, absolutes, relatives, conValue }) => {
+                    map(({ charLevel, absoluteEffects, relativeEffects, conValue }) => {
                         const conModifier = abilityModFromAbilityValue(conValue);
                         const baseHP = creature.baseHP(charLevel, conModifier);
 
-                        const { result, bonuses } =
-                            applyEffectsToValue(baseHP.result, { absoluteEffects: absolutes, relativeEffects: relatives });
+                        const { result, bonuses } = applyEffectsToValue(
+                            baseHP.result,
+                            { absoluteEffects, relativeEffects },
+                        );
 
                         return { result: Math.max(0, result), bonuses };
                     }),

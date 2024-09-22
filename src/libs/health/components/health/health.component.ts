@@ -248,8 +248,10 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                     const resistances: Array<{ target: string; value: number; source: string }> = [];
 
                     //Build a list of all resistances other than "Resistances" and add up their respective value.
-                    resistanceEffects
-                        .concat(hardnessEffects)
+                    [
+                        ...resistanceEffects,
+                        ...hardnessEffects,
+                    ]
                         .filter(effect => !stringEqualsCaseInsensitive(effect.target, 'resistances'))
                         .forEach(effect => {
                             const value = effect.valueNumerical || effect.setValueNumerical || 0;
@@ -264,7 +266,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                         });
                     //Globally apply any effects on "Resistances".
                     resistanceEffects
-                        .filter(effect => effect.target.toLowerCase() === 'resistances')
+                        .filter(effect => stringEqualsCaseInsensitive(effect.target, 'resistances'))
                         .forEach(effect => {
                             const value = effect.valueNumerical || effect.setValueNumerical || 0;
 
@@ -279,7 +281,9 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                             res.target = res.target.toLowerCase().replace('resistance', 'weakness');
                         }
 
-                        res.target = res.target.split(' ').map(capitalize)
+                        res.target = res.target
+                            .split(' ')
+                            .map(capitalize)
                             .join(' ');
                     });
 

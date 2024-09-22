@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable, combineLatest, map, tap, take } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureSizes } from '../../definitions/creature-sizes';
-import { addBonusDescriptionFromEffect } from '../../util/bonus-description-utils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { CreaturePropertiesService } from '../creature-properties/creature-properties.service';
 import { InventoryPropertiesService } from '../inventory-properties/inventory-properties.service';
 import { BonusDescription } from '../../definitions/bonuses/bonus-description';
 import { emptySafeZip } from '../../util/observable-utils';
+import { applyEffectsToValue } from '../../util/effect.utils';
 
 export interface BulkLiveValue {
     result: number;
@@ -42,18 +42,17 @@ export class BulkService {
             this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Bulk'),
         ])
             .pipe(
-                map(([inventories, absolutes, relatives]) => {
+                map(([inventories, absoluteEffects, relativeEffects]) => {
                     let result = 0;
                     let bonuses: Array<BonusDescription> = [];
 
                     // If absolute effects exist, the bulk is set to the effect value.
                     // Otherwise, it is calculated from the inventories' bulk.
-                    if (absolutes.length) {
-                        absolutes
-                            .forEach(effect => {
-                                result = effect.setValueNumerical;
-                                bonuses = addBonusDescriptionFromEffect([], effect);
-                            });
+                    if (absoluteEffects.length) {
+                        ({ result, bonuses } = applyEffectsToValue(
+                            result,
+                            { absoluteEffects, bonuses, clearBonusesOnAbsolute: true },
+                        ));
                     } else {
                         emptySafeZip(
                             inventories
@@ -84,15 +83,15 @@ export class BulkService {
 
                     }
 
-                    relatives
-                        .forEach(effect => {
-                            result += effect.valueNumerical;
-                            bonuses = addBonusDescriptionFromEffect(bonuses, effect);
-                        });
+                    ({ result, bonuses } = applyEffectsToValue(
+                        result,
+                        { relativeEffects, bonuses },
+                    ));
 
-                    result = Math.floor(Math.max(0, result));
-
-                    return { result, bonuses };
+                    return {
+                        result: Math.floor(Math.max(0, result)),
+                        bonuses,
+                    };
                 }),
             );
     }
@@ -119,7 +118,7 @@ export class BulkService {
             this._abilityValuesService.mod$('Strength', creature),
         ])
             .pipe(
-                map(([absolutes, relatives, creatureSize, strengthModifier]) => {
+                map(([absoluteEffects, relativeEffects, creatureSize, strengthModifier]) => {
                     // Start with the basic bulk.
                     let result = baseLimit;
                     let bonuses: Array<BonusDescription> = [{ title: 'Base Limit', value: `${ baseLimit }` }];
@@ -129,19 +128,10 @@ export class BulkService {
                         bonuses.push({ title: 'Strength Modifier', value: `${ strengthModifier.result }` });
                     }
 
-                    // Replace everything with the last applicable absolute effect, if any exist.
-                    absolutes
-                        .forEach(effect => {
-                            result = effect.setValueNumerical;
-                            bonuses = addBonusDescriptionFromEffect([], effect);
-                        });
-
-                    // Add all relative effects.
-                    relatives
-                        .forEach(effect => {
-                            result += effect.valueNumerical;
-                            bonuses = addBonusDescriptionFromEffect(bonuses, effect);
-                        });
+                    ({ result, bonuses } = applyEffectsToValue(
+                        result,
+                        { absoluteEffects, relativeEffects, bonuses, clearBonusesOnAbsolute: true },
+                    ));
 
                     // Apply a multiplier for the creature's size.
                     let sizeMultiplier = 0;

@@ -9,7 +9,6 @@ import { Skill } from 'src/app/classes/skills/skill';
 import { SkillIncrease } from 'src/app/classes/skills/skill-increase';
 import { BonusTypes } from '../../definitions/bonus-types';
 import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from '../../definitions/skill-levels';
-import { addBonusDescriptionFromEffect } from '../../util/bonus-description-utils';
 import { signNumber } from '../../util/number-utils';
 import { stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
@@ -21,6 +20,7 @@ import { SkillsDataService } from '../data/skills-data.service';
 import { ProficiencyCopyGain } from 'src/app/classes/character-creation/proficiency-copy-gain';
 import { BonusDescription } from '../../definitions/bonuses/bonus-description';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
+import { applyEffectsToValue } from '../../util/effect.utils';
 
 const DCBasis = 10;
 
@@ -169,11 +169,9 @@ export class SkillValuesService {
                                         relevantSkillList.push('Any Spell DC');
                                     }
 
+                                    //If the skill level is set by an effect, we can skip every other calculation for it.
                                     if (absolutes.length) {
-                                        //If the skill is set by an effect, we can skip every other calculation.
-                                        absolutes.forEach(effect => {
-                                            skillLevel = effect.setValueNumerical;
-                                        });
+                                        skillLevel = applyEffectsToValue(skillLevel, { absoluteEffects: absolutes }).result;
                                     } else {
                                         let increases: Array<SkillIncrease> = [];
 
@@ -273,21 +271,26 @@ export class SkillValuesService {
                                         skillLevel = Math.max(...copyLevels, skillLevel);
                                     }
 
-                                    //Add any relative proficiency level bonuses.
-                                    relatives.forEach(effect => {
-                                        if ([
-                                            -SkillLevels.Legendary,
-                                            -SkillLevels.Master,
-                                            -SkillLevels.Expert,
-                                            -SkillLevels.Trained,
-                                            SkillLevels.Trained,
-                                            SkillLevels.Expert,
-                                            SkillLevels.Master,
-                                            SkillLevels.Legendary,
-                                        ].includes(effect.valueNumerical)) {
-                                            skillLevel += effect.valueNumerical;
-                                        }
-                                    });
+                                    //Add any valid relative proficiency level bonuses.
+                                    skillLevel = applyEffectsToValue(
+                                        skillLevel,
+                                        {
+                                            relativeEffects:
+                                                relatives.filter(effect =>
+                                                    [
+                                                        -SkillLevels.Legendary,
+                                                        -SkillLevels.Master,
+                                                        -SkillLevels.Expert,
+                                                        -SkillLevels.Trained,
+                                                        SkillLevels.Trained,
+                                                        SkillLevels.Expert,
+                                                        SkillLevels.Master,
+                                                        SkillLevels.Legendary,
+                                                    ].includes(effect.valueNumerical),
+                                                ),
+                                        },
+                                    ).result;
+
                                     skillLevel = Math.max(Math.min(skillLevel, SkillLevels.Legendary), SkillLevels.Untrained);
 
                                     return skillLevel;
@@ -447,51 +450,41 @@ export class SkillValuesService {
                     ])
                         .pipe(
                             map(([creatureAbsolutes, creatureRelatives, familiarSaveAbsolutes, familiarSaveRelatives]) => {
-                                let result = (isDC ? DCBasis : 0) + baseValue.result;
-
-                                let bonuses = isDC
-                                    ? [{ title: 'DC base value', value: '10' }, ...baseValue.bonuses]
-                                    : baseValue.bonuses;
-
                                 //Applying assurance prevents any other bonuses, penalties or modifiers.
-                                let shouldSkipRelativeEffects = false;
+                                const shouldSkipRelativeEffects = creatureAbsolutes.some(({ source }) =>
+                                    stringEqualsCaseInsensitive(source, 'Assurance', { allowPartialString: true }),
+                                );
 
-                                //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
-                                creatureAbsolutes
-                                    .concat(familiarSaveAbsolutes)
-                                    .forEach(effect => {
-                                        result = effect.setValueNumerical;
-                                        bonuses = addBonusDescriptionFromEffect([], effect);
-
-                                        if (effect.source.includes('Assurance')) {
-                                            shouldSkipRelativeEffects = true;
-                                        }
-                                    });
-
-                                //Get all active relative effects on this and sum them up
-                                if (!shouldSkipRelativeEffects) {
-                                    creatureRelatives
-                                        .concat(familiarSaveRelatives)
-                                        .forEach(effect => {
-                                            result += effect.valueNumerical;
-                                            bonuses = addBonusDescriptionFromEffect(bonuses, effect);
-                                        });
-                                }
-
-                                const effects = new Array<Effect>()
-                                    .concat(creatureAbsolutes)
-                                    .concat(familiarSaveAbsolutes)
-                                    .concat(shouldSkipRelativeEffects ? [] : creatureRelatives)
-                                    .concat(shouldSkipRelativeEffects ? [] : familiarSaveRelatives);
-
-                                return { ability, skillLevel, result, bonuses, effects };
+                                return {
+                                    ...applyEffectsToValue(
+                                        (isDC ? DCBasis : 0) + baseValue.result,
+                                        {
+                                            absoluteEffects: [...creatureAbsolutes, ...familiarSaveAbsolutes],
+                                            relativeEffects: shouldSkipRelativeEffects
+                                                ? []
+                                                : [...creatureRelatives, ...familiarSaveRelatives],
+                                            bonuses: isDC
+                                                ? [{ title: 'DC base value', value: '10' }, ...baseValue.bonuses]
+                                                : baseValue.bonuses,
+                                            clearBonusesOnAbsolute: true,
+                                        },
+                                    ),
+                                    ability,
+                                    skillLevel,
+                                    effects: [
+                                        ...creatureAbsolutes,
+                                        ...familiarSaveAbsolutes,
+                                        ...(shouldSkipRelativeEffects ? [] : creatureRelatives),
+                                        ...(shouldSkipRelativeEffects ? [] : familiarSaveRelatives),
+                                    ],
+                                };
                             }),
                         );
                 }),
             );
     }
 
-    private _modifierAbility(skill: Skill, creature: Creature): string | undefined{
+    private _modifierAbility(skill: Skill, creature: Creature): string | undefined {
         if (creature.isFamiliar()) {
             const character = CreatureService.character;
 

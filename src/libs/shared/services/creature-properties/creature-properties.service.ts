@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, combineLatest, map } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { applyEffectsToValue } from '../../util/effect.utils';
 
 @Injectable({
     providedIn: 'root',
@@ -18,19 +19,11 @@ export class CreaturePropertiesService {
             this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Size'),
         ])
             .pipe(
-                map(([absolutes, relatives]) => {
-                    let size: number = creature.baseSize();
-
-                    if (absolutes.length) {
-                        size = Math.max(...absolutes.map(effect => effect.setValueNumerical));
-                    }
-
-                    relatives.forEach(effect => {
-                        size += effect.valueNumerical;
-                    });
-
-                    return size;
-                }),
+                map(([absoluteEffects, relativeEffects]) =>
+                    applyEffectsToValue(
+                        creature.baseSize(),
+                        { absoluteEffects, relativeEffects },
+                    ).result),
             );
     }
 

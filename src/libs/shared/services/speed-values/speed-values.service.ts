@@ -60,6 +60,7 @@ export class SpeedValuesService {
                     // We apply it to the base speed only here so we can still use the base speed for effects that require it
                     // (e.g. "You gain a climb speed equal to your land speed") and not apply the general penalty twice.
                     if (speed.name !== 'Speed') {
+                        // TODO: Replace explain with Array<BonusDescription>, then replace this with applyEffectsToValue
                         speedEffects.forEach(effect => {
                             value.result += effect.valueNumerical;
                             value.explain += `\n${ effect.source }: ${ effect.value }`;
@@ -91,6 +92,7 @@ export class SpeedValuesService {
                 map(([absolutes, relatives]) => {
                     //Gets the basic speed and adds all effects
 
+                    // TODO: replace explain with Array<BonusDescription>, then replace this with applyEffectsToValue
                     absolutes.forEach(effect => {
                         baseValue.result = effect.setValueNumerical;
                         baseValue.explain = `${ effect.source }: ${ effect.setValue }`;
@@ -98,12 +100,14 @@ export class SpeedValuesService {
 
                     const isZero: boolean = (baseValue.result === 0);
 
+                    // TODO: replace explain with Array<BonusDescription>, then replace this with applyEffectsToValue
                     relatives.forEach(effect => {
                         baseValue.result += effect.valueNumerical;
                         baseValue.explain += `\n${ effect.source }: ${ effect.value }`;
                     });
 
-                    //Penalties cannot lower a speed below 5.
+                    // Penalties cannot lower a speed below 5.
+                    // It's okay for absolutes to remove a speed by setting it to 0.
                     if (!isZero && baseValue.result < minimumLoweredSpeed && speed.name !== 'Speed') {
                         baseValue.result = minimumLoweredSpeed;
                         baseValue.explain += `\nEffects cannot lower a speed below ${ minimumLoweredSpeed }.`;

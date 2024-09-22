@@ -14,6 +14,7 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 @Injectable({
@@ -303,11 +304,10 @@ export class ConditionsTimeService {
                 //If an effect with "X After Rest" is active, the condition is added.
                 afterRestEffects
                     .forEach(effect => {
-                        const regex = new RegExp(' after rest', 'ig');
-                        const conditionName = effect.target.replace(regex, '');
+                        const conditionName = effect.target.replace(new RegExp(' after rest', 'ig'), '');
 
                         //Only add real conditions.
-                        if (this._conditionsDataService.conditionFromName(conditionName).name === conditionName) {
+                        if (stringEqualsCaseInsensitive(this._conditionsDataService.conditionFromName(conditionName).name, conditionName)) {
                             //Turn effect into condition:
                             //- no value or setValue (i.e. only toggle) means the condition is added without a value.
                             //- setValue means the condition has a value and is added with that value.

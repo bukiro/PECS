@@ -22,6 +22,7 @@ import { GeneralComponent } from 'src/libs/general/components/general/general.co
 import { EffectsComponent } from 'src/libs/effects/components/effects/effects.component';
 import { CommonModule } from '@angular/common';
 import { FlyInMenuComponent } from 'src/libs/shared/ui/fly-in-menu/fly-in-menu.component';
+import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
 
 @Component({
     selector: 'app-familiar',
@@ -108,16 +109,10 @@ export class FamiliarComponent extends IsMobileMixin(BaseCreatureElementComponen
             this._creatureEffectsService.relativeEffectsOnThis$(this.character, 'Familiar Abilities'),
         ])
             .pipe(
-                map(([familiar, absolutes, relatives]) => {
+                map(([familiar, absoluteEffects, relativeEffects]) => {
                     const choice = familiar.abilities;
-                    let available = choice.available;
 
-                    absolutes.forEach(effect => {
-                        available = effect.setValueNumerical;
-                    });
-                    relatives.forEach(effect => {
-                        available += effect.valueNumerical;
-                    });
+                    const { result: available } = applyEffectsToValue(choice.available, { absoluteEffects, relativeEffects });
 
                     return choice.feats.length >= available;
                 }),

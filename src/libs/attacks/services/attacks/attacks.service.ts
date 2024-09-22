@@ -14,11 +14,13 @@ import { CharacterFlatteningService } from 'src/libs/shared/services/character-f
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-utils';
 import { skillLevelName } from 'src/libs/shared/util/skill-utils';
 import { attackEffectPhrases } from '../../util/attack-effect-phrases';
 import { RuneSourceSet, attackRuneSource$ } from '../../util/attack-rune-rource';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
+import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
 
 export interface AttackResult {
     range: 'ranged' | 'melee';
@@ -144,6 +146,7 @@ export class AttacksService {
                                     this._attackBonusEffectFromPotencyRune$(context),
                                     this._attackBonusEffectFromBattleForged$(context),
                                     this._attackPenaltyEffectFromShoddy$(context),
+                                    // The effect of Powerful Fist is applied if the proficiency is Unarmed and the Character has the feat.
                                     (context.prof === WeaponProficiencies.Unarmed && context.creature.isCharacter())
                                         ? this._characterFeatsService.characterHasFeatAtLevel$('Powerful Fist')
                                         : of(false),
@@ -158,28 +161,21 @@ export class AttacksService {
                                             powerfulFistApplies,
                                         ]) => {
                                             let bonuses = new Array<BonusDescription>();
+                                            let result = 0;
 
                                             // If the creature is trained or better with the weapon,
                                             // add the skill level bonus and the character level.
                                             if (skillLevel >= SkillLevels.Trained) {
                                                 bonuses.push({ value: skillLevel.toString(), title: skillLevelName(skillLevel) });
                                                 bonuses.push({ value: charLevel.toString(), title: 'Character Level' });
-                                            }
 
-                                            let result =
-                                                (skillLevel >= SkillLevels.Trained)
-                                                    ? skillLevel + charLevel
-                                                    : 0;
+                                                result = skillLevel + charLevel;
+                                            }
 
                                             const reducedAbsolutes = this._creatureEffectsService.reduceAbsolutes(
                                                 traitEffects.filter((effect): effect is AbsoluteEffect => effect.isAbsoluteEffect())
                                                     .concat(absolutes),
                                             );
-
-                                            reducedAbsolutes.forEach(effect => {
-                                                result = effect.setValueNumerical;
-                                                bonuses = addBonusDescriptionFromEffect(bonuses, effect);
-                                            });
 
                                             const reducedRelatives = this._creatureEffectsService.reduceRelativesByType(
                                                 new Array<RelativeEffect>()
@@ -190,34 +186,54 @@ export class AttacksService {
                                                         ...(shoddyEffect?.effect ? [shoddyEffect.effect] : []),
                                                         ...traitEffects
                                                             .filter((effect): effect is RelativeEffect => effect.isRelativeEffect()),
-                                                        ...relatives,
+                                                        // A character with Powerful Fist ignores the conditional nonlethal penalty.
+                                                        // It only counts for unarmed attacks, which is considered in powerfulFistApplies.
+                                                        // TODO: Ideally, Powerful Fist should ignore this automatically,
+                                                        // using an effect of its own.
+                                                        ...relatives.filter(effect =>
+                                                            !powerfulFistApplies
+                                                            || stringEqualsCaseInsensitive(effect.source, 'conditional, Nonlethal'),
+                                                        ),
                                                     ),
-                                                { hasAbsolutes: !!reducedAbsolutes.length },
+                                                {
+                                                    hasAbsolutes: !!reducedAbsolutes.length,
+                                                },
                                             );
 
-                                            reducedRelatives
-                                                .forEach(effect => {
-                                                    // A character with Powerful Fist ignores the nonlethal penalty on unarmed attacks.
-                                                    if (powerfulFistApplies && effect.source === 'conditional, Nonlethal') {
-                                                        bonuses.push({ value: '-0', title: 'Nonlethal (cancelled by Powerful Fist)' });
-                                                    } else {
-                                                        result += effect.valueNumerical;
-                                                        bonuses = addBonusDescriptionFromEffect(bonuses, effect);
-                                                    }
-                                                });
+                                            ({ result, bonuses } = applyEffectsToValue(
+                                                result,
+                                                {
+                                                    absoluteEffects: reducedAbsolutes,
+                                                    relativeEffects: reducedRelatives,
+                                                    bonuses,
+                                                    clearBonusesOnAbsolute: true,
+                                                },
+                                            ));
+
+                                            // If the nonlethal penalty was cancelled, add this information to the bonus descriptions.
+                                            if (
+                                                powerfulFistApplies
+                                                && reducedRelatives.some(effect =>
+                                                    stringEqualsCaseInsensitive(effect.source, 'conditional, Nonlethal'),
+                                                )
+                                            ) {
+                                                bonuses.push({ value: '-0', title: 'Nonlethal (cancelled by Powerful Fist)' });
+                                            }
 
                                             // If the shoddy penalty was cancelled, add this information to the bonus descriptions.
                                             if (shoddyEffect?.cancelled) {
                                                 bonuses.push({ value: '-0', title: 'Shoddy (cancelled by Junk Tinker)' });
                                             }
 
-                                            const effects = new Array<Effect>()
-                                                .concat(
+                                            return {
+                                                result,
+                                                bonuses,
+                                                effects: flattenArrayLists<Effect>([
                                                     reducedAbsolutes,
                                                     reducedRelatives,
-                                                );
-
-                                            return { result, bonuses, effects, range };
+                                                ]),
+                                                range,
+                                            };
                                         }),
                                     );
 

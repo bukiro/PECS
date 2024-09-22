@@ -17,6 +17,7 @@ import { SkillValuesService } from '../skill-values/skill-values.service';
 import { Condition } from 'src/app/classes/conditions/condition';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
 import { isDefined } from '../../util/type-guard-utils';
+import { applyEffectsToValue } from '../../util/effect.utils';
 
 @Injectable({
     providedIn: 'root',
@@ -126,7 +127,7 @@ export class SpellPropertiesService {
                 ]),
         ])
             .pipe(
-                map(([maxSpellLevel, [absolutes, relatives]]) => {
+                map(([maxSpellLevel, [absoluteEffects, relativeEffects]]) => {
                     //If needed, calculate the dynamic effective spell level.
                     if (context.gain.dynamicEffectiveSpellLevel) {
                         try {
@@ -143,18 +144,14 @@ export class SpellPropertiesService {
                         level = maxSpellLevel;
                     }
 
-                    absolutes
-                        .forEach(effect => {
-                            if (effect.setValueNumerical > 0) {
-                                level = effect.setValueNumerical;
-                            }
-                        });
-                    relatives
-                        .forEach(effect => {
-                            if (effect.valueNumerical) {
-                                level += effect.valueNumerical;
-                            }
-                        });
+                    level = applyEffectsToValue(
+                        level,
+                        {
+                            // Don't set a spell to a level lower than 1 with absolute effects.
+                            absoluteEffects: absoluteEffects.filter(({ setValueNumerical }) => setValueNumerical > 0),
+                            relativeEffects,
+                        },
+                    ).result;
 
                     //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
                     return Math.max(level, (spell.levelreq || 0));

@@ -11,8 +11,9 @@ import { CreatureAvailabilityService } from '../creature-availability/creature-a
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { SpellsDataService } from '../data/spells-data.service';
 import { Scroll } from 'src/app/classes/items/scroll';
-import { safeParseInt } from '../../util/string-utils';
+import { safeParseInt, stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { isEqualPrimitiveArray } from '../../util/compare-utils';
+import { applyEffectsToValue } from '../../util/effect.utils';
 
 @Injectable({
     providedIn: 'root',
@@ -113,7 +114,6 @@ export class ItemTraitsService {
             reach = reachTrait.includes(' ') ? safeParseInt(reachTrait.split(' ')[1], typicalReach) : typicalReach;
         }
 
-        let newReach = reach;
         const reachNamesList = [
             'Reach',
             `${ weapon.name } Reach`,
@@ -157,15 +157,11 @@ export class ItemTraitsService {
             this._creatureEffectsService.toggledEffectsOnThese$(context.creature, namesList),
         ])
             .pipe(
-                map(([reachAbsolutes, reachRelatives, traitsToggled]) => {
-                    reachAbsolutes
-                        .forEach(effect => {
-                            newReach = effect.setValueNumerical;
-                        });
-                    reachRelatives
-                        .forEach(effect => {
-                            newReach += effect.valueNumerical;
-                        });
+                map(([absoluteEffects, relativeEffects, toggledEffects]) => {
+                    const newReach = applyEffectsToValue(
+                        reach,
+                        { absoluteEffects, relativeEffects },
+                    ).result;
 
                     if (newReach !== reach) {
                         if (newReach === noReach || newReach === 0) {
@@ -181,18 +177,21 @@ export class ItemTraitsService {
                         }
                     }
 
-                    traitsToggled
+                    toggledEffects
                         .filter(effect => effect.title)
                         .forEach(effect => {
-                            if (effect.target.toLowerCase().includes('gain trait')) {
+                            if (stringEqualsCaseInsensitive(effect.target, 'gain trait', { allowPartialString: true })) {
                                 traits.push(effect.title);
-                            } else if (effect.target.toLowerCase().includes('lose trait')) {
+                            } else if (stringEqualsCaseInsensitive(effect.target, 'lose trait', { allowPartialString: true })) {
                                 traits = traits.filter(trait => trait !== effect.title);
                             }
                         });
 
-                    traits = traits.filter(trait => !weapon.material.some(material => material.removeTraits.includes(trait)));
-                    traits = Array.from(new Set(traits)).sort();
+                    return Array.from(new Set(
+                        traits.filter(trait =>
+                            !weapon.material.some(material => material.removeTraits.includes(trait)),
+                        ),
+                    )).sort();
 
                     return traits;
                 }),
