@@ -136,7 +136,13 @@ export class CharacterFeatsService {
     }
 
     public addCharacterFeat(feat: Feat, gain: FeatTaken, levelNumber: number, temporary: boolean): void {
-        this._store$.dispatch(addFeatAtLevel({ feat, gain, levelNumber, temporary }));
+        this._store$.dispatch(addFeatAtLevel({
+            feat,
+            // Clone the gain to preserve immutability.
+            gain: gain.clone(),
+            levelNumber,
+            temporary,
+        }));
     }
 
     public removeCharacterFeat(gain: FeatTaken, levelNumber: number): void {

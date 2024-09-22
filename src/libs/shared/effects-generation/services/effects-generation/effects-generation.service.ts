@@ -876,7 +876,7 @@ export class EffectsGenerationService {
                         { ignoreArmorPenalties: shouldIgnoreArmorPenalties, ignoreArmorSpeedPenalties: shouldIgnoreArmorSpeedPenalties },
                     )
                         .pipe(
-                            map(itemEffects => effects.concat(itemEffects)),
+                            map(itemEffects => [...effects, ...itemEffects]),
                         );
                 }),
                 switchMap(effects =>
@@ -902,7 +902,7 @@ export class EffectsGenerationService {
                     finalEffects = this._setEffectsShown(finalEffects);
 
                     // Add back the effects that affect another creature.
-                    return finalEffects.concat(effectsForOthers);
+                    return [...finalEffects, ...effectsForOthers];
                 }),
                 distinctUntilChanged(isEqualSerializableArrayWithoutId),
                 tap(effects => {
