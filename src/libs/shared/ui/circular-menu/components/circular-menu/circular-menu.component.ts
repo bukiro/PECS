@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
+import {
+    booleanAttribute,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    Input,
+    QueryList,
+    signal,
+    ViewChild,
+    ViewChildren,
+} from '@angular/core';
 import { TrackByMixin } from 'src/libs/shared/util/mixins/track-by-mixin';
 import { ButtonComponent } from '../../../button/components/button/button.component';
 import { CircularMenuOption } from '../../definitions/interfaces/circular-menu-option';
@@ -24,11 +33,17 @@ const defaultDistanceRem = 5;
 })
 export class CircularMenuComponent extends TrackByMixin(ButtonComponent) {
 
-    @ViewChild('centerButton')
-    public centerButton?: ElementRef<HTMLDivElement>;
+    @ViewChild('centerButtonContainer')
+    public centerButtonContainer?: ElementRef<HTMLDivElement>;
 
-    @ViewChildren('option')
-    public optionButtons?: QueryList<ElementRef<HTMLDivElement>>;
+    @ViewChild('centerButton')
+    public centerButton?: ButtonComponent;
+
+    @ViewChildren('optionButton')
+    public optionButtons?: QueryList<ButtonComponent>;
+
+    @ViewChildren('optionButtonContainer')
+    public optionButtonContainers?: QueryList<ElementRef<HTMLDivElement>>;
 
     /**
      * Radius of the circular menu in rem.
@@ -36,13 +51,13 @@ export class CircularMenuComponent extends TrackByMixin(ButtonComponent) {
     @Input()
     public radius = defaultDistanceRem;
 
-    public showOptions = false;
+    public showOptions$$ = signal<boolean>(false);
 
     private _options?: Array<CircularMenuOption>;
 
-    @Input()
-    public set disabled(disabled: boolean | string | undefined) {
-        this.isDisabled = forceBooleanFromInput(disabled);
+    @Input({ transform: booleanAttribute })
+    public set disabled(disabled: boolean) {
+        this.isDisabled = disabled;
     }
 
     @Input()
@@ -54,24 +69,37 @@ export class CircularMenuComponent extends TrackByMixin(ButtonComponent) {
         return this._options;
     }
 
-    @Input()
-    public set hideLabel(hideLabel: boolean | string | undefined) {
-        this.shouldHideLabel = forceBooleanFromInput(hideLabel);
+    @Input({ transform: booleanAttribute })
+    public set hideLabel(hideLabel: boolean) {
+        this.shouldHideLabel = hideLabel;
     }
 
-    public toggleOptions(): void {
-        this._updatePaletteButtonPositions();
+    public toggleOptions(force?: boolean): void {
+        this._updateCircleButtonPositions();
 
-        this.showOptions = !this.showOptions;
+        this.showOptions$$.set(force !== undefined ? force : !this.showOptions$$());
     }
 
-    private _updatePaletteButtonPositions(): void {
-        if (this.centerButton) {
+    public focusCenterButton(event: Event): void {
+        this.centerButton?.focus();
+        event.preventDefault();
+    }
+
+    public focusFirstButton(event: Event): void {
+        this.optionButtons?.toArray()
+            .shift()
+            ?.focus();
+
+        event.preventDefault();
+    }
+
+    private _updateCircleButtonPositions(): void {
+        if (this.centerButtonContainer) {
             const half = .5;
 
-            const centerButtonDimensions = this.centerButton.nativeElement.getBoundingClientRect();
+            const centerButtonDimensions = this.centerButtonContainer.nativeElement.getBoundingClientRect();
 
-            this.optionButtons?.toArray().forEach((_ref, index) => {
+            this.optionButtonContainers?.toArray().forEach((_ref, index) => {
                 const optionButton = this.options?.[index];
 
                 if (optionButton) {
@@ -111,7 +139,7 @@ export class CircularMenuComponent extends TrackByMixin(ButtonComponent) {
                     : { ...option };
             });
         } else {
-            this.showOptions = false;
+            this.showOptions$$.set(false);
         }
 
         return options.map((option, index) => {

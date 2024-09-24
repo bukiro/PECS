@@ -21,6 +21,9 @@ export class ButtonComponent {
     @Input()
     public label?: string;
 
+    @Input()
+    public tabIndex?: number;
+
     @Output()
     public readonly clicked = new EventEmitter<undefined>();
 

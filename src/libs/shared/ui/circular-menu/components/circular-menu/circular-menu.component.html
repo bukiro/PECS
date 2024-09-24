@@ -1,7 +1,11 @@
-@if (showOptions) {
+@if (showOptions$$()) {
     <div
+        tabindex="0"
         class="click-outside-overlay"
         (click)="toggleOptions()"
+        (keydown.escape)="toggleOptions(false)"
+        (keydown.shift.tab)="focusCenterButton($event)"
+        (keydown.tab)="focusFirstButton($event)"
     ></div>
 }
 
@@ -11,24 +15,29 @@
             class="option option--of-{{ options.length }} option--index-{{
                 $index
             }} option--left-{{ option.left }}"
-            [ngClass]="{'option--active': showOptions }"
+            [ngClass]="{ 'option--active': showOptions$$() }"
             [style.top]="option.top + 'px'"
             [style.left]="option.left + 'px'"
-            [style.transform]="showOptions ? option.transform : 'none'"
+            [style.transform]="showOptions$$() ? option.transform : 'none'"
         >
             <div
-                #option
+                #optionButtonContainer
                 class="option__inner-button"
                 [ngbTooltip]="option.disabled"
             >
                 <app-button
-                    tabindex="-1"
+                    #optionButton
+                    [tabIndex]="showOptions$$() ? 0 : -1"
                     [toggled]="option.toggled"
                     [circle]="option.circle"
                     [disabled]="option.disabled"
                     (clicked)="
                         option.onClick();
                         option.closeAfter ? toggleOptions() : null
+                    "
+                    (keydown.escape)="toggleOptions(false); focusCenterButton($event)"
+                    (keydown.shift.tab)="
+                        $first ? focusCenterButton($event) : undefined
                     "
                 >
                     @if (option.label) {
@@ -44,14 +53,14 @@
 }
 
 <div
-    #centerButton
+    #centerButtonContainer
     class="button-container"
 >
     <app-button
         #centerButton
         class="button button--center"
         [label]="label"
-        [hideLabel]="shouldHideLabel"
+        [hideLabel]="showOptions$$() || shouldHideLabel"
         [circle]="isCircle"
         [compact]="isCompact"
         [disabled]="isDisabled"
@@ -60,6 +69,10 @@
         [noOutline]="isNotOutlined"
         [ghost]="isGhost"
         (clicked)="toggleOptions()"
+        (keydown.escape)="toggleOptions(false); focusCenterButton($event)"
+        (keydown.tab)="
+            showOptions$$() ? focusFirstButton($event) : undefined
+        "
     >
         <ng-content />
     </app-button>
