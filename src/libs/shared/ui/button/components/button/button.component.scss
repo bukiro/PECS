@@ -31,6 +31,8 @@
             @include flex-center-cross-axis;
             border-width: $spacing-xxs;
 
+            position: relative;
+
             flex: 1;
 
             color: inherit;
