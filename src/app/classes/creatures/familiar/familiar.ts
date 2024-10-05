@@ -12,6 +12,7 @@ import { setupSerializationWithHelpers } from 'src/libs/shared/util/serializatio
 import { Skill } from '../../skills/skill';
 import { SkillIncrease } from '../../skills/skill-increase';
 import { Creature } from '../creature';
+import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<Familiar>({
     primitives: [
@@ -86,16 +87,20 @@ export class Familiar extends Creature implements Serializable<Familiar> {
     }
 
     //Other implementations require conModifier.
-    public baseHP(charLevel: number): { result: number; explain: string } {
-        let explain = '';
-        let classHP = 0;
+    public baseHP(charLevel: number): { result: number; bonuses: Array<BonusDescription> } {
         const familiarHPMultiplier = 5;
 
         //Your familiar has 5 Hit Points for each of your levels.
-        classHP = familiarHPMultiplier * charLevel;
-        explain = `Familiar base HP: ${ classHP }`;
-
-        return { result: classHP, explain: explain.trim() };
+        return {
+            result: familiarHPMultiplier * charLevel,
+            bonuses: [
+                {
+                    title: 'Familiar base HP',
+                    subline: '(multiplied by character level)',
+                    value: `${ familiarHPMultiplier } (${ familiarHPMultiplier * charLevel })`,
+                },
+            ],
+        };
     }
 
     public baseSpeed(speedName: string): { result: number; explain: string } {

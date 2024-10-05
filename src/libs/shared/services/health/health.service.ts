@@ -68,12 +68,16 @@ export class HealthService {
                     ),
                     map(({ charLevel, absoluteEffects, relativeEffects, conValue }) => {
                         const conModifier = abilityModFromAbilityValue(conValue);
-                        const baseHP = creature.baseHP(charLevel, conModifier);
+                        let { result, bonuses } = creature.baseHP(charLevel, conModifier);
 
-                        const { result, bonuses } = applyEffectsToValue(
-                            baseHP.result,
-                            { absoluteEffects, relativeEffects },
-                        );
+                        ({ result, bonuses } = applyEffectsToValue(
+                            result,
+                            {
+                                absoluteEffects,
+                                relativeEffects,
+                                bonuses,
+                            },
+                        ));
 
                         return { result: Math.max(0, result), bonuses };
                     }),
@@ -93,16 +97,17 @@ export class HealthService {
                 .pipe(
                     map(([maxHP, tempHPAmount, damage]) => {
                         const bonuses: Array<BonusDescription> = [{ title: 'Max HP', value: `${ maxHP.result }` }];
+                        let sum = maxHP.result;
 
                         if (tempHPAmount) {
+                            sum += tempHPAmount;
                             bonuses.push({ title: 'Temporary HP', value: `${ tempHPAmount }` });
                         }
 
                         if (damage) {
+                            sum -= damage;
                             bonuses.push({ title: 'Damage taken', value: `${ damage }` });
                         }
-
-                        const sum = maxHP.result + tempHPAmount - damage;
 
                         return { result: Math.max(sum, 0), bonuses };
                     }),

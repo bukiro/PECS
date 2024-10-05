@@ -7,25 +7,21 @@
         class="attributeBox"
         id="{{ creature }}-health-height"
     >
-        @if (calculatedHealth$ | async; as calculatedHealth) {
+        @if (state$ | async; as state) {
             <header class="sectionHeader box-header">
                 Health:
-                <app-pretty-value
-                    [bonuses]="calculatedHealth.currentHP.bonuses"
-                    [value]="calculatedHealth.currentHP.result"
-                    [forcePenalty]="calculatedHealth.currentHP.result <= 0"
-                    [forceBonus]="
-                        calculatedHealth.currentHP.result >
-                        calculatedHealth.maxHP.result
-                    "
+
+                <app-hit-points-value
+                    [currentHP]="state.currentHP"
+                    [temporaryHP]="state.mainTemporaryHP"
+                    [maxHP]="state.maxHP"
                 />
-                Hit Points
             </header>
 
             @if (
-                (100 * calculatedHealth.currentHP.result) /
-                    (calculatedHealth.maxHP.result
-                        ? calculatedHealth.maxHP.result
+                (100 * state.currentHP.result) /
+                    (state.maxHP.result
+                        ? state.maxHP.result
                         : 1);
                 as healthPercentage
             ) {
@@ -90,10 +86,6 @@
 
             <div class="minimized-hide list-item">
                 <div class="newrow">
-                    <strong>Max HP</strong>
-
-                    <app-pretty-value [value]="calculatedHealth.maxHP.result" [bonuses]="calculatedHealth.maxHP.bonuses" />
-
                     @if (
                         creature.health.temporaryHP.values$ | async;
                         as temporaryHP
@@ -177,7 +169,7 @@
             <div
                 class="list-item"
                 [ngClass]="{
-                    'minimized-hide': calculatedHealth.dying <= 0,
+                    'minimized-hide': state.dying <= 0,
                 }"
             >
                 <div class="newrow">
@@ -188,10 +180,10 @@
                             <div
                                 class="value"
                                 [ngClass]="{
-                                    penalty: calculatedHealth.dying > 0,
+                                    penalty: state.dying > 0,
                                 }"
                             >
-                                {{ calculatedHealth.dying }}
+                                {{ state.dying }}
                             </div>
                         </span>
                     }
@@ -218,7 +210,7 @@
                             <button
                                 [disabled]="
                                     creature.health.manualDying >=
-                                    calculatedHealth.maxDying.result
+                                    state.maxDying.result
                                 "
                                 (click)="incManualDying(1)"
                             >
@@ -244,13 +236,13 @@
                                     | async,
                             }"
                         >
-                            {{ calculatedHealth.maxDying }}
+                            {{ state.maxDying }}
                         </div>
                     </span>
                 </div>
 
                 @if (
-                    calculatedHealth.dying > 0 &&
+                    state.dying > 0 &&
                     (isManualMode$ | async) === false
                 ) {
                     <div class="newrow">
@@ -266,7 +258,7 @@
                     </div>
                 }
 
-                @if (calculatedHealth.dying > 0 && creature.isCharacter()) {
+                @if (state.dying > 0 && creature.isCharacter()) {
                     <div
                         class="newrow"
                         [ngbTooltip]="
@@ -302,7 +294,7 @@
             <div
                 class="newrow list-item"
                 [ngClass]="{
-                    'minimized-hide': calculatedHealth.wounded <= 0,
+                    'minimized-hide': state.wounded <= 0,
                 }"
             >
                 <strong>Wounded</strong>
@@ -312,10 +304,10 @@
                         <div
                             class="value"
                             [ngClass]="{
-                                penalty: calculatedHealth.wounded > 0,
+                                penalty: state.wounded > 0,
                             }"
                         >
-                            {{ calculatedHealth.wounded }}
+                            {{ state.wounded }}
                         </div>
                     </span>
                 }
@@ -343,7 +335,7 @@
                     </span>
                 }
 
-                @if (calculatedHealth.wounded > 0) {
+                @if (state.wounded > 0) {
                     <span>
                         <button (click)="onHealWounded()">Heal</button>
                     </span>
@@ -363,7 +355,7 @@
                             type="range"
                             min="0"
                             max="{{
-                                damageSliderMax(calculatedHealth.maxHP.result)
+                                damageSliderMax(state.maxHP.result)
                             }}"
                             [(ngModel)]="damage"
                         />
@@ -398,7 +390,7 @@
                         min="0"
                         [ngbPopover]="DamageSliderTemplate"
                         max="{{
-                            damageSliderMax(calculatedHealth.maxHP.result)
+                            damageSliderMax(state.maxHP.result)
                         }}"
                         [(ngModel)]="damage"
                         (focus)="DamagePopover.open()"
@@ -421,7 +413,7 @@
                 <div
                     class="list-item newrow"
                     [ngClass]="{
-                        'minimized-hide': calculatedHealth.dying <= 0,
+                        'minimized-hide': state.dying <= 0,
                     }"
                 >
                     <span>
@@ -431,7 +423,7 @@
                     <span>
                         <button
                             type="button"
-                            [disabled]="calculatedHealth.dying <= 0"
+                            [disabled]="state.dying <= 0"
                             (click)="onActivateNumbToDeath()"
                         >
                             Heal and recover

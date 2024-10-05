@@ -21,6 +21,7 @@ import { Familiar } from './familiar/familiar';
 import { Health } from './health';
 import { Speed } from './speed';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
+import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 
 export interface SkillNotes {
     name: string;
@@ -217,7 +218,7 @@ export abstract class Creature implements Serializable<Creature> {
 
     public abstract baseSize(): number;
 
-    public abstract baseHP(charLevel: number, conModifier: number): { result: number; explain: string };
+    public abstract baseHP(charLevel: number, conModifier: number): { result: number; bonuses: Array<BonusDescription> };
 
     public abstract baseSpeed(speedName: string): { result: number; explain: string };
 

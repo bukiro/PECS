@@ -1,0 +1,30 @@
+<app-pretty-value
+    large
+    class="current-hp"
+    [value]="currentHP$$().result"
+    [bonuses]="currentHP$$().bonuses"
+    [highlight]="highlight$$()"
+    [highlightStrength]="highlightStrength$$()"
+/>
+
+<div class="max-hp">
+    <app-pretty-value
+        opaque
+        secondary
+        [title]="'Maximum Hit Points'"
+        [value]="maxHP$$().result"
+        [bonuses]="maxHP$$().bonuses"
+    />
+
+    @if (temporaryHP$$()?.amount; as temporaryHPAmount) {
+        <span class="plus">+</span>
+        <app-pretty-value
+            opaque
+            secondary
+            forceAbsolute
+            [title]="'Temporary Hit Points'"
+            [value]="+ temporaryHPAmount"
+            [bonuses]="temporaryHPBonuses$$()"
+        />
+    }
+</div>

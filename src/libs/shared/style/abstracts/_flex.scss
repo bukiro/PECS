@@ -56,3 +56,22 @@
     align-items: stretch;
 }
 
+@mixin flex-spread-main-axis {
+    justify-content: space-between;
+}
+
+@mixin flex-start-main-axis {
+    justify-content: flex-start;
+}
+
+@mixin flex-start-cross-axis {
+    align-items: flex-start;
+}
+
+@mixin flex-end-main-axis {
+    justify-content: flex-end;
+}
+
+@mixin flex-end-cross-axis {
+    align-items: flex-end;
+}

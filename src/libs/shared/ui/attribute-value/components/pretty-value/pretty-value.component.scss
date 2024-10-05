@@ -3,24 +3,82 @@
 .value {
     @include flex-column-center;
     @include flex-center-main-axis;
+    @include text-larger;
+
+    $small-size: 3rem;
+    $normal-size: 3rem;
+    $large-size: 6rem;
+
+    --highlight-depth: 0;
 
     flex-shrink: 0;
 
     width: auto;
-    height: 3rem;
+    height: $normal-size;
 
     margin: $spacing-xs;
+
+    &--large {
+        height: $large-size;
+        font-size: $font-size-larger + $font-size-tiny;
+
+        .value__value {
+            min-width: $large-size;
+            min-height: $large-size;
+        }
+    }
+
+    &--secondary {
+        font-size: $font-size-large;
+    }
 
     &__value {
         @include flex-column-center;
         @include flex-center-main-axis;
-        @include text-larger;
         @include border-circle;
 
-        min-width: 3rem;
+        min-width: $normal-size;
+        min-height: $normal-size;
         width: auto;
-        min-height: 3rem;
 
         border: $spacing-xxs solid $color-accent;
+
+        &--highlight-absolute {
+            box-shadow: inset 0 0 var(--highlight-depth) $color-absolute-light;
+        }
+
+        &--highlight-penalty {
+            box-shadow: inset 0 0 var(--highlight-depth) $color-penalty-light;
+        }
+
+        &--highlight-bonus {
+            box-shadow: inset 0 0 var(--highlight-depth) $color-bonus-light;
+        }
+
+        &--highlight-warning {
+            box-shadow: inset 0 0 var(--highlight-depth) $color-warning-light;
+        }
+    }
+}
+
+:host-context(.darkmode) {
+    .value {
+        &__value {
+            &--highlight-absolute {
+                box-shadow: inset 0 0 var(--highlight-depth) $color-absolute-dark;
+            }
+
+            &--highlight-penalty {
+                box-shadow: inset 0 0 var(--highlight-depth) $color-penalty-dark;
+            }
+
+            &--highlight-bonus {
+                box-shadow: inset 0 0 var(--highlight-depth) $color-bonus-dark;
+            }
+
+            &--highlight-warning {
+                box-shadow: inset 0 0 var(--highlight-depth) $color-warning-dark;
+            }
+        }
     }
 }
