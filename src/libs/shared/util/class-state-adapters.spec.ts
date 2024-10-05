@@ -124,14 +124,20 @@ describe('Adapter', () => {
                 count++;
 
                 expect(levelNumberResult).toEqual(levelNumber);
-                expect(count).toEqual(1);
-                done();
             }),
         );
 
         character.adapterState().class.update({ levels: [] });
         character.update({ name: 'name' });
         character.adapterState().class.update({ levels: [{ number: levelNumber }] });
+
+        setTimeout(
+            () => {
+                expect(count).toEqual(1);
+                done();
+            },
+            100,
+        );
     });
 
     it('should be reactive on the child adapter state', done => {
@@ -164,6 +170,6 @@ describe('Adapter', () => {
 
         const newCharacter = characterAdapter(JSON.parse(serialized));
 
-        expect (newCharacter.state()).toEqual(character.state());
+        expect(newCharacter.state()).toEqual(character.state());
     });
 });
