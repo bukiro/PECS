@@ -199,7 +199,7 @@ export class CharacterLoadingService {
                 }
 
                 if (animalCompanion?.class?.levels) {
-                    animalCompanion.class =
+                    animalCompanion.class.levels =
                         this._animalCompanionLevelsService.restoreLevelsFromSave(animalCompanion.class.levels);
                 }
 
