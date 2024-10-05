@@ -1,11 +1,12 @@
 @import 'utilities';
 
 :host {
-    @include flex-column-left;
+    @include flex-column-center;
+    @include flex-stretch-cross-axis;
 }
 
 .bonus-description {
-    @include flex-row-start;
+    @include flex-row-spread;
     @include flex-center-cross-axis;
 
     gap: $spacing-m;
