@@ -18,6 +18,7 @@ import { isEqualPrimitiveObject, isEqualObjectArray, isEqualSerializable } from 
 import { stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { FeatsDataService } from '../data/feats-data.service';
+import { Defaults } from '../../definitions/defaults';
 
 @Injectable({
     providedIn: 'root',
@@ -30,20 +31,25 @@ export class CharacterFeatsService {
     ) { }
 
     public buildCharacterFeats(character: Character): void {
-        // Add all feats that the character has taken to $characterFeats (feat for quick retrieval)
-        // and $characterFeatsTaken (gain with level).
-        character.class.levels.forEach(level => {
-            level.featChoices.forEach(choice => {
-                choice.feats.forEach(takenFeat => {
-                    this.addCharacterFeat(
-                        this._featsDataService.featOrFeatureFromName(character.customFeats, takenFeat.name),
-                        takenFeat,
-                        level.number,
-                        choice.showOnSheet,
-                    );
+        const waitForFeatsDataService = setInterval(() => {
+            if (!this._featsDataService.stillLoading) {
+                clearInterval(waitForFeatsDataService);
+
+                // Add all feats that the character has taken to the feats store for quick retrieval.
+                character.class.levels.forEach(level => {
+                    level.featChoices.forEach(choice => {
+                        choice.feats.forEach(takenFeat => {
+                            this.addCharacterFeat(
+                                this._featsDataService.featOrFeatureFromName(character.customFeats, takenFeat.name),
+                                takenFeat,
+                                level.number,
+                                choice.showOnSheet,
+                            );
+                        });
+                    });
                 });
-            });
-        });
+            }
+        }, Defaults.waitForServiceDelay);
     }
 
     public characterFeats$(
