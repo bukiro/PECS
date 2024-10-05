@@ -53,7 +53,7 @@ export class HealthService {
                 this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Max HP'),
             ])
                 .pipe(
-                    switchMap(([charLevel, absolutes, relatives]) =>
+                    switchMap(([charLevel, absoluteEffects, relativeEffects]) =>
                         (
                             creature.requiresConForHP
                                 ? this._abilityValuesService.baseValue$('Constitution', creature, charLevel)
@@ -63,15 +63,21 @@ export class HealthService {
                                 : of(0)
                         )
                             .pipe(
-                                map(conValue => ({ charLevel, absolutes, relatives, conValue })),
+                                map(conValue => ({ charLevel, absoluteEffects, relativeEffects, conValue })),
                             ),
                     ),
-                    map(({ charLevel, absolutes, relatives, conValue }) => {
+                    map(({ charLevel, absoluteEffects, relativeEffects, conValue }) => {
                         const conModifier = abilityModFromAbilityValue(conValue);
-                        const baseHP = creature.baseHP(charLevel, conModifier);
+                        let { result, bonuses } = creature.baseHP(charLevel, conModifier);
 
-                        const { result, bonuses } =
-                            applyEffectsToValue(baseHP.result, { absoluteEffects: absolutes, relativeEffects: relatives });
+                        ({ result, bonuses } = applyEffectsToValue(
+                            result,
+                            {
+                                absoluteEffects,
+                                relativeEffects,
+                                bonuses,
+                            },
+                        ));
 
                         return { result: Math.max(0, result), bonuses };
                     }),
@@ -91,16 +97,17 @@ export class HealthService {
                 .pipe(
                     map(([maxHP, tempHPAmount, damage]) => {
                         const bonuses: Array<BonusDescription> = [{ title: 'Max HP', value: `${ maxHP.result }` }];
+                        let sum = maxHP.result;
 
                         if (tempHPAmount) {
+                            sum += tempHPAmount;
                             bonuses.push({ title: 'Temporary HP', value: `${ tempHPAmount }` });
                         }
 
                         if (damage) {
+                            sum -= damage;
                             bonuses.push({ title: 'Damage taken', value: `${ damage }` });
                         }
-
-                        const sum = maxHP.result + tempHPAmount - damage;
 
                         return { result: Math.max(sum, 0), bonuses };
                     }),

@@ -18,7 +18,6 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { ItemSpecializationsDataService } from 'src/libs/shared/services/data/item-specializations-data.service';
 import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
-import { addBonusDescriptionFromEffect } from 'src/libs/shared/util/bonus-description-utils';
 import { strikingTitleFromLevel } from 'src/libs/shared/util/rune-utils';
 import { skillLevelName } from 'src/libs/shared/util/skill-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
@@ -27,6 +26,9 @@ import { RuneSourceSet, attackRuneSource$ } from '../../util/attack-rune-rource'
 import { ExtraDamageService } from './extra-damage.service';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
+import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
+import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
+import { isDefined } from 'src/libs/shared/util/type-guard-utils';
 
 export type DamageResult = IntermediateResult<string>;
 
@@ -243,8 +245,7 @@ export class DamageService {
                 map(specializationGainLists => {
                     const specializations: Array<Specialization> = [];
 
-                    new Array<SpecializationGain>()
-                        .concat(...specializationGainLists)
+                    flattenArrayLists(specializationGainLists)
                         .forEach(gainedSpec => {
                             const specs: Array<Specialization> =
                                 this._itemSpecializationsDataService.specializations(weapon.group)
@@ -348,52 +349,42 @@ export class DamageService {
                         this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDiceNumber),
                     ])
                         .pipe(
-                            map(([absolutes, relatives]) => {
-                                let effectBonuses = new Array<BonusDescription>();
-                                let result = diceNum;
-
+                            map(([diceNumberAbsolutes, diceNumberRelatives]) => {
                                 const reducedAbsolutes =
                                     this._creatureEffectsService.reduceAbsolutes(
-                                        calculatedAbsoluteDiceNumEffects
-                                            .concat(
-                                                traitEffects.filter((effect): effect is AbsoluteEffect => effect.isAbsoluteEffect()),
-                                                absolutes,
-                                            ),
+                                        [
+                                            ...calculatedAbsoluteDiceNumEffects,
+                                            ...traitEffects.filter((effect): effect is AbsoluteEffect => effect.isAbsoluteEffect()),
+                                            ...diceNumberAbsolutes,
+                                        ],
                                     );
-
-                                reducedAbsolutes
-                                    .forEach(effect => {
-                                        result = effect.setValueNumerical;
-                                        effectBonuses = addBonusDescriptionFromEffect(effectBonuses, effect, 'Dice number');
-                                    });
 
                                 const reducedRelatives =
                                     this._creatureEffectsService.reduceRelativesByType(
-                                        calculatedRelativeDiceNumEffects
-                                            .concat(
-                                                traitEffects.filter((effect): effect is RelativeEffect => effect.isRelativeEffect()),
-                                                relatives,
-                                            ),
+                                        [
+                                            ...calculatedRelativeDiceNumEffects,
+                                            ...traitEffects.filter((effect): effect is RelativeEffect => effect.isRelativeEffect()),
+                                            ...diceNumberRelatives,
+                                        ],
                                         { hasAbsolutes: !!reducedAbsolutes.length },
                                     );
 
-                                reducedRelatives.forEach(effect => {
-                                    result += effect.valueNumerical;
-                                    effectBonuses = addBonusDescriptionFromEffect(effectBonuses, effect, 'Dice number');
-                                });
-
-                                const bonuses =
-                                    diceNumMultiplier.bonuses
-                                        .concat(effectBonuses);
-
-                                const effects =
-                                    diceNumMultiplier.effects
-                                        .concat(
-                                            absolutes,
-                                            relatives,
-                                        );
-
-                                return { result, bonuses, effects };
+                                return {
+                                    ...applyEffectsToValue(
+                                        diceNum,
+                                        {
+                                            absoluteEffects: reducedAbsolutes,
+                                            relativeEffects: reducedRelatives,
+                                            valueDescription: 'Dice Number',
+                                            bonuses: diceNumMultiplier.bonuses,
+                                        },
+                                    ),
+                                    effects: [
+                                        ...diceNumMultiplier.effects,
+                                        ...reducedAbsolutes,
+                                        ...reducedRelatives,
+                                    ],
+                                };
                             }),
                         );
                 }),
@@ -412,30 +403,13 @@ export class DamageService {
             this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDiceNumberMult),
         ])
             .pipe(
-                map(([absolutes, relatives]) => {
-                    let result = 1;
-                    let bonuses = new Array<BonusDescription>();
-
-                    absolutes
-                        .forEach(effect => {
-                            result = effect.setValueNumerical;
-                            bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Dice number multiplier');
-                        });
-                    relatives
-                        .forEach(effect => {
-                            result += effect.valueNumerical;
-                            bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Dice number multiplier');
-                        });
-
-                    const effects =
-                        new Array<Effect>()
-                            .concat(
-                                absolutes,
-                                relatives,
-                            );
-
-                    return { result, bonuses, effects };
-                }),
+                map(([absoluteEffects, relativeEffects]) => ({
+                    ...applyEffectsToValue(
+                        1,
+                        { absoluteEffects, relativeEffects, valueDescription: 'Dice number multiplier' },
+                    ),
+                    effects: flattenArrayLists<Effect>([absoluteEffects, relativeEffects]),
+                })),
             );
     }
 
@@ -543,48 +517,36 @@ export class DamageService {
                         this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDiceSize),
                     ])
                         .pipe(
-                            map(([absolutes, relatives]) => {
-                                let result = weaponDiceSize;
-                                let bonuses = new Array<BonusDescription>();
-
+                            map(([diceSizeAbsoluteEffects, diceSizeRelativeEffects]) => {
                                 const reducedAbsolutes =
                                     this._creatureEffectsService.reduceAbsolutes(
-                                        calculatedAbsoluteDiceSizeEffects
-                                            .concat(
-                                                traitEffects.filter((effect): effect is AbsoluteEffect => effect.isAbsoluteEffect()),
-                                                absolutes,
-                                            ),
+                                        [
+                                            ...calculatedAbsoluteDiceSizeEffects,
+                                            ...traitEffects.filter((effect): effect is AbsoluteEffect => effect.isAbsoluteEffect()),
+                                            ...diceSizeAbsoluteEffects,
+                                        ],
                                     );
-
-                                reducedAbsolutes.forEach(effect => {
-                                    result = effect.setValueNumerical;
-                                    bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Dice size');
-                                });
 
                                 const reducedRelatives =
                                     this._creatureEffectsService.reduceRelativesByType(
-                                        traitEffects
-                                            .filter((effect): effect is RelativeEffect => effect.isRelativeEffect())
-                                            .concat(relatives),
+                                        [
+                                            ...traitEffects.filter((effect): effect is RelativeEffect => effect.isRelativeEffect()),
+                                            ...diceSizeRelativeEffects,
+                                        ],
                                         { hasAbsolutes: !!reducedAbsolutes.length },
                                     );
 
-                                reducedRelatives
-                                    .forEach(effect => {
-                                        result += effect.valueNumerical;
-                                        //Don't raise dice size over 12.
-                                        result = Math.min(DiceSizes.D12, result);
-                                        bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Dice size');
-                                    });
+                                const { result, bonuses } = applyEffectsToValue(
+                                    weaponDiceSize,
+                                    { absoluteEffects: reducedAbsolutes, relativeEffects: reducedRelatives, valueDescription: 'Dice size' },
+                                );
 
-                                const effects =
-                                    new Array<Effect>()
-                                        .concat(
-                                            absolutes,
-                                            relatives,
-                                        );
-
-                                return { result, bonuses, effects };
+                                return {
+                                    //Don't raise dice size over 12.
+                                    result: Math.min(DiceSizes.D12, result),
+                                    bonuses,
+                                    effects: flattenArrayLists<Effect>([reducedAbsolutes, reducedRelatives]),
+                                };
                             }),
                         );
                 }),
@@ -639,63 +601,9 @@ export class DamageService {
                     profLevel,
                     isLargeWeapon,
                 ]) => {
-                    // Build a long list of effect targets to check for effects that may influence the bonus damage.
-
-                    // "Damage" and "Damage Rolls"
-                    const effectPhrasesDamage =
-                        attackEffectPhrases('Damage', context)
-                            .concat(
-                                attackEffectPhrases('Damage Rolls', context),
-                            );
-                    const agile = context.traits.includes('Agile') ? 'Agile' : 'Non-Agile';
-
-                    //"Agile/Non-Agile Large Melee Weapon Damage"
-                    if (isLargeWeapon) {
-                        effectPhrasesDamage.push(
-                            `${ agile } Large ${ context.range } Weapon Damage`,
-                            `${ agile } Large ${ context.range } Weapon Damage Rolls`,
-                        );
-                    }
-
-                    //"Agile/Non-Agile Melee Damage"
-                    effectPhrasesDamage.push(
-                        `${ agile } ${ context.range } Damage`,
-                        `${ agile } ${ context.range } Damage Rolls`,
-                    );
-
-                    // Thrown weapon attacks
-                    if ((context.range === 'ranged') && context.traits.some(trait => trait.includes('Thrown'))) {
-                        //"Agile/Non-Agile Thrown Large Weapon Damage"
-                        if (isLargeWeapon) {
-                            effectPhrasesDamage.push(
-                                `${ agile } Thrown Large Weapon Damage`,
-                                `${ agile } Thrown Large Weapon Damage Rolls`,
-                            );
-                        }
-
-                        //"Agile/Non-Agile Thrown Weapon Damage"
-                        effectPhrasesDamage.push(
-                            `${ agile } Thrown Weapon Damage`,
-                            `${ agile } Thrown Weapon Damage Rolls`,
-                        );
-                    }
-
-                    if (abilityEffect) {
-                        //"Strength-based Checks and DCs"
-                        effectPhrasesDamage.push(`${ abilityEffect.ability }-based Checks and DCs`);
-                    }
-
-                    //Proficiency-based damage
-                    const profLevelName = skillLevelName(profLevel) || '';
-
-                    if (profLevelName) {
-                        effectPhrasesDamage.push(
-                            `${ profLevelName } Proficiency Attack Damage`,
-                            `${ profLevelName } Proficiency Attack Damage Rolls`,
-                            `Trained Proficiency ${ context.weapon.name } Damage`,
-                            `Trained Proficiency ${ context.weapon.name } Damage Rolls`,
-                        );
-                    }
+                    const effectPhrasesDamage = this._damageBonusEffectPhrases({
+                        isLargeWeapon, profLevel, abilityEffect, context,
+                    });
 
                     // Absolute effects are always applied.
                     // Relative effects are applied unless an effect says not to.
@@ -707,43 +615,100 @@ export class DamageService {
                     ])
                         .pipe(
                             map(([absolutes, relatives]) => {
-                                let result = 0;
-                                let bonuses = new Array<BonusDescription>();
-
-                                absolutes
-                                    .forEach(effect => {
-                                        result = effect.setValueNumerical;
-                                        bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Bonus damage');
-                                    });
-
                                 const allRelatives =
                                     this._creatureEffectsService.reduceRelativesByType(
-                                        new Array<RelativeEffect>()
-                                            .concat(
-                                                abilityEffect?.effect ? [abilityEffect?.effect] : [],
-                                                companionEffects,
-                                                emblazonArmamentEffect ? [emblazonArmamentEffect] : [],
-                                                damagePerDieEffects,
-                                                relatives,
-                                            ),
+                                        [
+                                            abilityEffect?.effect,
+                                            ...companionEffects,
+                                            emblazonArmamentEffect,
+                                            ...damagePerDieEffects,
+                                            ...relatives,
+                                        ]
+                                            .filter(isDefined),
                                     );
 
-                                allRelatives
-                                    .forEach(effect => {
-                                        result += effect.valueNumerical;
-                                        bonuses = addBonusDescriptionFromEffect(bonuses, effect, 'Bonus Damage');
-                                    });
-
-                                const effects: Array<Effect> = [
-                                    ...absolutes,
-                                    ...allRelatives,
-                                ];
-
-                                return { result, bonuses, effects };
+                                return {
+                                    ...applyEffectsToValue(
+                                        0,
+                                        { absoluteEffects: absolutes, relativeEffects: allRelatives, valueDescription: 'Bonus Damage' },
+                                    ),
+                                    effects: flattenArrayLists<Effect>([
+                                        absolutes,
+                                        allRelatives,
+                                    ]),
+                                };
                             }),
                         );
                 }),
             );
+    }
+
+    private _damageBonusEffectPhrases(
+        { isLargeWeapon, abilityEffect, profLevel, context }: {
+            isLargeWeapon: boolean;
+            abilityEffect: { effect: RelativeEffect; ability: 'Dexterity' | 'Strength' } | undefined;
+            profLevel: number;
+            context: IntermediateMethodContext;
+        }): Array<string> {
+        // Build a long list of effect targets to check for effects that may influence the bonus damage.
+
+        // "Damage" and "Damage Rolls"
+        const effectPhrasesDamage =
+            attackEffectPhrases('Damage', context)
+                .concat(
+                    attackEffectPhrases('Damage Rolls', context),
+                );
+        const agile = context.traits.includes('Agile') ? 'Agile' : 'Non-Agile';
+
+        //"Agile/Non-Agile Large Melee Weapon Damage"
+        if (isLargeWeapon) {
+            effectPhrasesDamage.push(
+                `${ agile } Large ${ context.range } Weapon Damage`,
+                `${ agile } Large ${ context.range } Weapon Damage Rolls`,
+            );
+        }
+
+        //"Agile/Non-Agile Melee Damage"
+        effectPhrasesDamage.push(
+            `${ agile } ${ context.range } Damage`,
+            `${ agile } ${ context.range } Damage Rolls`,
+        );
+
+        // Thrown weapon attacks
+        if ((context.range === 'ranged') && context.traits.some(trait => trait.includes('Thrown'))) {
+            //"Agile/Non-Agile Thrown Large Weapon Damage"
+            if (isLargeWeapon) {
+                effectPhrasesDamage.push(
+                    `${ agile } Thrown Large Weapon Damage`,
+                    `${ agile } Thrown Large Weapon Damage Rolls`,
+                );
+            }
+
+            //"Agile/Non-Agile Thrown Weapon Damage"
+            effectPhrasesDamage.push(
+                `${ agile } Thrown Weapon Damage`,
+                `${ agile } Thrown Weapon Damage Rolls`,
+            );
+        }
+
+        if (abilityEffect) {
+            //"Strength-based Checks and DCs"
+            effectPhrasesDamage.push(`${ abilityEffect.ability }-based Checks and DCs`);
+        }
+
+        //Proficiency-based damage
+        const profLevelName = skillLevelName(profLevel) || '';
+
+        if (profLevelName) {
+            effectPhrasesDamage.push(
+                `${ profLevelName } Proficiency Attack Damage`,
+                `${ profLevelName } Proficiency Attack Damage Rolls`,
+                `Trained Proficiency ${ context.weapon.name } Damage`,
+                `Trained Proficiency ${ context.weapon.name } Damage Rolls`,
+            );
+        }
+
+        return effectPhrasesDamage;
     }
 
     /**
@@ -982,17 +947,18 @@ export class DamageService {
                     // All "...Damage per Die" effects are converted to just "...Damage"
                     // (by multiplying with the dice number)
                     // and then re-processed with the rest of the damage effects.
-                    traitEffects
-                        .filter((effect): effect is RelativeEffect => effect.isRelativeEffect())
-                        .concat(relatives)
+                    [
+                        ...traitEffects
+                            .filter((effect): effect is RelativeEffect => effect.isRelativeEffect()),
+                        ...relatives,
+                    ]
                         .map(effect => {
                             const effectValue = effect.valueNumerical * context.diceNum;
-                            const newEffect = effect.clone();
 
-                            newEffect.target = newEffect.target.replace(' per Die', '');
-                            newEffect.value = effectValue.toString();
-
-                            return newEffect as RelativeEffect;
+                            return effect.clone().with({
+                                target: effect.target.replace(new RegExp(' per Die', 'ig'), ''),
+                                value: String(effectValue),
+                            });
                         }),
                 ),
             );

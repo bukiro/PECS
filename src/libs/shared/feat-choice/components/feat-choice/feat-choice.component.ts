@@ -31,6 +31,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbTooltip, NgbCollapse, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
 import { CommonModule } from '@angular/common';
+import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
 
 interface CannotTakeSet {
     reason: string;
@@ -943,24 +944,14 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
                             ])
                     )
                         .pipe(
-                            map(([absolutes, relatives]) => ({ choice, absolutes, relatives })),
+                            map(([absoluteEffects, relativeEffects]) => ({ choice, absoluteEffects, relativeEffects })),
                         ),
                 ),
-                map(({ choice, absolutes, relatives }) => {
-                    let allowed = choice.available;
-
-                    absolutes
-                        .forEach(effect => {
-                            allowed = effect.setValueNumerical;
-                        });
-
-                    relatives
-                        .forEach(effect => {
-                            allowed += effect.valueNumerical;
-                        });
-
-                    return allowed;
-                }),
+                map(({ choice, absoluteEffects, relativeEffects }) =>
+                    applyEffectsToValue(
+                        choice.available,
+                        { absoluteEffects, relativeEffects },
+                    ).result),
                 shareReplay({ refCount: true, bufferSize: 1 }),
             );
     }

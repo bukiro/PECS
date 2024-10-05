@@ -42,7 +42,7 @@ export class Health implements Serializable<Health> {
             this.temporaryHP.values$
                 .pipe(
                     tap(temporaryHP => {
-                        if (temporaryHP.length) {
+                        if (!temporaryHP.length) {
                             this.temporaryHP = [TemporaryHP.from(defaultTemporaryHP)];
                         }
                     }),

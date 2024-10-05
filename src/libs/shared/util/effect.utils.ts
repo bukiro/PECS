@@ -4,10 +4,12 @@ import { addBonusDescriptionFromEffect } from './bonus-description-utils';
 
 export const applyEffectsToValue = (
     value: number,
-    { absoluteEffects, relativeEffects, bonuses }: {
+    { absoluteEffects, relativeEffects, bonuses, valueDescription, clearBonusesOnAbsolute }: {
         absoluteEffects?: Array<AbsoluteEffect>;
         relativeEffects?: Array<RelativeEffect>;
         bonuses?: Array<BonusDescription>;
+        valueDescription?: string;
+        clearBonusesOnAbsolute?: boolean;
     } = {},
 ): { result: number; bonuses: Array<BonusDescription> } => {
     let result = value;
@@ -15,11 +17,11 @@ export const applyEffectsToValue = (
 
     absoluteEffects?.forEach(effect => {
         result = effect.setValueNumerical;
-        bonusesResult = addBonusDescriptionFromEffect(bonusesResult, effect);
+        bonusesResult = addBonusDescriptionFromEffect(clearBonusesOnAbsolute ? [] : bonusesResult, effect, valueDescription);
     });
     relativeEffects?.forEach(effect => {
         result += effect.valueNumerical;
-        bonusesResult = addBonusDescriptionFromEffect(bonusesResult, effect);
+        bonusesResult = addBonusDescriptionFromEffect(bonusesResult, effect, valueDescription);
     });
 
     return { result, bonuses: bonusesResult };

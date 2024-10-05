@@ -20,6 +20,7 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
+import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
 import { emptySafeZip, propMap$ } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
@@ -178,24 +179,16 @@ export class SpellProcessingService {
                 .relativeEffectsOnThese$(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]),
         ])
             .pipe(
-                map(([absolutes, relatives]) => {
-                    const conditionsToRemove: Array<string> = [];
-
-                    let customDuration: number = context.gain.duration || spell.sustained || 0;
-
+                map(([absoluteEffects, relativeEffects]) => {
                     //If an effect changes the duration of this spell, change the duration here.
-                    absolutes
-                        .forEach(effect => {
-                            customDuration = effect.setValueNumerical;
-                            conditionsToRemove.push(effect.source);
-                        });
-                    relatives
-                        .forEach(effect => {
-                            customDuration += effect.valueNumerical;
-                            conditionsToRemove.push(effect.source);
-                        });
+                    const effectsDuration = applyEffectsToValue(
+                        context.gain.duration || spell.sustained || 0,
+                        { absoluteEffects, relativeEffects },
+                    ).result;
 
-                    const newDuration = customDuration || spell.sustained;
+                    const conditionsToRemove = [...absoluteEffects, ...relativeEffects].map(({ source }) => source);
+
+                    const newDuration = effectsDuration || spell.sustained;
 
                     return { conditionsToRemove, newDuration };
                 }),

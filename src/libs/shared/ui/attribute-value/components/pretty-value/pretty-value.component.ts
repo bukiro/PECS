@@ -4,10 +4,9 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 import { BonusListComponent } from 'src/libs/shared/ui/bonus-list/components/bonus-list/bonus-list.component';
-import { HasPenaltiesPipe } from '../../pipes/has-penalties.pipe';
-import { HasAbsolutesPipe } from '../../pipes/has-absolutes.pipe';
-import { HasBonusesPipe } from '../../pipes/has-bonuses.pipe';
+import { SystemColors } from 'src/libs/shared/definitions/system-colors';
 
+const maxHighlightStrength = 2;
 
 @Component({
     selector: 'app-pretty-value',
@@ -19,13 +18,16 @@ import { HasBonusesPipe } from '../../pipes/has-bonuses.pipe';
         CommonModule,
         NgbPopoverModule,
         BonusListComponent,
-        HasAbsolutesPipe,
-        HasBonusesPipe,
-        HasPenaltiesPipe,
     ],
 })
 export class PrettyValueComponent {
     public readonly value$$ = input<number | string | undefined>(undefined, { alias: 'value' });
+
+    public readonly title$$ = input<string | undefined>(undefined, { alias: 'title' });
+
+    public readonly large$$ = input<boolean, unknown>(false, { alias: 'large', transform: booleanAttribute });
+
+    public readonly secondary$$ = input<boolean, unknown>(false, { alias: 'secondary', transform: booleanAttribute });
 
     public readonly clickLabel$$ = input<string | undefined>(undefined, { alias: 'clickLabel' });
 
@@ -50,6 +52,12 @@ export class PrettyValueComponent {
     public readonly opaque$$ = input<boolean, boolean | string | number>(
         false,
         { alias: 'opaque', transform: value => forceBooleanFromInput(value) },
+    );
+
+    public readonly highlight$$ = input<SystemColors | undefined>(undefined, { alias: 'highlight' });
+    public readonly highlightStrength$$ = input<string, number>(
+        '1em',
+        { alias: 'highlightStrength', transform: value => `${ value * maxHighlightStrength }em` },
     );
 
     public readonly isAbsolute$$ = computed(() => {

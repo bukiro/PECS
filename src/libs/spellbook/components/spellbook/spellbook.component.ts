@@ -60,6 +60,7 @@ import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
 import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { filterConditions } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
+import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -590,7 +591,6 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
         // If an effect changes whether a spell resource will get used, mark this here and mark any matching condition for removal.
         // The conditions will be removed if they have duration 1, regardless of whether the effect was used.
         // These conditions are assumed to apply to "the next spell you cast".
-        const conditionsToRemove: Array<string> = [];
 
         combineLatest([
             this._creatureEffectsService.absoluteEffectsOnThis$(character, 'Spell Slot Preservation'),
@@ -602,28 +602,22 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                 take(1),
             )
             .subscribe(([preservationAbsolutes, preservationRelatives, noDurationAbsolutes, noDurationRelatives]) => {
-                let highestSpellPreservationLevel = 0;
-                let highestNoDurationSpellPreservationLevel = 0;
+                const highestSpellPreservationLevel = applyEffectsToValue(
+                    0,
+                    { absoluteEffects: preservationAbsolutes, relativeEffects: preservationRelatives },
+                ).result;
 
-                preservationAbsolutes.forEach(effect => {
-                    conditionsToRemove.push(effect.source);
-                    highestSpellPreservationLevel = effect.setValueNumerical;
-                });
+                const highestNoDurationSpellPreservationLevel = applyEffectsToValue(
+                    0,
+                    { absoluteEffects: noDurationAbsolutes, relativeEffects: noDurationRelatives },
+                ).result;
 
-                preservationRelatives.forEach(effect => {
-                    conditionsToRemove.push(effect.source);
-                    highestSpellPreservationLevel += effect.valueNumerical;
-                });
-
-                noDurationAbsolutes.forEach(effect => {
-                    conditionsToRemove.push(effect.source);
-                    highestNoDurationSpellPreservationLevel = effect.setValueNumerical;
-                });
-
-                noDurationRelatives.forEach(effect => {
-                    conditionsToRemove.push(effect.source);
-                    highestNoDurationSpellPreservationLevel += effect.valueNumerical;
-                });
+                const conditionsToRemove = [
+                    ...preservationAbsolutes,
+                    ...preservationRelatives,
+                    ...noDurationAbsolutes,
+                    ...noDurationRelatives,
+                ].map(({ source }) => source);
 
                 if (activated) {
                     this._payForSpell({ ...context, highestSpellPreservationLevel, highestNoDurationSpellPreservationLevel });
@@ -1144,9 +1138,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                     }
 
                     if (casting.className) {
-                        spellSlotsEffects.forEach(effect => {
-                            spellslots += effect.valueNumerical;
-                        });
+                        spellslots = applyEffectsToValue(spellslots, { relativeEffects: spellSlotsEffects }).result;
                     }
 
                     return spellslots;

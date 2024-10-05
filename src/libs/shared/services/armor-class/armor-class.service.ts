@@ -206,7 +206,6 @@ export class ArmorClassService {
 
                     let isBaseArmorBonusSet = false;
 
-                    //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
                     absolutes.forEach(effect => {
                         isBaseArmorBonusSet = true;
                         basicBonus = effect.setValueNumerical;
@@ -351,20 +350,19 @@ export class ArmorClassService {
                     //Sum up the effects
                     let effectsSum = 0;
 
+                    // TODO: Replace explain with Array<BonusDescription>, then replace this with applyEffectsToValue
                     this._creatureEffectsService.reduceRelativesByType(relatives)
                         .forEach(effect => {
                             effectsSum += effect.valueNumerical;
                             explain += `\n${ effect.source }: ${ effect.value }`;
                         });
 
-                    //Add up the armor bonus and all active effects and return the sum
-                    const result: number = bonus + effectsSum;
-
-                    const effects = new Array<Effect>()
-                        .concat(absolutes)
-                        .concat(relatives);
-
-                    return { result, explain, effects };
+                    return {
+                        //Add up the armor bonus and all active effects and return the sum
+                        result: bonus + effectsSum,
+                        explain,
+                        effects: [...absolutes, ...relatives],
+                    };
                 }),
             );
     }

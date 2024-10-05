@@ -24,13 +24,15 @@ import { filterConditions } from 'src/libs/shared/services/creature-conditions/c
 import { TemporaryHP } from 'src/app/classes/creatures/temporary-hp';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 import { PrettyValueComponent } from 'src/libs/shared/ui/attribute-value/components/pretty-value/pretty-value.component';
+import { HitPointsValueComponent } from '../hit-points-value/hit-points-value.component';
 
-interface CollectedHealth {
+interface ComponentState {
     maxHP: { result: number; bonuses: Array<BonusDescription> };
     currentHP: { result: number; bonuses: Array<BonusDescription> };
     wounded: number;
     dying: number;
     maxDying: { result: number; bonuses: Array<BonusDescription> };
+    mainTemporaryHP: TemporaryHP;
 }
 
 @Component({
@@ -48,6 +50,7 @@ interface CollectedHealth {
         CharacterSheetCardComponent,
         TagsComponent,
         PrettyValueComponent,
+        HitPointsValueComponent,
     ],
 })
 export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) {
@@ -60,7 +63,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
     public readonly isManualMode$: Observable<boolean>;
     public isMinimized$: Observable<boolean>;
 
-    public calculatedHealth$: Observable<CollectedHealth>;
+    public state$: Observable<ComponentState>;
 
     private _forceMinimized = false;
 
@@ -104,13 +107,20 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
 
         this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$');
 
-        this.calculatedHealth$ = combineLatest({
-            maxHP: this._healthService.maxHP$(this.creature),
-            currentHP: this._healthService.currentHP$(this.creature),
-            wounded: this._healthService.wounded$(this.creature),
-            dying: this._healthService.dying$(this.creature),
-            maxDying: this._healthService.maxDying$(this.creature),
-        });
+        this.state$ = this.creature$
+            .pipe(
+                switchMap(creature =>
+                    combineLatest({
+                        maxHP: this._healthService.maxHP$(creature),
+                        currentHP: this._healthService.currentHP$(creature),
+                        wounded: this._healthService.wounded$(creature),
+                        dying: this._healthService.dying$(creature),
+                        maxDying: this._healthService.maxDying$(creature),
+                        mainTemporaryHP: creature.health.mainTemporaryHP$,
+                    }),
+                ),
+            );
+
     }
 
     public get creature(): Creature {
@@ -242,8 +252,10 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                     const resistances: Array<{ target: string; value: number; source: string }> = [];
 
                     //Build a list of all resistances other than "Resistances" and add up their respective value.
-                    resistanceEffects
-                        .concat(hardnessEffects)
+                    [
+                        ...resistanceEffects,
+                        ...hardnessEffects,
+                    ]
                         .filter(effect => !stringEqualsCaseInsensitive(effect.target, 'resistances'))
                         .forEach(effect => {
                             const value = effect.valueNumerical || effect.setValueNumerical || 0;
@@ -258,7 +270,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                         });
                     //Globally apply any effects on "Resistances".
                     resistanceEffects
-                        .filter(effect => effect.target.toLowerCase() === 'resistances')
+                        .filter(effect => stringEqualsCaseInsensitive(effect.target, 'resistances'))
                         .forEach(effect => {
                             const value = effect.valueNumerical || effect.setValueNumerical || 0;
 
@@ -273,7 +285,9 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                             res.target = res.target.toLowerCase().replace('resistance', 'weakness');
                         }
 
-                        res.target = res.target.split(' ').map(capitalize)
+                        res.target = res.target
+                            .split(' ')
+                            .map(capitalize)
                             .join(' ');
                     });
 

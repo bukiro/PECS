@@ -8,12 +8,12 @@ import {
     mapAbilityBoostsToBaseValueAggregate,
     abilityModFromAbilityValue,
 } from '../../util/ability-base-value-utils';
-import { addBonusDescriptionFromEffect } from '../../util/bonus-description-utils';
 import { isEqualPrimitiveObject, isEqualSerializableArrayWithoutId } from '../../util/compare-utils';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { AbilitiesDataService } from '../data/abilities-data.service';
 import { BonusDescription } from '../../definitions/bonuses/bonus-description';
+import { applyEffectsToValue } from '../../util/effect.utils';
 
 export interface AbilityLiveValue {
     ability: Ability;
@@ -138,24 +138,13 @@ export class AbilityValuesService {
                     .pipe(distinctUntilChanged(isEqualSerializableArrayWithoutId)),
             ])
                 .pipe(
-                    map(([effectiveBaseValue, absolutes, relatives]) => {
-                        let result: number = effectiveBaseValue.result;
-                        let bonuses = effectiveBaseValue.bonuses;
-
+                    map(([effectiveBaseValue, absoluteEffects, relativeEffects]) =>
                         //Add all active bonuses and penalties to the base value
-                        absolutes
-                            .forEach(effect => {
-                                result = effect.setValueNumerical;
-                                bonuses = addBonusDescriptionFromEffect(bonuses, effect);
-                            });
-                        relatives
-                            .forEach(effect => {
-                                result += effect.valueNumerical;
-                                bonuses = addBonusDescriptionFromEffect(bonuses, effect);
-                            });
-
-                        return { result, bonuses };
-                    }),
+                        applyEffectsToValue(
+                            effectiveBaseValue.result,
+                            { absoluteEffects, relativeEffects, bonuses: effectiveBaseValue.bonuses },
+                        ),
+                    ),
                 );
         }
     }
@@ -188,24 +177,19 @@ export class AbilityValuesService {
                     .pipe(distinctUntilChanged(isEqualSerializableArrayWithoutId)),
             ])
                 .pipe(
-                    map(([abilityValue, absolutes, relatives]) => {
-                        let result = abilityModFromAbilityValue(abilityValue.result);
-                        let bonuses =
-                            new Array<BonusDescription>({ title: `Ability value ${ abilityValue.result }`, value: `${ result }` });
+                    map(([abilityValue, absoluteEffects, relativeEffects]) => {
+                        const abilityMod = abilityModFromAbilityValue(abilityValue.result);
+                        const abilityBonusDescription = { title: `Ability value ${ abilityValue.result }`, value: `${ abilityMod }` };
 
                         //Add active bonuses and penalties to the ability modifier
-                        absolutes
-                            .forEach(effect => {
-                                result = effect.setValueNumerical;
-                                bonuses = addBonusDescriptionFromEffect(bonuses, effect);
-                            });
-                        relatives
-                            .forEach(effect => {
-                                result += effect.valueNumerical;
-                                bonuses = addBonusDescriptionFromEffect(bonuses, effect);
-                            });
-
-                        return { result, bonuses };
+                        return applyEffectsToValue(
+                            abilityMod,
+                            {
+                                absoluteEffects,
+                                relativeEffects,
+                                bonuses: [abilityBonusDescription],
+                            },
+                        );
                     }),
                 );
         }

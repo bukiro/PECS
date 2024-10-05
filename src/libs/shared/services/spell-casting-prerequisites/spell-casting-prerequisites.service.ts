@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, map, Observable } from 'rxjs';
+import { combineLatest, map, Observable, switchMap } from 'rxjs';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { Defaults } from '../../definitions/defaults';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { applyEffectsToValue } from '../../util/effect.utils';
 
 @Injectable({
     providedIn: 'root',
@@ -14,20 +15,19 @@ export class SpellCastingPrerequisitesService {
     constructor(
         private readonly _creatureEffectsService: CreatureEffectsService,
     ) {
-        this.maxFocusPoints$ = combineLatest([
-            this._creatureEffectsService.absoluteEffectsOnThis$(CreatureService.character, 'Focus Pool'),
-            this._creatureEffectsService.relativeEffectsOnThis$(CreatureService.character, 'Focus Pool'),
-        ])
+        this.maxFocusPoints$ = CreatureService.character$
             .pipe(
-                map(([absolutes, relatives]) => {
-                    let focusPoints = 0;
-
-                    absolutes.forEach(effect => {
-                        focusPoints = effect.setValueNumerical;
-                    });
-                    relatives.forEach(effect => {
-                        focusPoints += effect.valueNumerical;
-                    });
+                switchMap(character =>
+                    combineLatest([
+                        this._creatureEffectsService.absoluteEffectsOnThis$(character, 'Focus Pool'),
+                        this._creatureEffectsService.relativeEffectsOnThis$(character, 'Focus Pool'),
+                    ]),
+                ),
+                map(([absoluteEffects, relativeEffects]) => {
+                    const focusPoints = applyEffectsToValue(
+                        0,
+                        { absoluteEffects, relativeEffects },
+                    ).result;
 
                     return Math.min(focusPoints, Defaults.maxFocusPoints);
                 }),

@@ -37,7 +37,11 @@ export class CreatureEffectsService {
     public replaceCreatureEffects(creatureType: CreatureTypes, effects: Array<Effect>): void {
         const creatureIndex = creatureTypeIDFromType(creatureType);
 
-        this._store$.dispatch(replaceEffects({ id: creatureIndex, effects }));
+        this._store$.dispatch(replaceEffects({
+            id: creatureIndex,
+            // Clone the effects to preserve immutability.
+            effects: effects.map(effect => effect.clone()),
+        }));
     }
 
     public effectsOnThis$(

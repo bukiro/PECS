@@ -21,6 +21,7 @@ import { SkillIncrease } from '../../skills/skill-increase';
 import { Creature } from '../creature';
 import { CharacterClass } from './character-class';
 import { CharacterClassLevel } from './character-class-level';
+import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 
 interface IgnoredMessage { id: string; ttl: number }
 
@@ -216,22 +217,32 @@ export class Character extends Creature implements Serializable<Character> {
         return this.class.ancestry.size ? this.class.ancestry.size : 0;
     }
 
-    public baseHP(charLevel: number, conModifier: number): { result: number; explain: string } {
-        let explain = '';
-        let classHP = 0;
-        let ancestryHP = 0;
+    public baseHP(charLevel: number, conModifier: number): { result: number; bonuses: Array<BonusDescription> } {
+        const bonuses = new Array<BonusDescription>();
+        let result = 0;
 
         if (this.class.hitPoints) {
             if (this.class.ancestry.name) {
-                ancestryHP = this.class.ancestry.hitPoints;
-                explain = `Ancestry base HP: ${ ancestryHP }`;
+                result += this.class.ancestry.hitPoints;
+                bonuses.push({ title: 'Ancestry base HP', value: String(this.class.ancestry.hitPoints) });
             }
 
-            classHP = (this.class.hitPoints + conModifier) * charLevel;
-            explain += `\nClass: ${ this.class.hitPoints } + CON: ${ this.class.hitPoints + conModifier } per Level: ${ classHP }`;
+            result += (this.class.hitPoints + conModifier) * charLevel;
+            bonuses.push(
+                {
+                    title: 'Class base HP',
+                    subline: '(multiplied with level)',
+                    value: `${ this.class.hitPoints } (${ this.class.hitPoints * charLevel })`,
+                },
+                {
+                    title: 'Constitution modifier',
+                    subline: '(multiplied with level)',
+                    value: `${ conModifier } (${ conModifier * charLevel })`,
+                },
+            );
         }
 
-        return { result: classHP + ancestryHP, explain: explain.trim() };
+        return { result, bonuses };
     }
 
     public baseSpeed(speedName: string): { result: number; explain: string } {

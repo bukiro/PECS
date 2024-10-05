@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable, combineLatest, map } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Effect } from 'src/app/classes/effects/effect';
-import { addBonusDescriptionFromEffect } from '../../util/bonus-description-utils';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 import { BonusDescription } from '../../definitions/bonuses/bonus-description';
+import { applyEffectsToValue } from '../../util/effect.utils';
 
 export interface InvestedLiveValue {
     result: number;
@@ -31,32 +31,27 @@ export class InvestedService {
             this._creatureEffectsService.relativeEffectsOnThis$(creature, effectTarget),
         ])
             .pipe(
-                map(([absolutes, relatives]) => {
+                map(([absoluteEffects, relativeEffects]) => {
                     const characterBaseMax = 10;
                     const otherBaseMax = 2;
 
-                    let result =
+                    const baseMax =
                         creature.isCharacter()
                             ? characterBaseMax
                             : otherBaseMax;
 
-                    let bonuses: Array<BonusDescription> = [{ title: 'Base Limit', value: `${ result }` }];
-
-                    absolutes
-                        .forEach(effect => {
-                            result = effect.setValueNumerical;
-                            bonuses = addBonusDescriptionFromEffect([], effect);
-                        });
-
-                    relatives
-                        .forEach(effect => {
-                            result += effect.valueNumerical;
-                            bonuses = addBonusDescriptionFromEffect([], effect);
-                        });
-
-                    const effects = new Array<Effect>(...absolutes, ...relatives);
-
-                    return { result, bonuses, effects };
+                    return {
+                        ...applyEffectsToValue(
+                            baseMax,
+                            {
+                                absoluteEffects,
+                                relativeEffects,
+                                bonuses: [{ title: 'Base Limit', value: `${ baseMax }` }],
+                                clearBonusesOnAbsolute: true,
+                            },
+                        ),
+                        effects: [...absoluteEffects, ...relativeEffects],
+                    };
                 }),
             );
     }

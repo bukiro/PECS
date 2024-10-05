@@ -1,13 +1,14 @@
 @if (value$$() !== undefined) {
-    <div class="value">
+    <div class="value" [class.value--large]="large$$()" [class.value--secondary]="secondary$$()">
         <div
-            class="value__value"
+            class="value__value value__value--highlight-{{highlight$$()}}"
             [ngClass]="{
                 'background-color-default': opaque$$(),
                 'background-color-penalty': isPenalty$$(),
                 'background-color-bonus': isBonus$$(),
                 'background-color-absolute': isAbsolute$$(),
             }"
+            [style.--highlight-depth]="highlightStrength$$()"
             [ngbPopover]="BonusesTemplate"
             [disablePopover]="!bonuses$$().length"
         >
@@ -17,8 +18,15 @@
 }
 
 <ng-template #BonusesTemplate>
-    @if (bonuses$$().length) {
-        <app-bonus-list [bonuses]="bonuses$$()" />
+    @if (title$$(); as title) {
+        <div>
+            {{ title }}
+        </div>
+    }
+
+    @let bonuses = bonuses$$();
+    @if (bonuses.length) {
+        <app-bonus-list [bonuses]="bonuses" />
     }
 
     @if (clickLabel$$(); as clickLabel) {

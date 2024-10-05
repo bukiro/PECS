@@ -27,6 +27,8 @@ import { filterConditions } from 'src/libs/shared/services/creature-conditions/c
 import { AppliedCreatureConditionsService } from 'src/libs/shared/services/creature-conditions/applied-creature-conditions.service';
 import { filterDefinedArrayMembers$ } from 'src/libs/shared/util/array-utils';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
+import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 @Injectable({
     providedIn: 'root',
@@ -53,13 +55,8 @@ export class TimeService {
     ) { }
 
     public startTurn(): void {
-        //Apply Fast Healing.
-        let fastHealing = 0;
-
-        const character = CreatureService.character;
-
         (
-            character.settings.manualMode
+            SettingsService.settings.manualMode
                 ? of(new Array<Creature>())
                 : this._creatureAvailabilityService.allAvailableCreatures$()
         )
@@ -84,14 +81,13 @@ export class TimeService {
             .subscribe(creatureParameterList => {
                 creatureParameterList
                     .forEach(({ creature, fastHealingAbsolutes, fastHealingRelatives, timeStopEffects, currentHP }) => {
-                        fastHealingAbsolutes.forEach(effect => {
-                            fastHealing = effect.setValueNumerical;
-                        });
-                        fastHealingRelatives.forEach(effect => {
-                            fastHealing += effect.valueNumerical;
-                        });
-
+                        // Determine and apply fast healing, unless time is stopped.
                         if (!timeStopEffects.length) {
+                            const fastHealing = applyEffectsToValue(
+                                0,
+                                { absoluteEffects: fastHealingAbsolutes, relativeEffects: fastHealingRelatives },
+                            ).result;
+
                             if (fastHealing && currentHP.result > 0) {
                                 this._healthService.heal(creature, fastHealing);
 
@@ -105,9 +101,12 @@ export class TimeService {
                         }
                     });
 
+                // Pass time by half a turn to the start of the turn.
                 this.tick(TimePeriods.HalfTurn);
 
-                //If the character is in a party and sendTurnStartMessage is set, send a turn end event to all your party members.
+                const character = CreatureService.character;
+
+                //If the character is in a party and sendTurnStartMessage is set, send a turn change event to all your party members.
                 if (character.partyName && character.settings.sendTurnStartMessage && !character.settings.sendTurnEndMessage) {
                     this._messageSendingService.sendTurnChangeToPlayers();
                 }
@@ -115,6 +114,7 @@ export class TimeService {
     }
 
     public endTurn(): void {
+        // Pass time by half a turn to the end of the turn.
         this.tick(TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
@@ -169,24 +169,19 @@ export class TimeService {
                             1,
                         );
 
-                        let heal: number = con * charLevel;
+                        const heal = applyEffectsToValue(
+                            con * charLevel,
+                            { absoluteEffects: gainAbsolutes, relativeEffects: gainRelatives },
+                        ).result;
 
-                        gainAbsolutes.forEach(effect => {
-                            heal = effect.setValueNumerical;
-                        });
-                        gainRelatives.forEach(effect => {
-                            heal += effect.valueNumerical;
-                        });
+                        const multiplier = Math.max(
+                            applyEffectsToValue(
+                                1,
+                                { absoluteEffects: multiplierAbsolutes, relativeEffects: multiplierRelatives },
+                            ).result,
+                            1,
+                        );
 
-                        let multiplier = 1;
-
-                        multiplierAbsolutes.forEach(effect => {
-                            multiplier = effect.setValueNumerical;
-                        });
-                        multiplierRelatives.forEach(effect => {
-                            multiplier += effect.valueNumerical;
-                        });
-                        multiplier = Math.max(1, multiplier);
                         this._healthService.heal(creature, heal * multiplier, true, true);
                         this._toastService.show(
                             `${ creature.isCharacter()
@@ -270,34 +265,36 @@ export class TimeService {
 
         const focusPoints = character.class.focusPoints;
         const focusPointsLast = character.class.focusPointsLast;
-        let finalRecoverPoints = recoverPoints;
 
         (
-            (finalRecoverPoints < maximumFocusPoints)
+            ((focusPoints + recoverPoints) < maximumFocusPoints)
                 // Several feats recover more focus points if you spent at least that amount since the last time refocusing.
                 // Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
                 ? this._creatureEffectsService.absoluteEffectsOnThis$(character, 'Refocus Bonus Points')
+                // Skip this if recoverPoints is already enough to reach the maximum.
                 : of(new Array<AbsoluteEffect>())
         )
             .pipe(
                 take(1),
             )
             .subscribe(refocusEffects => {
-                refocusEffects.forEach(effect => {
-                    const points = effect.setValueNumerical;
+                const requiredDifference = applyEffectsToValue(
+                    recoverPoints,
+                    { absoluteEffects: refocusEffects },
+                ).result;
 
-                    if (focusPointsLast - focusPoints >= points) {
-                        finalRecoverPoints = Math.max(finalRecoverPoints, points);
-                    }
-                });
+                const finalRecoverPoints = (focusPointsLast - focusPoints >= requiredDifference)
+                    ? Math.max(recoverPoints, requiredDifference)
+                    : recoverPoints;
 
-                //Regenerate Focus Points by calling a onceEffect (so we don't have the code twice).
+                // Remember how many points you had for the next comparison.
+                character.class.focusPointsLast = character.class.focusPoints;
+
+                //Regenerate Focus Points by calling a onceEffect.
                 this._onceEffectsService.processOnceEffect(
                     character,
                     EffectGain.from({ affected: 'Focus Points', value: `+${ finalRecoverPoints }` }),
                 );
-
-                character.class.focusPointsLast = character.class.focusPoints;
             });
     }
 

@@ -27,6 +27,7 @@ import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
+import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
 import { emptySafeZip, propMap$ } from 'src/libs/shared/util/observable-utils';
 
 @Injectable({
@@ -345,8 +346,6 @@ export class ActivitiesProcessingService {
             target?: SpellTargetSelection;
         },
     ): Observable<Array<string>> {
-        const conditionsToRemove: Array<string> = [];
-
         context.gain.active = true;
 
         if (activity.maxDuration) {
@@ -371,20 +370,17 @@ export class ActivitiesProcessingService {
             .pipe(
                 take(1),
                 // If an effect changes the duration of this activitiy, change the duration here.
-                // Afterwards, the condition causing the effect should be removed.
-                tap(([absolutes, relatives]) => {
-                    absolutes
-                        .forEach(effect => {
-                            context.gain.duration = effect.setValueNumerical;
-                            conditionsToRemove.push(effect.source);
-                        });
-                    relatives
-                        .forEach(effect => {
-                            context.gain.duration += effect.valueNumerical;
-                            conditionsToRemove.push(effect.source);
-                        });
+                tap(([absoluteEffects, relativeEffects]) => {
+                    context.gain.duration = applyEffectsToValue(
+                        context.gain.duration,
+                        { absoluteEffects, relativeEffects },
+                    ).result;
                 }),
-                map(() => conditionsToRemove),
+                map(([absoluteEffects, relativeEffects]) =>
+                    // Afterwards, the conditions causing the effects should be removed.
+                    // Their names are returned for this process.
+                    [...absoluteEffects, ...relativeEffects].map(({ source }) => source),
+                ),
             );
     }
 

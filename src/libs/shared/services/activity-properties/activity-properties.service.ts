@@ -11,6 +11,7 @@ import { CreatureEffectsService } from '../creature-effects/creature-effects.ser
 import { HeightenedDescriptionVariable } from 'src/app/classes/spells/heightened-description-variable';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
 import { cachedObservable } from '../../util/cache-utils';
+import { applyEffectsToValue } from '../../util/effect.utils';
 
 @Injectable({
     providedIn: 'root',
@@ -134,11 +135,11 @@ export class ActivityPropertiesService {
                     this._creatureEffectsService.relativeEffectsOnThis$(context.creature, `${ activity.name } Charges`),
                 ])
                     .pipe(
-                        map(([absolutes, relatives]) => {
+                        map(([absoluteEffects, relativeEffects]) => {
                             // Add any effects to the number of charges you have.
                             // If you have none, start with 1, and if the result then remains 1, go back to 0.
                             // This is to ensure an activity that has no charges
-                            //  and gets more charges is treated like an activity that had 1 charge.
+                            //  and gets more charges is treated like an activity that had 1 charge and got more.
                             let charges = activity.charges;
                             let isStartingWithZero = false;
 
@@ -147,15 +148,10 @@ export class ActivityPropertiesService {
                                 charges = 1;
                             }
 
-                            absolutes
-                                .forEach(effect => {
-                                    charges = effect.setValueNumerical;
-                                });
-
-                            relatives
-                                .forEach(effect => {
-                                    charges += effect.valueNumerical;
-                                });
+                            charges = applyEffectsToValue(
+                                charges,
+                                { absoluteEffects, relativeEffects },
+                            ).result;
 
                             if (isStartingWithZero && charges === 1) {
                                 return 0;
@@ -181,13 +177,13 @@ export class ActivityPropertiesService {
     public effectiveCooldown$(activity: Activity, { creature }: { creature: Creature }): Observable<number> {
         return cachedObservable(
             combineLatest([
-                //Use get_AbsolutesOnThese() because it allows to prefer lower values. We still sort the effects in descending setValue.
+                //Use absoluteEffectsOnThese$() because it allows to prefer lower values.
                 this._creatureEffectsService.absoluteEffectsOnThese$(
                     creature,
                     [`${ activity.name } Cooldown`],
                     { lowerIsBetter: true },
                 ),
-                //Use get_RelativesOnThese() because it allows to prefer lower values. We still sort the effects in descending value.
+                //Use relativeEffectsOnThese$() because it allows to prefer lower values.
                 this._creatureEffectsService.relativeEffectsOnThese$(
                     creature,
                     [`${ activity.name } Cooldown`],
@@ -195,24 +191,19 @@ export class ActivityPropertiesService {
                 ),
             ])
                 .pipe(
-                    map(([absolutes, relatives]) => {
-                        //Add any effects to the activity's cooldown.
-                        let cooldown = activity.cooldown;
-
-                        absolutes
-                            .sort((a, b) => parseInt(b.setValue, 10) - parseInt(a.setValue, 10))
-                            .forEach(effect => {
-                                cooldown = effect.setValueNumerical;
-                            });
-
-                        relatives
-                            .sort((a, b) => parseInt(b.value, 10) - parseInt(a.value, 10))
-                            .forEach(effect => {
-                                cooldown += effect.valueNumerical;
-                            });
-
-                        return cooldown;
-                    }),
+                    map(([absoluteEffects, relativeEffects]) =>
+                        // Add any effects to the activity's cooldown.
+                        // Less cooldown is better, so the effects are sorted in descending value.
+                        applyEffectsToValue(
+                            activity.cooldown,
+                            {
+                                absoluteEffects: absoluteEffects
+                                    .sort((a, b) => b.setValueNumerical - a.setValueNumerical),
+                                relativeEffects: relativeEffects
+                                    .sort((a, b) => b.valueNumerical - a.valueNumerical),
+                            },
+                        ).result,
+                    ),
                     shareReplay({ refCount: true, bufferSize: 1 }),
                 ),
             { store: activity.effectiveCooldownByCreature$, key: creature.id },

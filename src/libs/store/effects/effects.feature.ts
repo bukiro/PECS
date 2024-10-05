@@ -13,6 +13,12 @@ export const effectsFeature = createFeature({
     reducer: createReducer(
         initialState,
         on(resetCharacter, (): EffectsState => initialState),
-        on(replaceEffects, (state, { id, effects }): EffectsState => ({ ...state, effects: { ...state.effects, [id]: effects } })),
+        on(replaceEffects, (state, { id, effects }): EffectsState => ({
+            ...state,
+            effects: {
+                ...state.effects,
+                [id]: effects,
+            },
+        })),
     ),
 });

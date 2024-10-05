@@ -1,0 +1,17 @@
+@import 'utilities';
+
+:host {
+    @include flex-column-center;
+    @include flex-end-main-axis;
+
+    position: relative;
+    padding-bottom: $spacing-m;
+}
+
+.max-hp {
+    position: absolute;
+    bottom: 0;
+    @include flex-row-center;
+    @include flex-center-cross-axis;
+    @include text-larger;
+}

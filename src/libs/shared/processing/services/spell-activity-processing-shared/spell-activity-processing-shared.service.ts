@@ -18,6 +18,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
 import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 @Injectable({
@@ -226,25 +227,13 @@ export class SpellActivityProcessingSharedService {
                 .relativeEffectsOnThis$(context.creature, `${ condition.name } Value`),
         ])
             .pipe(
-                map(([absolutes, relatives]) => {
-                    let newValue: number = newConditionGain.value || 0;
-
-                    const conditionsToRemove: Array<string> = [];
-
-                    absolutes
-                        .forEach(effect => {
-                            newValue = effect.setValueNumerical;
-                            conditionsToRemove.push(effect.source);
-                        });
-
-                    relatives
-                        .forEach(effect => {
-                            newValue += effect.valueNumerical;
-                            conditionsToRemove.push(effect.source);
-                        });
-
-                    return ({ conditionsToRemove, newValue });
-                }),
+                map(([absoluteEffects, relativeEffects]) => ({
+                    newValue: applyEffectsToValue(
+                        newConditionGain.value || 0,
+                        { absoluteEffects, relativeEffects },
+                    ).result,
+                    conditionsToRemove: [...absoluteEffects, ...relativeEffects].map(({ source }) => source),
+                })),
             );
     }
 
@@ -367,37 +356,32 @@ export class SpellActivityProcessingSharedService {
 
         const effectNames: Array<string> = [
             `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`,
-        ].concat((context.source instanceof Spell)
-            ? ['Next Spell Duration']
-            : [],
+        ].concat(
+            (context.source instanceof Spell)
+                ? ['Next Spell Duration']
+                : [],
         );
 
         return zip([
-            this._creatureEffectsService
-                .absoluteEffectsOnThese$(
-                    context.creature,
-                    effectNames,
-                ),
-            this._creatureEffectsService
-                .relativeEffectsOnThese$(
-                    context.creature,
-                    effectNames,
-                ),
+            this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectNames),
+            this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectNames),
         ])
             .pipe(
-                map(([absolutes, relatives]) => {
-                    absolutes
-                        .forEach(effect => {
-                            effectDuration = effect.setValueNumerical;
-                            conditionsToRemove.push(effect.source);
-                        });
+                map(([absoluteEffects, relativeEffects]) => {
+                    effectDuration = applyEffectsToValue(
+                        effectDuration,
+                        { absoluteEffects },
+                    ).result;
+
+                    conditionsToRemove.push(...absoluteEffects.map(({ source }) => source));
 
                     if (effectDuration > 0) {
-                        relatives
-                            .forEach(effect => {
-                                effectDuration += effect.valueNumerical;
-                                conditionsToRemove.push(effect.source);
-                            });
+                        effectDuration = applyEffectsToValue(
+                            effectDuration,
+                            { relativeEffects },
+                        ).result;
+
+                        conditionsToRemove.push(...relativeEffects.map(({ source }) => source));
                     }
 
                     // If an effect has changed the duration,
@@ -414,6 +398,7 @@ export class SpellActivityProcessingSharedService {
                                 duration < TimePeriods.Day
                             ) {
                                 //Until Rest and Until Refocus are usually longer than anything below a day.
+                                // TODO: Really?
                                 duration = effectDuration;
                             } else if (effectDuration > duration) {
                                 // If neither are unlimited and the above is not true,
@@ -429,3 +414,5 @@ export class SpellActivityProcessingSharedService {
     }
 
 }
+
+

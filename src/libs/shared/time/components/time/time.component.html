@@ -2,6 +2,7 @@
     <div class="time-control">
         @if ({ state: yourTurn$ | async }; as yourTurn) {
             <div
+                tabindex="0"
                 class="time-control__turn-button time-control__turn-button--start"
                 [ngClass]="{
                     disabled: yourTurn.state === 5 || turnPassingBlocked.desc,
@@ -9,6 +10,11 @@
                 [ngbTooltip]="turnPassingBlocked.desc ?? 'Start your turn'"
                 [disableTooltip]="yourTurn.state === 5"
                 (click)="
+                    yourTurn.state === 5 || turnPassingBlocked.desc
+                        ? null
+                        : startTurn()
+                "
+                (keydown.space)="
                     yourTurn.state === 5 || turnPassingBlocked.desc
                         ? null
                         : startTurn()
@@ -33,6 +39,7 @@
 
         @if ({ state: yourTurn$ | async }; as yourTurn) {
             <div
+                tabindex="0"
                 class="time-control__turn-button time-control__turn-button--end"
                 [ngClass]="{
                     disabled: yourTurn.state === 0 || turnPassingBlocked.desc,
@@ -40,6 +47,11 @@
                 [ngbTooltip]="turnPassingBlocked.desc ?? 'End your turn'"
                 [disableTooltip]="yourTurn.state === 0"
                 (click)="
+                    yourTurn.state === 0 || turnPassingBlocked.desc
+                        ? null
+                        : endTurn()
+                "
+                (keydown.space)="
                     yourTurn.state === 0 || turnPassingBlocked.desc
                         ? null
                         : endTurn()
