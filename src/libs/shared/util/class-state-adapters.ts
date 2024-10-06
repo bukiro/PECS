@@ -69,7 +69,7 @@ class Adapter<T extends object> {
         this.state.set({ ...newState });
         this.adapterState.set({ ...newAdapterState });
 
-        // To account for the case of any new adapters in the adapterState, iterate through them and
+        // Register the onUpdate function on any newly created adapters.
         this._registerOnUpdateOnAdapters();
 
         // Run the parent's callback function, if present
@@ -78,8 +78,6 @@ class Adapter<T extends object> {
 
     // For every adapter in the adapter state and its arrays,
     // have it register a callback function that updates this state with its changes.
-    // I would prefer to create adapters with the update function in the constructor,
-    // so they just have it and don't need to get it afterwards.
     private _registerOnUpdateOnAdapters(): void {
         (Object.entries(this.adapterState()) as Array<[ObjectKeys<T>, AdapterEntry<T, ObjectKeys<T>>]>)
             .forEach(([key, adapterOrArray]) => {
