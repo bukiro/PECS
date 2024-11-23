@@ -82,7 +82,7 @@ interface SpellBlendingParameters {
 export class SpellchoiceComponent implements OnInit, OnDestroy {
 
     @Input()
-    public spellCasting!: SpellCasting;
+    public spellCasting: SpellCasting = new SpellCasting(SpellCastingTypes.Innate);
     @Input()
     public choice!: SpellChoice;
     @Input()
