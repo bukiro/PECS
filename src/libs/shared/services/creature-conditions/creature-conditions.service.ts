@@ -457,8 +457,8 @@ export class CreatureConditionsService {
                     if (doesOverrideExistForCondition(gain)) {
                         //If any remaining condition override applies to this or all, disable this.
                         gain.apply = false;
-                    } else if (parentGain && !parentGain.apply) {
-                        //If the parent of this condition is disabled, disable this unless it is the source of the override.
+                    } else if (parentGain && !parentGain.apply && (!(gain.persistent && condition.persistent) || gain.ignorePersistent)) {
+                        //If the parent of this condition is disabled, disable this unless it is persistent.
                         gain.apply = false;
                     } else {
                         // If the condition has not been overridden, we compare it condition with all others
