@@ -5154,13 +5154,17 @@
                 "nextStage": 144000
             },
             {
-                "name": "Stage 5"
+                "name": "Stage 5",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "Stage 6"
             }
         ],
         "gainConditions": [
             {
                 "conditionChoiceFilter": [
-                    "Stage 5"
+                    "Stage 6"
                 ],
                 "name": "Dead"
             }
