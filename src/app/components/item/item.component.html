@@ -53,7 +53,7 @@
         </div>
         <!-- Ring of Wizardry selection -->
         <div class="newrow"
-            *ngIf="!itemStore || asWornItem.isRingOfWizardry.length && !asWornItem.isTalismanCord && !asWornItem.isDoublingRings">
+            *ngIf="!itemStore && asWornItem.isRingOfWizardry.length && !asWornItem.isTalismanCord && !asWornItem.isDoublingRings">
             <header class="spellHeader">Ring of Wizardry</header>
             <div class="newrow"
                 *ngFor="let wizardrySlot of asWornItem.isRingOfWizardry; let wizardryIndex = index; trackBy:trackers.trackByIndex">
