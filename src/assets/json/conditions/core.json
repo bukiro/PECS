@@ -22903,9 +22903,45 @@
                 "desc": "<var>var1</var>",
                 "showon": "Resistances",
                 "conditionChoiceFilter": [
-                    "-"
+                    "Both"
                 ],
                 "heightenedDescs": [
+                    {
+                        "level": 1,
+                        "descs": [
+                            {
+                                "value": "You are protected from severe cold and heat (but not extreme cold or heat).",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 5,
+                        "descs": [
+                            {
+                                "value": "You are protected from severe cold, severe heat, extreme cold, and extreme heat.",
+                                "variable": "var1"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "desc": "<var>var1</var>",
+                "showon": "Resistances",
+                "conditionChoiceFilter": [
+                    "Severe cold"
+                ],
+                "heightenedDescs": [
+                    {
+                        "level": 1,
+                        "descs": [
+                            {
+                                "value": "You are protected from severe cold.",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
                     {
                         "level": 3,
                         "descs": [
@@ -22927,17 +22963,39 @@
                 ]
             },
             {
-                "desc": "You are protected from severe cold.",
-                "showon": "Resistances",
-                "conditionChoiceFilter": [
-                    "Severe cold"
-                ]
-            },
-            {
-                "desc": "You are protected from severe heat.",
+                "desc": "<var>var1</var>",
                 "showon": "Resistances",
                 "conditionChoiceFilter": [
                     "Severe heat"
+                ],
+                "heightenedDescs": [
+                    {
+                        "level": 1,
+                        "descs": [
+                            {
+                                "value": "You are protected from severe heat.",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 3,
+                        "descs": [
+                            {
+                                "value": "You are protected from severe cold and heat (but not extreme cold or heat).",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 5,
+                        "descs": [
+                            {
+                                "value": "You are protected from severe cold, severe heat, extreme cold, and extreme heat.",
+                                "variable": "var1"
+                            }
+                        ]
+                    }
                 ]
             }
         ],
@@ -22950,7 +23008,7 @@
                 "name": "Severe heat"
             },
             {
-                "name": "-",
+                "name": "Both",
                 "spelllevelreq": 3
             }
         ],
@@ -23008,7 +23066,7 @@
                 "name": "Severe heat"
             },
             {
-                "name": "-",
+                "name": "Both",
                 "spelllevelreq": 3
             }
         ],
