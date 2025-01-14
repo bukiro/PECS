@@ -121,8 +121,9 @@ export class Condition {
         this.defaultDurations = this.defaultDurations.map(obj => Object.assign(new ConditionDuration(), obj).recast());
         this.choices = this.choices.map(obj => Object.assign(new ConditionChoice(), obj).recast());
 
-        //If choices exist and no default choice is given, take the first one as default.
-        if (this.choices.length && !this.choice) {
+        // If choices exist and no default choice is given, take the first one as default.
+        // This does not apply if the blank choice is allowed.
+        if (this.choices.length && !this.choice && !this.unfilteredChoices().includes(this.choice)) {
             this.choice = this.choices[0].name;
         }
 

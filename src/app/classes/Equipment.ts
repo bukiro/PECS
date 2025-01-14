@@ -159,7 +159,7 @@ export abstract class Equipment extends Item {
         this.talismanCords =
             this.talismanCords.map(obj => recastFns.item(obj, { type: 'wornitems' }).recast(recastFns));
 
-        if (this.choices.length && !this.choices.includes(this.choice)) {
+        if (this.choices.length && !this.choices.includes(this.choice) && !this.choices.includes(this.choice)) {
             this.choice = this.choices[0];
         }
 
