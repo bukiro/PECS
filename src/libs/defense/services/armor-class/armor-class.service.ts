@@ -290,29 +290,27 @@ export class ArmorClassService {
             }
 
             //Explain the Armor Bonus
-            let armorItemBonus = armor.effectiveACBonus();
+            let armorItemBonus = armor.effectiveACBonus() || 0;
 
-            if (armorItemBonus) {
-                //Potency increases the armor bonus; it does not add a separate bonus on armors.
-                const potency = armor.effectivePotency();
+            //Potency increases the armor bonus; it does not add a separate bonus on armors.
+            const potency = armor.effectivePotency();
 
-                if (potency) {
-                    armorItemBonus += potency;
-                }
-
-                clonedRelatives.push(
-                    Object.assign(
-                        new Effect(armorItemBonus.toString()),
-                        {
-                            creature: armorCreature.type,
-                            type: 'item',
-                            target: 'AC',
-                            source: `Armor bonus${ potency ? ` (+${ potency } Potency)` : '' }`,
-                            apply: true,
-                            show: true,
-                        },
-                    ));
+            if (potency) {
+                armorItemBonus += potency;
             }
+
+            clonedRelatives.push(
+                Object.assign(
+                    new Effect(armorItemBonus.toString()),
+                    {
+                        creature: armorCreature.type,
+                        type: 'item',
+                        target: 'AC',
+                        source: `Armor bonus${ potency ? ` (+${ potency } Potency)` : '' }`,
+                        apply: true,
+                        show: true,
+                    },
+                ));
 
             if (armor.battleforged) {
                 clonedRelatives.push(
