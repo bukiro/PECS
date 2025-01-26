@@ -459,7 +459,7 @@
                                             <input type="checkbox"
                                                 [(ngModel)]="signatureSpellParameters.takenSpell.signatureSpell"
                                                 (ngModelChange)="onSelectSignatureSpell()"
-                                                [disabled]="signatureSpellParameters.cannotBeSignatureSpell">
+                                                [disabled]="!!signatureSpellParameters.cannotBeSignatureSpell">
                                             <i class='bi-stars'></i>
                                             Choose this spell as a Signature Spell
                                         </label>
