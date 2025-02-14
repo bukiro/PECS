@@ -46,7 +46,7 @@ export class Weapon extends Equipment {
     public poisonsApplied: Array<AlchemicalPoison> = [];
     /**
      * What proficiency is used? "Simple Weapons", "Unarmed Attacks", etc.?
-     * Use get_Proficiency() to get the proficiency for numbers and effects.
+     * Use effectiveProficiencyWithoutEffects() to get the proficiency for numbers and effects.
      */
     public prof: WeaponProficiencies = WeaponProficiencies.Simple;
     /**

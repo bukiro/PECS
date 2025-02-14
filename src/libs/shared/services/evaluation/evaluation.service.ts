@@ -30,6 +30,8 @@ import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { SpellsTakenService } from '../spells-taken/spells-taken.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -68,8 +70,10 @@ export class EvaluationService {
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _skillsDataService: SkillsDataService,
+        private readonly _spellsTakenService: SpellsTakenService,
     ) { }
 
+    // eslint-disable-next-line complexity
     public valueFromFormula(
         formula: string,
         context: FormulaContext,
@@ -191,8 +195,16 @@ export class EvaluationService {
         const Speed = (name: string): number => (
             this._speedValuesService.value(this._testSpeed(name), Creature).result || 0
         );
-        const Has_Condition = (name: string): boolean => (
-            !!this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true }).length
+        const Has_Condition = (
+            name: string,
+            { withChoices, withoutChoices }: { withChoices?: Array<string>; withoutChoices?: Array<string> } = {},
+        ): boolean => (
+            !!this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true })
+                .filter(gain =>
+                    (!withChoices?.length || withChoices.includes(gain.choice))
+                    && (!withoutChoices?.length || !withoutChoices.includes(gain.choice)),
+                )
+                .length
         );
         const Owned_Conditions = (name: string): Array<ConditionGain> => (
             this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true })
@@ -238,20 +250,31 @@ export class EvaluationService {
                 return 0;
             }
         };
-        const Feats_Taken = (creatureType: string): Array<FeatTaken> => {
+        const Feats_Taken = (creatureType: string, { filter }: { filter?: (feat: Feat) => boolean } = {}): Array<FeatTaken> => {
             if (creatureType === 'Familiar') {
                 return Familiar.abilities.feats
                     .filter(featTaken => {
                         const feat = this._familiarsDataService.familiarAbilities(featTaken.name)[0];
 
-                        return feat && this._creatureFeatsService.creatureHasFeat(feat, { creature: Familiar }, { charLevel: Level });
+                        return feat
+                         && this._creatureFeatsService.creatureHasFeat(feat, { creature: Familiar }, { charLevel: Level })
+                          && (!filter || filter?.(feat));
                     });
             } else if (creatureType === CreatureTypes.Character) {
-                return this._characterFeatsService.characterFeatsTaken(1, Level);
+                return this._characterFeatsService.characterFeatsTaken(1, Level)
+                    .filter(gain => {
+                        const feat = this._characterFeatsService.characterFeatsAndFeatures(gain.name)[0];
+
+                        return feat && filter?.(feat);
+                    });
             } else {
                 return [];
             }
         };
+        const Archetype_Feat_Count = (archetype: string): number =>
+            this._characterFeatsService.characterFeatsAndFeatures()
+                .filter(feat => feat.archetype === archetype && this._characterFeatsService.characterHasFeat(feat.name, Level))
+                .length;
         const SpellcastingModifier = (): number => {
             if (SpellCastingAbility) {
                 return this._abilityValuesService.mod(SpellCastingAbility, Character, Level).result;
@@ -259,6 +282,8 @@ export class EvaluationService {
                 return 0;
             }
         };
+        const Has_Spell_Prepared = (name: string, source?: string): boolean =>
+            this._spellsTakenService.takenSpells(0, Level, { spellName: name, source }).some(spell => spell.gain.prepared);
         const Has_Heritage = (name: string): boolean => {
             const allHeritages: Array<string> = Character.class?.heritage ?
                 [
@@ -283,8 +308,7 @@ export class EvaluationService {
         const Deity = (): DeityModel => (
             this._characterDeitiesService.currentCharacterDeities()[0]
         );
-        /* eslint-enable @typescript-eslint/no-unused-vars */
-        /* eslint-enable @typescript-eslint/naming-convention */
+
         //This function is to avoid evaluating a string like "01" as a base-8 number.
         const cleanupLeadingZeroes = (text: string): string => {
             let cleanedText = text;

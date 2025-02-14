@@ -9263,11 +9263,11 @@
                     "Mage Armor"
                 ],
                 "type": "item",
-                "value": "(Armor().get_Proficiency() == 'Unarmored Defense') ? (Has_Feat(Creature.type, 'Greater Juggernaut') ? 3 : 2) : 0"
+                "value": "(Armor().effectiveProficiencyWithoutEffects() == 'Unarmored Defense') ? (Has_Feat(Creature.type, 'Greater Juggernaut') ? 3 : 2) : 0"
             },
             {
                 "affected": "Dexterity Modifier Cap",
-                "setValue": "(Armor().get_Proficiency() == 'Unarmored Defense') ? 3 : null"
+                "setValue": "(Armor().effectiveProficiencyWithoutEffects() == 'Unarmored Defense') ? 3 : null"
             }
         ]
     },
