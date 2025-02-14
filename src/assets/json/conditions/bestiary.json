@@ -1,0 +1,262 @@
+[
+  {
+    "name": "Filth Fever (1 hour onset)",
+    "desc": "<strong>Filth Fever</strong> (disease) The sickened and unconscious conditions from filth fever don't improve on their own until the disease is cured.\n<strong>Saving Throw</strong> DC 14 Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1d4 hours)\n<strong>Stage 2</strong> sickened 1 (1 day)\n<strong>Stage 3</strong> sickened 1 and slowed 1 as long as it remains sickened (1 day)\n<strong>Stage 4</strong> unconscious (1 day)\n<strong>Stage 5</strong> dead",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary",
+    "type": "afflictions",
+    "sortLevel": 0,
+    "defaultDurations": [
+      {
+        "duration": -1
+      }
+    ],
+    "inputRequired": "When you remove the sickened condition at stage 3, also remove the slowed condition.",
+    "choice": "Stage 1",
+    "choices": [
+      {
+        "name": "Stage 1",
+        "nextStage": 6000
+      },
+      {
+        "name": "Stage 2",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 3",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 4",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 5"
+      }
+    ],
+    "gainConditions": [
+      {
+        "conditionChoiceFilter": [
+          "Stage 2",
+          "Stage 3"
+        ],
+        "name": "Sickened",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 3"
+        ],
+        "name": "Slowed",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 4"
+        ],
+        "name": "Unconscious"
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 5"
+        ],
+        "name": "Dead"
+      }
+    ]
+  },
+  {
+    "name": "Filth Fever (2 hour onset)",
+    "desc": "<strong>Filth Fever</strong> (disease) The sickened and unconscious conditions from filth fever don't improve on their own until the disease is cured.\n<strong>Saving Throw</strong> DC 14 Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1d4 hours)\n<strong>Stage 2</strong> sickened 1 (1 day)\n<strong>Stage 3</strong> sickened 1 and slowed 1 as long as it remains sickened (1 day)\n<strong>Stage 4</strong> unconscious (1 day)\n<strong>Stage 5</strong> dead",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary",
+    "type": "afflictions",
+    "sortLevel": 0,
+    "defaultDurations": [
+      {
+        "duration": -1
+      }
+    ],
+    "inputRequired": "When you remove the sickened condition at stage 3, also remove the slowed condition.",
+    "choice": "Stage 1",
+    "choices": [
+      {
+        "name": "Stage 1",
+        "nextStage": 12000
+      },
+      {
+        "name": "Stage 2",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 3",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 4",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 5"
+      }
+    ],
+    "gainConditions": [
+      {
+        "conditionChoiceFilter": [
+          "Stage 2",
+          "Stage 3"
+        ],
+        "name": "Sickened",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 3"
+        ],
+        "name": "Slowed",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 4"
+        ],
+        "name": "Unconscious"
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 5"
+        ],
+        "name": "Dead"
+      }
+    ]
+  },
+  {
+    "name": "Filth Fever (3 hour onset)",
+    "desc": "<strong>Filth Fever</strong> (disease) The sickened and unconscious conditions from filth fever don't improve on their own until the disease is cured.\n<strong>Saving Throw</strong> DC 14 Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1d4 hours)\n<strong>Stage 2</strong> sickened 1 (1 day)\n<strong>Stage 3</strong> sickened 1 and slowed 1 as long as it remains sickened (1 day)\n<strong>Stage 4</strong> unconscious (1 day)\n<strong>Stage 5</strong> dead",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary",
+    "type": "afflictions",
+    "sortLevel": 0,
+    "defaultDurations": [
+      {
+        "duration": -1
+      }
+    ],
+    "inputRequired": "When you remove the sickened condition at stage 3, also remove the slowed condition.",
+    "choice": "Stage 1",
+    "choices": [
+      {
+        "name": "Stage 1",
+        "nextStage": 18000
+      },
+      {
+        "name": "Stage 2",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 3",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 4",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 5"
+      }
+    ],
+    "gainConditions": [
+      {
+        "conditionChoiceFilter": [
+          "Stage 2",
+          "Stage 3"
+        ],
+        "name": "Sickened",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 3"
+        ],
+        "name": "Slowed",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 4"
+        ],
+        "name": "Unconscious"
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 5"
+        ],
+        "name": "Dead"
+      }
+    ]
+  },
+  {
+    "name": "Filth Fever (4 hour onset)",
+    "desc": "<strong>Filth Fever</strong> (disease) The sickened and unconscious conditions from filth fever don't improve on their own until the disease is cured.\n<strong>Saving Throw</strong> DC 14 Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1d4 hours)\n<strong>Stage 2</strong> sickened 1 (1 day)\n<strong>Stage 3</strong> sickened 1 and slowed 1 as long as it remains sickened (1 day)\n<strong>Stage 4</strong> unconscious (1 day)\n<strong>Stage 5</strong> dead",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary",
+    "type": "afflictions",
+    "sortLevel": 0,
+    "defaultDurations": [
+      {
+        "duration": -1
+      }
+    ],
+    "inputRequired": "When you remove the sickened condition at stage 3, also remove the slowed condition.",
+    "choice": "Stage 1",
+    "choices": [
+      {
+        "name": "Stage 1",
+        "nextStage": 24000
+      },
+      {
+        "name": "Stage 2",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 3",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 4",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 5"
+      }
+    ],
+    "gainConditions": [
+      {
+        "conditionChoiceFilter": [
+          "Stage 2",
+          "Stage 3"
+        ],
+        "name": "Sickened",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 3"
+        ],
+        "name": "Slowed",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 4"
+        ],
+        "name": "Unconscious"
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 5"
+        ],
+        "name": "Dead"
+      }
+    ]
+  }
+]

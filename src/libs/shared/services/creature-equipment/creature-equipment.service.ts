@@ -67,9 +67,12 @@ export class CreatureEquipmentService {
             !inventory.itemId &&
             (
                 item.name === 'Unarmored' ||
+                // Animal companions can only equip items with the Companion trait (and the Unarmored armor)
+                // Other creatures can not equip items with the Companion trait
                 (creature.isAnimalCompanion() === item.traits.includes('Companion'))
             ) && (
-                creature.isFamiliar() === !(item.isArmor() || item.isWeapon() || item.isShield())
+                // Familiars cannot equip armor, weapons and shields. Other creatures can.
+                creature.isFamiliar() ? !(item.isArmor() || item.isWeapon() || item.isShield()) : true
             )
         );
 

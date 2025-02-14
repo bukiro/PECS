@@ -106,7 +106,7 @@ interface SpellBlendingParameters {
 export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
 
     @Input()
-    public spellCasting!: SpellCasting;
+    public spellCasting: SpellCasting = new SpellCasting(SpellCastingTypes.Innate);
     @Input()
     public choice!: SpellChoice;
     @Input()

@@ -34,6 +34,9 @@ import { emptySafeCombineLatest } from '../../util/observable-utils';
 import { AppliedCreatureConditionsService } from '../creature-conditions/applied-creature-conditions.service';
 import { filterConditions } from '../creature-conditions/condition-filter-utils';
 import { isDefined } from '../../util/type-guard-utils';
+import { SpellsTakenService } from '../spells-taken/spells-taken.service';
+import { stringEqualsCaseInsensitive } from '../../util/string-utils';
+import { matchStringFilter } from '../../util/filter-utils';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -71,6 +74,7 @@ export class EvaluationService {
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _skillsDataService: SkillsDataService,
+        private readonly _spellsTakenService: SpellsTakenService,
     ) { }
 
     //TODO: Turn this into an async function that doesn't use eval. Something like the complex feat requirements system.
@@ -256,6 +260,7 @@ export class EvaluationService {
             shouldPrepareConditions
                 ? this._appliedCreatureConditionsService.appliedCreatureConditions$(Creature)
                 : of([]),
+            this._characterFeatsService.characterFeatsAtLevel$(Level),
             emptySafeCombineLatest(
                 hasFeatNames
                     .filter((requiredFeat): requiredFeat is { creature: string; featName: string } =>
@@ -366,6 +371,7 @@ export class EvaluationService {
             (shouldPrepareSpellcastingModifier && SpellCastingAbility)
                 ? this._abilityValuesService.mod$(SpellCastingAbility, Character, Level)
                 : of({ result: 0 }),
+            this._spellsTakenService.takenSpells$(0, Level),
         ])
             .pipe(
                 map(([
@@ -373,6 +379,7 @@ export class EvaluationService {
                     maxHP,
                     ownedActivities,
                     ownedConditions,
+                    takenFeats,
                     takenFeatNames,
                     availableSpeedNames,
                     speedValues,
@@ -385,6 +392,7 @@ export class EvaluationService {
                     deities,
                     size,
                     spellcastingModifier,
+                    takenSpells,
                 ]) => {
                     //Some Functions for effect values
                     /* eslint-disable @typescript-eslint/naming-convention */
@@ -420,8 +428,11 @@ export class EvaluationService {
                     );
                     const Has_Speed = (name: string): boolean => availableSpeedNames.includes(name);
                     const Speed = (name: string): number => speedValues.find(speedValue => speedValue.name === name)?.value ?? 0;
-                    const Has_Condition = (name: string): boolean => (
-                        !!filterConditions(ownedConditions.map(({ gain }) => gain), { name }).length
+                    const Has_Condition = (
+                        name: string,
+                        { withChoices }: { withChoices?: Array<string> } = {},
+                    ): boolean => (
+                        !!filterConditions(ownedConditions.map(({ gain }) => gain), { name, choices: withChoices }).length
                     );
                     const Owned_Conditions = (name: string): Array<ConditionGain> => (
                         filterConditions(ownedConditions.map(({ gain }) => gain), { name })
@@ -460,7 +471,18 @@ export class EvaluationService {
                         takenFeatNames.some(taken => taken.creature === creatureType && taken.featName === name);
                     const Feats_Taken = (creatureType: string): Array<FeatTaken> =>
                         featsTaken.find(taken => taken.creature === creatureType)?.feats ?? [];
+                    const Archetype_Feat_Count = (archetype: string): number =>
+                        takenFeats
+                            .filter(feat => feat.archetype === archetype)
+                            .length;
                     const SpellcastingModifier = (): number => spellcastingModifier.result;
+                    const Has_Spell_Prepared = (name: string, source?: string): boolean =>
+                        takenSpells
+                            .filter(({ gain }) =>
+                                matchStringFilter({ value: gain.name, match: name })
+                                && matchStringFilter({ value: gain.source, match: source })
+                            )
+                            .some(spell => spell.gain.prepared);
                     const Has_Heritage = (name: string): boolean => {
                         const allHeritages: Array<string> = Character.class?.heritage ?
                             [

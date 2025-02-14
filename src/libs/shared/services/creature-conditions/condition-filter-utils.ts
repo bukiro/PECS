@@ -1,6 +1,6 @@
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { ConditionFilter } from './condition-filter';
-import { matchStringFilter } from '../../util/filter-utils';
+import { matchStringFilter, matchStringListFilter } from '../../util/filter-utils';
 import { ConditionGainPair } from './condition-gain-pair';
 
 export const conditionFilter = (filter: ConditionFilter): (value: ConditionGain) => boolean =>
@@ -25,4 +25,5 @@ export const filterConditionPairs = (pairs: Array<ConditionGainPair>, filter: Co
 
 export const filterCondition = (condition: ConditionGain, filter: ConditionFilter): boolean =>
     matchStringFilter({ value: condition.name, match: filter.name })
-    && matchStringFilter({ value: condition.source, match: filter.source });
+    && matchStringFilter({ value: condition.source, match: filter.source })
+    && matchStringListFilter({ value: condition.choice, match: filter.choices });

@@ -3822,7 +3822,7 @@
         "effects": [
             {
                 "affected": "Lift Nature's Caul Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Abomination')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Abomination')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -3879,7 +3879,7 @@
         "effects": [
             {
                 "affected": "Pushing Gust Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Air')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Air')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -3936,7 +3936,7 @@
         "effects": [
             {
                 "affected": "Blind Ambition Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Ambition')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Ambition')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -3993,7 +3993,7 @@
         "effects": [
             {
                 "affected": "Adapt Self Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Change')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Change')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4050,7 +4050,7 @@
         "effects": [
             {
                 "affected": "Face in the Crowd Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Cities')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Cities')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4107,7 +4107,7 @@
         "effects": [
             {
                 "affected": "Winter Bolt Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Cold')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Cold')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4164,7 +4164,7 @@
         "effects": [
             {
                 "affected": "Veil of Confidence Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Confidence')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Confidence')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4221,7 +4221,7 @@
         "effects": [
             {
                 "affected": "Splash of Art Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Creation')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Creation')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4278,7 +4278,7 @@
         "effects": [
             {
                 "affected": "Cloak of Shadow Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Darkness')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Darkness')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4335,7 +4335,7 @@
         "effects": [
             {
                 "affected": "Death's Call Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Death')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Death')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4392,7 +4392,7 @@
         "effects": [
             {
                 "affected": "Withering Grasp Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Decay')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Decay')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4449,7 +4449,7 @@
         "effects": [
             {
                 "affected": "Hyperfocus Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Delirium')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Delirium')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4506,7 +4506,7 @@
         "effects": [
             {
                 "affected": "Cry of Destruction Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Destruction')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Destruction')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4563,7 +4563,7 @@
         "effects": [
             {
                 "affected": "Sweet Dream Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Dreams')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Dreams')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4620,7 +4620,7 @@
         "effects": [
             {
                 "affected": "Parch Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Dust')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Dust')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4677,7 +4677,7 @@
         "effects": [
             {
                 "affected": "Oathkeeper's Insignia Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Duty')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Duty')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4734,7 +4734,7 @@
         "effects": [
             {
                 "affected": "Hurtling Stone Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Earth')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Earth')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4791,7 +4791,7 @@
         "effects": [
             {
                 "affected": "Soothing Words Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Family')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Family')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4848,7 +4848,7 @@
         "effects": [
             {
                 "affected": "Read Fate Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Fate')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Fate')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4905,7 +4905,7 @@
         "effects": [
             {
                 "affected": "Fire Ray Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Fire')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Fire')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -4962,7 +4962,7 @@
         "effects": [
             {
                 "affected": "Unimpeded Stride Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Freedom')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Freedom')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5019,7 +5019,7 @@
         "effects": [
             {
                 "affected": "Redact Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Glyph')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Glyph')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5076,7 +5076,7 @@
         "effects": [
             {
                 "affected": "Healer's Blessing Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Healing')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Healing')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5133,7 +5133,7 @@
         "effects": [
             {
                 "affected": "Overstuff Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Indulgence')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Indulgence')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5190,7 +5190,7 @@
         "effects": [
             {
                 "affected": "Scholarly Recollection Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Knowledge')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Knowledge')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5247,7 +5247,7 @@
         "effects": [
             {
                 "affected": "Charged Javelin Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Lightning')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Lightning')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5304,7 +5304,7 @@
         "effects": [
             {
                 "affected": "Bit of Luck Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Luck')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Luck')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5361,7 +5361,7 @@
         "effects": [
             {
                 "affected": "Magic's Vessel Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Magic')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Magic')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5418,7 +5418,7 @@
         "effects": [
             {
                 "affected": "Athletic Rush Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Might')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Might')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5475,7 +5475,7 @@
         "effects": [
             {
                 "affected": "Moonbeam Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Moon')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Moon')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5532,7 +5532,7 @@
         "effects": [
             {
                 "affected": "Split the Tongue Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Naga')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Naga')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5589,7 +5589,7 @@
         "effects": [
             {
                 "affected": "Vibrant Thorns Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Nature')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Nature')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5646,7 +5646,7 @@
         "effects": [
             {
                 "affected": "Waking Nightmare Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Nightmares')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Nightmares')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5703,7 +5703,7 @@
         "effects": [
             {
                 "affected": "Savor the Sting Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Pain')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Pain')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5760,7 +5760,7 @@
         "effects": [
             {
                 "affected": "Charming Touch Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Passion')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Passion')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5817,7 +5817,7 @@
         "effects": [
             {
                 "affected": "Perfected Mind Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Perfection')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Perfection')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5874,7 +5874,7 @@
         "effects": [
             {
                 "affected": "Divine Plagues Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Plague')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Plague')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5931,7 +5931,7 @@
         "effects": [
             {
                 "affected": "Protector's Sacrifice Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Protection')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Protection')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -5988,7 +5988,7 @@
         "effects": [
             {
                 "affected": "Share Burden Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Repose')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Repose')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6045,7 +6045,7 @@
         "effects": [
             {
                 "affected": "Forced Quiet Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Secrecy')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Secrecy')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6102,7 +6102,7 @@
         "effects": [
             {
                 "affected": "Lament Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Sorrow')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Sorrow')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6159,7 +6159,7 @@
         "effects": [
             {
                 "affected": "Eject Soul Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Soul')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Soul')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6216,7 +6216,7 @@
         "effects": [
             {
                 "affected": "Zenith Star Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Star')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Star')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6273,7 +6273,7 @@
         "effects": [
             {
                 "affected": "Dazzling Flash Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Sun')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Sun')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6330,7 +6330,7 @@
         "effects": [
             {
                 "affected": "Swarmsense Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Swarm')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Swarm')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6387,7 +6387,7 @@
         "effects": [
             {
                 "affected": "Delay Consequence Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Time')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Time')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6444,7 +6444,7 @@
         "effects": [
             {
                 "affected": "Practice Makes Perfect Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Toil')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Toil')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6501,7 +6501,7 @@
         "effects": [
             {
                 "affected": "Agile Feet Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Travel')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Travel')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6558,7 +6558,7 @@
         "effects": [
             {
                 "affected": "Sudden Shift Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Trickery')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Trickery')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6615,7 +6615,7 @@
         "effects": [
             {
                 "affected": "Word of Truth Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Truth')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Truth')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6672,7 +6672,7 @@
         "effects": [
             {
                 "affected": "Touch of Obedience Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Tyranny')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Tyranny')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6729,7 +6729,7 @@
         "effects": [
             {
                 "affected": "Touch of Undeath Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Undeath')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Undeath')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6786,7 +6786,7 @@
         "effects": [
             {
                 "affected": "Object Memory Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Vigil')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Vigil')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6843,7 +6843,7 @@
         "effects": [
             {
                 "affected": "Empty Inside Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Void')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Void')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6900,7 +6900,7 @@
         "effects": [
             {
                 "affected": "Tidal Surge Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Water')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Water')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -6957,7 +6957,7 @@
         "effects": [
             {
                 "affected": "Appearance of Wealth Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Wealth')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Wealth')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -7014,7 +7014,7 @@
         "effects": [
             {
                 "affected": "Draconic Barrage Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Wyrmkin')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Wyrmkin')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
@@ -7071,7 +7071,7 @@
         "effects": [
             {
                 "affected": "Weapon Surge Spell Level",
-                "value": "(!Deities().some(deity => !deity.get_IsExternalDomain('Zeal')) || false) ? -1 : 0"
+                "value": "(!Deities().some(deity => !deity.isDomainExternal('Zeal')) || false) ? -1 : 0"
             }
         ],
         "gainDomains": [
