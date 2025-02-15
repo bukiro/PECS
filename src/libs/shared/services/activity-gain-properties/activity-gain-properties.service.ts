@@ -27,7 +27,7 @@ export class ActivityGainPropertiesService {
             gain.activeCooldown$,
             gain.chargesUsed$,
             context.maxCharges$,
-            this._creatureEffectsService.effectsOnThis$(context.creature, `${ gain.name } Disabled`),
+            this._creatureEffectsService.effectsOnThis$$(context.creature, `${ gain.name } Disabled`),
         ])
             .pipe(
                 switchMap(([active, activeCooldown, chargesUsed, maxCharges, disablingEffects]) =>
@@ -75,10 +75,10 @@ export class ActivityGainPropertiesService {
         gain: ActivityGain | ItemActivity,
         context: { creature: Creature },
     ): Observable<number> {
-        if (!gain.activeCooldownByCreature$.get(context.creature.id)) {
-            gain.activeCooldownByCreature$.clear();
+        if (!gain.activeCooldownByCreature$$.get(context.creature.id)) {
+            gain.activeCooldownByCreature$$.clear();
 
-            gain.activeCooldownByCreature$.set(
+            gain.activeCooldownByCreature$$.set(
                 context.creature.id,
                 combineLatest([
                     this._activityPropertiesService
@@ -104,7 +104,7 @@ export class ActivityGainPropertiesService {
             );
         }
 
-        return gain.activeCooldownByCreature$.get(context.creature.id) ?? of(0);
+        return gain.activeCooldownByCreature$$.get(context.creature.id) ?? of(0);
     }
 
 }

@@ -1,20 +1,17 @@
 /* eslint-disable complexity */
-import { Observable, switchMap, map } from 'rxjs';
 import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
 import { DiceSizes } from 'src/libs/shared/definitions/dice-sizes';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { safeParseInt, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { ActivityGain } from '../activities/activity-gain';
 import { Creature } from '../creatures/creature';
 import { Effect } from '../effects/effect';
 import { EffectGain } from '../effects/effect-gain';
-import { Equipment } from '../items/equipment';
 import { Item } from '../items/item';
 import { Hint } from './hint';
-import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
+import { computed, Signal } from '@angular/core';
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<Trait>({
     primitives: [
@@ -65,17 +62,17 @@ export class Trait implements Serializable<Trait> {
      */
     public objectEffects: Array<EffectGain> = [];
 
-    public static from(values: DeepPartial<Trait>, recastFns: RecastFns): Trait {
+    public static from(values: MaybeSerialized<Trait>, recastFns: RecastFns): Trait {
         return new Trait().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Trait>, recastFns: RecastFns): Trait {
+    public with(values: MaybeSerialized<Trait>, recastFns: RecastFns): Trait {
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Trait> {
+    public forExport(): Serialized<Trait> {
         return {
             ...forExport(this),
         };
@@ -94,34 +91,21 @@ export class Trait implements Serializable<Trait> {
      * Some trait instances have information after the trait name,
      * so we allow traits that include this trait's name as long as this trait is dynamic.
      */
-    public itemsWithThisTrait$(creature: Creature): Observable<Array<Item>> {
-        return creature.inventories.values$
-            .pipe(
-                switchMap(inventories => emptySafeCombineLatest(
-                    inventories.map(inventory => inventory.equippedEquipment$
-                        .pipe(
-                            switchMap(items => emptySafeCombineLatest(
-                                items.map(item => item.effectiveTraits$
-                                    .pipe(
-                                        map(traits =>
-                                            traits.some(trait =>
-                                                stringEqualsCaseInsensitive(this.name, trait, { allowPartialString: this.dynamic }),
-                                            )
-                                                ? item
-                                                : null,
-                                        ),
-                                    ),
+    public itemsWithThisTrait$$(creature: Creature): Signal<Array<Item>> {
+        return computed(() =>
+            creature.inventories()
+                .map(inventory =>
+                    inventory.equippedEquipment$$()
+                        .filter(item =>
+                            item.effectiveTraits$$()
+                                .some(trait =>
+                                    stringEqualsCaseInsensitive(this.name, trait, { allowPartialString: this.dynamic }),
                                 ),
-                            )),
-                            map(items => items.filter((item): item is Equipment => !!item)),
                         ),
-                    ),
-                )),
-                map(equipmentLists =>
-                    new Array<Item>()
-                        .concat(...equipmentLists),
-                ),
-            );
+                )
+                .flat(),
+
+        );
     }
 
     /**
@@ -129,13 +113,8 @@ export class Trait implements Serializable<Trait> {
      * Some trait instances have information after the trait name,
      * so we allow traits that include this trait's name as long as this trait is dynamic.
      */
-    public itemNamesWithThisTrait$(creature: Creature): Observable<Array<string>> {
-        return this.itemsWithThisTrait$(creature)
-            .pipe(
-                switchMap(items => emptySafeCombineLatest(
-                    items.map(item => item.effectiveName$()),
-                )),
-            );
+    public itemNamesWithThisTrait$$(creature: Creature): Signal<Array<string>> {
+        return computed(() => this.itemsWithThisTrait$$(creature)().map(item => item.effectiveName$$()()));
     }
 
     public objectBoundEffects(

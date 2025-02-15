@@ -56,7 +56,7 @@ import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/component
 import { CommonModule } from '@angular/common';
 import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.component';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
-import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
+import { flatten, flatten$ } from 'src/libs/shared/util/array-utils';
 import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { filterConditions } from 'src/libs/shared/services/creature-conditions/condition-filter-utils';
@@ -155,7 +155,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
     private _showSpell = '';
     private _showList = '';
 
-    private readonly _character$ = CreatureService.character$;
+    private readonly _character$ = CreatureService.character$$;
 
     constructor(
         private readonly _traitsDataService: TraitsDataService,
@@ -178,31 +178,31 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
     ) {
         super();
 
-        this.isMinimized$ = propMap$(SettingsService.settings$, 'spellbookMinimized$')
+        this.isMinimized$ = propMap$(SettingsService.settings$$, 'spellbookMinimized$')
             .pipe(
                 distinctUntilChanged(),
             );
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'spellbookTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'spellbookTileMode$')
             .pipe(
                 distinctUntilChanged(),
             );
 
-        this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$')
+        this.isManualMode$ = propMap$(SettingsService.settings$$, 'manualMode$')
             .pipe(
                 distinctUntilChanged(),
             );
 
         this.hasAnySpells$ =
             combineLatest([
-                CharacterFlatteningService.characterSpellCasting$
+                CharacterFlatteningService.characterSpellCasting$$
                     .pipe(
                         switchMap(spellCastings => emptySafeCombineLatest(
                             spellCastings.map(casting => casting.spellChoices.values$),
                         )),
-                        map(flattenArrayLists),
+                        flatten$(),
                     ),
-                CharacterFlatteningService.characterLevel$,
+                CharacterFlatteningService.characterLevel$$,
             ])
                 .pipe(
                     map(([spellChoices, charLevel]) => spellChoices.some(choice => choice.charLevelAvailable <= charLevel)),
@@ -290,7 +290,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
 
         return combineLatest([
             this._character$,
-            CharacterFlatteningService.characterLevel$,
+            CharacterFlatteningService.characterLevel$$,
             this._allSpellCastings$(),
         ])
             .pipe(
@@ -593,10 +593,10 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
         // These conditions are assumed to apply to "the next spell you cast".
 
         combineLatest([
-            this._creatureEffectsService.absoluteEffectsOnThis$(character, 'Spell Slot Preservation'),
-            this._creatureEffectsService.relativeEffectsOnThis$(character, 'Spell Slot Preservation'),
-            this._creatureEffectsService.absoluteEffectsOnThis$(character, 'No-Duration Spell Slot Preservation'),
-            this._creatureEffectsService.relativeEffectsOnThis$(character, 'No-Duration Spell Slot Preservation'),
+            this._creatureEffectsService.absoluteEffectsOnThis$$(character, 'Spell Slot Preservation'),
+            this._creatureEffectsService.relativeEffectsOnThis$$(character, 'Spell Slot Preservation'),
+            this._creatureEffectsService.absoluteEffectsOnThis$$(character, 'No-Duration Spell Slot Preservation'),
+            this._creatureEffectsService.relativeEffectsOnThis$$(character, 'No-Duration Spell Slot Preservation'),
         ])
             .pipe(
                 take(1),
@@ -712,7 +712,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
             );
         }
 
-        this._creatureEffectsService.effectsOnThis$(character, 'Free Bonded Item Charge')
+        this._creatureEffectsService.effectsOnThis$$(character, 'Free Bonded Item Charge')
             .pipe(
                 take(1),
             )
@@ -803,8 +803,6 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                         // Spontaneous spells use up spell slots. If you don't have spell slots of this level left,
                         // you can use a Studious Capacity one as a bard (0th level)
                         // or a Greater Vital Evolution one as a Sorcerer (11th and 12th level).
-                        const firstGreaterEvolutionSpellLevel = 11;
-                        const secondGreaterEvolutionSpellLevel = 12;
 
                         const casting = context.spellCastingParameters.casting;
 
@@ -817,14 +815,14 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                                     (casting.spellSlotsUsed[context.spellCastingLevelParameters.level] ?? 0)
                                     + 1;
                             } else if (casting.className === 'Bard') {
-                                casting.spellSlotsUsed[0] =
-                                    (casting.spellSlotsUsed[0]) ?? 0 + 1;
+                                casting.specialSpellSlotsUsed.studiousCapacity =
+                                    (casting.specialSpellSlotsUsed.studiousCapacity) ?? 0 + 1;
                             } else if (casting.className === 'Sorcerer') {
-                                if (casting.spellSlotsUsed[firstGreaterEvolutionSpellLevel] === 0) {
-                                    casting.spellSlotsUsed[firstGreaterEvolutionSpellLevel] =
+                                if (casting.specialSpellSlotsUsed.greaterVitalEvolution[0] === 0) {
+                                    casting.specialSpellSlotsUsed.greaterVitalEvolution[0] =
                                         context.spellCastingLevelParameters.level;
-                                } else if (casting.spellSlotsUsed[secondGreaterEvolutionSpellLevel] === 0) {
-                                    casting.spellSlotsUsed[secondGreaterEvolutionSpellLevel] =
+                                } else if (casting.specialSpellSlotsUsed.greaterVitalEvolution[1] === 0) {
+                                    casting.specialSpellSlotsUsed.greaterVitalEvolution[1] =
                                         context.spellCastingLevelParameters.level;
                                 }
                             }
@@ -851,7 +849,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
             Spontaneous
         }
 
-        return CharacterFlatteningService.characterSpellCasting$
+        return CharacterFlatteningService.characterSpellCasting$$
             .pipe(
                 // Spread the list into a new array so it doesn't get sorted on the character.
                 // This would lead to problems when saving and loading the character.
@@ -899,11 +897,11 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
         if (casting.castingType === 'Focus') {
             return this._character$
                 .pipe(
-                    switchMap(character => character.maxSpellLevel$),
+                    switchMap(character => character.maxSpellLevel$$),
                 );
         }
 
-        return CharacterFlatteningService.characterLevel$
+        return CharacterFlatteningService.characterLevel$$
             .pipe(
                 switchMap(level => combineLatest([
                     ...equipmentSpells
@@ -929,7 +927,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
     }
 
     private _areSignatureSpellsAllowed$(casting: SpellCasting): Observable<boolean> {
-        return this._characterFeatsService.characterFeatsAtLevel$()
+        return this._characterFeatsService.characterFeatsAtLevel$$()
             .pipe(
                 map(feats => feats
                     .some(feat => feat.allowSignatureSpells.some(gain => gain.className === casting.className)),
@@ -944,7 +942,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
         const isFocusSpellCasting = spellCastingParameters.casting.castingType === SpellCastingTypes.Focus;
 
         if ((levelNumber === -1) === isFocusSpellCasting) {
-            return CharacterFlatteningService.characterLevel$
+            return CharacterFlatteningService.characterLevel$$
                 .pipe(
                     switchMap(characterLevel => this._spellsTakenService
                         .takenSpells$(
@@ -1010,7 +1008,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
     private _focusPoints$(): Observable<{ now: number; max: number }> {
         return combineLatest([
             this._spellCastingPrerequisitesService.maxFocusPoints$,
-            CharacterFlatteningService.characterFocusPoints$,
+            CharacterFlatteningService.characterFocusPoints$$,
         ])
             .pipe(
                 map(([maxFocusPoints, currentFocusPoints]) => ({
@@ -1058,7 +1056,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
     }
 
     private _characterHasFeat$(name: string): Observable<boolean> {
-        return this._characterFeatsService.characterHasFeatAtLevel$(name);
+        return this._characterFeatsService.characterHasFeatAtLevel$$(name);
     }
 
     private _maxSpellSlots$(spellLevel: number, casting: SpellCasting, maxSpellLevel: number): Observable<number> {
@@ -1071,7 +1069,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                 ? this._character$
                     .pipe(
                         switchMap(character => this._creatureEffectsService
-                            .relativeEffectsOnThis$(
+                            .relativeEffectsOnThis$$(
                                 character,
                                 `${ casting.className } ${ casting.castingType } Level ${ spellLevel } Spell Slots`,
                             )),
@@ -1079,7 +1077,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
                 : of(new Array<RelativeEffect>())
         )
             .pipe(
-                switchMap(spellSlotsEffects => CharacterFlatteningService.characterLevel$
+                switchMap(spellSlotsEffects => CharacterFlatteningService.characterLevel$$
                     .pipe(
                         map(level => ({ spellSlotsEffects, level })),
                     ),
@@ -1154,7 +1152,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
         return this._character$
             .pipe(
                 switchMap(character => this._creatureEffectsService
-                    .toggledEffectsOnThese$(
+                    .toggledEffectsOnThese$$(
                         character,
                         [
                             `${ spell.name } Disabled`,
@@ -1256,7 +1254,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
     }
 
     private _bloodMagicFeats$(): Observable<Array<Feat>> {
-        return this._characterFeatsService.characterFeatsAtLevel$()
+        return this._characterFeatsService.characterFeatsAtLevel$$()
             .pipe(
                 map(feats => feats.filter(feat => feat.bloodMagic.length)),
             );
@@ -1298,7 +1296,7 @@ export class SpellbookComponent extends TrackByMixin(BaseCreatureElementComponen
         return this._character$
             .pipe(
                 switchMap(character => this._creatureEffectsService
-                    .toggledEffectsOnThis$(character, 'Free Bonded Item Charge'),
+                    .toggledEffectsOnThis$$(character, 'Free Bonded Item Charge'),
                 ),
                 map(effects => {
                     // True if you have the "Free Bonded Item Charge" effect (usually from Bond Conversation)

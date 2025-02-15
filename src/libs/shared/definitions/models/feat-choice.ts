@@ -1,8 +1,7 @@
 
-import { OnChangeArray } from '../../util/classes/on-change-array';
+import { signal } from '@angular/core';
 import { setupSerialization } from '../../util/serialization';
-import { Serializable } from '../interfaces/serializable';
-import { DeepPartial } from '../types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from '../interfaces/serializable';
 import { FeatIgnoreRequirements } from './feat-ignore-requirements';
 import { FeatTaken } from './feat-taken';
 
@@ -97,27 +96,19 @@ export class FeatChoice implements Serializable<FeatChoice> {
 
     public ignoreRequirements: Array<FeatIgnoreRequirements.FeatIgnoreRequirement> = [];
 
-    private readonly _feats = new OnChangeArray<FeatTaken>();
+    public readonly feats = signal<Array<FeatTaken>>([]);
 
-    public get feats(): OnChangeArray<FeatTaken> {
-        return this._feats;
-    }
-
-    public set feats(value: Array<FeatTaken>) {
-        this._feats.setValues(...value);
-    }
-
-    public static from(values: DeepPartial<FeatChoice>): FeatChoice {
+    public static from(values: MaybeSerialized<FeatChoice>): FeatChoice {
         return new FeatChoice().with(values);
     }
 
-    public with(values: DeepPartial<FeatChoice>): FeatChoice {
+    public with(values: MaybeSerialized<FeatChoice>): FeatChoice {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<FeatChoice> {
+    public forExport(): Serialized<FeatChoice> {
         return {
             ...forExport(this),
         };

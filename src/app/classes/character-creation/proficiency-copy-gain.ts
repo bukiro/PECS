@@ -1,6 +1,5 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<ProficiencyCopyGain>({
@@ -22,17 +21,17 @@ export class ProficiencyCopyGain implements Serializable<ProficiencyCopyGain> {
     /** Minimum skill level needed to apply (usually Trained). */
     public minLevel: SkillLevels = SkillLevels.Trained;
 
-    public static from(values: DeepPartial<ProficiencyCopyGain>): ProficiencyCopyGain {
+    public static from(values: MaybeSerialized<ProficiencyCopyGain>): ProficiencyCopyGain {
         return new ProficiencyCopyGain().with(values);
     }
 
-    public with(values: DeepPartial<ProficiencyCopyGain>): ProficiencyCopyGain {
+    public with(values: MaybeSerialized<ProficiencyCopyGain>): ProficiencyCopyGain {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<ProficiencyCopyGain> {
+    public forExport(): Serialized<ProficiencyCopyGain> {
         return {
             ...forExport(this),
         };

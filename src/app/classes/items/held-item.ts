@@ -1,6 +1,5 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Equipment } from './equipment';
@@ -19,25 +18,25 @@ export class HeldItem extends Equipment implements MessageSerializable<HeldItem>
     /** How is this item held when used? Example: "held in one hand" */
     public usage = '';
 
-    public static from(values: DeepPartial<HeldItem>, recastFns: RecastFns): HeldItem {
+    public static from(values: MaybeSerialized<HeldItem>, recastFns: RecastFns): HeldItem {
         return new HeldItem().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<HeldItem>, recastFns: RecastFns): HeldItem {
+    public with(values: MaybeSerialized<HeldItem>, recastFns: RecastFns): HeldItem {
         super.with(values, recastFns);
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<HeldItem> {
+    public forExport(): Serialized<HeldItem> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<HeldItem> {
+    public forMessage(): Serialized<HeldItem> {
         return {
             ...super.forMessage(),
             ...forMessage(this),

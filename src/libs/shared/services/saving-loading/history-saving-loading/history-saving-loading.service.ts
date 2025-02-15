@@ -4,7 +4,7 @@ import { Ancestry } from 'src/app/classes/creatures/character/ancestry';
 import { Heritage } from 'src/app/classes/creatures/character/heritage';
 import { Background } from 'src/app/classes/creatures/character/background';
 import { HistoryDataService } from 'src/libs/shared/services/data/history-data.service';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 
 @Injectable({
     providedIn: 'root',
@@ -14,7 +14,7 @@ export class HistorySavingLoadingService {
         private readonly _historyDataService: HistoryDataService,
     ) { }
 
-    public restoreAncestryFromSave(ancestry: DeepPartial<Ancestry>): Ancestry {
+    public restoreAncestryFromSave(ancestry: Serialized<Ancestry>): Ancestry {
         let restoredAncestry: Ancestry | undefined;
 
         if (ancestry.name) {
@@ -49,7 +49,7 @@ export class HistorySavingLoadingService {
         }
     }
 
-    public restoreHeritageFromSave(heritage: DeepPartial<Heritage>): Heritage {
+    public restoreHeritageFromSave(heritage: Serialized<Heritage>): Heritage {
         let restoredHeritage: Heritage | undefined;
 
         if (heritage.name) {
@@ -84,7 +84,7 @@ export class HistorySavingLoadingService {
         }
     }
 
-    public restoreBackgroundFromSave(background: DeepPartial<Background>): Background {
+    public restoreBackgroundFromSave(background: Serialized<Background>): Background {
         let mergedBackground: Background | undefined;
 
         if (background.name) {

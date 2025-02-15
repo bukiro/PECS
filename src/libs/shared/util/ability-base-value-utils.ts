@@ -6,6 +6,7 @@ import { AbilityBoost } from '../definitions/creature-properties/ability-boost';
 import { Defaults } from '../definitions/defaults';
 import { AbilityBaseValueAggregate } from '../definitions/display-aggregates/ability-base-value-aggregate';
 import { BonusDescription } from '../definitions/bonuses/bonus-description';
+import { computed, Signal, signal } from '@angular/core';
 
 export const abilityModFromAbilityValue = (abilityValue: number): number => {
     /**
@@ -25,10 +26,10 @@ export const abilityModFromAbilityValue = (abilityValue: number): number => {
     return Math.floor((abilityValue - baseline) * half);
 };
 
-export const abilityBaseValueFromCreature = (abilityName: string, creature: Creature): number =>
+export const abilityBaseValueFromCreature$$ = (abilityName: string, creature: Creature): Signal<number> =>
     creature.isCharacter()
-        ? abilityBaseValueFromBaseValues(abilityName, creature.baseValues)
-        : Defaults.abilityBaseValue;
+        ? computed(() => abilityBaseValueFromBaseValues(abilityName, creature.baseValues()))
+        : signal(Defaults.abilityBaseValue).asReadonly();
 
 export const abilityBaseValueFromBaseValues = (abilityName: string, baseValues: Array<AbilityBaseValueSetting>): number =>
     baseValues.find(ownValue => ownValue.name === abilityName)?.baseValue ?? Defaults.abilityBaseValue;

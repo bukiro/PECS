@@ -38,8 +38,8 @@ export class BulkService {
     public currentValue$(creature: Creature): Observable<BulkLiveValue> {
         return combineLatest([
             creature.inventories.values$,
-            this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Bulk'),
-            this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Bulk'),
+            this._creatureEffectsService.absoluteEffectsOnThis$$(creature, 'Bulk'),
+            this._creatureEffectsService.relativeEffectsOnThis$$(creature, 'Bulk'),
         ])
             .pipe(
                 map(([inventories, absoluteEffects, relativeEffects]) => {
@@ -112,10 +112,10 @@ export class BulkService {
 
     private _bulkLimit$(creature: Creature, baseLimit: number, effectTarget: string): Observable<BulkLiveValue> {
         return combineLatest([
-            this._creatureEffectsService.absoluteEffectsOnThis$(creature, effectTarget),
-            this._creatureEffectsService.relativeEffectsOnThis$(creature, effectTarget),
+            this._creatureEffectsService.absoluteEffectsOnThis$$(creature, effectTarget),
+            this._creatureEffectsService.relativeEffectsOnThis$$(creature, effectTarget),
             this._creaturePropertiesService.effectiveSize$(creature),
-            this._abilityValuesService.mod$('Strength', creature),
+            this._abilityValuesService.mod$$('Strength', creature),
         ])
             .pipe(
                 map(([absoluteEffects, relativeEffects, creatureSize, strengthModifier]) => {

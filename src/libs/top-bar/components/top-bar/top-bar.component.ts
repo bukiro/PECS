@@ -21,7 +21,7 @@ import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/but
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { LogoComponent } from 'src/libs/shared/ui/logo/components/logo/logo.component';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
-import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
+import { flatten, flatten$ } from 'src/libs/shared/util/array-utils';
 
 @Component({
     selector: 'app-top-bar',
@@ -77,17 +77,17 @@ export class TopBarComponent extends TrackByMixin(BaseClass) {
         this.topMenuState$ =
             _store$.select(selectTopMenu);
 
-        this.isCompanionAvailable$ = _creatureAvailabilityService.isCompanionAvailable$();
+        this.isCompanionAvailable$ = _creatureAvailabilityService.isCompanionAvailable$$();
 
-        this.isFamiliarAvailable$ = _creatureAvailabilityService.isFamiliarAvailable$();
+        this.isFamiliarAvailable$ = _creatureAvailabilityService.isFamiliarAvailable$$();
 
         this.apiButtonsStatus$ =
             combineLatest([
-                propMap$(SettingsService.settings$, 'manualMode$'),
-                propMap$(SettingsService.settings$, 'checkMessagesAutomatically$'),
-                propMap$(SettingsService.settings$, 'applyMessagesAutomatically$'),
+                propMap$(SettingsService.settings$$, 'manualMode$'),
+                propMap$(SettingsService.settings$$, 'checkMessagesAutomatically$'),
+                propMap$(SettingsService.settings$$, 'applyMessagesAutomatically$'),
                 _store$.select(selectGmMode),
-                this.character.isBlankCharacter$,
+                this.character.isBlankCharacter$$,
                 this.character.partyName$,
             ])
                 .pipe(
@@ -112,15 +112,15 @@ export class TopBarComponent extends TrackByMixin(BaseClass) {
 
         this.hasAnySpells$ =
             combineLatest([
-                CharacterFlatteningService.characterSpellCasting$
+                CharacterFlatteningService.characterSpellCasting$$
                     .pipe(
                         switchMap(spellCastings => emptySafeCombineLatest(
                             spellCastings
                                 .map(casting => casting.spellChoices.values$),
                         )),
-                        map(flattenArrayLists),
+                        flatten$(),
                     ),
-                CharacterFlatteningService.characterLevel$,
+                CharacterFlatteningService.characterLevel$$,
             ])
                 .pipe(
                     map(([spellChoices, charLevel]) => spellChoices.some(choice => choice.charLevelAvailable <= charLevel)),

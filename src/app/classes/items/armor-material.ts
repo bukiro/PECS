@@ -1,6 +1,5 @@
 import { Material } from 'src/app/classes/items/material';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<ArmorMaterial>({
@@ -16,11 +15,11 @@ export class ArmorMaterial extends Material implements Serializable<ArmorMateria
     public skillPenaltyModifier = 0;
     public speedPenaltyModifier = 0;
 
-    public static from(values: DeepPartial<ArmorMaterial>): ArmorMaterial {
+    public static from(values: MaybeSerialized<ArmorMaterial>): ArmorMaterial {
         return new ArmorMaterial().with(values);
     }
 
-    public with(values: DeepPartial<ArmorMaterial>): ArmorMaterial {
+    public with(values: MaybeSerialized<ArmorMaterial>): ArmorMaterial {
         super.with(values);
 
         assign(this, values);
@@ -28,7 +27,7 @@ export class ArmorMaterial extends Material implements Serializable<ArmorMateria
         return this;
     }
 
-    public forExport(): DeepPartial<ArmorMaterial> {
+    public forExport(): Serialized<ArmorMaterial> {
         return {
             ...super.forExport(),
             ...forExport(this),

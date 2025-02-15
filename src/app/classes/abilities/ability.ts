@@ -1,4 +1,4 @@
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { MaybeSerialized } from 'src/libs/shared/definitions/interfaces/serializable';
 
 export class Ability {
     constructor(
@@ -6,7 +6,7 @@ export class Ability {
         public modifierName: string = '',
     ) { }
 
-    public static from(values: DeepPartial<Ability>): Ability {
+    public static from(values: MaybeSerialized<Ability>): Ability {
         return new Ability(values.name, values.modifierName);
     }
 }

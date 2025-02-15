@@ -27,8 +27,8 @@ export class InvestedService {
         const effectTarget = 'Max Invested';
 
         return combineLatest([
-            this._creatureEffectsService.absoluteEffectsOnThis$(creature, effectTarget),
-            this._creatureEffectsService.relativeEffectsOnThis$(creature, effectTarget),
+            this._creatureEffectsService.absoluteEffectsOnThis$$(creature, effectTarget),
+            this._creatureEffectsService.relativeEffectsOnThis$$(creature, effectTarget),
         ])
             .pipe(
                 map(([absoluteEffects, relativeEffects]) => {

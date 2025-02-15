@@ -18,7 +18,7 @@ export class CharacterDeitiesService {
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) {
-        this.mainCharacterDeity$ = propMap$(CharacterFlatteningService.characterClass$, 'deity$')
+        this.mainCharacterDeity$ = propMap$(CharacterFlatteningService.characterClass$$, 'deity$')
             .pipe(
                 map(deityName =>
                     deityName
@@ -36,15 +36,15 @@ export class CharacterDeitiesService {
 
     public syncretismDeity$(levelNumber?: number): Observable<Deity | null> {
         return combineLatest([
-            CharacterFlatteningService.levelOrCurrent$(levelNumber),
-            this._characterFeatsService.characterHasFeatAtLevel$('Syncretism', levelNumber),
+            CharacterFlatteningService.levelOrCurrent$$(levelNumber),
+            this._characterFeatsService.characterHasFeatAtLevel$$('Syncretism', levelNumber),
         ])
             .pipe(
                 switchMap(([atLevel, hasSyncretism]) =>
                     hasSyncretism
-                        ? CharacterFlatteningService.characterClass$
+                        ? CharacterFlatteningService.characterClass$$
                             .pipe(
-                                switchMap(characterClass => characterClass.filteredFeatData$(0, 0, 'Syncretism')),
+                                switchMap(characterClass => characterClass.filteredFeatData$$(0, 0, 'Syncretism')),
                                 switchMap(featData =>
                                     (featData[0]?.level && featData[0].level <= atLevel)
                                         ? featData[0].valueAsString$('deity')

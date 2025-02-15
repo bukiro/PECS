@@ -1,6 +1,5 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ActivityGain } from '../../activities/activity-gain';
 import { AbilityChoice } from '../../character-creation/ability-choice';
@@ -54,17 +53,17 @@ export class AnimalCompanionAncestry implements Serializable<AnimalCompanionAnce
     public gainItems: Array<ItemGain> = [];
     public skillChoices: Array<SkillChoice> = [];
 
-    public static from(values: DeepPartial<AnimalCompanionAncestry>, recastFns: RecastFns): AnimalCompanionAncestry {
+    public static from(values: MaybeSerialized<AnimalCompanionAncestry>, recastFns: RecastFns): AnimalCompanionAncestry {
         return new AnimalCompanionAncestry().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<AnimalCompanionAncestry>, recastFns: RecastFns): AnimalCompanionAncestry {
+    public with(values: MaybeSerialized<AnimalCompanionAncestry>, recastFns: RecastFns): AnimalCompanionAncestry {
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<AnimalCompanionAncestry> {
+    public forExport(): Serialized<AnimalCompanionAncestry> {
         return {
             ...forExport(this),
         };

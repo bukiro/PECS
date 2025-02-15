@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { HeightenedDescriptionVariable } from './heightened-description-variable';
 
@@ -16,17 +15,17 @@ export class HeightenedDescriptionVariableCollection implements Serializable<Hei
     public level = 0;
     public descs: Array<HeightenedDescriptionVariable> = [];
 
-    public static from(values: DeepPartial<HeightenedDescriptionVariableCollection>): HeightenedDescriptionVariableCollection {
+    public static from(values: MaybeSerialized<HeightenedDescriptionVariableCollection>): HeightenedDescriptionVariableCollection {
         return new HeightenedDescriptionVariableCollection().with(values);
     }
 
-    public with(values: DeepPartial<HeightenedDescriptionVariableCollection>): HeightenedDescriptionVariableCollection {
+    public with(values: MaybeSerialized<HeightenedDescriptionVariableCollection>): HeightenedDescriptionVariableCollection {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<HeightenedDescriptionVariableCollection> {
+    public forExport(): Serialized<HeightenedDescriptionVariableCollection> {
         return {
             ...forExport(this),
         };

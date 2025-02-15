@@ -42,7 +42,7 @@ export class AbilitiesComponent extends TrackByMixin(BaseCreatureElementComponen
 
         this.isMinimized$ = this.creature$
             .pipe(
-                switchMap(creature => SettingsService.settings$
+                switchMap(creature => SettingsService.settings$$
                     .pipe(
                         switchMap(settings => {
                             switch (creature.type) {
@@ -61,7 +61,7 @@ export class AbilitiesComponent extends TrackByMixin(BaseCreatureElementComponen
             .pipe(
                 switchMap(creature => emptySafeCombineLatest(
                     this._abilitiesDataService.abilities()
-                        .map(ability => this._abilityValuesService.liveValue$(ability, creature)),
+                        .map(ability => this._abilityValuesService.liveValue$$(ability, creature)),
                 )),
             );
     }

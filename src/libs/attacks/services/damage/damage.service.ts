@@ -22,12 +22,12 @@ import { strikingTitleFromLevel } from 'src/libs/shared/util/rune-utils';
 import { skillLevelName } from 'src/libs/shared/util/skill-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { attackEffectPhrases } from '../../util/attack-effect-phrases';
-import { RuneSourceSet, attackRuneSource$ } from '../../util/attack-rune-rource';
+import { RuneSourceSet, attackRuneSource$$ } from '../../util/attack-rune-rource';
 import { ExtraDamageService } from './extra-damage.service';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
-import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
+import { flatten, flatten$ } from 'src/libs/shared/util/array-utils';
 import { isDefined } from 'src/libs/shared/util/type-guard-utils';
 
 export type DamageResult = IntermediateResult<string>;
@@ -81,9 +81,9 @@ export class DamageService {
 
         return combineLatest([
             this._weaponPropertiesService.effectiveProficiency$(weapon, { creature }),
-            attackRuneSource$(weapon, creature, range),
+            attackRuneSource$$(weapon, creature, range),
             this._weaponPropertiesService.isFavoredWeapon$(weapon, creature),
-            weapon.effectiveTraits$,
+            weapon.effectiveTraits$$,
         ])
             .pipe(
                 map(([prof, runeSource, isFavoredWeapon, traits]) => ({
@@ -177,7 +177,7 @@ export class DamageService {
         return combineLatest([
             combineLatest([
                 this._weaponPropertiesService.effectiveProficiency$(weapon, { creature }),
-                attackRuneSource$(weapon, creature, range),
+                attackRuneSource$$(weapon, creature, range),
             ])
                 .pipe(
                     switchMap(([prof, runeSource]) =>
@@ -192,10 +192,10 @@ export class DamageService {
                             ),
                     ),
                 ),
-            this._characterFeatsService.characterFeatsAtLevel$(),
+            this._characterFeatsService.characterFeatsAtLevel$$(),
             creature.level$,
             weapon.bladeAlly$,
-            weapon.effectiveTraits$,
+            weapon.effectiveTraits$$,
             this._weaponPropertiesService.isFavoredWeapon$(weapon, creature),
         ])
             .pipe(
@@ -226,7 +226,7 @@ export class DamageService {
                                     )
                                     .map(spec =>
                                         spec.featreq
-                                            ? this._characterFeatsService.characterHasFeatAtLevel$(spec.featreq)
+                                            ? this._characterFeatsService.characterHasFeatAtLevel$$(spec.featreq)
                                                 .pipe(
                                                     map(hasFeat => hasFeat ? spec : null),
                                                 )
@@ -242,10 +242,11 @@ export class DamageService {
                             ),
                     ),
                 ),
+                flatten$(),
                 map(specializationGainLists => {
                     const specializations: Array<Specialization> = [];
 
-                    flattenArrayLists(specializationGainLists)
+                    specializationGainLists
                         .forEach(gainedSpec => {
                             const specs: Array<Specialization> =
                                 this._itemSpecializationsDataService.specializations(weapon.group)
@@ -275,14 +276,14 @@ export class DamageService {
 
         return combineLatest([
             this._diceNumberMultiplier$(context),
-            context.runeSource.forFundamentalRunes.effectiveStriking$(),
+            context.runeSource.forFundamentalRunes.effectiveStriking$$(),
             // Diamond Fists adds the forceful trait to your unarmed attacks,
             // but if it already has the trait, it gains one damage die.
             // For this purpose, compare the weapon's original traits instead of the effective traits.
             (context.prof === WeaponProficiencies.Unarmed && stringsIncludeCaseInsensitive(context.weapon.traits, 'Forceful'))
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Diamond Fists')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Diamond Fists')
                 : of(false),
-            context.runeSource.reason?.effectiveName$() ?? of(''),
+            context.runeSource.reason?.effectiveName$$() ?? of(''),
         ])
             .pipe(
                 switchMap(([diceNumMultiplier, strikingValue, diamondFistsApplies, runeReasonName]) => {
@@ -334,7 +335,7 @@ export class DamageService {
                     // These need to be calculated in the effects service.
                     const traitEffects: Array<Effect> = [];
 
-                    context.weapon.activatedTraitsActivations()
+                    context.weapon.activatedTraitsActivations$$()
                         .forEach(activation => {
                             const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
@@ -345,8 +346,8 @@ export class DamageService {
 
                     // Apply global effects and effects added in this method.
                     return combineLatest([
-                        this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectPhrasesDiceNumber),
-                        this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDiceNumber),
+                        this._creatureEffectsService.absoluteEffectsOnThese$$(context.creature, effectPhrasesDiceNumber),
+                        this._creatureEffectsService.relativeEffectsOnThese$$(context.creature, effectPhrasesDiceNumber),
                     ])
                         .pipe(
                             map(([diceNumberAbsolutes, diceNumberRelatives]) => {
@@ -399,8 +400,8 @@ export class DamageService {
             );
 
         return combineLatest([
-            this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectPhrasesDiceNumberMult),
-            this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDiceNumberMult),
+            this._creatureEffectsService.absoluteEffectsOnThese$$(context.creature, effectPhrasesDiceNumberMult),
+            this._creatureEffectsService.relativeEffectsOnThese$$(context.creature, effectPhrasesDiceNumberMult),
         ])
             .pipe(
                 map(([absoluteEffects, relativeEffects]) => ({
@@ -408,7 +409,7 @@ export class DamageService {
                         1,
                         { absoluteEffects, relativeEffects, valueDescription: 'Dice number multiplier' },
                     ),
-                    effects: flattenArrayLists<Effect>([absoluteEffects, relativeEffects]),
+                    effects: flatten<Effect>(absoluteEffects, relativeEffects),
                 })),
             );
     }
@@ -442,12 +443,12 @@ export class DamageService {
             // Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage
             // or simple weapons as long as they are their deity's favored weapon.
             isDeificWeaponCandidate
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Deific Weapon')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Deific Weapon')
                 : of(false),
             // Clerics get increased dice size via Deadly Simplicity for unarmed attacks with less than d6 damage
             // or simple weapons as long as they are their deity's favored weapon.
             isDeadlySimplicityCandidate
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Deadly Simplicity')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Deadly Simplicity')
                 : of(false),
         ])
             .pipe(
@@ -503,7 +504,7 @@ export class DamageService {
                     // These need to be calculated in the effects service.
                     const traitEffects: Array<Effect> = [];
 
-                    context.weapon.activatedTraitsActivations().forEach(activation => {
+                    context.weapon.activatedTraitsActivations$$().forEach(activation => {
                         const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
                         if (realTrait) {
@@ -513,8 +514,8 @@ export class DamageService {
 
                     // Apply global effects and effects added in this method.
                     return combineLatest([
-                        this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectPhrasesDiceSize),
-                        this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDiceSize),
+                        this._creatureEffectsService.absoluteEffectsOnThese$$(context.creature, effectPhrasesDiceSize),
+                        this._creatureEffectsService.relativeEffectsOnThese$$(context.creature, effectPhrasesDiceSize),
                     ])
                         .pipe(
                             map(([diceSizeAbsoluteEffects, diceSizeRelativeEffects]) => {
@@ -545,7 +546,7 @@ export class DamageService {
                                     //Don't raise dice size over 12.
                                     result: Math.min(DiceSizes.D12, result),
                                     bonuses,
-                                    effects: flattenArrayLists<Effect>([reducedAbsolutes, reducedRelatives]),
+                                    effects: flatten<Effect>(reducedAbsolutes, reducedRelatives),
                                 };
                             }),
                         );
@@ -555,7 +556,7 @@ export class DamageService {
 
     private _damageBonus$(context: IntermediateMethodContext & { diceNum: number }): Observable<IntermediateResult<number>> {
         return combineLatest([
-            this._creatureEffectsService.effectsOnThis$(context.creature, `Ignore Bonus Damage on ${ context.weapon.name }`)
+            this._creatureEffectsService.effectsOnThis$$(context.creature, `Ignore Bonus Damage on ${ context.weapon.name }`)
                 .pipe(
                     switchMap(shouldIgnoreBonusDamageEffects =>
                         (
@@ -608,10 +609,10 @@ export class DamageService {
                     // Absolute effects are always applied.
                     // Relative effects are applied unless an effect says not to.
                     return combineLatest([
-                        this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectPhrasesDamage),
+                        this._creatureEffectsService.absoluteEffectsOnThese$$(context.creature, effectPhrasesDamage),
                         shouldIgnoreRelativeEffects
                             ? of([])
-                            : this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDamage),
+                            : this._creatureEffectsService.relativeEffectsOnThese$$(context.creature, effectPhrasesDamage),
                     ])
                         .pipe(
                             map(([absolutes, relatives]) => {
@@ -632,10 +633,10 @@ export class DamageService {
                                         0,
                                         { absoluteEffects: absolutes, relativeEffects: allRelatives, valueDescription: 'Bonus Damage' },
                                     ),
-                                    effects: flattenArrayLists<Effect>([
+                                    effects: flatten<Effect>(
                                         absolutes,
                                         allRelatives,
-                                    ]),
+                                    ),
                                 };
                             }),
                         );
@@ -732,13 +733,13 @@ export class DamageService {
             && context.creature.isCharacter();
 
         return combineLatest([
-            this._abilityValuesService.mod$('Dexterity', context.creature),
-            this._abilityValuesService.mod$('Strength', context.creature),
-            this._creatureEffectsService.relativeEffectsOnThis$(context.creature, 'Dexterity-based Checks and DCs'),
-            this._creatureEffectsService.relativeEffectsOnThis$(context.creature, 'Strength-based Checks and DCs'),
+            this._abilityValuesService.mod$$('Dexterity', context.creature),
+            this._abilityValuesService.mod$$('Strength', context.creature),
+            this._creatureEffectsService.relativeEffectsOnThis$$(context.creature, 'Dexterity-based Checks and DCs'),
+            this._creatureEffectsService.relativeEffectsOnThis$$(context.creature, 'Strength-based Checks and DCs'),
             //If the melee weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
             isThiefCandidate
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Thief Racket')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Thief Racket')
                 : of(false),
         ])
             .pipe(
@@ -868,7 +869,7 @@ export class DamageService {
      */
     private _damageBonusEffectFromEmblazonArmament$(context: IntermediateMethodContext): Observable<RelativeEffect | undefined> {
         return context.creature.isCharacter()
-            ? context.weapon.effectiveEmblazonArmament$
+            ? context.weapon.effectiveEmblazonArmament$$
                 .pipe(
                     map(emblazonArmament =>
                         (emblazonArmament?.type === EmblazonArmamentTypes.EmblazonArmament)
@@ -915,7 +916,7 @@ export class DamageService {
         // For any activated traits of this weapon, check if any effects on Damage per Die apply.
         const traitEffects: Array<Effect> = [];
 
-        context.weapon.activatedTraitsActivations().forEach(activation => {
+        context.weapon.activatedTraitsActivations$$().forEach(activation => {
             const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
             if (realTrait) {
@@ -941,7 +942,7 @@ export class DamageService {
             }
         });
 
-        return this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectPhrasesDamagePerDie)
+        return this._creatureEffectsService.relativeEffectsOnThese$$(context.creature, effectPhrasesDamagePerDie)
             .pipe(
                 map(relatives =>
                     // All "...Damage per Die" effects are converted to just "...Damage"

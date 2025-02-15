@@ -46,7 +46,6 @@ import * as json_weaponrunes from 'src/assets/json/items/weaponrunes';
 import * as json_weapons from 'src/assets/json/items/weapons';
 import * as json_wornitems from 'src/assets/json/items/wornitems';
 import { FromConstructable } from '../../definitions/interfaces/from-constructable';
-import { DeepPartial } from '../../definitions/types/deep-partial';
 import { ItemTypes } from '../../definitions/types/item-types';
 import { ImportedJsonFileList } from '../../definitions/types/json-imported-item-file-list';
 import { BasicEquipmentService } from '../basic-equipment/basic-equipment.service';
@@ -55,6 +54,7 @@ import { RecastService } from '../recast/recast.service';
 import { TypeService } from '../type/type.service';
 import { DataService } from './data.service';
 import { Scroll } from 'src/app/classes/items/scroll';
+import { MaybeSerialized } from '../../definitions/interfaces/serializable';
 
 @Injectable({
     providedIn: 'root',
@@ -256,11 +256,11 @@ export class ItemsDataService {
 
     private _registerRecastFns(): void {
         const itemRestoreFn =
-            <T extends Item>(obj: DeepPartial<T>, options: { type?: ItemTypes; prototype?: T } = {}): T =>
+            <T extends Item>(obj: MaybeSerialized<T>, options: { type?: ItemTypes; prototype?: T } = {}): T =>
                 this._typeService.getReferenceItem<T>(obj, this, options);
 
         const itemRecastFn =
-            <T extends Item>(obj: DeepPartial<T>, options: { type?: ItemTypes; prototype?: T } = {}): T =>
+            <T extends Item>(obj: MaybeSerialized<T>, options: { type?: ItemTypes; prototype?: T } = {}): T =>
                 this._typeService.getPrototypeItem<T>(obj, options);
 
         this._recastService.registerItemRecastFns(itemRestoreFn, itemRecastFn);

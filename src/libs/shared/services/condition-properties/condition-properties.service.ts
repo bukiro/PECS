@@ -1,17 +1,13 @@
-/* eslint-disable complexity */
-import { Injectable } from '@angular/core';
-import { Observable, of, switchMap, distinctUntilChanged, map, shareReplay, combineLatest } from 'rxjs';
-import { ConditionChoice } from 'src/app/classes/character-creation/condition-choice';
+import { computed, Injectable, signal, Signal } from '@angular/core';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CreatureService } from '../creature/creature.service';
 import { Condition } from 'src/app/classes/conditions/condition';
-import { emptySafeCombineLatest } from '../../util/observable-utils';
 import { stringsIncludeCaseInsensitive } from '../../util/string-utils';
-import { cachedObservable } from '../../util/cache-utils';
-import { isEqualPrimitiveArray } from '../../util/compare-utils';
+import { cachedSignal } from '../../util/cache-utils';
+import { isDefined } from '../../util/type-guard-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -29,14 +25,14 @@ export class ConditionPropertiesService {
      *
      * A condition without any of these effects is purely informational.
      */
-    public isConditionInformational$(
+    public isConditionInformational$$(
         condition: Condition,
         {
             creature, gain,
         }: {
             creature: Creature; gain?: ConditionGain;
         },
-    ): Observable<boolean> {
+    ): Signal<boolean> {
         // Handle static conditions first.
         if (
             !!condition.effects?.length
@@ -48,59 +44,55 @@ export class ConditionPropertiesService {
             || !!condition.endEffects.length
             || !!condition.denyConditions.length
         ) {
-            return of(false);
+            return signal(false).asReadonly();
         }
 
         // Without a conditionGain, no further conditions can be true, so the condition is informational.
         if (!gain) {
-            return of(true);
+            return signal(true).asReadonly();
         }
 
-        return combineLatest([
-            gain.choice$.pipe(distinctUntilChanged()),
-            condition.isStoppingTime$(gain).pipe(distinctUntilChanged()),
-            condition.appliedConditionOverrides$(gain).pipe(distinctUntilChanged(isEqualPrimitiveArray)),
-            condition.appliedConditionPauses$(gain).pipe(distinctUntilChanged(isEqualPrimitiveArray)),
-            creature.conditions.values$,
-        ])
-            .pipe(
-                map(([choice, isStoppingTime, overrides, pauses, conditions]) =>
-                    !(
-                        isStoppingTime
-                        || (
-                            condition.hints.some(hint =>
-                                hint.effects?.length
-                                && (
-                                    !hint.conditionChoiceFilter.length ||
-                                    hint.conditionChoiceFilter.includes(choice)
-                                ),
+        return computed(() => {
+            const choice = gain.choice();
+            const isStoppingTime = condition.isStoppingTime$$(gain)();
+            const overrides = condition.appliedConditionOverrides$$(gain)();
+            const pauses = condition.appliedConditionPauses$$(gain)();
+            const conditions = creature.conditions();
+
+            return !(
+                isStoppingTime
+                || (
+                    condition.hints.some(hint =>
+                        hint.effects?.length
+                        && (
+                            !hint.conditionChoiceFilter.length ||
+                            hint.conditionChoiceFilter.includes(choice)
+                        ),
+                    )
+                )
+                || (
+                    condition.gainConditions.length
+                        ? conditions.some(existingGain => existingGain.parentID === gain.id)
+                        : false
+                )
+                || (
+                    overrides.length
+                        ? conditions.map(existingGain => existingGain.name)
+                            .some(name =>
+                                stringsIncludeCaseInsensitive(overrides, name),
                             )
-                        )
-                        || (
-                            condition.gainConditions.length
-                                ? conditions.some(existingGain => existingGain.parentID === gain.id)
-                                : false
-                        )
-                        || (
-                            overrides.length
-                                ? conditions.map(existingGain => existingGain.name)
-                                    .some(name =>
-                                        stringsIncludeCaseInsensitive(overrides, name),
-                                    )
-                                : false
-                        )
-                        || (
-                            pauses.length
-                                ? conditions.map(existingGain => existingGain.name)
-                                    .some(name =>
-                                        stringsIncludeCaseInsensitive(pauses, name),
-                                    )
-                                : false
-                        )
-                    )),
+                        : false
+                )
+                || (
+                    pauses.length
+                        ? conditions.map(existingGain => existingGain.name)
+                            .some(name =>
+                                stringsIncludeCaseInsensitive(pauses, name),
+                            )
+                        : false
+                )
             );
-
-
+        });
     }
 
     /**
@@ -108,88 +100,63 @@ export class ConditionPropertiesService {
      * then saves it on the condition for later use and returns.
      * If the observable exists on the condition already, just returns it.
      */
-    public effectiveChoices$(
+    public effectiveChoices$$(
         condition: Condition,
         spellLevel: number = condition.minLevel,
-    ): Observable<Array<string>> {
-        return cachedObservable(
-            emptySafeCombineLatest(
+    ): Signal<Array<string>> {
+        return cachedSignal(
+            computed(() =>
                 condition.choices.map(choice => {
-                    const requirementSources$: Array<Observable<boolean>> = [];
+                    const requirementResults: Array<boolean> = [];
 
                     //The default choice is never tested. This ensures a fallback if no choices are available.
                     if (choice.name === condition.choice) {
-                        return of(choice);
+                        return choice;
                     }
 
                     if (choice.spelllevelreq) {
-                        requirementSources$.push(of(spellLevel >= choice.spelllevelreq));
+                        requirementResults.push(spellLevel >= choice.spelllevelreq);
                     }
 
                     if (choice.featreq?.length) {
 
                         choice.featreq.forEach(featreq => {
 
-                            const testFeats = featreq.split(' or ');
+                            const alternativeTestFeats = featreq.split(' or ');
 
-                            requirementSources$.push(
-                                emptySafeCombineLatest(
-                                    testFeats.map(testFeat => {
-                                        if (featreq.includes('Familiar:')) {
-                                            testFeat = featreq.split('Familiar:')[1]?.trim() ?? '';
+                            requirementResults.push(
+                                alternativeTestFeats.map(testFeat => {
+                                    if (featreq.includes('Familiar:')) {
+                                        testFeat = featreq.split('Familiar:')[1]?.trim() ?? '';
 
-                                            if (testFeat) {
-                                                return CreatureService.familiar$
-                                                    .pipe(
-                                                        switchMap(familiar =>
-                                                            this._creatureFeatsService.creatureHasFeat$(
-                                                                testFeat,
-                                                                { creature: familiar },
-                                                            ),
-                                                        ),
-                                                        map(result => !!result),
-                                                        distinctUntilChanged(),
-                                                    );
-                                            }
-
-                                            return of(false);
-                                        } else {
-                                            return this._characterFeatsService.characterHasFeatAtLevel$(
+                                        if (testFeat) {
+                                            return !!this._creatureFeatsService.creatureHasFeat$$(
                                                 testFeat,
-                                                0,
-                                                { allowCountAs: true },
-                                            )
-                                                .pipe(distinctUntilChanged());
+                                                { creature: CreatureService.familiar$$() },
+                                            )();
                                         }
-                                    }),
-                                )
-                                    .pipe(
-                                        map(hasFeats => hasFeats.includes(true)),
-                                    ),
-                            );
 
+                                        return signal(false).asReadonly();
+                                    } else {
+                                        return this._characterFeatsService.characterHasFeatAtLevel$$(
+                                            testFeat,
+                                            0,
+                                            { allowCountAs: true },
+                                        )();
+                                    }
+                                }).includes(true),
+                            );
                         });
                     }
 
-                    return emptySafeCombineLatest(requirementSources$)
-                        .pipe(
-                            map(requirements =>
-                                requirements.every(requirement => !!requirement)
-                                    ? choice
-                                    : null,
-                            ),
-                        );
-                }),
-            )
-                .pipe(
-                    map(choices =>
-                        choices
-                            .filter((choice): choice is ConditionChoice => !!choice)
-                            .map(choice => choice.name),
-                    ),
-                    shareReplay({ refCount: true, bufferSize: 1 }),
-                ),
-            { store: condition.effectiveChoicesBySpellLevel$, key: spellLevel },
+                    return requirementResults.every(requirementResult => !!requirementResult)
+                        ? choice
+                        : undefined;
+                })
+                    .filter(isDefined)
+                    .map(choice => choice.name),
+            ),
+            { store: condition.effectiveChoicesBySpellLevel$$, key: spellLevel },
         );
     }
 

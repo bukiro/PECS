@@ -30,7 +30,7 @@ import { CreatureEffectsGenerationService } from '../creature-effects-generation
 import { ItemEffectsGenerationService } from '../item-effects-generation/item-effects-generation.service';
 import { ObjectEffectsGenerationService } from '../object-effects-generation/object-effects-generation.service';
 import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
-import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
+import { flatten, flatten$ } from 'src/libs/shared/util/array-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -57,19 +57,19 @@ export class EffectsGenerationService {
 
         this._initialized = true;
 
-        CreatureService.character$
+        CreatureService.character$$
             .pipe(
                 switchMap(creature => this._generateCreatureEffects$(creature)),
             )
             .subscribe();
 
-        this._creatureAvailabilityService.companionIfAvailable$()
+        this._creatureAvailabilityService.companionIfAvailable$$()
             .pipe(
                 switchMap(creature => creature ? this._generateCreatureEffects$(creature) : of(undefined)),
             )
             .subscribe();
 
-        this._creatureAvailabilityService.familiarIfAvailable$()
+        this._creatureAvailabilityService.familiarIfAvailable$$()
             .pipe(
                 switchMap(creature => creature ? this._generateCreatureEffects$(creature) : of(undefined)),
             )
@@ -81,12 +81,13 @@ export class EffectsGenerationService {
             Object.values(CreatureTypes)
                 .filter(creatureType => creatureType !== creature.type)
                 .map(otherCreatureType =>
-                    this._creatureEffectsService.allCreatureEffects$(otherCreatureType),
+                    this._creatureEffectsService.allCreatureEffects$$(otherCreatureType),
                 ),
         )
             .pipe(
-                map(otherCreatureEffectLists =>
-                    flattenArrayLists(otherCreatureEffectLists)
+                flatten$(),
+                map(otherCreatureEffects =>
+                    otherCreatureEffects
                         .filter(effect => effect.creature === creature.id),
                 ),
                 distinctUntilChanged(isEqualSerializableArrayWithoutId),
@@ -99,7 +100,7 @@ export class EffectsGenerationService {
         return emptySafeCombineLatest(
             this._traitsDataService.traits()
                 .filter(trait => trait.hints.length)
-                .map(trait => trait.itemsWithThisTrait$(creature)
+                .map(trait => trait.itemsWithThisTrait$$(creature)
                     .pipe(
                         distinctUntilChanged(isEqualSerializableArray),
                         map(itemsWithTrait =>
@@ -115,9 +116,7 @@ export class EffectsGenerationService {
                 map(traits =>
                     traits.map(trait => trait.hints.map(hint => ({ hint, objectName: trait.name }))),
                 ),
-                map(hintSetLists =>
-                    flattenArrayLists(hintSetLists),
-                ),
+                flatten$(),
             );
     }
 
@@ -247,14 +246,14 @@ export class EffectsGenerationService {
         options: { readonly ignoreArmorPenalties: boolean; readonly ignoreArmorSpeedPenalties: boolean },
     ): Observable<Array<Effect>> {
         return combineLatest([
-            armor.effectiveTraits$,
-            armor.effectiveProficiencyWithoutEffects$(),
+            armor.effectiveTraits$$,
+            armor.effectiveProficiencyWithoutEffects$$(),
             this._abilityValuesService
-                .value$('Strength', context.creature),
+                .value$$('Strength', context.creature),
             armor.effectiveSkillPenalty$(),
-            armor.effectiveStrengthRequirement$(),
-            armor.effectiveResilient$(),
-            armor.effectiveName$(),
+            armor.effectiveStrengthRequirement$$(),
+            armor.effectiveResilient$$(),
+            armor.effectiveName$$(),
         ])
             .pipe(
                 map(([armorTraits, proficiency, strength, skillPenalty, strengthRequirement, resilient, name]) => {
@@ -322,7 +321,7 @@ export class EffectsGenerationService {
                         //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
                         const strengthValue = strength.result;
                         const skillPenaltyString = skillPenalty.toString();
-                        const speedPenalty = armor.effectiveSpeedPenalty();
+                        const speedPenalty = armor.effectiveSpeedPenalty$$();
                         const speedPenaltyString = speedPenalty.toString();
 
                         if (!(strengthValue >= strengthRequirement)) {
@@ -434,12 +433,12 @@ export class EffectsGenerationService {
         context: { readonly creature: Creature },
     ): Observable<Array<Effect>> {
         return combineLatest([
-            shield.effectiveACBonus$(),
-            shield.effectiveShoddy$,
+            shield.effectiveACBonus$$(),
+            shield.effectiveShoddy$$,
             context.creature.isCharacter()
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Reflexive Shield')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Reflexive Shield')
                 : of(false),
-            shield.effectiveName$(),
+            shield.effectiveName$$(),
         ])
             .pipe(
                 map(([effectiveACBonus, effectiveShoddy, hasReflexiveShield, name]) => {
@@ -509,14 +508,14 @@ export class EffectsGenerationService {
         options: { readonly ignoreArmorPenalties: boolean; readonly ignoreArmorSpeedPenalties: boolean },
     ): Observable<Array<Effect>> {
         return combineLatest([
-            creature.mainInventory.equippedArmors$
+            creature.mainInventory.equippedArmors$$
                 .pipe(
                     switchMap(armors => emptySafeCombineLatest(
                         armors
                             .map(armor => this._generateArmorEffects$(armor, { creature }, options)),
                     )),
                 ),
-            creature.mainInventory.equippedShields$
+            creature.mainInventory.equippedShields$$
                 .pipe(
                     switchMap(shields => emptySafeCombineLatest(
                         shields
@@ -536,7 +535,7 @@ export class EffectsGenerationService {
     }
 
     private _applyUnburdenedIron$(effects: Array<Effect>): Observable<Array<Effect>> {
-        return this._characterFeatsService.characterHasFeatAtLevel$('Unburdened Iron')
+        return this._characterFeatsService.characterHasFeatAtLevel$$('Unburdened Iron')
             .pipe(
                 map(hasUnburdenedIron => {
                     //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.

@@ -100,7 +100,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) {
     ) {
         super();
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'spellLibraryTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'spellLibraryTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -262,7 +262,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) {
 
     public wizardSchool$(): Observable<string> {
         return this._characterFeatsService
-            .characterFeatsAtLevel$()
+            .characterFeatsAtLevel$$()
             .pipe(
                 map(feats =>
                     feats.find(taken =>
@@ -754,7 +754,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) {
 
         if (source === 'wizard') {
             return combineLatest([
-                CharacterFlatteningService.characterLevel$,
+                CharacterFlatteningService.characterLevel$$,
                 this._characterHasFeat$('Adapted Cantrip'),
                 this._characterHasFeat$('Adaptive Adept: Cantrip'),
                 this._characterHasFeat$('Adaptive Adept: 1st-Level Spell'),
@@ -889,7 +889,7 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) {
     }
 
     private _characterHasFeat$(name: string): Observable<boolean> {
-        return this._characterFeatsService.characterHasFeatAtLevel$(name);
+        return this._characterFeatsService.characterHasFeatAtLevel$$(name);
     }
 
     private _isEsotericPolymathAllowedForTradition$(tradition: SpellTraditions | ''): Observable<boolean> {
@@ -953,8 +953,8 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) {
 
     private _wizardSpellCasting$(): Observable<SpellCasting | undefined> {
         return combineLatest([
-            CharacterFlatteningService.characterLevel$,
-            CharacterFlatteningService.characterSpellCasting$,
+            CharacterFlatteningService.characterLevel$$,
+            CharacterFlatteningService.characterSpellCasting$$,
         ])
             .pipe(
                 map(([characterLevel, spellCastings]) => {
@@ -973,8 +973,8 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) {
     private _bardSpellCastingForEsotericPolymath$(): Observable<SpellCasting | undefined> {
         return combineLatest([
             this._characterHasFeat$('Esoteric Polymath'),
-            CharacterFlatteningService.characterLevel$,
-            CharacterFlatteningService.characterSpellCasting$,
+            CharacterFlatteningService.characterLevel$$,
+            CharacterFlatteningService.characterSpellCasting$$,
         ])
             .pipe(
                 map(([hasEsotericPolymath, characterLevel, spellCastings]) => {
@@ -997,8 +997,8 @@ export class SpellLibraryComponent extends TrackByMixin(BaseClass) {
     private _sorcererSpellCastingForArcaneEvolution$(): Observable<SpellCasting | undefined> {
         return combineLatest([
             this._characterHasFeat$('Arcane Evolution'),
-            CharacterFlatteningService.characterLevel$,
-            CharacterFlatteningService.characterSpellCasting$,
+            CharacterFlatteningService.characterLevel$$,
+            CharacterFlatteningService.characterSpellCasting$$,
         ])
             .pipe(
                 map(([hasArcaneEvolution, characterLevel, spellCastings]) => {

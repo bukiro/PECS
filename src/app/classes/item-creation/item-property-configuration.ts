@@ -1,7 +1,7 @@
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Effect } from '../effects/effect';
 import { Item } from '../items/item';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { MaybeSerialized, Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 
 const setupTypedSerialization = <T extends Item | Effect | object>(): ReturnType<typeof setupSerialization<ItemPropertyConfiguration<T>>> =>
     setupSerialization<ItemPropertyConfiguration<T>>({
@@ -31,11 +31,13 @@ export class ItemPropertyConfiguration<T extends Item | Effect | object> {
     public type: 'checkbox' | 'number' | 'text' | 'textarea' = 'text';
     public validation = '';
 
-    public static from<O extends Item | Effect | object>(values: DeepPartial<ItemPropertyConfiguration<O>>): ItemPropertyConfiguration<O> {
+    public static from<O extends Item | Effect | object>(
+        values: MaybeSerialized<ItemPropertyConfiguration<O>>,
+    ): ItemPropertyConfiguration<O> {
         return new ItemPropertyConfiguration<O>().with(values);
     }
 
-    public with(values: DeepPartial<ItemPropertyConfiguration<T>>): ItemPropertyConfiguration<T> {
+    public with(values: MaybeSerialized<ItemPropertyConfiguration<T>>): ItemPropertyConfiguration<T> {
         const { assign } = setupTypedSerialization<T>();
 
         assign(this, values);
@@ -43,7 +45,7 @@ export class ItemPropertyConfiguration<T extends Item | Effect | object> {
         return this;
     }
 
-    public forExport(): DeepPartial<ItemPropertyConfiguration<T>> {
+    public forExport(): Serialized<ItemPropertyConfiguration<T>> {
         const { forExport } = setupTypedSerialization<T>();
 
         return {

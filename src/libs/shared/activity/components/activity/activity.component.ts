@@ -121,7 +121,7 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
     public activityParameters$(): Observable<ActivityParameters> {
         const creature = this.creature;
 
-        const maxCharges$ = this._activityPropertiesService.effectiveMaxCharges$(this.activity, { creature });
+        const maxCharges$ = this._activityPropertiesService.effectiveMaxCharges$$(this.activity, { creature });
 
         return combineLatest([
             maxCharges$,
@@ -137,7 +137,7 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
                             this.item instanceof WornItem &&
                             this.item.isSlottedAeonStone &&
                             creature.isCharacter() &&
-                            creature.hasTooManySlottedAeonStones()
+                            creature.hasTooManySlottedAeonStones$$()
                         );
                     const isResonantAllowed =
                         !!(this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !hasTooManySlottedAeonStones);
@@ -275,7 +275,7 @@ export class ActivityComponent extends TrackByMixin(BaseClass) implements OnInit
                         condition: this._conditionsDataService.conditionFromName(conditionGain.name),
                     }))
                     .map(conditionSet =>
-                        this._conditionPropertiesService.effectiveChoices$(conditionSet.condition)
+                        this._conditionPropertiesService.effectiveChoices$$(conditionSet.condition)
                             .pipe(
                                 map(choices => ({
                                     gain: conditionSet.gain,

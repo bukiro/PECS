@@ -1,12 +1,11 @@
 
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/hint-effects-object';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Observable, map } from 'rxjs';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { Rune } from './rune';
+import { computed, Signal } from '@angular/core';
 
 const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<ArmorRune>({
     primitives: [
@@ -32,25 +31,25 @@ export class ArmorRune extends Rune implements MessageSerializable<ArmorRune> {
         return this.resilient;
     }
 
-    public static from(values: DeepPartial<ArmorRune>, recastFns: RecastFns): ArmorRune {
+    public static from(values: MaybeSerialized<ArmorRune>, recastFns: RecastFns): ArmorRune {
         return new ArmorRune().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<ArmorRune>, recastFns: RecastFns): ArmorRune {
+    public with(values: MaybeSerialized<ArmorRune>, recastFns: RecastFns): ArmorRune {
         super.with(values, recastFns);
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<ArmorRune> {
+    public forExport(): Serialized<ArmorRune> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<ArmorRune> {
+    public forMessage(): Serialized<ArmorRune> {
         return {
             ...super.forMessage(),
             ...forMessage(this),
@@ -69,16 +68,15 @@ export class ArmorRune extends Rune implements MessageSerializable<ArmorRune> {
         return true;
     }
 
-    public effectsGenerationHints$(): Observable<Array<HintEffectsObject>> {
-        return this.effectiveName$()
-            .pipe(
-                map(objectName =>
-                    this.hints.map(hint => ({
-                        hint,
-                        parentItem: this,
-                        objectName,
-                    })),
-                ),
-            );
+    public effectsGenerationHints$(): Signal<Array<HintEffectsObject>> {
+        return computed(() => {
+            const objectName = this.effectiveName$$()();
+
+            return this.hints.map(hint => ({
+                hint,
+                parentItem: this,
+                objectName,
+            }));
+        });
     }
 }

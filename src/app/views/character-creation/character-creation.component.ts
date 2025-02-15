@@ -210,9 +210,9 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     ) {
         super();
 
-        this.animalCompanion$ = CreatureService.companion$;
-        this.familiar$ = CreatureService.familiar$;
-        this.isBlankCharacter$ = this.character.isBlankCharacter$;
+        this.animalCompanion$ = CreatureService.companion$$;
+        this.familiar$ = CreatureService.familiar$$;
+        this.isBlankCharacter$ = this.character.isBlankCharacter$$;
         this.isGmMode$ = this._store$.select(selectGmMode);
 
         this.closeButtonTitle$ = this._store$.select(selectCharacterMenuClosedOnce)
@@ -273,12 +273,12 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                 ),
             );
 
-        this.isMinimized$ = propMap$(SettingsService.settings$, 'characterMinimized$')
+        this.isMinimized$ = propMap$(SettingsService.settings$$, 'characterMinimized$')
             .pipe(
                 distinctUntilChanged(),
             );
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'characterTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'characterTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -474,7 +474,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         // such as recovering Focus Points for a larger Focus Pool.
         if (newLevel > oldLevel) {
 
-            this._characterFeatsService.characterFeatsTakenWithContext$(oldLevel + 1, newLevel)
+            this._characterFeatsService.characterFeatsTakenWithContext$$(oldLevel + 1, newLevel)
                 .pipe(
                     take(1),
                 )
@@ -490,7 +490,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public areLanguagesAvailableOnLevel$(levelNumber = 0): Observable<boolean> {
-        return this._characterFeatsService.characterFeatsTakenAtLevel$(levelNumber)
+        return this._characterFeatsService.characterFeatsTakenAtLevel$$(levelNumber)
             .pipe(
                 map(takenFeats => {
                     const character = this.character;
@@ -506,7 +506,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                                     feat.gainLanguages.length
                                     || feat.effects.some(effect => effect.affected === 'Max Languages'),
                                 ).length;
-                            newLanguages += character.abilityBoosts(levelNumber, levelNumber, 'Intelligence').length;
+                            newLanguages += character.abilityBoosts$$(levelNumber, levelNumber, 'Intelligence').length;
 
                             if (!newLanguages) {
                                 return false;
@@ -585,7 +585,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         ability: Ability,
         levelNumber: number,
     ): Observable<AbilityBaseValueAggregate> {
-        return this._abilityValuesService.baseValue$(ability, this.character, levelNumber);
+        return this._abilityValuesService.baseValue$$(ability, this.character, levelNumber);
     }
 
     public availableAbilities$(choice: AbilityChoice, levelNumber: number): Observable<Array<Ability>> {
@@ -657,7 +657,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             return of(true);
         }
 
-        return this._abilityValuesService.baseValue$(
+        return this._abilityValuesService.baseValue$$(
             ability,
             this.character,
             levelNumber,
@@ -732,7 +732,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                         return of(reasons);
                     }
 
-                    return this._abilityValuesService.baseValue$(
+                    return this._abilityValuesService.baseValue$$(
                         ability,
                         this.character,
                         levelNumber,
@@ -763,7 +763,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         sourceId = '',
         locked?: boolean,
     ): Array<AbilityBoost> {
-        return this.character.abilityBoosts(levelNumber, levelNumber, abilityName, type, source, sourceId, locked);
+        return this.character.abilityBoosts$$(levelNumber, levelNumber, abilityName, type, source, sourceId, locked);
     }
 
     public onBoostAbility(abilityName: string, boostedEvent: Event, choice: AbilityChoice, locked: boolean): void {
@@ -789,7 +789,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         sourceId = '',
         locked?: boolean,
     ): Array<SkillIncrease> {
-        return this.character.skillIncreases(levelNumber, levelNumber, skillName, source, sourceId, locked);
+        return this.character.skillIncreases$$(levelNumber, levelNumber, skillName, source, sourceId, locked);
     }
 
     public skills(
@@ -886,7 +886,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public differentWorldsData$(levelNumber: number): Observable<Array<FeatData> | undefined> {
-        return this._characterFeatsService.characterHasTakenFeatAtLevel$('Different Worlds', levelNumber)
+        return this._characterFeatsService.characterHasTakenFeatAtLevel$$('Different Worlds', levelNumber)
             .pipe(
                 switchMap(hasFeat =>
                     hasFeat
@@ -897,7 +897,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public isBlessedBloodAvailable$(levelNumber: number): Observable<boolean> {
-        return this._characterFeatsService.characterHasTakenFeatAtLevel$('Blessed Blood', levelNumber);
+        return this._characterFeatsService.characterHasTakenFeatAtLevel$$('Blessed Blood', levelNumber);
     }
 
     public blessedBloodDeitySpells$(): Observable<Array<Spell> | undefined> {
@@ -946,7 +946,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public isSplinterFaithAvailable$(levelNumber: number): Observable<boolean> {
-        return this._characterFeatsService.characterHasTakenFeatAtLevel$('Splinter Faith', levelNumber);
+        return this._characterFeatsService.characterHasTakenFeatAtLevel$$('Splinter Faith', levelNumber);
     }
 
     public splinterFaithDomains$(): Observable<Readonly<Array<string>>> {
@@ -1045,7 +1045,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public additionalHeritagesAvailable$(levelNumber: number): Observable<Array<HeritageGain>> {
         //Return all heritages you have gained on this specific level.
-        return this._characterFeatsService.characterFeatsTakenAtLevel$(levelNumber)
+        return this._characterFeatsService.characterFeatsTakenAtLevel$$(levelNumber)
             .pipe(
                 map(feats =>
                     new Array<HeritageGain>()
@@ -1106,7 +1106,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                     if (this.skills(`Lore: ${ newChoice.loreName }`, {}, { noSubstitutions: true }).length) {
                         const increases =
                             character
-                                .skillIncreases(
+                                .skillIncreases$$(
                                     1,
                                     Defaults.maxCharacterLevel,
                                     `Lore: ${ newChoice.loreName }`,
@@ -1149,7 +1149,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         Readonly<Array<{ featData: FeatData; stances: Readonly<Array<string> | null>; name: Readonly<string | null> }>>
         | undefined
         > {
-        return this._characterFeatsService.characterHasTakenFeatAtLevel$('Fuse Stance', levelNumber)
+        return this._characterFeatsService.characterHasTakenFeatAtLevel$$('Fuse Stance', levelNumber)
             .pipe(
                 switchMap(hasFeat =>
                     hasFeat
@@ -1205,7 +1205,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
                         .map(condition => condition.name);
                     const activities = this._activitiesDataService.activities().filter(activity => activity.traits.includes('Stance'));
                     const existingStances: Array<Activity> = [];
-                    const takenStances = fuseStanceData.valueAsStringArray('stances');
+                    const takenStances = fuseStanceData.valueAsStringArray$$('stances');
                     const maxStances = 2;
 
                     takenStances?.forEach(stance => {
@@ -1266,10 +1266,10 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public onFuseStanceStanceChange(data: FeatData, stance: string, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
-        const stances = Array.from(data.valueAsStringArray('stances') || []);
+        const stances = Array.from(data.valueAsStringArray$$('stances') || []);
 
         if (isChecked) {
-            if (this.character.settings.autoCloseChoices && stances.length === 1 && data.getValue('name')) { this.toggleShownList(); }
+            if (this.character.settings.autoCloseChoices && stances.length === 1 && data.getValue$$('name')) { this.toggleShownList(); }
 
             stances.push(stance);
             data.setValue('stances', stances);
@@ -1279,7 +1279,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     }
 
     public syncretismData$(levelNumber: number): Observable<Array<{ featData: FeatData; deity: Readonly<string | null> }> | undefined> {
-        return this._characterFeatsService.characterHasTakenFeatAtLevel$('Syncretism', levelNumber)
+        return this._characterFeatsService.characterHasTakenFeatAtLevel$$('Syncretism', levelNumber)
             .pipe(
                 switchMap(hasFeat =>
                     hasFeat
@@ -1316,7 +1316,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
     ): Observable<Array<FeatTaken>> {
         const character = this.character;
 
-        return this._characterFeatsService.characterFeatsTaken$(levelNumber, levelNumber, { locked: true, automatic: true })
+        return this._characterFeatsService.characterFeatsTaken$$(levelNumber, levelNumber, { locked: true, automatic: true })
             .pipe(
                 map(takenSets => takenSets
                     .filter(taken =>
@@ -1526,7 +1526,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public hasCompanionBecomeAvailableOnLevel$(levelNumber: number): Observable<boolean> {
         //Return whether you have taken a feat this level that granted you an animal companion.
-        return this._characterFeatsService.characterFeatsTakenAtLevel$(levelNumber)
+        return this._characterFeatsService.characterFeatsTakenAtLevel$$(levelNumber)
             .pipe(
                 map(takenFeats => takenFeats
                     .some(feat => feat && feat.gainAnimalCompanion === 'Young'),
@@ -1617,7 +1617,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public companionSpecializationsAvailable$(levelNumber: number): Observable<number> {
         //Return how many feats you have taken this level that granted you an animal companion specialization.
-        return this._characterFeatsService.characterFeatsTakenAtLevel$(levelNumber)
+        return this._characterFeatsService.characterFeatsTakenAtLevel$$(levelNumber)
             .pipe(
                 map(takenFeats => takenFeats
                     .filter(feat => feat && feat.gainAnimalCompanion === 'Specialized').length),
@@ -1679,7 +1679,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public isFamiliarAvailableOnLevel$(levelNumber: number): Observable<boolean> {
         //Return whether you have taken a feat this level that granted you a familiar.
-        return this._characterFeatsService.characterFeatsTakenAtLevel$(levelNumber)
+        return this._characterFeatsService.characterFeatsTakenAtLevel$$(levelNumber)
             .pipe(
                 map(featsTaken => featsTaken
                     .some(feat => feat && feat.gainFamiliar),
@@ -1787,7 +1787,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
             this._characterBoostAbilityService.boostAbility(boost.name, false, choice, false);
         });
 
-        const level = this.character.classLevelFromNumber(levelNumber);
+        const level = this.character.classLevelFromNumber$$(levelNumber);
 
         level.removeAbilityChoice(choice);
         this.toggleShownList();
@@ -1824,7 +1824,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
 
     public removeBonusLoreChoice(choice: LoreChoice, levelNumber: number): void {
         const character = this.character;
-        const level = character.classLevelFromNumber(levelNumber);
+        const level = character.classLevelFromNumber$$(levelNumber);
 
         if (choice.loreName) {
             this._characterLoreService.removeLore(choice);
@@ -1854,7 +1854,7 @@ export class CharacterCreationComponent extends IsMobileMixin(TrackByMixin(BaseC
         }
 
         //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
-        return this._abilityValuesService.baseValue$('Intelligence', this.character, levelNumber)
+        return this._abilityValuesService.baseValue$$('Intelligence', this.character, levelNumber)
             .pipe(
                 map(intelligence => abilityModFromAbilityValue(intelligence.result)),
             );

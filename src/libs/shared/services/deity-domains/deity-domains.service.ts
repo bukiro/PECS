@@ -44,7 +44,7 @@ export class DeityDomainsService {
         return (
             (isMainDeity !== undefined)
                 ? of(isMainDeity)
-                : propMap$(CharacterFlatteningService.characterClass$, 'deity$')
+                : propMap$(CharacterFlatteningService.characterClass$$, 'deity$')
                     .pipe(
                         map(characterDeity => deity.name === characterDeity),
                     )
@@ -54,14 +54,14 @@ export class DeityDomainsService {
                 // You can have the feat at any level as, by definition, it replaces the domains for previous levels as well.
                 switchMap(effectiveIsMainDeity =>
                     effectiveIsMainDeity
-                        ? this._characterFeatsService.characterHasFeatAtLevel$('Splinter Faith', Defaults.maxCharacterLevel)
+                        ? this._characterFeatsService.characterHasFeatAtLevel$$('Splinter Faith', Defaults.maxCharacterLevel)
                             .pipe(
                                 switchMap(hasSplinterFaith =>
                                     hasSplinterFaith
-                                        ? CharacterFlatteningService.characterClass$
+                                        ? CharacterFlatteningService.characterClass$$
                                             .pipe(
                                                 switchMap(characterClass =>
-                                                    characterClass.filteredFeatData$(0, 0, 'Splinter Faith'),
+                                                    characterClass.filteredFeatData$$(0, 0, 'Splinter Faith'),
                                                 ),
                                                 switchMap(featData =>
                                                     (featData[0])
@@ -82,7 +82,7 @@ export class DeityDomainsService {
         return (
             (isMainDeity !== undefined)
                 ? of(isMainDeity)
-                : propMap$(CharacterFlatteningService.characterClass$, 'deity$')
+                : propMap$(CharacterFlatteningService.characterClass$$, 'deity$')
                     .pipe(
                         map(characterDeity => deity.name === characterDeity),
                     )
@@ -93,14 +93,14 @@ export class DeityDomainsService {
                 // You can have the feat at any level as, by definition, it replaces the domains for previous levels as well.
                 switchMap(effectiveIsMainDeity =>
                     effectiveIsMainDeity
-                        ? this._characterFeatsService.characterHasFeatAtLevel$('Splinter Faith', Defaults.maxCharacterLevel)
+                        ? this._characterFeatsService.characterHasFeatAtLevel$$('Splinter Faith', Defaults.maxCharacterLevel)
                             .pipe(
                                 switchMap(hasSplinterFaith =>
                                     hasSplinterFaith
-                                        ? CharacterFlatteningService.characterClass$
+                                        ? CharacterFlatteningService.characterClass$$
                                             .pipe(
                                                 switchMap(characterClass =>
-                                                    characterClass.filteredFeatData$(0, 0, 'Splinter Faith'),
+                                                    characterClass.filteredFeatData$$(0, 0, 'Splinter Faith'),
                                                 ),
                                                 switchMap(featData =>
                                                     (featData[0])

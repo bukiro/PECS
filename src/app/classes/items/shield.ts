@@ -1,12 +1,11 @@
-import { BehaviorSubject, Observable, map, combineLatest, shareReplay, of, tap } from 'rxjs';
 import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/emblazon-armament-set';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { MaybeSerialized, MessageSerializable, Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { Equipment } from './equipment';
 import { ShieldMaterial } from './shield-material';
+import { computed, effect, Signal, signal } from '@angular/core';
 
 enum ShoddyPenalties {
     NotShoddy = 0,
@@ -47,80 +46,120 @@ export class Shield extends Equipment implements MessageSerializable<Shield> {
     public moddable = true;
     /** The shield's AC bonus received when raising it. */
     public acbonus = 0;
-    /** Is the shield currently raised in order to deflect damage? */
-    public raised = false;
     /** The penalty to all speeds while equipping this shield. */
     public speedpenalty = 0;
-    /** Are you currently taking cover behind the shield? */
-    public takingCover = false;
     public brokenThreshold = 0;
     /** Allow taking cover behind the shield when it is raised. */
     public coverbonus = false;
-    public damage = 0;
     public hardness = 0;
     public hitpoints = 0;
     /** What kind of shield is this based on? */
     public shieldBase = '';
 
-    /** Shoddy shields take a -2 penalty to AC. */
-    /** Shoddy weapons take a -2 penalty to attacks. */
-    public effectiveShoddy$ = new BehaviorSubject<ShoddyPenalties>(ShoddyPenalties.NotShoddy);
-    //TODO: This should be a true observable and update when it has reason to.
-    // I'm not sure how, because it relies on the deity service.
-    public effectiveEmblazonArmament$ = new BehaviorSubject<EmblazonArmamentSet | undefined>(undefined);
-    public effectiveShieldAlly$ = new BehaviorSubject<boolean>(false);
+    /** Is the shield currently raised in order to deflect damage? */
+    public readonly raised = signal(false);
+    /** Are you currently taking cover behind the shield? */
+    public readonly takingCover = signal(false);
 
-    public readonly emblazonArmament$: BehaviorSubject<EmblazonArmamentSet | undefined>;
-    public readonly shieldMaterial$: Observable<Array<ShieldMaterial>>;
-
-    private _emblazonArmament?: EmblazonArmamentSet = undefined;
-
-    constructor() {
-        super();
-
-        this.emblazonArmament$ = new BehaviorSubject(this._emblazonArmament);
-        this.shieldMaterial$ = this.material.values$
-            .pipe(
-                map(materials => materials.filter((material): material is ShieldMaterial => material.isShieldMaterial())),
-            );
-    }
-
-    public get emblazonArmament(): EmblazonArmamentSet | undefined {
-        return this._emblazonArmament;
-    }
-
+    public readonly damage = signal(0);
     /**
      * A Cleric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
      * Subsequent feats can change options and restrictions of the functionality.
      */
-    public set emblazonArmament(value: EmblazonArmamentSet | undefined) {
-        this._emblazonArmament = value;
-        this.emblazonArmament$.next(this._emblazonArmament);
+   public readonly emblazonArmament = signal<EmblazonArmamentSet | undefined>(undefined);
+
+    /** Shoddy shields take a -2 penalty to AC. */
+    /** Shoddy weapons take a -2 penalty to attacks. */
+    public readonly effectiveShoddy$$ = signal<ShoddyPenalties>(ShoddyPenalties.NotShoddy);
+    //TODO: This should be computed and update when it has reason to.
+    // I'm not sure how, because it relies on the deity service.
+    public readonly effectiveEmblazonArmament$$ = signal<EmblazonArmamentSet | undefined>(undefined);
+    public readonly effectiveShieldAlly$$ = signal<boolean>(false);
+
+    public readonly shieldMaterial$$: Signal<Array<ShieldMaterial>> = computed(() =>
+        this.material().filter((material): material is ShieldMaterial => material.isShieldMaterial()),
+    );
+
+    public readonly effectiveHardness$$: Signal<number> = computed(() => {
+        const hardness = this.shieldMaterial$$().reduce((_, current) => current.hardness, this.hardness);
+        const hasShieldAlly = this.effectiveShieldAlly$$();
+        const emblazonArmament = this.effectiveEmblazonArmament$$();
+
+        return hardness + (hasShieldAlly ? shieldAllyBonus : 0) + (emblazonArmament ? emblazonArmamentBonus : 0);
+    });
+
+    public readonly effectiveMaxHP$: Signal<number> = computed(() => {
+        const half = .5;
+        const hitpoints = this.shieldMaterial$$().reduce((_, current) => current.hitpoints, this.hitpoints);
+        const hasShieldAlly = this.effectiveShieldAlly$$();
+
+        return hitpoints + (hasShieldAlly ? (Math.floor(hitpoints * half)) : 0);
+    });
+
+    public readonly effectiveBrokenThreshold$$: Signal<number> = computed(() => {
+        const half = .5;
+        const brokenThreshold = this.shieldMaterial$$().reduce((_, current) => current.brokenThreshold, this.brokenThreshold);
+        const hasShieldAlly = this.effectiveShieldAlly$$();
+
+        return brokenThreshold + (hasShieldAlly ? (Math.floor(brokenThreshold * half)) : 0);
+    });
+
+    // This is a signal to match the same property on armors.
+    public readonly effectiveACBonus$$: Signal<number> = signal(this.acbonus).asReadonly();
+
+    // This is a signal to match the same property on armors.
+    public readonly effectiveSpeedPenalty$$: Signal<number> = signal(this.speedpenalty).asReadonly();
+
+    public readonly currentHP$$: Signal<number> = computed(() => {
+        const effectiveMaxHP = this.effectiveMaxHP$();
+        const damage = this.damage();
+
+        return effectiveMaxHP - damage;
+    });
+
+    constructor() {
+        super();
+
+        // Break the shield if its HP is below the broken threshold.
+        effect(() => {
+            const effectiveBrokenThreshold = this.effectiveBrokenThreshold$$();
+            const currentHitPoints = this.currentHP$$();
+
+            if (currentHitPoints < effectiveBrokenThreshold) {
+                this.broken.set(true);
+            }
+        }, { allowSignalWrites: true });
+
+        // Keep the damage between 0 and effective HP.
+        effect(() => {
+            const effectiveMaxHP = this.effectiveMaxHP$();
+            const damage = this.damage();
+
+            if (damage > effectiveMaxHP || damage < 0) {
+                this.damage.set(Math.max(Math.min(effectiveMaxHP, damage), 0));
+            }
+        }, { allowSignalWrites: true });
     }
 
-    public get shieldMaterial(): Readonly<Array<ShieldMaterial>> {
-        return this.material.filter((material): material is ShieldMaterial => material.isShieldMaterial());
-    }
-
-    public static from(values: DeepPartial<Shield>, recastFns: RecastFns): Shield {
+    public static from(values: MaybeSerialized<Shield>, recastFns: RecastFns): Shield {
         return new Shield().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Shield>, recastFns: RecastFns): Shield {
+    public with(values: MaybeSerialized<Shield>, recastFns: RecastFns): Shield {
         super.with(values, recastFns);
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Shield> {
+    public forExport(): Serialized<Shield> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<Shield> {
+    public forMessage(): Serialized<Shield> {
         return {
             ...super.forMessage(),
             ...forMessage(this),
@@ -136,75 +175,4 @@ export class Shield extends Equipment implements MessageSerializable<Shield> {
     }
 
     public isShield(): this is Shield { return true; }
-
-    public effectiveHardness$(): Observable<number> {
-        const hardness = this.shieldMaterial.reduce((_, current) => current.hardness, this.hardness);
-
-        return combineLatest([
-            this.effectiveShieldAlly$,
-            this.effectiveEmblazonArmament$,
-        ])
-            .pipe(
-                map(([shieldAlly, emblazonArmament]) =>
-                    hardness + (shieldAlly ? shieldAllyBonus : 0) + (emblazonArmament ? emblazonArmamentBonus : 0),
-                ),
-                shareReplay({ refCount: true, bufferSize: 1 }),
-            );
-    }
-
-    public effectiveMaxHP$(): Observable<number> {
-        const half = .5;
-        const hitpoints = this.shieldMaterial.reduce((_, current) => current.hitpoints, this.hitpoints);
-
-        return this.effectiveShieldAlly$
-            .pipe(
-                map(shieldAlly => hitpoints + (shieldAlly ? (Math.floor(hitpoints * half)) : 0)),
-                shareReplay({ refCount: true, bufferSize: 1 }),
-            );
-    }
-
-    public effectiveBrokenThreshold$(): Observable<number> {
-        const half = .5;
-        const brokenThreshold = this.shieldMaterial.reduce((_, current) => current.brokenThreshold, this.brokenThreshold);
-
-        return this.effectiveShieldAlly$
-            .pipe(
-                map(shieldAlly => brokenThreshold + (shieldAlly ? (Math.floor(brokenThreshold * half)) : 0)),
-                shareReplay({ refCount: true, bufferSize: 1 }),
-            );
-    }
-
-    // This is an observable to match the same method on armors.
-    public effectiveACBonus$(): Observable<number> {
-        return of(this.acbonus);
-    }
-
-    public currentHitPoints$(): Observable<number> {
-        return combineLatest([
-            this.effectiveMaxHP$(),
-            this.effectiveBrokenThreshold$(),
-        ])
-            .pipe(
-                map(([effectiveMaxHP, effectiveBrokenThreshold]) => {
-                    const damage = Math.max(Math.min(effectiveMaxHP, this.damage), 0);
-
-                    const hitpoints = effectiveMaxHP - damage;
-
-                    return ({ damage, hitpoints, effectiveBrokenThreshold });
-                }),
-                tap(({ damage, hitpoints, effectiveBrokenThreshold }) => {
-                    this.damage = damage;
-
-                    if (hitpoints < effectiveBrokenThreshold) {
-                        this.broken = true;
-                    }
-                }),
-                map(({ hitpoints }) => hitpoints),
-                shareReplay({ refCount: true, bufferSize: 1 }),
-            );
-    }
-
-    public effectiveSpeedPenalty(): number {
-        return this.speedpenalty;
-    }
 }

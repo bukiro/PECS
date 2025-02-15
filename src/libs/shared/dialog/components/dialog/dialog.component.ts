@@ -33,7 +33,7 @@ export class DialogComponent extends TrackByMixin(BaseClass) implements AfterVie
     constructor() {
         super();
 
-        propMap$(SettingsService.settings$, 'darkmode$')
+        propMap$(SettingsService.settings$$, 'darkmode$')
             .pipe(
                 takeUntilDestroyed(),
                 distinctUntilChanged(),

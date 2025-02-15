@@ -194,7 +194,7 @@ export class ItemGrantingService {
         if (creature.isCharacter()) {
             combineLatest([
                 this._characterDeitiesService.mainCharacterDeity$,
-                this._characterFeatsService.characterHasFeatAtLevel$('Favored Weapon (Syncretism)')
+                this._characterFeatsService.characterHasFeatAtLevel$$('Favored Weapon (Syncretism)')
                     .pipe(
                         switchMap(hasFavoredWeaponSyncretism =>
                             hasFavoredWeaponSyncretism

@@ -41,7 +41,7 @@ export class TraitComponent extends TrackByMixin(BaseClass) {
 
     public objectTraitActivations$(): Observable<Array<TraitActivation>> {
         if (this.item) {
-            return this.item.traitActivations$
+            return this.item.traitActivations$$
                 .pipe(
                     map(activations => activations
                         .filter(activation =>

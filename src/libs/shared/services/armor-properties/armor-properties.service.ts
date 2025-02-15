@@ -31,14 +31,14 @@ export class ArmorPropertiesService {
     ) { }
 
     public effectiveProficiency$(armor: Armor, context: { creature: Creature }): Observable<string> {
-        return this._appliedCreatureConditionsService.appliedCreatureConditions$(context.creature, { name: 'Mage Armor' })
+        return this._appliedCreatureConditionsService.appliedCreatureConditions$$(context.creature, { name: 'Mage Armor' })
             .pipe(
                 map(conditions => !!conditions.length),
                 switchMap(hasMageArmor =>
                     //While wearing mage armor, you use your unarmored proficiency to calculate your AC.
                     hasMageArmor
                         ? of('Unarmored Defense')
-                        : armor.effectiveProficiencyWithoutEffects$(),
+                        : armor.effectiveProficiencyWithoutEffects$$(),
                 ),
             );
     }
@@ -87,7 +87,7 @@ export class ArmorPropertiesService {
 
         return combineLatest([
             this.effectiveProficiency$(armor, { creature }),
-            this._characterFeatsService.characterFeatsAtLevel$(),
+            this._characterFeatsService.characterFeatsAtLevel$$(),
             this.profLevel$(armor, creature),
         ])
             .pipe(
@@ -112,7 +112,7 @@ export class ArmorPropertiesService {
                                     && (!spec.skillLevel || skillLevel >= spec.skillLevel)
                                     && (
                                         !spec.featreq ||
-                                        this._characterFeatsService.characterHasFeatAtLevel$(spec.featreq)
+                                        this._characterFeatsService.characterHasFeatAtLevel$$(spec.featreq)
                                     ),
                                 ),
                             );
@@ -126,7 +126,7 @@ export class ArmorPropertiesService {
                             (
                                 spec.featreq
                                     ? of(true)
-                                    : this._characterFeatsService.characterHasFeatAtLevel$(spec.featreq)
+                                    : this._characterFeatsService.characterHasFeatAtLevel$$(spec.featreq)
                             )
                                 .pipe(
                                     map(hasFeat => hasFeat ? spec : undefined),
@@ -167,14 +167,14 @@ export class ArmorPropertiesService {
                 .pipe(
                     distinctUntilChanged(),
                     tap(armoredSkirtValue => {
-                        armor.effectiveArmoredSkirt$.next(armoredSkirtValue);
+                        armor.effectiveArmoredSkirt$$.next(armoredSkirtValue);
                     }),
                 ),
             this._calculateShoddy$(armor, creature)
                 .pipe(
                     distinctUntilChanged(),
                     tap(shoddyValue => {
-                        armor.effectiveShoddy$.next(shoddyValue);
+                        armor.effectiveShoddy$$.next(shoddyValue);
                     }),
                 ),
         ])
@@ -212,7 +212,7 @@ export class ArmorPropertiesService {
         //Shoddy items have penalties to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
         return (
             creature.isCharacter()
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Junk Tinker')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Junk Tinker')
                 : of(false)
         )
             .pipe(

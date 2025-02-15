@@ -128,8 +128,8 @@ export class ItemMaterialArmorComponent extends TrackByMixin(BaseClass) implemen
                 switchMap(item =>
                     combineLatest([
                         of(item),
-                        CreatureService.character$,
-                        CharacterFlatteningService.characterLevel$,
+                        CreatureService.character$$,
+                        CharacterFlatteningService.characterLevel$$,
                     ]),
 
                 ),

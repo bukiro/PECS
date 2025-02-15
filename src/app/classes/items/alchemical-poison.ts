@@ -1,6 +1,5 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Consumable } from './consumable';
@@ -26,25 +25,25 @@ export class AlchemicalPoison extends Consumable implements MessageSerializable<
      */
     public stages: Array<string> = [];
 
-    public static from(values: DeepPartial<AlchemicalPoison>, recastFns: RecastFns): AlchemicalPoison {
+    public static from(values: MaybeSerialized<AlchemicalPoison>, recastFns: RecastFns): AlchemicalPoison {
         return new AlchemicalPoison().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<AlchemicalPoison>, recastFns: RecastFns): AlchemicalPoison {
+    public with(values: MaybeSerialized<AlchemicalPoison>, recastFns: RecastFns): AlchemicalPoison {
         super.with(values, recastFns);
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<AlchemicalPoison> {
+    public forExport(): Serialized<AlchemicalPoison> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<AlchemicalPoison> {
+    public forMessage(): Serialized<AlchemicalPoison> {
         return {
             ...super.forMessage(),
             ...forMessage(this),

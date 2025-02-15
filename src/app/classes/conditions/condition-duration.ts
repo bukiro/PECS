@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<ConditionDuration>({
@@ -13,17 +12,17 @@ export class ConditionDuration implements Serializable<ConditionDuration> {
     public duration?: number;
     public minLevel = 0;
 
-    public static from(values: DeepPartial<ConditionDuration>): ConditionDuration {
+    public static from(values: MaybeSerialized<ConditionDuration>): ConditionDuration {
         return new ConditionDuration().with(values);
     }
 
-    public with(values: DeepPartial<ConditionDuration>): ConditionDuration {
+    public with(values: MaybeSerialized<ConditionDuration>): ConditionDuration {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<ConditionDuration> {
+    public forExport(): Serialized<ConditionDuration> {
         return {
             ...forExport(this),
         };

@@ -64,10 +64,10 @@ export class FamiliarComponent extends IsMobileMixin(BaseCreatureElementComponen
     ) {
         super();
 
-        this.familiar$ = CreatureService.familiar$;
+        this.familiar$ = CreatureService.familiar$$;
 
         this.isMinimized$ =
-            SettingsService.settings$
+            SettingsService.settings$$
                 .pipe(
                     switchMap(settings => settings.familiarMinimized$),
                 );
@@ -105,8 +105,8 @@ export class FamiliarComponent extends IsMobileMixin(BaseCreatureElementComponen
     public areFamiliarAbilitiesFinished$(): Observable<boolean> {
         return combineLatest([
             this.familiar$,
-            this._creatureEffectsService.absoluteEffectsOnThis$(this.character, 'Familiar Abilities'),
-            this._creatureEffectsService.relativeEffectsOnThis$(this.character, 'Familiar Abilities'),
+            this._creatureEffectsService.absoluteEffectsOnThis$$(this.character, 'Familiar Abilities'),
+            this._creatureEffectsService.relativeEffectsOnThis$$(this.character, 'Familiar Abilities'),
         ])
             .pipe(
                 map(([familiar, absoluteEffects, relativeEffects]) => {

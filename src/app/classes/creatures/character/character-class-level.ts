@@ -1,10 +1,10 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { AbilityChoice } from '../../character-creation/ability-choice';
 import { LoreChoice } from '../../character-creation/lore-choice';
 import { SkillChoice } from '../../character-creation/skill-choice';
 import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { signal } from '@angular/core';
 
 const { assign, forExport, isEqual } = setupSerialization<CharacterClassLevel>({
     primitives: [
@@ -25,22 +25,22 @@ const { assign, forExport, isEqual } = setupSerialization<CharacterClassLevel>({
 export class CharacterClassLevel implements Serializable<CharacterClassLevel> {
     public number = 0;
 
-    public abilityChoices: Array<AbilityChoice> = [];
-    public featChoices: Array<FeatChoice> = [];
-    public loreChoices: Array<LoreChoice> = [];
-    public skillChoices: Array<SkillChoice> = [];
+    public readonly abilityChoices = signal<Array<AbilityChoice>>([]);
+    public readonly featChoices = signal<Array<FeatChoice>>([]);
+    public readonly loreChoices = signal<Array<LoreChoice>>([]);
+    public readonly skillChoices = signal<Array<SkillChoice>>([]);
 
-    public static from(values: DeepPartial<CharacterClassLevel>): CharacterClassLevel {
+    public static from(values: MaybeSerialized<CharacterClassLevel>): CharacterClassLevel {
         return new CharacterClassLevel().with(values);
     }
 
-    public with(values: DeepPartial<CharacterClassLevel>): CharacterClassLevel {
+    public with(values: MaybeSerialized<CharacterClassLevel>): CharacterClassLevel {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<CharacterClassLevel> {
+    public forExport(): Serialized<CharacterClassLevel> {
         return {
             ...forExport(this),
         };
@@ -55,25 +55,25 @@ export class CharacterClassLevel implements Serializable<CharacterClassLevel> {
     }
 
     public addAbilityChoice(newChoice: AbilityChoice): AbilityChoice {
-        const existingChoices = this.abilityChoices.filter(choice => choice.source === newChoice.source);
+        const existingChoices = this.abilityChoices().filter(choice => choice.source === newChoice.source);
         const addedChoice = newChoice.clone().with({
             id: `${ this.number }-Ability-${ newChoice.source }-${ existingChoices.length }`,
         });
 
-        this.abilityChoices.push(addedChoice);
+        this.abilityChoices.update(value => [...value, addedChoice]);
 
         return addedChoice;
     }
 
     public removeAbilityChoice(oldChoice: AbilityChoice): void {
-        this.abilityChoices.splice(this.abilityChoices.indexOf(oldChoice), 1);
+        this.abilityChoices.update(value => value.filter(choice => choice !== oldChoice));
     }
 
     /**
      * Remove the first ability choice that matches the source name.
      */
     public removeAbilityChoiceBySource(source: string): void {
-        const foundChoice = this.abilityChoices.find(choice => choice.source === source);
+        const foundChoice = this.abilityChoices().find(choice => choice.source === source);
 
         if (foundChoice) {
             this.removeAbilityChoice(foundChoice);
@@ -81,23 +81,23 @@ export class CharacterClassLevel implements Serializable<CharacterClassLevel> {
     }
 
     public addSkillChoice(newChoice: SkillChoice): SkillChoice {
-        const existingChoices = this.skillChoices.filter(choice => choice.source === newChoice.source);
+        const existingChoices = this.skillChoices().filter(choice => choice.source === newChoice.source);
         const addedChoice = newChoice.clone().with({ id: `${ this.number }-Skill-${ newChoice.source }-${ existingChoices.length }` });
 
-        this.skillChoices.push(addedChoice);
+        this.skillChoices.update(value => [...value, addedChoice]);
 
         return addedChoice;
     }
 
     public removeSkillChoice(oldChoice: SkillChoice): void {
-        this.skillChoices.splice(this.skillChoices.indexOf(oldChoice), 1);
+        this.skillChoices.update(value => value.filter(choice => choice !== oldChoice));
     }
 
     /**
      * Remove the first skill choice that matches the source name.
      */
     public removeSkillChoiceBySource(source: string): void {
-        const foundChoice = this.skillChoices.find(choice => choice.source === source);
+        const foundChoice = this.skillChoices().find(choice => choice.source === source);
 
         if (foundChoice) {
             this.removeSkillChoice(foundChoice);
@@ -105,35 +105,35 @@ export class CharacterClassLevel implements Serializable<CharacterClassLevel> {
     }
 
     public addLoreChoice(newChoice: LoreChoice): LoreChoice {
-        const existingChoices = this.loreChoices.filter(choice => choice.source === newChoice.source);
+        const existingChoices = this.loreChoices().filter(choice => choice.source === newChoice.source);
         const addedChoice = newChoice.clone().with({ id: `${ this.number }-Lore-${ newChoice.source }-${ existingChoices.length }` });
 
-        this.loreChoices.push(addedChoice);
+        this.loreChoices.update(value => [...value, addedChoice]);
 
         return addedChoice;
     }
 
     public removeLoreChoice(oldChoice: LoreChoice): void {
-        this.loreChoices.splice(this.loreChoices.indexOf(oldChoice), 1);
+        this.loreChoices.update(value => value.filter(choice => choice !== oldChoice));
     }
 
     public addFeatChoice(newChoice: FeatChoice): FeatChoice {
-        const existingChoices = this.featChoices.filter(choice => choice.source === newChoice.source);
+        const existingChoices = this.featChoices().filter(choice => choice.source === newChoice.source);
         const addedChoice = newChoice.clone().with({
             id: `${ this.number }-${ newChoice.type ? newChoice.type : 'Feat' }-${ newChoice.source }-${ existingChoices.length }`,
         });
 
-        addedChoice.feats.forEach(feat => {
+        addedChoice.feats().forEach(feat => {
             feat.source = addedChoice.source;
             feat.sourceId = addedChoice.id;
         });
 
-        this.featChoices.push(addedChoice);
+        this.featChoices.update(value => [...value, addedChoice]);
 
         return addedChoice;
     }
 
     public removeFeatChoice(oldChoice: FeatChoice): void {
-        this.featChoices.splice(this.featChoices.indexOf(oldChoice), 1);
+        this.featChoices.update(value => value.filter(choice => choice !== oldChoice));
     }
 }

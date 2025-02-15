@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<Speed>({
@@ -15,17 +14,17 @@ export class Speed implements Serializable<Speed> {
         public name: string = '',
     ) { }
 
-    public static from(values: DeepPartial<Speed>): Speed {
+    public static from(values: MaybeSerialized<Speed>): Speed {
         return new Speed().with(values);
     }
 
-    public with(values: DeepPartial<Speed>): Speed {
+    public with(values: MaybeSerialized<Speed>): Speed {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Speed> {
+    public forExport(): Serialized<Speed> {
         return {
             ...forExport(this),
         };

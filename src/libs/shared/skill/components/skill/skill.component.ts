@@ -151,7 +151,7 @@ export class SkillComponent extends TrackByMixin(BaseClass) implements OnChanges
             this.relatedActivityGains.map(gain => {
                 const activity = gain.originalActivity;
 
-                return this._activityPropertiesService.effectiveMaxCharges$(activity, { creature: this.creature })
+                return this._activityPropertiesService.effectiveMaxCharges$$(activity, { creature: this.creature })
                     .pipe(
                         map(maxCharges => ({
                             gain,

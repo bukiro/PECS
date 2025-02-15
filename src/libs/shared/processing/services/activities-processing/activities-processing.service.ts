@@ -97,7 +97,7 @@ export class ActivitiesProcessingService {
     ): void {
         let shouldClosePopupsAfterActivation = false;
 
-        this._activityPropertiesService.effectiveMaxCharges$(activity, context);
+        this._activityPropertiesService.effectiveMaxCharges$$(activity, context);
 
         // Use charges
         this._useActivityCharges(activity, context);
@@ -113,7 +113,7 @@ export class ActivitiesProcessingService {
                 //Determine the toggled activity's duration and save the names of the conditions that influenced it.
                 ? this._activateToggledActivity$(activity, context)
                 : of([]),
-            propMap$(SettingsService.settings$, 'manualMode$'),
+            propMap$(SettingsService.settings$$, 'manualMode$'),
         ])
             .pipe(
                 switchMap(([effectiveActivityCooldown, conditionsToRemoveFromToggledActivation, isManualMode]) => {
@@ -288,7 +288,7 @@ export class ActivitiesProcessingService {
     ): void {
         // Use charges
         zip([
-            this._activityPropertiesService.effectiveMaxCharges$(activity, context),
+            this._activityPropertiesService.effectiveMaxCharges$$(activity, context),
             (context.gain.sharedChargesID)
                 // If this activity belongs to an item and has a sharedCharges ID,
                 // collect all of the item's activities with their effective cooldown and max charges.
@@ -299,7 +299,7 @@ export class ActivitiesProcessingService {
                         .filter(gain => gain.sharedChargesID === context.gain.sharedChargesID),
                 ]
                     .map(gain => combineLatest([
-                        this._activityPropertiesService.effectiveMaxCharges$(gain.originalActivity, context),
+                        this._activityPropertiesService.effectiveMaxCharges$$(gain.originalActivity, context),
                         this._activityPropertiesService.effectiveCooldown$(gain.originalActivity, context),
                     ])
                         .pipe(
@@ -358,9 +358,9 @@ export class ActivitiesProcessingService {
             activity.maxDuration
                 ? zip([
                     this._creatureEffectsService
-                        .absoluteEffectsOnThis$(context.creature, `${ activity.name } Duration`),
+                        .absoluteEffectsOnThis$$(context.creature, `${ activity.name } Duration`),
                     this._creatureEffectsService
-                        .relativeEffectsOnThis$(context.creature, `${ activity.name } Duration`),
+                        .relativeEffectsOnThis$$(context.creature, `${ activity.name } Duration`),
                 ])
                 : zip([
                     of([]),

@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Heritage } from './heritage';
 
@@ -15,18 +14,18 @@ export class AdditionalHeritage extends Heritage implements Serializable<Additio
     public source = '';
     public charLevelAvailable = 0;
 
-    public static from(values: DeepPartial<AdditionalHeritage>): AdditionalHeritage {
+    public static from(values: MaybeSerialized<AdditionalHeritage>): AdditionalHeritage {
         return new AdditionalHeritage().with(values);
     }
 
-    public with(values: DeepPartial<AdditionalHeritage>): AdditionalHeritage {
+    public with(values: MaybeSerialized<AdditionalHeritage>): AdditionalHeritage {
         super.with(values);
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<AdditionalHeritage> {
+    public forExport(): Serialized<AdditionalHeritage> {
         return {
             ...super.forExport(),
             ...forExport(this),

@@ -1,6 +1,5 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { Hint } from '../hints/hint';
@@ -73,25 +72,25 @@ export class Oil extends Consumable implements MessageSerializable<Oil> {
     public castSpells: Array<SpellCast> = [];
     public hints: Array<Hint> = [];
 
-    public static from(values: DeepPartial<Oil>, recastFns: RecastFns): Oil {
+    public static from(values: MaybeSerialized<Oil>, recastFns: RecastFns): Oil {
         return new Oil().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Oil>, recastFns: RecastFns): Oil {
+    public with(values: MaybeSerialized<Oil>, recastFns: RecastFns): Oil {
         super.with(values, recastFns);
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Oil> {
+    public forExport(): Serialized<Oil> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<Oil> {
+    public forMessage(): Serialized<Oil> {
         return {
             ...super.forMessage(),
             ...forMessage(this),

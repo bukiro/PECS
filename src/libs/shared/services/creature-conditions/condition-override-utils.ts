@@ -4,9 +4,7 @@ import { stringsIncludeCaseInsensitive } from '../../util/string-utils';
 import { ConditionGainPair } from './condition-gain-pair';
 import { isEven } from '../../util/number-utils';
 import { sortByConditional } from '../../util/sort-utils';
-import { combineLatest, distinctUntilChanged, map, Observable } from 'rxjs';
-import { emptySafeCombineLatest } from '../../util/observable-utils';
-import { isEqualPrimitiveArray } from '../../util/compare-utils';
+import { computed, Signal } from '@angular/core';
 
 interface ConditionOverrideSet {
     gain: ConditionGain;
@@ -22,36 +20,35 @@ interface ConditionOverrideSet {
  * @param conditionPairs a list of condition gains and the matching conditions
  * @returns conditionPairs with overridden conditions removed and paused conditions marked.
  */
-export const applyConditionOverridesAndPauses$ = (conditionPairs: Array<ConditionGainPair>): Observable<Array<ConditionGainPair>> =>
-    collectOverrideSets$(conditionPairs)
-        .pipe(
-            map(filterOverriddenOverrides),
-            map(overridingConditions => {
-                const removedConditions = new Set<string>();
+export const applyConditionOverridesAndPauses$$ = (conditionPairs: Array<ConditionGainPair>): Signal<Array<ConditionGainPair>> =>
+    computed(() => {
+        const overrideSets = collectOverrideSets$$(conditionPairs)();
+        const overridingConditions = filterOverriddenOverrides(overrideSets);
 
-                return sortByParentDepth(conditionPairs).reduce<Array<ConditionGainPair>>(
-                    (remainingConditions, { gain, condition }) => {
-                        if (doesOverrideApplyToCondition(gain, overridingConditions)) {
-                            // The condition is removed if an override applies to it.
-                            removedConditions.add(gain.id);
-                        } else if (gain.parentID && removedConditions.has(gain.parentID)) {
-                            // The condition is removed if it has a parent and the parent was removed.
-                            removedConditions.add(gain.id);
-                        } else {
-                            // Otherwise, the condition is added and its pause status determined.
-                            remainingConditions.push({
-                                gain,
-                                condition,
-                                paused: doesPauseApplyToCondition(gain, overridingConditions),
-                            });
-                        }
+        const removedConditions = new Set<string>();
 
-                        return remainingConditions;
-                    },
-                    [],
-                );
-            }),
+        return sortByParentDepth(conditionPairs).reduce<Array<ConditionGainPair>>(
+            (remainingConditions, { gain, condition }) => {
+                if (doesOverrideApplyToCondition(gain, overridingConditions)) {
+                    // The condition is removed if an override applies to it.
+                    removedConditions.add(gain.id);
+                } else if (gain.parentID && removedConditions.has(gain.parentID)) {
+                    // The condition is removed if it has a parent and the parent was removed.
+                    removedConditions.add(gain.id);
+                } else {
+                    // Otherwise, the condition is added and its pause status determined.
+                    remainingConditions.push({
+                        gain,
+                        condition,
+                        paused: doesPauseApplyToCondition(gain, overridingConditions),
+                    });
+                }
+
+                return remainingConditions;
+            },
+            [],
         );
+    });
 
 /**
  * Creates a set of overrides and pauses from the given condition pairs,
@@ -60,29 +57,17 @@ export const applyConditionOverridesAndPauses$ = (conditionPairs: Array<Conditio
  * @param conditionPairs the list of conditions and gains that intend to override each other
  * @returns a final list of applicable override sets
  */
-const collectOverrideSets$ = (conditionPairs: Array<ConditionGainPair>): Observable<Array<ConditionOverrideSet>> =>
-    emptySafeCombineLatest(
+const collectOverrideSets$$ = (conditionPairs: Array<ConditionGainPair>): Signal<Array<ConditionOverrideSet>> =>
+    computed(() =>
         conditionPairs
-            .map(({ gain, condition }) => combineLatest({
-                overrides: condition.appliedConditionOverrides$(gain).pipe(
-                    distinctUntilChanged(isEqualPrimitiveArray),
-                ),
-                pauses: condition.appliedConditionPauses$(gain).pipe(
-                    distinctUntilChanged(isEqualPrimitiveArray),
-                ),
-            }).pipe(
-                map(({ overrides, pauses }) => ({
-                    gain,
-                    condition,
-                    overrides,
-                    pauses,
-                })),
-            )),
-    )
-        .pipe(
-            map(overrideSets => overrideSets.filter(({ overrides, pauses }) => overrides.length || pauses.length)),
-        )
-    ;
+            .map(({ gain, condition }) => ({
+                gain,
+                condition,
+                overrides: condition.appliedConditionOverrides$$(gain)(),
+                pauses: condition.appliedConditionPauses$$(gain)(),
+            }))
+            .filter(({ overrides, pauses }) => overrides.length || pauses.length),
+    );
 
 const doesOverrideApplyToCondition = (gain: ConditionGain, overridingConditions: Array<ConditionOverrideSet>): boolean =>
     overridingConditions

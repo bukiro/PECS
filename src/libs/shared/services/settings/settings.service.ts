@@ -1,36 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Observable, take, tap } from 'rxjs';
+import { computed, Injectable, Signal } from '@angular/core';
 import { Settings } from 'src/app/classes/app/settings';
 import { CreatureService } from '../creature/creature.service';
-import { propMap$ } from '../../util/observable-utils';
 
 @Injectable({
     providedIn: 'root',
 })
 export class SettingsService {
 
-    private static _settings$?: Observable<Settings>;
+    public static settings$$: Signal<Settings> = computed(() => CreatureService.character$$().settings());
 
-    public static get settings$(): Observable<Settings> {
-        if (!SettingsService._settings$) {
-            SettingsService._settings$ =
-                propMap$(CreatureService.character$, 'settings$');
-        }
-
-        return SettingsService._settings$;
-    }
-
-    public static get settings(): Settings {
-        return CreatureService.character.settings;
-    }
-
+    // TODO: Probably not necessary with signals?
     public static setSetting(fn: (settings: Settings) => void): void {
-        SettingsService.settings$
-            .pipe(
-                take(1),
-                tap(fn),
-            )
-            .subscribe();
+        fn(SettingsService.settings$$());
     }
 
 }

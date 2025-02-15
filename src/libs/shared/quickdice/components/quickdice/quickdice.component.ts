@@ -302,7 +302,7 @@ export class QuickdiceComponent implements OnChanges {
                         if (abilityName) {
                             const character = CreatureService.character;
 
-                            return this._abilityValuesService.mod$(
+                            return this._abilityValuesService.mod$$(
                                 abilityName,
                                 character,
                                 character.level,

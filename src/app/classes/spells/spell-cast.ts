@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { SpellGain } from './spell-gain';
 
@@ -44,17 +43,17 @@ export class SpellCast implements Serializable<SpellCast> {
     /** This is used automatically for sustained spells cast by items or activities. */
     public spellGain: SpellGain = new SpellGain();
 
-    public static from(values: DeepPartial<SpellCast>): SpellCast {
+    public static from(values: MaybeSerialized<SpellCast>): SpellCast {
         return new SpellCast().with(values);
     }
 
-    public with(values: DeepPartial<SpellCast>): SpellCast {
+    public with(values: MaybeSerialized<SpellCast>): SpellCast {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<SpellCast> {
+    public forExport(): Serialized<SpellCast> {
         return {
             ...forExport(this),
         };

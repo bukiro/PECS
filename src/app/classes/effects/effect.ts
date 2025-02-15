@@ -1,7 +1,6 @@
 import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
 import { v4 as uuidv4 } from 'uuid';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { signNumber } from 'src/libs/shared/util/number-utils';
 import { safeParseInt } from 'src/libs/shared/util/string-utils';
@@ -110,17 +109,17 @@ export class Effect implements Serializable<Effect> {
         return this.valueNumerical !== 0;
     }
 
-    public static from(values: DeepPartial<Effect>): Effect {
+    public static from(values: MaybeSerialized<Effect>): Effect {
         return new Effect().with(values);
     }
 
-    public with(values: DeepPartial<Effect>): Effect {
+    public with(values: MaybeSerialized<Effect>): Effect {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Effect> {
+    public forExport(): Serialized<Effect> {
         return {
             ...forExport(this),
         };

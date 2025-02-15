@@ -91,7 +91,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
 
         this.isMinimized$ = this.creature$
             .pipe(
-                switchMap(creature => SettingsService.settings$
+                switchMap(creature => SettingsService.settings$$
                     .pipe(
                         switchMap(settings => {
                             switch (creature.type) {
@@ -108,7 +108,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
                 distinctUntilChanged(),
             );
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'activitiesTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'activitiesTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -171,7 +171,7 @@ export class ActivitiesComponent extends TrackByMixin(BaseCreatureElementCompone
                     gainSets.map(gainSet => {
                         const creature = this.creature;
 
-                        const maxCharges$ = this._activityPropertiesService.effectiveMaxCharges$(gainSet.activity, { creature });
+                        const maxCharges$ = this._activityPropertiesService.effectiveMaxCharges$$(gainSet.activity, { creature });
 
                         return combineLatest([
                             maxCharges$,

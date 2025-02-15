@@ -420,8 +420,8 @@ export class GridIconComponent extends TrackByMixin(BaseClass) {
         //For activities, show the number of activations if applicable.
         if (this.activity && this.activityGain) {
             return combineLatest([
-                this._activityPropertiesService.effectiveMaxCharges$(this.activity, { creature: this.creature }),
-                this.activityGain.chargesUsed$,
+                this._activityPropertiesService.effectiveMaxCharges$$(this.activity, { creature: this.creature }),
+                this.activityGain.chargesUsed(),
             ])
                 .pipe(
                     map(([charges, chargesUsed]) => {
@@ -487,9 +487,9 @@ export class GridIconComponent extends TrackByMixin(BaseClass) {
 
             if (this.item.isEquipment()) {
                 return combineLatest([
-                    this.item.effectivePotency$(),
-                    this.item.effectiveStriking$(),
-                    this.item.effectiveResilient$(),
+                    this.item.effectivePotency$$(),
+                    this.item.effectiveStriking$$(),
+                    this.item.effectiveResilient$$(),
                     this.item.propertyRunes.values$,
                 ])
                     .pipe(
@@ -530,7 +530,7 @@ export class GridIconComponent extends TrackByMixin(BaseClass) {
                                 return value;
                             }
 
-                            return this.item?.gridIconValue() ?? '';
+                            return this.item?.gridIconValue$$() ?? '';
                         }),
                     );
             }

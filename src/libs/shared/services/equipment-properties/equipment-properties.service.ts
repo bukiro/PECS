@@ -43,17 +43,17 @@ export class EquipmentPropertiesService {
 
         this._initialized = true;
 
-        CreatureService.character$
+        CreatureService.character$$
             .pipe(
                 switchMap(creature => this._updateItemModifiers$(creature)),
             )
             .subscribe();
 
-        this._creatureAvailabilityService.isCompanionAvailable$()
+        this._creatureAvailabilityService.isCompanionAvailable$$()
             .pipe(
                 switchMap(isCompanionAvailable =>
                     isCompanionAvailable
-                        ? CreatureService.companion$
+                        ? CreatureService.companion$$
                             .pipe(
                                 switchMap(creature => this._updateItemModifiers$(creature)),
                             )
@@ -62,11 +62,11 @@ export class EquipmentPropertiesService {
             )
             .subscribe();
 
-        this._creatureAvailabilityService.isFamiliarAvailable$()
+        this._creatureAvailabilityService.isFamiliarAvailable$$()
             .pipe(
                 switchMap(isFamiliarAvailable =>
                     isFamiliarAvailable
-                        ? CreatureService.familiar$
+                        ? CreatureService.familiar$$
                             .pipe(
                                 switchMap(creature => this._updateItemModifiers$(creature)),
                             )

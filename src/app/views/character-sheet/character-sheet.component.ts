@@ -59,9 +59,9 @@ export class CharacterSheetComponent extends IsMobileMixin(TrackByMixin(BaseClas
     ) {
         super();
 
-        this.isAnimalCompanionAvailable$ = _creatureAvailabilityService.isCompanionAvailable$();
+        this.isAnimalCompanionAvailable$ = _creatureAvailabilityService.isCompanionAvailable$$();
 
-        this.isFamiliarAvailable$ = _creatureAvailabilityService.isFamiliarAvailable$();
+        this.isFamiliarAvailable$ = _creatureAvailabilityService.isFamiliarAvailable$$();
 
         this.sideMenuState$ =
             _store$.select(selectLeftMenu);

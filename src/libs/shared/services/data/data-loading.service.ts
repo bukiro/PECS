@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/types/json-imported-item-file-list';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { DataService } from './data.service';
 import { FromConstructable } from '../../definitions/interfaces/from-constructable';
+import { Serialized } from '../../definitions/interfaces/serializable';
 
 type SingleIdentifier = 'id' | 'name';
 
@@ -28,7 +28,7 @@ export class DataLoadingService {
             data,
             target,
             identifier,
-            (entry: DeepPartial<T>) => constructor.from(entry, RecastService.restoreFns),
+            entry => constructor.from(entry, RecastService.restoreFns),
         );
     }
 
@@ -36,7 +36,7 @@ export class DataLoadingService {
         data: ImportedJsonFileList<T>,
         target: string,
         identifier: SingleIdentifier | MultipleIdentifiers,
-        assignFn: (entry: DeepPartial<T>) => T,
+        assignFn: (entry: Serialized<T>) => T,
     ): Array<T> {
         let resultingData: Array<T> = [];
 

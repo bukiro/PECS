@@ -1,13 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ActivityGain } from '../activities/activity-gain';
 import { ItemGain } from '../items/item-gain';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
-import { BehaviorSubject } from 'rxjs';
+import { computed, Signal, signal } from '@angular/core';
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<ConditionGain>({
     primitives: [
@@ -179,12 +177,8 @@ export class ConditionGain implements Serializable<ConditionGain> {
     /** A condition's gainItems gets copied here to track. */
     public gainItems: Array<ItemGain> = [];
 
-    public choice$: BehaviorSubject<string>;
-    public duration$: BehaviorSubject<number>;
-    public value$: BehaviorSubject<number>;
-
     /** Some conditions have a choice that you can make. That is stored in this value. */
-    private _choice = '';
+    public readonly choice = signal('');
     /**
      * Duration in turns * 10 (+1 to resolve afterwards, +2 to end on another character's turn afterwards), or:
      * - -5 for automatic - the duration will be determined by choice and level (for spells). Active Conditions cannot have duration -5.
@@ -196,95 +190,47 @@ export class ConditionGain implements Serializable<ConditionGain> {
      * - 3 for until resolved, then another character's turn
      * - 0 for no duration - will be processed and then immediately removed, useful for instant effects and chaining conditions
      */
-    private _duration = -1;
-    private _value = 0;
+    public readonly duration = signal(-1);
+    public readonly value = signal(0);
 
     /** Some conditions allow you to select other conditions to override. These are saved here. */
-    private readonly _selectedOtherConditions = new OnChangeArray<string>();
+    public readonly selectedOtherConditions = signal<Array<string>>([]);
 
-    constructor() {
-        this.choice$ = new BehaviorSubject(this._choice);
-        this.duration$ = new BehaviorSubject(this._duration);
-        this.value$ = new BehaviorSubject(this._value);
-    }
+    public durationIsDynamic$$: Signal<boolean> =
+        computed(() => this.duration() === TimePeriods.Default);
 
-    public get durationIsDynamic(): boolean {
-        return this.duration === TimePeriods.Default;
-    }
+    public durationIsPermanent: Signal<boolean> =
+        computed(() => this.duration() === TimePeriods.Permanent);
 
-    public get durationIsPermanent(): boolean {
-        return this.duration === TimePeriods.Permanent;
-    }
+    public durationIsUntilRest: Signal<boolean> =
+        computed(() => this.duration() === TimePeriods.UntilRest);
 
-    public get durationIsUntilRest(): boolean {
-        return this.duration === TimePeriods.UntilRest;
-    }
+    public durationIsUntilRefocus: Signal<boolean> =
+        computed(() => this.duration() === TimePeriods.UntilRefocus);
 
-    public get durationIsUntilRefocus(): boolean {
-        return this.duration === TimePeriods.UntilRefocus;
-    }
+    public durationIsInstant: Signal<boolean> =
+        computed(() => [TimePeriods.UntilResolved, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(this.duration()));
 
-    public get durationIsInstant(): boolean {
-        return [TimePeriods.UntilResolved, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(this.duration);
-    }
+    public durationDependsOnOther: Signal<boolean> =
+        computed(() => (
+            this.duration() % TimePeriods.HalfTurn === TimePeriods.UntilResolved
+            || this.duration() === TimePeriods.UntilResolvedAndOtherCharactersTurn
+        ));
 
-    public get durationDependsOnOther(): boolean {
-        return (
-            this.duration % TimePeriods.HalfTurn === TimePeriods.UntilResolved ||
-            this.duration === TimePeriods.UntilResolvedAndOtherCharactersTurn
-        );
-    }
+    public durationEndsOnOtherTurnChange: Signal<boolean> =
+        computed(() => [TimePeriods.UntilOtherCharactersTurn, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(this.duration()));
 
-    public get durationEndsOnOtherTurnChange(): boolean {
-        return [TimePeriods.UntilOtherCharactersTurn, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(this.duration);
-    }
-
-    public get choice(): string {
-        return this._choice;
-    }
-
-    public set choice(value: string) {
-        this._choice = value;
-        this.choice$.next(this._choice);
-    }
-
-    public get duration(): number {
-        return this._duration;
-    }
-
-    public set duration(value: number) {
-        this._duration = value;
-        this.duration$.next(this._duration);
-    }
-
-    public get value(): number {
-        return this._value;
-    }
-
-    public set value(value: number) {
-        this._value = value;
-        this.value$.next(this._value);
-    }
-
-    public get selectedOtherConditions(): OnChangeArray<string> {
-        return this._selectedOtherConditions;
-    }
-
-    public set selectedOtherConditions(value: Array<string>) {
-        this._selectedOtherConditions.setValues(...value);
-    }
-
-    public static from(values: DeepPartial<ConditionGain>, recastFns: RecastFns): ConditionGain {
+    public static from(values: MaybeSerialized<ConditionGain>, recastFns: RecastFns): ConditionGain {
         return new ConditionGain().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<ConditionGain>, recastFns: RecastFns): ConditionGain {
+    public with(values: MaybeSerialized<ConditionGain>, recastFns: RecastFns): ConditionGain {
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<ConditionGain> {
+    public forExport(): Serialized<ConditionGain> {
         return {
             ...forExport(this),
         };

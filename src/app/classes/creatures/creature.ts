@@ -1,13 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { BehaviorSubject, Observable, switchMap, map } from 'rxjs';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { Alignments } from 'src/libs/shared/definitions/alignments';
 import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ability-boost';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creature-type-ids';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ConditionGain } from '../conditions/condition-gain';
 import { Effect } from '../effects/effect';
@@ -20,8 +17,8 @@ import { Character } from './character/character';
 import { Familiar } from './familiar/familiar';
 import { Health } from './health';
 import { Speed } from './speed';
-import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
+import { computed, Signal, signal } from '@angular/core';
 
 export interface SkillNotes {
     name: string;
@@ -72,123 +69,44 @@ export abstract class Creature implements Serializable<Creature> {
 
     public ignoredEffects: Array<Effect> = [];
 
-    public readonly alignment$: BehaviorSubject<Alignments>;
-    public readonly level$: BehaviorSubject<number>;
-    public readonly name$: BehaviorSubject<string>;
+    public readonly conditions = signal<Array<ConditionGain>>([]);
+    public readonly alignment = signal(Alignments.N);
+    public readonly level = signal(1);
+    public readonly name = signal('');
 
-    protected readonly _inventoriesTouched$: Observable<boolean>;
-    protected _customSkills = new OnChangeArray<Skill>();
-
-    private readonly _conditions = new OnChangeArray<ConditionGain>();
-    private _alignment: Alignments = Alignments.N;
-    private _level = 1;
-    private _name = '';
-
-    private readonly _effects = new OnChangeArray<EffectGain>();
-    private readonly _inventories = new OnChangeArray(new ItemCollection());
-    private readonly _speeds = new OnChangeArray<Speed>(
+    public readonly effects = signal<Array<EffectGain>>([]);
+    public readonly inventories = signal<Array<ItemCollection>>([new ItemCollection()]);
+    public readonly speeds = signal<Array<Speed>>([
         new Speed('Speed'),
         new Speed('Land Speed'),
+    ]);
+    public readonly customSkills = signal<Array<Skill>>([]);
+
+    public readonly mainInventory$$ = computed(() => {
+        const mainInventory = this.inventories()[0] ?? new ItemCollection();
+
+        if (!this.inventories()[0]) {
+            this.inventories.set([mainInventory]);
+        }
+
+        return mainInventory;
+    });
+
+    protected readonly _areInventoriesTouched$$ = computed(() =>
+        this.inventories().some(inventory => inventory.touched()),
     );
 
-    constructor() {
-        this.alignment$ = new BehaviorSubject(this._alignment);
-        this.level$ = new BehaviorSubject(this._level);
-        this.name$ = new BehaviorSubject(this._name);
-
-        this._inventoriesTouched$ = this.inventories.values$
-            .pipe(
-                switchMap(inventories => emptySafeCombineLatest(
-                    inventories.map(inventory => inventory.touched$),
-                )),
-                map(allTouched => allTouched.includes(true)),
-            );
-    }
-
-    public get alignment(): Alignments {
-        return this._alignment;
-    }
-
-    public set alignment(value: Alignments) {
-        this._alignment = value;
-        this.alignment$.next(this._alignment);
-    }
-
-    public get conditions(): OnChangeArray<ConditionGain> {
-        return this._conditions;
-    }
-
-    public set conditions(value: Array<ConditionGain>) {
-        this._conditions.setValues(...value);
-    }
-
-    public get customSkills(): OnChangeArray<Skill> {
-        return this._customSkills;
-    }
-
-    public set customSkills(value: Array<Skill>) {
-        this._customSkills.setValues(...value);
-    }
-
-    public get effects(): OnChangeArray<EffectGain> {
-        return this._effects;
-    }
-
-    public set effects(value: Array<EffectGain>) {
-        this._effects.setValues(...value);
-    }
-
-    public get inventories(): OnChangeArray<ItemCollection> {
-        return this._inventories;
-    }
-
-    public set inventories(value: Array<ItemCollection>) {
-        this._inventories.setValues(...value);
-    }
-
-    public get name(): string {
-        return this._name;
-    }
-
-    public set name(value: string) {
-        this._name = value;
-        this.name$.next(this._name);
-    }
-
-    public get level(): number {
-        return this._level;
-    }
-
-    public set level(value: number) {
-        this._level = value;
-        this.level$.next(this._level);
-    }
-
-    public get speeds(): OnChangeArray<Speed> {
-        return this._speeds;
-    }
-
-    public set speeds(value: Array<Speed>) {
-        this._speeds.setValues(...value);
-    }
+    public abstract readonly baseSize$$: Signal<number>;
 
     public get requiresConForHP(): boolean { return false; }
 
-    public get mainInventory(): ItemCollection {
-        if (!this.inventories[0]) {
-            this.inventories[0] = new ItemCollection();
-        }
-
-        return this.inventories[0] as ItemCollection;
-    }
-
-    public with(values: DeepPartial<Creature>, recastFns: RecastFns): Creature {
+    public with(values: MaybeSerialized<Creature>, recastFns: RecastFns): Creature {
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Creature> {
+    public forExport(): Serialized<Creature> {
         return {
             ...forExport(this),
         };
@@ -216,13 +134,11 @@ export abstract class Creature implements Serializable<Creature> {
 
     public abstract clone(recastFns: RecastFns): Creature;
 
-    public abstract baseSize(): number;
+    public abstract baseHP$$(charLevel: number, conModifier: number): Signal<{ result: number; bonuses: Array<BonusDescription> }>;
 
-    public abstract baseHP(charLevel: number, conModifier: number): { result: number; bonuses: Array<BonusDescription> };
+    public abstract baseSpeed$$(speedName: string): Signal<{ result: number; explain: string }>;
 
-    public abstract baseSpeed(speedName: string): { result: number; explain: string };
-
-    public abstract abilityBoosts(
+    public abstract abilityBoosts$$(
         minLevelNumber: number,
         maxLevelNumber: number,
         abilityName?: string,
@@ -230,9 +146,9 @@ export abstract class Creature implements Serializable<Creature> {
         source?: string,
         sourceId?: string,
         locked?: boolean,
-    ): Array<AbilityBoost>;
+    ): Signal<Array<AbilityBoost>>;
 
-    public abstract skillIncreases(
+    public abstract skillIncreases$$(
         minLevelNumber: number,
         maxLevelNumber: number,
         skillName?: string,
@@ -240,5 +156,5 @@ export abstract class Creature implements Serializable<Creature> {
         sourceId?: string,
         locked?: boolean,
         excludeTemporary?: boolean,
-    ): Array<SkillIncrease> | undefined;
+    ): Signal<Array<SkillIncrease>>;
 }

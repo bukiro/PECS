@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<LanguageGain>({
@@ -19,17 +18,17 @@ export class LanguageGain implements Serializable<LanguageGain> {
     public locked = false;
     public level = -1;
 
-    public static from(values: DeepPartial<LanguageGain>): LanguageGain {
+    public static from(values: MaybeSerialized<LanguageGain>): LanguageGain {
         return new LanguageGain().with(values);
     }
 
-    public with(values: DeepPartial<LanguageGain>): LanguageGain {
+    public with(values: MaybeSerialized<LanguageGain>): LanguageGain {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<LanguageGain> {
+    public forExport(): Serialized<LanguageGain> {
         return {
             ...forExport(this),
         };

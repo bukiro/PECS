@@ -1,9 +1,9 @@
-import { BehaviorSubject, Observable } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { ItemGain } from '../items/item-gain';
 import { SpellCast } from '../spells/spell-cast';
 import { SpellTarget } from '../spells/spell-target';
 import { Activity } from './activity';
+import { Signal, WritableSignal } from '@angular/core';
 
 export interface ActivityGainBase {
     sharedChargesID: number;
@@ -15,9 +15,9 @@ export interface ActivityGainBase {
     source: string;
     selectedTarget: '' | 'self' | 'Selected' | CreatureTypes;
     id: string;
-    active: boolean;
-    activeCooldown: number;
-    chargesUsed: number;
+    active: WritableSignal<boolean>;
+    activeCooldown: WritableSignal<number>;
+    chargesUsed: WritableSignal<number>;
 
     originalActivity: Activity;
 
@@ -28,8 +28,5 @@ export interface ActivityGainBase {
     spellEffectChoices: Array<Array<{ condition: string; choice: string }>>;
     targets: Array<SpellTarget>;
 
-    active$: BehaviorSubject<boolean>;
-    chargesUsed$: BehaviorSubject<number>;
-    activeCooldown$: BehaviorSubject<number>;
-    activeCooldownByCreature$: Map<string, Observable<number>>;
+    activeCooldownByCreature$$: Map<string, Signal<number>>;
 }

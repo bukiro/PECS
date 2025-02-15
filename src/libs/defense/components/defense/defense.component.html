@@ -190,7 +190,7 @@
                 ) {
                     <div class="minimized-hide list-item">
                         <div>
-                            {{ armorParameters.armor.effectiveName$() | async }}
+                            {{ armorParameters.armor.effectiveName$$() | async }}
                         </div>
 
                         @if (armorParameters.armor.traits.length) {
@@ -465,7 +465,7 @@
 
                     <div class="vlist list-item">
                         <div class="newrow left-aligned">
-                            {{ shield.effectiveName$() }} AC
+                            {{ shield.effectiveName$$() }} AC
                             <span class="value">{{
                                 shield.effectiveACBonus$() | async
                             }}</span>

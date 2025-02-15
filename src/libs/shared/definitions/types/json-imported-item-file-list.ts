@@ -1,3 +1,3 @@
-import { DeepPartial } from './deep-partial';
+import { Serialized } from '../interfaces/serializable';
 
-export type ImportedJsonFileList<T> = Record<string, Array<DeepPartial<T>>>;
+export type ImportedJsonFileList<T> = Record<string, Array<Serialized<T>>>;

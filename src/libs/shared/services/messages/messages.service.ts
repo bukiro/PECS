@@ -129,12 +129,12 @@ export class MessagesService {
 
         combineLatest([
             this._authService.isReady$,
-            CreatureService.character$
+            CreatureService.character$$
                 .pipe(
                     switchMap(character => character.partyName$),
                 ),
-            propMap$(SettingsService.settings$, 'manualMode$'),
-            propMap$(SettingsService.settings$, 'checkMessagesAutomatically$'),
+            propMap$(SettingsService.settings$$, 'manualMode$'),
+            propMap$(SettingsService.settings$$, 'checkMessagesAutomatically$'),
         ])
             .pipe(
                 switchMap(([loggedIn, partyName, manualMode, checkAutomatically]) =>

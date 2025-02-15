@@ -11,9 +11,9 @@ import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { AuthService } from '../../auth/auth.service';
 import { ConfigService } from '../../config/config.service';
 import { ApiStatusKey } from 'src/libs/shared/definitions/api-status-key';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 
-type DatabaseCharacter = DeepPartial<Character> & { _id: string; id: string };
+type DatabaseCharacter = Serialized<Character> & { _id: string; id: string };
 
 @Injectable({
     providedIn: 'root',
@@ -127,7 +127,7 @@ export class SavegamesService {
         });
     }
 
-    private _buildClassChoice(savegameClass: DeepPartial<CharacterClass>): string | undefined {
+    private _buildClassChoice(savegameClass: Serialized<CharacterClass>): string | undefined {
         let classChoice;
 
         if (savegameClass.levels?.[1]?.featChoices?.length) {

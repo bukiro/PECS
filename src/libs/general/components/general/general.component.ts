@@ -30,7 +30,7 @@ import { TagsComponent } from 'src/libs/shared/tags/components/tags/tags.compone
 import { TraitComponent } from 'src/libs/shared/ui/trait/components/trait/trait.component';
 import { CommonModule } from '@angular/common';
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
-import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
+import { flatten, flatten$ } from 'src/libs/shared/util/array-utils';
 
 interface ClassChoice {
     name: string;
@@ -91,7 +91,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
 
         this.isMinimized$ = this.creature$
             .pipe(
-                switchMap(creature => SettingsService.settings$
+                switchMap(creature => SettingsService.settings$$
                     .pipe(
                         switchMap(settings => {
                             switch (creature.type) {
@@ -108,7 +108,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
                 distinctUntilChanged(),
             );
 
-        this._archetypeFeats$ = this._characterFeatsService.characterFeatsAtLevel$()
+        this._archetypeFeats$ = this._characterFeatsService.characterFeatsAtLevel$$()
             .pipe(
                 map(feats => feats.filter(feat =>
                     feat.traits.includes('Dedication'),
@@ -116,7 +116,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
                 shareReplay({ refCount: true, bufferSize: 1 }),
             );
 
-        this.character$ = CreatureService.character$;
+        this.character$ = CreatureService.character$$;
         this.companionSpecies$ = this._companionSpecies$();
         this.companionSpecializations$ = this._companionSpecializations$();
         this.companionTraits$ = this._companionTraits$();
@@ -168,7 +168,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     private _companionSpecies$(): Observable<string | undefined> {
-        return CreatureService.companion$
+        return CreatureService.companion$$
             .pipe(
                 switchMap(companion => combineLatest([
                     companion.level$,
@@ -204,10 +204,10 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     private _companionSpecializations$(): Observable<string | undefined> {
-        return CreatureService.companion$
+        return CreatureService.companion$$
             .pipe(
                 switchMap(companion => combineLatest([
-                    CharacterFlatteningService.characterLevel$,
+                    CharacterFlatteningService.characterLevel$$,
                     companion.level$,
                     propMap$(companion.class$, 'specializations', 'values$'),
                 ])
@@ -228,7 +228,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     private _companionTraits$(): Observable<Array<Trait>> {
-        return propMap$(CreatureService.companion$, 'class$', 'ancestry$')
+        return propMap$(CreatureService.companion$$, 'class$', 'ancestry$')
             .pipe(
                 map(ancestry => ancestry.traits),
                 map(traits => traits.map(traitName => this._traitsDataService.traitFromName(traitName))),
@@ -236,7 +236,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     private _familiarAbilities$(): typeof this.familiarAbilities$ {
-        return CreatureService.familiar$
+        return CreatureService.familiar$$
             .pipe(
                 map(familiar => familiar.abilities.feats.map(taken => this.familiarAbilityFromName(taken.name))),
                 map(abilities => abilities.map(ability => ({
@@ -247,7 +247,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     private _familiarTraits$(): Observable<Array<Trait>> {
-        return CreatureService.familiar$
+        return CreatureService.familiar$$
             .pipe(
                 map(familiar => familiar.traits),
                 map(traits => traits.map(traitName => this._traitsDataService.traitFromName(traitName))),
@@ -266,7 +266,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     private _domains$(): Observable<Array<Domain>> {
         return combineLatest([
-            CharacterFlatteningService.characterClass$,
+            CharacterFlatteningService.characterClass$$,
             this._archetypeFeats$,
         ])
             .pipe(
@@ -282,7 +282,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
                 ),
                 switchMap(deityDomains =>
                     deityDomains
-                        ? this._characterFeatsService.characterFeatsAtLevel$()
+                        ? this._characterFeatsService.characterFeatsAtLevel$$()
                             .pipe(
                                 map(feats =>
                                     feats
@@ -301,19 +301,19 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     private _tenets$(): Observable<Array<string>> {
         //Collect tenets from all feats and features you have that include them.
-        return this._characterFeatsService.characterFeatsAtLevel$()
+        return this._characterFeatsService.characterFeatsAtLevel$$()
             .pipe(
                 map(feats => feats
                     .filter(feat => feat.tenets?.length)
                     .map(feat => feat.tenets),
                 ),
-                map(flattenArrayLists),
+                flatten$(),
             );
     }
 
     private _edicts$(): Observable<Array<string>> {
         return combineLatest([
-            CharacterFlatteningService.characterClass$,
+            CharacterFlatteningService.characterClass$$,
             this._archetypeFeats$,
         ])
             .pipe(
@@ -334,7 +334,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     private _anathemas$(): Observable<Array<string>> {
         return combineLatest([
-            CharacterFlatteningService.characterClass$,
+            CharacterFlatteningService.characterClass$$,
             this._archetypeFeats$,
         ])
             .pipe(
@@ -347,7 +347,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
                     )
                         ? combineLatest([
                             this._characterDeitiesService.currentCharacterDeities$(),
-                            this._characterFeatsService.characterFeatsAtLevel$()
+                            this._characterFeatsService.characterFeatsAtLevel$$()
                                 .pipe(
                                     map(feats => feats.filter(feat => feat.anathema?.length)),
                                 ),
@@ -364,16 +364,16 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     private _differentWorldsData$(): Observable<Array<FeatData> | undefined> {
-        return this._characterFeatsService.characterHasFeatAtLevel$('Different Worlds')
+        return this._characterFeatsService.characterHasFeatAtLevel$$('Different Worlds')
             .pipe(
                 switchMap(hasDifferentWorlds =>
                     hasDifferentWorlds
                         ? combineLatest([
-                            CharacterFlatteningService.characterClass$,
-                            CharacterFlatteningService.characterLevel$,
+                            CharacterFlatteningService.characterClass$$,
+                            CharacterFlatteningService.characterLevel$$,
                         ])
                             .pipe(
-                                switchMap(([characterClass, level]) => characterClass.filteredFeatData$(0, level, 'Different Worlds')),
+                                switchMap(([characterClass, level]) => characterClass.filteredFeatData$$(0, level, 'Different Worlds')),
                             )
                         : of(undefined),
                 ),
@@ -387,8 +387,8 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
         // - having exactly one feat
         // - and having the class name (or the dedication feat name) as its source.
         return combineLatest([
-            CharacterFlatteningService.characterClass$,
-            CharacterFlatteningService.characterLevel$,
+            CharacterFlatteningService.characterClass$$,
+            CharacterFlatteningService.characterLevel$$,
             this._archetypeFeats$,
         ])
             .pipe(
@@ -444,10 +444,10 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     private _characterTraits$(): Observable<Array<Trait>> {
         return combineLatest([
-            propMap$(CharacterFlatteningService.characterClass$, 'ancestry$', 'traits', 'values$'),
-            this._characterFeatsService.characterHasFeatAtLevel$('Verdant Metamorphosis'),
-            this._creatureEffectsService.toggledEffectsOnThis$(CreatureService.character, 'Character Gain Trait'),
-            this._creatureEffectsService.toggledEffectsOnThis$(CreatureService.character, 'Character Lose Trait'),
+            propMap$(CharacterFlatteningService.characterClass$$, 'ancestry$', 'traits', 'values$'),
+            this._characterFeatsService.characterHasFeatAtLevel$$('Verdant Metamorphosis'),
+            this._creatureEffectsService.toggledEffectsOnThis$$(CreatureService.character, 'Character Gain Trait'),
+            this._creatureEffectsService.toggledEffectsOnThis$$(CreatureService.character, 'Character Lose Trait'),
         ])
             .pipe(
                 map(([ancestryTraits, hasVerdantMetamorphosis, gainTraitEffects, loseTraitEffects]) => {
@@ -474,7 +474,7 @@ export class GeneralComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     private _languagesFromEquipment(): Array<string> {
         let languages: Array<string> = [];
-        const hasTooManySlottedAeonStones = CreatureService.character.hasTooManySlottedAeonStones();
+        const hasTooManySlottedAeonStones = CreatureService.character.hasTooManySlottedAeonStones$$();
 
         CreatureService.character.mainInventory.wornitems.filter(wornItem => wornItem.investedOrEquipped()).forEach(wornItem => {
             languages = languages.concat(wornItem.gainLanguages.filter(language => language.name).map(language => language.name));

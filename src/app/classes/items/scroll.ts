@@ -1,19 +1,18 @@
-import { Observable, of } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { Consumable } from './consumable';
+import { computed, Signal } from '@angular/core';
 
 export class Scroll extends Consumable implements MessageSerializable<Scroll> {
     //Scrolls should be type "scrolls" to be found in the database
     public readonly type: ItemTypes = 'scrolls';
 
-    public static from(values: DeepPartial<Scroll>, recastFns: RecastFns): Scroll {
+    public static from(values: MaybeSerialized<Scroll>, recastFns: RecastFns): Scroll {
         return new Scroll().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Scroll>, recastFns: RecastFns): Scroll {
+    public with(values: MaybeSerialized<Scroll>, recastFns: RecastFns): Scroll {
         super.with(values, recastFns);
 
         return this;
@@ -29,17 +28,21 @@ export class Scroll extends Consumable implements MessageSerializable<Scroll> {
 
     public isScroll(): this is Scroll { return true; }
 
-    public effectiveName$(): Observable<string> {
-        return of(this.effectiveNameSnapshot());
-    }
+    public effectiveName$$(): Signal<string> {
+        return computed(() => {
+            const displayName = this.displayName();
 
-    public effectiveNameSnapshot(): string {
-        if (this.displayName) {
-            return this.displayName;
-        } else if (this.storedSpells[0]?.spells?.[0]) {
-            return `${ this.name } of ${ this.storedSpells[0].spells[0].name }`;
-        } else {
+            if (displayName) {
+                return displayName;
+            }
+
+            const storedSpellName = this.storedSpells()[0]?.spells()[0]?.name;
+
+            if (storedSpellName) {
+                return `${ this.name } of ${ storedSpellName }`;
+            }
+
             return this.name;
-        }
+        });
     }
 }

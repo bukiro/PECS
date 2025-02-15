@@ -1,7 +1,6 @@
 
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ConditionGain } from '../conditions/condition-gain';
 import { EffectGain } from '../effects/effect-gain';
@@ -44,14 +43,14 @@ export abstract class Consumable extends Item implements Serializable<Consumable
     /** List EffectGain for every effect that happens instantly when the item is used. */
     public onceEffects: Array<EffectGain> = [];
 
-    public with(values: DeepPartial<Consumable>, recastFns: RecastFns): Consumable {
+    public with(values: MaybeSerialized<Consumable>, recastFns: RecastFns): Consumable {
         super.with(values, recastFns);
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Consumable> {
+    public forExport(): Serialized<Consumable> {
         return {
             ...super.forExport(),
             ...forExport(this),

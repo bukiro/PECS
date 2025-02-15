@@ -72,7 +72,7 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) {
         const acItem = itemRoles.asArmor || itemRoles.asShield;
 
         if (acItem) {
-            return acItem.effectiveACBonus$()
+            return acItem.effectiveACBonus$$()
                 .pipe(
                     map(effective => {
                         if (effective || acItem.acbonus) {
@@ -94,7 +94,7 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) {
         const armorItem = itemRoles.asArmor;
 
         if (armorItem) {
-            return armorItem.effectiveDexCap$()
+            return armorItem.effectiveDexCap$$()
                 .pipe(
                     map(effective => {
                         const doesEffectiveApply = effective < 0;
@@ -148,7 +148,7 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) {
         const speedPenaltyItem = itemRoles.asArmor || itemRoles.asShield;
 
         if (speedPenaltyItem) {
-            const effective = speedPenaltyItem.effectiveSpeedPenalty();
+            const effective = speedPenaltyItem.effectiveSpeedPenalty$$();
 
             if (effective || speedPenaltyItem.acbonus) {
                 return {
@@ -165,7 +165,7 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) {
         const armorItem = itemRoles.asArmor;
 
         if (armorItem) {
-            return armorItem.effectiveStrengthRequirement$()
+            return armorItem.effectiveStrengthRequirement$$()
                 .pipe(
                     map(effective => {
                         if (effective || armorItem.strength) {
@@ -184,7 +184,7 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) {
     }
 
     public bulkParameters(item: Item): ComparedStringValue | undefined {
-        const effective = item.effectiveBulk();
+        const effective = item.effectiveBulk$$();
 
         if (effective || item.bulk) {
             const bulkDifference = this._bulkDifference(item, effective);
@@ -202,7 +202,7 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) {
         const hardnessItem = itemRoles.asShield;
 
         if (hardnessItem) {
-            return hardnessItem.effectiveHardness$()
+            return hardnessItem.effectiveHardness$$()
                 .pipe(
                     map(effective => {
                         if (effective || hardnessItem.hardness) {
@@ -230,7 +230,7 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) {
         if (hitpointItem) {
             return combineLatest([
                 hitpointItem.effectiveMaxHP$(),
-                hitpointItem.effectiveBrokenThreshold$(),
+                hitpointItem.effectiveBrokenThreshold$$(),
             ])
                 .pipe(
                     map(([effectiveMaxHP, effectiveBrokenThreshold]) => {
@@ -342,7 +342,7 @@ export class ItemContentComponent extends TrackByMixin(BaseClass) {
         } else if (!isNaN(parseInt(effectiveBulk, 10)) && isNaN(+item.bulk)) {
             return 1;
         } else if (isNaN(parseInt(effectiveBulk, 10)) && !isNaN(+item.bulk)) {
-            if (item.effectiveBulk() === 'L' && +item.bulk === 0) {
+            if (item.effectiveBulk$$() === 'L' && +item.bulk === 0) {
                 return 1;
             } else {
                 return -1;

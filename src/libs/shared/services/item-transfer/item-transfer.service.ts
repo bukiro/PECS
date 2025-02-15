@@ -197,7 +197,7 @@ export class ItemTransferService {
                 const itemBulk = this._itemBulkService.effectiveItemBulk(item, { carrying: true, amount: options.amount }) * decimal;
                 const containedBulk = this._itemBulkService.totalItemBulk(creature, item, target, options.including) * decimal;
 
-                return ((target.totalBulk(false) * decimal) + itemBulk + containedBulk > bulkLimit);
+                return ((target.totalBulk$$(false) * decimal) + itemBulk + containedBulk > bulkLimit);
             }
         }
 
@@ -282,7 +282,7 @@ export class ItemTransferService {
         if (creature.type !== targetCreature.type) {
             this.updateGrantingItemBeforeTransfer(creature, item);
 
-            CreatureService.creatureFromType$(targetCreature.type)
+            CreatureService.creatureFromType$$(targetCreature.type)
                 .pipe(
                     take(1),
                 )

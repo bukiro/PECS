@@ -50,12 +50,12 @@ export class InventoryItemProcessingService {
         skipGrantedItems = false,
         skipGainedInventories = false,
     ): void {
-        inventory.touched = true;
+        inventory.touched.set(true);
 
-        //Disable activities on equipment and runes. Refresh all affected components.
+        //Disable activities on equipment and runes.
         if (item.hasActivities()) {
             item.activities.forEach(activity => {
-                activity.active = false;
+                activity.active.set(false);
             });
         }
 
@@ -72,11 +72,11 @@ export class InventoryItemProcessingService {
         keepInventoryContent = false,
         inventoryService: InventoryService,
     ): void {
-        const character = CreatureService.character;
+        const character = CreatureService.character$$();
 
         if (item.hasActivities()) {
             item.activities.forEach(activity => {
-                if (activity.active) {
+                if (activity.active()) {
                     this._psp.activitiesProcessingService?.activateActivity(
                         activity,
                         false,
@@ -93,9 +93,11 @@ export class InventoryItemProcessingService {
             this._processDroppingEquipment(creature, inventory, item, including, keepInventoryContent, inventoryService);
         }
 
-        item.oilsApplied.filter(oil => oil.runeEffect?.loreChoices.length).forEach((oil: Oil) => {
-            this._characterLoreService.removeRuneLore(oil.runeEffect);
-        });
+        item.oilsApplied()
+            .filter(oil => oil.runeEffect?.loreChoices.length)
+            .forEach((oil: Oil) => {
+                this._characterLoreService.removeRuneLore(oil.runeEffect);
+            });
 
         if (item.isWeapon()) {
             character.markUnneededWeaponFeatsForDeletion(item);
@@ -108,16 +110,16 @@ export class InventoryItemProcessingService {
         item: Equipment,
     ): void {
         if (item.isArmor()) {
-            inventory.armors
-                .filter(armor => armor.equipped && armor !== item)
+            inventory.armors()
+                .filter(armor => armor.equipped() && armor !== item)
                 .forEach(armor => {
                     this._creatureEquipmentService.equipItem(creature, inventory, armor, false, false, false);
                 });
         }
 
         if (item.isShield()) {
-            inventory.shields
-                .filter(shield => shield.equipped && shield !== item)
+            inventory.shields()
+                .filter(shield => shield.equipped() && shield !== item)
                 .forEach(shield => {
                     this._creatureEquipmentService.equipItem(creature, inventory, shield, false, false, false);
                 });
@@ -125,19 +127,19 @@ export class InventoryItemProcessingService {
 
         // If you get an Activity from an item that doesn't need to be invested,
         // immediately invest it in secret so the Activity is gained
-        if ((item.gainActivities || item.activities) && !item.canInvest()) {
+        if ((item.gainActivities || item.activities) && !item.canInvest) {
             this._creatureEquipmentService.investItem(creature, inventory, item, true);
         }
 
         // Add all Items that you get from equipping this one.
-        if (item.gainItems && item.gainItems.length) {
-            item.gainItems
+        if (item.gainItems().length) {
+            item.gainItems()
                 .filter(gainItem => gainItem.on === 'equip')
                 .forEach(gainItem => {
                     this._itemGrantingService.grantGrantedItem(
                         gainItem,
                         creature,
-                        { sourceName: item.effectiveNameSnapshot(), grantingItem: item },
+                        { sourceName: item.effectiveName$$()(), grantingItem: item },
                     );
                 });
         }
@@ -149,7 +151,7 @@ export class InventoryItemProcessingService {
         item: Equipment,
         equipBasicItems = true,
     ): void {
-        const character = CreatureService.character;
+        const character = CreatureService.character$$();
 
         if (equipBasicItems) {
             this._basicEquipmentService.equipBasicItems(creature);
@@ -169,20 +171,22 @@ export class InventoryItemProcessingService {
             this._creatureEquipmentService.investItem(creature, inventory, item, false);
         }
 
-        if (item.gainItems?.length) {
-            item.gainItems.filter(gainItem => gainItem.on === 'equip').forEach(gainItem => {
-                this._itemGrantingService.dropGrantedItem(gainItem, creature);
-            });
+        if (item.gainItems().length) {
+            item.gainItems()
+                .filter(gainItem => gainItem.on === 'equip')
+                .forEach(gainItem => {
+                    this._itemGrantingService.dropGrantedItem(gainItem, creature);
+                });
         }
 
         //If the item can't be un-invested, make sure you lose the conditions you gained from equipping it.
-        if (!item.canInvest()) {
+        if (!item.canInvest) {
             this._creatureConditionRemovalService.removeGainedItemConditions(item, creature);
         }
 
-        item.propertyRunes?.forEach(rune => {
+        item.propertyRunes().forEach(rune => {
             //Deactivate any active toggled activities of inserted runes.
-            rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
+            rune.activities.filter(activity => activity.toggle && activity.active()).forEach(activity => {
                 this._psp.activitiesProcessingService?.activateActivity(
                     activity,
                     false,
@@ -246,11 +250,11 @@ export class InventoryItemProcessingService {
         skipGrantedItems = false,
         skipGainedInventories = false,
     ): void {
-        const character = CreatureService.character;
+        const character = CreatureService.character$$();
 
         if (item.gainActivities?.length) {
             item.gainActivities.forEach(gain => {
-                gain.active = false;
+                gain.active.set(false);
             });
         }
 
@@ -262,7 +266,7 @@ export class InventoryItemProcessingService {
             const customFeats = this._featsDataService.createWeaponFeats([item]);
 
             customFeats.forEach(customFeat => {
-                const oldFeat = character.customFeats.find(existingFeat => existingFeat.name === customFeat.name);
+                const oldFeat = character.customFeats().find(existingFeat => existingFeat.name === customFeat.name);
 
                 if (oldFeat) {
                     character.removeCustomFeat(oldFeat);
@@ -273,10 +277,13 @@ export class InventoryItemProcessingService {
         }
 
         if (resetRunes && item.moddable) {
-            item.potencyRune = item.strikingRune = item.resilientRune = item.propertyRunes.length = 0;
+            item.potencyRune.set(0);
+            item.strikingRune.set(0);
+            item.resilientRune.set(0);
+            item.propertyRunes.set([]);
         }
 
-        item.propertyRunes
+        item.propertyRunes()
             .filter(rune => rune.loreChoices?.length)
             .forEach(rune => {
                 this._characterLoreService.addRuneLore(rune);
@@ -286,7 +293,8 @@ export class InventoryItemProcessingService {
             //Add all Inventories that you get from this item.
             if (item.gainInventory) {
                 item.gainInventory.forEach(gain => {
-                    creature.inventories.push(
+                    creature.inventories.update(value => [
+                        ...value,
                         Object.assign<ItemCollection, Partial<ItemCollection>>(
                             new ItemCollection(),
                             {
@@ -295,20 +303,20 @@ export class InventoryItemProcessingService {
                                 bulkReduction: gain.bulkReduction,
                             },
                         ),
-                    );
+                    ]);
                 });
             }
         }
 
         if (!skipGrantedItems && item.gainItems.length) {
             // Add all Items that you get from being granted this one.
-            item.gainItems
+            item.gainItems()
                 .filter(gainItem => gainItem.on === 'grant' && gainItem.amount > 0)
                 .forEach(gainItem => {
                     this._itemGrantingService.grantGrantedItem(
                         gainItem,
                         creature,
-                        { sourceName: item.effectiveNameSnapshot(), grantingItem: item },
+                        { sourceName: item.effectiveName$$()(), grantingItem: item },
                     );
                 });
         }
@@ -322,22 +330,22 @@ export class InventoryItemProcessingService {
         keepInventoryContent = false,
         inventoryService: InventoryService,
     ): void {
-        if (item.equipped) {
+        if (item.equipped()) {
             this._creatureEquipmentService.equipItem(creature, inventory, item, false, false);
-        } else if (item.invested && item.canInvest()) {
+        } else if (item.invested && item.canInvest) {
             this._creatureEquipmentService.investItem(creature, inventory, item, false);
-        } else if (!item.equippable && !item.canInvest()) {
+        } else if (!item.equippable && !item.canInvest) {
             this._creatureConditionRemovalService.removeGainedItemConditions(item, creature);
         }
 
-        item.propertyRunes
+        item.propertyRunes()
             .filter(rune => rune.loreChoices.length)
             .forEach(rune => {
                 this._characterLoreService.removeRuneLore(rune);
             });
 
         item.gainActivities.forEach(gain => {
-            if (gain.active) {
+            if (gain.active()) {
                 const activity = this._activitiesDataService.activities(gain.name)[0];
 
                 if (activity) {
@@ -357,20 +365,25 @@ export class InventoryItemProcessingService {
             if (keepInventoryContent) {
                 this._preserveInventoryContentBeforeDropping(creature, item);
             } else {
-                creature.inventories.filter(existingInventory => existingInventory.itemId === item.id).forEach(gainedInventory => {
-                    gainedInventory.allItems().forEach(inventoryItem => {
-                        inventoryService.dropInventoryItem(creature, gainedInventory, inventoryItem, false, false, including);
+                creature.inventories()
+                    .filter(existingInventory => existingInventory.itemId === item.id)
+                    .forEach(gainedInventory => {
+                        gainedInventory.allItems$$()
+                            .forEach(inventoryItem => {
+                                inventoryService.dropInventoryItem(creature, gainedInventory, inventoryItem, false, false, including);
+                            });
                     });
-                });
             }
 
-            creature.inventories = creature.inventories.filter(existingInventory => existingInventory.itemId !== item.id);
+            creature.inventories.update(value => value.filter(existingInventory => existingInventory.itemId !== item.id));
         }
 
         if (including) {
-            item.gainItems.filter(gainItem => gainItem.on === 'grant').forEach(gainItem => {
-                this._itemGrantingService.dropGrantedItem(gainItem, creature);
-            });
+            item.gainItems()
+                .filter(gainItem => gainItem.on === 'grant')
+                .forEach(gainItem => {
+                    this._itemGrantingService.dropGrantedItem(gainItem, creature);
+                });
         }
     }
 
@@ -379,20 +392,23 @@ export class InventoryItemProcessingService {
         // That way, content isn't lost when you drop an inventory item.
         let found = 0;
 
-        creature.inventories.filter(inv => inv.itemId === item.id).forEach(inv => {
-            inv.allItems().filter(invItem => invItem !== item)
-                .forEach(invItem => {
-                    if (!invItem.markedForDeletion) {
-                        found++;
-                        this._itemTransferService
-                            .moveItemLocally(creature, invItem, creature.mainInventory, inv, invItem.amount, true);
-                    }
-                });
-        });
+        creature.inventories()
+            .filter(inv => inv.itemId === item.id)
+            .forEach(inv => {
+                inv.allItems$$()
+                    .filter(invItem => invItem !== item)
+                    .forEach(invItem => {
+                        if (!invItem.markedForDeletion) {
+                            found++;
+                            this._itemTransferService
+                                .moveItemLocally(creature, invItem, creature.mainInventory$$(), inv, invItem.amount, true);
+                        }
+                    });
+            });
 
         if (found) {
             this._toastService.show(
-                `${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.effectiveNameSnapshot() }</strong> `
+                `${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.effectiveName$$()() }</strong> `
                 + 'before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.',
             );
         }

@@ -160,7 +160,7 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
     ) {
         super();
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'itemsTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'itemsTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -184,7 +184,7 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
             .pipe(
                 takeUntilDestroyed(),
                 distinctUntilChanged(),
-                switchMap(target => CreatureService.creatureFromType$(target)),
+                switchMap(target => CreatureService.creatureFromType$$(target)),
             )
             .subscribe(creature => {
                 this._updateCreature(creature);
@@ -193,8 +193,8 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
         // If you lose access to the current creature, switch to the Character.
         combineLatest([
             this.creature$,
-            this._creatureAvailabilityService.isCompanionAvailable$(),
-            this._creatureAvailabilityService.isFamiliarAvailable$(),
+            this._creatureAvailabilityService.isCompanionAvailable$$(),
+            this._creatureAvailabilityService.isFamiliarAvailable$$(),
         ])
             .pipe(
                 takeUntilDestroyed(),
@@ -288,8 +288,8 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
     public otherCreaturesAvailable$(): Observable<{ companion: boolean; familiar: boolean } | undefined> {
         return combineLatest([
-            this._creatureAvailabilityService.isCompanionAvailable$(),
-            this._creatureAvailabilityService.isFamiliarAvailable$(),
+            this._creatureAvailabilityService.isCompanionAvailable$$(),
+            this._creatureAvailabilityService.isFamiliarAvailable$$(),
         ])
             .pipe(
                 map(([isCompanionAvailable, isFamiliarAvailable]) =>
@@ -412,7 +412,7 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
         const twoDigits = 2;
 
         return combineLatest([
-            character.maxSpellLevel$,
+            character.maxSpellLevel$$,
             (
                 this._purpose === 'scrollsavant'
                     ? this._scrollSavantService.scrollSavantSpellCasting$
@@ -624,7 +624,7 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
     }
 
     public characterHasFeat$(name: string): Observable<boolean> {
-        return this._characterFeatsService.characterHasFeatAtLevel$(name);
+        return this._characterFeatsService.characterHasFeatAtLevel$$(name);
     }
 
     public availableLearningOptions(availableForLearningParameters: AvailableForLearningParameters): string {
@@ -797,7 +797,7 @@ export class ItemsComponent extends TrackByMixin(BaseCreatureElementComponent) {
                     (casting && hasScrollSavant)
                         ? combineLatest([
                             this._scrollSavantService.scrollSavantSpellDCLevel$,
-                            character.maxSpellLevel$,
+                            character.maxSpellLevel$$,
                         ])
                             .pipe(
                                 map(([spellDCLevel, maxSpellLevel]) => {

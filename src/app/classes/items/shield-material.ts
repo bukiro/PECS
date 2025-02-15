@@ -1,6 +1,5 @@
 import { Material } from 'src/app/classes/items/material';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { MaybeSerialized, Serializable, Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<ShieldMaterial>({
@@ -16,18 +15,18 @@ export class ShieldMaterial extends Material implements Serializable<ShieldMater
     public hitpoints = 0;
     public brokenThreshold = 0;
 
-    public static from(values: DeepPartial<ShieldMaterial>): ShieldMaterial {
+    public static from(values: MaybeSerialized<ShieldMaterial>): ShieldMaterial {
         return new ShieldMaterial().with(values);
     }
 
-    public with(values: DeepPartial<ShieldMaterial>): ShieldMaterial {
+    public with(values: MaybeSerialized<ShieldMaterial>): ShieldMaterial {
         super.with(values);
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<ShieldMaterial> {
+    public forExport(): Serialized<ShieldMaterial> {
         return {
             ...super.forExport(),
             ...forExport(this),

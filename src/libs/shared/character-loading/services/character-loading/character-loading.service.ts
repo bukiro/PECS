@@ -26,6 +26,13 @@ import { toggleLeftMenu } from 'src/libs/store/menu/menu.actions';
 import { setCharacterStatus } from 'src/libs/store/status/status.actions';
 import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { CharacterPatchingService } from '../character-patching/character-patching.service';
+import { Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Ancestry } from 'src/app/classes/creatures/character/ancestry';
+import { Heritage } from 'src/app/classes/creatures/character/heritage';
+import { Background } from 'src/app/classes/creatures/character/background';
+import { AnimalCompanionAncestry } from 'src/app/classes/creatures/animal-companion/animal-companion-ancestry';
+import { AnimalCompanionLevel } from 'src/app/classes/creatures/animal-companion/animal-companion-level';
+import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
 
 interface DatabaseCharacter {
     _id: string;
@@ -123,7 +130,7 @@ export class CharacterLoadingService {
 
         this._creatureService.resetCharacter(newCharacter, loadAsGm);
 
-        const character = CreatureService.character;
+        const character = CreatureService.character$$();
 
         //Grant and equip basic items
         this._basicEquipmentService.equipBasicItems(character, false);
@@ -149,74 +156,98 @@ export class CharacterLoadingService {
     }
 
     private _processLoadedCharacter(
-        loader: Partial<Character & DatabaseCharacter>,
+        loader: Serialized<Character & DatabaseCharacter>,
     ): Character {
         //Make a copy of the character before restoration. This will be used in patching.
-        const rawCharacterCopy = JSON.parse(JSON.stringify(loader));
+        const rawCharacterCopy = JSON.parse(JSON.stringify(loader)) as Serialized<Character & DatabaseCharacter>;
 
         //Remove the database id so it isn't saved over.
         if (loader._id) {
             delete loader._id;
         }
 
-        const rawCharacter = JSON.parse(JSON.stringify(loader));
+        const rawCharacter = JSON.parse(JSON.stringify(loader)) as Serialized<Character & DatabaseCharacter>;
 
         // We restore a few things individually before we restore the class,
         // allowing us to patch them before any issues would be created by new changes to the class.
-
-        //Apply any new settings.
-        rawCharacter.settings = Settings.from(rawCharacter.settings ?? {});
 
         // Apply patches that need to be done before the class is restored.
         // This is usually removing skill increases and feat choices,
         // which can cause issues if the class doesn't have them at the same index as the character.
         this._characterPatchingService.patchPartialCharacter(rawCharacter, rawCharacterCopy);
 
+        //Apply any new settings.
+        const settings = Settings.from(rawCharacter.settings ?? {});
+
         // Restore a lot of data from reference objects.
         // This allows us to save a lot of traffic at saving by removing all data
         // from certain objects that is the unchanged from in their original template.
-        if (rawCharacter.class.name) {
+        /* eslint-disable no-undef-init */
+        let restoredClass: CharacterClass | undefined = undefined;
+        let ancestry: Ancestry | undefined = undefined;
+        let heritage: Heritage | undefined = undefined;
+        let background: Background | undefined = undefined;
+        let companionAncestry: AnimalCompanionAncestry | undefined = undefined;
+        let companionLevels: Array<AnimalCompanionLevel> | undefined = undefined;
+        let companionSpecializations: Array<AnimalCompanionSpecialization> | undefined = undefined;
+        /* eslint-enable no-undef-init */
+
+        if (rawCharacter.class?.name) {
             const _class = rawCharacter.class;
 
-            if (_class.ancestry && _class.ancestry.name) {
-                _class.ancestry = this._historySavingLoadingService.restoreAncestryFromSave(_class.ancestry);
+            if (_class.ancestry?.name) {
+                ancestry = this._historySavingLoadingService.restoreAncestryFromSave(_class.ancestry);
             }
 
             if (_class.heritage && _class.heritage.name) {
-                _class.heritage = this._historySavingLoadingService.restoreHeritageFromSave(_class.heritage);
+                heritage = this._historySavingLoadingService.restoreHeritageFromSave(_class.heritage);
             }
 
             if (_class.background && _class.background.name) {
-                _class.background = this._historySavingLoadingService.restoreBackgroundFromSave(_class.background);
+                background = this._historySavingLoadingService.restoreBackgroundFromSave(_class.background);
             }
 
             if (_class.animalCompanion) {
                 const animalCompanion = _class.animalCompanion;
 
                 if (animalCompanion?.class?.ancestry) {
-                    animalCompanion.class.ancestry =
+                    companionAncestry =
                         this._animalCompanionAncestryService.restoreAncestryFromSave(animalCompanion.class.ancestry);
                 }
 
                 if (animalCompanion?.class?.levels) {
-                    animalCompanion.class.levels =
+                    companionLevels =
                         this._animalCompanionLevelsService.restoreLevelsFromSave(animalCompanion.class.levels);
                 }
 
                 if (animalCompanion.class?.specializations) {
-                    animalCompanion.class.specializations =
+                    companionSpecializations =
                         animalCompanion.class.specializations
-                            .map((spec: Partial<AnimalCompanionSpecialization>) =>
+                            .map(spec =>
                                 this._animalCompanionSpecializationsService.restoreSpecializationFromSave(spec),
                             );
                 }
             }
 
             //Restore the class last, so we don't null its components (ancestry, animal companion etc.)
-            rawCharacter.class = this._classSavingLoadingService.restoreClassFromSave(rawCharacter.class);
+            restoredClass = this._classSavingLoadingService.restoreClassFromSave({
+                ...rawCharacter.class,
+                ancestry,
+                heritage,
+                background,
+                animalCompanion: {
+                    ..._class.animalCompanion,
+                    class: {
+                        ..._class.animalCompanion?.class,
+                        ancestry: companionAncestry,
+                        levels: companionLevels,
+                        specializations: companionSpecializations,
+                    },
+                },
+            });
         }
 
-        const finalCharacter = Character.from(rawCharacter, RecastService.restoreFns);
+        const finalCharacter = Character.from({ ...rawCharacter, settings, class: restoredClass }, RecastService.restoreFns);
 
         //Apply any patches that need to be done after the class is restored.
         this._characterPatchingService.patchCompleteCharacter(finalCharacter, rawCharacterCopy);

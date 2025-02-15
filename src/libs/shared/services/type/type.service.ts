@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Item } from 'src/app/classes/items/item';
 import { Constructable } from '../../definitions/interfaces/constructable';
 import { ItemsDataService } from '../data/items-data.service';
-import { DeepPartial } from '../../definitions/types/deep-partial';
 import { ItemTypes } from '../../definitions/types/item-types';
+import { MaybeSerialized } from '../../definitions/interfaces/serializable';
 
 type ItemPrototypeFn<T extends Item> = () => T;
 
@@ -14,7 +14,7 @@ export class TypeService {
 
     private readonly _itemPrototypeFunctions: Map<ItemTypes, ItemPrototypeFn<Item>> = new Map();
 
-    public getPrototypeItem<T extends Item>(item: DeepPartial<T>, options?: { type?: ItemTypes; prototype?: T }): T {
+    public getPrototypeItem<T extends Item>(item: MaybeSerialized<T>, options?: { type?: ItemTypes; prototype?: T }): T {
         if (options?.prototype) {
             return options.prototype;
         }
@@ -35,23 +35,8 @@ export class TypeService {
         return prototype;
     }
 
-    //TODO: Implement a merging mechanism for classes comparable to .with().
-    // Alternatively, verify that it isn't needed.
-    // Should arrays be replaced or merged in .with()?
-    /**
-    public mergeArray<T>(target: Array<T> | undefined, source: Array<Partial<T>>): Array<T> {
-        const output: Array<T> = target
-            ? removeObservableMembers([...target])
-            : new Array<T>();
-        source.forEach((member, index) => {
-            output[index] = this.mergeProperty(target?.[index], member) as T;
-        });
-        return output;
-    }
-     */
-
     public getReferenceItem<T extends Item>(
-        obj: DeepPartial<T>,
+        obj: MaybeSerialized<T>,
         itemsDataService: ItemsDataService,
         options: { type?: ItemTypes; prototype?: T } = {},
     ): T {

@@ -19,7 +19,7 @@ export class DialogService {
         dialog: Constructable<T>,
         options: Partial<T>,
     ): Observable<NgbModalRef> {
-        return propMap$(SettingsService.settings$, 'darkmode$')
+        return propMap$(SettingsService.settings$$, 'darkmode$')
             .pipe(
                 take(1),
                 map(isDarkMode => {

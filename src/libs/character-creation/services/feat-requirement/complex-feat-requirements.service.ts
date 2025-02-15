@@ -49,7 +49,7 @@ export class ComplexFeatRequirementsService {
         },
     ): Observable<boolean> {
         return complexreq.hasThisFeat
-            ? this._creatureFeatsService.creatureHasFeat$(
+            ? this._creatureFeatsService.creatureHasFeat$$(
                 context.feat.name,
                 { creature: context.creature },
                 { charLevel: context.charLevel },
@@ -179,7 +179,7 @@ export class ComplexFeatRequirementsService {
 
                         return emptySafeCombineLatest(
                             feats.map(feat =>
-                                this._creatureFeatsService.creatureHasFeat$(
+                                this._creatureFeatsService.creatureHasFeat$$(
                                     feat.name,
                                     { creature: context.character },
                                     { charLevel: context.charLevel },
@@ -234,7 +234,7 @@ export class ComplexFeatRequirementsService {
         return of(
             complexreq.countLores?.map(lorereq => {
                 const allLores = Array.from(new Set(
-                    context.character.skillIncreases(1, context.charLevel)
+                    context.character.skillIncreases$$(1, context.charLevel)
                         .filter(increase => increase.name.toLowerCase().includes('lore:'))
                         .map(increase => increase.name),
                 ));
@@ -259,7 +259,7 @@ export class ComplexFeatRequirementsService {
             return of(true);
         }
 
-        return propMap$(CharacterFlatteningService.characterClass$, 'ancestry$')
+        return propMap$(CharacterFlatteningService.characterClass$$, 'ancestry$')
             .pipe(
                 map(ancestry =>
                     complexreq.countAncestries?.map(lorereq => {
@@ -284,7 +284,7 @@ export class ComplexFeatRequirementsService {
             return of(true);
         }
 
-        return propMap$(CharacterFlatteningService.characterClass$, 'background$')
+        return propMap$(CharacterFlatteningService.characterClass$$, 'background$')
             .pipe(
                 map(background =>
                     complexreq.countBackgrounds?.map(backgroundreq => {
@@ -311,7 +311,7 @@ export class ComplexFeatRequirementsService {
             return of(true);
         }
 
-        return CharacterFlatteningService.characterClass$
+        return CharacterFlatteningService.characterClass$$
             .pipe(
                 switchMap(characterClass => combineLatest([
                     characterClass.heritage$,
@@ -410,7 +410,7 @@ export class ComplexFeatRequirementsService {
             return of(true);
         }
 
-        return CharacterFlatteningService.characterClass$
+        return CharacterFlatteningService.characterClass$$
             .pipe(
                 map(characterClass =>
                     complexreq.countClasses?.map(classreq => {
@@ -456,11 +456,11 @@ export class ComplexFeatRequirementsService {
 
         return (
             complexreq.countClassSpellcastings?.some(spellcastingreq => spellcastingreq.query.beingOfFamiliarsClass)
-                ? this._creatureAvailabilityService.isFamiliarAvailable$(context.charLevel)
+                ? this._creatureAvailabilityService.isFamiliarAvailable$$(context.charLevel)
                     .pipe(
                         switchMap(isFamiliarAvailable =>
                             isFamiliarAvailable
-                                ? CreatureService.familiar$
+                                ? CreatureService.familiar$$
                                 : of(null),
                         ),
                     )
@@ -855,7 +855,7 @@ export class ComplexFeatRequirementsService {
         },
     ): Observable<boolean> {
         return complexreq.hasAnimalCompanion
-            ? this._creatureAvailabilityService.isCompanionAvailable$(context.charLevel)
+            ? this._creatureAvailabilityService.isCompanionAvailable$$(context.charLevel)
                 .pipe(
                     map(isCompanionAvailable =>
                         isCompanionAvailable
@@ -874,7 +874,7 @@ export class ComplexFeatRequirementsService {
         },
     ): Observable<boolean> {
         return complexreq.hasFamiliar
-            ? this._creatureAvailabilityService.isFamiliarAvailable$(context.charLevel)
+            ? this._creatureAvailabilityService.isFamiliarAvailable$$(context.charLevel)
                 .pipe(
                     map(familiarAvailable =>
                         familiarAvailable

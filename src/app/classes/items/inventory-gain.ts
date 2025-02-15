@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<InventoryGain>({
@@ -15,17 +14,17 @@ export class InventoryGain implements Serializable<InventoryGain> {
     /** This is the amount of bulk that can be ignored when weighing this inventory. */
     public bulkReduction = 0;
 
-    public static from(values: DeepPartial<InventoryGain>): InventoryGain {
+    public static from(values: MaybeSerialized<InventoryGain>): InventoryGain {
         return new InventoryGain().with(values);
     }
 
-    public with(values: DeepPartial<InventoryGain>): InventoryGain {
+    public with(values: MaybeSerialized<InventoryGain>): InventoryGain {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<InventoryGain> {
+    public forExport(): Serialized<InventoryGain> {
         return {
             ...forExport(this),
         };

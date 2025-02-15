@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { delay, distinctUntilChanged, fromEvent, map, merge, Observable } from 'rxjs';
+import { delay, fromEvent, map, merge, Observable } from 'rxjs';
 import { ApiStatusKey } from 'src/libs/shared/definitions/api-status-key';
 import { ApiStatus } from 'src/libs/shared/definitions/interfaces/api-status';
 import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
 import { DisplayService } from 'src/libs/shared/services/display/display.service';
 import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { propMap$ } from 'src/libs/shared/util/observable-utils';
 import { selectStatus } from 'src/libs/store/status/status.selectors';
 import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
 import { LoadingDiamondComponent } from 'src/libs/shared/ui/diamond/components/loading-diamond/loading-diamond.component';
@@ -45,15 +44,15 @@ export class AppComponent {
 
     public apiStatusKey = ApiStatusKey;
 
-    public character$ = CreatureService.character$;
+    public character$$ = CreatureService.character$$;
     public isReady$: Observable<boolean>;
     public loadingStatus$: Observable<ApiStatus>;
-    public isDarkmode$: Observable<boolean | undefined>;
+    public isDarkmode$$: Signal<boolean | undefined>;
 
     constructor(
         _store$: Store,
     ) {
-        this._setMobile();
+        DisplayService.setMobile();
 
         this.loadingStatus$ =
             _store$.select(selectStatus)
@@ -71,11 +70,7 @@ export class AppComponent {
                     map(status => status.key === ApiStatusKey.Ready),
                 );
 
-        this.isDarkmode$ =
-            propMap$(SettingsService.settings$, 'darkmode$')
-                .pipe(
-                    distinctUntilChanged(),
-                );
+        this.isDarkmode$$ = computed(() => SettingsService.settings$$().darkmode());
 
         merge(
             fromEvent(window, 'resize'),
@@ -86,27 +81,23 @@ export class AppComponent {
                 delay(resizeDelay),
             )
             .subscribe(() => {
-                this._setMobile();
+                DisplayService.setMobile();
                 DisplayService.setPageHeight();
             });
     }
 
     public toggleDarkmode(): void {
         SettingsService.setSetting(settings => {
-            switch (settings.darkmode) {
+            switch (settings.darkmode()) {
                 case true:
-                    settings.darkmode = false;
+                    settings.darkmode.set(false);
                     break;
                 case false:
-                    settings.darkmode = undefined;
+                    settings.darkmode.set(undefined);
                     break;
                 default:
-                    settings.darkmode = true;
+                    settings.darkmode.set(true);
             }
         });
-    }
-
-    private _setMobile(): void {
-        DisplayService.setMobile();
     }
 }

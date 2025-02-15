@@ -1,6 +1,5 @@
 import { BonusTypes } from 'src/libs/shared/definitions/bonus-types';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<EffectGain>({
@@ -72,17 +71,17 @@ export class EffectGain implements Serializable<EffectGain> {
     /** If the effect has a type, cumulative lists all effect sources (of the same type) that it is cumulative with. */
     public cumulative: Array<string> = [];
 
-    public static from(values: DeepPartial<EffectGain>): EffectGain {
+    public static from(values: MaybeSerialized<EffectGain>): EffectGain {
         return new EffectGain().with(values);
     }
 
-    public with(values: DeepPartial<EffectGain>): EffectGain {
+    public with(values: MaybeSerialized<EffectGain>): EffectGain {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<EffectGain> {
+    public forExport(): Serialized<EffectGain> {
         return {
             ...forExport(this),
         };

@@ -43,19 +43,19 @@ export class EquipmentConditionsService {
 
         this._initialized = true;
 
-        CreatureService.character$
+        CreatureService.character$$
             .pipe(
                 switchMap(creature => this._generateCreatureEquipmentConditions$(creature)),
             )
             .subscribe();
 
-        this._creatureAvailabilityService.companionIfAvailable$()
+        this._creatureAvailabilityService.companionIfAvailable$$()
             .pipe(
                 switchMap(creature => creature ? this._generateCreatureEquipmentConditions$(creature) : of(undefined)),
             )
             .subscribe();
 
-        this._creatureAvailabilityService.familiarIfAvailable$()
+        this._creatureAvailabilityService.familiarIfAvailable$$()
             .pipe(
                 switchMap(creature => creature ? this._generateCreatureEquipmentConditions$(creature) : of(undefined)),
             )
@@ -66,7 +66,7 @@ export class EquipmentConditionsService {
         //Calculate whether any items should grant a condition under the given circumstances and add or remove conditions accordingly.
         //Conditions caused by equipment are not calculated in manual mode.
         // TODO: equipped/invested items should be async
-        return propMap$(SettingsService.settings$, 'manualMode$')
+        return propMap$(SettingsService.settings$$, 'manualMode$')
             .pipe(
                 switchMap(isManualMode =>
                     isManualMode
@@ -74,7 +74,7 @@ export class EquipmentConditionsService {
                         : combineLatest([
                             creature.alignment$,
                             creature.inventories.values$,
-                            this._appliedCreatureConditionsService.appliedCreatureConditions$(creature),
+                            this._appliedCreatureConditionsService.appliedCreatureConditions$$(creature),
                         ])
                             .pipe(
                                 tap(([alignment, inventories, appliedConditions]) => {
@@ -171,7 +171,7 @@ export class EquipmentConditionsService {
                                             const isSlottedAeonStone = (item instanceof WornItem && item.isSlottedAeonStone);
 
                                             if (
-                                                investedItem.investedOrEquipped() &&
+                                                investedItem.investedOrEquipped$$() &&
                                                 (
                                                     gain.resonant ?
                                                         isSlottedAeonStone :
@@ -238,7 +238,7 @@ export class EquipmentConditionsService {
                                             refreshPermanentConditions(item, item);
                                         });
 
-                                    if (creature.isCharacter() && creature.hasTooManySlottedAeonStones()) {
+                                    if (creature.isCharacter() && creature.hasTooManySlottedAeonStones$$()) {
                                         creature.mainInventory.wornitems
                                             .filter(item => item.isWayfinder)
                                             .forEach(item => {
@@ -263,7 +263,7 @@ export class EquipmentConditionsService {
     private _generateBulkConditions$(creature: Creature): Observable<boolean> {
         //Calculate whether the creature is encumbered and add or remove the condition.
 
-        return propMap$(SettingsService.settings$, 'manualMode$')
+        return propMap$(SettingsService.settings$$, 'manualMode$')
             .pipe(
                 switchMap(isManualMode =>
                     //Encumbered conditions are not calculated in manual mode.
@@ -272,7 +272,7 @@ export class EquipmentConditionsService {
                         : combineLatest([
                             this._bulkService.currentValue$(creature),
                             this._bulkService.encumberedLimit$(creature),
-                            this._appliedCreatureConditionsService.appliedCreatureConditions$(
+                            this._appliedCreatureConditionsService.appliedCreatureConditions$$(
                                 creature,
                                 { name: 'Encumbered', source: 'Bulk' },
                             ),

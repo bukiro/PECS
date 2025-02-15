@@ -17,7 +17,7 @@ export class EquipmentPropertiesSharedService {
     ) { }
 
     public calculateEmblazonArmament(item: Weapon | Shield, creature: Creature): Observable<EmblazonArmamentSet | undefined> {
-        return item.emblazonArmament$
+        return item.emblazonArmament$$
             .pipe(
                 switchMap(emblazonArmament =>
                     // Fetch the deities only if they need to be checked.

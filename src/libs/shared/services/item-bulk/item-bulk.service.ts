@@ -81,7 +81,7 @@ export class ItemBulkService {
         //Then returned at /10
         let itemBulk = 0;
         //Use the item's carrying bulk if carrying is true.
-        const bulkString = (options.carrying && (item as Equipment).carryingBulk) ? (item as Equipment).carryingBulk : item.effectiveBulk();
+        const bulkString = (options.carrying && (item as Equipment).carryingBulk) ? (item as Equipment).carryingBulk : item.effectiveBulk$$();
 
         switch (bulkString) {
             case '':

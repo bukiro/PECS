@@ -1,10 +1,9 @@
-import { Observable, of } from 'rxjs';
 import { Weapon } from 'src/app/classes/items/weapon';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
+import { Signal, computed } from '@angular/core';
 
 const { assign, forExport, forMessage, isEqual } = setupSerialization<AlchemicalBomb>({
     primitives: [
@@ -29,25 +28,25 @@ export class AlchemicalBomb extends Weapon implements MessageSerializable<Alchem
     /** A description of what happens if the bomb hits. */
     public hitEffect = '';
 
-    public static from(values: DeepPartial<AlchemicalBomb>, recastFns: RecastFns): AlchemicalBomb {
+    public static from(values: MaybeSerialized<AlchemicalBomb>, recastFns: RecastFns): AlchemicalBomb {
         return new AlchemicalBomb().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<AlchemicalBomb>, recastFns: RecastFns): AlchemicalBomb {
+    public with(values: MaybeSerialized<AlchemicalBomb>, recastFns: RecastFns): AlchemicalBomb {
         super.with(values, recastFns);
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<AlchemicalBomb> {
+    public forExport(): Serialized<AlchemicalBomb> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<AlchemicalBomb> {
+    public forMessage(): Serialized<AlchemicalBomb> {
         return {
             ...super.forMessage(),
             ...forMessage(this),
@@ -64,12 +63,8 @@ export class AlchemicalBomb extends Weapon implements MessageSerializable<Alchem
 
     public isAlchemicalBomb(): this is AlchemicalBomb { return true; }
 
-    public effectiveName$(): Observable<string> {
-        return of(this.effectiveNameSnapshot());
-    }
-
-    public effectiveNameSnapshot(): string {
-        return this.displayName ?? this.name;
+    public effectiveName$$(): Signal<string> {
+        return computed(() => this.displayName() ?? this.name);
     }
 
     public canStack(): boolean {

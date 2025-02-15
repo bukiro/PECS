@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/description-utils';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { EffectGain } from '../effects/effect-gain';
@@ -67,17 +66,17 @@ export class Hint implements Serializable<Hint> {
         return this.active || this.active2 || this.active3 || this.active4 || this.active5;
     }
 
-    public static from(values: DeepPartial<Hint>): Hint {
+    public static from(values: MaybeSerialized<Hint>): Hint {
         return new Hint().with(values);
     }
 
-    public with(values: DeepPartial<Hint>): Hint {
+    public with(values: MaybeSerialized<Hint>): Hint {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Hint> {
+    public forExport(): Serialized<Hint> {
         return {
             ...forExport(this),
         };

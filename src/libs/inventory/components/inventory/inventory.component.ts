@@ -189,7 +189,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
 
         this.isMinimized$ = this.creature$
             .pipe(
-                switchMap(creature => SettingsService.settings$
+                switchMap(creature => SettingsService.settings$$
                     .pipe(
                         switchMap(settings => {
                             switch (creature.type) {
@@ -206,13 +206,13 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
                 distinctUntilChanged(),
             );
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'inventoryTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'inventoryTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
             );
 
-        this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$')
+        this.isManualMode$ = propMap$(SettingsService.settings$$, 'manualMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -248,9 +248,9 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
                 shareReplay({ refCount: true, bufferSize: 1 }),
             );
 
-        this.isAnimalCompanionAvailable$ = this._creatureAvailabilityService.isCompanionAvailable$();
+        this.isAnimalCompanionAvailable$ = this._creatureAvailabilityService.isCompanionAvailable$$();
 
-        this.isFamiliarAvailable$ = this._creatureAvailabilityService.isFamiliarAvailable$();
+        this.isFamiliarAvailable$ = this._creatureAvailabilityService.isFamiliarAvailable$$();
     }
 
     public get creature(): Creature {
@@ -312,11 +312,11 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
 
     public inventoryBulkDescription(inventory: ItemCollection): string {
         if (inventory.bulkLimit % 1 === 0) {
-            return `(${ inventory.totalBulk() } / ${ inventory.bulkLimit } Bulk)`;
+            return `(${ inventory.totalBulk$$() } / ${ inventory.bulkLimit } Bulk)`;
         } else {
             const lightConversionFactor = 10;
 
-            return `(${ inventory.totalBulk(false) * lightConversionFactor }L / ${ inventory.bulkLimit * lightConversionFactor }L Bulk)`;
+            return `(${ inventory.totalBulk$$(false) * lightConversionFactor }L / ${ inventory.bulkLimit * lightConversionFactor }L Bulk)`;
         }
     }
 
@@ -688,7 +688,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
     }
 
     public onUseConsumable(item: Consumable, creatureType: CreatureTypes, inventory: ItemCollection): void {
-        CreatureService.creatureFromType$(creatureType)
+        CreatureService.creatureFromType$$(creatureType)
             .pipe(
                 take(1),
             )
@@ -722,9 +722,9 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
             !!item &&
             !!item.isWayfinder &&
             !!item.aeonStones.length &&
-            item.investedOrEquipped() &&
+            item.investedOrEquipped$$() &&
             creature.isCharacter() &&
-            creature.hasTooManySlottedAeonStones()
+            creature.hasTooManySlottedAeonStones$$()
         );
     }
 
@@ -744,7 +744,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
 
     public creatureHasFeat$(name: string): Observable<boolean> {
         return this.creature.isCharacter()
-            ? this._characterFeatsService.characterHasFeatAtLevel$(name)
+            ? this._characterFeatsService.characterHasFeatAtLevel$$(name)
             : of(false);
     }
 
@@ -902,7 +902,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
             )
                 ? combineLatest([
                     this.creatureHasFeat$('Titan Mauler'),
-                    this._creatureEffectsService.effectsOnThis$(this.creature, 'Use Large Weapons'),
+                    this._creatureEffectsService.effectsOnThis$$(this.creature, 'Use Large Weapons'),
                 ])
                 : combineLatest([
                     of(false),
@@ -971,7 +971,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
             )
                 ? combineLatest([
                     this.creatureHasFeat$('Battleforger'),
-                    this._creatureEffectsService.effectsOnThis$(this.character, 'Allow Battleforger'),
+                    this._creatureEffectsService.effectsOnThis$$(this.character, 'Allow Battleforger'),
                 ])
                 : combineLatest([
                     of(false),
@@ -989,7 +989,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
     public onShieldHPChange(shield: Shield, amount: number): void {
         shield.damage += amount;
 
-        if (shield.currentHitPoints$() < shield.effectiveBrokenThreshold$()) {
+        if (shield.currentHP$$() < shield.effectiveBrokenThreshold$$()) {
             shield.broken = true;
             this.onItemBroken(shield);
         } else {
@@ -999,7 +999,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
 
     public isRepairAllowed(item: Equipment): boolean {
         if (item.broken && item instanceof Shield) {
-            if (item.currentHitPoints$() < item.effectiveBrokenThreshold$()) {
+            if (item.currentHP$$() < item.effectiveBrokenThreshold$$()) {
                 return false;
             }
         }
@@ -1008,7 +1008,7 @@ export class InventoryComponent extends TrackByMixin(BaseCreatureElementComponen
     }
 
     private _allAvailableCreatures$(): Observable<Array<Creature>> {
-        return this._creatureAvailabilityService.allAvailableCreatures$();
+        return this._creatureAvailabilityService.allAvailableCreatures$$();
     }
 
     private _containedItemsOfItem(item: Item): number {

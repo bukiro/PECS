@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { Observable, of, combineLatest, map, shareReplay } from 'rxjs';
+import { computed, Injectable, signal, Signal } from '@angular/core';
 import { Activity } from 'src/app/classes/activities/activity';
 import { ActivityTargetOption } from 'src/app/classes/activities/activity-target-options';
 import { Creature } from 'src/app/classes/creatures/creature';
@@ -9,9 +8,9 @@ import { SpellTargetNumber } from 'src/app/classes/spells/spell-target-number';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 import { HeightenedDescriptionVariable } from 'src/app/classes/spells/heightened-description-variable';
-import { emptySafeCombineLatest } from '../../util/observable-utils';
-import { cachedObservable } from '../../util/cache-utils';
+import { cachedSignal } from '../../util/cache-utils';
 import { applyEffectsToValue } from '../../util/effect.utils';
+import { CreatureService } from '../creature/creature.service';
 
 @Injectable({
     providedIn: 'root',
@@ -23,10 +22,10 @@ export class ActivityPropertiesService {
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
-    public allowedTargetNumber$(activity: Activity | Spell, levelNumber: number): Observable<number> {
+    public allowedTargetNumber$$(activity: Activity | Spell, levelNumber: number): Signal<number> {
         //You can select any number of targets for an area spell.
         if (activity.target === ActivityTargetOption.Area) {
-            return of(-1);
+            return signal(-1).asReadonly();
         }
 
         // This descends from levelnumber downwards and returns the first available targetNumber
@@ -68,55 +67,33 @@ export class ActivityPropertiesService {
                 // - the first targetNumber that has the required feat,
                 // - or the first targetNumber without required feat,
                 // - or the first targetNumber altogether.
-                return emptySafeCombineLatest(
-                    targetNumbersWithFeatreq
-                        .map(targetNumber =>
-                            this._characterFeatsService.characterHasFeatAtLevel$(targetNumber.featreq)
-                                .pipe(
-                                    map(hasRequiredFeat => ({ targetNumber, hasRequiredFeat })),
-                                ),
-                        ),
-                )
-                    .pipe(
-                        map(targetNumberWithFeatReqSets => {
-                            const matchingTargetNumber =
-                                targetNumberWithFeatReqSets
-                                    .find(targetNumberSet => targetNumberSet.hasRequiredFeat)?.targetNumber;
+                return computed(() => {
+                    const matchingTargetNumber =
+                        targetNumbersWithFeatreq
+                            .find(targetNumber => this._characterFeatsService.characterHasFeatAtLevel$$(targetNumber.featreq)());
 
-                            return matchingTargetNumber?.number
-                                || firstTargetNumberWithoutFeatreq?.number
-                                || activity.targetNumbers[0]?.number
-                                || 0;
-                        }),
-                    );
+                    return matchingTargetNumber?.number
+                        ?? firstTargetNumberWithoutFeatreq?.number
+                        ?? activity.targetNumbers[0]?.number
+                        ?? 0;
+                });
             } else {
-                return emptySafeCombineLatest(
-                    activity.targetNumbers
-                        .filter(targetNumber => targetNumber.featreq)
-                        .map(targetNumber =>
-                            this._characterFeatsService.characterHasFeatAtLevel$(targetNumber.featreq)
-                                .pipe(
-                                    map(hasRequiredFeat => ({ targetNumber, hasRequiredFeat })),
-                                ),
-                        ),
-                )
-                    .pipe(
-                        map(targetNumberWithFeatReqSets => {
-                            const matchingTargetNumber =
-                                targetNumberWithFeatReqSets
-                                    .find(targetNumberSet => targetNumberSet.hasRequiredFeat)?.targetNumber;
+                return computed(() => {
+                    const matchingTargetNumber =
+                        activity.targetNumbers
+                            .filter(targetNumber => targetNumber.featreq)
+                            .find(targetNumber => this._characterFeatsService.characterHasFeatAtLevel$$(targetNumber.featreq)());
 
-                            return matchingTargetNumber?.number
-                                || activity.targetNumbers[0]?.number
-                                || 0;
-                        }),
-                    );
+                    return matchingTargetNumber?.number
+                        ?? activity.targetNumbers[0]?.number
+                        ?? 0;
+                });
             }
         } else {
             if (activity.target === ActivityTargetOption.Ally) {
-                return of(1);
+                return signal(1).asReadonly();
             } else {
-                return of(0);
+                return signal(0).asReadonly();
             }
         }
     }
@@ -126,47 +103,41 @@ export class ActivityPropertiesService {
      * then saves it on the activity for later use and returns it.
      * If the observable exists on the activity already, just returns it.
      */
-    public effectiveMaxCharges$(activity: Activity, context: { creature: Creature }): Observable<number> {
-        if (!activity.effectiveMaxChargesByCreature$.get(context.creature.id)) {
-            activity.effectiveMaxChargesByCreature$.set(
-                context.creature.id,
-                combineLatest([
-                    this._creatureEffectsService.absoluteEffectsOnThis$(context.creature, `${ activity.name } Charges`),
-                    this._creatureEffectsService.relativeEffectsOnThis$(context.creature, `${ activity.name } Charges`),
-                ])
-                    .pipe(
-                        map(([absoluteEffects, relativeEffects]) => {
-                            // Add any effects to the number of charges you have.
-                            // If you have none, start with 1, and if the result then remains 1, go back to 0.
-                            // This is to ensure an activity that has no charges
-                            //  and gets more charges is treated like an activity that had 1 charge and got more.
-                            let charges = activity.charges;
-                            let isStartingWithZero = false;
+    public effectiveMaxCharges$$(activity: Activity, { creature }: { creature: Creature }): Signal<number> {
+        return cachedSignal(
+            computed(() => {
+                const absoluteEffects =
+                    this._creatureEffectsService.absoluteEffectsOnThis$$(creature, `${ activity.name } Charges`)();
+                const relativeEffects =
+                    this._creatureEffectsService.relativeEffectsOnThis$$(creature, `${ activity.name } Charges`)();
 
-                            if (charges === 0) {
-                                isStartingWithZero = true;
-                                charges = 1;
-                            }
 
-                            charges = applyEffectsToValue(
-                                charges,
-                                { absoluteEffects, relativeEffects },
-                            ).result;
+                // Add any effects to the number of charges you have.
+                // If you have none, start with 1, and if the result then remains 1, go back to 0.
+                // This is to ensure an activity that has no charges
+                //  and gets more charges is treated like an activity that had 1 charge and got more.
+                let charges = activity.charges;
+                let isStartingWithZero = false;
 
-                            if (isStartingWithZero && charges === 1) {
-                                return 0;
-                            } else {
-                                return charges;
-                            }
-                        }),
-                        shareReplay({ refCount: true, bufferSize: 1 }),
-                    ),
-            );
-        }
+                if (charges === 0) {
+                    isStartingWithZero = true;
+                    charges = 1;
+                }
 
-        return activity.effectiveMaxChargesByCreature$.get(context.creature.id)
-            // This fallback can never happen, but is needed for code safety.
-            ?? of(activity.charges);
+                charges = applyEffectsToValue(
+                    charges,
+                    { absoluteEffects, relativeEffects },
+                ).result;
+
+                if (isStartingWithZero && charges === 1) {
+                    return 0;
+                } else {
+                    return charges;
+                }
+            }),
+            { store: activity.effectiveMaxChargesByCreature$$, key: creature.id },
+            { until: computed(() => !CreatureService.doesCreatureExist$$(creature)()) },
+        );
     }
 
     /**
@@ -174,39 +145,38 @@ export class ActivityPropertiesService {
      * then saves it on the activity for later use and returns it.
      * If the observable exists on the activity already, just returns it.
      */
-    public effectiveCooldown$(activity: Activity, { creature }: { creature: Creature }): Observable<number> {
-        return cachedObservable(
-            combineLatest([
-                //Use absoluteEffectsOnThese$() because it allows to prefer lower values.
-                this._creatureEffectsService.absoluteEffectsOnThese$(
-                    creature,
-                    [`${ activity.name } Cooldown`],
-                    { lowerIsBetter: true },
-                ),
-                //Use relativeEffectsOnThese$() because it allows to prefer lower values.
-                this._creatureEffectsService.relativeEffectsOnThese$(
-                    creature,
-                    [`${ activity.name } Cooldown`],
-                    { lowerIsBetter: true },
-                ),
-            ])
-                .pipe(
-                    map(([absoluteEffects, relativeEffects]) =>
-                        // Add any effects to the activity's cooldown.
-                        // Less cooldown is better, so the effects are sorted in descending value.
-                        applyEffectsToValue(
-                            activity.cooldown,
-                            {
-                                absoluteEffects: absoluteEffects
-                                    .sort((a, b) => b.setValueNumerical - a.setValueNumerical),
-                                relativeEffects: relativeEffects
-                                    .sort((a, b) => b.valueNumerical - a.valueNumerical),
-                            },
-                        ).result,
-                    ),
-                    shareReplay({ refCount: true, bufferSize: 1 }),
-                ),
-            { store: activity.effectiveCooldownByCreature$, key: creature.id },
+    public effectiveCooldown$(activity: Activity, { creature }: { creature: Creature }): Signal<number> {
+        return cachedSignal(
+            computed(() => {
+                const absoluteEffects =
+                    //Use absoluteEffectsOnThese$() because it allows to prefer lower values.
+                    this._creatureEffectsService.absoluteEffectsOnThese$$(
+                        creature,
+                        [`${ activity.name } Cooldown`],
+                        { lowerIsBetter: true },
+                    )();
+                const relativeEffects =
+                    //Use relativeEffectsOnThese$() because it allows to prefer lower values.
+                    this._creatureEffectsService.relativeEffectsOnThese$$(
+                        creature,
+                        [`${ activity.name } Cooldown`],
+                        { lowerIsBetter: true },
+                    )();
+
+                // Add any effects to the activity's cooldown.
+                // Less cooldown is better, so the effects are sorted in descending value.
+                return applyEffectsToValue(
+                    activity.cooldown,
+                    {
+                        absoluteEffects: absoluteEffects
+                            .sort((a, b) => b.setValueNumerical - a.setValueNumerical),
+                        relativeEffects: relativeEffects
+                            .sort((a, b) => b.valueNumerical - a.valueNumerical),
+                    },
+                ).result;
+            }),
+            { store: activity.effectiveCooldownByCreature$$, key: creature.id },
+            { until: computed(() => !CreatureService.doesCreatureExist$$(creature)()) },
         );
     }
 

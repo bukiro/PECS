@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<SpellTargetNumber>({
@@ -15,17 +14,17 @@ export class SpellTargetNumber implements Serializable<SpellTargetNumber> {
     public minLevel = 0;
     public featreq = '';
 
-    public static from(values: DeepPartial<SpellTargetNumber>): SpellTargetNumber {
+    public static from(values: MaybeSerialized<SpellTargetNumber>): SpellTargetNumber {
         return new SpellTargetNumber().with(values);
     }
 
-    public with(values: DeepPartial<SpellTargetNumber>): SpellTargetNumber {
+    public with(values: MaybeSerialized<SpellTargetNumber>): SpellTargetNumber {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<SpellTargetNumber> {
+    public forExport(): Serialized<SpellTargetNumber> {
         return {
             ...forExport(this),
         };

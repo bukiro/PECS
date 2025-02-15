@@ -84,7 +84,7 @@ export class CharacterLanguagesService {
      * Return LanguageSources for all feats the character has taken that grant more languages.
      */
     private _languagesFromFeats$(character: Character): Observable<Array<LanguageSource>> {
-        return this._characterFeatsService.characterFeatsTakenWithContext$()
+        return this._characterFeatsService.characterFeatsTakenWithContext$$()
             .pipe(
                 switchMap(featsTaken => emptySafeCombineLatest(
                     featsTaken
@@ -124,12 +124,12 @@ export class CharacterLanguagesService {
     private _languagesFromIntelligence$(character: Character): Observable<Array<LanguageSource>> {
         return combineLatest([
             character.level$,
-            this._abilityValuesService.mod$('Intelligence', character).pipe(distinctUntilChanged(isEqualPrimitiveObject)),
+            this._abilityValuesService.mod$$('Intelligence', character).pipe(distinctUntilChanged(isEqualPrimitiveObject)),
             propMap$(character.class$, 'levels')
                 .pipe(
                     switchMap(levels => emptySafeCombineLatest(
                         levels.map(level =>
-                            this._abilityValuesService.baseValue$('Intelligence', character, level.number),
+                            this._abilityValuesService.baseValue$$('Intelligence', character, level.number),
                         ),
                     )),
                     distinctUntilChanged(isEqualObjectArray(isEqualPrimitiveObject)),
@@ -187,7 +187,7 @@ export class CharacterLanguagesService {
      * This overlaps with the effects per level from feats and will be filtered later.
      */
     private _languagesFromEffects$(character: Character): Observable<Array<LanguageSource>> {
-        return this._creatureEffectsService.relativeEffectsOnThis$(character, 'Max Languages')
+        return this._creatureEffectsService.relativeEffectsOnThis$$(character, 'Max Languages')
             .pipe(
                 map(languageEffects =>
                     // Never apply absolute effects or negative effects to Max Languages. This should not happen in the game,
@@ -329,7 +329,7 @@ export class CharacterLanguagesService {
      * This is only run once, updates when a language source updates, and recreates the character's selected languages each time.
      */
     private _keepLanguageListUpdated(): void {
-        CreatureService.character$
+        CreatureService.character$$
             .pipe(
                 switchMap(character => combineLatest([
                     of(character),

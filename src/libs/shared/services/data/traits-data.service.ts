@@ -103,7 +103,7 @@ export class TraitsDataService {
                         // Uses the itemsWithThisTrait$() method of Trait that returns any equipment that has this trait.
                         return emptySafeCombineLatest(
                             nameMatchingTraits.map(trait =>
-                                trait.itemNamesWithThisTrait$(creature)
+                                trait.itemNamesWithThisTrait$$(creature)
                                     .pipe(
                                         map((itemNames: Array<string>) => ({ trait, itemNames })),
                                     ),

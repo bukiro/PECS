@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { DeepPartial } from '../types/deep-partial';
 import { setupSerialization } from '../../util/serialization';
-import { Serializable } from '../interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from '../interfaces/serializable';
 
 const { assign, forExport, isEqual } = setupSerialization<FeatTaken>({
     primitives: [
@@ -24,17 +23,17 @@ export class FeatTaken implements Serializable<FeatTaken> {
     public source = '';
     public sourceId = '';
 
-    public static from(values: DeepPartial<FeatTaken>): FeatTaken {
+    public static from(values: MaybeSerialized<FeatTaken>): FeatTaken {
         return new FeatTaken().with(values);
     }
 
-    public with(values: DeepPartial<FeatTaken>): FeatTaken {
+    public with(values: MaybeSerialized<FeatTaken>): FeatTaken {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<FeatTaken> {
+    public forExport(): Serialized<FeatTaken> {
         return {
             ...forExport(this),
         };

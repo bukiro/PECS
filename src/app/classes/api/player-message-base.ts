@@ -1,9 +1,10 @@
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { MaybeSerialized } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ConditionGain } from '../conditions/condition-gain';
 import { Item } from '../items/item';
 import { ItemCollection } from '../items/item-collection';
+import { PlayerMessage } from './player-message';
 
-export interface PlayerMessageBase {
+export interface PlayerMessageBase extends MaybeSerialized<PlayerMessage> {
     id: string;
     recipientId: string;
     senderId: string;
@@ -19,8 +20,8 @@ export interface PlayerMessageBase {
     deleted: boolean;
     turnChange: boolean;
     ttl: number;
-    gainCondition: Array<DeepPartial<ConditionGain>>;
-    offeredItem: Array<DeepPartial<Item>>;
-    includedItems: Array<DeepPartial<Item>>;
-    includedInventories: Array<DeepPartial<ItemCollection>>;
+    gainCondition: Array<MaybeSerialized<ConditionGain>>;
+    offeredItem: Array<MaybeSerialized<Item>>;
+    includedItems: Array<MaybeSerialized<Item>>;
+    includedInventories: Array<MaybeSerialized<ItemCollection>>;
 }

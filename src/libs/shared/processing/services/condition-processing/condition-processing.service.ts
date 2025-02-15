@@ -293,7 +293,7 @@ export class ConditionProcessingService {
     // TODO: Dying is also handled in the health service. Consolidate this there, if "increaseWounded" can be transferred.
     private _processDyingCondition(creature: Creature, taken: boolean, increaseWounded: boolean): void {
         if (!taken) {
-            this._healthService.currentHP$(creature)
+            this._healthService.currentHP$$(creature)
                 .pipe(
                     take(1),
                 )

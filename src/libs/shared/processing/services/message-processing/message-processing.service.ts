@@ -46,7 +46,7 @@ export class MessageProcessingService {
             return;
         }
 
-        this._creatureAvailabilityService.allAvailableCreatures$()
+        this._creatureAvailabilityService.allAvailableCreatures$$()
             .pipe(
                 take(1),
             )
@@ -285,7 +285,7 @@ export class MessageProcessingService {
                                         text += `${ message.itemAmount } `;
                                     }
 
-                                    text += addedPrimaryItem.effectiveNameSnapshot();
+                                    text += addedPrimaryItem.effectiveName$$()();
 
                                     if (sender) {
                                         text += `</strong> from <strong>${ sender }</strong>`;
@@ -326,8 +326,8 @@ export class MessageProcessingService {
 
     public applyItemAcceptedMessages(messages: Array<PlayerMessage>): void {
         zip([
-            this._creatureAvailabilityService.allAvailableCreatures$(),
-            propMap$(SettingsService.settings$, 'manualMode$'),
+            this._creatureAvailabilityService.allAvailableCreatures$$(),
+            propMap$(SettingsService.settings$$, 'manualMode$'),
         ])
             .subscribe(([creatures, isManualMode]) => {
                 //Don't receive messages in manual mode.
@@ -358,7 +358,7 @@ export class MessageProcessingService {
                         });
                     }
 
-                    const itemName = foundItem?.effectiveNameSnapshot() ?? 'item';
+                    const itemName = foundItem?.effectiveName$$()() ?? 'item';
 
                     if (message.acceptedItem) {
                         this._toastService.show(

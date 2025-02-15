@@ -1,7 +1,6 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/description-utils';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ActivityTargetOption } from '../activities/activity-target-options';
@@ -143,11 +142,11 @@ export class Spell implements Serializable<Spell> {
      */
     public targetNumbers: Array<SpellTargetNumber> = [];
 
-    public static from(values: DeepPartial<Spell>, recastFns: RecastFns): Spell {
+    public static from(values: MaybeSerialized<Spell>, recastFns: RecastFns): Spell {
         return new Spell().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Spell>, recastFns: RecastFns): Spell {
+    public with(values: MaybeSerialized<Spell>, recastFns: RecastFns): Spell {
         assign(this, values, recastFns);
 
         this.gainConditions.forEach(gain => {
@@ -157,7 +156,7 @@ export class Spell implements Serializable<Spell> {
         return this;
     }
 
-    public forExport(): DeepPartial<Spell> {
+    public forExport(): Serialized<Spell> {
         return {
             ...forExport(this),
         };

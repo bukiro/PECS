@@ -1,17 +1,16 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 
 export class FormulaChoice implements Serializable<FormulaChoice> {
     //FormulaChoice is going to become relevant with the Alchemist.
-    public static from(_values: DeepPartial<FormulaChoice>): FormulaChoice {
-        return new FormulaChoice().with(_values);
+    public static from(values: MaybeSerialized<FormulaChoice>): FormulaChoice {
+        return new FormulaChoice().with(values);
     }
 
-    public with(_values: DeepPartial<FormulaChoice>): FormulaChoice {
+    public with(_values: MaybeSerialized<FormulaChoice>): FormulaChoice {
         return this;
     }
 
-    public forExport(): DeepPartial<FormulaChoice> {
+    public forExport(): Serialized<FormulaChoice> {
         return {};
     }
 

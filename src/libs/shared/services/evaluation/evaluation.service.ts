@@ -96,12 +96,12 @@ export class EvaluationService {
 
         const hasFeat$ = (creatureType: string, name: string): Observable<boolean> => {
             if (creatureType === CreatureTypes.Familiar) {
-                return this._creatureFeatsService.creatureHasFeat$(name, { creature: Familiar }, { charLevel: Level })
+                return this._creatureFeatsService.creatureHasFeat$$(name, { creature: Familiar }, { charLevel: Level })
                     .pipe(
                         map(amount => !!amount),
                     );
             } else if (creatureType === CreatureTypes.Character) {
-                return this._characterFeatsService.characterHasFeatAtLevel$(name, Level, { allowCountAs: true });
+                return this._characterFeatsService.characterHasFeatAtLevel$$(name, Level, { allowCountAs: true });
             } else {
                 return of(false);
             }
@@ -111,7 +111,7 @@ export class EvaluationService {
             if (creatureType === 'Familiar') {
                 return of(Familiar.abilities.feats);
             } else if (creatureType === CreatureTypes.Character) {
-                return this._characterFeatsService.characterFeatsTaken$(1, Level);
+                return this._characterFeatsService.characterFeatsTaken$$(1, Level);
             } else {
                 return of([]);
             }
@@ -252,13 +252,13 @@ export class EvaluationService {
         }
 
         return combineLatest([
-            this._healthService.currentHP$(Creature),
-            this._healthService.maxHP$(Creature),
+            this._healthService.currentHP$$(Creature),
+            this._healthService.maxHP$$(Creature),
             shouldPrepareActivities
                 ? this._creatureActivitiesService.creatureOwnedActivities$(Creature)
                 : of([]),
             shouldPrepareConditions
-                ? this._appliedCreatureConditionsService.appliedCreatureConditions$(Creature)
+                ? this._appliedCreatureConditionsService.appliedCreatureConditions$$(Creature)
                 : of([]),
             this._characterFeatsService.characterFeatsAtLevel$(Level),
             emptySafeCombineLatest(
@@ -279,7 +279,7 @@ export class EvaluationService {
                         // Bonuses and penalties are ignored, since you shouldn't get a bonus to a speed you don't have.
                         Creature.speeds.some(speed => speed.name === speedName)
                             ? of(speedName)
-                            : this._creatureEffectsService.absoluteEffectsOnThis$(Creature, speedName)
+                            : this._creatureEffectsService.absoluteEffectsOnThis$$(Creature, speedName)
                                 .pipe(
                                     map(effects => effects.some(absoluteEffect =>
                                         !context.effectSourceName
@@ -342,7 +342,7 @@ export class EvaluationService {
                     .filter(isDefined)
                     .map(abilityName => (Creature === Familiar)
                         ? of({ ability: abilityName, value: { result: 0 } })
-                        : this._abilityValuesService.value$(abilityName, Creature, Level)
+                        : this._abilityValuesService.value$$(abilityName, Creature, Level)
                             .pipe(
                                 map(value => ({ ability: abilityName, value })),
                             ),
@@ -353,7 +353,7 @@ export class EvaluationService {
                     .filter(isDefined)
                     .map(abilityName => (Creature === Familiar)
                         ? of({ ability: abilityName, value: { result: 0 } })
-                        : this._abilityValuesService.mod$(abilityName, Creature, Level)
+                        : this._abilityValuesService.mod$$(abilityName, Creature, Level)
                             .pipe(
                                 map(value => ({ ability: abilityName, value })),
                             ),
@@ -369,7 +369,7 @@ export class EvaluationService {
                 ? this._creaturePropertiesService.effectiveSize$(Creature)
                 : of(0),
             (shouldPrepareSpellcastingModifier && SpellCastingAbility)
-                ? this._abilityValuesService.mod$(SpellCastingAbility, Character, Level)
+                ? this._abilityValuesService.mod$$(SpellCastingAbility, Character, Level)
                 : of({ result: 0 }),
             this._spellsTakenService.takenSpells$(0, Level),
         ])
@@ -412,7 +412,7 @@ export class EvaluationService {
                     const Modifier = (name: string): number =>
                         abilityMods.find(abilityMod => abilityMod.ability === name)?.value.result ?? 0;
                     const BaseSize = (): number => (
-                        Creature.baseSize()
+                        Creature.baseSize$$()
                     );
                     const Size = (asNumber = false): string | number => (
                         asNumber

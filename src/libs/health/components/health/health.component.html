@@ -107,7 +107,7 @@
                                     ) {
                                         <option [ngValue]="tempHPSet">
                                             {{
-                                                (tempHPSet.amount$ | async) +
+                                                (tempHPSet.amount()) +
                                                     (tempHPSet.source
                                                         ? " (" +
                                                           tempHPSet.source +
@@ -126,7 +126,7 @@
                             as mainTemporaryHP
                         ) {
                             <span class="gap-text">
-                                @let amount = mainTemporaryHP.amount$ | async;
+                                @let amount = mainTemporaryHP.amount();
                                 @if (amount !== null) {
                                     @if (amount > 0) {
                                         <button (click)="onSetTemporaryHP(0)">

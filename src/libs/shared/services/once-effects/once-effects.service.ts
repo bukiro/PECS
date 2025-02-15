@@ -74,7 +74,7 @@ export class OnceEffectsService {
 
         emptySafeZip(
             preparedOnceEffects.map(prepared =>
-                CreatureService.creatureFromType$(prepared.creatureType)
+                CreatureService.creatureFromType$$(prepared.creatureType)
                     .pipe(
                         tap(creature => {
                             this.processOnceEffect(
@@ -326,7 +326,7 @@ export class OnceEffectsService {
 
             this._toastService.show(`${ phrases.name } gained ${ value } HP from ${ context.source }.${ results }`);
         } else if (value < 0) {
-            this._healthService.takeDamage$(creature, -value)
+            this._healthService.takeDamage(creature, -value)
                 .then(({ hasAddedUnconscious, dyingAddedAmount, hasRemovedUnconscious }) => {
                     let results = '';
 

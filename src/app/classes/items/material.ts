@@ -1,11 +1,10 @@
-import { Observable, of } from 'rxjs';
 import { Hint } from '../hints/hint';
 import { ArmorMaterial } from './armor-material';
 import { ShieldMaterial } from './shield-material';
 import { WeaponMaterial } from './weapon-material';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { signal, Signal } from '@angular/core';
 
 const defaultCraftingRequirement = 4;
 
@@ -54,19 +53,19 @@ export abstract class Material implements Serializable<Material> {
 
     public hints: Array<Hint> = [];
 
-    public with(values: DeepPartial<Material>): Material {
+    public with(values: MaybeSerialized<Material>): Material {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Material> {
+    public forExport(): Serialized<Material> {
         return {
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<Material> {
+    public forMessage(): Serialized<Material> {
         return {
             ...forMessage(this),
         };
@@ -92,12 +91,8 @@ export abstract class Material implements Serializable<Material> {
         return true;
     }
 
-    public effectiveName$(): Observable<string> {
-        return of(this.effectiveName());
-    }
-
-    public effectiveName(): string {
-        return this.name.split('(')[0]?.trim() ?? this.name;
+    public effectiveName$$(): Signal<string> {
+        return signal(this.name.split('(')[0]?.trim() ?? this.name).asReadonly();
     }
 
     public abstract clone(): Material;

@@ -87,7 +87,7 @@ export class SpellsTakenService {
             (filter.cantripAllowed || (!this._spellsDataService.spellFromName(gain.name)?.traits.includes('Cantrip')))
         );
 
-        return CharacterFlatteningService.characterSpellCasting$
+        return CharacterFlatteningService.characterSpellCasting$$
             .pipe(
                 map(spellCasting => spellCasting
                     .filter(casting =>

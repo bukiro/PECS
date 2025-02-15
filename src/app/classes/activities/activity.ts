@@ -1,8 +1,5 @@
-/* eslint-disable complexity */
-import { Observable, of, combineLatest, map } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ConditionGain } from '../conditions/condition-gain';
 import { Creature } from '../creatures/creature';
@@ -12,9 +9,10 @@ import { ItemGain } from '../items/item-gain';
 import { HeightenedDescriptionVariableCollection } from '../spells/heightened-description-variable-collection';
 import { SpellCast } from '../spells/spell-cast';
 import { SpellTargetNumber } from '../spells/spell-target-number';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serializable, MaybeSerialized, Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ActivityTargetOption } from './activity-target-options';
 import { HeightenedDescriptionVariable } from '../spells/heightened-description-variable';
+import { computed, Signal } from '@angular/core';
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<Activity>({
     primitives: [
@@ -167,21 +165,21 @@ export class Activity implements Serializable<Activity> {
     public targetNumbers: Array<SpellTargetNumber> = [];
 
     /**
-     * effectiveCooldownByCreature$ is a map of calculated cooldown observables matched to creatures
+     * effectiveCooldownByCreature$ is a map of calculated cooldown signals matched to creatures
      * created by the ActivityPropertiesService so that it can be subscribed to without passing parameters.
      */
-    public readonly effectiveCooldownByCreature$ = new Map<string, Observable<number>>();
+    public readonly effectiveCooldownByCreature$$ = new Map<string, Signal<number>>();
     /**
-     * effectiveMaxChargesByCreature$ is a map of calculated cooldown observables matched to creatures
+     * effectiveMaxChargesByCreature$ is a map of calculated cooldown signals matched to creatures
      * created by the ActivityPropertiesService so that it can be subscribed to without passing parameters.
      */
-    public readonly effectiveMaxChargesByCreature$ = new Map<string, Observable<number>>();
+    public readonly effectiveMaxChargesByCreature$$ = new Map<string, Signal<number>>();
 
-    public static from(values: DeepPartial<Activity>, recastFns: RecastFns): Activity {
+    public static from(values: MaybeSerialized<Activity>, recastFns: RecastFns): Activity {
         return new Activity().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Activity>, recastFns: RecastFns): Activity {
+    public with(values: MaybeSerialized<Activity>, recastFns: RecastFns): Activity {
         assign(this, values, recastFns);
 
         this.gainConditions.forEach(gain => gain.source = this.name);
@@ -199,7 +197,7 @@ export class Activity implements Serializable<Activity> {
         return this;
     }
 
-    public forExport(): DeepPartial<Activity> {
+    public forExport(): Serialized<Activity> {
         return {
             ...forExport(this),
         };
@@ -214,8 +212,8 @@ export class Activity implements Serializable<Activity> {
     }
 
     public clearTemporaryValues(): Activity {
-        this.effectiveCooldownByCreature$.clear();
-        this.effectiveMaxChargesByCreature$.clear();
+        this.effectiveCooldownByCreature$$.clear();
+        this.effectiveMaxChargesByCreature$$.clear();
 
         return this;
     }
@@ -243,10 +241,10 @@ export class Activity implements Serializable<Activity> {
         ));
     }
 
-    public canActivate$(creature: Creature): Observable<boolean> {
+    public canActivate$$(creature: Creature): Signal<boolean> {
         // Test whether activating this activity would make any difference in the app.
         // Does not test whether it is currently available.
-        return (
+        return computed(() =>
             this.traits.includes('Stance')
             || !!this.gainItems.length
             || !!this.castSpells.length
@@ -255,18 +253,9 @@ export class Activity implements Serializable<Activity> {
             || !!this.cooldown
             || !!this.onceEffects.length
             || this.toggle
-        )
-            ? of(true)
-            : combineLatest([
-                this.effectiveMaxChargesByCreature$.get(creature.id) ?? of(0),
-                this.effectiveCooldownByCreature$.get(creature.id) ?? of(0),
-            ])
-                .pipe(
-                    map(([charges, cooldown]) =>
-                        !!charges
-                        || !!cooldown,
-                    ),
-                );
+            || !!this.effectiveMaxChargesByCreature$$.get(creature.id)?.()
+            || !!this.effectiveCooldownByCreature$$.get(creature.id)?.(),
+        );
     }
 
     public isHostile(ignoreOverride = false): boolean {

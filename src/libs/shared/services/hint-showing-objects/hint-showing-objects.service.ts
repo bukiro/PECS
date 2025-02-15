@@ -41,7 +41,7 @@ export class HintShowingObjectsService {
     public characterFeatsShowingHintsOnThis$(objectName = 'all'): Observable<Array<Feat>> {
         const character = CreatureService.character;
 
-        return this._characterFeatsService.characterFeatsAtLevel$()
+        return this._characterFeatsService.characterFeatsAtLevel$$()
             .pipe(
                 map(characterFeats =>
                     characterFeats.filter(feat =>
@@ -68,9 +68,9 @@ export class HintShowingObjectsService {
     Observable<Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat>> {
 
         return combineLatest([
-            propMap$(CreatureService.companion$, 'class$', 'ancestry$'),
-            propMap$(CreatureService.companion$, 'class$', 'specializations', 'values$'),
-            CharacterFlatteningService.characterLevel$,
+            propMap$(CreatureService.companion$$, 'class$', 'ancestry$'),
+            propMap$(CreatureService.companion$$, 'class$', 'specializations', 'values$'),
+            CharacterFlatteningService.characterLevel$$,
             this.characterFeatsShowingHintsOnThis$(`Companion:${ objectName }`),
         ])
             .pipe(
@@ -113,8 +113,8 @@ export class HintShowingObjectsService {
 
     public familiarElementsShowingHintsOnThis$(objectName = 'all'): Observable<Array<Feat>> {
         return combineLatest([
-            CreatureService.familiar$,
-            CharacterFlatteningService.characterLevel$,
+            CreatureService.familiar$$,
+            CharacterFlatteningService.characterLevel$$,
             this.characterFeatsShowingHintsOnThis$(`Familiar:${ objectName }`),
         ])
             .pipe(
@@ -142,7 +142,7 @@ export class HintShowingObjectsService {
                 })),
                 switchMap(({ familiar, matchingFeats, characterShowingFeats }) =>
                     emptySafeCombineLatest(
-                        matchingFeats.map(feat => this._creatureFeatsService.creatureHasFeat$(feat.name, { creature: familiar })
+                        matchingFeats.map(feat => this._creatureFeatsService.creatureHasFeat$$(feat.name, { creature: familiar })
                             .pipe(
                                 map(hasFeat => hasFeat ? feat : undefined),
                             )),
@@ -161,7 +161,7 @@ export class HintShowingObjectsService {
     public creatureConditionsShowingHintsOnThis$(creature: Creature, objectName = 'all'): Observable<Array<ConditionGainSet>> {
         const character = CreatureService.character;
 
-        return this._appliedCreatureConditionsService.appliedCreatureConditions$(creature)
+        return this._appliedCreatureConditionsService.appliedCreatureConditions$$(creature)
             .pipe(
                 map(conditions =>
                     conditions
@@ -215,7 +215,7 @@ export class HintShowingObjectsService {
         //Prepare function to add items whose hints match the objectName.
         const itemIfHintsMatch$ = (item: HintShowingItem, allowResonant: boolean): Observable<HintShowingItem | undefined> => (
             item instanceof Shield
-                ? item.effectiveEmblazonArmament$
+                ? item.effectiveEmblazonArmament$$
                 : of<EmblazonArmamentSet | undefined>(undefined)
         )
             .pipe(
@@ -256,7 +256,7 @@ export class HintShowingObjectsService {
                 }),
             );
 
-        const hasTooManySlottedAeonStones = creature.isCharacter() && creature.hasTooManySlottedAeonStones();
+        const hasTooManySlottedAeonStones = creature.isCharacter() && creature.hasTooManySlottedAeonStones$$();
 
         //TODO: Verify that these nested combineLatest calls actually work.
         return creature.inventories.values$

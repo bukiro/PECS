@@ -1,10 +1,6 @@
-/* eslint-disable complexity */
-import { BehaviorSubject, Observable, map, combineLatest } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { v4 as uuidv4 } from 'uuid';
 import { AdventuringGear } from './adventuring-gear';
@@ -35,6 +31,8 @@ import { Weapon } from './weapon';
 import { WeaponRune } from './weapon-rune';
 import { WornItem } from './worn-item';
 import { safeParseInt } from 'src/libs/shared/util/string-utils';
+import { computed, Signal, signal, WritableSignal } from '@angular/core';
+import { isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
 
 /** These are all the keys of the item lists in this ItemCollection.
  * They are used to verify that this[key] can and should return an item list.
@@ -199,306 +197,156 @@ export class ItemCollection implements MessageSerializable<ItemCollection> {
     //If an item grants an inventory, this is the item's ID.
     public itemId = '';
 
-    public touched$: BehaviorSubject<boolean>;
-
-    public equippedAdventuringGear$: Observable<Array<AdventuringGear>>;
-    public equippedArmors$: Observable<Array<Armor>>;
-    public equippedShields$: Observable<Array<Shield>>;
-    public equippedWeapons$: Observable<Array<Weapon>>;
-    public activeWornItems$: Observable<Array<WornItem>>;
-    public activeEquipment$: Observable<Array<Equipment>>;
-    public equippedEquipment$: Observable<Array<Equipment>>;
-
-    private readonly _adventuringgear = new OnChangeArray<AdventuringGear>();
-    private readonly _alchemicalbombs = new OnChangeArray<AlchemicalBomb>();
-    private readonly _alchemicalelixirs = new OnChangeArray<AlchemicalElixir>();
-    private readonly _alchemicalpoisons = new OnChangeArray<AlchemicalPoison>();
-    private readonly _alchemicaltools = new OnChangeArray<AlchemicalTool>();
-    private readonly _ammunition = new OnChangeArray<Ammunition>();
-    private readonly _armorrunes = new OnChangeArray<ArmorRune>();
-    private readonly _armors = new OnChangeArray<Armor>();
-    private readonly _helditems = new OnChangeArray<HeldItem>();
-    private readonly _materialitems = new OnChangeArray<MaterialItem>();
-    private readonly _oils = new OnChangeArray<Oil>();
-    private readonly _otherconsumables = new OnChangeArray<OtherConsumable>();
-    private readonly _scrolls = new OnChangeArray<Scroll>();
-    private readonly _shields = new OnChangeArray<Shield>();
-    private readonly _snares = new OnChangeArray<Snare>();
-    private readonly _talismans = new OnChangeArray<Talisman>();
-    private readonly _wands = new OnChangeArray<Wand>();
-    private readonly _weaponrunes = new OnChangeArray<WeaponRune>();
-    private readonly _weapons = new OnChangeArray<Weapon>();
-    private readonly _wornitems = new OnChangeArray<WornItem>();
-    private readonly _otherconsumablesbombs = new OnChangeArray<OtherConsumableBomb>();
-    private readonly _otheritems = new OnChangeArray<OtherItem>();
-    private readonly _potions = new OnChangeArray<Potion>();
-
     //Has this inventory been changed since initialization?
-    private _touched = false;
+    public touched = signal(false);
+
+    public readonly adventuringgear = signal<Array<AdventuringGear>>([]);
+    public readonly alchemicalbombs = signal<Array<AlchemicalBomb>>([]);
+    public readonly alchemicalelixirs = signal<Array<AlchemicalElixir>>([]);
+    public readonly alchemicalpoisons = signal<Array<AlchemicalPoison>>([]);
+    public readonly alchemicaltools = signal<Array<AlchemicalTool>>([]);
+    public readonly ammunition = signal<Array<Ammunition>>([]);
+    public readonly armorrunes = signal<Array<ArmorRune>>([]);
+    public readonly armors = signal<Array<Armor>>([]);
+    public readonly helditems = signal<Array<HeldItem>>([]);
+    public readonly materialitems = signal<Array<MaterialItem>>([]);
+    public readonly oils = signal<Array<Oil>>([]);
+    public readonly otherconsumables = signal<Array<OtherConsumable>>([]);
+    public readonly scrolls = signal<Array<Scroll>>([]);
+    public readonly shields = signal<Array<Shield>>([]);
+    public readonly snares = signal<Array<Snare>>([]);
+    public readonly talismans = signal<Array<Talisman>>([]);
+    public readonly wands = signal<Array<Wand>>([]);
+    public readonly weaponrunes = signal<Array<WeaponRune>>([]);
+    public readonly weapons = signal<Array<Weapon>>([]);
+    public readonly wornitems = signal<Array<WornItem>>([]);
+    public readonly otherconsumablesbombs = signal<Array<OtherConsumableBomb>>([]);
+    public readonly otheritems = signal<Array<OtherItem>>([]);
+    public readonly potions = signal<Array<Potion>>([]);
+
+    public readonly equippedAdventuringGear$$ =
+        computed(
+            () => this.adventuringgear().filter(item => item.equipped() === item.equippable),
+            { equal: isEqualSerializableArray },
+        );
+
+    public readonly equippedArmors$$ =
+        computed(
+            () => this.armors().filter(item => item.equipped() === item.equippable),
+            { equal: isEqualSerializableArray },
+        );
+
+    public readonly equippedShields$$ =
+        computed(
+            () => this.shields().filter(item => (item.equipped() === item.equippable) && !item.broken),
+            { equal: isEqualSerializableArray },
+        );
+
+    public readonly equippedWeapons$$ =
+        computed(
+            () => this.weapons().filter(item => (item.equipped() === item.equippable) && !item.broken),
+            { equal: isEqualSerializableArray },
+        );
+
+    public readonly activeWornItems$$ =
+        computed(
+            () => this.wornitems().filter(item => item.investedOrEquipped$$()),
+            { equal: isEqualSerializableArray },
+        );
+
+    public readonly activeEquipment$$ =
+        computed(
+            () => this.allEquipment$$().filter(item => item.investedOrEquipped$$()),
+            { equal: isEqualSerializableArray },
+        );
+
+
+    public readonly equippedEquipment$$ =
+        computed(
+            () => this.allEquipment$$().filter(item => (item.equipped() === item.equippable)),
+            { equal: isEqualSerializableArray },
+        );
+
+    public readonly allConsumables$$ = computed(
+        () => new Array<Consumable>(
+            ...this.alchemicalelixirs(),
+            ...this.alchemicalpoisons(),
+            ...this.alchemicaltools(),
+            ...this.ammunition(),
+            ...this.oils(),
+            ...this.otherconsumables(),
+            ...this.potions(),
+            ...this.scrolls(),
+            ...this.snares(),
+            ...this.talismans(),
+        ),
+        { equal: isEqualSerializableArray },
+    );
+
+    public readonly allEquipment$$ = computed(
+        () => new Array<Equipment>(
+            ...this.adventuringgear(),
+            ...this.alchemicalbombs(),
+            ...this.armors(),
+            ...this.helditems(),
+            ...this.otherconsumablesbombs(),
+            ...this.shields(),
+            ...this.wands(),
+            ...this.weapons(),
+            ...this.wornitems(),
+        ),
+        { equal: isEqualSerializableArray },
+    );
+
+    public readonly allRunes$$ = computed(
+        () => new Array<Rune>(
+            ...this.armorrunes(),
+            ...this.weaponrunes(),
+        ),
+        { equal: isEqualSerializableArray },
+    );
+
+    public readonly allOther$$ = computed(
+        () => this.materialitems(),
+        { equal: isEqualSerializableArray },
+    );
+
+    public readonly allItems$$ = computed(
+        () => new Array<Item>(
+            ...this.allConsumables$$(),
+            ...this.allEquipment$$(),
+            ...this.allRunes$$(),
+            ...this.allOther$$(),
+        ),
+        { equal: isEqualSerializableArray },
+    );
 
     constructor(
         /** You cannot add any items to an inventory that would break its bulk limit. */
         public bulkLimit = 0,
-    ) {
-        this.touched$ = new BehaviorSubject(this._touched);
-
-        this.equippedAdventuringGear$ =
-            this.adventuringgear.values$
-                .pipe(
-                    map(items => items.filter(item => item.equipped === item.equippable)),
-                );
-
-        this.equippedArmors$ =
-            this.armors.values$
-                .pipe(
-                    map(items => items.filter(item => item.equipped === item.equippable)),
-                );
-
-        this.equippedShields$ =
-            this.shields.values$
-                .pipe(
-                    map(items => items.filter(item => (item.equipped === item.equippable) && !item.broken)),
-                );
-
-        this.equippedWeapons$ =
-            this.weapons.values$
-                .pipe(
-                    map(items => items.filter(item => (item.equipped === item.equippable) && !item.broken)),
-                );
-
-        this.activeWornItems$ =
-            this.wornitems.values$
-                .pipe(
-                    map(items => items.filter(item => item.investedOrEquipped())),
-                );
-
-        this.activeEquipment$ =
-            this.allEquipment$()
-                .pipe(
-                    map(items => items.filter(item => item.investedOrEquipped())),
-                );
-
-        this.equippedEquipment$ =
-            this.allEquipment$()
-                .pipe(
-                    map(items => items.filter(item => (item.equipped === item.equippable))),
-                );
-    }
+    ) { }
 
     public get names(): Array<{ name: string; key: keyof ItemCollection }> {
         return ItemCollection.names;
     }
 
-    public get adventuringgear(): OnChangeArray<AdventuringGear> {
-        return this._adventuringgear;
-    }
-
-    public set adventuringgear(value: Array<AdventuringGear>) {
-        this._adventuringgear.setValues(...value);
-    }
-
-    public get alchemicalbombs(): OnChangeArray<AlchemicalBomb> {
-        return this._alchemicalbombs;
-    }
-
-    public set alchemicalbombs(value: Array<AlchemicalBomb>) {
-        this._alchemicalbombs.setValues(...value);
-    }
-
-    public get alchemicalelixirs(): OnChangeArray<AlchemicalElixir> {
-        return this._alchemicalelixirs;
-    }
-
-    public set alchemicalelixirs(value: Array<AlchemicalElixir>) {
-        this._alchemicalelixirs.setValues(...value);
-    }
-
-    public get alchemicalpoisons(): OnChangeArray<AlchemicalPoison> {
-        return this._alchemicalpoisons;
-    }
-
-    public set alchemicalpoisons(value: Array<AlchemicalPoison>) {
-        this._alchemicalpoisons.setValues(...value);
-    }
-
-    public get alchemicaltools(): OnChangeArray<AlchemicalTool> {
-        return this._alchemicaltools;
-    }
-
-    public set alchemicaltools(value: Array<AlchemicalTool>) {
-        this._alchemicaltools.setValues(...value);
-    }
-
-    public get ammunition(): OnChangeArray<Ammunition> {
-        return this._ammunition;
-    }
-
-    public set ammunition(value: Array<Ammunition>) {
-        this._ammunition.setValues(...value);
-    }
-
-    public get armorrunes(): OnChangeArray<ArmorRune> {
-        return this._armorrunes;
-    }
-
-    public set armorrunes(value: Array<ArmorRune>) {
-        this._armorrunes.setValues(...value);
-    }
-
-    public get armors(): OnChangeArray<Armor> {
-        return this._armors;
-    }
-
-    public set armors(value: Array<Armor>) {
-        this._armors.setValues(...value);
-    }
-
-    public get helditems(): OnChangeArray<HeldItem> {
-        return this._helditems;
-    }
-
-    public set helditems(value: Array<HeldItem>) {
-        this._helditems.setValues(...value);
-    }
-
-    public get materialitems(): OnChangeArray<MaterialItem> {
-        return this._materialitems;
-    }
-
-    public set materialitems(value: Array<MaterialItem>) {
-        this._materialitems.setValues(...value);
-    }
-
-    public get oils(): OnChangeArray<Oil> {
-        return this._oils;
-    }
-
-    public set oils(value: Array<Oil>) {
-        this._oils.setValues(...value);
-    }
-
-    public get otherconsumables(): OnChangeArray<OtherConsumable> {
-        return this._otherconsumables;
-    }
-
-    public set otherconsumables(value: Array<OtherConsumable>) {
-        this._otherconsumables.setValues(...value);
-    }
-
-    public get otherconsumablesbombs(): OnChangeArray<OtherConsumableBomb> {
-        return this._otherconsumablesbombs;
-    }
-
-    public set otherconsumablesbombs(value: Array<OtherConsumableBomb>) {
-        this._otherconsumablesbombs.setValues(...value);
-    }
-
-    public get otheritems(): OnChangeArray<OtherItem> {
-        return this._otheritems;
-    }
-
-    public set otheritems(value: Array<OtherItem>) {
-        this._otheritems.setValues(...value);
-    }
-
-    public get potions(): OnChangeArray<Potion> {
-        return this._potions;
-    }
-
-    public set potions(value: Array<Potion>) {
-        this._potions.setValues(...value);
-    }
-
-    public get scrolls(): OnChangeArray<Scroll> {
-        return this._scrolls;
-    }
-
-    public set scrolls(value: Array<Scroll>) {
-        this._scrolls.setValues(...value);
-    }
-
-    public get shields(): OnChangeArray<Shield> {
-        return this._shields;
-    }
-
-    public set shields(value: Array<Shield>) {
-        this._shields.setValues(...value);
-    }
-
-    public get snares(): OnChangeArray<Snare> {
-        return this._snares;
-    }
-
-    public set snares(value: Array<Snare>) {
-        this._snares.setValues(...value);
-    }
-
-    public get talismans(): OnChangeArray<Talisman> {
-        return this._talismans;
-    }
-
-    public set talismans(value: Array<Talisman>) {
-        this._talismans.setValues(...value);
-    }
-
-    public get wands(): OnChangeArray<Wand> {
-        return this._wands;
-    }
-
-    public set wands(value: Array<Wand>) {
-        this._wands.setValues(...value);
-    }
-
-    public get weaponrunes(): OnChangeArray<WeaponRune> {
-        return this._weaponrunes;
-    }
-
-    public set weaponrunes(value: Array<WeaponRune>) {
-        this._weaponrunes.setValues(...value);
-    }
-
-    public get weapons(): OnChangeArray<Weapon> {
-        return this._weapons;
-    }
-
-    public set weapons(value: Array<Weapon>) {
-        this._weapons.setValues(...value);
-    }
-
-    public get wornitems(): OnChangeArray<WornItem> {
-        return this._wornitems;
-    }
-
-    public set wornitems(value: Array<WornItem>) {
-        this._wornitems.setValues(...value);
-    }
-
-    public get touched(): boolean {
-        return this._touched;
-    }
-
-    public set touched(value: boolean) {
-        this._touched = value;
-        this.touched$.next(this._touched);
-    }
-
-    public static from(values: DeepPartial<ItemCollection>, recastFns: RecastFns): ItemCollection {
+    public static from(values: MaybeSerialized<ItemCollection>, recastFns: RecastFns): ItemCollection {
         return new ItemCollection().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<ItemCollection>, recastFns: RecastFns): ItemCollection {
+    public with(values: MaybeSerialized<ItemCollection>, recastFns: RecastFns): ItemCollection {
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<ItemCollection> {
+    public forExport(): Serialized<ItemCollection> {
         return {
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<ItemCollection> {
+    public forMessage(): Serialized<ItemCollection> {
         return {
             ...forMessage(this),
         };
@@ -512,239 +360,119 @@ export class ItemCollection implements MessageSerializable<ItemCollection> {
         return isEqual(this, compared, options);
     }
 
-    public allEquipment(): Array<Equipment> {
-        return new Array<Equipment>()
-            .concat(
-                this.adventuringgear,
-                this.alchemicalbombs,
-                this.armors,
-                this.helditems,
-                this.otherconsumablesbombs,
-                this.shields,
-                this.wands,
-                this.weapons,
-                this.wornitems,
-            );
-    }
-
-    public allEquipment$(): Observable<Array<Equipment>> {
-        return combineLatest([
-            this.adventuringgear.values$,
-            this.alchemicalbombs.values$,
-            this.armors.values$,
-            this.helditems.values$,
-            this.otherconsumablesbombs.values$,
-            this.shields.values$,
-            this.wands.values$,
-            this.weapons.values$,
-            this.wornitems.values$,
-        ])
-            .pipe(
-                map(equipments =>
-                    new Array<Equipment>()
-                        .concat(...equipments),
-                ),
-            );
-    }
-
-    public allConsumables(): Array<Consumable> {
-        return new Array<Consumable>()
-            .concat(
-                this.alchemicalelixirs,
-                this.alchemicalpoisons,
-                this.alchemicaltools,
-                this.ammunition,
-                this.oils,
-                this.otherconsumables,
-                this.potions,
-                this.scrolls,
-                this.snares,
-                this.talismans,
-            );
-    }
-
-    public allConsumables$(): Observable<Array<Consumable>> {
-        return combineLatest([
-            this.alchemicalelixirs,
-            this.alchemicalpoisons,
-            this.alchemicaltools,
-            this.ammunition,
-            this.oils,
-            this.otherconsumables,
-            this.potions,
-            this.scrolls,
-            this.snares,
-            this.talismans,
-        ])
-            .pipe(
-                map(consumables =>
-                    new Array<Consumable>()
-                        .concat(...consumables),
-                ),
-            );
-    }
-
-    public allRunes(): Array<Rune> {
-        return new Array<Rune>()
-            .concat(
-                this.armorrunes,
-                this.weaponrunes,
-            );
-    }
-
-    public allRunes$(): Observable<Array<Rune>> {
-        return combineLatest([
-            this.armorrunes.values$,
-            this.weaponrunes.values$,
-        ])
-            .pipe(
-                map(runes =>
-                    new Array<Rune>()
-                        .concat(...runes),
-                ),
-            );
-    }
-
-    public allOther(): Array<Item> {
-        return new Array<Item>()
-            .concat(
-                this.materialitems,
-            );
-    }
-
-    public allOther$(): Observable<Array<Item>> {
-        return this.materialitems.values$;
-    }
-
-    public allItems(): Array<Item> {
-        return new Array<Item>()
-            .concat(
-                this.allConsumables(),
-                this.allEquipment(),
-                this.allRunes(),
-                this.allOther(),
-            );
-    }
-
-    public allItems$(): Observable<Array<Item>> {
-        return combineLatest([
-            this.allConsumables$(),
-            this.allEquipment$(),
-            this.allRunes$(),
-            this.allOther$(),
-        ])
-            .pipe(
-                map(items =>
-                    new Array<Item>()
-                        .concat(...items),
-                ),
-            );
-    }
-
-    public itemsOfType<T extends Item>(type: string): OnChangeArray<T> {
+    public itemsOfType<T extends Item>(type: string): WritableSignal<Array<T>> {
         if (this._isItemType(type)) {
-            return this[type] as unknown as OnChangeArray<T>;
+            return this[type] as unknown as WritableSignal<Array<T>>;
         }
 
-        return new OnChangeArray<T>();
+        return signal<Array<T>>([]);
     }
 
     public removeItem(item: Item): void {
         if (this._isItemType(item.type)) {
-            const itemList = this[item.type] as OnChangeArray<Item>;
+            const itemList = this[item.type] as WritableSignal<Array<Item>>;
 
-            itemList.setValues(...itemList.filter(invItem => invItem !== item));
+            itemList.update(value => [...value.filter(invItem => invItem !== item)]);
         }
     }
 
     public addItem(item: Item): number | undefined {
         if (this._isItemType(item.type)) {
-            const itemList = this[item.type] as OnChangeArray<Item>;
+            const itemList = this[item.type] as WritableSignal<Array<Item>>;
 
-            return itemList.push(item);
+            itemList.update(value => [...value, item]);
+
+            return itemList().length;
         }
     }
 
     public getItemById<T extends Item>(type: string, id: string): T | undefined {
         if (this._isItemType(type)) {
-            const itemList = this[type] as unknown as OnChangeArray<T>;
+            const itemList = this[type] as unknown as WritableSignal<Array<T>>;
 
-            return itemList.find(item => item.id === id);
+            return itemList().find(item => item.id === id);
         }
     }
 
     public getItemByRefId<T extends Item>(type: string, refId: string): T | undefined {
         if (this._isItemType(type)) {
-            const itemList = this[type] as unknown as OnChangeArray<T>;
+            const itemList = this[type] as unknown as WritableSignal<Array<T>>;
 
-            return itemList.find(item => item.refId === refId);
+            return itemList().find(item => item.refId === refId);
         }
     }
 
-    public totalBulk(rounded = true, reduced = false): number {
-        // All bulk gets calculated at *10 to avoid rounding issues with decimals,
-        // Then returned at /10
+    public totalBulk$$(rounded = true, reduced = false): Signal<number> {
+        // All bulk gets calculated at *10 to avoid rounding issues with decimals.
+        // Before returning, restore the decimal.
         const decimal = 10;
-        let sum = 0;
 
-        const addup = (item: Item | OtherItem): void => {
-            let bulk = item instanceof OtherItem ? item.bulk : item.effectiveBulk();
+        return computed(() => {
+            const allItems = this.allItems$$();
+            const otherItems = this.otheritems();
 
-            if (item instanceof Equipment && item.carryingBulk && !item.equipped) {
-                bulk = item.carryingBulk;
+            let sum = new Array<Item | OtherItem>(
+                ...allItems,
+                ...otherItems,
+            ).reduce((total, item) => total + this._itemBulkAsNumber(item), 0);
+
+            sum = Math.max(0, sum);
+
+            //Either round to int, or else to 1 decimal
+            if (rounded) {
+                sum = Math.floor(sum / decimal);
+            } else {
+                sum = Math.floor(sum) / decimal;
             }
 
-            const stack = item instanceof Consumable ? item.stack : 1;
-
-            switch (bulk) {
-                case '':
-                    break;
-                case '-':
-                    break;
-                case 'L':
-                    if (item.amount) {
-                        sum += Math.floor(item.amount / stack);
-                    } else {
-                        sum += 1;
-                    }
-
-                    break;
-                default:
-                    sum +=
-                        safeParseInt(bulk, 0) *
-                        decimal *
-                        Math.floor(item.amount ? (item.amount / stack) : 1);
-
-                    break;
+            if (reduced) {
+                sum = Math.max(0, sum - this.bulkReduction);
             }
-        };
 
-        this.allItems().forEach(item => {
-            addup(item);
+            return sum;
         });
-        this.allOther().forEach(item => {
-            addup(item);
-        });
-        this.otheritems.forEach(item => {
-            addup(item);
-        });
-        sum = Math.max(0, sum);
-
-        //Either round to int, or else to 1 decimal
-        if (rounded) {
-            sum = Math.floor(sum / decimal);
-        } else {
-            sum = Math.floor(sum) / decimal;
-        }
-
-        if (reduced) {
-            sum = Math.max(0, sum - this.bulkReduction);
-        }
-
-        return sum;
     }
 
     private _isItemType(type: string): type is keyof ItemCollection {
         return `${ itemListsKeys }`.includes(type);
+    }
+
+    // TODO: Move out of ItemCollection and test
+    // TODO: Create bulk interface with light value to avoid the decimal
+    private _itemBulkAsNumber(item: Item | OtherItem): number {
+        // All bulk gets calculated at *10 to avoid rounding issues with decimals
+        const decimal = 10;
+
+        const bulk = this._itemBulk(item);
+
+        const stack = item instanceof Consumable ? item.stack : 1;
+        const amount = item.amount();
+
+        switch (bulk) {
+            case '':
+                break;
+            case '-':
+                break;
+            case 'L':
+                if (amount) {
+                    return Math.floor(amount / stack);
+                } else {
+                    return 1;
+                }
+            default:
+                return safeParseInt(bulk, 0) *
+                    decimal *
+                    Math.floor(amount ? (amount / stack) : 1);
+        }
+
+        return 0;
+    }
+
+    private _itemBulk(item: Item | OtherItem): string {
+        if (item instanceof Equipment && item.carryingBulk && !item.equipped) {
+            return item.carryingBulk;
+        }
+
+        return item instanceof OtherItem ? item.bulk : item.effectiveBulk$$();
     }
 }

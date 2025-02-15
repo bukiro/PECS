@@ -124,7 +124,7 @@ export class SpellActivityProcessingSharedService {
             //If this is a spell that was cast by an activity, it may have a specified duration. Apply that here.
             if (context.activityDuration) {
                 newDuration = context.activityDuration;
-            } else if (newConditionGain.durationIsDynamic) {
+            } else if (newConditionGain.durationIsDynamic$$) {
                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
                 newDuration =
                     condition.defaultDuration(newConditionGain.choice, newConditionGain.heightened)?.duration || 0;
@@ -222,9 +222,9 @@ export class SpellActivityProcessingSharedService {
         //Apply effects that change the value of this condition.
         return zip([
             this._creatureEffectsService
-                .absoluteEffectsOnThis$(context.creature, `${ condition.name } Value`),
+                .absoluteEffectsOnThis$$(context.creature, `${ condition.name } Value`),
             this._creatureEffectsService
-                .relativeEffectsOnThis$(context.creature, `${ condition.name } Value`),
+                .relativeEffectsOnThis$$(context.creature, `${ condition.name } Value`),
         ])
             .pipe(
                 map(([absoluteEffects, relativeEffects]) => ({
@@ -277,7 +277,7 @@ export class SpellActivityProcessingSharedService {
         source: Activity | Spell,
     ): void {
         //Apply to any non-creature targets whose ID matches your own creatures.
-        this._creatureAvailabilityService.allAvailableCreatures$()
+        this._creatureAvailabilityService.allAvailableCreatures$$()
             .pipe(
                 map(creatures => {
                     //Apply to any targets that are your own creatures.
@@ -363,8 +363,8 @@ export class SpellActivityProcessingSharedService {
         );
 
         return zip([
-            this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectNames),
-            this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectNames),
+            this._creatureEffectsService.absoluteEffectsOnThese$$(context.creature, effectNames),
+            this._creatureEffectsService.relativeEffectsOnThese$$(context.creature, effectNames),
         ])
             .pipe(
                 map(([absoluteEffects, relativeEffects]) => {

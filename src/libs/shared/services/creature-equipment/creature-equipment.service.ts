@@ -19,26 +19,26 @@ export class CreatureEquipmentService {
     ) { }
 
     public equippedCreatureArmor$(creature: Creature): Observable<Array<Armor>> {
-        return creature.mainInventory.equippedArmors$;
+        return creature.mainInventory.equippedArmors$$;
     }
 
     public equippedCreatureBracersOfArmor$(creature: Creature): Observable<Array<WornItem>> {
-        return creature.mainInventory.activeWornItems$
+        return creature.mainInventory.activeWornItems$$
             .pipe(
                 map(wornItems => wornItems.filter(wornItem => wornItem.isBracersOfArmor)),
             );
     }
 
     public equippedCreatureShield$(creature: Creature): Observable<Array<Shield>> {
-        return creature.mainInventory.equippedShields$;
+        return creature.mainInventory.equippedShields$$;
     }
 
     public equippedCreatureWeapons(creature: Creature): Observable<Array<Weapon>> {
-        return creature.mainInventory.equippedWeapons$;
+        return creature.mainInventory.equippedWeapons$$;
     }
 
     public investedCreatureEquipment$(creature: Creature): Observable<Array<Equipment>> {
-        return creature.mainInventory.allEquipment$()
+        return creature.mainInventory.allEquipment$$()
             .pipe(
                 map(items =>
                     items

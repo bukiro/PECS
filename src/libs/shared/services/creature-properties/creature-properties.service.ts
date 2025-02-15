@@ -15,13 +15,13 @@ export class CreaturePropertiesService {
 
     public effectiveSize$(creature: Creature): Observable<number> {
         return combineLatest([
-            this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Size'),
-            this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Size'),
+            this._creatureEffectsService.absoluteEffectsOnThis$$(creature, 'Size'),
+            this._creatureEffectsService.relativeEffectsOnThis$$(creature, 'Size'),
         ])
             .pipe(
                 map(([absoluteEffects, relativeEffects]) =>
                     applyEffectsToValue(
-                        creature.baseSize(),
+                        creature.baseSize$$(),
                         { absoluteEffects, relativeEffects },
                     ).result),
             );

@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy, input, booleanAttribute, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
-import { forceBooleanFromInput } from 'src/libs/shared/util/component-input-utils';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 import { BonusListComponent } from 'src/libs/shared/ui/bonus-list/components/bonus-list/bonus-list.component';
 import { SystemColors } from 'src/libs/shared/definitions/system-colors';
@@ -31,6 +30,11 @@ export class PrettyValueComponent {
 
     public readonly clickLabel$$ = input<string | undefined>(undefined, { alias: 'clickLabel' });
 
+    public readonly bonuses$$ = input<Array<BonusDescription>, Array<BonusDescription> | undefined>(
+        [],
+        { alias: 'bonuses', transform: value => value ?? [] },
+    );
+
     public readonly forceAbsolute$$ = input<boolean, unknown>(
         false,
         { alias: 'forceAbsolute', transform: booleanAttribute },
@@ -44,17 +48,13 @@ export class PrettyValueComponent {
         { alias: 'forcePenalty', transform: booleanAttribute },
     );
 
-    public readonly bonuses$$ = input<Array<BonusDescription>, Array<BonusDescription> | undefined>(
-        [],
-        { alias: 'bonuses', transform: value => value ?? [] },
-    );
-
-    public readonly opaque$$ = input<boolean, boolean | string | number>(
+    public readonly opaque$$ = input<boolean, unknown>(
         false,
-        { alias: 'opaque', transform: value => forceBooleanFromInput(value) },
+        { alias: 'opaque', transform: booleanAttribute },
     );
 
     public readonly highlight$$ = input<SystemColors | undefined>(undefined, { alias: 'highlight' });
+
     public readonly highlightStrength$$ = input<string, number>(
         '1em',
         { alias: 'highlightStrength', transform: value => `${ value * maxHighlightStrength }em` },

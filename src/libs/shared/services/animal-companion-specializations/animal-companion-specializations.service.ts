@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
-import { DeepPartial } from '../../definitions/types/deep-partial';
 import { AnimalCompanionsDataService } from '../data/animal-companions-data.service';
-import { TypeService } from '../type/type.service';
+import { Serialized } from '../../definitions/interfaces/serializable';
 
 @Injectable({
     providedIn: 'root',
@@ -12,13 +11,12 @@ export class AnimalCompanionSpecializationsService {
 
     constructor(
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
-        private readonly _typeService: TypeService,
     ) { }
 
-    public restoreSpecializationFromSave(spec: DeepPartial<AnimalCompanionSpecialization>): AnimalCompanionSpecialization {
+    public restoreSpecializationFromSave(spec: Serialized<AnimalCompanionSpecialization> | undefined): AnimalCompanionSpecialization {
         let restoredSpecialization: AnimalCompanionSpecialization | undefined;
 
-        if (spec.name) {
+        if (spec?.name) {
             const libraryObject = this._animalCompanionsDataService.companionSpecializations(spec.name)[0];
 
             if (libraryObject) {
@@ -27,7 +25,7 @@ export class AnimalCompanionSpecializationsService {
             }
         }
 
-        return restoredSpecialization || AnimalCompanionSpecialization.from(spec);
+        return restoredSpecialization || AnimalCompanionSpecialization.from(spec ?? {});
     }
 
     public cleanSpecializationForSave(spec: AnimalCompanionSpecialization): void {
@@ -55,11 +53,11 @@ export class AnimalCompanionSpecializationsService {
 
         newSpec.level = levelNumber;
 
-        companion.class.specializations.push(newSpec);
+        companion.class().specializations.update(value => [...value, newSpec]);
     }
 
     public removeSpecialization(companion: AnimalCompanion, spec: AnimalCompanionSpecialization): void {
-        companion.class.specializations = companion.class.specializations.filter(specialization => specialization.name !== spec.name);
+        companion.class().specializations.update(value => value.filter(specialization => specialization.name !== spec.name));
     }
 
 }

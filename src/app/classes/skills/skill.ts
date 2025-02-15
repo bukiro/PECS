@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<Skill>({
@@ -28,17 +27,17 @@ export class Skill implements Serializable<Skill> {
         public recallKnowledge: boolean = false,
     ) { }
 
-    public static from(values: DeepPartial<Skill>): Skill {
+    public static from(values: MaybeSerialized<Skill>): Skill {
         return new Skill().with(values);
     }
 
-    public with(values: DeepPartial<Skill>): Skill {
+    public with(values: MaybeSerialized<Skill>): Skill {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Skill> {
+    public forExport(): Serialized<Skill> {
         return {
             ...forExport(this),
         };

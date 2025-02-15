@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<ConditionChoice>({
@@ -26,11 +25,11 @@ export class ConditionChoice implements Serializable<ConditionChoice> {
      */
     public featreq: Array<string> = [];
 
-    public static from(values: DeepPartial<ConditionChoice>): ConditionChoice {
+    public static from(values: MaybeSerialized<ConditionChoice>): ConditionChoice {
         return new ConditionChoice().with(values);
     }
 
-    public with(values: DeepPartial<ConditionChoice>): ConditionChoice {
+    public with(values: MaybeSerialized<ConditionChoice>): ConditionChoice {
         assign(this, values);
 
         //Blank choices are saved with "name":"-" for easier managing; These need to be re-blanked here.
@@ -41,7 +40,7 @@ export class ConditionChoice implements Serializable<ConditionChoice> {
         return this;
     }
 
-    public forExport(): DeepPartial<ConditionChoice> {
+    public forExport(): Serialized<ConditionChoice> {
         return {
             ...forExport(this),
         };

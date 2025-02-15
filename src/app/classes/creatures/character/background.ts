@@ -1,6 +1,5 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { AbilityChoice } from '../../character-creation/ability-choice';
 import { LoreChoice } from '../../character-creation/lore-choice';
@@ -61,17 +60,17 @@ export class Background implements Serializable<Background> {
     public loreChoices: Array<LoreChoice> = [];
     public skillChoices: Array<SkillChoice> = [];
 
-    public static from(values: DeepPartial<Background>): Background {
+    public static from(values: MaybeSerialized<Background>): Background {
         return new Background().with(values);
     }
 
-    public with(values: DeepPartial<Background>): Background {
+    public with(values: MaybeSerialized<Background>): Background {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Background> {
+    public forExport(): Serialized<Background> {
         return {
             ...forExport(this),
         };

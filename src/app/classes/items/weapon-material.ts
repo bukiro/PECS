@@ -1,6 +1,5 @@
 import { Material } from 'src/app/classes/items/material';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { MaybeSerialized, Serializable, Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<WeaponMaterial>({
@@ -12,18 +11,18 @@ const { assign, forExport, isEqual } = setupSerialization<WeaponMaterial>({
 export class WeaponMaterial extends Material implements Serializable<WeaponMaterial> {
     public criticalHint = '';
 
-    public static from(values: DeepPartial<WeaponMaterial>): WeaponMaterial {
+    public static from(values: MaybeSerialized<WeaponMaterial>): WeaponMaterial {
         return new WeaponMaterial().with(values);
     }
 
-    public with(values: DeepPartial<WeaponMaterial>): WeaponMaterial {
+    public with(values: MaybeSerialized<WeaponMaterial>): WeaponMaterial {
         super.with(values);
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<WeaponMaterial> {
+    public forExport(): Serialized<WeaponMaterial> {
         return {
             ...super.forExport(),
             ...forExport(this),

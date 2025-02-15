@@ -26,7 +26,7 @@ export class ItemEffectsGenerationService {
         //Collect items and item specializations that may have effects, and their hints, and return them in two lists.
 
         const doItemEffectsApply = (item: Equipment): boolean => (
-            item.investedOrEquipped() &&
+            item.investedOrEquipped$$() &&
             !!item.amount &&
             !item.broken
         );
@@ -91,7 +91,7 @@ export class ItemEffectsGenerationService {
                             );
 
                     //If too many wayfinders are invested with slotted aeon stones, all aeon stone effects are ignored.
-                    if (creature.isCharacter() && creature.hasTooManySlottedAeonStones()) {
+                    if (creature.isCharacter() && creature.hasTooManySlottedAeonStones$$()) {
                         objects =
                             objects.filter(object =>
                                 !(

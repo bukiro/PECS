@@ -1,19 +1,43 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { FeatTaken } from 'src/libs/shared/definitions/models/feat-taken';
-import { resetCharacter } from '../character/character.actions';
-import { addFeatAtLevel, removeFeatAtLevel, resetFeats } from './feats.actions';
 import { FeatsState } from './feats.state';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import { Feat } from 'src/libs/shared/definitions/models/feat';
+import { computed, Signal } from '@angular/core';
 
-export const featsFeatureName = 'feats';
+export const FeatsStore = signalStore(
+    { providedIn: 'root' },
+    withState(new FeatsState()),
+    withComputed(({ levelFeats }) => ({
+        allCharacterFeats: computed(() => levelFeats()[Defaults.maxCharacterLevel] ?? new Map<string, Feat>()),
+    })),
+    withMethods(store => ({
+        reset: (): void => patchState(store, () => new FeatsState()),
+        allCharacterFeatsAtLevel: (levelNumber: number): Signal<Array<Feat>> =>
+            computed(() => Array.from(store.levelFeats()[levelNumber]?.values() ?? [])),
+        allCharacterFeatsTakenAtLevel: (levelNumber: number): Signal<Array<Feat>> => computed(() =>
+            Array.from(store.levelTakenFeats()[levelNumber]?.values() ?? []),
+        ),
+        characterHasFeatAtLevel: (
+            featName: string, level: number, { allowCountAs }: { allowCountAs?: boolean } = {},
+        ): Signal<boolean> => computed(() => {
+            const levelFeats = store.levelFeats();
+            const levelCountAs = store.levelCountAs();
+            const name = featName.toLowerCase();
 
-export const featsFeature = createFeature({
-    name: featsFeatureName,
-    reducer: createReducer(
-        new FeatsState(),
-        on(resetCharacter, (): FeatsState => new FeatsState()),
-        on(resetFeats, (): FeatsState => new FeatsState()),
-        on(addFeatAtLevel, (state, { feat, gain, levelNumber, temporary }): FeatsState => {
+            return !!levelFeats[level]?.has(name) || (!!allowCountAs && !!levelCountAs[level]?.has(name));
+        }),
+        characterHasTakenFeatAtLevel: (featName: string, level: number): Signal<boolean> => computed(() =>
+            !!store.levelTakenFeats()[level]?.has(featName.toLowerCase()),
+        ),
+        addFeatAtLevel: (
+            { feat, gain, levelNumber, temporary }: {
+                feat: Feat;
+                gain: FeatTaken;
+                levelNumber: number;
+                temporary: boolean;
+            },
+        ): void => patchState(store, state => {
             const { levelFeats, levelCountAs, levelTakenFeats } = state;
 
             // Add the feat to all levels from levelNumber up to 20.
@@ -34,10 +58,15 @@ export const featsFeature = createFeature({
                 levelFeats,
                 levelCountAs,
                 levelTakenFeats,
-                characterFeatsTaken: state.characterFeatsTaken.concat({ levelNumber, gain, feat, temporary }),
+                characterFeatsTaken: [...state.characterFeatsTaken, { levelNumber, gain, feat, temporary }],
             };
         }),
-        on(removeFeatAtLevel, (state, { gain, levelNumber }): FeatsState => {
+        removeFeatAtLevel: (
+            { gain, levelNumber }: {
+                gain: FeatTaken;
+                levelNumber: number;
+            },
+        ): void => patchState(store, state => {
             // Remove the feat and the countAs. If the feat is otherwise still taken at any level,
             // only remove it from the levels lower than that.
             const lowestLevelOfFeat = _lowestLevelOfFeatFromOthers(state, gain);
@@ -64,12 +93,11 @@ export const featsFeature = createFeature({
                 levelFeats,
                 levelCountAs,
                 levelTakenFeats,
-                characterFeatsTaken: state.characterFeatsTaken
-                    .filter(taken => taken.gain.id),
+                characterFeatsTaken: state.characterFeatsTaken.filter(taken => taken.gain.id),
             };
         }),
-    ),
-});
+    })),
+);
 
 function _isTakenAtLevelFromOthers(state: FeatsState, gain: FeatTaken, levelNumber: number): boolean {
     return state.characterFeatsTaken

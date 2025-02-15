@@ -191,7 +191,7 @@
                                             preparedItem.learned
                                                 .snareSpecialistAvailable
                                         }}
-                                        {{ preparedItem.item.effectiveName$() }}
+                                        {{ preparedItem.item.effectiveName$$() }}
                                     </span>
 
                                     <span>
@@ -609,7 +609,7 @@
                                                             : ""
                                                     }}
                                                     {{
-                                                        itemParameters.item.effectiveName$()
+                                                        itemParameters.item.effectiveName$$()
                                                     }}
                                                     @if (
                                                         itemParameters.containedItemsAmount
@@ -663,7 +663,7 @@
                                                         : ""
                                                 }}
                                                 {{
-                                                    itemParameters.item.effectiveName$()
+                                                    itemParameters.item.effectiveName$$()
                                                 }}
                                                 @if (
                                                     itemParameters.containedItemsAmount
@@ -3010,7 +3010,7 @@
                                                                 ItemTooltipTemplate
                                                             "
                                                             [title]="
-                                                                itemParameters.item.gridIconTitle()
+                                                                itemParameters.item.gridIconTitle$$()
                                                             "
                                                             [detail]="
                                                                 'noparse|' +

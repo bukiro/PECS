@@ -1,6 +1,5 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<SpecializationGain>({
@@ -32,17 +31,17 @@ export class SpecializationGain implements Serializable<SpecializationGain> {
     public range = '';
     public trait = '';
 
-    public static from(values: DeepPartial<SpecializationGain>): SpecializationGain {
+    public static from(values: MaybeSerialized<SpecializationGain>): SpecializationGain {
         return new SpecializationGain().with(values);
     }
 
-    public with(values: DeepPartial<SpecializationGain>): SpecializationGain {
+    public with(values: MaybeSerialized<SpecializationGain>): SpecializationGain {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<SpecializationGain> {
+    public forExport(): Serialized<SpecializationGain> {
         return {
             ...forExport(this),
         };

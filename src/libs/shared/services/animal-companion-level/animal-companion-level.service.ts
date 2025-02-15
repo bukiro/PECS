@@ -4,8 +4,8 @@ import { AnimalCompanionLevel } from 'src/app/classes/creatures/animal-companion
 import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureService } from '../creature/creature.service';
-import { DeepPartial } from '../../definitions/types/deep-partial';
 import { isEqualObjectArray } from '../../util/compare-utils';
+import { Serialized } from '../../definitions/interfaces/serializable';
 
 @Injectable({
     providedIn: 'root',
@@ -19,7 +19,7 @@ export class AnimalCompanionLevelsService {
         this._keepAnimalCompanionLevelUpdated();
     }
 
-    public restoreLevelsFromSave(levels: Array<DeepPartial<AnimalCompanionLevel>>): Array<AnimalCompanionLevel> {
+    public restoreLevelsFromSave(levels: Serialized<Array<Serialized<AnimalCompanionLevel>>>): Array<AnimalCompanionLevel> {
         const libraryLevels = this._animalCompanionsDataService.companionLevels();
 
         //Map the restored levels onto the library levels and keep the result.
@@ -66,8 +66,8 @@ export class AnimalCompanionLevelsService {
         const advancedLevel = 3;
 
         combineLatest([
-            CreatureService.companion$,
-            this._characterFeatsService.characterFeatsAtLevel$()
+            CreatureService.companion$$,
+            this._characterFeatsService.characterFeatsAtLevel$$()
                 .pipe(
                     map(characterFeats =>
                         characterFeats.filter(feat =>

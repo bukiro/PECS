@@ -1,6 +1,5 @@
 
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<DiceResult>({
@@ -27,17 +26,17 @@ export class DiceResult implements Serializable<DiceResult> {
 
     public rolls: Array<number> = [];
 
-    public static from(values: DeepPartial<DiceResult>): DiceResult {
+    public static from(values: MaybeSerialized<DiceResult>): DiceResult {
         return new DiceResult().with(values);
     }
 
-    public with(values: DeepPartial<DiceResult>): DiceResult {
+    public with(values: MaybeSerialized<DiceResult>): DiceResult {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<DiceResult> {
+    public forExport(): Serialized<DiceResult> {
         return {
             ...forExport(this),
         };

@@ -47,7 +47,7 @@ import { sortAlphaNum } from 'src/libs/shared/util/sort-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { AttacksService, AttackResult } from '../../services/attacks/attacks.service';
 import { DamageService, DamageResult } from '../../services/damage/damage.service';
-import { attackRuneSource$ } from '../../util/attack-rune-rource';
+import { attackRuneSource$$ } from '../../util/attack-rune-rource';
 import { Hint } from 'src/app/classes/hints/hint';
 import { SkillComponent } from 'src/libs/shared/skill/components/skill/skill.component';
 import { GridIconComponent } from 'src/libs/shared/ui/grid-icon/components/grid-icon/grid-icon.component';
@@ -65,7 +65,7 @@ import { ObjectEffectsComponent } from 'src/libs/shared/object-effects/component
 import { CharacterSheetCardComponent } from 'src/libs/shared/ui/character-sheet-card/character-sheet-card.component';
 import { CreatureConditionRemovalService } from 'src/libs/shared/services/creature-conditions/creature-condition-removal.service';
 import { AppliedCreatureConditionsService } from 'src/libs/shared/services/creature-conditions/applied-creature-conditions.service';
-import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
+import { flatten$ } from 'src/libs/shared/util/array-utils';
 import { isEqualPrimitiveArray, isEqualSerializableArray } from 'src/libs/shared/util/compare-utils';
 import { isDefined } from 'src/libs/shared/util/type-guard-utils';
 
@@ -143,21 +143,21 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
                 switchMap(creature => {
                     switch (creature.type) {
                         case CreatureTypes.AnimalCompanion:
-                            return propMap$(SettingsService.settings$, 'companionMinimized$');
+                            return propMap$(SettingsService.settings$$, 'companionMinimized$');
                         default:
-                            return propMap$(SettingsService.settings$, 'attacksMinimized$');
+                            return propMap$(SettingsService.settings$$, 'attacksMinimized$');
                     }
                 }),
                 distinctUntilChanged(),
             );
 
-        this.isInventoryTileMode$ = propMap$(SettingsService.settings$, 'inventoryTileMode$')
+        this.isInventoryTileMode$ = propMap$(SettingsService.settings$$, 'inventoryTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
             );
 
-        this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$')
+        this.isManualMode$ = propMap$(SettingsService.settings$$, 'manualMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -230,7 +230,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
             hints.push(weapon.criticalHint);
         }
 
-        weapon.weaponMaterial.forEach(material => {
+        weapon.weaponMaterial$$.forEach(material => {
             if (material.criticalHint) {
                 hints.push(material.criticalHint);
             }
@@ -409,10 +409,10 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     public runesOfWeapon$(weapon: Weapon, range: string): Observable<Array<WeaponRune>> {
         //Return all runes and rune-emulating oil effects.
-        return attackRuneSource$(weapon, this.creature, range)
+        return attackRuneSource$$(weapon, this.creature, range)
             .pipe(
                 switchMap(runeSource => combineLatest([
-                    runeSource.forPropertyRunes.weaponRunes$,
+                    runeSource.forPropertyRunes.weaponRunes$$,
                     runeSource.forPropertyRunes.bladeAlly$
                         .pipe(
                             switchMap(bladeAlly =>
@@ -466,7 +466,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
             this.creature.isCharacter()
         ) {
             namesSources.push(
-                this._characterFeatsService.characterHasFeatAtLevel$('Monastic Weaponry')
+                this._characterFeatsService.characterHasFeatAtLevel$$('Monastic Weaponry')
                     .pipe(
                         map(hasFeat =>
                             hasFeat
@@ -491,7 +491,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
 
         //Weapons with Emblazon Armament get tagged as "Emblazon Armament Weapon".
         namesSources.push(
-            weapon.effectiveEmblazonArmament$
+            weapon.effectiveEmblazonArmament$$
                 .pipe(
                     map(emblazonArmament =>
                         emblazonArmament?.type === EmblazonArmamentTypes.EmblazonArmament
@@ -503,7 +503,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
 
         //Weapons with Emblazon Energy get tagged as "Emblazon Energy Weapon <Choice>".
         namesSources.push(
-            weapon.effectiveEmblazonArmament$
+            weapon.effectiveEmblazonArmament$$
                 .pipe(
                     map(emblazonArmament =>
                         emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy
@@ -515,7 +515,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
 
         //Weapons with Emblazon Antimagic get tagged as "Emblazon Antimagic Weapon".
         namesSources.push(
-            weapon.effectiveEmblazonArmament$
+            weapon.effectiveEmblazonArmament$$
                 .pipe(
                     map(emblazonArmament =>
                         emblazonArmament?.type === EmblazonArmamentTypes.EmblazonAntimagic
@@ -533,7 +533,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         );
 
         namesSources.push(
-            weapon.effectiveTraits$,
+            weapon.effectiveTraits$$,
         );
 
         specialNames.push(range);
@@ -580,7 +580,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
         const character = CreatureService.character;
 
         const hasCondition$ = (conditionCreature: Creature, name: string): Observable<boolean> =>
-            this._appliedCreatureConditionsService.appliedCreatureConditions$(conditionCreature, { name })
+            this._appliedCreatureConditionsService.appliedCreatureConditions$$(conditionCreature, { name })
                 .pipe(
                     map(conditions => !!conditions.length),
                 );
@@ -595,7 +595,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
                 switchMap(({ hasHuntPrey, hasHuntPreyFlurry, characterHasHuntPrey, characterHasHuntPreyFlurry }) => {
                     // Characters can apply flurry if they have Hunt Prey active and own the Ranger Flurry feature.
                     if (hasHuntPrey) {
-                        return this._characterFeatsService.characterHasFeatAtLevel$('Flurry');
+                        return this._characterFeatsService.characterHasFeatAtLevel$$('Flurry');
                     }
 
                     // Any creature can apply flurry if they have the Hunt Prey: Flurry condition active.
@@ -608,8 +608,8 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
                     // which allows sharing the Hunter's Edge benefit with the companion.
                     if (characterHasHuntPrey) {
                         return combineLatest([
-                            this._characterFeatsService.characterHasFeatAtLevel$('Flurry'),
-                            this._characterFeatsService.characterHasFeatAtLevel$('Animal Companion (Ranger)'),
+                            this._characterFeatsService.characterHasFeatAtLevel$$('Flurry'),
+                            this._characterFeatsService.characterHasFeatAtLevel$$('Animal Companion (Ranger)'),
                         ])
                             .pipe(
                                 map(([hasFlurry, hasRangerCompanion]) => !!hasFlurry && !!hasRangerCompanion),
@@ -620,7 +620,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
                     // and owns the Ranger Animal Companion feat,
                     // which allows sharing the Hunter's Edge benefit with the companion.
                     if (characterHasHuntPreyFlurry) {
-                        return this._characterFeatsService.characterHasFeatAtLevel$('Animal Companion (Ranger)');
+                        return this._characterFeatsService.characterHasFeatAtLevel$$('Animal Companion (Ranger)');
                     }
 
                     return of(false);
@@ -853,13 +853,13 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
             return of([]);
         }
 
-        return CharacterFlatteningService.characterClass$
+        return CharacterFlatteningService.characterClass$$
             .pipe(
                 switchMap(characterClass =>
                     characterClass.deityFocused
                         ? combineLatest([
                             this._characterDeitiesService.mainCharacterDeity$,
-                            this._characterFeatsService.characterHasFeatAtLevel$('Favored Weapon (Syncretism)')
+                            this._characterFeatsService.characterHasFeatAtLevel$$('Favored Weapon (Syncretism)')
                                 .pipe(
                                     switchMap(hasFavoredWeaponSyncretism =>
                                         hasFavoredWeaponSyncretism
@@ -879,17 +879,17 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
     }
 
     private _attackRestrictions$(): Observable<AttackRestrictions> {
-        return this._appliedCreatureConditionsService.appliedCreatureConditions$(this.creature)
+        return this._appliedCreatureConditionsService.appliedCreatureConditions$$(this.creature)
             .pipe(
                 switchMap(conditions =>
                     emptySafeCombineLatest(
                         conditions.map(({ condition, gain }) =>
-                            condition.appliedAttackRestrictions$(gain)
+                            condition.appliedAttackRestrictions$$(gain)
                                 .pipe(distinctUntilChanged(isEqualSerializableArray)),
                         ),
                     ),
                 ),
-                map(flattenArrayLists),
+                flatten$(),
                 map(restrictions => ({
                     onlyAttacks: restrictions.filter(({ excluding }) => !excluding),
                     forbiddenAttacks: restrictions.filter(({ excluding }) => excluding),
@@ -899,7 +899,7 @@ export class AttacksComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     private _equippedWeaponsParameters$(): Observable<Array<WeaponParameters>> {
         return combineLatest({
-            weapons: this.creature.mainInventory.equippedWeapons$,
+            weapons: this.creature.mainInventory.equippedWeapons$$,
             bombSets: this.creature.inventories.values$
                 .pipe(
                     switchMap(inventories =>

@@ -13,6 +13,7 @@ import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-s
 import { spellTraditionFromString } from 'src/libs/shared/util/spell-utils';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
+import { removeFirstMemberFromArrayWhere, replaceArrayMemberAtIndex } from 'src/libs/shared/util/array-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -29,35 +30,44 @@ export class CharacterHeritageChangeService {
     ) { }
 
     public changeHeritage(heritage?: Heritage, additionalHeritageIndex = -1): void {
-        const character = CreatureService.character;
-        const characterClass = character.class;
+        const character = CreatureService.character$$();
+        const characterClass = character.class();
 
         this._processRemovingOldHeritage(additionalHeritageIndex);
 
         if (additionalHeritageIndex === -1) {
             if (heritage) {
-                characterClass.heritage = heritage.clone();
+                characterClass.heritage.set(heritage.clone());
             } else {
-                characterClass.heritage = new Heritage();
+                characterClass.heritage.set(new Heritage());
             }
         } else {
-            const heritageToChange = characterClass.additionalHeritages[additionalHeritageIndex];
+            const heritageToChange = characterClass.additionalHeritages()[additionalHeritageIndex];
             const source = heritageToChange?.source;
             const levelNumber = heritageToChange?.charLevelAvailable;
 
             if (heritage) {
-                characterClass.additionalHeritages[additionalHeritageIndex] =
-                    AdditionalHeritage.from({
-                        ...heritage,
-                        source,
-                        charLevelAvailable: levelNumber,
-                    });
+                characterClass.additionalHeritages.update(value =>
+                    replaceArrayMemberAtIndex(
+                        value,
+                        additionalHeritageIndex,
+                        AdditionalHeritage.from({
+                            ...heritage,
+                            source,
+                            charLevelAvailable: levelNumber,
+                        }),
+                    ));
             } else {
-                characterClass.additionalHeritages[additionalHeritageIndex] =
-                    AdditionalHeritage.from({
-                        source,
-                        charLevelAvailable: levelNumber,
-                    });
+                characterClass.additionalHeritages.update(value =>
+                    replaceArrayMemberAtIndex(
+                        value,
+                        additionalHeritageIndex,
+                        AdditionalHeritage.from({
+                            source,
+                            charLevelAvailable: levelNumber,
+                        }),
+                    ),
+                );
             }
 
         }
@@ -68,14 +78,14 @@ export class CharacterHeritageChangeService {
     }
 
     private _processRemovingOldHeritage(index = -1): void {
-        const character = CreatureService.character;
-        const characterClass = character.class;
-        const ancestry = characterClass?.ancestry;
+        const character = CreatureService.character$$();
+        const characterClass = character.class();
+        const ancestry = characterClass.ancestry();
 
-        let heritage: Heritage | undefined = characterClass.heritage;
+        let heritage: Heritage | undefined = characterClass.heritage();
 
         if (index !== -1) {
-            heritage = characterClass.additionalHeritages[index];
+            heritage = characterClass.additionalHeritages()[index];
         }
 
         const level = characterClass.levels[1];
@@ -84,11 +94,11 @@ export class CharacterHeritageChangeService {
             heritage.ancestries.forEach(ancestryListing => {
                 const ancestries = ancestry.ancestries;
 
-                ancestries.splice(ancestries.indexOf(ancestryListing), 1);
+                ancestries.update(value => removeFirstMemberFromArrayWhere(value, member => member === ancestryListing));
             });
 
             heritage.traits.forEach(traitListing => {
-                ancestry.traits = ancestry.traits.filter(trait => trait !== traitListing);
+                ancestry.traits.update(value => value.filter(trait => trait !== traitListing));
             });
 
             // Of each granted Item, find the item with the stored id and drop it.
@@ -98,14 +108,16 @@ export class CharacterHeritageChangeService {
 
             // Many feats get specially processed when taken.
             // We can't just delete these feats, but must specifically un-take them to undo their effects.
-            level.featChoices.filter(choice => choice.source === heritage.name).forEach(choice => {
-                choice.feats.forEach(feat => {
-                    this._featTakingService.takeFeat(character, undefined, feat.name, false, choice, feat.locked);
+            level.featChoices()
+                .filter(choice => choice.source === heritage.name)
+                .forEach(choice => {
+                    choice.feats().forEach(feat => {
+                        this._featTakingService.takeFeat(character, undefined, feat.name, false, choice, feat.locked);
+                    });
                 });
-            });
 
-            level.skillChoices = level.skillChoices.filter(choice => choice.source !== heritage.name);
-            level.featChoices = level.featChoices.filter(choice => choice.source !== heritage.name);
+            level.skillChoices.update(value => value.filter(choice => choice.source !== heritage.name));
+            level.featChoices.update(value => value.filter(choice => choice.source !== heritage.name));
 
             // Also remove the 5th level skill increase from Skilled Heritage if you are removing Skilled Heritage.
             // It is a basic skill increase and doesn't need processing.
@@ -115,8 +127,7 @@ export class CharacterHeritageChangeService {
                 const skilledHeritageExtraIncreaseLevel = characterClass.levels[skilledHeritageExtraIncreaseLevelNumber];
 
                 if (skilledHeritageExtraIncreaseLevel) {
-                    skilledHeritageExtraIncreaseLevel.skillChoices =
-                        skilledHeritageExtraIncreaseLevel.skillChoices.filter(choice => choice.source !== heritage.name);
+                    skilledHeritageExtraIncreaseLevel.skillChoices.update(value => value.filter(choice => choice.source !== heritage.name));
                 }
 
 
@@ -126,7 +137,7 @@ export class CharacterHeritageChangeService {
                 const oldGain = characterClass.activities.find(gain => gain.name === gainActivity && gain.source === heritage.name);
 
                 if (oldGain) {
-                    if (oldGain.active) {
+                    if (oldGain.active()) {
                         this._psp.activitiesProcessingService?.activateActivity(
                             oldGain.originalActivity,
                             false,
@@ -134,7 +145,7 @@ export class CharacterHeritageChangeService {
                         );
                     }
 
-                    character.class.loseActivity(oldGain);
+                    characterClass.loseActivity(oldGain);
                 }
             });
 
@@ -147,7 +158,7 @@ export class CharacterHeritageChangeService {
             // We collect all Gnome feats that grant a primal spell, and for all of those spells that you own,
             // set the spell tradition to Primal on the character:
             if (heritage.name.includes('Wellspring Gnome')) {
-                const feats: Array<string> = this._featsDataService.feats(character.customFeats, '', 'Gnome')
+                const feats: Array<string> = this._featsDataService.feats(character.customFeats(), '', 'Gnome')
                     .filter(feat =>
                         feat.gainSpellChoice.filter(choice =>
                             choice.castingType === SpellCastingTypes.Innate &&
@@ -155,12 +166,14 @@ export class CharacterHeritageChangeService {
                         ).length)
                     .map(feat => feat.name);
 
-                characterClass.spellCasting.find(casting => casting.castingType === SpellCastingTypes.Innate)
-                    ?.spellChoices.filter(choice => feats.includes(choice.source.replace('Feat: ', ''))).forEach(choice => {
+                characterClass.spellCasting().find(casting => casting.castingType === SpellCastingTypes.Innate)
+                    ?.spellChoices()
+                    .filter(choice => feats.includes(choice.source.replace('Feat: ', '')))
+                    .forEach(choice => {
                         choice.tradition = SpellTraditions.Primal;
 
                         if (choice.available || choice.dynamicAvailable) {
-                            choice.spells.length = 0;
+                            choice.spells().length = 0;
                         }
                     });
             }
@@ -168,23 +181,23 @@ export class CharacterHeritageChangeService {
     }
 
     private _processNewHeritage(index = -1): void {
-        const character = CreatureService.character;
-        const characterClass = character.class;
-        const ancestry = characterClass?.ancestry;
+        const character = CreatureService.character$$();
+        const characterClass = character.class();
+        const ancestry = characterClass.ancestry();
 
-        let heritage: Heritage | undefined = characterClass?.heritage;
+        let heritage: Heritage | undefined = characterClass.heritage();
 
         if (index !== -1) {
-            heritage = characterClass.additionalHeritages[index];
+            heritage = characterClass.additionalHeritages()[index];
         }
 
         const level = characterClass.levels[1];
 
         if (ancestry && heritage?.name && level) {
-            ancestry.traits.push(...heritage.traits);
-            ancestry.ancestries.push(...heritage.ancestries);
-            level.skillChoices.push(...heritage.skillChoices);
-            level.featChoices.push(...heritage.featChoices);
+            ancestry.traits.update(value => [...value, ...heritage.traits]);
+            ancestry.ancestries.update(value => [...value, ...heritage.ancestries]);
+            level.skillChoices.update(value => [...value, ...heritage.skillChoices]);
+            level.featChoices.update(value => [...value, ...heritage.featChoices]);
 
             // Grant all items and save their id in the ItemGain.
             heritage.gainItems.forEach(freeItem => {
@@ -192,11 +205,13 @@ export class CharacterHeritageChangeService {
             });
 
             //Process the new feat choices.
-            level.featChoices.filter(choice => choice.source === heritage.name).forEach(choice => {
-                choice.feats.forEach(gain => {
-                    this._psp.featProcessingService?.processFeat(undefined, true, { creature: character, gain, choice, level });
+            level.featChoices()
+                .filter(choice => choice.source === heritage.name)
+                .forEach(choice => {
+                    choice.feats().forEach(gain => {
+                        this._psp.featProcessingService?.processFeat(undefined, true, { creature: character, gain, choice, level });
+                    });
                 });
-            });
 
             // You may get a skill training from a heritage.
             // If you have already trained this skill from another source:
@@ -205,10 +220,11 @@ export class CharacterHeritageChangeService {
             // If it is locked, we better not replace it. Instead, you get a free Heritage skill increase.
             if (heritage.skillChoices.length && heritage.skillChoices[0]?.increases[0]) {
                 const existingIncreases =
-                    character.skillIncreases(1, 1, heritage.skillChoices[0].increases[0].name, '');
+                    character.skillIncreases$$(1, 1, heritage.skillChoices[0].increases[0].name, '')();
 
-                if (existingIncreases[0]) {
-                    const existingIncrease = existingIncreases[0];
+                const existingIncrease = existingIncreases[0];
+
+                if (existingIncrease) {
                     const existingSkillChoice = characterClass.getSkillChoiceBySourceId(existingIncrease.sourceId);
 
                     if (existingSkillChoice && existingSkillChoice !== heritage.skillChoices[0]) {
@@ -241,7 +257,7 @@ export class CharacterHeritageChangeService {
             //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:
             if (heritage.name.includes('Wellspring Gnome')) {
-                const feats: Array<string> = this._featsDataService.feats(character.customFeats, '', 'Gnome')
+                const feats: Array<string> = this._featsDataService.feats(character.customFeats(), '', 'Gnome')
                     .filter(feat =>
                         feat.gainSpellChoice.some(choice =>
                             choice.castingType === SpellCastingTypes.Innate &&
@@ -250,12 +266,15 @@ export class CharacterHeritageChangeService {
                     )
                     .map(feat => feat.name);
 
-                characterClass.spellCasting.find(casting => casting.castingType === SpellCastingTypes.Innate)
-                    ?.spellChoices.filter(choice => feats.includes(choice.source.replace('Feat: ', ''))).forEach(choice => {
+                characterClass.spellCasting()
+                    .find(casting => casting.castingType === SpellCastingTypes.Innate)
+                    ?.spellChoices()
+                    .filter(choice => feats.includes(choice.source.replace('Feat: ', '')))
+                    .forEach(choice => {
                         choice.tradition = spellTraditionFromString(heritage.subType);
 
                         if (choice.available || choice.dynamicAvailable) {
-                            choice.spells.length = 0;
+                            choice.spells.set([]);
                         }
                     });
             }

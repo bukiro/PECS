@@ -26,7 +26,7 @@
                                     ? poisonSet.poison.amount
                                     : ""
                             }}
-                            {{ poisonSet.poison.effectiveName$() }}
+                            {{ poisonSet.poison.effectiveName$$() }}
                         </option>
                     }
                 </select>
@@ -42,7 +42,7 @@
                         let index = $index
                     ) {
                         <div class="newrow">
-                            <span>{{ poison.effectiveName$() }}</span>
+                            <span>{{ poison.effectiveName$$() }}</span>
 
                             <button
                                 type="button"

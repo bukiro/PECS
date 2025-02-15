@@ -155,7 +155,7 @@
                                                                 snareParameters.preparedAmount
                                                             }}
                                                             {{
-                                                                snareParameters.snare.effectiveName$()
+                                                                snareParameters.snare.effectiveName$$()
                                                                     | async
                                                             }}
                                                         </header>
@@ -233,7 +233,7 @@
                                                                         snareParameters.preparedAmount
                                                                     }}
                                                                     {{
-                                                                        snareParameters.snare.effectiveName$()
+                                                                        snareParameters.snare.effectiveName$$()
                                                                             | async
                                                                     }}
                                                                 </span>
@@ -291,7 +291,7 @@
                                                         "
                                                     >
                                                         @if (
-                                                            snareParameters.snare.effectiveName$(
+                                                            snareParameters.snare.effectiveName$$(
                                                                 {
                                                                     itemStore: true,
                                                                 }
@@ -323,7 +323,7 @@
                                                                     snareParameters.preparedAmount.toString()
                                                                 "
                                                                 [title]="
-                                                                    snareParameters.snare.gridIconTitle()
+                                                                    snareParameters.snare.gridIconTitle$$()
                                                                 "
                                                                 [detail]="
                                                                     (snareParameters.snare.traits.includes(
@@ -514,7 +514,7 @@
                                                                     </i>
                                                                 }
                                                                 {{
-                                                                    itemParameters.item.effectiveName$()
+                                                                    itemParameters.item.effectiveName$$()
                                                                         | async
                                                                 }}
                                                             </span>
@@ -568,7 +568,7 @@
                                                         >
                                                             <span>
                                                                 {{
-                                                                    itemParameters.item.effectiveName$(
+                                                                    itemParameters.item.effectiveName$$(
                                                                         {
                                                                             itemStore: true,
                                                                         }
@@ -825,7 +825,7 @@
                                                                         ItemTooltipTemplate
                                                                     "
                                                                     [title]="
-                                                                        itemParameters.item.gridIconTitle()
+                                                                        itemParameters.item.gridIconTitle$$()
                                                                     "
                                                                     [detail]="
                                                                         (itemParameters.item.traits.includes(

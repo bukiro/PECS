@@ -65,7 +65,7 @@ export class HintItemComponent extends TrackByMixin(BaseClass) {
     }
 
     public itemTraits$(): Observable<Array<string>> {
-        return this.item.effectiveTraits$;
+        return this.item.effectiveTraits$$;
     }
 
     public traitFromName(name: string): Trait {

@@ -142,7 +142,7 @@ export class ItemInitializationService {
         //For base items that come with material with name only, load the material into the item here.
         if (newItem.isWeapon() && newItem.material?.length) {
             newItem.material = [
-                ...newItem.weaponMaterial.map(material => {
+                ...newItem.weaponMaterial$$.map(material => {
                     const libraryItem =
                         this._itemMaterialsDataService
                             .weaponMaterials()
@@ -168,7 +168,7 @@ export class ItemInitializationService {
 
         if (newItem.isShield() && newItem.material?.length) {
             newItem.material = [
-                ...newItem.shieldMaterial.map(material => {
+                ...newItem.shieldMaterial$$.map(material => {
                     const libraryItem =
                         this._itemMaterialsDataService
                             .shieldMaterials()

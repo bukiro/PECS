@@ -78,7 +78,7 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
     ) {
         super();
 
-        this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$')
+        this.isManualMode$ = propMap$(SettingsService.settings$$, 'manualMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -124,9 +124,9 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     public componentParameters$(): Observable<ComponentParameters> {
         return combineLatest([
-            this._creatureEffectsService.allCreatureEffects$(this.creature.type),
-            this._appliedCreatureConditionsService.appliedCreatureConditions$(this.creature),
-            this._appliedCreatureConditionsService.notAppliedCreatureConditions$(this.creature),
+            this._creatureEffectsService.allCreatureEffects$$(this.creature.type),
+            this._appliedCreatureConditionsService.appliedCreatureConditions$$(this.creature),
+            this._appliedCreatureConditionsService.notAppliedCreatureConditions$$(this.creature),
         ])
             .pipe(
                 switchMap(([effects, activeConditions, inactiveConditions]) =>
@@ -168,7 +168,7 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     public conditionParameters(conditionGainPair: ConditionGainPair, isTimeStopped: boolean): ConditionParameters {
         return {
-            isStoppedInTime: isTimeStopped && !conditionGainPair.condition.isStoppingTime$(conditionGainPair.gain),
+            isStoppedInTime: isTimeStopped && !conditionGainPair.condition.isStoppingTime$$(conditionGainPair.gain),
         };
     }
 
@@ -192,8 +192,8 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     public conditionSuperTitle$(gain: ConditionGain, condition: Condition, paused: boolean): Observable<string> {
         return combineLatest([
-            condition.isStoppingTime$(gain),
-            this._conditionPropertiesService.isConditionInformational$(condition, { creature: this.creature, gain }),
+            condition.isStoppingTime$$(gain),
+            this._conditionPropertiesService.isConditionInformational$$(condition, { creature: this.creature, gain }),
         ])
             .pipe(
                 map(([isStoppingTime, isInformational]) => {
@@ -231,7 +231,7 @@ export class EffectsComponent extends TrackByMixin(BaseCreatureElementComponent)
     private _isTimeStopped$(conditions: Array<ConditionGainPair>): Observable<boolean> {
         return emptySafeCombineLatest(
             conditions
-                .map(({ gain, condition }) => condition.isStoppingTime$(gain)),
+                .map(({ gain, condition }) => condition.isStoppingTime$$(gain)),
         )
             .pipe(
                 map(isStoppingTimeList => isStoppingTimeList.includes(true)),

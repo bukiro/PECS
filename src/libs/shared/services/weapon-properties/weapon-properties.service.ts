@@ -40,7 +40,7 @@ export class WeaponPropertiesService {
 
         return (
             context.creature.isCharacter()
-                ? this._characterFeatsService.characterFeatsAtLevel$(context.charLevel)
+                ? this._characterFeatsService.characterFeatsAtLevel$$(context.charLevel)
                 : of([])
         )
             .pipe(
@@ -310,14 +310,14 @@ export class WeaponPropertiesService {
                 .pipe(
                     distinctUntilChanged(),
                     tap(shoddyValue => {
-                        weapon.effectiveShoddy$.next(shoddyValue);
+                        weapon.effectiveShoddy$$.next(shoddyValue);
                     }),
                 ),
             this._equipmentPropertiesSharedService.calculateEmblazonArmament(weapon, creature)
                 .pipe(
                     distinctUntilChanged(isEqualPrimitiveObject),
                     tap(emblazonArmament => {
-                        weapon.effectiveEmblazonArmament$.next(emblazonArmament);
+                        weapon.effectiveEmblazonArmament$$.next(emblazonArmament);
                     }),
                 ),
         ])
@@ -330,7 +330,7 @@ export class WeaponPropertiesService {
         if (creature.isCharacter()) {
             return combineLatest([
                 this._characterDeitiesService.mainCharacterDeity$,
-                this._characterFeatsService.characterHasFeatAtLevel$('Favored Weapon (Syncretism)')
+                this._characterFeatsService.characterHasFeatAtLevel$$('Favored Weapon (Syncretism)')
                     .pipe(
                         switchMap(hasFavoredWeaponSyncretism =>
                             hasFavoredWeaponSyncretism
@@ -360,7 +360,7 @@ export class WeaponPropertiesService {
         //Shoddy items have a -2 penalty to Attack, unless you have the Junk Tinker feat and have crafted the item yourself.
         return (
             creature.isCharacter()
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Junk Tinker')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Junk Tinker')
                 : of(false)
         )
             .pipe(

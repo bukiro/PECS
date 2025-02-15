@@ -1,6 +1,5 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { TimePeriods } from 'src/libs/shared/definitions/time-periods';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<BloodMagic>({
@@ -20,17 +19,17 @@ export class BloodMagic implements Serializable<BloodMagic> {
     public sourceTrigger: Array<string> = [];
     public trigger: Array<string> = [];
 
-    public static from(values: DeepPartial<BloodMagic>): BloodMagic {
+    public static from(values: MaybeSerialized<BloodMagic>): BloodMagic {
         return new BloodMagic().with(values);
     }
 
-    public with(values: DeepPartial<BloodMagic>): BloodMagic {
+    public with(values: MaybeSerialized<BloodMagic>): BloodMagic {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<BloodMagic> {
+    public forExport(): Serialized<BloodMagic> {
         return {
             ...forExport(this),
         };

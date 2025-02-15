@@ -92,7 +92,7 @@ export class CreatureEffectsGenerationService {
 
     private _characterEffectsGenerationObjects(): Observable<CreatureEffectsGenerationObjects> {
         //Return the Character's Feats and their Hints for effect generation.
-        return this._characterFeatsService.characterFeatsAtLevel$()
+        return this._characterFeatsService.characterFeatsAtLevel$$()
             .pipe(
                 map(feats => {
                     const hintSets: Array<HintEffectsObject> = [];
@@ -115,7 +115,7 @@ export class CreatureEffectsGenerationService {
                 .map(ability =>
                     (ability.effects?.length || ability.hints?.length)
                         ?
-                        this._creatureFeatsService.creatureHasFeat$(ability.name, { creature: familiar })
+                        this._creatureFeatsService.creatureHasFeat$$(ability.name, { creature: familiar })
                             .pipe(
                                 map(hasAbility =>
                                     hasAbility

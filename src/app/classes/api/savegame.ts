@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { MaybeSerialized, Serializable, Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<Savegame>({
@@ -35,17 +34,17 @@ export class Savegame implements Serializable<Savegame> {
 
     constructor(public id: string) { }
 
-    public static from(values: DeepPartial<Savegame> & { id: string }): Savegame {
+    public static from(values: MaybeSerialized<Savegame> & { id: string }): Savegame {
         return new Savegame(values.id).with(values);
     }
 
-    public with(values: DeepPartial<Savegame>): Savegame {
+    public with(values: MaybeSerialized<Savegame>): Savegame {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Savegame> {
+    public forExport(): Serialized<Savegame> {
         return {
             ...forExport(this),
         };

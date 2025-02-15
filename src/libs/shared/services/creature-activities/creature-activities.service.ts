@@ -16,7 +16,7 @@ import { TraitsDataService } from '../data/traits-data.service';
 import { emptySafeCombineLatest } from '../../util/observable-utils';
 import { Trait } from 'src/app/classes/hints/trait';
 import { AppliedCreatureConditionsService } from '../creature-conditions/applied-creature-conditions.service';
-import { flattenArrayLists } from '../../util/array-utils';
+import { flatten } from '../../util/array-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -48,11 +48,11 @@ export class CreatureActivitiesService {
         // Get all applied condition gains' activity gains. These were copied from the condition when it was added.
         // Also set the condition gain's spell level to the activity gain.
         activitySources$.push(
-            this._appliedCreatureConditionsService.appliedCreatureConditions$(creature, {})
+            this._appliedCreatureConditionsService.appliedCreatureConditions$$(creature, {})
                 .pipe(
                     map(conditions =>
-                        flattenArrayLists(
-                            conditions.map(({ gain }) => gain.gainActivities),
+                        flatten(
+                            ...conditions.map(({ gain }) => gain.gainActivities),
                         ),
                     ),
                 ),
@@ -71,7 +71,7 @@ export class CreatureActivitiesService {
                             activitySources$.push(
                                 emptySafeCombineLatest(
                                     item.gainActivities.map(gain =>
-                                        item.effectiveEmblazonArmament$
+                                        item.effectiveEmblazonArmament$$
                                             .pipe(
                                                 map(emblazonArmament =>
                                                     (
@@ -150,7 +150,7 @@ export class CreatureActivitiesService {
             });
         } else {
             //Without the all parameter, get activities only from equipped and invested items and their slotted items.
-            const hasTooManySlottedAeonStones = creature.isCharacter() && creature.hasTooManySlottedAeonStones();
+            const hasTooManySlottedAeonStones = creature.isCharacter() && creature.hasTooManySlottedAeonStones$$();
 
             creature.mainInventory?.allEquipment()
                 .filter(item =>

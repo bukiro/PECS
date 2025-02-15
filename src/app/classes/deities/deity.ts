@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { SpellCast } from '../spells/spell-cast';
 
@@ -53,17 +52,17 @@ export class Deity implements Serializable<Deity> {
 
     public clericSpells: Array<SpellCast> = [];
 
-    public static from(values: DeepPartial<Deity>): Deity {
+    public static from(values: MaybeSerialized<Deity>): Deity {
         return new Deity().with(values);
     }
 
-    public with(values: DeepPartial<Deity>): Deity {
+    public with(values: MaybeSerialized<Deity>): Deity {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Deity> {
+    public forExport(): Serialized<Deity> {
         return {
             ...forExport(this),
         };

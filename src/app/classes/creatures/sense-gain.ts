@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<SenseGain>({
@@ -18,17 +17,17 @@ export class SenseGain implements Serializable<SenseGain> {
 
     public conditionChoiceFilter: Array<string> = [];
 
-    public static from(values: DeepPartial<SenseGain>): SenseGain {
+    public static from(values: MaybeSerialized<SenseGain>): SenseGain {
         return new SenseGain().with(values);
     }
 
-    public with(values: DeepPartial<SenseGain>): SenseGain {
+    public with(values: MaybeSerialized<SenseGain>): SenseGain {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<SenseGain> {
+    public forExport(): Serialized<SenseGain> {
         return {
             ...forExport(this),
         };

@@ -17,7 +17,7 @@ export class CreatureConditionsCleanupService {
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _creatureConditionRemovalService: CreatureConditionRemovalService,
     ) {
-        CreatureService.character$
+        CreatureService.character$$
             .pipe(
                 switchMap(creature =>
                     this._cleanupInvalidConditions$(creature),
@@ -25,13 +25,13 @@ export class CreatureConditionsCleanupService {
             )
             .subscribe();
 
-        this._creatureAvailabilityService.companionIfAvailable$()
+        this._creatureAvailabilityService.companionIfAvailable$$()
             .pipe(
                 switchMap(creature => creature ? this._cleanupInvalidConditions$(creature) : of(undefined)),
             )
             .subscribe();
 
-        this._creatureAvailabilityService.familiarIfAvailable$()
+        this._creatureAvailabilityService.familiarIfAvailable$$()
             .pipe(
                 switchMap(creature => creature ? this._cleanupInvalidConditions$(creature) : of(undefined)),
             )

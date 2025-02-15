@@ -83,7 +83,7 @@ export class SkillValuesService {
         return this._normalizeSkillOrName$(skillOrName, creature)
             .pipe(
                 map(skill => {
-                    const rankByIncreasses = creature.skillIncreases(0, levelNumber, skill.name).length * skillLevelBaseStep;
+                    const rankByIncreasses = creature.skillIncreases$$(0, levelNumber, skill.name).length * skillLevelBaseStep;
 
                     if (levelNumber >= SkillLevelMinimumCharacterLevels.Legendary) {
                         return rankByIncreasses <= Math.min(SkillLevels.Legendary, maxRank);
@@ -134,14 +134,14 @@ export class SkillValuesService {
                         }
 
                         return combineLatest([
-                            CharacterFlatteningService.levelOrCurrent$(charLevel),
+                            CharacterFlatteningService.levelOrCurrent$$(charLevel),
                             options?.excludeTemporary
                                 ? of([])
-                                : this._creatureEffectsService.absoluteEffectsOnThese$(creature, effectTargetList),
+                                : this._creatureEffectsService.absoluteEffectsOnThese$$(creature, effectTargetList),
                             options?.excludeTemporary
                                 ? of([])
-                                : this._creatureEffectsService.relativeEffectsOnThese$(creature, effectTargetList),
-                            this._characterFeatsService.characterFeatsAtLevel$(charLevel)
+                                : this._creatureEffectsService.relativeEffectsOnThese$$(creature, effectTargetList),
+                            this._characterFeatsService.characterFeatsAtLevel$$(charLevel)
                                 .pipe(
                                     map(feats => feats.filter(feat => !!feat.copyProficiency.length)),
                                 ),
@@ -177,7 +177,7 @@ export class SkillValuesService {
 
                                         if (creature.isCharacter()) {
                                             increases =
-                                                creature.skillIncreases(
+                                                creature.skillIncreases$$(
                                                     0,
                                                     effectiveLevel,
                                                     skill.name,
@@ -191,7 +191,7 @@ export class SkillValuesService {
                                         if (creature.isAnimalCompanion()) {
                                             increases =
                                                 creature
-                                                    .skillIncreases(0, effectiveLevel, skill.name, '', '', undefined);
+                                                    .skillIncreases$$(0, effectiveLevel, skill.name, '', '', undefined);
                                         }
 
                                         // Add 2 for each increase, but keep them to their max Rank
@@ -324,7 +324,7 @@ export class SkillValuesService {
                             const bonuses = [{ title: 'Character Level', value: `${ character.level }` }];
                             const ability = this._modifierAbility(skill, creature) ?? 'Charisma';
 
-                            return this._abilityValuesService.mod$(ability, character, passedCharLevel)
+                            return this._abilityValuesService.mod$$(ability, character, passedCharLevel)
                                 .pipe(
                                     map(characterAbilityMod => {
                                         if (characterAbilityMod) {
@@ -346,7 +346,7 @@ export class SkillValuesService {
                         }
                     }
 
-                    return CharacterFlatteningService.levelOrCurrent$(passedCharLevel)
+                    return CharacterFlatteningService.levelOrCurrent$$(passedCharLevel)
                         .pipe(
                             switchMap(charLevel =>
                                 passedSkillLevel !== undefined
@@ -378,7 +378,7 @@ export class SkillValuesService {
                             }),
                             switchMap(({ result, bonuses, ability, skillLevel }) =>
                                 ability
-                                    ? this._abilityValuesService.mod$(ability, creature, passedCharLevel)
+                                    ? this._abilityValuesService.mod$$(ability, creature, passedCharLevel)
                                         .pipe(
                                             map(abilityMod => ({ result, bonuses, ability, skillLevel, abilityMod })),
                                         )
@@ -406,7 +406,7 @@ export class SkillValuesService {
         isDC = false,
     ): Observable<SkillLiveValue> {
         return combineLatest([
-            CharacterFlatteningService.levelOrCurrent$(),
+            CharacterFlatteningService.levelOrCurrent$$(),
             this._normalizeSkillOrName$(skillOrName, creature),
         ])
             .pipe(
@@ -431,16 +431,16 @@ export class SkillValuesService {
                     const isFamiliarSavingThrow = creature.isFamiliar() && stringEqualsCaseInsensitive(skill.name, 'Save');
 
                     return combineLatest([
-                        this._creatureEffectsService.absoluteEffectsOnThese$(creature, effectNamesList),
-                        this._creatureEffectsService.relativeEffectsOnThese$(creature, effectNamesList),
+                        this._creatureEffectsService.absoluteEffectsOnThese$$(creature, effectNamesList),
+                        this._creatureEffectsService.relativeEffectsOnThese$$(creature, effectNamesList),
                         // On Saves, Familiars apply the character's skill value before circumstance and status effects.
                         // This means that at this point, the base value is that of the character,
                         // and now we source the remaining types of effects.
                         (isFamiliarSavingThrow)
-                            ? this._creatureEffectsService.absoluteEffectsOnThese$(character, effectNamesList)
+                            ? this._creatureEffectsService.absoluteEffectsOnThese$$(character, effectNamesList)
                             : of([]),
                         (isFamiliarSavingThrow)
-                            ? this._creatureEffectsService.relativeEffectsOnThese$(character, effectNamesList)
+                            ? this._creatureEffectsService.relativeEffectsOnThese$$(character, effectNamesList)
                                 .pipe(
                                     map(characterRelatives => characterRelatives
                                         .filter(effect => ![BonusTypes.Circumstance, BonusTypes.Status].includes(effect.type)),
@@ -509,9 +509,9 @@ export class SkillValuesService {
                 }
 
                 if (skill.name === `${ character.class.name } Class DC`) {
-                    return character.abilityBoosts(1, 1, '', '', 'Class Key Ability')[0]?.name;
+                    return character.abilityBoosts$$(1, 1, '', '', 'Class Key Ability')[0]?.name;
                 } else if (skill.name.includes(' Class DC') && !skill.name.includes(character.class.name)) {
-                    return character.abilityBoosts(1, character.level, '', '', `${ skill.name.split(' ')[0] } Key Ability`)[0]?.name;
+                    return character.abilityBoosts$$(1, character.level, '', '', `${ skill.name.split(' ')[0] } Key Ability`)[0]?.name;
                 }
             }
         }

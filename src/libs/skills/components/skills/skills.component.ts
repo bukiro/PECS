@@ -61,7 +61,7 @@ interface SpeedParameters {
 })
 export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) {
 
-    public character$ = CreatureService.character$;
+    public character$ = CreatureService.character$$;
 
     public isMinimized$: Observable<boolean>;
     public isTileMode$: Observable<boolean>;
@@ -82,7 +82,7 @@ export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) 
 
         this.isMinimized$ = this.creature$
             .pipe(
-                switchMap(creature => SettingsService.settings$
+                switchMap(creature => SettingsService.settings$$
                     .pipe(
                         switchMap(settings => {
                             switch (creature.type) {
@@ -99,7 +99,7 @@ export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) 
                 distinctUntilChanged(),
             );
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'skillsTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'skillsTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -179,7 +179,7 @@ export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) 
     public ownedActivities$(): Observable<Array<ActivityGain | ItemActivity>> {
         return combineLatest([
             this.creature$,
-            propMap$(SettingsService.settings$, 'showSkillActivities$'),
+            propMap$(SettingsService.settings$$, 'showSkillActivities$'),
         ])
             .pipe(
                 switchMap(([creature, showSkillActivities]) =>
@@ -292,7 +292,7 @@ export class SkillsComponent extends TrackByMixin(BaseCreatureElementComponent) 
     public skillChoices$(): Observable<Array<SkillChoice> | undefined> {
         return combineLatest([
             this.creature$,
-            CharacterFlatteningService.characterLevel$,
+            CharacterFlatteningService.characterLevel$$,
         ])
             .pipe(
                 map(([creature, creatureLevel]) => {

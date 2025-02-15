@@ -107,7 +107,7 @@ export class ConditionComponent extends TrackByMixin(BaseClass) {
     }
 
     public isInformationalCondition$(): Observable<boolean> {
-        return this._conditionPropertiesService.isConditionInformational$(
+        return this._conditionPropertiesService.isConditionInformational$$(
             this.condition,
             { creature: this.creature, gain: this.conditionGain },
         );
@@ -152,7 +152,7 @@ export class ConditionComponent extends TrackByMixin(BaseClass) {
 
     public conditionChoices$(gain: ConditionGain, condition: Condition): Observable<Array<string>> {
         if (gain.source !== 'Manual') {
-            return this._conditionPropertiesService.effectiveChoices$(condition, gain.heightened);
+            return this._conditionPropertiesService.effectiveChoices$$(condition, gain.heightened);
         }
 
         return of(condition.unfilteredChoices());
@@ -232,7 +232,7 @@ export class ConditionComponent extends TrackByMixin(BaseClass) {
                                 gain.originalActivity,
                                 { creature: this.creature },
                             ),
-                            this._activityPropertiesService.effectiveMaxCharges$(
+                            this._activityPropertiesService.effectiveMaxCharges$$(
                                 gain.originalActivity,
                                 { creature: this.creature },
                             ),

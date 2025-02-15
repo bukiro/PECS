@@ -2,7 +2,7 @@ import { Condition } from 'src/app/classes/conditions/condition';
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { ConditionGainPair } from './condition-gain-pair';
 import { mockRecastFns } from '../../definitions/interfaces/recast-fns';
-import { removeSuperfluousConditions$ } from './condition-reduce-utils';
+import { removeSuperfluousConditions$$ } from './condition-reduce-utils';
 import { firstValueFrom, lastValueFrom, map, share, take } from 'rxjs';
 
 const recastFns = mockRecastFns();
@@ -32,7 +32,7 @@ describe('removeSuperfluousConditions', () => {
             ),
         ];
 
-        const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+        const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
         const expected = ['1', '2', '3', '4', '5'];
 
         expect(
@@ -54,7 +54,7 @@ describe('removeSuperfluousConditions', () => {
             createConditionPair({ gain: { id: '6', name: persistentDamage, choice: choice2 } }),
         ];
 
-        const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+        const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
         const expected = ['1', '2', '3', '5'];
 
         expect(
@@ -73,7 +73,7 @@ describe('removeSuperfluousConditions', () => {
             ),
         ];
 
-        const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+        const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
         const expected = ['1', '3'];
 
         expect(
@@ -106,7 +106,7 @@ describe('removeSuperfluousConditions', () => {
                 }),
             ];
 
-            const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+            const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
             const expected = ['2'];
 
             expect(
@@ -136,7 +136,7 @@ describe('removeSuperfluousConditions', () => {
                 }),
             ];
 
-            const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+            const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
             const expected = ['2'];
 
             expect(
@@ -166,7 +166,7 @@ describe('removeSuperfluousConditions', () => {
                 }),
             ];
 
-            const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+            const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
             const expected = ['2'];
 
             expect(
@@ -192,7 +192,7 @@ describe('removeSuperfluousConditions', () => {
                 }),
             ];
 
-            const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+            const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
             const expected = ['1'];
 
             expect(
@@ -249,7 +249,7 @@ describe('removeSuperfluousConditions', () => {
                     }),
                 ];
 
-                const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+                const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
                 const expected = ['instant'];
 
                 expect(
@@ -298,7 +298,7 @@ describe('removeSuperfluousConditions', () => {
                     }),
                 ];
 
-                const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+                const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
                 const expected = ['instant, then until other turn'];
 
                 expect(
@@ -340,7 +340,7 @@ describe('removeSuperfluousConditions', () => {
                     }),
                 ];
 
-                const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+                const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
                 const expected = ['permanent'];
 
                 expect(
@@ -375,7 +375,7 @@ describe('removeSuperfluousConditions', () => {
                     }),
                 ];
 
-                const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+                const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
                 const expected = ['until rest'];
 
                 expect(
@@ -403,7 +403,7 @@ describe('removeSuperfluousConditions', () => {
                     }),
                 ];
 
-                const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+                const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
                 const expected = ['until refocus'];
 
                 expect(
@@ -431,7 +431,7 @@ describe('removeSuperfluousConditions', () => {
                     }),
                 ];
 
-                const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+                const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
                 const expected = ['longer'];
 
                 expect(
@@ -459,7 +459,7 @@ describe('removeSuperfluousConditions', () => {
                     }),
                 ];
 
-                const result = await firstValueFrom(removeSuperfluousConditions$(conditions));
+                const result = await firstValueFrom(removeSuperfluousConditions$$(conditions));
                 const expected = ['1'];
 
                 expect(
@@ -491,7 +491,7 @@ describe('removeSuperfluousConditions', () => {
             }),
         ];
 
-        const source$ = removeSuperfluousConditions$(conditions)
+        const source$ = removeSuperfluousConditions$$(conditions)
             .pipe(
                 take(2),
                 map(result => result.map(({ gain }) => gain.id)),
@@ -533,7 +533,7 @@ describe('removeSuperfluousConditions', () => {
             higherCondition,
         ];
 
-        const source$ = removeSuperfluousConditions$(conditions)
+        const source$ = removeSuperfluousConditions$$(conditions)
             .pipe(
                 take(2),
                 map(result => result.map(({ gain }) => gain.id)),
@@ -575,7 +575,7 @@ describe('removeSuperfluousConditions', () => {
             longerCondition,
         ];
 
-        const source$ = removeSuperfluousConditions$(conditions)
+        const source$ = removeSuperfluousConditions$$(conditions)
             .pipe(
                 take(2),
                 map(result => result.map(({ gain }) => gain.id)),

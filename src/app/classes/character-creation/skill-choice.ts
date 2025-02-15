@@ -1,6 +1,5 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { maxSkillLevel } from 'src/libs/shared/definitions/skill-levels';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { SkillIncrease } from '../skills/skill-increase';
 
@@ -63,17 +62,17 @@ export class SkillChoice implements Serializable<SkillChoice> {
 
     public increases: Array<SkillIncrease> = [];
 
-    public static from(values: DeepPartial<SkillChoice>): SkillChoice {
+    public static from(values: MaybeSerialized<SkillChoice>): SkillChoice {
         return new SkillChoice().with(values);
     }
 
-    public with(values: DeepPartial<SkillChoice>): SkillChoice {
+    public with(values: MaybeSerialized<SkillChoice>): SkillChoice {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<SkillChoice> {
+    public forExport(): Serialized<SkillChoice> {
         return {
             ...forExport(this),
         };

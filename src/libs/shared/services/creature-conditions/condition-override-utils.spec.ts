@@ -2,7 +2,7 @@ import { Condition, ConditionOverride } from 'src/app/classes/conditions/conditi
 import { ConditionGain } from 'src/app/classes/conditions/condition-gain';
 import { ConditionGainPair } from './condition-gain-pair';
 import { mockRecastFns } from '../../definitions/interfaces/recast-fns';
-import { applyConditionOverridesAndPauses$ } from './condition-override-utils';
+import { applyConditionOverridesAndPauses$$ } from './condition-override-utils';
 import { firstValueFrom, lastValueFrom, map, share, take } from 'rxjs';
 
 const recastFns = mockRecastFns();
@@ -37,7 +37,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { id: '3' } }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
         const expected = ['1', '3', '2', '4'];
 
         expect(
@@ -53,7 +53,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '4' } }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
         const expected = ['1', '3', '4'];
 
         expect(
@@ -69,7 +69,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '4' } }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
         const expected = ['1'];
 
         expect(
@@ -86,7 +86,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '4' } }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
         const expected = ['1', '3', '4'];
 
         expect(
@@ -105,7 +105,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '4' } }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
         const expected = ['1', '3'];
 
         expect(
@@ -121,7 +121,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '4' }, overrides: [{ name: '3' }] }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
         const expected = ['2', '4'];
 
         expect(
@@ -137,7 +137,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '4' } }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
         const expected = ['4'];
 
         expect(
@@ -156,7 +156,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '2' } }),
         ];
 
-        const source$ = applyConditionOverridesAndPauses$(conditions)
+        const source$ = applyConditionOverridesAndPauses$$(conditions)
             .pipe(
                 take(2),
                 map(result => result.map(({ gain }) => gain.name)),
@@ -183,7 +183,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '4' } }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
         const expectedPaused = ['2', '3'];
 
         expect(
@@ -199,7 +199,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '4' } }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
         const expectedPaused = ['2', '3', '4'];
 
         expect(
@@ -215,7 +215,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '4' } }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
 
         expect(
             result.filter(({ paused }) => paused).map(({ gain }) => gain.name),
@@ -230,7 +230,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '4' } }),
         ];
 
-        const result = await firstValueFrom(applyConditionOverridesAndPauses$(conditions));
+        const result = await firstValueFrom(applyConditionOverridesAndPauses$$(conditions));
         const expectedPaused = ['2', '3', '4'];
 
         expect(
@@ -249,7 +249,7 @@ describe('applyConditionOverridesAndPauses', () => {
             createConditionPair({ gain: { name: '2' } }),
         ];
 
-        const source$ = applyConditionOverridesAndPauses$(conditions)
+        const source$ = applyConditionOverridesAndPauses$$(conditions)
             .pipe(
                 take(2),
                 map(result => result.filter(({ paused }) => paused).map(({ gain }) => gain.name)),

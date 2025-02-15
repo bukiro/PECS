@@ -106,12 +106,12 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
     ) {
         super();
 
-        this.isMinimized$ = propMap$(SettingsService.settings$, 'spellsMinimized$')
+        this.isMinimized$ = propMap$(SettingsService.settings$$, 'spellsMinimized$')
             .pipe(
                 distinctUntilChanged(),
             );
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'spellsTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'spellsTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -326,7 +326,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
         const character = this.character;
 
         if (casting.castingType === 'Focus') {
-            return this.character.maxSpellLevel$;
+            return this.character.maxSpellLevel$$;
         }
 
         return combineLatest([
@@ -369,7 +369,7 @@ export class SpellSelectionComponent extends IsMobileMixin(TrackByMixin(BaseCrea
     }
 
     private _canPreparedSpellsBeSwitched$(): Observable<boolean> {
-        return this._creatureEffectsService.toggledEffectsOnThis$(this.character, 'Allow Switching Prepared Spells')
+        return this._creatureEffectsService.toggledEffectsOnThis$$(this.character, 'Allow Switching Prepared Spells')
             .pipe(
                 map(switchingAllowEffects => !!switchingAllowEffects.length),
             );

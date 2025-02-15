@@ -1,5 +1,5 @@
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { signal } from '@angular/core';
+import { MaybeSerialized, MessageSerializable, Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, forMessage, isEqual } = setupSerialization<OtherItem>({
@@ -12,25 +12,25 @@ const { assign, forExport, forMessage, isEqual } = setupSerialization<OtherItem>
 export class OtherItem implements MessageSerializable<OtherItem>{
     public name = '';
     public bulk = '';
-    public readonly amount: number = 1;
+    public readonly amount = signal(1);
 
-    public static from(values: DeepPartial<OtherItem>): OtherItem {
+    public static from(values: MaybeSerialized<OtherItem>): OtherItem {
         return new OtherItem().with(values);
     }
 
-    public with(values: DeepPartial<OtherItem>): OtherItem {
+    public with(values: MaybeSerialized<OtherItem>): OtherItem {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<OtherItem> {
+    public forExport(): Serialized<OtherItem> {
         return {
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<OtherItem> {
+    public forMessage(): Serialized<OtherItem> {
         return {
             ...forMessage(this),
         };

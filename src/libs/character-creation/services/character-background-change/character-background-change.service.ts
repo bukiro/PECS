@@ -111,7 +111,7 @@ export class CharacterBackgroundChangeService {
                     { noSubstitutions: true },
                 ).length) {
                     const increases =
-                        character.skillIncreases(
+                        character.skillIncreases$$(
                             1,
                             Defaults.maxCharacterLevel,
                             `Lore: ${ background.loreChoices[0].loreName }`,
@@ -134,7 +134,7 @@ export class CharacterBackgroundChangeService {
 
             if (background.skillChoices[0]?.increases[0]) {
                 const existingIncreases =
-                    character.skillIncreases(1, 1, background.skillChoices[0].increases[0].name, '');
+                    character.skillIncreases$$(1, 1, background.skillChoices[0].increases[0].name, '');
 
                 if (existingIncreases[0]) {
                     const existingIncrease = existingIncreases[0];

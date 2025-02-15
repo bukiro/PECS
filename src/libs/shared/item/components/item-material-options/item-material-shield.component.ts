@@ -95,8 +95,8 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
                 switchMap(item =>
                     combineLatest([
                         of(item),
-                        CreatureService.character$,
-                        CharacterFlatteningService.characterLevel$,
+                        CreatureService.character$$,
+                        CharacterFlatteningService.characterLevel$$,
                     ]),
 
                 ),
@@ -225,7 +225,7 @@ export class ItemMaterialShieldComponent extends TrackByMixin(BaseClass) impleme
     }
 
     private _setMaterialNames(): void {
-        const shieldMaterial = this.item.shieldMaterial;
+        const shieldMaterial = this.item.shieldMaterial$$;
 
         this.newMaterial =
             shieldMaterial

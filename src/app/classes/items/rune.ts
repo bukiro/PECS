@@ -1,6 +1,5 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ItemActivity } from '../activities/item-activity';
 import { LoreChoice } from '../character-creation/lore-choice';
@@ -65,20 +64,20 @@ export abstract class Rune extends Item implements Serializable<Rune> {
 
     public hasHints(): this is Rune { return true; }
 
-    public with(values: DeepPartial<Rune>, recastFns: RecastFns): Rune {
+    public with(values: MaybeSerialized<Rune>, recastFns: RecastFns): Rune {
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Rune> {
+    public forExport(): Serialized<Rune> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<Rune> {
+    public forMessage(): Serialized<Rune> {
         return {
             ...super.forMessage(),
             ...forMessage(this),

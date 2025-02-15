@@ -138,7 +138,7 @@ export class ArmorClassService {
     }
 
     private _absolutes$(creature: Creature): Observable<Array<AbsoluteEffect>> {
-        return this._creatureEffectsService.absoluteEffectsOnThese$(creature, namesList);
+        return this._creatureEffectsService.absoluteEffectsOnThese$$(creature, namesList);
     }
 
     private _relatives$(creature: Creature): Observable<Array<RelativeEffect>> {
@@ -147,13 +147,13 @@ export class ArmorClassService {
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         if (creature.isFamiliar()) {
             return combineLatest([
-                this._creatureEffectsService.relativeEffectsOnThese$(character, namesList)
+                this._creatureEffectsService.relativeEffectsOnThese$$(character, namesList)
                     .pipe(
                         map(characterRelatives => characterRelatives
                             .filter(effect => ![BonusTypes.Circumstance, BonusTypes.Status].includes(effect.type)),
                         ),
                     ),
-                this._creatureEffectsService.relativeEffectsOnThese$(
+                this._creatureEffectsService.relativeEffectsOnThese$$(
                     creature, namesList, { onlyOfTypes: [BonusTypes.Circumstance, BonusTypes.Status] },
                 ),
             ])
@@ -161,28 +161,28 @@ export class ArmorClassService {
                     map(([characterRelatives, creatureRelatives]) => characterRelatives.concat(creatureRelatives)),
                 );
         } else {
-            return this._creatureEffectsService.relativeEffectsOnThese$(creature, namesList);
+            return this._creatureEffectsService.relativeEffectsOnThese$$(creature, namesList);
         }
     }
 
     private _bonuses$(creature: Creature): Observable<boolean> {
         if (creature.isFamiliar()) {
-            return this._creatureEffectsService.doBonusEffectsExistOnThese$(
+            return this._creatureEffectsService.doBonusEffectsExistOnThese$$(
                 creature, namesList, { onlyOfTypes: [BonusTypes.Circumstance, BonusTypes.Status] },
             );
         } else {
-            return this._creatureEffectsService.doBonusEffectsExistOnThese$(creature, namesList);
+            return this._creatureEffectsService.doBonusEffectsExistOnThese$$(creature, namesList);
         }
     }
 
     private _penalties$(creature: Creature): Observable<boolean> {
         //We need to copy show_PenaltiesOnThese and adapt it because Familiars only apply their own status and circumstance effects.
         if (creature.isFamiliar()) {
-            return this._creatureEffectsService.doPenaltyEffectsExistOnThese$(
+            return this._creatureEffectsService.doPenaltyEffectsExistOnThese$$(
                 creature, namesList, { onlyOfTypes: [BonusTypes.Circumstance, BonusTypes.Status] },
             );
         } else {
-            return this._creatureEffectsService.doPenaltyEffectsExistOnThese$(creature, namesList);
+            return this._creatureEffectsService.doPenaltyEffectsExistOnThese$$(creature, namesList);
         }
     }
 
@@ -220,16 +220,16 @@ export class ArmorClassService {
                             switchMap(armors =>
                                 (!isBaseArmorBonusSet && armors[0])
                                     ? combineLatest([
-                                        CharacterFlatteningService.characterLevel$,
+                                        CharacterFlatteningService.characterLevel$$,
                                         // Get the profiency with either this armor or its category.
                                         this._armorPropertiesService.profLevel$(armors[0], armorCreature),
-                                        this._abilityValuesService.mod$('Dexterity', armorCreature),
-                                        armors[0].effectiveDexCap$(),
-                                        this._creatureEffectsService.absoluteEffectsOnThis$(armorCreature, 'Dexterity Modifier Cap'),
-                                        this._creatureEffectsService.relativeEffectsOnThis$(armorCreature, 'Dexterity Modifier Cap'),
-                                        armors[0].effectiveACBonus$(),
-                                        armors[0].effectiveShoddy$,
-                                        armors[0].effectivePotency$(),
+                                        this._abilityValuesService.mod$$('Dexterity', armorCreature),
+                                        armors[0].effectiveDexCap$$(),
+                                        this._creatureEffectsService.absoluteEffectsOnThis$$(armorCreature, 'Dexterity Modifier Cap'),
+                                        this._creatureEffectsService.relativeEffectsOnThis$$(armorCreature, 'Dexterity Modifier Cap'),
+                                        armors[0].effectiveACBonus$$(),
+                                        armors[0].effectiveShoddy$$,
+                                        armors[0].effectivePotency$$(),
                                     ])
                                         .pipe(
                                             map(([

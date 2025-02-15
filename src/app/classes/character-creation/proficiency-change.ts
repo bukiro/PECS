@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weapon-proficiencies';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
@@ -23,17 +22,17 @@ export class ProficiencyChange implements Serializable<ProficiencyChange> {
     public group = '';
     public trait = '';
 
-    public static from(values: DeepPartial<ProficiencyChange>): ProficiencyChange {
+    public static from(values: MaybeSerialized<ProficiencyChange>): ProficiencyChange {
         return new ProficiencyChange().with(values);
     }
 
-    public with(values: DeepPartial<ProficiencyChange>): ProficiencyChange {
+    public with(values: MaybeSerialized<ProficiencyChange>): ProficiencyChange {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<ProficiencyChange> {
+    public forExport(): Serialized<ProficiencyChange> {
         return {
             ...forExport(this),
         };

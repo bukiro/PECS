@@ -1,7 +1,6 @@
-import { BehaviorSubject, Observable, map } from 'rxjs';
 import { setupSerialization } from '../../util/serialization';
-import { Serializable } from '../interfaces/serializable';
-import { DeepPartial } from '../types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from '../interfaces/serializable';
+import { computed, signal, Signal, WritableSignal } from '@angular/core';
 
 type FeatDataValue = string | number | boolean | Array<string> | Array<number> | null;
 
@@ -17,9 +16,7 @@ const { assign, forExport, isEqual } = setupSerialization<FeatData>({
 });
 
 export class FeatData implements Serializable<FeatData> {
-    private _data: Record<string, FeatDataValue> = {};
-
-    private readonly _data$: BehaviorSubject<Record<string, FeatDataValue>>;
+    public readonly data: WritableSignal<Record<string, FeatDataValue>>;
 
     constructor(
         public level: number,
@@ -27,24 +24,10 @@ export class FeatData implements Serializable<FeatData> {
         public sourceId: string,
         data?: Record<string, FeatDataValue>,
     ) {
-        if (data) {
-            this._data = data;
-        }
-
-        this._data$ = new BehaviorSubject(this._data);
+        this.data = signal(data ?? {});
     }
 
-    public get data(): Record<string, FeatDataValue> {
-        return this._data;
-    }
-
-    /** Only for setting in  */
-    public set data(data: Record<string, FeatDataValue>) {
-        this._data = data;
-        this._data$.next(this._data);
-    }
-
-    public static from(values: DeepPartial<FeatData>): FeatData {
+    public static from(values: MaybeSerialized<FeatData>): FeatData {
         return new FeatData(
             values.level ?? 0,
             values.featName ?? '',
@@ -52,13 +35,13 @@ export class FeatData implements Serializable<FeatData> {
         ).with(values);
     }
 
-    public with(values: DeepPartial<FeatData>): FeatData {
+    public with(values: MaybeSerialized<FeatData>): FeatData {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<FeatData> {
+    public forExport(): Serialized<FeatData> {
         return {
             ...forExport(this),
         };
@@ -75,93 +58,61 @@ export class FeatData implements Serializable<FeatData> {
     public setValue(key: string, input: FeatDataValue | Event): void {
         const value = input instanceof Event ? (input.target as HTMLInputElement).value : input;
 
-        this._data[key] = value;
-        this._data$.next(this._data);
+        this.data.update(data => ({
+            ...data,
+            [key]: value,
+        }));
     }
 
-    public getValue(key: string): Readonly<FeatDataValue> {
-        return this._data[key] ?? null;
+    public getValue$$(key: string): Signal<FeatDataValue> {
+        return computed(() => this.data()[key] ?? null);
     }
 
-    public valueAsString(key: string): Readonly<string | null> {
-        return typeof this._data[key] === 'string' ? this._data[key] as string : null;
+    public valueAsString$$(key: string): Signal<string | null> {
+        return computed(() => {
+            const data = this.data();
+
+            return typeof data[key] === 'string' ? data[key] as string : null;
+        });
     }
 
-    public valueAsNumber(key: string): Readonly<number | null> {
-        return typeof this._data[key] === 'number' ? this._data[key] as number : null;
+    public valueAsNumber$$(key: string): Signal<number | null> {
+        return computed(() => {
+            const data = this.data();
+
+            return typeof data[key] === 'number' ? data[key] as number : null;
+        });
     }
 
-    public valueAsBoolean(key: string): Readonly<boolean | null> {
-        return typeof this._data[key] === 'boolean' ? this._data[key] as boolean : null;
+    public valueAsBoolean$$(key: string): Signal<boolean | null> {
+        return computed(() => {
+            const data = this.data();
+
+            return typeof data[key] === 'boolean' ? data[key] as boolean : null;
+        });
     }
 
-    public valueAsStringArray(key: string): ReadonlyArray<string> | null {
-        if (this._data[key] && Array.isArray(this._data[key])) {
-            return this._data[key] as Array<string>;
-        } else {
-            return null;
-        }
+    public valueAsStringArray$$(key: string): Signal<Array<string> | null> {
+        return computed(() => {
+            const data = this.data();
+
+            if (data[key] && Array.isArray(data[key])) {
+                return data[key] as Array<string>;
+            } else {
+                return null;
+            }
+        });
     }
 
-    public valueAsNumberArray(key: string): ReadonlyArray<number> | null {
-        if (this._data[key] && Array.isArray(this._data[key])) {
-            return this._data[key] as Array<number>;
-        } else {
-            return null;
-        }
-    }
+    public valueAsNumberArray$$(key: string): Signal<Array<number> | null> {
+        return computed(() => {
+            const data = this.data();
 
-    public getValue$(key: string): Observable<Readonly<FeatDataValue>> {
-        return this._data$
-            .pipe(
-                map(data => data[key] ?? null),
-            );
-    }
-
-    public valueAsString$(key: string): Observable<Readonly<string | null>> {
-        return this._data$
-            .pipe(
-                map(data => typeof data[key] === 'string' ? data[key] as string : null),
-            );
-    }
-
-    public valueAsNumber$(key: string): Observable<Readonly<number | null>> {
-        return this._data$
-            .pipe(
-                map(data => typeof data[key] === 'number' ? data[key] as number : null),
-            );
-    }
-
-    public valueAsBoolean$(key: string): Observable<Readonly<boolean | null>> {
-        return this._data$
-            .pipe(
-                map(data => typeof data[key] === 'boolean' ? data[key] as boolean : null),
-            );
-    }
-
-    public valueAsStringArray$(key: string): Observable<ReadonlyArray<string> | null> {
-        return this._data$
-            .pipe(
-                map(data => {
-                    if (data[key] && Array.isArray(data[key])) {
-                        return data[key] as Array<string>;
-                    } else {
-                        return null;
-                    }
-                }),
-            );
-    }
-
-    public valueAsNumberArray$(key: string): Observable<ReadonlyArray<number> | null> {
-        return this._data$
-            .pipe(
-                map(data => {
-                    if (data[key] && Array.isArray(data[key])) {
-                        return data[key] as Array<number>;
-                    } else {
-                        return null;
-                    }
-                }),
-            );
+            if (data[key] && Array.isArray(data[key])) {
+                return data[key] as Array<number>;
+            } else {
+                return null;
+            }
+        });
     }
 }

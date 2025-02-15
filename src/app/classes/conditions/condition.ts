@@ -1,7 +1,5 @@
-import { combineLatest, map, Observable, of } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/description-utils';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { ActivityGain } from '../activities/activity-gain';
@@ -14,9 +12,11 @@ import { ItemGain } from '../items/item-gain';
 import { HeightenedDescriptionVariableCollection } from '../spells/heightened-description-variable-collection';
 import { ConditionDuration } from './condition-duration';
 import { ConditionGain } from './condition-gain';
-import { safeParseInt } from 'src/libs/shared/util/string-utils';
+import { safeParseInt, stringEqualsCaseInsensitive, stringsIncludeCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { matchStringListFilter } from 'src/libs/shared/util/filter-utils';
 import { isDefined } from 'src/libs/shared/util/type-guard-utils';
+import { computed, Signal } from '@angular/core';
+import { isEqualPrimitiveArray } from 'src/libs/shared/util/compare-utils';
 
 interface ConditionEnd {
     name: string;
@@ -175,7 +175,7 @@ export class Condition implements Serializable<Condition> {
     public onceEffects: Array<EffectGain> = [];
     public senses: Array<SenseGain> = [];
 
-    public effectiveChoicesBySpellLevel$ = new Map<number, Observable<Array<string>>>();
+    public effectiveChoicesBySpellLevel$$ = new Map<number, Signal<Array<string>>>();
 
     constructor() {
         //Initially, if this.choice is not one of the available choices, set it to the first.
@@ -220,11 +220,11 @@ export class Condition implements Serializable<Condition> {
         );
     }
 
-    public static from(values: DeepPartial<Condition>, recastFns: RecastFns): Condition {
+    public static from(values: MaybeSerialized<Condition>, recastFns: RecastFns): Condition {
         return new Condition().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Condition>, recastFns: RecastFns): Condition {
+    public with(values: MaybeSerialized<Condition>, recastFns: RecastFns): Condition {
         // endsWithConditions has changed from string to object; this is patched here for existing conditions.
         if (values.endsWithConditions) {
             values.endsWithConditions = values.endsWithConditions.map(obj =>
@@ -261,7 +261,7 @@ export class Condition implements Serializable<Condition> {
         return this;
     }
 
-    public forExport(): DeepPartial<Condition> {
+    public forExport(): Serialized<Condition> {
         return {
             ...forExport(this),
         };
@@ -275,93 +275,95 @@ export class Condition implements Serializable<Condition> {
         return isEqual(this, compared, options);
     }
 
-    public appliedAttackRestrictions$(gain?: ConditionGain): Observable<Array<AttackRestriction>> {
+    public appliedAttackRestrictions$$(gain?: ConditionGain): Signal<Array<AttackRestriction>> {
         return gain
-            ? gain.choice$
-                .pipe(
-                    map(choice =>
-                        this.attackRestrictions
-                            // Remove restrictions that don't match the choice filter.
-                            .filter(restriction =>
-                                matchStringListFilter({ value: choice, match: restriction.conditionChoiceFilter }),
-                            ),
-                    ),
-                )
-            : of(
-                this.attackRestrictions
-                    .filter(override => !override.conditionChoiceFilter?.length),
+            ? computed(() => {
+                const choice = gain.choice();
+
+                return this.attackRestrictions
+                    // Remove restrictions that don't match the choice filter.
+                    .filter(restriction =>
+                        matchStringListFilter({ value: choice, match: restriction.conditionChoiceFilter }),
+                    );
+            })
+            : computed(() =>
+                // Without a gain, remove restrictions that have a choice filter.
+                this.attackRestrictions.filter(override => !override.conditionChoiceFilter?.length),
             );
     }
 
-    public appliedConditionOverrides$(gain?: ConditionGain): Observable<Array<string>> {
+    public appliedConditionOverrides$$(gain?: ConditionGain): Signal<Array<string>> {
         return gain
-            ? combineLatest([
-                gain.selectedOtherConditions.values$,
-                gain.choice$,
-            ])
-                .pipe(
-                    map(([selectedOtherConditions, choice]) =>
-                        this.overrideConditions
-                            // Remove overrides that don't match the choice filter.
-                            .filter(override =>
-                                matchStringListFilter({ value: choice, match: override.conditionChoiceFilter }),
-                            )
-                            .map(override => {
-                                if (override.name.toLowerCase().includes('selectedcondition|')) {
-                                    return selectedOtherConditions[safeParseInt(override.name.toLowerCase().split('|')[1], 0)];
-                                }
+            ? computed(() => {
+                const selectedOtherConditions = gain.selectedOtherConditions();
+                const choice = gain.choice();
 
-                                return override.name;
-                            })
-                            .filter(isDefined),
-                    ),
-                )
-            : of(
-                this.overrideConditions
-                    .filter(override => !override.conditionChoiceFilter?.length)
-                    .map(({ name }) => name));
-    }
+                return this.overrideConditions
+                    // Remove overrides that don't match the choice filter.
+                    .filter(({ conditionChoiceFilter }) =>
+                        matchStringListFilter({ value: choice, match: conditionChoiceFilter }),
+                    )
+                    .map(({ name }) => {
+                        if (stringEqualsCaseInsensitive(name, 'selectedcondition|', { allowPartialString: true })) {
+                            return selectedOtherConditions[safeParseInt(name.toLowerCase().split('|')[1], 0)];
+                        }
 
-    public appliedConditionPauses$(gain?: ConditionGain): Observable<Array<string>> {
-        return gain
-            ? combineLatest([
-                gain.selectedOtherConditions.values$,
-                gain.choice$,
-            ])
-                .pipe(
-                    map(([selectedOtherConditions, choice]) =>
-                        this.pauseConditions
-                            // Remove pauses that don't match the choice filter.
-                            .filter(pause =>
-                                matchStringListFilter({ value: choice, match: pause.conditionChoiceFilter }),
-                            )
-                            .map(pause => {
-                                if (pause.name.toLowerCase().includes('selectedcondition|')) {
-                                    return selectedOtherConditions[safeParseInt(pause.name.toLowerCase().split('|')[1], 0)];
-                                }
+                        return name;
+                    })
+                    .filter(isDefined);
+            },
+            { equal: isEqualPrimitiveArray },
+            )
+            : computed(
+                () =>
+                    // Without a gain, remove overrides that have a choice filter.
+                    this.overrideConditions
+                        .filter(override => !override.conditionChoiceFilter?.length)
+                        .map(({ name }) => name),
 
-                                return pause.name;
-                            })
-                            .filter(isDefined),
-                    ),
-                )
-            : of(
-                this.pauseConditions
-                    .filter(pause => !pause.conditionChoiceFilter?.length)
-                    .map(({ name }) => name),
+                { equal: isEqualPrimitiveArray },
             );
     }
 
-    public isStoppingTime$(gain?: ConditionGain): Observable<boolean> {
-        return (
-            gain?.choice$
-            ?? of('All')
-        )
-            .pipe(
-                map(choice =>
-                    this.stopTimeChoiceFilter.some(filter => ['All', choice].includes(filter)),
-                ),
+    public appliedConditionPauses$$(gain?: ConditionGain): Signal<Array<string>> {
+        return gain
+            ? computed(
+                () => {
+                    const selectedOtherConditions = gain.selectedOtherConditions();
+                    const choice = gain.choice();
+
+                    return this.pauseConditions
+                        // Remove pauses that don't match the choice filter.
+                        .filter(({ conditionChoiceFilter }) =>
+                            matchStringListFilter({ value: choice, match: conditionChoiceFilter }),
+                        )
+                        .map(({ name }) => {
+                            if (stringEqualsCaseInsensitive(name, 'selectedcondition|', { allowPartialString: true })) {
+                                return selectedOtherConditions[safeParseInt(name.toLowerCase().split('|')[1], 0)];
+                            }
+
+                            return name;
+                        })
+                        .filter(isDefined);
+                },
+                { equal: isEqualPrimitiveArray },
+            )
+            : computed(
+                () =>
+                    // Without a gain, remove pauses that have a choice filter.
+                    this.pauseConditions
+                        .filter(pause => !pause.conditionChoiceFilter?.length)
+                        .map(({ name }) => name),
+                { equal: isEqualPrimitiveArray },
             );
+    }
+
+    public isStoppingTime$$(gain?: ConditionGain): Signal<boolean> {
+        return computed(() => {
+            const choice = gain?.choice() ?? 'all';
+
+            return this.stopTimeChoiceFilter.some(filter => stringsIncludeCaseInsensitive(['all', choice], filter));
+        });
     }
 
     public unfilteredChoices(): Array<string> {

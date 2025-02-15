@@ -82,7 +82,7 @@ export class SpeedValuesService {
 
     private _baseValue$(speed: Speed, creature: Creature): Observable<{ result: number; explain: string }> {
         //Get the base speed from the ancestry.
-        const baseValue = creature.baseSpeed(speed.name);
+        const baseValue = creature.baseSpeed$$(speed.name);
 
         return combineLatest([
             this._absolutes$(creature, speed.name),
@@ -122,33 +122,33 @@ export class SpeedValuesService {
 
     private _relatives$(creature: Creature, name: string, options?: { includeGeneralSpeed?: boolean }): Observable<Array<RelativeEffect>> {
         if (options?.includeGeneralSpeed) {
-            return this._creatureEffectsService.relativeEffectsOnThese$(creature, [name, 'Speed']);
+            return this._creatureEffectsService.relativeEffectsOnThese$$(creature, [name, 'Speed']);
         } else {
-            return this._creatureEffectsService.relativeEffectsOnThis$(creature, name);
+            return this._creatureEffectsService.relativeEffectsOnThis$$(creature, name);
         }
     }
 
     private _absolutes$(creature: Creature, name: string, options?: { includeGeneralSpeed?: boolean }): Observable<Array<AbsoluteEffect>> {
         if (options?.includeGeneralSpeed) {
-            return this._creatureEffectsService.absoluteEffectsOnThese$(creature, [name, 'Speed']);
+            return this._creatureEffectsService.absoluteEffectsOnThese$$(creature, [name, 'Speed']);
         } else {
-            return this._creatureEffectsService.absoluteEffectsOnThis$(creature, name);
+            return this._creatureEffectsService.absoluteEffectsOnThis$$(creature, name);
         }
     }
 
     private _showBonuses$(creature: Creature, name: string, options?: { includeGeneralSpeed?: boolean }): Observable<boolean> {
         if (options?.includeGeneralSpeed) {
-            return this._creatureEffectsService.doBonusEffectsExistOnThese$(creature, [name, 'Speed']);
+            return this._creatureEffectsService.doBonusEffectsExistOnThese$$(creature, [name, 'Speed']);
         } else {
-            return this._creatureEffectsService.doBonusEffectsExistOnThis$(creature, name);
+            return this._creatureEffectsService.doBonusEffectsExistOnThis$$(creature, name);
         }
     }
 
     private _showPenalties$(creature: Creature, name: string, options?: { includeGeneralSpeed?: boolean }): Observable<boolean> {
         if (options?.includeGeneralSpeed) {
-            return this._creatureEffectsService.doPenaltyEffectsExistOnThese$(creature, [name, 'Speed']);
+            return this._creatureEffectsService.doPenaltyEffectsExistOnThese$$(creature, [name, 'Speed']);
         } else {
-            return this._creatureEffectsService.doPenaltyEffectsExistOnThis$(creature, name);
+            return this._creatureEffectsService.doPenaltyEffectsExistOnThis$$(creature, name);
         }
     }
 

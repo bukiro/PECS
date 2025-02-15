@@ -278,7 +278,7 @@
                                         </span>
                                     }
                                     {{
-                                        weaponParameters.weapon.effectiveName$()
+                                        weaponParameters.weapon.effectiveName$$()
                                     }}
                                 </strong>
                             }
@@ -290,7 +290,7 @@
                                 as handwraps
                             ) {
                                 <strong
-                                    >({{ handwraps.effectiveName$() }})</strong
+                                    >({{ handwraps.effectiveName$$() }})</strong
                                 >
                             }
 
@@ -332,7 +332,7 @@
                                                       .amount + " "
                                                 : ""
                                         }}{{
-                                            weaponParameters.asBomb.effectiveName$()
+                                            weaponParameters.asBomb.effectiveName$$()
                                         }}
                                         @if (weaponParameters.asBomb.actions) {
                                             <app-action-icons
@@ -968,7 +968,7 @@
                                     ? ammo.item.amount + " "
                                     : ""
                             }}
-                            {{ ammo.item.effectiveName$() }}
+                            {{ ammo.item.effectiveName$$() }}
                         </strong>
 
                         <div
@@ -1037,7 +1037,7 @@
                             let snareIndex = $index
                         ) {
                             <ng-template #SnareTitleTemplate>
-                                <span>{{ snare.item.effectiveName$() }}</span>
+                                <span>{{ snare.item.effectiveName$$() }}</span>
                             </ng-template>
 
                             <ng-template #SnareTemplate>

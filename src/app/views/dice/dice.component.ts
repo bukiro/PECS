@@ -116,7 +116,7 @@ export class DiceComponent extends TrackByMixin(BaseClass) {
     }
 
     public allAvailableCreatures$(): Observable<Array<Creature>> {
-        return this._creatureAvailabilityService.allAvailableCreatures$();
+        return this._creatureAvailabilityService.allAvailableCreatures$$();
     }
 
     public onHeal(creature: Creature): void {
@@ -128,7 +128,7 @@ export class DiceComponent extends TrackByMixin(BaseClass) {
     public onTakeDamage(creature: Creature): void {
         const amount = this.totalDiceSum();
 
-        this._healthService.takeDamage$(creature, amount);
+        this._healthService.takeDamage(creature, amount);
     }
 
     public setTempHP(creature: Creature): void {

@@ -1,6 +1,5 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { SkillChoice } from '../../character-creation/skill-choice';
 import { SpellChoice } from '../../character-creation/spell-choice';
@@ -54,17 +53,17 @@ export class Heritage implements Serializable<Heritage> {
     public spellChoices: Array<SpellChoice> = [];
     public subTypes: Array<Heritage> = [];
 
-    public static from(values: DeepPartial<Heritage>): Heritage {
+    public static from(values: MaybeSerialized<Heritage>): Heritage {
         return new Heritage().with(values);
     }
 
-    public with(values: DeepPartial<Heritage>): Heritage {
+    public with(values: MaybeSerialized<Heritage>): Heritage {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Heritage> {
+    public forExport(): Serialized<Heritage> {
         return {
             ...forExport(this),
         };

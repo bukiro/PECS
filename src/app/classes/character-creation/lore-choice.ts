@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { SkillIncrease } from '../skills/skill-increase';
 import { SkillChoice } from './skill-choice';
@@ -29,11 +28,11 @@ export class LoreChoice extends SkillChoice implements Serializable<LoreChoice> 
 
     public increases: Array<SkillIncrease> = [];
 
-    public static from(values: DeepPartial<LoreChoice>): LoreChoice {
+    public static from(values: MaybeSerialized<LoreChoice>): LoreChoice {
         return new LoreChoice().with(values);
     }
 
-    public with(values: DeepPartial<LoreChoice>): LoreChoice {
+    public with(values: MaybeSerialized<LoreChoice>): LoreChoice {
         super.with(values);
 
         assign(this, values);
@@ -41,7 +40,7 @@ export class LoreChoice extends SkillChoice implements Serializable<LoreChoice> 
         return this;
     }
 
-    public forExport(): DeepPartial<LoreChoice> {
+    public forExport(): Serialized<LoreChoice> {
         return {
             ...super.forExport(),
             ...forExport(this),

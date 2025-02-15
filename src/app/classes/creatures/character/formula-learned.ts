@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<FormulaLearned>({
@@ -17,17 +16,17 @@ export class FormulaLearned implements Serializable<FormulaLearned> {
     public snareSpecialistPrepared = 0;
     public snareSpecialistAvailable = 0;
 
-    public static from(values: DeepPartial<FormulaLearned>): FormulaLearned {
+    public static from(values: MaybeSerialized<FormulaLearned>): FormulaLearned {
         return new FormulaLearned().with(values);
     }
 
-    public with(values: DeepPartial<FormulaLearned>): FormulaLearned {
+    public with(values: MaybeSerialized<FormulaLearned>): FormulaLearned {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<FormulaLearned> {
+    public forExport(): Serialized<FormulaLearned> {
         return {
             ...forExport(this),
         };

@@ -228,7 +228,7 @@ export class CreatureConditionsService {
     public collectEffectConditions$(
         creature: Creature,
     ): Observable<{ conditions: Array<ConditionEffectsCollection>; hintSets: Array<HintEffectsObject> }> {
-        return this._appliedCreatureConditionsService.appliedCreatureConditions$(creature)
+        return this._appliedCreatureConditionsService.appliedCreatureConditions$$(creature)
             .pipe(
                 map(appliedConditions => {
                     const hintSets: Array<HintEffectsObject> = [];
@@ -337,7 +337,7 @@ export class CreatureConditionsService {
     }
 
     private _shouldDenyCondition$(creature: Creature, conditionGain: ConditionGain): Observable<boolean> {
-        return this._appliedCreatureConditionsService.appliedCreatureConditions$(creature)
+        return this._appliedCreatureConditionsService.appliedCreatureConditions$$(creature)
             .pipe(
                 map(conditions => {
                     //Check if any condition denies this condition, and stop processing if that is the case.
@@ -364,7 +364,7 @@ export class CreatureConditionsService {
 
     private _prepareNewCondition(conditionGain: ConditionGain, originalCondition: Condition): void {
         // If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
-        if (conditionGain.durationIsDynamic) {
+        if (conditionGain.durationIsDynamic$$) {
             conditionGain.duration =
                 originalCondition.defaultDuration(conditionGain.choice, conditionGain.heightened)?.duration || 0;
         }

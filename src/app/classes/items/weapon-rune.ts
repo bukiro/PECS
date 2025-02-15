@@ -1,6 +1,5 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Rune } from './rune';
@@ -50,25 +49,25 @@ export class WeaponRune extends Rune implements MessageSerializable<WeaponRune> 
         return this.striking;
     }
 
-    public static from(values: DeepPartial<WeaponRune>, recastFns: RecastFns): WeaponRune {
+    public static from(values: MaybeSerialized<WeaponRune>, recastFns: RecastFns): WeaponRune {
         return new WeaponRune().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<WeaponRune>, recastFns: RecastFns): WeaponRune {
+    public with(values: MaybeSerialized<WeaponRune>, recastFns: RecastFns): WeaponRune {
         super.with(values, recastFns);
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<WeaponRune> {
+    public forExport(): Serialized<WeaponRune> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<WeaponRune> {
+    public forMessage(): Serialized<WeaponRune> {
         return {
             ...super.forMessage(),
             ...forMessage(this),

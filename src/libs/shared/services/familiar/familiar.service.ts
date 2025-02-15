@@ -13,7 +13,7 @@ export class FamiliarService {
     ) { }
 
     public removeAllFamiliarAbilities(): void {
-        CreatureService.familiar$
+        CreatureService.familiar$$
             .pipe(
                 take(1),
             )

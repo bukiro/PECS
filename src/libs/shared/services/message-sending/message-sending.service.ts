@@ -107,7 +107,7 @@ export class MessageSendingService {
             this._store$.select(selectGmMode),
             SettingsService.settings.manualMode$,
             this._authService.isReady$,
-            this._creatureAvailabilityService.allAvailableCreatures$(),
+            this._creatureAvailabilityService.allAvailableCreatures$$(),
         ])
             .pipe(
                 take(1),

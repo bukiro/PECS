@@ -1,7 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { ItemGain } from '../items/item-gain';
@@ -9,7 +7,8 @@ import { SpellCast } from '../spells/spell-cast';
 import { SpellTarget } from '../spells/spell-target';
 import { Activity } from './activity';
 import { ActivityGainBase } from './activity-gain-base';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serializable, MaybeSerialized, Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Signal, signal } from '@angular/core';
 
 const { assign, forExport, isEqual } = setupSerialization<ActivityGain>({
     primitives: [
@@ -89,55 +88,20 @@ export class ActivityGain implements ActivityGainBase, Serializable<ActivityGain
 
     public $originalActivity?: Activity;
 
-    public readonly active$: BehaviorSubject<boolean>;
-    public readonly chargesUsed$: BehaviorSubject<number>;
-    public readonly activeCooldown$: BehaviorSubject<number>;
+    public readonly active = signal<boolean>(false);
+    public readonly chargesUsed = signal<number>(0);
+    public readonly activeCooldown = signal<number>(0);
     /**
-     * activeCooldownByCreature$ is a map of calculated cooldown observables matched to creatures,
+     * activeCooldownByCreature$ is a map of calculated cooldown signals matched to creatures,
      * depending on the original activity's effective cooldown,
      * created by the ActivityGainPropertiesService so that it can be subscribed to without passing parameters.
      */
-    public readonly activeCooldownByCreature$ = new Map<string, Observable<number>>();
-
-    private _active = false;
-    private _activeCooldown = 0;
-    private _chargesUsed = 0;
+    public readonly activeCooldownByCreature$$ = new Map<string, Signal<number>>();
 
     constructor(
         originalActivity: Activity | undefined,
     ) {
         this.$originalActivity = originalActivity;
-
-        this.active$ = new BehaviorSubject(this._active);
-        this.activeCooldown$ = new BehaviorSubject(this._activeCooldown);
-        this.chargesUsed$ = new BehaviorSubject(this._chargesUsed);
-    }
-
-    public get active(): boolean {
-        return this._active;
-    }
-
-    public set active(value: boolean) {
-        this._active = value;
-        this.active$.next(this._active);
-    }
-
-    public get activeCooldown(): number {
-        return this._activeCooldown;
-    }
-
-    public set activeCooldown(value: number) {
-        this._activeCooldown = value;
-        this.activeCooldown$.next(this._activeCooldown);
-    }
-
-    public get chargesUsed(): number {
-        return this._chargesUsed;
-    }
-
-    public set chargesUsed(value: number) {
-        this._chargesUsed = value;
-        this.chargesUsed$.next(this._chargesUsed);
     }
 
     public get originalActivity(): Activity {
@@ -148,17 +112,17 @@ export class ActivityGain implements ActivityGainBase, Serializable<ActivityGain
             }, RecastService.recastFns);
     }
 
-    public static from(values: DeepPartial<ActivityGain> & { originalActivity: Activity }): ActivityGain {
+    public static from(values: MaybeSerialized<ActivityGain> & { originalActivity: Activity }): ActivityGain {
         return new ActivityGain(values.originalActivity).with(values);
     }
 
-    public with(values: DeepPartial<ActivityGain>): ActivityGain {
+    public with(values: MaybeSerialized<ActivityGain>): ActivityGain {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<ActivityGain> {
+    public forExport(): Serialized<ActivityGain> {
         return {
             ...forExport(this),
         };

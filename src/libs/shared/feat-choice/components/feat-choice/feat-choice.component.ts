@@ -198,7 +198,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
                 this._choice$,
                 this.allowedFeatsAmount$,
                 this.availableFeats$,
-                propMap$(SettingsService.settings$, 'hiddenFeats$'),
+                propMap$(SettingsService.settings$$, 'hiddenFeats$'),
             ])
                 .pipe(
                     takeUntilDestroyed(),
@@ -668,7 +668,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
                     (
                         // If the feat can be taken a limited number of times, check if you already have it now or later.
                         !feat.unlimited
-                            ? this._creatureFeatsService.creatureHasFeat$(
+                            ? this._creatureFeatsService.creatureHasFeat$$(
                                 feat.name,
                                 { creature },
                                 { charLevel: levelNumber },
@@ -682,7 +682,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
                                     // Familiar abilities are independent of level.
                                     // Don't check haveLater for them, because it will be the same result as haveUpToNow.
                                     creature.isCharacter()
-                                        ? this._creatureFeatsService.creatureHasFeat$(
+                                        ? this._creatureFeatsService.creatureHasFeat$$(
                                             feat.name,
                                             { creature },
                                             { charLevel: Defaults.maxCharacterLevel, minLevel: levelNumber + 1 },
@@ -748,7 +748,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
                                         && stringsIncludeCaseInsensitive(feat.traits, 'dedication')
                                         && !stringsIncludeCaseInsensitive(ignoreRequirementsList, 'dedicationlimit')
                                     )
-                                        ? this._characterFeatsService.characterFeatsAtLevel$(levelNumber)
+                                        ? this._characterFeatsService.characterFeatsAtLevel$$(levelNumber)
                                         : of([])
                                 )
                                     .pipe(
@@ -805,7 +805,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
                                                     && !subFeat.hide,
                                                 )
                                                 .map(subFeat =>
-                                                    this._creatureFeatsService.creatureHasFeat$(
+                                                    this._creatureFeatsService.creatureHasFeat$$(
                                                         subFeat.name,
                                                         { creature },
                                                         { charLevel: levelNumber },
@@ -935,8 +935,8 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
                     (
                         creature.isFamiliar()
                             ? combineLatest([
-                                this._creatureEffectsService.absoluteEffectsOnThis$(CreatureService.character, 'Familiar Abilities'),
-                                this._creatureEffectsService.relativeEffectsOnThis$(CreatureService.character, 'Familiar Abilities'),
+                                this._creatureEffectsService.absoluteEffectsOnThis$$(CreatureService.character, 'Familiar Abilities'),
+                                this._creatureEffectsService.relativeEffectsOnThis$$(CreatureService.character, 'Familiar Abilities'),
                             ])
                             : combineLatest([
                                 of([]),
@@ -1130,7 +1130,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
             this._levelNumber$
                 .pipe(
                     switchMap(levelNumber =>
-                        this._characterFeatsService.characterFeatsAtLevel$(levelNumber),
+                        this._characterFeatsService.characterFeatsAtLevel$$(levelNumber),
                     ),
                 ),
         ])
@@ -1384,7 +1384,7 @@ export class FeatChoiceComponent extends TrackByMixin(BaseClass) {
             ? this._levelNumber$
                 .pipe(
                     switchMap(levelNumber =>
-                        this._characterFeatsService.characterFeatsTaken$(
+                        this._characterFeatsService.characterFeatsTaken$$(
                             1,
                             levelNumber,
                             { featName: feat.name },

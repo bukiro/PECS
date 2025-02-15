@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/creatures/animal-companion/animal-companion';
 import { AnimalCompanionAncestry } from 'src/app/classes/creatures/animal-companion/animal-companion-ancestry';
 import { Equipment } from 'src/app/classes/items/equipment';
-import { DeepPartial } from '../../definitions/types/deep-partial';
 import { AnimalCompanionsDataService } from '../data/animal-companions-data.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
 import { RecastService } from '../recast/recast.service';
+import { Serialized } from '../../definitions/interfaces/serializable';
 
 @Injectable({
     providedIn: 'root',
@@ -19,7 +19,7 @@ export class AnimalCompanionAncestryService {
         private readonly _inventoryService: InventoryService,
     ) { }
 
-    public restoreAncestryFromSave(ancestry: DeepPartial<AnimalCompanionAncestry>): AnimalCompanionAncestry {
+    public restoreAncestryFromSave(ancestry: Serialized<AnimalCompanionAncestry>): AnimalCompanionAncestry {
         let restoredAncestry: AnimalCompanionAncestry | undefined;
 
         if (ancestry.name) {

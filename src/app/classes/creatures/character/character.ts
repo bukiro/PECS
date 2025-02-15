@@ -1,4 +1,3 @@
-import { BehaviorSubject, Observable, shareReplay, combineLatest, map, distinctUntilChanged } from 'rxjs';
 import { Alignments } from 'src/libs/shared/definitions/alignments';
 import { AbilityBaseValueSetting } from 'src/libs/shared/definitions/creature-properties/ability-base-value-setting';
 import { AbilityBoost } from 'src/libs/shared/definitions/creature-properties/ability-boost';
@@ -6,11 +5,9 @@ import { CreatureTypeIds } from 'src/libs/shared/definitions/creature-type-ids';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { Feat } from 'src/libs/shared/definitions/models/feat';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { spellLevelFromCharLevel } from 'src/libs/shared/util/character-utils';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { Settings } from '../../app/settings';
 import { SkillChoice } from '../../character-creation/skill-choice';
@@ -22,6 +19,9 @@ import { Creature } from '../creature';
 import { CharacterClass } from './character-class';
 import { CharacterClassLevel } from './character-class-level';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
+import { computed, Signal, signal } from '@angular/core';
+import { matchBooleanFilter, matchStringFilter } from 'src/libs/shared/util/filter-utils';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 interface IgnoredMessage { id: string; ttl: number }
 
@@ -69,128 +69,70 @@ export class Character extends Creature implements Serializable<Character> {
 
     public ignoredMessages: Array<IgnoredMessage> = [];
 
-    public readonly experiencePoints$: BehaviorSubject<number>;
-    public readonly heroPoints$: BehaviorSubject<number>;
-    public readonly partyName$: BehaviorSubject<string>;
+    public readonly heroPoints = signal(1);
+    public readonly experiencePoints = signal(0);
+    public readonly partyName = signal('');
+    public readonly baseValues = signal<Array<AbilityBaseValueSetting>>([]);
+    public readonly class = signal(new CharacterClass());
+    public readonly settings = signal(new Settings());
+    public readonly customFeats = signal<Array<Feat>>([]);
 
-    public readonly class$: BehaviorSubject<CharacterClass>;
-    public readonly settings$: BehaviorSubject<Settings>;
+    public baseSize$$ = computed(() =>
+        this.class().ancestry().size ?? 0,
+    );
 
-    public readonly isBlankCharacter$: Observable<boolean>;
-    public readonly maxSpellLevel$: Observable<number>;
+    /**
+     * The character is considered blank if texts haven't been changed, no class and no basevalues have been chosen,
+     * and no items or inventories have been added.
+     * Most other changes are only possible after selecting a class.
+     */
+    public readonly isBlankCharacter$$ = computed(() =>
+        ([
+            this.alignment() !== Alignments.N,
+            this.settings().useIndividualAbilityBaseValues(),
+            !!this.class().name,
+            this.level() > 1,
+            !!this.experiencePoints(),
+            !!this.name(),
+            !!this.partyName(),
+            this._areInventoriesTouched$$(),
+        ]).includes(true),
+    );
 
-    private _heroPoints = 1;
-    private _experiencePoints = 0;
-    private _partyName = '';
+    public readonly maxSpellLevel$$ = computed(() =>
+        spellLevelFromCharLevel(this.level()),
+    );
 
-    private readonly _baseValues = new OnChangeArray<AbilityBaseValueSetting>();
-
-    private _class: CharacterClass = new CharacterClass();
-    private _settings: Settings = new Settings();
-
-    private readonly _customFeats = new OnChangeArray<Feat>();
+    /**
+     * If more than one wayfinder with slotted aeon stones is invested, you do not gain the benefits of any of them.
+     */
+    public hasTooManySlottedAeonStones$$ = computed(() =>
+        this.mainInventory$$().activeWornItems$$()
+            .filter(item => item.isWayfinder && item.aeonStones.length)
+            .length > Defaults.maxInvestedAeonStones,
+    );
 
     constructor() {
         super();
 
-        this.class$ = new BehaviorSubject(this._class);
-        this.experiencePoints$ = new BehaviorSubject(this._experiencePoints);
-        this.heroPoints$ = new BehaviorSubject(this._heroPoints);
-        this.partyName$ = new BehaviorSubject(this._partyName);
-        this.settings$ = new BehaviorSubject(this._settings);
-
         //Characters get one extra inventory for worn items.
-        this.inventories = [new ItemCollection(), new ItemCollection(Defaults.wornToolsInventoryBulkLimit)];
-
-        // The character is considered blank if texts haven't been changed, no class and no basevalues have been chosen,
-        // and no items or inventories have been added.
-        // Most other changes are only possible after selecting a class.
-        this.isBlankCharacter$ = this._isBlankCharacter$()
-            .pipe(
-                shareReplay({ refCount: true, bufferSize: 1 }),
-            );
-
-        this.maxSpellLevel$ = this._maxSpellLevel$()
-            .pipe(
-                shareReplay({ refCount: true, bufferSize: 1 }),
-            );
-    }
-
-    public get class(): CharacterClass {
-        return this._class;
-    }
-
-    public set class(newClass: CharacterClass) {
-        this._class = newClass;
-        this.class$.next(this._class);
-    }
-
-    public get customFeats(): OnChangeArray<Feat> {
-        return this._customFeats;
-    }
-
-    public set customFeats(value: Array<Feat>) {
-        this._customFeats.setValues(...value);
-    }
-
-    public get experiencePoints(): number {
-        return this._experiencePoints;
-    }
-
-    public set experiencePoints(value: number) {
-        this._experiencePoints = value;
-        this.experiencePoints$.next(this._experiencePoints);
-    }
-
-    public get heroPoints(): number {
-        return this._heroPoints;
-    }
-
-    public set heroPoints(value) {
-        this._heroPoints = value;
-        this.heroPoints$.next(this._heroPoints);
-    }
-
-    public get partyName(): string {
-        return this._partyName;
-    }
-
-    public set partyName(value: string) {
-        this._partyName = value;
-        this.partyName$.next(this._partyName);
-    }
-
-    public get settings(): Settings {
-        return this._settings;
-    }
-
-    public set settings(value: Settings) {
-        this._settings = value;
-        this.settings$.next(this._settings);
-    }
-
-    public get baseValues(): OnChangeArray<AbilityBaseValueSetting> {
-        return this._baseValues;
-    }
-
-    public set baseValues(value: Array<AbilityBaseValueSetting>) {
-        this._baseValues.setValues(...value);
+        this.inventories.set([new ItemCollection(), new ItemCollection(Defaults.wornToolsInventoryBulkLimit)]);
     }
 
     public get requiresConForHP(): boolean { return true; }
 
-    public static from(values: DeepPartial<Character>, recastFns: RecastFns): Character {
+    public static from(values: MaybeSerialized<Character>, recastFns: RecastFns): Character {
         return new Character().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Character>, recastFns: RecastFns): Character {
+    public with(values: MaybeSerialized<Character>, recastFns: RecastFns): Character {
         super.with(values, recastFns);
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Character> {
+    public forExport(): Serialized<Character> {
         return {
             ...super.forExport(),
             ...forExport(this),
@@ -213,53 +155,61 @@ export class Character extends Creature implements Serializable<Character> {
         return true;
     }
 
-    public baseSize(): number {
-        return this.class.ancestry.size ? this.class.ancestry.size : 0;
-    }
+    public baseHP$$(charLevel: number, conModifier: number): Signal<{ result: number; bonuses: Array<BonusDescription> }> {
+        return computed(() => {
+            const currentClass = this.class();
+            const ancestry = currentClass.ancestry();
 
-    public baseHP(charLevel: number, conModifier: number): { result: number; bonuses: Array<BonusDescription> } {
-        const bonuses = new Array<BonusDescription>();
-        let result = 0;
+            const bonuses = new Array<BonusDescription>();
+            let result = 0;
 
-        if (this.class.hitPoints) {
-            if (this.class.ancestry.name) {
-                result += this.class.ancestry.hitPoints;
-                bonuses.push({ title: 'Ancestry base HP', value: String(this.class.ancestry.hitPoints) });
+            if (currentClass.hitPoints) {
+                if (ancestry.name) {
+                    result += ancestry.hitPoints;
+                    bonuses.push({ title: 'Ancestry base HP', value: String(ancestry.hitPoints) });
+                }
+
+                result += (currentClass.hitPoints + conModifier) * charLevel;
+                bonuses.push(
+                    {
+                        title: 'Class base HP',
+                        subline: '(multiplied with level)',
+                        value: `${ currentClass.hitPoints } (${ currentClass.hitPoints * charLevel })`,
+                    },
+                    {
+                        title: 'Constitution modifier',
+                        subline: '(multiplied with level)',
+                        value: `${ conModifier } (${ conModifier * charLevel })`,
+                    },
+                );
             }
 
-            result += (this.class.hitPoints + conModifier) * charLevel;
-            bonuses.push(
-                {
-                    title: 'Class base HP',
-                    subline: '(multiplied with level)',
-                    value: `${ this.class.hitPoints } (${ this.class.hitPoints * charLevel })`,
-                },
-                {
-                    title: 'Constitution modifier',
-                    subline: '(multiplied with level)',
-                    value: `${ conModifier } (${ conModifier * charLevel })`,
-                },
-            );
-        }
-
-        return { result, bonuses };
+            return { result, bonuses };
+        });
     }
 
-    public baseSpeed(speedName: string): { result: number; explain: string } {
-        let explain = '';
-        let sum = 0;
+    public baseSpeed$$(speedName: string): Signal<{ result: number; explain: string }> {
+        return computed(() => {
+            const currentClass = this.class();
+            const ancestry = currentClass.ancestry();
 
-        if (this.class.ancestry.name) {
-            this.class.ancestry.speeds.filter(speed => speed.name === speedName).forEach(speed => {
-                sum = speed.value;
-                explain = `\n${ this.class.ancestry.name } base speed: ${ sum }`;
-            });
-        }
+            if (ancestry.name) {
+                return ancestry.speeds
+                    .filter(speed => matchStringFilter({ value: speed.name, match: speedName }))
+                    .reduce(
+                        (_, speed) => ({
+                            result: speed.value,
+                            explain: `${ ancestry.name } base speed: ${ speed.value }`,
+                        }),
+                        { result: 0, explain: '' },
+                    );
+            }
 
-        return { result: sum, explain: explain.trim() };
+            return { result: 0, explain: '' };
+        });
     }
 
-    public abilityBoosts(
+    public abilityBoosts$$(
         minLevelNumber: number,
         maxLevelNumber: number,
         abilityName = '',
@@ -267,32 +217,29 @@ export class Character extends Creature implements Serializable<Character> {
         source = '',
         sourceId = '',
         locked: boolean | undefined = undefined,
-    ): Array<AbilityBoost> {
-        if (this.class) {
-            const boosts: Array<AbilityBoost> = [];
-            const levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
+    ): Signal<Array<AbilityBoost>> {
+        return computed(() => {
+            const flatRecursion = 2;
 
-            levels.forEach(level => {
-                level.abilityChoices.forEach(choice => {
+            const currentClass = this.class();
+
+            const levels = currentClass.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
+
+            return levels.map(level =>
+                level.abilityChoices().map(choice =>
                     choice.boosts.filter(boost =>
-                        (!abilityName || boost.name === abilityName) &&
-                        (!type || boost.type === type) &&
-                        (!source || boost.source === source) &&
-                        (!sourceId || boost.sourceId === sourceId) &&
-                        (locked === undefined || boost.locked === locked),
-                    ).forEach(boost => {
-                        boosts.push(boost);
-                    });
-                });
-            });
-
-            return boosts;
-        }
-
-        return [];
+                        matchStringFilter({ value: boost.name, match: abilityName })
+                        && matchStringFilter({ value: boost.type, match: type })
+                        && matchStringFilter({ value: boost.source, match: source })
+                        && matchStringFilter({ value: boost.sourceId, match: sourceId })
+                        && matchBooleanFilter({ value: boost.locked, match: locked }),
+                    ),
+                ),
+            ).flat(flatRecursion);
+        });
     }
 
-    public skillIncreases(
+    public skillIncreases$$(
         minLevelNumber: number,
         maxLevelNumber: number,
         skillName = '',
@@ -300,161 +247,112 @@ export class Character extends Creature implements Serializable<Character> {
         sourceId = '',
         locked: boolean | undefined = undefined,
         excludeTemporary = false,
-    ): Array<SkillIncrease> {
-        if (this.class) {
-            const increases: Array<SkillIncrease> = [];
-            const choices: Array<SkillChoice> = [];
+    ): Signal<Array<SkillIncrease>> {
+        return computed(() => {
             //Collect all skill choices from spellcasting, level and some item runes as well as oils that emulate those runes.
-            const levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
+            const levels = this.class().levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
 
-            levels.forEach(level => {
-                choices.push(...level.skillChoices.filter(choice => excludeTemporary ? !choice.showOnSheet : true));
-                choices.push(...level.loreChoices);
-            });
-            this.inventories.forEach(inventory => {
-                inventory.allEquipment()
-                    .forEach(item => {
-                        if (item.hasRunes() && item.investedOrEquipped()) {
-                            item.propertyRunes
-                                .filter(rune => rune.loreChoices && rune.loreChoices.length)
-                                .forEach(rune => {
-                                    choices.push(...rune.loreChoices);
-                                });
-                        }
-
-                    });
-                inventory.allEquipment()
-                    .filter(item =>
-                        item.oilsApplied
-                            .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices && oil.runeEffect.loreChoices.length)
-                            .length &&
-                        item.investedOrEquipped(),
+            const choices = new Array<SkillChoice>(
+                ...levels
+                    .map(level =>
+                        new Array<SkillChoice>(
+                            ...level.skillChoices().filter(choice => excludeTemporary ? !choice.showOnSheet : true),
+                            ...level.loreChoices(),
+                        ),
                     )
-                    .forEach(item => {
-                        item.oilsApplied
-                            .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices && oil.runeEffect.loreChoices.length)
-                            .forEach(oil => {
-                                choices.push(...(oil.runeEffect?.loreChoices || []));
-                            });
-                    });
-            });
+                    .flat(),
+                ...this.inventories()
+                    .map(inventory =>
+                        inventory.activeEquipment$$()
+                            .map(item =>
+                                new Array<SkillChoice>(
+                                    ...item.propertyRunes()
+                                        .map(rune => rune.loreChoices)
+                                        .flat(),
+                                    ...item.oilsApplied()
+                                        .map(oil => oil.runeEffect?.loreChoices ?? [])
+                                        .flat(),
+                                ),
+                            )
+                            .flat(),
+                    )
+                    .flat(),
+            );
 
-            // Only return skill increases for a specific skill if at least one increase has a minRank of 0 (an initial training)
-            // - if not, we don't consider this skill increased at all.
-            if (skillName) {
-                if (choices.some(choice => choice.minRank === 0 && choice.increases.some(increase => increase.name === skillName))) {
-                    //Get all matching skill increases from the choices
-                    choices.forEach(choice => {
-                        choice.increases.filter(increase =>
-                            (increase.name === skillName) &&
-                            (!source || increase.source === source) &&
-                            (!sourceId || increase.sourceId === sourceId) &&
-                            (locked === undefined || increase.locked === locked),
-                        ).forEach(increase => {
-                            increases.push(increase);
-                        });
-                    });
-                }
-            } else {
+            // When asking for a specific skill, the skill is only considered trained at all
+            // if at least one increase has a minRank of 0 (an initial training).
+            // If that is not the case, return no trainings.
+            if (
+                !skillName
+                || choices.some(choice =>
+                    choice.minRank === 0
+                    && choice.increases.some(increase => increase.name === skillName),
+                )
+            ) {
                 //Get all matching skill increases from the choices
-                choices.forEach(choice => {
+                return choices.map(choice =>
                     choice.increases.filter(increase =>
-                        (!source || increase.source === source) &&
-                        (!sourceId || increase.sourceId === sourceId) &&
-                        (locked === undefined || increase.locked === locked),
-                    ).forEach(increase => {
-                        increases.push(increase);
-                    });
-                });
+                        matchStringFilter({ value: increase.name, match: skillName })
+                        && matchStringFilter({ value: increase.source, match: source })
+                        && matchStringFilter({ value: increase.sourceId, match: sourceId })
+                        && matchBooleanFilter({ value: increase.locked, match: locked }),
+                    ),
+                ).flat();
             }
 
-            return increases;
-        } else {
             return [];
-        }
+        });
+    }
+
+    public classLevelFromNumber$$(number: number): Signal<CharacterClassLevel> {
+        return signal(this.class().levels[number] ?? new CharacterClassLevel()).asReadonly();
     }
 
     public addCustomSkill(skillName: string, type: string, abilityName: string, locked = false, recallKnowledge = false): void {
-        this.customSkills.push(new Skill(abilityName, skillName, type, locked, recallKnowledge));
+        this.customSkills.update(value => [...value, new Skill(abilityName, skillName, type, locked, recallKnowledge)]);
     }
 
     public removeCustomSkill(oldSkill: Skill): void {
-        this.customSkills = this.customSkills.filter(skill => skill !== oldSkill);
+        this.customSkills.update(value => value.filter(skill => skill !== oldSkill));
     }
 
     public addCustomFeat(feat: Feat): void {
-        this.customFeats.push(feat);
+        this.customFeats.update(value => [...value, feat]);
     }
 
     public removeCustomFeat(feat: Feat): void {
-        this.customFeats = this.customFeats.filter(oldFeat => oldFeat !== feat);
+        this.customFeats.update(value => value.filter(oldFeat => oldFeat !== feat));
     }
 
     public markUnneededWeaponFeatsForDeletion(weapon: Weapon): void {
+        // Whenever a weapon is removed, determine if there are any weapons left of this name in any inventory.
+        const remainingWeapons: Array<Weapon> = new Array<Weapon>(
+            ...this.inventories()
+                .concat(
+                    this.class()
+                        .animalCompanion()
+                        .inventories(),
+                    this.class()
+                        .familiar()
+                        .inventories(),
+                )
+                .map(inventory => inventory.weapons())
+                .flat(),
+        )
+            .filter(inventoryWeapon =>
+                stringEqualsCaseInsensitive(inventoryWeapon.name, weapon.name)
+                && inventoryWeapon !== weapon,
+            );
+
         //If there are no weapons left of this name in any inventory, find any custom feat that has it as its subType.
         //These feats are not useful anymore, but the player may wish to keep them.
         //They are marked with canDelete, and the player can decide whether to delete them.
-        const remainingWeapons: Array<Weapon> = new Array<Weapon>()
-            .concat(
-                ...this.inventories
-                    .concat(
-                        this.class?.animalCompanion?.inventories || [],
-                        this.class?.familiar?.inventories || [],
-                    )
-                    .map(inventory => inventory.weapons))
-            .filter(inventoryWeapon =>
-                inventoryWeapon.name.toLowerCase() === weapon.name.toLowerCase() &&
-                inventoryWeapon !== weapon,
-            );
-
         if (!remainingWeapons.length) {
-            this.customFeats
+            this.customFeats()
                 .filter(customFeat => customFeat.generatedWeaponFeat && customFeat.subType === weapon.name)
                 .forEach(customFeat => {
                     customFeat.canDelete = true;
                 });
         }
-    }
-
-    public classLevelFromNumber(number: number): CharacterClassLevel {
-        return this.class.levels[number] ?? new CharacterClassLevel();
-    }
-
-    public hasTooManySlottedAeonStones(): boolean {
-        //If more than one wayfinder with slotted aeon stones is invested, you do not gain the benefits of any of them.
-        return this.mainInventory.wornitems
-            .filter(item => item.isWayfinder && item.investedOrEquipped() && item.aeonStones.length)
-            .length > Defaults.maxInvestedAeonStones;
-    }
-
-    private _isBlankCharacter$(): Observable<boolean> {
-        return combineLatest([
-            this.alignment$
-                .pipe(map(alignment => alignment !== Alignments.N)),
-            this.settings.useIndividualAbilityBaseValues$,
-            this.class$
-                .pipe(map(characterClass => !!characterClass.name)),
-            this.level$
-                .pipe(map(level => level > 1)),
-            this.experiencePoints$
-                .pipe(map(experiencePoints => !!experiencePoints)),
-            this.name$
-                .pipe(map(name => !!name)),
-            this.partyName$
-                .pipe(map(partyName => !!partyName)),
-            this._inventoriesTouched$,
-        ])
-            .pipe(
-                map(factors => !factors.includes(true)),
-                distinctUntilChanged(),
-            );
-    }
-
-    private _maxSpellLevel$(): Observable<number> {
-        return this.level$
-            .pipe(
-                map(level => spellLevelFromCharLevel(level)),
-                distinctUntilChanged(),
-            );
     }
 }

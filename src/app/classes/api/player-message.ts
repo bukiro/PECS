@@ -1,7 +1,6 @@
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { MaybeSerialized, MessageSerializable, Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { v4 as uuidv4 } from 'uuid';
 import { ConditionGain } from '../conditions/condition-gain';
@@ -77,11 +76,11 @@ export class PlayerMessage implements PlayerMessageBase, MessageSerializable<Pla
     public includedItems: Array<Item> = [];
     public includedInventories: Array<ItemCollection> = [];
 
-    public static from(values: DeepPartial<PlayerMessage>, recastFns: RecastFns): PlayerMessage {
+    public static from(values: MaybeSerialized<PlayerMessage>, recastFns: RecastFns): PlayerMessage {
         return new PlayerMessage().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<PlayerMessage>, recastFns: RecastFns): PlayerMessage {
+    public with(values: MaybeSerialized<PlayerMessage>, recastFns: RecastFns): PlayerMessage {
         assign(this, values, recastFns);
 
         //Cut off the time zone.
@@ -90,17 +89,15 @@ export class PlayerMessage implements PlayerMessageBase, MessageSerializable<Pla
         return this;
     }
 
-    // PlayerMessage gets exported into PlayerMessageInterface instead of DeepPartial<PlayerMessage>
-    public forExport(): PlayerMessageBase {
+    public forExport(): Serialized<PlayerMessage> {
         return {
-            ...forExport(this) as PlayerMessageBase,
+            ...forExport(this),
         };
     }
 
-    // PlayerMessage gets exported into PlayerMessageInterface instead of DeepPartial<PlayerMessage>
-    public forMessage(): PlayerMessageBase {
+    public forMessage(): Serialized<PlayerMessage> {
         return {
-            ...forMessage(this) as PlayerMessageBase,
+            ...forMessage(this),
         };
     }
 

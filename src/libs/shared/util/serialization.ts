@@ -1,16 +1,17 @@
-import { Serializable, MessageSerializable } from '../definitions/interfaces/serializable';
+import { Serializable, MessageSerializable, MaybeSerialized, Serialized } from '../definitions/interfaces/serializable';
 import { RecastFns } from '../definitions/interfaces/recast-fns';
-import { DeepPartial } from '../definitions/types/deep-partial';
 import { forEachMember } from './object-utils';
+import { isSignal, Signal, WritableSignal } from '@angular/core';
+import { isWritableSignal, ResolveSignal } from './signal-utils';
 
-type AssignFn<T> = () => (obj: DeepPartial<T>, index?: number) => T;
-type AssignFnWithHelpers<T> = (recastFns: RecastFns) => (obj: DeepPartial<T>, index?: number) => T;
+type AssignFn<T> = () => (obj: T | MaybeSerialized<T>, index?: number) => T;
+type AssignFnWithHelpers<T> = (recastFns: RecastFns) => (obj: T | MaybeSerialized<T>, index?: number) => T;
 
-type ArrayMemberType<T, K extends keyof T> = T[K] extends Array<infer U> ? U : never;
+type ArrayMemberType<T, K extends keyof T> = T[K] extends Array<infer U> | Signal<Array<infer U>> ? U : never;
 type Primitive = string | number | boolean | symbol | null;
 
 type KeyOfPropertyType<T, P> = {
-    [K in keyof T]: T[K] extends P | undefined ? K : never;
+    [K in keyof T]: T[K] extends WritableSignal<P | undefined> | P | undefined ? K : never;
 }[keyof T];
 
 type PrimitiveKey<T> = KeyOfPropertyType<T, Primitive>;
@@ -21,19 +22,19 @@ type SerializableKey<T> = KeyOfPropertyType<T, Serializable<unknown> | MessageSe
 type AnySerializableArrayKey<T> = KeyOfPropertyType<T, Array<Serializable<unknown>> | Array<MessageSerializable<unknown>>>;
 
 type SerializableSet<T> = Partial<{
-    [K in SerializableKey<T>]: AssignFn<T[K]>;
+    [K in SerializableKey<T>]: AssignFn<ResolveSignal<T[K]>>;
 }>;
 
 type SerializableSetWithHelpers<T> = Partial<{
-    [K in SerializableKey<T>]: AssignFnWithHelpers<T[K]>;
+    [K in SerializableKey<T>]: AssignFnWithHelpers<ResolveSignal<T[K]>>;
 }>;
 
 type SerializableArraySet<T> = Partial<{
-    [K in AnySerializableArrayKey<T>]: AssignFn<ArrayMemberType<T, K>>;
+    [K in AnySerializableArrayKey<T>]: AssignFn<ResolveSignal<ArrayMemberType<T, K>>>;
 }>;
 
 type SerializableArraySetWithHelpers<T> = Partial<{
-    [K in AnySerializableArrayKey<T>]: AssignFnWithHelpers<ArrayMemberType<T, K>>;
+    [K in AnySerializableArrayKey<T>]: AssignFnWithHelpers<ResolveSignal<ArrayMemberType<T, K>>>;
 }>;
 
 type AnySerializableSet<T> =
@@ -51,12 +52,12 @@ export const setupSerialization = <T extends object>(properties: {
     messageSerializables?: SerializableSet<T>;
     messageSerializableArrays?: SerializableArraySet<T>;
 }): {
-    assign: (obj: T, values: DeepPartial<T>) => void;
-    forExport: (obj: T) => DeepPartial<T>;
-    forMessage: (obj: T) => DeepPartial<T>;
+    assign: (obj: T, values: Partial<T> | MaybeSerialized<T>) => void;
+    forExport: (obj: T) => Serialized<T>;
+    forMessage: (obj: T) => Serialized<T>;
     isEqual: (a: T, b: Partial<T>, options?: { withoutId?: boolean }) => boolean;
 } => ({
-    assign: (obj: T, values: DeepPartial<T>) => {
+    assign: (obj: T, values: Partial<T> | MaybeSerialized<T>) => {
         forImport.primitiveProperties<T>(obj, values, properties.primitives);
         forImport.primitiveArrayProperties<T>(obj, values, properties.primitiveArrays);
         forImport.primitiveObjectProperties<T>(obj, values, properties.primitiveObjects);
@@ -148,12 +149,12 @@ export const setupSerializationWithHelpers = <T extends object>(properties: {
     messageSerializables?: SerializableSetWithHelpers<T>;
     messageSerializableArrays?: SerializableArraySetWithHelpers<T>;
 }): {
-    assign: (obj: T, values: DeepPartial<T>, recastFns: RecastFns) => void;
-    forExport: (obj: T) => DeepPartial<T>;
-    forMessage: (obj: T) => DeepPartial<T>;
+    assign: (obj: T, values: Partial<T> | MaybeSerialized<T>, recastFns: RecastFns) => void;
+    forExport: (obj: T) => Serialized<T>;
+    forMessage: (obj: T) => Serialized<T>;
     isEqual: (a: T, b: Partial<T>, options?: { withoutId?: boolean }) => boolean;
 } => ({
-    assign: (obj: T, values: DeepPartial<T>, recastFns: RecastFns) => {
+    assign: (obj: T, values: Partial<T> | MaybeSerialized<T>, recastFns: RecastFns) => {
         forImport.primitiveProperties<T>(obj, values, properties.primitives);
         forImport.primitiveArrayProperties<T>(obj, values, properties.primitiveArrays);
         forImport.primitiveObjectProperties<T>(obj, values, properties.primitiveObjects);
@@ -238,18 +239,37 @@ export const setupSerializationWithHelpers = <T extends object>(properties: {
         && isEqual.serializableArrayProperties(a, b, properties.messageSerializableArrays),
 });
 
+const getValue = <T>(valueOrSignal: T | Signal<T>): T => isSignal(valueOrSignal) ? (valueOrSignal() as T) : valueOrSignal;
+
+const applyValue = <T extends object, K extends keyof T>(
+    obj: T,
+    key: K,
+    valueOrSignal: T[K],
+    transform?: (innerValue: T[K]) => T[K],
+): void => {
+    const value = getValue(valueOrSignal);
+
+    const target = obj[key];
+
+    if (isWritableSignal(target)) {
+        target.set(transform?.(value) ?? value);
+    } else {
+        obj[key] = transform?.(value) ?? value;
+    }
+};
+
 namespace forImport {
     export const primitiveProperties =
         <T extends object>(
             obj: T,
-            values: DeepPartial<T>,
+            values: Partial<T> | MaybeSerialized<T>,
             keys: Array<PrimitiveKey<T>> = [],
         ): void => {
             for (const key of keys) {
-                const value = values[key];
+                const value = (values as T)[key];
 
                 if (value !== undefined && value !== null) {
-                    obj[key] = value as T[PrimitiveKey<T>];
+                    applyValue(obj, key, value);
                 }
             }
         };
@@ -257,14 +277,18 @@ namespace forImport {
     export const primitiveArrayProperties =
         <T extends object>(
             obj: T,
-            values: DeepPartial<T>,
+            values: Partial<T> | MaybeSerialized<T>,
             keys: Array<PrimitiveArrayKey<T>> = [],
         ): void => {
             keys.forEach(key => {
-                const value = values[key];
+                const value = (values as T)[key];
 
-                if (value && Array.isArray(value)) {
-                    obj[key] = [...value] as T[PrimitiveArrayKey<T>];
+                if (value) {
+                    applyValue(
+                        obj,
+                        key,
+                        value,
+                        innerValue => [...innerValue as Array<ArrayMemberType<T, typeof key>>] as T[typeof key]);
                 }
             });
         };
@@ -272,14 +296,14 @@ namespace forImport {
     export const primitiveObjectProperties =
         <T extends object>(
             obj: T,
-            values: DeepPartial<T>,
+            values: Partial<T> | MaybeSerialized<T>,
             keys: Array<PrimitiveObjectKey<T>> = [],
         ): void => {
             for (const key of keys) {
-                const value = values[key];
+                const value = (values as T)[key];
 
                 if (value) {
-                    obj[key] = { ...(JSON.parse(JSON.stringify(value))) };
+                    applyValue(obj, key, value, innerValue => ({ ...(JSON.parse(JSON.stringify(innerValue))) }));
                 }
             }
         };
@@ -287,14 +311,22 @@ namespace forImport {
     export const primitiveObjectArrayProperties =
         <T extends object>(
             obj: T,
-            values: DeepPartial<T>,
+            values: Partial<T> | MaybeSerialized<T>,
             keys: Array<PrimitiveObjectArrayKey<T>> = [],
         ): void => {
             for (const key of keys) {
-                const value = values[key];
+                const value = (values as T)[key];
 
-                if (value && Array.isArray(value)) {
-                    obj[key] = [...value.map(member => ({ ...JSON.parse(JSON.stringify(member)) }))] as T[PrimitiveObjectArrayKey<T>];
+                if (value) {
+                    applyValue(
+                        obj,
+                        key,
+                        value,
+                        innerValue => [
+                            ...(innerValue as Array<ArrayMemberType<T, typeof key>>)
+                                .map(member => ({ ...JSON.parse(JSON.stringify(member)) })),
+                        ] as T[typeof key],
+                    );
                 }
             }
         };
@@ -302,64 +334,74 @@ namespace forImport {
     export const serializableProperty =
         <T extends object, K extends SerializableKey<T>>(
             obj: T,
-            values: DeepPartial<T>,
+            values: Partial<T> | MaybeSerialized<T>,
             key: K,
             assignFn: AssignFn<T[K]>,
         ): void => {
-            const value = values[key];
+            const value = (values as T)[key];
 
             if (value) {
-                obj[key] = assignFn()(value);
+                applyValue(obj, key, value, innerValue => assignFn()(innerValue));
             }
         };
 
     export const serializablePropertyWithHelpers =
         <T extends object, K extends SerializableKey<T>>(
             obj: T,
-            values: DeepPartial<T>,
+            values: Partial<T> | MaybeSerialized<T>,
             key: K,
             assignFn: AssignFn<T[K]> | AssignFnWithHelpers<T[K]>,
             recastFns: RecastFns,
         ): void => {
-            const value = values[key];
+            const value = (values as T)[key];
 
             if (value) {
-                obj[key] = assignFn(recastFns)(value);
+                applyValue(obj, key, value, innerValue => assignFn(recastFns)(innerValue));
             }
         };
 
     export const serializableArrayProperty =
         <T extends object, K extends AnySerializableArrayKey<T>>(
             obj: T,
-            values: DeepPartial<T>,
+            values: Partial<T> | MaybeSerialized<T>,
             key: K,
             assignFn: AssignFn<ArrayMemberType<T, K>>,
         ): void => {
-            const value = values[key];
+            const value = (values as T)[key];
 
-            if (value && Array.isArray(value)) {
-                obj[key] = [
-                    ...value
-                        .map(assignFn()),
-                ] as T[K];
+            if (value) {
+                applyValue(
+                    obj,
+                    key,
+                    value,
+                    innerValue => [
+                        ...(innerValue as Array<ArrayMemberType<T, typeof key>>)
+                            .map(assignFn()),
+                    ] as T[K],
+                );
             }
         };
 
     export const serializableArrayPropertyWithHelpers =
         <T extends object, K extends AnySerializableArrayKey<T>>(
             obj: T,
-            values: DeepPartial<T>,
+            values: Partial<T> | MaybeSerialized<T>,
             key: K,
             assignFn: AssignFn<ArrayMemberType<T, K>> | AssignFnWithHelpers<ArrayMemberType<T, K>>,
             recastFns: RecastFns,
         ): void => {
-            const value = values[key];
+            const value = (values as T)[key];
 
-            if (value && Array.isArray(value)) {
-                obj[key] = [
-                    ...value
-                        .map(assignFn(recastFns)),
-                ] as T[K];
+            if (value) {
+                applyValue(
+                    obj,
+                    key,
+                    value,
+                    innerValue => [
+                        ...(innerValue as Array<ArrayMemberType<T, typeof key>>)
+                            .map(assignFn(recastFns)),
+                    ] as T[K],
+                );
             }
         };
 }
@@ -369,11 +411,11 @@ export namespace forExport {
         <T extends object>(
             obj: T,
             keys: Array<PrimitiveKey<T>> = [],
-        ): DeepPartial<T> =>
+        ): Serialized<T> =>
             keys.reduce(
                 (previous, current) => ({
                     ...previous,
-                    [current]: obj[current],
+                    [current]: getValue(obj[current]),
                 }), {},
             );
 
@@ -381,11 +423,11 @@ export namespace forExport {
         <T extends object>(
             obj: T,
             keys: Array<PrimitiveArrayKey<T>> = [],
-        ): DeepPartial<T> =>
+        ): Serialized<T> =>
             keys.reduce(
                 (previous, current) => ({
                     ...previous,
-                    [current]: [...obj[current] as Array<Primitive>],
+                    [current]: [...getValue(obj[current]) as Array<Primitive>],
                 }), {},
             );
 
@@ -393,11 +435,11 @@ export namespace forExport {
         <T extends object>(
             obj: T,
             keys: Array<PrimitiveObjectKey<T>> = [],
-        ): DeepPartial<T> =>
+        ): Serialized<T> =>
             keys.reduce(
                 (previous, current) => ({
                     ...previous,
-                    [current]: { ...JSON.parse(JSON.stringify(obj[current])) },
+                    [current]: { ...JSON.parse(JSON.stringify(getValue(obj[current]))) },
                 }), {},
             );
 
@@ -405,11 +447,11 @@ export namespace forExport {
         <T extends object>(
             obj: T,
             keys: Array<PrimitiveObjectArrayKey<T>> = [],
-        ): DeepPartial<T> =>
+        ): Serialized<T> =>
             keys.reduce(
                 (previous, current) => ({
                     ...previous,
-                    [current]: [...(obj[current] as Array<object>).map(member => ({ ...JSON.parse(JSON.stringify(member)) }))],
+                    [current]: [...(getValue(obj[current]) as Array<object>).map(member => ({ ...JSON.parse(JSON.stringify(member)) }))],
                 }), {},
             );
 
@@ -417,12 +459,12 @@ export namespace forExport {
         <T extends object>(
             obj: T,
             keySets: AnySerializableSet<T> = {},
-        ): DeepPartial<T> =>
+        ): Serialized<T> =>
             (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
                     (previous, current) => ({
                         ...previous,
-                        [current]: (obj[current] as Serializable<unknown>)?.forExport(),
+                        [current]: (getValue(obj[current]) as Serializable<unknown>)?.forExport(),
                     }), {},
                 );
 
@@ -430,12 +472,12 @@ export namespace forExport {
         <T extends object>(
             obj: T,
             keySets: AnySerializableArraySet<T> = {},
-        ): DeepPartial<T> =>
+        ): Serialized<T> =>
             (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
                     (previous, current) => ({
                         ...previous,
-                        [current]: [...(obj[current] as Array<Serializable<unknown>>).map(member => member.forExport())],
+                        [current]: [...(getValue(obj[current]) as Array<Serializable<unknown>>).map(member => member.forExport())],
                     }), {},
                 );
 
@@ -443,12 +485,12 @@ export namespace forExport {
         <T extends object>(
             obj: T,
             keySets: AnySerializableSet<T> = {},
-        ): DeepPartial<T> =>
+        ): Serialized<T> =>
             (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
                     (previous, current) => ({
                         ...previous,
-                        [current]: (obj[current] as MessageSerializable<unknown>)?.forMessage(),
+                        [current]: (getValue(obj[current]) as MessageSerializable<unknown>)?.forMessage(),
                     }), {},
                 );
 
@@ -456,12 +498,12 @@ export namespace forExport {
         <T extends object>(
             obj: T,
             keySets: AnySerializableArraySet<T> = {},
-        ): DeepPartial<T> =>
+        ): Serialized<T> =>
             (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .reduce(
                     (previous, current) => ({
                         ...previous,
-                        [current]: [...(obj[current] as Array<MessageSerializable<unknown>>).map(member => member.forMessage())],
+                        [current]: [...(getValue(obj[current]) as Array<MessageSerializable<unknown>>).map(member => member.forMessage())],
                     }), {},
                 );
 }
@@ -475,7 +517,7 @@ namespace isEqual {
             withoutId?: boolean,
         ): boolean => keys
             .filter(key => withoutId ? key !== 'id' : true)
-            .every(key => a[key] === b[key]);
+            .every(key => getValue(a[key]) === getValue(b[key]));
 
     export const primitiveArrayProperties =
         <T extends object>(
@@ -483,8 +525,8 @@ namespace isEqual {
             b: Partial<T>,
             keys: Array<PrimitiveArrayKey<T>> = [],
         ): boolean => keys.every(key => {
-            const valuesA = a[key];
-            const valuesB = b[key];
+            const valuesA = getValue(a[key]);
+            const valuesB = getValue(b[key]);
 
             if (!!valuesA !== !!valuesB) {
                 return false;
@@ -509,8 +551,8 @@ namespace isEqual {
             b: Partial<T>,
             keys: Array<PrimitiveObjectKey<T>> = [],
         ): boolean => keys.every(key => {
-            const valueA = a[key];
-            const valueB = b[key];
+            const valueA = getValue(a[key]);
+            const valueB = getValue(b[key]);
 
             if (!!valueA !== !!valueB) {
                 return false;
@@ -537,8 +579,8 @@ namespace isEqual {
             b: Partial<T>,
             keys: Array<PrimitiveObjectArrayKey<T>> = [],
         ): boolean => keys.every(key => {
-            const valuesA = a[key];
-            const valuesB = b[key];
+            const valuesA = getValue(a[key]);
+            const valuesB = getValue(b[key]);
 
             if (!!valuesA !== !!valuesB) {
                 return false;
@@ -569,8 +611,8 @@ namespace isEqual {
         ): boolean =>
             (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .every(key => {
-                    const valueA = a[key] as Serializable<unknown>;
-                    const valueB = b[key] as Serializable<unknown>;
+                    const valueA = getValue(a[key]) as Serializable<unknown>;
+                    const valueB = getValue(b[key]) as Serializable<unknown>;
 
                     if (!!valueA !== !!valueB) {
                         return false;
@@ -591,8 +633,8 @@ namespace isEqual {
         ): boolean =>
             (Object.keys(keySets) as Array<keyof typeof keySets>)
                 .every(key => {
-                    const valuesA = a[key] as Array<Serializable<unknown>>;
-                    const valuesB = b[key] as Array<Serializable<unknown>> | undefined;
+                    const valuesA = getValue(a[key]) as Array<Serializable<unknown>>;
+                    const valuesB = getValue(b[key]) as Array<Serializable<unknown>> | undefined;
 
                     if (!!valuesA !== !!valuesB) {
                         return false;

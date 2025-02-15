@@ -97,7 +97,7 @@ export class ScrollSavantService {
     }
 
     private _scrollSavantSpellCasting$(): Observable<SpellCasting | undefined> {
-        return CharacterFlatteningService.characterSpellCasting$
+        return CharacterFlatteningService.characterSpellCasting$$
             .pipe(
                 map(spellCasting =>
                     spellCasting.find(casting =>
@@ -122,7 +122,7 @@ export class ScrollSavantService {
     }
 
     private _scrollSavantSpellDCLevel$(): Observable<number> {
-        return CreatureService.character$
+        return CreatureService.character$$
             .pipe(
                 switchMap(character =>
                     emptySafeCombineLatest(
@@ -143,16 +143,16 @@ export class ScrollSavantService {
         const half = .5;
 
         combineLatest([
-            CreatureService.character$,
+            CreatureService.character$$,
             this.scrollSavantSpellCasting$,
-            this._characterFeatsService.characterHasFeatAtLevel$('Scroll Savant'),
+            this._characterFeatsService.characterHasFeatAtLevel$$('Scroll Savant'),
         ])
             .pipe(
                 switchMap(([character, casting, hasScrollSavant]) =>
                     (casting && hasScrollSavant)
                         ? combineLatest([
                             this.scrollSavantSpellDCLevel$,
-                            character.maxSpellLevel$,
+                            character.maxSpellLevel$$,
                         ])
                             .pipe(
                                 tap(([spellDCLevel, maxSpellLevel]) => {

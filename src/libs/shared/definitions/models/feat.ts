@@ -16,11 +16,10 @@ import { SignatureSpellGain } from 'src/app/classes/spells/signature-spell-gain'
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { setupSerializationWithHelpers } from '../../util/serialization';
 import { RecastFns } from '../interfaces/recast-fns';
-import { DeepPartial } from '../types/deep-partial';
 import { FeatChoice } from './feat-choice';
 import { FeatIgnoreRequirements } from './feat-ignore-requirements';
 import { FeatRequirements } from './feat-requirements';
-import { Serializable } from '../interfaces/serializable';
+import { MaybeSerialized, Serializable, Serialized } from '../interfaces/serializable';
 import { ProficiencyCopyGain } from 'src/app/classes/character-creation/proficiency-copy-gain';
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<Feat>({
@@ -206,11 +205,11 @@ export class Feat implements Serializable<Feat> {
     public onceEffects: Array<EffectGain> = [];
     public allowSignatureSpells: Array<SignatureSpellGain> = [];
 
-    public static from(values: DeepPartial<Feat>, recastFns: RecastFns): Feat {
+    public static from(values: MaybeSerialized<Feat>, recastFns: RecastFns): Feat {
         return new Feat().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Feat>, recastFns: RecastFns): Feat {
+    public with(values: MaybeSerialized<Feat>, recastFns: RecastFns): Feat {
         assign(this, values, recastFns);
 
         this.gainHeritage.forEach(gainHeritage => {
@@ -220,7 +219,7 @@ export class Feat implements Serializable<Feat> {
         this.gainSpellChoice.forEach(choice => {
             if (!choice.source) {
                 choice.source = `Feat: ${ this.name }`;
-                choice.spells.forEach(gain => {
+                choice.spells().forEach(gain => {
                     gain.source = choice.source;
                 });
             }
@@ -229,7 +228,7 @@ export class Feat implements Serializable<Feat> {
         return this;
     }
 
-    public forExport(): DeepPartial<Feat> {
+    public forExport(): Serialized<Feat> {
         return {
             ...forExport(this),
         };

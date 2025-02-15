@@ -357,7 +357,7 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
     }
 
     private _characterHasEmblazonDivinity$(): Observable<boolean> {
-        return this._characterFeatsService.characterHasFeatAtLevel$('Emblazon Divinity');
+        return this._characterFeatsService.characterHasFeatAtLevel$$('Emblazon Divinity');
     }
 
     private _isOptionAvailable$(type: EmblazonArmamentTypes): Observable<boolean> {
@@ -366,11 +366,11 @@ export class ItemEmblazonArmamentComponent extends TrackByMixin(BaseClass) imple
         } else {
             switch (type) {
                 case EmblazonArmamentTypes.EmblazonArmament:
-                    return this._characterFeatsService.characterHasFeatAtLevel$('Emblazon Armament');
+                    return this._characterFeatsService.characterHasFeatAtLevel$$('Emblazon Armament');
                 case EmblazonArmamentTypes.EmblazonEnergy:
-                    return this._characterFeatsService.characterHasFeatAtLevel$('Emblazon Energy');
+                    return this._characterFeatsService.characterHasFeatAtLevel$$('Emblazon Energy');
                 case EmblazonArmamentTypes.EmblazonAntimagic:
-                    return this._characterFeatsService.characterHasFeatAtLevel$('Emblazon Antimagic');
+                    return this._characterFeatsService.characterHasFeatAtLevel$$('Emblazon Antimagic');
                 default:
                     return of(false);
             }

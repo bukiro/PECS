@@ -15,12 +15,12 @@ export class SpellCastingPrerequisitesService {
     constructor(
         private readonly _creatureEffectsService: CreatureEffectsService,
     ) {
-        this.maxFocusPoints$ = CreatureService.character$
+        this.maxFocusPoints$ = CreatureService.character$$
             .pipe(
                 switchMap(character =>
                     combineLatest([
-                        this._creatureEffectsService.absoluteEffectsOnThis$(character, 'Focus Pool'),
-                        this._creatureEffectsService.relativeEffectsOnThis$(character, 'Focus Pool'),
+                        this._creatureEffectsService.absoluteEffectsOnThis$$(character, 'Focus Pool'),
+                        this._creatureEffectsService.relativeEffectsOnThis$$(character, 'Focus Pool'),
                     ]),
                 ),
                 map(([absoluteEffects, relativeEffects]) => {

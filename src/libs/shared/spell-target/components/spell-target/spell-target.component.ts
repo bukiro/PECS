@@ -162,7 +162,7 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) {
         return combineLatest([
             this._canActivate$(),
             this._canActivate$({ withoutTarget: true }),
-            this._activityPropertiesService.allowedTargetNumber$(this.action, this.effectiveSpellLevel),
+            this._activityPropertiesService.allowedTargetNumber$$(this.action, this.effectiveSpellLevel),
         ])
             .pipe(
                 map(([canActivate, canActivateWithoutTarget, allowedTargetNumber]) => {
@@ -229,7 +229,7 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) {
     }
 
     public canTargetCompanion$(): Observable<AnimalCompanion | null> {
-        return this._creatureAvailabilityService.isCompanionAvailable$()
+        return this._creatureAvailabilityService.isCompanionAvailable$$()
             .pipe(
                 map(isCompanionAvailable => (
                     !this._isGainActive &&
@@ -240,14 +240,14 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) {
                 )),
                 switchMap(canTarget =>
                     canTarget
-                        ? CreatureService.companion$
+                        ? CreatureService.companion$$
                         : of(null),
                 ),
             );
     }
 
     public canTargetFamiliar$(): Observable<Familiar | null> {
-        return this._creatureAvailabilityService.isFamiliarAvailable$()
+        return this._creatureAvailabilityService.isFamiliarAvailable$$()
             .pipe(
                 map(isFamiliarAvailable => (
                     !this._isGainActive &&
@@ -258,7 +258,7 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) {
                 )),
                 switchMap(canTarget =>
                     canTarget
-                        ? CreatureService.familiar$
+                        ? CreatureService.familiar$$
                         : of(null),
                 ),
             );
@@ -335,7 +335,7 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) {
 
     private _createSpellTargetObservable$(): Observable<Array<SpellTarget>> {
         return combineLatest([
-            this._creatureAvailabilityService.allAvailableCreatures$(),
+            this._creatureAvailabilityService.allAvailableCreatures$$(),
             this._savegamesService.savegames$,
         ])
             .pipe(
@@ -452,8 +452,8 @@ export class SpellTargetComponent extends TrackByMixin(BaseClass) {
         //   or any of the caster conditions are not disabled.
         // - in case of an activity, adds items or onceeffects (which are independent of the target)
         return combineLatest([
-            propMap$(SettingsService.settings$, 'noHostileCasterConditions$'),
-            propMap$(SettingsService.settings$, 'noFriendlyCasterConditions$'),
+            propMap$(SettingsService.settings$$, 'noHostileCasterConditions$'),
+            propMap$(SettingsService.settings$$, 'noFriendlyCasterConditions$'),
         ])
             .pipe(
                 map(([noHostileCasterConditions, noFriendlyCasterConditions]) => {

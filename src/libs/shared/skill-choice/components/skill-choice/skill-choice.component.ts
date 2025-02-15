@@ -208,7 +208,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) {
         // An exception is made for Additional Lore and Gnome Obsession,
         // which can be raised on Level 2/3, 7 and 15 no matter when you learned them.
         const allIncreases =
-            this.character.skillIncreases(
+            this.character.skillIncreases$$(
                 levelNumber + 1,
                 Defaults.maxCharacterLevel,
                 skill.name,
@@ -303,7 +303,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) {
             this._characterSkillIncreaseService.increaseSkill(increase.name, false, choice, false);
         });
 
-        this.character.classLevelFromNumber(this.choice.insertLevel || this.levelNumber)?.removeSkillChoice(choice);
+        this.character.classLevelFromNumber$$(this.choice.insertLevel || this.levelNumber)?.removeSkillChoice(choice);
 
         this.toggleShownList();
     }
@@ -351,7 +351,7 @@ export class SkillChoiceComponent extends TrackByMixin(BaseClass) {
             return of(0);
         }
 
-        return this._abilityValuesService.baseValue$('Intelligence', this.character, levelNumber)
+        return this._abilityValuesService.baseValue$$('Intelligence', this.character, levelNumber)
             .pipe(
                 map(intelligence => abilityModFromAbilityValue(intelligence.result)),
             );

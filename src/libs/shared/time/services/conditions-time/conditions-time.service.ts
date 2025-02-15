@@ -157,7 +157,7 @@ export class ConditionsTimeService {
                         if (condition.automaticStages) {
                             (
                                 gain.source !== 'Manual'
-                                    ? this._conditionPropertiesService.effectiveChoices$(condition, gain.heightened)
+                                    ? this._conditionPropertiesService.effectiveChoices$$(condition, gain.heightened)
                                     : of(condition.unfilteredChoices())
                             )
                                 .pipe(
@@ -199,12 +199,12 @@ export class ConditionsTimeService {
 
     public restConditions(creature: Creature): void {
         zip([
-            this._creatureEffectsService.toggledEffectsOnThis$(creature, 'Verdant Metamorphosis'),
-            this._creatureEffectsService.toggledEffectsOnThis$(creature, ' after rest', { allowPartialString: true }),
+            this._creatureEffectsService.toggledEffectsOnThis$$(creature, 'Verdant Metamorphosis'),
+            this._creatureEffectsService.toggledEffectsOnThis$$(creature, ' after rest', { allowPartialString: true }),
             creature.isCharacter()
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Fast Recovery')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Fast Recovery')
                 : of(false),
-            this._appliedCreatureConditionsService.appliedCreatureConditions$(creature),
+            this._appliedCreatureConditionsService.appliedCreatureConditions$$(creature),
         ])
             .pipe(
                 take(1),

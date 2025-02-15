@@ -1,6 +1,5 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Equipment } from './equipment';
@@ -30,25 +29,25 @@ export class AdventuringGear extends Equipment implements MessageSerializable<Ad
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage = '';
 
-    public static from(values: DeepPartial<AdventuringGear>, recastFns: RecastFns): AdventuringGear {
+    public static from(values: MaybeSerialized<AdventuringGear>, recastFns: RecastFns): AdventuringGear {
         return new AdventuringGear().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<AdventuringGear>, recastFns: RecastFns): AdventuringGear {
+    public with(values: MaybeSerialized<AdventuringGear>, recastFns: RecastFns): AdventuringGear {
         super.with(values, recastFns);
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<AdventuringGear> {
+    public forExport(): Serialized<AdventuringGear> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<AdventuringGear> {
+    public forMessage(): Serialized<AdventuringGear> {
         return {
             ...super.forMessage(),
             ...forMessage(this),

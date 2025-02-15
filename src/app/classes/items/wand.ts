@@ -1,10 +1,10 @@
-import { Observable, of } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { Equipment } from './equipment';
+import { computed, Signal } from '@angular/core';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Wand>({
     primitives: [
@@ -32,25 +32,25 @@ export class Wand extends Equipment implements MessageSerializable<Wand> {
         + 'If you overcharge the wand when it\'s already been overcharged that day, '
         + 'the wand is automatically destroyed and dropped (even if it had been repaired) and no spell is cast.';
 
-    public static from(values: DeepPartial<Wand>, recastFns: RecastFns): Wand {
+    public static from(values: MaybeSerialized<Wand>, recastFns: RecastFns): Wand {
         return new Wand().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Wand>, recastFns: RecastFns): Wand {
+    public with(values: MaybeSerialized<Wand>, recastFns: RecastFns): Wand {
         super.with(values, recastFns);
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Wand> {
+    public forExport(): Serialized<Wand> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<Wand> {
+    public forMessage(): Serialized<Wand> {
         return {
             ...super.forMessage(),
             ...forMessage(this),
@@ -67,21 +67,23 @@ export class Wand extends Equipment implements MessageSerializable<Wand> {
 
     public isWand(): this is Wand { return true; }
 
-    public effectiveName$(): Observable<string> {
-        return of(this.effectiveNameSnapshot());
-    }
-
-    public effectiveNameSnapshot(): string {
-        if (this.displayName) {
-            return this.displayName;
-        } else if (this.storedSpells[0]?.spells[0]) {
-            if (this.name.includes('Magic Wand (')) {
-                return `Wand of ${ this.storedSpells[0].spells[0].name }`;
-            } else {
-                return `${ this.name.split('(')[0] }(${ this.storedSpells[0].spells[0].name })`;
+    public effectiveName$$(): Signal<string> {
+        return computed(() => {
+            if (this.displayName) {
+                return this.displayName;
             }
-        } else {
+
+            const storedSpellName = this.storedSpells()[0]?.spells()[0]?.name;
+
+            if (storedSpellName) {
+                if (stringEqualsCaseInsensitive(this.name, 'Magic Wand (', { allowPartialString: true })) {
+                    return `Wand of ${ storedSpellName }`;
+                } else {
+                    return `${ this.name.split('(')[0] }(${ storedSpellName })`;
+                }
+            }
+
             return this.name;
-        }
+        });
     }
 }

@@ -244,7 +244,7 @@ export class TagsComponent extends TrackByMixin(BaseClass) implements OnChanges 
 
     private _effectsShowingHintsOnThis$(name: string): Observable<Array<Effect>> {
         if (this.showEffects && name) {
-            return this._creatureEffectsService.effectsOnThis$(this.creature, name)
+            return this._creatureEffectsService.effectsOnThis$$(this.creature, name)
                 .pipe(
                     map(effects =>
                         effects

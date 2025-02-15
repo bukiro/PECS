@@ -26,7 +26,7 @@ export class TimeBlockingService {
     ): Observable<string | undefined> {
         const afflictionOnsetsWithinDuration$ = (creature: Creature): Observable<boolean> =>
             this._appliedCreatureConditionsService
-                .appliedCreatureConditions$(creature)
+                .appliedCreatureConditions$$(creature)
                 .pipe(
                     map(conditions =>
                         conditions.some(({ gain, condition, paused }) =>
@@ -44,7 +44,7 @@ export class TimeBlockingService {
 
         const timeStopConditionsActive$ = (creature: Creature): Observable<boolean> =>
             this._appliedCreatureConditionsService
-                .appliedCreatureConditions$(creature)
+                .appliedCreatureConditions$$(creature)
                 .pipe(
                     map(conditions =>
                         conditions.some(({ gain, condition }) =>
@@ -62,13 +62,13 @@ export class TimeBlockingService {
         const restingBlockingEffectsActive = (blockingEffects: Array<Effect>): boolean =>
             blockingEffects.some(effect => !effect.ignored);
 
-        return this._creatureAvailabilityService.allAvailableCreatures$()
+        return this._creatureAvailabilityService.allAvailableCreatures$$()
             .pipe(
                 switchMap(creatures => emptySafeCombineLatest(
                     creatures
                         .map(creature =>
                             combineLatest([
-                                this._creatureEffectsService.effectsOnThis$(creature, 'Resting Blocked'),
+                                this._creatureEffectsService.effectsOnThis$$(creature, 'Resting Blocked'),
                                 afflictionOnsetsWithinDuration$(creature),
                                 options.includeResting
                                     ? timeStopConditionsActive$(creature)

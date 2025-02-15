@@ -258,7 +258,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
     }
 
     public numberOfSignatureSpellsAllowed$(): Observable<number> {
-        return this._characterFeatsService.characterFeatsAtLevel$()
+        return this._characterFeatsService.characterFeatsAtLevel$$()
             .pipe(
                 map(feats => {
                     if (
@@ -434,7 +434,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
         const amountWithGreaterEvolution = 3;
         const amountWithoutGreaterEvolution = 1;
 
-        return this._characterFeatsService.characterHasFeatAtLevel$('Crossblooded Evolution')
+        return this._characterFeatsService.characterHasFeatAtLevel$$('Crossblooded Evolution')
             .pipe(
                 switchMap(hasCrossbloodedEvolution => {
                     if (
@@ -445,7 +445,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
                         && this.choice.source.includes('Sorcerer Spellcasting')
                         && !this.choice.showOnSheet
                     ) {
-                        return this._characterFeatsService.characterHasFeatAtLevel$('Greater Crossblooded Evolution')
+                        return this._characterFeatsService.characterHasFeatAtLevel$$('Greater Crossblooded Evolution')
                             .pipe(
                                 map(hasGreaterEvolution =>
                                     hasGreaterEvolution
@@ -616,7 +616,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
         if (this.spellCasting) {
             // Get the available spell level of this casting.
             // This is the higest spell level of the spell choices that are available at your character level.
-            return CharacterFlatteningService.characterLevel$
+            return CharacterFlatteningService.characterLevel$$
                 .pipe(
                     switchMap(characterLevel =>
                         emptySafeCombineLatest(
@@ -730,7 +730,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
     ): Observable<Array<SpellSet>> {
         //If this is a character spellcasting choice (and not a scroll or other item), filter the spells by the spellcasting's tradition.
         //  The choice's tradition is preferred over the spellcasting's tradition, if set. If neither is set, get all spells.
-        return CharacterFlatteningService.characterClass$
+        return CharacterFlatteningService.characterClass$$
             .pipe(
                 switchMap(characterClass => {
                     const spellSources: Array<Observable<Array<SpellSet>>> = [];
@@ -812,7 +812,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
                             spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes(SpellTraditions.Focus)));
                         } else if (choice.source.includes('Divine Font')) {
                             spellSources.push(
-                                this._characterFeatsService.characterHasFeatAtLevel$('Versatile Font')
+                                this._characterFeatsService.characterHasFeatAtLevel$$('Versatile Font')
                                     .pipe(
                                         map(hasVersatileFont => {
                                             if (!hasVersatileFont) {
@@ -1419,7 +1419,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
             emptySafeCombineLatest(
                 requiredFeatNames
                     .filter((featName): featName is string => !!featName)
-                    .map(featName => this._characterFeatsService.characterHasFeatAtLevel$(featName, 0, { allowCountAs: true })
+                    .map(featName => this._characterFeatsService.characterHasFeatAtLevel$$(featName, 0, { allowCountAs: true })
                         .pipe(
                             map(hasFeat => hasFeat ? featName : ''),
                         )),
@@ -1427,7 +1427,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
             emptySafeCombineLatest(
                 abilityModifierNames
                     .filter((abilityName): abilityName is string => !!abilityName)
-                    .map(abilityName => this._abilityValuesService.mod$(abilityName, this._character)
+                    .map(abilityName => this._abilityValuesService.mod$$(abilityName, this._character)
                         .pipe(
                             map(value => ({ ability: abilityName, value })),
                         )),
@@ -1502,7 +1502,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
         // - This choice does not have a dynamic level
         // - This choice is part of your default spellcasting
         // - This choice is not itself a bonus slot gained by trading in
-        return this._characterFeatsService.characterHasFeatAtLevel$('Adapted Cantrip')
+        return this._characterFeatsService.characterHasFeatAtLevel$$('Adapted Cantrip')
             .pipe(
                 map(hasAdaptedCantrip => (
                     hasAdaptedCantrip
@@ -1528,8 +1528,8 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
         // - This choice is part of your default spellcasting
         // - This choice is not itself a bonus slot gained by trading in
         return combineLatest([
-            this._characterFeatsService.characterHasFeatAtLevel$('Adaptive Adept: Cantrip'),
-            this._characterFeatsService.characterHasFeatAtLevel$('Adaptive Adept: 1st-Level Spell'),
+            this._characterFeatsService.characterHasFeatAtLevel$$('Adaptive Adept: Cantrip'),
+            this._characterFeatsService.characterHasFeatAtLevel$$('Adaptive Adept: 1st-Level Spell'),
         ])
             .pipe(
                 map(([hasAACantrip, hasAAFirstLevel]) => (
@@ -1558,7 +1558,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
         // - This choice is not itself a bonus slot gained by trading in
         //   (Spell Blending, Infinite Possibilities, Spell Mastery, Spell Combination)
         // - You have the Spell Blending feat
-        return this._characterFeatsService.characterHasFeatAtLevel$('Spell Blending')
+        return this._characterFeatsService.characterHasFeatAtLevel$$('Spell Blending')
             .pipe(
                 map(hasSpellBlending => (
                     hasSpellBlending
@@ -1635,7 +1635,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
         // - You have the Infinite Possibilities feat
         const minLevel = 3;
 
-        return this._characterFeatsService.characterHasFeatAtLevel$('Infinite Possibilities')
+        return this._characterFeatsService.characterHasFeatAtLevel$$('Infinite Possibilities')
             .pipe(
                 map(hasInfinitePossibilities => (
                     hasInfinitePossibilities
@@ -1657,7 +1657,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
             return of(false);
         }
 
-        return this._characterFeatsService.characterHasFeatAtLevel$('Esoteric Polymath')
+        return this._characterFeatsService.characterHasFeatAtLevel$$('Esoteric Polymath')
             .pipe(
                 switchMap(hasEsotericPolymath => {
                     if (hasEsotericPolymath) {
@@ -1683,7 +1683,7 @@ export class SpellChoiceComponent extends TrackByMixin(BaseClass) {
                             }
 
                             if (skill) {
-                                return this._characterFeatsService.characterHasFeatAtLevel$('Impossible Polymath')
+                                return this._characterFeatsService.characterHasFeatAtLevel$$('Impossible Polymath')
                                     .pipe(
                                         switchMap(hasImpossiblePolymath =>
                                             hasImpossiblePolymath

@@ -1,8 +1,7 @@
 import { ItemGainOnOptions } from 'src/libs/shared/definitions/item-gain-options';
 import { Item } from './item';
 import { Rune } from './rune';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<ItemGain>({
@@ -70,17 +69,17 @@ export class ItemGain implements Serializable<ItemGain> {
      */
     public newPropertyRunes: Array<Partial<Rune> & { name: string }> = [];
 
-    public static from(values: DeepPartial<ItemGain>): ItemGain {
+    public static from(values: MaybeSerialized<ItemGain>): ItemGain {
         return new ItemGain().with(values);
     }
 
-    public with(values: DeepPartial<ItemGain>): ItemGain {
+    public with(values: MaybeSerialized<ItemGain>): ItemGain {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<ItemGain> {
+    public forExport(): Serialized<ItemGain> {
         return {
             ...forExport(this),
         };

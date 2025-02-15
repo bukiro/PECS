@@ -6,17 +6,18 @@ import { ItemCollection } from 'src/app/classes/items/item-collection';
 import { Skill } from 'src/app/classes/skills/skill';
 import { SpellCasting } from 'src/app/classes/spells/spell-casting';
 import { FeatTakingService } from 'src/libs/character-creation/services/feat-taking/feat-taking.service';
+import { Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 import { Feat } from 'src/libs/shared/definitions/models/feat';
 import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
 import { FeatData } from 'src/libs/shared/definitions/models/feat-data';
 import { SkillLevels } from 'src/libs/shared/definitions/skill-levels';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
 import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { DeitiesDataService } from 'src/libs/shared/services/data/deities-data.service';
 import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 @Injectable({
@@ -32,7 +33,7 @@ export class CharacterPatchingService {
         private readonly _inventoryService: InventoryService,
     ) { }
 
-    public patchPartialCharacter(character: Character, databaseCharacter: DeepPartial<Character>): void {
+    public patchPartialCharacter(character: Serialized<Character>, databaseCharacter: Serialized<Character>): void {
 
         // STAGE 1
         // Before restoring data from class, ancestry etc.
@@ -41,8 +42,8 @@ export class CharacterPatchingService {
         // The character is not reassigned at this point, so we need to be careful with assuming that an object has a property.
         // The databaseCharacter is what has been loaded from the database, for comparison.
 
-        const companion = character.class.animalCompanion;
-        const familiar = character.class.familiar;
+        const companion = character.class?.animalCompanion;
+        const familiar = character.class?.familiar;
         const creatures = [character, companion, familiar];
 
         const minorVersionTwo = 2;
@@ -50,8 +51,13 @@ export class CharacterPatchingService {
         const minorVersionFour = 4;
         const minorVersionFive = 5;
         const minorVersionSix = 6;
+        const minorVersionTwelve = 12;
         const minorVersionFourteen = 14;
         const minorVersionSixteen = 16;
+
+        if (character.appVersionMinor === undefined || character.appVersion === undefined || character.appVersionMajor === undefined) {
+            return;
+        }
 
         //Monks below version 1.0.2 will lose their Path to Perfection skill increases and gain the feat choices instead.
         //The matching feats will be added in stage 2.
@@ -65,18 +71,18 @@ export class CharacterPatchingService {
 
             //Delete the feats that give you the old feature, if they.
             const oldFirstPathChoice = character.class?.levels?.[firstPathLevel]?.featChoices
-                ?.find(choice => choice.id === '7-Feature-Monk-0') || null;
+                ?.find(choice => choice?.id === '7-Feature-Monk-0') || null;
 
             if (oldFirstPathChoice) {
-                oldFirstPathChoice.feats = oldFirstPathChoice.feats.filter(feat => feat.name !== 'Path to Perfection');
+                oldFirstPathChoice.feats = oldFirstPathChoice.feats?.filter(feat => feat.name !== 'Path to Perfection');
             }
 
             const oldThirdPathChoice = character.class?.levels?.[thirdPathLevel]?.featChoices
                 ?.find(choice => choice.id === '15-Feature-Monk-0') || null;
 
             if (oldThirdPathChoice) {
-                oldThirdPathChoice.feats = oldThirdPathChoice.feats
-                    .filter(feat => feat.name !== 'Third Path to Perfection');
+                oldThirdPathChoice.feats = oldThirdPathChoice?.feats
+                    ?.filter(feat => feat.name !== 'Third Path to Perfection');
             }
 
             //Delete the old skill choices, if they exist.
@@ -120,7 +126,7 @@ export class CharacterPatchingService {
                     secondChoice.id = '11-Second Path to Perfection-Monk-0';
                     secondChoice.specialChoice = true;
 
-                    if (secondChoice.feats.some(feat => feat.name === 'Second Path to Perfection')) {
+                    if (secondChoice.feats?.some(feat => feat.name === 'Second Path to Perfection')) {
                         secondChoice.feats.length = 0;
                         secondChoice.available = 1;
                         secondChoice.filter = ['Second Path to Perfection'];
@@ -168,21 +174,24 @@ export class CharacterPatchingService {
             creatures.forEach(creature => {
                 creature?.inventories?.forEach(inv => {
                     inv.wornitems?.forEach(invItem => {
-                        if ([
-                            'b0a0fc41-b6cc-4dba-870c-efdd0468e448',
-                            'df38a8cc-49f9-41d2-97b8-101a5cf020be',
-                            '462510ac-d2fc-4f29-aa7c-dcc7272ebfcf',
-                            '046845de-4cb0-411a-9f6e-85a669e5e12b',
-                        ].includes(invItem.refId) && invItem.activities) {
+                        if (
+                            invItem.activities
+                            && invItem.refId
+                            && [
+                                'b0a0fc41-b6cc-4dba-870c-efdd0468e448',
+                                'df38a8cc-49f9-41d2-97b8-101a5cf020be',
+                                '462510ac-d2fc-4f29-aa7c-dcc7272ebfcf',
+                                '046845de-4cb0-411a-9f6e-85a669e5e12b',
+                            ].includes(invItem.refId)) {
                             invItem.activities = invItem.activities
-                                .filter(activity => !(!activity.actions && activity.castSpells.length));
+                                .filter(activity => !(!activity.actions && activity.castSpells?.length));
                         }
 
                         if (invItem.refId === '88de530a-913b-11ea-bb37-0242ac130002') {
                             invItem.activities?.forEach(activity => {
-                                activity.name = activity.name.replace('Bracelets', 'Bracelet');
+                                activity.name = activity.name?.replace('Bracelets', 'Bracelet');
                                 activity.gainConditions?.forEach(gain => {
-                                    gain.name = gain.name.replace('Bracelets', 'Bracelet');
+                                    gain.name = gain.name?.replace('Bracelets', 'Bracelet');
                                 });
                             });
                         }
@@ -194,7 +203,7 @@ export class CharacterPatchingService {
                             ?.filter(aeonStone => aeonStone.refId === '046845de-4cb0-411a-9f6e-85a669e5e12b' && aeonStone.activities)
                             .forEach(aeonStone => {
                                 aeonStone.activities =
-                                    aeonStone.activities.filter(activity => !(!activity.actions && activity.castSpells.length));
+                                    aeonStone.activities?.filter(activity => !(!activity.actions && activity.castSpells?.length));
                             });
                     });
                 });
@@ -238,7 +247,7 @@ export class CharacterPatchingService {
                 character.class.levels?.[1]?.featChoices?.find(choice => choice.id === '1-Feature-Cleric-0') || null;
 
             if (divineFontfeatChoice) {
-                divineFontfeatChoice.feats = divineFontfeatChoice.feats.filter(feat => feat.name !== 'Divine Font');
+                divineFontfeatChoice.feats = divineFontfeatChoice.feats?.filter(feat => feat.name !== 'Divine Font');
             }
 
             //Remove the selected doctrine from the doctrine feat choice, if it exists.
@@ -260,14 +269,14 @@ export class CharacterPatchingService {
 
             if (spellCasting) {
                 spellCasting.spellChoices =
-                    spellCasting.spellChoices.filter(choice => choice.id !== '8b5e3ea0-6116-4d7e-8197-a6cb787a5788');
+                    spellCasting.spellChoices?.filter(choice => choice.id !== '8b5e3ea0-6116-4d7e-8197-a6cb787a5788');
             }
 
             // If it doesn't exist, add a new feat choice for the Divine Font at the third position,
             // so it matches the position in the class object for merging.
             if (
-                character.class.levels[1]?.featChoices &&
-                !character.class.levels[1]?.featChoices?.some(choice => choice.id === '1-Divine Font-Cleric-1')
+                character.class.levels?.[1]?.featChoices &&
+                !character.class.levels?.[1]?.featChoices?.some(choice => choice.id === '1-Divine Font-Cleric-1')
             ) {
                 const newChoice = new FeatChoice();
                 const insertIndex = 2;
@@ -285,8 +294,8 @@ export class CharacterPatchingService {
             // If it doesn't exist, add a new feat choice for the Divine Skill at the fourth position,
             // so it matches the position in the class object for merging.
             if (
-                character.class.levels[1]?.featChoices &&
-                !character.class.levels[1]?.featChoices?.some(choice => choice.id === '1-Divine Skill-Cleric-1')
+                character.class.levels?.[1]?.featChoices &&
+                !character.class.levels?.[1]?.featChoices?.some(choice => choice.id === '1-Divine Skill-Cleric-1')
             ) {
                 const newChoice = new FeatChoice();
                 const insertIndex = 3;
@@ -304,18 +313,18 @@ export class CharacterPatchingService {
             // If it doesn't exist, add a skill gain for the Favored Weapon at the eighth position
             // of the first skill choice of level 1, so it matches the class object for merging.
             if (
-                character.class.levels[1]?.skillChoices &&
+                character.class.levels?.[1]?.skillChoices &&
                 !character.class.levels[1]?.skillChoices
-                    ?.find(choice => choice.id === '1-Any-Class-0')
+                    .find(choice => choice.id === '1-Any-Class-0')
                     ?.increases
-                    .some(increase => increase.name === 'Favored Weapon')
+                    ?.some(increase => increase.name === 'Favored Weapon')
             ) {
                 const insertIndex = 7;
 
                 character.class.levels[1].skillChoices
                     .find(choice => choice.id === '1-Any-Class-0')
                     ?.increases
-                    .splice(
+                    ?.splice(
                         insertIndex,
                         0,
                         { name: 'Favored Weapon', source: 'Class', maxRank: SkillLevels.Trained, locked: true, sourceId: '1-Any-Class-0' },
@@ -363,11 +372,11 @@ export class CharacterPatchingService {
                         taken.automatic = true;
                     }
 
-                    if (choice.autoSelectIfPossible && choice.filter.includes('Divine Skill')) {
+                    if (choice.autoSelectIfPossible && choice.filter?.includes('Divine Skill')) {
                         taken.automatic = true;
                     }
 
-                    if (choice.autoSelectIfPossible && choice.filter.includes('Divine Font')) {
+                    if (choice.autoSelectIfPossible && choice.filter?.includes('Divine Font')) {
                         if (taken.name === 'Divine Font: Harm') {
                             taken.name = 'Harmful Font';
                         }
@@ -376,7 +385,7 @@ export class CharacterPatchingService {
                             taken.name = 'Healing Font';
                         }
 
-                        if (character.class.deity) {
+                        if (character.class?.deity) {
                             if (this._deitiesDataService.deities(character.class.deity)[0]?.divineFont.length === 1) {
                                 taken.automatic = true;
                             }
@@ -386,9 +395,60 @@ export class CharacterPatchingService {
             });
         }
 
+        // Feats do not have data after 1.0.12, so all custom feats' data has to be moved to class.featData.
+        // These custom feats can be removed afterwards.
+        if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionTwelve) {
+            type OldFeatWithData = Feat & {
+                data?: Array<FeatData>;
+            };
+
+            const fullCustomFeats = character.customFeats?.map(feat => Feat.from(feat, RecastService.recastFns));
+            const _class = character.class;
+
+            if (fullCustomFeats?.length && _class) {
+                const baseFeats =
+                    this._featsDataService.feats(fullCustomFeats).filter(feat => feat.lorebase || feat.weaponfeatbase)
+                        .map(({ name }) => name.toLowerCase());
+
+                // Only proceed with feats that were not generated from lore or weapon feat bases, and that have data.
+                (character.customFeats as Array<Partial<OldFeatWithData>>)
+                    .filter(feat =>
+                        feat.name &&
+                        !baseFeats.includes(feat.name.toLowerCase()) &&
+                        feat.data &&
+                        Object.keys(feat.data).length,
+                    )
+                    .forEach(feat => {
+                        //For each time you have this feat (should be exactly one), add its data to the class object.
+                        _class?.levels?.forEach(level => {
+                            level.featChoices?.forEach(featChoice => {
+                                featChoice.feats
+                                    ?.filter(taken => stringEqualsCaseInsensitive(taken.name, feat.name))
+                                    .forEach(taken => {
+                                        if (level.number !== undefined && feat.name !== undefined && taken.sourceId !== undefined) {
+                                            const newFeatData =
+                                                new FeatData(
+                                                    level.number ?? 0,
+                                                    feat.name ?? '',
+                                                    taken.sourceId ?? '',
+                                                    JSON.parse(JSON.stringify(feat.data)),
+                                                );
+
+                                            _class?.featData?.push(newFeatData.forExport());
+                                        }
+                                    });
+                            });
+                        });
+                        //Mark the feat to delete.
+                        feat.name = 'DELETE THIS';
+                    });
+                character.customFeats = character.customFeats?.filter(feat => feat.name !== 'DELETE THIS');
+            }
+        }
+
         //The feat "Arrow Snatching " needs to be changed to "Arrow Snatching" in feat choices for characters before 1.0.14.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionFourteen) {
-            character.class.levels?.forEach(level => {
+            character.class?.levels?.forEach(level => {
                 level.featChoices?.forEach(choice => {
                     choice.feats?.forEach(taken => {
                         if (taken.name === 'Arrow Snatching ') {
@@ -503,7 +563,7 @@ export class CharacterPatchingService {
                     const spellCastingName = `${ className } Spellcasting`;
 
                     //Sort spellcastings: Innate first, then the default class spellcasting, then the rest.
-                    character.class.spellCasting = new Array<SpellCasting>()
+                    character.class.spellCasting = new Array<Serialized<SpellCasting>>()
                         .concat(
                             character.class.spellCasting
                                 .find(casting => casting.castingType === 'Innate' && casting.source === 'Innate') || [],
@@ -518,7 +578,7 @@ export class CharacterPatchingService {
                     character.class.spellCasting
                         .filter(casting => casting.source !== spellCastingName && casting.spellChoices)
                         .forEach(casting => {
-                            casting.spellChoices = casting.spellChoices.filter(choice => choice.source !== spellCastingName);
+                            casting.spellChoices = casting.spellChoices?.filter(choice => choice.source !== spellCastingName);
                         });
                     //Reset all Focus spell choices to 'available': 0.
                     character.class.spellCasting
@@ -543,7 +603,7 @@ export class CharacterPatchingService {
         // may also have a broken spell choice for "Shifting Form (claws)".
         // This needs to be removed.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionFourteen) {
-            character.class.spellCasting.forEach(casting => {
+            character.class?.spellCasting?.forEach(casting => {
                 if (
                     casting.spellChoices
                         ?.some(choice => choice.spells?.some(taken => taken.id === 'e782c108-71d9-11eb-84d9-f95cb9540073'))
@@ -551,7 +611,7 @@ export class CharacterPatchingService {
                     casting.spellChoices
                         .filter(choice => choice.spells?.some(taken => taken.id === 'e782c108-71d9-11eb-84d9-f95cb9540073'))
                         .forEach(choice => {
-                            choice.spells = choice.spells.filter(taken => taken.id !== 'e782c108-71d9-11eb-84d9-f95cb9540073');
+                            choice.spells = choice.spells?.filter(taken => taken.id !== 'e782c108-71d9-11eb-84d9-f95cb9540073');
                         });
                 }
             });
@@ -560,36 +620,66 @@ export class CharacterPatchingService {
         // Characters before 1.0.16 need to update their useIndividualAbilityBaseValues setting.
         // It gets set if the base values on the character have data in them and the value hasn't already been set once.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionSixteen) {
-            if (character.baseValues.length && (databaseCharacter?.settings?.useIndividualAbilityBaseValues !== false)) {
-                character.settings.useIndividualAbilityBaseValues = true;
+            if (character.baseValues?.length && (databaseCharacter?.settings?.useIndividualAbilityBaseValues !== false)) {
+                character.settings = { ...character.settings, useIndividualAbilityBaseValues: true };
             } else {
-                character.settings.useIndividualAbilityBaseValues = false;
+                character.settings = { ...character.settings, useIndividualAbilityBaseValues: false };
             }
+        }
+
+        // TODO: Update when new version is defined; add version check.
+        // Spellcasting before <TBD> treats special spell slots as extra normal spell slots at indexes 0, 11 and 12.
+        // These need to be moved to the specialSpellSlotsUsed field.
+        if (character.class?.spellCasting) {
+            character.class.spellCasting.forEach(casting => {
+                const firstGreaterEvolutionSpellLevel = 11;
+                const secondGreaterEvolutionSpellLevel = 12;
+
+                if (casting.spellSlotsUsed && casting.spellSlotsUsed.length > firstGreaterEvolutionSpellLevel) {
+                    casting.specialSpellSlotsUsed = {
+                        studiousCapacity: casting.spellSlotsUsed[0],
+                        greaterVitalEvolution: [
+                            casting.spellSlotsUsed[firstGreaterEvolutionSpellLevel] ?? 0,
+                            casting.spellSlotsUsed[secondGreaterEvolutionSpellLevel] ?? 0,
+                        ],
+                    };
+                    casting.spellSlotsUsed.length = firstGreaterEvolutionSpellLevel;
+                    casting.spellSlotsUsed[0] = 0;
+                }
+            });
         }
     }
 
-    public patchCompleteCharacter(character: Character, savedCharacter: Character): void {
+    public patchCompleteCharacter(character: Character, savedCharacter: Serialized<Character>): void {
 
         // STAGE 2
-        //After restoring data and reassigning.
+        // After restoring data and converting to a non-serialized Character.
 
-        const companion = character.class.animalCompanion;
-        const familiar = character.class.familiar;
+        const _class = character.class();
+        const companion = _class.animalCompanion();
+        const familiar = _class.familiar();
         const creatures = [character, companion, familiar];
 
-        //Characters below version 1.0.1 need a Worn Tools inventory added at index 1.
+
+        // Characters below version 1.0.1 need a Worn Tools inventory added at index 1.
+        // If there are already inventories, they need to be shifted.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 1) {
-            if (!character.inventories[1] || character.inventories[1].itemId) {
+            const existingInventory = character.inventories()[1];
+
+            if (!existingInventory || existingInventory.itemId) {
                 const bulkLimit = 2;
 
-                character.inventories.splice(1, 0, new ItemCollection(bulkLimit));
+                character.inventories.update(value => {
+                    value.splice(1, 0, new ItemCollection(bulkLimit));
+
+                    return [...value];
+                });
             }
         }
 
         const minorVersionTwo = 2;
         const minorVersionThree = 3;
         const minorVersionFive = 5;
-        const minorVersionTwelve = 12;
         const minorVersionThirteen = 13;
         const minorVersionFourteen = 14;
         const minorVersionFifteen = 15;
@@ -617,7 +707,7 @@ export class CharacterPatchingService {
 
             if (firstPath) {
                 const firstPathChoice =
-                    character.class?.levels?.[firstPathLevel]?.featChoices
+                    _class.levels[firstPathLevel]?.featChoices
                         ?.find(choice => choice.id === '7-Path to Perfection-Monk-2') || undefined;
 
                 if (firstPathChoice && !firstPathChoice?.feats.length) {
@@ -631,7 +721,7 @@ export class CharacterPatchingService {
 
             if (secondPath) {
                 const secondPathChoice =
-                    character.class?.levels?.[secondPathLevel]?.featChoices
+                    _class?.levels?.[secondPathLevel]?.featChoices
                         ?.find(choice => choice.id === '11-Second Path to Perfection-Monk-0') || undefined;
 
                 if (secondPathChoice && !secondPathChoice?.feats.length) {
@@ -645,7 +735,7 @@ export class CharacterPatchingService {
 
             if (thirdPath) {
                 const thirdPathChoice =
-                    character.class?.levels?.[thirdPathLevel]?.featChoices
+                    _class?.levels?.[thirdPathLevel]?.featChoices
                         ?.find(choice => choice.id === '15-Third Path to Perfection-Monk-2') || undefined;
 
                 if (thirdPathChoice && !thirdPathChoice?.feats.length) {
@@ -661,7 +751,7 @@ export class CharacterPatchingService {
         // Characters with Druid dedication before version 1.0.3 need to change
         // their Druidic Order choice type and ID, since these were renamed.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionThree) {
-            character.class.levels.forEach(level => {
+            _class.levels.forEach(level => {
                 const orderChoice =
                     level.featChoices
                         .find(choice => choice.specialChoice && choice.type === 'Order' && choice.source === 'Feat: Druid Dedication');
@@ -678,8 +768,8 @@ export class CharacterPatchingService {
 
         //Characters before version 1.0.5 need to update certain spell choices to have a dynamicAvailable value.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionFive) {
-            character.class.spellCasting.forEach(casting => {
-                casting.spellChoices.forEach(choice => {
+            _class.spellCasting().forEach(casting => {
+                casting.spellChoices().forEach(choice => {
                     if (
                         [
                             'Feat: Basic Wizard Spellcasting',
@@ -723,7 +813,7 @@ export class CharacterPatchingService {
                     }
                 });
             });
-            character.class.levels.forEach(level => {
+            _class.levels.forEach(level => {
                 level.featChoices
                     .filter(choice =>
                         ['Feat: Raging Intimidation', 'Feat: Instinct Ability'].includes(choice.source) ||
@@ -740,50 +830,12 @@ export class CharacterPatchingService {
             });
         }
 
-        // Feats do not have data after 1.0.12, so all custom feats' data has to be moved to class.featData.
-        // These custom feats can be removed afterwards.
-        if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionTwelve) {
-            type OldFeatWithData = Feat & {
-                data?: Array<FeatData>;
-            };
-
-            const baseFeats = this._featsDataService.feats(character.customFeats).filter(feat => feat.lorebase || feat.weaponfeatbase)
-                .map(feat => feat.name.toLowerCase());
-
-            this._characterFeatsService.buildCharacterFeats(character);
-            // Only proceed with feats that were not generated from lore or weapon feat bases, and that have data.
-            (character.customFeats as Array<OldFeatWithData>)
-                .filter(feat =>
-                    !baseFeats.includes(feat.name.toLowerCase()) &&
-                    feat.data &&
-                    Object.keys(feat.data).length,
-                )
-                .forEach(feat => {
-                    //For each time you have this feat (should be exactly one), add its data to the class object.
-                    character.class.levels.forEach(level => {
-                        level.featChoices.forEach(featChoice => {
-                            featChoice.feats
-                                .filter(taken => stringEqualsCaseInsensitive(taken.name, feat.name))
-                                .forEach(taken => {
-                                    const newFeatData =
-                                        new FeatData(level.number, feat.name, taken.sourceId, JSON.parse(JSON.stringify(feat.data)));
-
-                                    character.class.featData.push(newFeatData);
-                                });
-                        });
-                    });
-                    //Mark the feat to delete.
-                    feat.name = 'DELETE THIS';
-                });
-            character.customFeats = character.customFeats.filter(feat => feat.name !== 'DELETE THIS');
-        }
-
         // Archetype spell choices before 1.0.13 may include a bug concerning the related "... Breadth" feat,
         // where the top 3 spell levels are excluded instead of the top 2.
         // From the way that spell choices are saved, this needs to be patched on the character.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionThirteen) {
-            character.class.spellCasting.forEach(casting => {
-                casting.spellChoices
+            _class.spellCasting().forEach(casting => {
+                casting.spellChoices()
                     .filter(choice =>
                         choice.dynamicAvailable.includes('Breadth') &&
                         choice.dynamicAvailable.includes('(choice.level >= Highest_Spell_Level() - 2)'),
@@ -813,13 +865,17 @@ export class CharacterPatchingService {
             ];
 
             creatures.forEach(creature => {
-                creature?.inventories?.forEach(inventory => {
-                    inventory.armors.filter(armor => mageArmorIDs.includes(armor.refId)).forEach(armor => {
-                        this._inventoryService.dropInventoryItem(creature, inventory, armor, false, true);
-                    });
-                    inventory.shields.filter(shield => shieldIDs.includes(shield.refId)).forEach(shield => {
-                        this._inventoryService.dropInventoryItem(creature, inventory, shield, false, true);
-                    });
+                creature?.inventories()?.forEach(inventory => {
+                    inventory.armors()
+                        .filter(armor => mageArmorIDs.includes(armor.refId))
+                        .forEach(armor => {
+                            this._inventoryService.dropInventoryItem(creature, inventory, armor, false, true);
+                        });
+                    inventory.shields()
+                        .filter(shield => shieldIDs.includes(shield.refId))
+                        .forEach(shield => {
+                            this._inventoryService.dropInventoryItem(creature, inventory, shield, false, true);
+                        });
                 });
             });
         }
@@ -827,21 +883,23 @@ export class CharacterPatchingService {
         // Conditions from feats are tagged with fromFeat starting in 1.0.14.
         // Currently existing condition gains on the character need to be updated.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionFourteen) {
-            character.conditions.filter(gain => gain.source.includes('Feat: ')).forEach(gain => {
-                gain.fromFeat = true;
-            });
+            character.conditions()
+                .filter(gain => gain.source.includes('Feat: '))
+                .forEach(gain => {
+                    gain.fromFeat = true;
+                });
         }
 
         //Apparently, Wizard spellcasting wasn't updated to being spellbook-only. This is amended in 1.0.14.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionFourteen) {
-            character.class.spellCasting
+            _class.spellCasting()
                 .filter(casting => casting.className === 'Wizard' && casting.castingType === 'Prepared')
                 .forEach(casting => { casting.spellBookOnly = true; });
         }
 
         //The feats "Deflect Arrows" and "Quick Climber" are corrected to "Deflect Arrow" and "Quick Climb" in 1.0.14.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionFourteen) {
-            character.class.levels?.forEach(level => {
+            _class.levels?.forEach(level => {
                 level.featChoices?.forEach(choice => {
                     choice.feats?.forEach(taken => {
                         if (taken.name === 'Deflect Arrows') {
@@ -852,12 +910,12 @@ export class CharacterPatchingService {
                     });
                 });
             });
-            character.class?.activities?.forEach(gain => {
+            character.class()?.activities?.forEach(gain => {
                 if (gain.name === 'Deflect Arrows') {
                     gain.name = 'Deflect Arrow';
                 }
             });
-            character.conditions?.forEach(gain => {
+            character.conditions()?.forEach(gain => {
                 if (gain.name === 'Deflect Arrows') {
                     gain.name = 'Deflect Arrow';
                 }
@@ -868,19 +926,19 @@ export class CharacterPatchingService {
         // to characters before 1.0.15 who have the Unburdened Iron feat.
         // It is removed here.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionFifteen) {
-            character.speeds = character.speeds.filter(speed => speed.name !== 'Ignore Armor Speed Penalty');
+            character.speeds.update(value => value.filter(speed => speed.name !== 'Ignore Armor Speed Penalty'));
         }
 
         //Additional heritages are added with a charLevelAvailable starting with 1.0.15.
         // Additional heritages existing on the character are updated with this number here.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionFifteen) {
             const unsortedAdditionalHeritages =
-                character.class.additionalHeritages.filter(extraHeritage => !extraHeritage.charLevelAvailable);
+                _class.additionalHeritages().filter(extraHeritage => !extraHeritage.charLevelAvailable);
 
             if (unsortedAdditionalHeritages.length) {
                 const sources = unsortedAdditionalHeritages.map(extraHeritage => extraHeritage.source);
 
-                character.class.levels.forEach(level => {
+                _class.levels.forEach(level => {
                     level.featChoices.forEach(choice => {
                         choice.feats.forEach(taken => {
                             if (sources.includes(taken.name)) {
@@ -910,18 +968,18 @@ export class CharacterPatchingService {
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionSixteen) {
             const weaponFeats = this._featsDataService.feats([]).filter(feat => feat.generatedWeaponFeat);
 
-            character.customFeats.forEach(characterFeat => {
+            character.customFeats().forEach(characterFeat => {
                 if (weaponFeats.some(feat => feat.name === characterFeat.name)) {
                     characterFeat.name = 'DELETE';
                 }
             });
-            character.customFeats = character.customFeats.filter(characterFeat => characterFeat.name !== 'DELETE');
+            character.customFeats.update(value => value.filter(characterFeat => characterFeat.name !== 'DELETE'));
         }
 
         //Generated feats are tagged as such starting in 1.0.16. This is patched on the character's custom feats.
         // At this point, there are only generated lore feats and weapon feats, so they are easy to distinguish.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionSixteen) {
-            character.customFeats.forEach(customFeat => {
+            character.customFeats().forEach(customFeat => {
                 if (customFeat.lorebase) {
                     customFeat.generatedLoreFeat = true;
                 } else {

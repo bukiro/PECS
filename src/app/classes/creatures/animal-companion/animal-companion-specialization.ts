@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { AbilityChoice } from '../../character-creation/ability-choice';
 import { SkillChoice } from '../../character-creation/skill-choice';
@@ -33,17 +32,17 @@ export class AnimalCompanionSpecialization implements Serializable<AnimalCompani
     public hints: Array<Hint> = [];
     public skillChoices: Array<SkillChoice> = [];
 
-    public static from(values: DeepPartial<AnimalCompanionSpecialization>): AnimalCompanionSpecialization {
+    public static from(values: MaybeSerialized<AnimalCompanionSpecialization>): AnimalCompanionSpecialization {
         return new AnimalCompanionSpecialization().with(values);
     }
 
-    public with(values: DeepPartial<AnimalCompanionSpecialization>): AnimalCompanionSpecialization {
+    public with(values: MaybeSerialized<AnimalCompanionSpecialization>): AnimalCompanionSpecialization {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<AnimalCompanionSpecialization> {
+    public forExport(): Serialized<AnimalCompanionSpecialization> {
         return {
             ...forExport(this),
         };

@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 
 const { assign, forExport, isEqual } = setupSerialization<Domain>({
@@ -19,17 +18,17 @@ export class Domain implements Serializable<Domain> {
     public advancedDomainSpell = '';
     public sourceBook = '';
 
-    public static from(values: DeepPartial<Domain>): Domain {
+    public static from(values: MaybeSerialized<Domain>): Domain {
         return new Domain().with(values);
     }
 
-    public with(values: DeepPartial<Domain>): Domain {
+    public with(values: MaybeSerialized<Domain>): Domain {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Domain> {
+    public forExport(): Serialized<Domain> {
         return {
             ...forExport(this),
         };

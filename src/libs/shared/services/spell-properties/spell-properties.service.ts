@@ -43,7 +43,7 @@ export class SpellPropertiesService {
         });
 
         return combineLatest([
-            CharacterFlatteningService.characterLevel$,
+            CharacterFlatteningService.characterLevel$$,
             emptySafeCombineLatest(
                 requiredSkillLevels
                     .filter(isDefined)
@@ -112,9 +112,9 @@ export class SpellPropertiesService {
         }
 
         return combineLatest([
-            CreatureService.character$
+            CreatureService.character$$
                 .pipe(
-                    switchMap(character => character.maxSpellLevel$),
+                    switchMap(character => character.maxSpellLevel$$),
                 ),
             options.noEffects
                 ? combineLatest([
@@ -122,8 +122,8 @@ export class SpellPropertiesService {
                     of(new Array<RelativeEffect>()),
                 ])
                 : combineLatest([
-                    this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, effectTargets),
-                    this._creatureEffectsService.relativeEffectsOnThese$(context.creature, effectTargets),
+                    this._creatureEffectsService.absoluteEffectsOnThese$$(context.creature, effectTargets),
+                    this._creatureEffectsService.relativeEffectsOnThese$$(context.creature, effectTargets),
                 ]),
         ])
             .pipe(
@@ -160,7 +160,7 @@ export class SpellPropertiesService {
     }
 
     public spellLevelFromBaseLevel$(spell: Spell, baseLevel: number): Observable<number> {
-        return CreatureService.character.maxSpellLevel$
+        return CreatureService.character.maxSpellLevel$$
             .pipe(
                 map(maxSpellLevel => {
                     let levelNumber = baseLevel;
@@ -197,7 +197,7 @@ export class SpellPropertiesService {
                                 condition: this._conditionsDataService.conditionFromName(conditionGain.name),
                             }))
                             .map(({ conditionGain, condition }, index) =>
-                                this._conditionPropertiesService.effectiveChoices$(condition, levelNumber)
+                                this._conditionPropertiesService.effectiveChoices$$(condition, levelNumber)
                                     .pipe(
                                         // If the gain doesn't have a choice at that index
                                         // or the choice isn't among the condition's choices,

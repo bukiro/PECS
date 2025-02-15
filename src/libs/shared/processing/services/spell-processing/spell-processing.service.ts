@@ -60,7 +60,7 @@ export class SpellProcessingService {
             { ...context, baseLevel: context.level },
         )
             .pipe(
-                withLatestFrom(propMap$(SettingsService.settings$, 'manualMode$')),
+                withLatestFrom(propMap$(SettingsService.settings$$, 'manualMode$')),
                 map(([spellLevel, isManualMode]) => {
                     // If this spell was cast by an activity, it may have a specified duration in the spellGain.
                     // Keep that here before the duration is changed to keep the spell active (or not).
@@ -174,9 +174,9 @@ export class SpellProcessingService {
     ): Observable<{ conditionsToRemove: Array<string>; newDuration: number }> {
         return zip([
             this._creatureEffectsService
-                .absoluteEffectsOnThese$(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]),
+                .absoluteEffectsOnThese$$(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]),
             this._creatureEffectsService
-                .relativeEffectsOnThese$(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]),
+                .relativeEffectsOnThese$$(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]),
         ])
             .pipe(
                 map(([absoluteEffects, relativeEffects]) => {

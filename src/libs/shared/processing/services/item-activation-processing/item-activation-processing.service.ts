@@ -65,12 +65,12 @@ export class ItemActivationProcessingService {
             }
 
             //Gain Items on Activation
-            if (item.gainItems.length) {
-                item.gainItems.forEach(gainItem => {
+            if (item.gainItems().length) {
+                item.gainItems().forEach(gainItem => {
                     this._itemGrantingService.grantGrantedItem(
                         gainItem,
                         creature,
-                        { sourceName: item.effectiveNameSnapshot(), grantingItem: item },
+                        { sourceName: item.effectiveName$$()(), grantingItem: item },
                     );
                 });
             }

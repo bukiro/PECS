@@ -23,21 +23,21 @@ export class ShieldPropertiesService {
                 .pipe(
                     distinctUntilChanged(),
                     tap(shoddyValue => {
-                        shield.effectiveShoddy$.next(shoddyValue);
+                        shield.effectiveShoddy$$.next(shoddyValue);
                     }),
                 ),
             this._calculateShieldAlly$(shield, creature)
                 .pipe(
                     distinctUntilChanged(),
                     tap(hasShieldAlly => {
-                        shield.effectiveShieldAlly$.next(hasShieldAlly);
+                        shield.effectiveShieldAlly$$.next(hasShieldAlly);
                     }),
                 ),
             this._equipmentPropertiesSharedService.calculateEmblazonArmament(shield, creature)
                 .pipe(
                     distinctUntilChanged(isEqualPrimitiveObject),
                     tap(emblazonArmament => {
-                        shield.effectiveEmblazonArmament$.next(emblazonArmament);
+                        shield.effectiveEmblazonArmament$$.next(emblazonArmament);
                     }),
                 ),
         ])
@@ -51,7 +51,7 @@ export class ShieldPropertiesService {
         //Shoddy items have a -2 penalty to Attack, unless you have the Junk Tinker feat and have crafted the item yourself.
         return (
             creature.isCharacter()
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Junk Tinker')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Junk Tinker')
                 : of(false)
         )
             .pipe(
@@ -76,7 +76,7 @@ export class ShieldPropertiesService {
             .pipe(
                 switchMap(equipped =>
                     (equipped && creature.isCharacter())
-                        ? this._characterFeatsService.characterHasFeatAtLevel$('Divine Ally: Shield Ally')
+                        ? this._characterFeatsService.characterHasFeatAtLevel$$('Divine Ally: Shield Ally')
                         : of(false),
                 ),
             );

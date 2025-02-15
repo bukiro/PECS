@@ -106,7 +106,7 @@ export class HintComponent extends TrackByMixin(BaseClass) {
 
         return (
             (this.object instanceof Shield)
-                ? this.object.effectiveEmblazonArmament$
+                ? this.object.effectiveEmblazonArmament$$
                 : of<EmblazonArmamentSet | undefined>(undefined)
         )
             .pipe(

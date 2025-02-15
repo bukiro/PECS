@@ -1,12 +1,17 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
 import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { SpellChoice } from '../character-creation/spell-choice';
 import { Scroll } from '../items/scroll';
+import { signal } from '@angular/core';
+import { PerSpellLevelArray } from 'src/libs/shared/definitions/types/per-level-array';
+
+export interface SpecialSpellSlots {
+    studiousCapacity: number;
+    greaterVitalEvolution: [number, number];
+}
 
 const defaultSpellbookCantripSlots = 10;
 const defaultSpellbookFirstLevelSlots = 5;
@@ -27,6 +32,9 @@ const { assign, forExport, isEqual } = setupSerializationWithHelpers<SpellCastin
         'spellBookSlots',
         'traditionFilter',
         'bondedItemCharges',
+    ],
+    primitiveObjects: [
+        'specialSpellSlotsUsed',
     ],
     serializableArrays: {
         scrollSavant:
@@ -52,10 +60,17 @@ export class SpellCasting implements Serializable<SpellCasting> {
 
     /**
      * SpellSlotsUsed is for spontaneous casters and counts the spells cast on each spell level, where the index is the spell level.
-     * Index 0 is for Studious Capacity, which allows a single more casting each day,
-     * and index 11 and 12 are for Greater Vital Evolution, which allows two more.
      */
-    public spellSlotsUsed: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    public spellSlotsUsed: PerSpellLevelArray<number> =
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    /**
+     * Studious Capacity allows a single more casting each day,
+     * and Greater Vital Evolution allows two more.
+     */
+    public specialSpellSlotsUsed = {
+        studiousCapacity: 0,
+        greaterVitalEvolution: [0, 0],
+    };
     /**
      * SpellBookSlots is for Wizards and describes how many spells you can learn per level, where the index is the level.
      * Index 0 is for cantrips.
@@ -86,54 +101,28 @@ export class SpellCasting implements Serializable<SpellCasting> {
     ];
     public traditionFilter: Array<SpellTraditions> = [];
 
-    private readonly _bondedItemCharges = new OnChangeArray<number>(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-
-    private readonly _scrollSavant = new OnChangeArray<Scroll>();
-    private readonly _spellChoices = new OnChangeArray<SpellChoice>();
-
-    constructor(public castingType: SpellCastingTypes) {
-    }
-
-    public get bondedItemCharges(): OnChangeArray<number> {
-        return this._bondedItemCharges;
-    }
-
     /**
      * BondedItemCharges is for Wizards and contains charges to restore a used spell.
      * The index is the spell level, and 0 is for all spell levels.
      * Universalists get 1 for each level per rest, and all other schools get 1 for all. These are added at Rest.
      */
-    public set bondedItemCharges(value: Array<number>) {
-        this._bondedItemCharges.setValues(...value);
-    }
+    public readonly bondedItemCharges = signal<Array<number>>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    public readonly scrollSavant = signal<Array<Scroll>>([]);
+    public readonly spellChoices = signal<Array<SpellChoice>>([]);
 
-    public get scrollSavant(): OnChangeArray<Scroll> {
-        return this._scrollSavant;
-    }
+    constructor(public castingType: SpellCastingTypes) { }
 
-    public set scrollSavant(value: Array<Scroll>) {
-        this._scrollSavant.setValues(...value);
-    }
-
-    public get spellChoices(): OnChangeArray<SpellChoice> {
-        return this._spellChoices;
-    }
-
-    public set spellChoices(value: Array<SpellChoice>) {
-        this._spellChoices.setValues(...value);
-    }
-
-    public static from(values: DeepPartial<SpellCasting>, recastFns: RecastFns): SpellCasting {
+    public static from(values: MaybeSerialized<SpellCasting>, recastFns: RecastFns): SpellCasting {
         return new SpellCasting(values.castingType ?? SpellCastingTypes.Innate).with(values, recastFns);
     }
 
-    public with(values: DeepPartial<SpellCasting>, recastFns: RecastFns): SpellCasting {
+    public with(values: MaybeSerialized<SpellCasting>, recastFns: RecastFns): SpellCasting {
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<SpellCasting> {
+    public forExport(): Serialized<SpellCasting> {
         return {
             ...forExport(this),
         };

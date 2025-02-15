@@ -100,7 +100,7 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
     ) {
         super();
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'craftingTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'craftingTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -272,13 +272,13 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
 
         return combineLatest([
             item.traits.includes('Alchemical')
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Alchemical Crafting')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Alchemical Crafting')
                 : of(true),
             item.traits.includes('Magical')
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Magical Crafting')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Magical Crafting')
                 : of(true),
             item.traits.includes('Snare')
-                ? this._characterFeatsService.characterHasFeatAtLevel$('Snare Crafting')
+                ? this._characterFeatsService.characterHasFeatAtLevel$$('Snare Crafting')
                 : of(true),
             item.level >= masterRequiringLevel
                 ? this._skillValuesService.level$('Crafting', character)
@@ -337,13 +337,13 @@ export class CraftingComponent extends TrackByMixin(BaseClass) {
     ): Observable<{ available: number; prepared: number; snares: Array<Snare> } | undefined> {
         const character = this._character;
 
-        return this._characterFeatsService.characterHasFeatAtLevel$('Snare Specialist')
+        return this._characterFeatsService.characterHasFeatAtLevel$$('Snare Specialist')
             .pipe(
                 switchMap(hasSnareSpecialist =>
                     hasSnareSpecialist
                         ? combineLatest([
                             this._skillValuesService.level$('Crafting', character, character.level),
-                            this._characterFeatsService.characterHasFeatAtLevel$('Ubiquitous Snares'),
+                            this._characterFeatsService.characterHasFeatAtLevel$$('Ubiquitous Snares'),
                         ])
                             .pipe(
                                 map(([craftingSkillLevel, hasUbiquitousSnares]) => {

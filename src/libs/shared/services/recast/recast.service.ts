@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivityGain } from 'src/app/classes/activities/activity-gain';
 import { Item } from 'src/app/classes/items/item';
 import { RecastFns, ItemPrototypeFn, ActivityLookupFn } from '../../definitions/interfaces/recast-fns';
-import { DeepPartial } from '../../definitions/types/deep-partial';
+import { MaybeSerialized } from '../../definitions/interfaces/serializable';
 
 @Injectable({
     providedIn: 'root',
@@ -14,10 +14,10 @@ export class RecastService {
      * Use this set in recast functions if the data has been received from the API.
      */
     public static readonly restoreFns: RecastFns = {
-        getItemPrototype: <T extends Item>(obj: DeepPartial<T>) => {
+        getItemPrototype: <T extends Item>(obj: MaybeSerialized<T>) => {
             throw new Error(`[RecastService] restore functions not ready when casting ${ obj.name }`);
         },
-        getOriginalActivity: (obj: DeepPartial<ActivityGain>) => {
+        getOriginalActivity: (obj: MaybeSerialized<ActivityGain>) => {
             throw new Error(`[RecastService] restore functions  not ready when casting ${ obj.name }`);
         },
     };
@@ -27,10 +27,10 @@ export class RecastService {
      * Use this set in recast functions if the content is already there and just needs to be recast.
      */
     public static readonly recastFns: RecastFns = {
-        getItemPrototype: <T extends Item>(obj: DeepPartial<T>) => {
+        getItemPrototype: <T extends Item>(obj: MaybeSerialized<T>) => {
             throw new Error(`[RecastService] recast functions not ready when casting ${ obj.name }`);
         },
-        getOriginalActivity: (obj: DeepPartial<ActivityGain>) => {
+        getOriginalActivity: (obj: MaybeSerialized<ActivityGain>) => {
             throw new Error(`[RecastService] recast functions not ready when casting ${ obj.name }`);
         },
     };

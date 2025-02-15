@@ -1,5 +1,4 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { EffectGain } from '../effects/effect-gain';
 import { Hint } from '../hints/hint';
@@ -26,17 +25,17 @@ export class Specialization implements Serializable<Specialization> {
     public effects: Array<EffectGain> = [];
     public hints: Array<Hint> = [];
 
-    public static from(values: DeepPartial<Specialization>): Specialization {
+    public static from(values: MaybeSerialized<Specialization>): Specialization {
         return new Specialization().with(values);
     }
 
-    public with(values: DeepPartial<Specialization>): Specialization {
+    public with(values: MaybeSerialized<Specialization>): Specialization {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Specialization> {
+    public forExport(): Serialized<Specialization> {
         return {
             ...forExport(this),
         };

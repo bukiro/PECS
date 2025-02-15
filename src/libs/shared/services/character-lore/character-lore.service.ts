@@ -35,7 +35,7 @@ export class CharacterLoreService {
         const additionalLoreThirdIncreaseLevel = 15;
 
         if (source.source === 'Feat: Additional Lore') {
-            character.classLevelFromNumber(additionalLoreFirstIncreaseLevel)
+            character.classLevelFromNumber$$(additionalLoreFirstIncreaseLevel)
                 .addSkillChoice(
                     SkillChoice.from({
                         available: 1,
@@ -46,7 +46,7 @@ export class CharacterLoreService {
                     }),
                 );
 
-            character.classLevelFromNumber(additionalLoreSecondIncreaseLevel)
+            character.classLevelFromNumber$$(additionalLoreSecondIncreaseLevel)
                 .addSkillChoice(
                     SkillChoice.from({
                         available: 1,
@@ -57,7 +57,7 @@ export class CharacterLoreService {
                     }),
                 );
 
-            character.classLevelFromNumber(additionalLoreThirdIncreaseLevel)
+            character.classLevelFromNumber$$(additionalLoreThirdIncreaseLevel)
                 .addSkillChoice(
                     SkillChoice.from({
                         available: 1,
@@ -76,7 +76,7 @@ export class CharacterLoreService {
             const gnomeObsessionThirdIncreaseLevel = 15;
 
             const firstChoice =
-                character.classLevelFromNumber(gnomeObsessionFirstIncreaseLevel)
+                character.classLevelFromNumber$$(gnomeObsessionFirstIncreaseLevel)
                     .addSkillChoice(
                         SkillChoice.from({
                             type: 'Skill',
@@ -94,7 +94,7 @@ export class CharacterLoreService {
             });
 
             const secondChoice =
-                character.classLevelFromNumber(gnomeObsessionSecondIncreaseLevel)
+                character.classLevelFromNumber$$(gnomeObsessionSecondIncreaseLevel)
                     .addSkillChoice(
                         SkillChoice.from({
                             type: 'Skill',
@@ -112,7 +112,7 @@ export class CharacterLoreService {
             });
 
             const thirdChoice =
-                character.classLevelFromNumber(gnomeObsessionThirdIncreaseLevel)
+                character.classLevelFromNumber$$(gnomeObsessionThirdIncreaseLevel)
                     .addSkillChoice(
                         SkillChoice.from({
                             type: 'Skill',
@@ -138,10 +138,10 @@ export class CharacterLoreService {
             const gnomeObsessionSecondIncreaseLevel = 7;
             const gnomeObsessionThirdIncreaseLevel = 15;
             const firstBackgroundLoreIncrease =
-                character.skillIncreases(1, 1, '', 'Background')
+                character.skillIncreases$$(1, 1, '', 'Background')
                     .find(increase => increase.name.includes('Lore: ') && increase.locked);
             const gnomeObsessionLoreIncreases =
-                character.skillIncreases(0, maxLevel, '', 'Feat: Gnome Obsession')
+                character.skillIncreases$$(0, maxLevel, '', 'Feat: Gnome Obsession')
                     .filter(increase => increase.name.includes('Lore: ') && increase.locked);
 
             if (!!gnomeObsessionLoreIncreases.length && firstBackgroundLoreIncrease) {
@@ -150,7 +150,7 @@ export class CharacterLoreService {
                 //Add the background lore increases if none are found with Gnome Obsession as their source.
                 if (!gnomeObsessionLoreIncreases.some(existingIncrease => existingIncrease.name === backgroundLoreName)) {
                     const firstChoice =
-                        character.classLevelFromNumber(gnomeObsessionFirstIncreaseLevel)
+                        character.classLevelFromNumber$$(gnomeObsessionFirstIncreaseLevel)
                             .addSkillChoice(
                                 SkillChoice.from({
                                     type: 'Skill',
@@ -168,7 +168,7 @@ export class CharacterLoreService {
                     });
 
                     const secondChoice =
-                        character.classLevelFromNumber(gnomeObsessionSecondIncreaseLevel)
+                        character.classLevelFromNumber$$(gnomeObsessionSecondIncreaseLevel)
                             .addSkillChoice(
                                 SkillChoice.from({
                                     type: 'Skill',
@@ -186,7 +186,7 @@ export class CharacterLoreService {
                     });
 
                     const thirdChoice =
-                        character.classLevelFromNumber(gnomeObsessionThirdIncreaseLevel)
+                        character.classLevelFromNumber$$(gnomeObsessionThirdIncreaseLevel)
                             .addSkillChoice(
                                 SkillChoice.from({
                                     type: 'Skill',

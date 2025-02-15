@@ -2,11 +2,9 @@ import { AnimalCompanionLevel } from 'src/app/classes/creatures/animal-companion
 import { AnimalCompanionAncestry } from 'src/app/classes/creatures/animal-companion/animal-companion-ancestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/creatures/animal-companion/animal-companion-specialization';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { BehaviorSubject } from 'rxjs';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
+import { signal } from '@angular/core';
 
 const AnimalCompanionDefaultHitPoints = 6;
 
@@ -29,52 +27,21 @@ const { assign, forExport, isEqual } = setupSerializationWithHelpers<AnimalCompa
 export class AnimalCompanionClass implements Serializable<AnimalCompanionClass> {
     public hitPoints = AnimalCompanionDefaultHitPoints;
 
-    public readonly ancestry$: BehaviorSubject<AnimalCompanionAncestry>;
+    public readonly ancestry = signal(new AnimalCompanionAncestry());
+    public readonly levels = signal<Array<AnimalCompanionLevel>>([]);
+    public readonly specializations = signal<Array<AnimalCompanionSpecialization>>([]);
 
-    private _ancestry = new AnimalCompanionAncestry();
-    private readonly _levels = new OnChangeArray<AnimalCompanionLevel>();
-    private readonly _specializations = new OnChangeArray<AnimalCompanionSpecialization>();
-
-    constructor() {
-        this.ancestry$ = new BehaviorSubject(this._ancestry);
-    }
-
-    public get ancestry(): AnimalCompanionAncestry {
-        return this._ancestry;
-    }
-
-    public set ancestry(value: AnimalCompanionAncestry) {
-        this._ancestry = value;
-        this.ancestry$.next(this._ancestry);
-    }
-
-    public get levels(): OnChangeArray<AnimalCompanionLevel> {
-        return this._levels;
-    }
-
-    public set levels(value: Array<AnimalCompanionLevel>) {
-        this._levels.setValues(...value);
-    }
-
-    public get specializations(): OnChangeArray<AnimalCompanionSpecialization> {
-        return this._specializations;
-    }
-
-    public set specializations(value: Array<AnimalCompanionSpecialization>) {
-        this._specializations.setValues(...value);
-    }
-
-    public static from(values: DeepPartial<AnimalCompanionClass>, recastFns: RecastFns): AnimalCompanionClass {
+    public static from(values: MaybeSerialized<AnimalCompanionClass>, recastFns: RecastFns): AnimalCompanionClass {
         return new AnimalCompanionClass().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<AnimalCompanionClass>, recastFns: RecastFns): AnimalCompanionClass {
+    public with(values: MaybeSerialized<AnimalCompanionClass>, recastFns: RecastFns): AnimalCompanionClass {
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<AnimalCompanionClass> {
+    public forExport(): Serialized<AnimalCompanionClass> {
         return {
             ...forExport(this),
         };

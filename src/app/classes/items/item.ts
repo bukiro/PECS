@@ -1,11 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { BehaviorSubject, Observable, distinctUntilChanged, tap, map, of } from 'rxjs';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
 import { ItemGainOnOptions } from 'src/libs/shared/definitions/item-gain-options';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { SpellChoice } from '../character-creation/spell-choice';
 import { AdventuringGear } from './adventuring-gear';
@@ -29,6 +26,9 @@ import { Wand } from './wand';
 import { Weapon } from './weapon';
 import { WeaponRune } from './weapon-rune';
 import { WornItem } from './worn-item';
+import { computed, effect, Signal, signal, WritableSignal } from '@angular/core';
+import { isTruthy } from 'src/libs/shared/util/type-guard-utils';
+import { isEqualPrimitiveObject } from 'src/libs/shared/util/compare-utils';
 
 export interface TraitActivation {
     trait: string;
@@ -108,11 +108,6 @@ export abstract class Item implements Serializable<Item> {
     public access = '';
     /** Allow changing of "equippable" by custom item creation */
     public allowEquippable = false;
-    /**
-     * Number of items of this kind in your inventory.
-     * Items that can't be stacked will always remain at amount 1; Adding another item of that id will add a separate item to the inventory.
-     */
-    public amount = 1;
     /** Bulk: Either "" or "L" or "<number>" */
     public bulk = '';
     public craftable = true;
@@ -121,15 +116,8 @@ export abstract class Item implements Serializable<Item> {
     public craftRequirement = '';
     /** Full description of the item, ideally unchanged from the source material */
     public desc = '';
-    /**
-     * For summoned items or infused reagents, the expiration ticks down, and the item is then dropped or the amount reduced.
-     * Expiration is turns * 10.
-     */
-    public expiration = 0;
     /** ExpiresOnlyIf controls whether the item's expiration only ticks down while it is equipped or while it is unequipped. */
     public expiresOnlyIf: '' | 'equipped' | 'unequipped' = '';
-    /** If this name is set, always show it instead of the expanded base name */
-    public displayName = '';
     /** Can this item be equipped (and apply its effect only then). */
     public equippable = false;
     /** Should this item be hidden in the item store */
@@ -146,8 +134,6 @@ export abstract class Item implements Serializable<Item> {
     public iconTitleOverride = '';
     /** The upper left text in the item's icon. */
     public iconValueOverride = '';
-    /** Any notes the player adds to the item */
-    public notes = '';
     /** Price in Copper */
     public price = 0;
     /**
@@ -157,8 +143,6 @@ export abstract class Item implements Serializable<Item> {
      * Items that are not based on a libary item have their own id as their refId.
      */
     public refId = '';
-    /** Is the notes input shown in the inventory */
-    public showNotes = false;
     public sourceBook = '';
     /**
      * This bulk is only displayed in the item store.
@@ -184,11 +168,6 @@ export abstract class Item implements Serializable<Item> {
      * If two have the same priority, the first in the list wins.
      */
     public overridePriority = 0;
-    /**
-     * If markedForDeletion is set, the item isn't recursively dropped during drop_InventoryItem,
-     * thus avoiding loops stemming from gained items and gained inventories.
-     */
-    public markedForDeletion = false;
     /** If restoredFromSave is set, the item doesn't need to be merged with its reference item again. */
     public restoredFromSave = false;
     public PFSnote = '';
@@ -197,76 +176,92 @@ export abstract class Item implements Serializable<Item> {
     /** What traits does the item have? Can be expanded under certain circumstances. */
     public traits: Array<string> = [];
 
+    /**
+     * Number of items of this kind in your inventory.
+     * Items that can't be stacked will always remain at amount 1; Adding another item of that id will add a separate item to the inventory.
+     */
+    public readonly amount = signal(1);
+    /**
+     * If this name is set, always show it instead of the expanded base name.
+     * Can be changed by the player.
+     */
+    public readonly displayName = signal('');
+    /**
+     * For summoned items or infused reagents, the expiration ticks down, and the item is then dropped or the amount reduced.
+     * Expiration is turns * 10.
+     */
+    public readonly expiration = signal(0);
+    /**
+     * If markedForDeletion is set, the item isn't recursively dropped during drop_InventoryItem,
+     * thus avoiding loops stemming from gained items and gained inventories.
+     */
+    public readonly markedForDeletion = signal(false);
+    /** Any notes the player adds to the item */
+    public readonly notes = signal('');
+    /** Is the notes input shown in the inventory */
+    public readonly showNotes = signal(false);
     /** Items can store whether they have activated effects on any of their trait's hints here. */
-    public traitActivations: Array<TraitActivation> = [];
-
+    public readonly traitActivations = signal<Array<TraitActivation>>([]);
     /** List ItemGain for every Item that you receive when you get, equip or use this item (specified in the ItemGain) */
-    public gainItems: Array<ItemGain> = [];
+    public readonly gainItems = signal<Array<ItemGain>>([]);
+    /** Some items need to store data, usually via a hardcoded select box. */
+    public readonly data = signal<Array<ItemData>>(
+        [],
+        { equal: isEqualPrimitiveObject },
+    );
+    /** Store any oils applied to this item. */
+    public readonly oilsApplied = signal<Array<Oil>>([]);
+    /**
+     * What spells are stored in this item, or can be?
+     * Only the first spell will be cast when using the item.
+     */
+    public readonly storedSpells = signal<Array<SpellChoice>>([]);
 
     /** Some items may recalculate their traits and store them here temporarily for easier access. */
-    public effectiveTraits$: BehaviorSubject<Array<string>>;
-    public traitActivations$: Observable<Array<TraitActivation>>;
+    public readonly effectiveTraits$$: WritableSignal<Array<string>>;
 
-    private readonly _data = new OnChangeArray<ItemData>();
-    private readonly _oilsApplied = new OnChangeArray<Oil>();
-    private readonly _storedSpells = new OnChangeArray<SpellChoice>();
+    public readonly activatedTraitsActivations$$ = computed(() =>
+        this.traitActivations().filter(activation => activation.active || activation.active2 || activation.active3),
+    );
+
+    public readonly effectiveBulk$$ = computed(() =>
+        //Return either the bulk set by an oil, or else the actual bulk of the item.
+        this.oilsApplied()
+            .map(({ bulkEffect }) => bulkEffect)
+            .filter(isTruthy)
+            .pop() ?? this.bulk,
+    );
+
+    public readonly investedOrEquipped$$ = signal(false).asReadonly();
+
+    public readonly gridIconValue$$: Signal<string> = signal(this.subType[0] || '').asReadonly();
+
+    public readonly gridIconTitle$$: Signal<string> = computed(() =>
+        this.displayName().replace(`(${ this.subType })`, '') || this.name.replace(`(${ this.subType })`, ''),
+    );
 
     /** Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item */
     public abstract type: ItemTypes;
 
     constructor() {
-        this.effectiveTraits$ = new BehaviorSubject<Array<string>>(this.traits);
+        this.effectiveTraits$$ = signal<Array<string>>(this.traits);
 
-        this.traitActivations$ = this.effectiveTraits$
-            .pipe(
-                distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-                tap(effectiveTraits => {
-                    // Remove activations for traits that don't exist on the item anymore.
-                    this.traitActivations = this.traitActivations.filter(activation => effectiveTraits.includes(activation.trait));
-                }),
-                map(effectiveTraits => {
-                    //Create trait activations for all traits that don't have one yet.
-                    effectiveTraits
-                        .filter(trait =>
-                            !this.traitActivations.some(activation => activation.trait === trait),
-                        )
-                        .forEach(trait => {
-                            this.traitActivations.push({ trait, active: false, active2: false, active3: false });
-                        });
+        effect(() => {
+            const effectiveTraits = this.effectiveTraits$$();
 
-                    return this.traitActivations;
-                }),
-            );
-    }
-
-    public get data(): OnChangeArray<ItemData> {
-        return this._data;
-    }
-
-    /** Some items need to store data, usually via a hardcoded select box. */
-    public set data(value: Array<ItemData>) {
-        this._data.setValues(...value);
-    }
-
-    public get oilsApplied(): OnChangeArray<Oil> {
-        return this._oilsApplied;
-    }
-
-    /** Store any oils applied to this item. */
-    public set oilsApplied(value: Array<Oil>) {
-        this._oilsApplied.setValues(...value);
-    }
-
-    public get storedSpells(): OnChangeArray<SpellChoice> {
-        return this._storedSpells;
-    }
-
-    /**
-     * What spells are stored in this item, or can be?
-     * Only the first spell will be cast when using the item.
-     */
-    public set storedSpells(value: Array<SpellChoice>) {
-        this._storedSpells.setValues(...value);
+            this.traitActivations.update(value =>
+                // Remove activations for traits that don't exist on the item anymore.
+                value
+                    .filter(activation => effectiveTraits.includes(activation.trait))
+                    .concat(
+                        //Create trait activations for all traits that don't have one yet.
+                        effectiveTraits
+                            .filter(trait =>
+                                !value.some(activation => activation.trait === trait),
+                            )
+                            .map(trait => ({ trait, active: false, active2: false, active3: false })),
+                    ));
+        }, { allowSignalWrites: true });
     }
 
     public get sortLevel(): string {
@@ -275,10 +270,14 @@ export abstract class Item implements Serializable<Item> {
         return this.level.toString().padStart(twoDigits, '0');
     }
 
-    public with(values: DeepPartial<Item>, recastFns: RecastFns): Item {
+    public get canInvest(): boolean {
+        return this.traits.includes('Invested');
+    }
+
+    public with(values: MaybeSerialized<Item>, recastFns: RecastFns): Item {
         assign(this, values, recastFns);
 
-        this.storedSpells.forEach((spell, index) => {
+        this.storedSpells().forEach((spell, index) => {
             spell.source = this.id;
             spell.id = `0-Spell-${ this.id }${ index }`;
         });
@@ -290,13 +289,13 @@ export abstract class Item implements Serializable<Item> {
         return this;
     }
 
-    public forExport(): DeepPartial<Item> {
+    public forExport(): Serialized<Item> {
         return {
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<Item> {
+    public forMessage(): Serialized<Item> {
         return {
             // Item in messages include the type to allow for restoring.
             type: this.type,
@@ -354,58 +353,19 @@ export abstract class Item implements Serializable<Item> {
 
     public isWornItem(): this is WornItem { return false; }
 
-    public gridIconTitle(): string {
-        return this.displayName.replace(`(${ this.subType })`, '') || this.name.replace(`(${ this.subType })`, '');
-    }
-
-    public gridIconValue(): string {
-        return this.subType[0] || '';
-    }
-
-    //TODO: Make reactive
-    public activatedTraitsActivations(): Array<TraitActivation> {
-        return this.traitActivations.filter(activation => activation.active || activation.active2 || activation.active3);
-    }
-
-    public effectiveBulk(): string {
-        //Return either the bulk set by an oil, or else the actual bulk of the item.
-        let oilBulk = '';
-
-        this.oilsApplied.forEach(oil => {
-            if (oil.bulkEffect) {
-                oilBulk = oil.bulkEffect;
-            }
-        });
-
-        return oilBulk || this.bulk;
-    }
-
-    public canInvest(): boolean {
-        return this.traits.includes('Invested');
-    }
-
     public canStack(): boolean {
         //Equipment, Runes and Snares have their own version of can_Stack.
         return (
-            !this.equippable &&
-            !this.canInvest() &&
-            !this.gainItems.filter(gain => gain.on !== ItemGainOnOptions.Use).length &&
-            !this.storedSpells.length
+            !this.equippable
+            && !this.canInvest
+            && !this.gainItems().some(gain => gain.on !== ItemGainOnOptions.Use)
+            && !this.storedSpells().length
         );
     }
 
-    public effectiveName$(options?: { itemStore?: boolean }): Observable<string> {
-        return of(this.effectiveNameSnapshot(options));
-    }
-
     //Other implementations require itemStore.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectiveNameSnapshot(options?: { itemStore?: boolean }): string {
-        return this.displayName ?? this.name;
-    }
-
-    public investedOrEquipped(): boolean {
-        return false;
+    public effectiveName$$(_options?: { itemStore?: boolean }): Signal<string> {
+        return computed(() => this.displayName() ?? this.name);
     }
 
     public abstract clone(recastFns: RecastFns): Item;

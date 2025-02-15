@@ -83,7 +83,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
             combineLatest([
                 this.creature$
                     .pipe(
-                        switchMap(creature => SettingsService.settings$
+                        switchMap(creature => SettingsService.settings$$
                             .pipe(
                                 switchMap(settings => {
                                     switch (creature.type) {
@@ -105,18 +105,18 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
                     distinctUntilChanged(),
                 );
 
-        this.isManualMode$ = propMap$(SettingsService.settings$, 'manualMode$');
+        this.isManualMode$ = propMap$(SettingsService.settings$$, 'manualMode$');
 
         this.state$ = this.creature$
             .pipe(
                 switchMap(creature =>
                     combineLatest({
-                        maxHP: this._healthService.maxHP$(creature),
-                        currentHP: this._healthService.currentHP$(creature),
-                        wounded: this._healthService.wounded$(creature),
-                        dying: this._healthService.dying$(creature),
-                        maxDying: this._healthService.maxDying$(creature),
-                        mainTemporaryHP: creature.health.mainTemporaryHP$,
+                        maxHP: this._healthService.maxHP$$(creature),
+                        currentHP: this._healthService.currentHP$$(creature),
+                        wounded: this._healthService.wounded$$(creature),
+                        dying: this._healthService.dying$$(creature),
+                        maxDying: this._healthService.maxDying$$(creature),
+                        mainTemporaryHP: creature.health.mainTemporaryHP$$,
                     }),
                 ),
             );
@@ -213,7 +213,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
 
     public isNumbToDeathAvailable$(): Observable<boolean> {
         if (this.creature.isCharacter()) {
-            return this._characterFeatsService.characterHasFeatAtLevel$('Numb to Death');
+            return this._characterFeatsService.characterHasFeatAtLevel$$('Numb to Death');
         } else {
             return of(false);
         }
@@ -228,7 +228,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
     }
 
     public onTakeDamage(): void {
-        this._healthService.takeDamage$(this.creature, this.damage, { nonlethal: this.nonlethal });
+        this._healthService.takeDamage(this.creature, this.damage, { nonlethal: this.nonlethal });
     }
 
     public onSetTemporaryHP(amount: number): void {
@@ -243,8 +243,8 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
 
     public resistances$(): Observable<Array<{ target: string; value: number; source: string }>> {
         return combineLatest([
-            this._creatureEffectsService.effectsOnThis$(this.creature, 'resistance', { allowPartialString: true }),
-            this._creatureEffectsService.effectsOnThis$(this.creature, 'hardness', { allowPartialString: true }),
+            this._creatureEffectsService.effectsOnThis$$(this.creature, 'resistance', { allowPartialString: true }),
+            this._creatureEffectsService.effectsOnThis$$(this.creature, 'hardness', { allowPartialString: true }),
         ])
             .pipe(
                 map(([resistanceEffects, hardnessEffects]) => {
@@ -297,7 +297,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
     }
 
     public immunities$(): Observable<Array<{ target: string; source: string }>> {
-        return this._creatureEffectsService.effectsOnThis$(this.creature, 'immunity', { allowPartialString: true })
+        return this._creatureEffectsService.effectsOnThis$$(this.creature, 'immunity', { allowPartialString: true })
             .pipe(
                 map(immunityEffects => {
                     const immunities: Array<{ target: string; source: string }> = [];
@@ -320,7 +320,7 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
 
     //TODO: This should come as part of the respective value instead of separately.
     public doAbsoluteEffectsExistOnThis$(name: string): Observable<boolean> {
-        return this._creatureEffectsService.absoluteEffectsOnThis$(this.creature, name)
+        return this._creatureEffectsService.absoluteEffectsOnThis$$(this.creature, name)
             .pipe(
                 map(absolutes => !!absolutes.length),
             );
@@ -328,11 +328,11 @@ export class HealthComponent extends TrackByMixin(BaseCreatureElementComponent) 
 
     //TODO: This should come as part of the respective value instead of separately.
     public doBonusEffectsExistOnThis$(name: string): Observable<boolean> {
-        return this._creatureEffectsService.doBonusEffectsExistOnThis$(this.creature, name);
+        return this._creatureEffectsService.doBonusEffectsExistOnThis$$(this.creature, name);
     }
 
     //TODO: This should come as part of the respective value instead of separately.
     public doPenaltyEffectsExistOnThis$(name: string): Observable<boolean> {
-        return this._creatureEffectsService.doPenaltyEffectsExistOnThis$(this.creature, name);
+        return this._creatureEffectsService.doPenaltyEffectsExistOnThis$$(this.creature, name);
     }
 }

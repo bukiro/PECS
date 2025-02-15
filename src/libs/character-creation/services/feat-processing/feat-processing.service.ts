@@ -191,7 +191,7 @@ export class FeatProcessingService {
                     if (newFeatChoice.insertClass ? character.class.name === newFeatChoice.insertClass : true) {
                         //Check if the feat choice gets applied on a certain level and do that, or apply it on the current level.
                         const insertLevel =
-                            (newFeatChoice.insertLevel && character.classLevelFromNumber(newFeatChoice.insertLevel)) ||
+                            (newFeatChoice.insertLevel && character.classLevelFromNumber$$(newFeatChoice.insertLevel)) ||
                             context.level;
 
                         insertedFeatChoice = insertLevel.addFeatChoice(newFeatChoice);
@@ -217,7 +217,7 @@ export class FeatProcessingService {
                     if (oldFeatChoice.insertClass ? (character.class.name === oldFeatChoice.insertClass) : true) {
                         //If the feat choice got applied on a certain level, it needs to be removed from that level.
                         const insertLevel =
-                            (oldFeatChoice.insertLevel && character.classLevelFromNumber(oldFeatChoice.insertLevel)) ||
+                            (oldFeatChoice.insertLevel && character.classLevelFromNumber$$(oldFeatChoice.insertLevel)) ||
                             context.level;
 
                         const levelChoices: Array<FeatChoice> = insertLevel.featChoices;
@@ -299,7 +299,7 @@ export class FeatProcessingService {
                                 .filter(increase => increase.locked && increase.maxRank === SkillLevels.Trained)
                                 .forEach(increase => {
                                     const existingIncreases =
-                                        character.skillIncreases(1, context.level.number, increase.name);
+                                        character.skillIncreases$$(1, context.level.number, increase.name);
 
                                     if (
                                         existingIncreases.filter(existingIncrease =>
@@ -327,7 +327,7 @@ export class FeatProcessingService {
 
                         //Check if the skill choice gets applied on a certain level and do that, or apply it on the current level.
                         const insertLevel =
-                            (insertSkillChoice.insertLevel && character.classLevelFromNumber(insertSkillChoice.insertLevel)) ||
+                            (insertSkillChoice.insertLevel && character.classLevelFromNumber$$(insertSkillChoice.insertLevel)) ||
                             context.level;
 
                         const newChoice = insertLevel.addSkillChoice(insertSkillChoice);
@@ -346,7 +346,7 @@ export class FeatProcessingService {
                     if (oldSkillChoice.insertClass ? (character.class.name === oldSkillChoice.insertClass) : true) {
                         //If the feat choice got applied on a certain level, it needs to be removed from that level, too.
                         const insertLevel =
-                            (oldSkillChoice.insertLevel && character.classLevelFromNumber(oldSkillChoice.insertLevel)) ||
+                            (oldSkillChoice.insertLevel && character.classLevelFromNumber$$(oldSkillChoice.insertLevel)) ||
                             context.level;
 
                         const levelChoices: Array<SkillChoice> = insertLevel.skillChoices;
@@ -530,7 +530,7 @@ export class FeatProcessingService {
                     );
 
                     if (oldGain) {
-                        if (oldGain.active) {
+                        if (oldGain.active()) {
                             this._psp.activitiesProcessingService?.activateActivity(
                                 this._activitiesDataService.activityFromName(oldGain.name),
                                 false,
@@ -723,7 +723,7 @@ export class FeatProcessingService {
                 //Remove the latest specialization chosen on this level, only if all choices are taken.
                 const specializations = companion.class.specializations.filter(spec => spec.level === context.level.number);
 
-                this._characterFeatsService.characterFeatsTakenWithContext$(context.level.number, context.level.number)
+                this._characterFeatsService.characterFeatsTakenWithContext$$(context.level.number, context.level.number)
                     .pipe(
                         take(1),
                     )

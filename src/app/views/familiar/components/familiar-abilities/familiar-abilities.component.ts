@@ -24,7 +24,7 @@ export class FamiliarabilitiesComponent {
     }
 
     public get familiar$(): Observable<Familiar> {
-        return CreatureService.familiar$;
+        return CreatureService.familiar$$;
     }
 
 }

@@ -16,11 +16,11 @@ import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.ser
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { skillLevelName } from 'src/libs/shared/util/skill-utils';
 import { attackEffectPhrases } from '../../util/attack-effect-phrases';
-import { RuneSourceSet, attackRuneSource$ } from '../../util/attack-rune-rource';
+import { RuneSourceSet, attackRuneSource$$ } from '../../util/attack-rune-rource';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
 import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 import { applyEffectsToValue } from 'src/libs/shared/util/effect.utils';
-import { flattenArrayLists } from 'src/libs/shared/util/array-utils';
+import { flatten } from 'src/libs/shared/util/array-utils';
 
 export interface AttackResult {
     range: 'ranged' | 'melee';
@@ -66,10 +66,10 @@ export class AttacksService {
         range: 'ranged' | 'melee',
     ): Observable<AttackResult> {
         return combineLatest([
-            CharacterFlatteningService.characterLevel$,
+            CharacterFlatteningService.characterLevel$$,
             combineLatest([
                 this._weaponPropertiesService.effectiveProficiency$(weapon, { creature }),
-                attackRuneSource$(weapon, creature, range),
+                attackRuneSource$$(weapon, creature, range),
             ])
                 .pipe(
                     switchMap(([prof, runeSource]) =>
@@ -85,7 +85,7 @@ export class AttacksService {
                     ),
                 ),
             this._weaponPropertiesService.isFavoredWeapon$(weapon, creature),
-            weapon.effectiveTraits$,
+            weapon.effectiveTraits$$,
         ])
             .pipe(
                 map(([charLevel, { prof, runeSource, skillLevel }, isFavoredWeapon, traits]) => ({
@@ -108,7 +108,7 @@ export class AttacksService {
                                 // For any activated traits of weapon weapon, check if any effects on Attack apply.
                                 const traitEffects: Array<Effect> = [];
 
-                                weapon.activatedTraitsActivations().forEach(activation => {
+                                weapon.activatedTraitsActivations$$().forEach(activation => {
                                     const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
                                     if (realTrait) {
@@ -141,14 +141,14 @@ export class AttacksService {
                                         ]);
 
                                 return combineLatest([
-                                    this._creatureEffectsService.absoluteEffectsOnThese$(creature, effectsListAttackRolls),
-                                    this._creatureEffectsService.relativeEffectsOnThese$(creature, effectsListAttackRolls),
+                                    this._creatureEffectsService.absoluteEffectsOnThese$$(creature, effectsListAttackRolls),
+                                    this._creatureEffectsService.relativeEffectsOnThese$$(creature, effectsListAttackRolls),
                                     this._attackBonusEffectFromPotencyRune$(context),
                                     this._attackBonusEffectFromBattleForged$(context),
                                     this._attackPenaltyEffectFromShoddy$(context),
                                     // The effect of Powerful Fist is applied if the proficiency is Unarmed and the Character has the feat.
                                     (context.prof === WeaponProficiencies.Unarmed && context.creature.isCharacter())
-                                        ? this._characterFeatsService.characterHasFeatAtLevel$('Powerful Fist')
+                                        ? this._characterFeatsService.characterHasFeatAtLevel$$('Powerful Fist')
                                         : of(false),
                                 ])
                                     .pipe(
@@ -228,10 +228,10 @@ export class AttacksService {
                                             return {
                                                 result,
                                                 bonuses,
-                                                effects: flattenArrayLists<Effect>([
+                                                effects: flatten<Effect>(
                                                     reducedAbsolutes,
                                                     reducedRelatives,
-                                                ]),
+                                                ),
                                                 range,
                                             };
                                         }),
@@ -254,13 +254,13 @@ export class AttacksService {
         context: IntermediateMethodContext,
     ): Observable<{ effect: RelativeEffect; ability: 'Dexterity' | 'Strength' } | undefined> {
         return combineLatest([
-            this._abilityValuesService.mod$('Dexterity', context.creature),
-            this._abilityValuesService.mod$('Strength', context.creature),
-            this._creatureEffectsService.relativeEffectsOnThese$(
+            this._abilityValuesService.mod$$('Dexterity', context.creature),
+            this._abilityValuesService.mod$$('Strength', context.creature),
+            this._creatureEffectsService.relativeEffectsOnThese$$(
                 context.creature,
                 ['Dexterity-based Checks and DCs', 'Dexterity-based Attack Rolls'],
             ),
-            this._creatureEffectsService.relativeEffectsOnThese$(
+            this._creatureEffectsService.relativeEffectsOnThese$$(
                 context.creature,
                 ['Strength-based Checks and DCs', 'Strength-based Attack Rolls'],
             ),
@@ -341,8 +341,8 @@ export class AttacksService {
         context: IntermediateMethodContext,
     ): Observable<RelativeEffect | undefined> {
         return combineLatest([
-            context.runeSource.forFundamentalRunes.effectivePotency$(),
-            context.runeSource.reason?.effectiveName$() ?? of(''),
+            context.runeSource.forFundamentalRunes.effectivePotency$$(),
+            context.runeSource.reason?.effectiveName$$() ?? of(''),
         ])
             .pipe(
                 map(([potencyRune, reasonName]) => {
@@ -379,7 +379,7 @@ export class AttacksService {
     ): Observable<RelativeEffect | undefined> {
         return combineLatest([
             context.runeSource.forFundamentalRunes.battleforged$,
-            context.runeSource.reason?.effectiveName$() ?? of(''),
+            context.runeSource.reason?.effectiveName$$() ?? of(''),
         ])
             .pipe(
                 map(([isBattleForged, reasonName]) => {
@@ -416,12 +416,12 @@ export class AttacksService {
     private _attackPenaltyEffectFromShoddy$(
         context: IntermediateMethodContext,
     ): Observable<{ effect?: RelativeEffect; cancelled?: boolean } | undefined> {
-        return context.weapon.effectiveShoddy$
+        return context.weapon.effectiveShoddy$$
             .pipe(
                 map(effectiveShoddy => {
                     if ((effectiveShoddy === ShoddyPenalties.NotShoddy) && context.weapon.shoddy) {
                         return { cancelled: true };
-                    } else if (context.weapon.effectiveShoddy$) {
+                    } else if (context.weapon.effectiveShoddy$$) {
                         return {
                             effect:
                                 Effect.from({

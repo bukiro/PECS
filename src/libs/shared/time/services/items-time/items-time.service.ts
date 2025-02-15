@@ -45,9 +45,9 @@ export class ItemsTimeService {
 
         if (creature.isCharacter()) {
             zip([
-                this._characterFeatsService.characterHasFeatAtLevel$('Scroll Savant'),
-                this._characterFeatsService.characterHasFeatAtLevel$('Battleforger'),
-                this._characterFeatsService.characterFeatsAtLevel$(),
+                this._characterFeatsService.characterHasFeatAtLevel$$('Scroll Savant'),
+                this._characterFeatsService.characterHasFeatAtLevel$$('Battleforger'),
+                this._characterFeatsService.characterFeatsAtLevel$$(),
             ])
                 .pipe(
                     take(1),
@@ -113,8 +113,8 @@ export class ItemsTimeService {
 
             const expirationApplies = (item: Item): boolean => {
                 switch (item.expiresOnlyIf) {
-                    case 'equipped': return item.investedOrEquipped();
-                    case 'unequipped': return !item.investedOrEquipped();
+                    case 'equipped': return item.investedOrEquipped$$();
+                    case 'unequipped': return !item.investedOrEquipped$$();
                     default: return true;
                 }
             };

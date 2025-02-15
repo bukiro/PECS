@@ -139,7 +139,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) {
     ) {
         super();
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'conditionsTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'conditionsTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -164,19 +164,19 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) {
     }
 
     public get companion$(): Observable<AnimalCompanion> {
-        return CreatureService.companion$;
+        return CreatureService.companion$$;
     }
 
     public get familiar$(): Observable<Familiar> {
-        return CreatureService.familiar$;
+        return CreatureService.familiar$$;
     }
 
     private get _isCompanionAvailable$(): Observable<boolean> {
-        return this._creatureAvailabilityService.isCompanionAvailable$();
+        return this._creatureAvailabilityService.isCompanionAvailable$$();
     }
 
     private get _isFamiliarAvailable$(): Observable<boolean> {
-        return this._creatureAvailabilityService.isFamiliarAvailable$();
+        return this._creatureAvailabilityService.isFamiliarAvailable$$();
     }
 
     public toggleTileMode(isTileMode: boolean): void {
@@ -243,7 +243,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) {
     }
 
     public creatureFromShownCreature$(): Observable<Creature> {
-        return CreatureService.creatureFromType$(this.shownCreature());
+        return CreatureService.creatureFromType$$(this.shownCreature());
     }
 
     public validateDurationNumbers(): void {
@@ -276,7 +276,7 @@ export class ConditionsComponent extends TrackByMixin(BaseClass) {
     }
 
     public allAvailableCreatures$(): Observable<Array<Creature>> {
-        return this._creatureAvailabilityService.allAvailableCreatures$();
+        return this._creatureAvailabilityService.allAvailableCreatures$$();
     }
 
     public componentParameters$(): Observable<{ isCompanionAvailable: boolean; isFamiliarAvailable: boolean }> {

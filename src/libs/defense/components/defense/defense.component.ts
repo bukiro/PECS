@@ -105,7 +105,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
 
         this.isMinimized$ = this.creature$
             .pipe(
-                switchMap(creature => SettingsService.settings$
+                switchMap(creature => SettingsService.settings$$
                     .pipe(
                         switchMap(settings => {
                             switch (creature.type) {
@@ -122,7 +122,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
                 distinctUntilChanged(),
             );
 
-        this.isTileMode$ = propMap$(SettingsService.settings$, 'activitiesTileMode$')
+        this.isTileMode$ = propMap$(SettingsService.settings$$, 'activitiesTileMode$')
             .pipe(
                 distinctUntilChanged(),
                 shareReplay({ refCount: true, bufferSize: 1 }),
@@ -269,7 +269,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
 
         shield.damage += amount;
 
-        if (shield.currentHitPoints$() < shield.effectiveBrokenThreshold$()) {
+        if (shield.currentHP$$() < shield.effectiveBrokenThreshold$$()) {
             shield.broken = true;
             this._creatureEquipmentService.equipItem(
                 this.creature,
@@ -318,7 +318,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
 
     public specialShowOnNamesShield$(item: Shield): Observable<Array<string>> {
         //Return names that get_FeatsShowingOn should run on for a shield.
-        return item.effectiveEmblazonArmament$
+        return item.effectiveEmblazonArmament$$
             .pipe(
                 distinctUntilChanged(isEqualPrimitiveObject),
                 map(emblazonArmament => {
@@ -352,7 +352,7 @@ export class DefenseComponent extends TrackByMixin(BaseCreatureElementComponent)
             .pipe(
                 switchMap(shields => emptySafeCombineLatest(
                     shields.map(shield =>
-                        shield.effectiveEmblazonArmament$,
+                        shield.effectiveEmblazonArmament$$,
                     ),
                 )),
                 map(shields => {

@@ -2,9 +2,9 @@
 import { Injectable } from '@angular/core';
 import { CharacterClass } from 'src/app/classes/creatures/character/character-class';
 import { CharacterClassLevel } from 'src/app/classes/creatures/character/character-class-level';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ClassesDataService } from '../../data/classes-data.service';
 import { RecastService } from '../../recast/recast.service';
+import { MaybeSerialized } from 'src/libs/shared/definitions/interfaces/serializable';
 
 @Injectable({
     providedIn: 'root',
@@ -15,7 +15,7 @@ export class ClassSavingLoadingService {
         private readonly _classesDataService: ClassesDataService,
     ) { }
 
-    public restoreClassFromSave(classObject: DeepPartial<CharacterClass>): CharacterClass {
+    public restoreClassFromSave(classObject: MaybeSerialized<CharacterClass>): CharacterClass {
         let restoredClass: CharacterClass | undefined;
 
         if (classObject.name) {

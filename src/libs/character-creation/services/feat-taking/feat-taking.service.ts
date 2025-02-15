@@ -30,10 +30,10 @@ export class FeatTakingService {
 
         const level =
             creature.isCharacter()
-                ? creature.classLevelFromNumber(levelNumber)
+                ? creature.classLevelFromNumber$$(levelNumber)
                 // If the creature is not the character, the level is never needed.
                 // This fallback is just to ensure that the feat processing doesn't complain about the level being undefined.
-                : CreatureService.character.classLevelFromNumber(CreatureService.character.level);
+                : CreatureService.character.classLevelFromNumber$$(CreatureService.character.level);
 
         if (taken) {
             const gain = FeatTaken.from({

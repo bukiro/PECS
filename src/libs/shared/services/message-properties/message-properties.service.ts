@@ -16,7 +16,7 @@ export class MessagePropertiesService {
     ) { }
 
     public messageTargetCreature$(message: PlayerMessage): Observable<Creature | undefined> {
-        return this._creatureAvailabilityService.allAvailableCreatures$()
+        return this._creatureAvailabilityService.allAvailableCreatures$$()
             .pipe(
                 map(creatures => creatures.find(creature => creature.id === message.targetId)),
             );

@@ -184,7 +184,7 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
 
     public containerBulk(target: ItemCollection | SpellTarget): string {
         if (target instanceof ItemCollection && target.bulkLimit) {
-            return `(${ target.totalBulk() } / ${ target.bulkLimit } Bulk)`;
+            return `(${ target.totalBulk$$() } / ${ target.bulkLimit } Bulk)`;
         } else {
             return '';
         }
@@ -221,7 +221,7 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
     private _createItemTargetsObservable(): Observable<Array<ItemCollection | SpellTarget>> {
         return combineLatest([
             this._savegamesService.savegames$,
-            propMap$(SettingsService.settings$, 'manualMode$').pipe(distinctUntilChanged()),
+            propMap$(SettingsService.settings$$, 'manualMode$').pipe(distinctUntilChanged()),
             this.isGmMode$.pipe(distinctUntilChanged()),
             this._isExcludingParts$,
         ])
@@ -230,7 +230,7 @@ export class ItemTargetComponent extends TrackByMixin(BaseClass) implements OnIn
                     (
                         isExcludingParts
                             ? of([])
-                            : this._creatureAvailabilityService.allAvailableCreatures$()
+                            : this._creatureAvailabilityService.allAvailableCreatures$$()
                     )
                         .pipe(
                             map(creatures => ({ savegames, isManualMode, isGmMode, isExcludingParts, creatures })),

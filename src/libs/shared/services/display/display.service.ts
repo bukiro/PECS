@@ -1,35 +1,28 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, distinctUntilChanged, Observable } from 'rxjs';
+import { Injectable, signal, Signal } from '@angular/core';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 
 @Injectable({
     providedIn: 'root',
 })
 export class DisplayService {
+    public static isMobile$$: Signal<boolean>;
 
-    private static _isMobileDistinct$?: Observable<boolean>;
+    private static readonly _isMobile$$ = signal(false);
 
-    private static readonly _isMobile$ = new BehaviorSubject<boolean>(false);
+    constructor() {
+        DisplayService.isMobile$$ = DisplayService._isMobile$$.asReadonly();
+    }
 
     public static get isMobile(): boolean {
-        return DisplayService._isMobile$.value;
+        return DisplayService._isMobile$$();
     }
 
     public static get isDarkMode(): boolean {
         return !!window.matchMedia?.('(prefers-color-scheme: dark)').matches;
     }
 
-    public static get isMobile$(): Observable<boolean> {
-        if (!DisplayService._isMobileDistinct$) {
-            DisplayService._isMobileDistinct$ =
-                DisplayService._isMobile$.pipe(distinctUntilChanged());
-        }
-
-        return DisplayService._isMobileDistinct$;
-    }
-
     public static setMobile(): void {
-        DisplayService._isMobile$.next(window.innerWidth <= Defaults.mobileBreakpointPx);
+        DisplayService._isMobile$$.set(window.innerWidth <= Defaults.mobileBreakpointPx);
     }
 
     public static setPageHeight(): void {

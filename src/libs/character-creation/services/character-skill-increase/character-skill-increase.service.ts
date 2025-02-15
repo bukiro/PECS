@@ -140,7 +140,7 @@ export class CharacterSkillIncreaseService {
         // The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
         if (levelNumber === 1 && choice.source === 'Skilled Heritage') {
             const skilledHeritageExtraIncreaseLevel = 5;
-            const newChoice = character.classLevelFromNumber(skilledHeritageExtraIncreaseLevel)
+            const newChoice = character.classLevelFromNumber$$(skilledHeritageExtraIncreaseLevel)
                 .addSkillChoice(
                     SkillChoice.from({
                         available: 0,
@@ -162,7 +162,7 @@ export class CharacterSkillIncreaseService {
             // We are naming the type "Automatic" - it doesn't matter because it's a locked choice,
             // but it allows us to distinguish this increase from the original if you take Canny Acumen at level 17
             const cannyAcumenExtraIncreaseLevel = 17;
-            const existingChoices = character.classLevelFromNumber(cannyAcumenExtraIncreaseLevel)
+            const existingChoices = character.classLevelFromNumber$$(cannyAcumenExtraIncreaseLevel)
                 .skillChoices
                 .filter(skillChoice =>
                     skillChoice.source === choice.source && skillChoice.type === 'Automatic',
@@ -170,7 +170,7 @@ export class CharacterSkillIncreaseService {
 
             // If there isn't one, go ahead and create one, then immediately increase this skill in it.
             if (!existingChoices.length) {
-                const newChoice = character.classLevelFromNumber(cannyAcumenExtraIncreaseLevel)
+                const newChoice = character.classLevelFromNumber$$(cannyAcumenExtraIncreaseLevel)
                     .addSkillChoice(
                         SkillChoice.from({
                             available: 0,
@@ -200,7 +200,7 @@ export class CharacterSkillIncreaseService {
         const skilledHeritageExtraIncreaseLevel = 5;
 
         if (levelNumber === 1 && choice.source === 'Skilled Heritage') {
-            const classLevel = character.classLevelFromNumber(skilledHeritageExtraIncreaseLevel);
+            const classLevel = character.classLevelFromNumber$$(skilledHeritageExtraIncreaseLevel);
 
             classLevel.skillChoices = classLevel.skillChoices
                 .filter(existingChoice => existingChoice.source !== 'Skilled Heritage');
@@ -210,14 +210,14 @@ export class CharacterSkillIncreaseService {
         if (choice.source.includes('Feat: Canny Acumen')) {
             const cannyAcumenExtraIncreaseLevel = 17;
 
-            character.classLevelFromNumber(cannyAcumenExtraIncreaseLevel).removeSkillChoiceBySource(choice.source);
+            character.classLevelFromNumber$$(cannyAcumenExtraIncreaseLevel).removeSkillChoiceBySource(choice.source);
         }
 
         //Remove custom skill if previously created and this was the last increase of it
         const matchingCustomSkill = character.customSkills.find(skill => skill.name === skillName);
         const maxLevel = 20;
 
-        if (matchingCustomSkill && !character.skillIncreases(1, maxLevel, skillName).length) {
+        if (matchingCustomSkill && !character.skillIncreases$$(1, maxLevel, skillName).length) {
             character.removeCustomSkill(matchingCustomSkill);
 
             //For Monks, remove the tradition from the Monk spellcasting abilities if you removed the Monk Divine/Occult Spell DC.

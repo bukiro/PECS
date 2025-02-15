@@ -13,7 +13,7 @@ const accentChangingDebounce = 10;
 export class DocumentStyleService {
 
     constructor() {
-        propMap$(SettingsService.settings$, 'accent$')
+        propMap$(SettingsService.settings$$, 'accent$')
             .pipe(
                 distinctUntilChanged(),
                 debounceTime(accentChangingDebounce),
@@ -22,7 +22,7 @@ export class DocumentStyleService {
                 this._setAccent(accent);
             });
 
-        propMap$(SettingsService.settings$, 'darkmode$')
+        propMap$(SettingsService.settings$$, 'darkmode$')
             .pipe(distinctUntilChanged())
             .subscribe(darkmode => {
                 this._setDarkmode(darkmode);

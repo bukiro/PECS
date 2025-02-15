@@ -118,8 +118,8 @@ export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) impleme
                     combineLatest([
                         of(item),
                         item.propertyRunes.values$,
-                        CreatureService.character$,
-                        CharacterFlatteningService.characterLevel$,
+                        CreatureService.character$$,
+                        CharacterFlatteningService.characterLevel$$,
                     ]),
 
                 ),
@@ -257,7 +257,7 @@ export class ItemMaterialWeaponComponent extends TrackByMixin(BaseClass) impleme
     }
 
     private _setMaterialNames(): void {
-        const weaponMaterial = this.item.weaponMaterial;
+        const weaponMaterial = this.item.weaponMaterial$$;
 
         this.newMaterial =
             weaponMaterial

@@ -1,6 +1,5 @@
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { Consumable } from './consumable';
@@ -26,25 +25,25 @@ export class Snare extends Consumable implements MessageSerializable<Snare> {
     public tradeable = false;
     public actions = '1 minute';
 
-    public static from(values: DeepPartial<Snare>, recastFns: RecastFns): Snare {
+    public static from(values: MaybeSerialized<Snare>, recastFns: RecastFns): Snare {
         return new Snare().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Snare>, recastFns: RecastFns): Snare {
+    public with(values: MaybeSerialized<Snare>, recastFns: RecastFns): Snare {
         super.with(values, recastFns);
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Snare> {
+    public forExport(): Serialized<Snare> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<Snare> {
+    public forMessage(): Serialized<Snare> {
         return {
             ...super.forMessage(),
             ...forMessage(this),

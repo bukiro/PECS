@@ -1,18 +1,17 @@
 import { Item } from 'src/app/classes/items/item';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 
 export class MaterialItem extends Item implements MessageSerializable<MaterialItem> {
     //Material Items should be type "materialitems" to be found in the database
     public readonly type: ItemTypes = 'materialitems';
 
-    public static from(values: DeepPartial<MaterialItem>, recastFns: RecastFns): MaterialItem {
+    public static from(values: MaybeSerialized<MaterialItem>, recastFns: RecastFns): MaterialItem {
         return new MaterialItem().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<MaterialItem>, recastFns: RecastFns): MaterialItem {
+    public with(values: MaybeSerialized<MaterialItem>, recastFns: RecastFns): MaterialItem {
         super.with(values, recastFns);
 
         return this;

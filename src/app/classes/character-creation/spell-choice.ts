@@ -1,11 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
 import { SpellTraditions } from 'src/libs/shared/definitions/spell-traditions';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { SpellGain } from '../spells/spell-gain';
+import { signal } from '@angular/core';
+import { removeFirstMemberFromArrayWhere } from 'src/libs/shared/util/array-utils';
 
 const { assign, forExport, isEqual } = setupSerialization<SpellChoice>({
     primitives: [
@@ -149,31 +149,23 @@ export class SpellChoice implements Serializable<SpellChoice> {
      */
     public spellBlending: Array<number> = [0, 0, 0];
 
-    private readonly _spells = new OnChangeArray<SpellGain>();
+    public readonly spells = signal<Array<SpellGain>>([]);
 
-    public get spells(): OnChangeArray<SpellGain> {
-        return this._spells;
-    }
-
-    public set spells(value: Array<SpellGain>) {
-        this._spells.setValues(...value);
-    }
-
-    public static from(values: DeepPartial<SpellChoice>): SpellChoice {
+    public static from(values: MaybeSerialized<SpellChoice>): SpellChoice {
         return new SpellChoice().with(values);
     }
 
-    public with(values: DeepPartial<SpellChoice>): SpellChoice {
+    public with(values: MaybeSerialized<SpellChoice>): SpellChoice {
         assign(this, values);
 
-        this.spells.forEach(spell => {
+        this.spells().forEach(spell => {
             spell.source = this.source;
         });
 
         return this;
     }
 
-    public forExport(): DeepPartial<SpellChoice> {
+    public forExport(): Serialized<SpellChoice> {
         return {
             ...forExport(this),
         };
@@ -193,7 +185,8 @@ export class SpellChoice implements Serializable<SpellChoice> {
         prepared = false,
         borrowed = false,
     ): void {
-        this.spells.push(
+        this.spells.update(value => [
+            ...value,
             SpellGain.from(
                 {
                     name: spellName,
@@ -203,16 +196,12 @@ export class SpellChoice implements Serializable<SpellChoice> {
                     borrowed,
                 },
             ),
-        );
+        ]);
     }
 
     public removeSpell(
         spellName: string,
     ): void {
-        const oldGain = this.spells.find(gain => gain.name === spellName);
-
-        if (oldGain) {
-            this.spells.splice(this.spells.indexOf(oldGain), 1);
-        }
+        this.spells.update(value => removeFirstMemberFromArrayWhere(value, gain => gain.name === spellName));
     }
 }

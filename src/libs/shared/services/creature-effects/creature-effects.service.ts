@@ -1,214 +1,268 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, distinctUntilChanged, map } from 'rxjs';
+import { computed, inject, Injectable, Signal } from '@angular/core';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Effect, RelativeEffect, AbsoluteEffect } from 'src/app/classes/effects/effect';
-import {
-    replaceEffects,
-    selectAbsoluteEffects,
-    selectBonusEffects,
-    selectEffects,
-    selectPenaltyEffects,
-    selectRelativeEffects,
-    selectToggledEffects,
-} from 'src/libs/store/effects';
 import { BonusTypes } from '../../definitions/bonus-types';
 import { CreatureTypes } from '../../definitions/creature-types';
 import { creatureTypeIDFromType } from '../../util/creature-utils';
 import { stringsIncludeCaseInsensitive, stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { isEqualSerializableArrayWithoutId } from '../../util/compare-utils';
+import { EffectsStore } from 'src/libs/store/effects/effects.store';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CreatureEffectsService {
+    private readonly _effectsStore = inject(EffectsStore);
 
-    constructor(private readonly _store$: Store) { }
-
-    public allCreatureEffects$(creatureType: CreatureTypes): Observable<Array<Effect>> {
+    public allCreatureEffects$$(creatureType: CreatureTypes): Signal<Array<Effect>> {
         const creatureIndex = creatureTypeIDFromType(creatureType);
 
-        return this._store$.select(selectEffects(creatureIndex))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-            );
+        return computed(
+            () => this._effectsStore.allEffects(creatureIndex),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
     }
 
     public replaceCreatureEffects(creatureType: CreatureTypes, effects: Array<Effect>): void {
         const creatureIndex = creatureTypeIDFromType(creatureType);
 
-        this._store$.dispatch(replaceEffects({
+        this._effectsStore.replaceEffects({
             id: creatureIndex,
             // Clone the effects to preserve immutability.
             effects: effects.map(effect => effect.clone()),
-        }));
+        });
     }
 
-    public effectsOnThis$(
+    public effectsOnThis$$(
         creature: Creature,
         objectName: string,
         options?: { allowPartialString?: boolean; onlyOfTypes?: Array<BonusTypes> },
-    ): Observable<Array<Effect>> {
-        return this._store$.select(selectEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-            );
+    ): Signal<Array<Effect>> {
+        const allEffects = computed(
+            () => this._effectsStore.allEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
+
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                return this._effectsApplyingToThis(effects, creature, objectName, options);
+            },
+            { equal: isEqualSerializableArrayWithoutId },
+        );
     }
 
-    public toggledEffectsOnThis$(
+    public toggledEffectsOnThis$$(
         creature: Creature,
         objectName: string,
         options?: { allowPartialString?: boolean; onlyOfTypes?: Array<BonusTypes> },
-    ): Observable<Array<Effect>> {
-        return this._store$.select(selectToggledEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-            );
+    ): Signal<Array<Effect>> {
+        const allEffects = computed(
+            () => this._effectsStore.toggledEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
+
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                return this._effectsApplyingToThis(effects, creature, objectName, options);
+            },
+            { equal: isEqualSerializableArrayWithoutId },
+        );
     }
 
-    public toggledEffectsOnThese$(creature: Creature, objectNames: Array<string>): Observable<Array<Effect>> {
-        return this._store$.select(selectToggledEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects => this._effectsApplyingToThese(effects, creature, objectNames)),
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-            );
+    public toggledEffectsOnThese$$(creature: Creature, objectNames: Array<string>): Signal<Array<Effect>> {
+        const allEffects = computed(
+            () => this._effectsStore.toggledEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
+
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                return this._effectsApplyingToThese(effects, creature, objectNames);
+            },
+            { equal: isEqualSerializableArrayWithoutId },
+        );
     }
 
-    public relativeEffectsOnThis$(
+    public relativeEffectsOnThis$$(
         creature: Creature,
         objectName: string,
         options?: { allowPartialString?: boolean; onlyOfTypes?: Array<BonusTypes> },
-    ): Observable<Array<RelativeEffect>> {
-        return this._store$.select(selectRelativeEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-            );
+    ): Signal<Array<RelativeEffect>> {
+        const allEffects = computed(
+            () => this._effectsStore.relativeEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
+
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                return this._effectsApplyingToThis(effects, creature, objectName, options);
+            },
+            { equal: isEqualSerializableArrayWithoutId },
+        );
     }
 
-    public relativeEffectsOnThese$(
+    public relativeEffectsOnThese$$(
         creature: Creature,
         objectNames: Array<string>,
         options?: { lowerIsBetter?: boolean; onlyOfTypes?: Array<BonusTypes> },
-    ): Observable<Array<RelativeEffect>> {
-        return this._store$.select(selectRelativeEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects =>
-                    // Since there can be an overlap between the different effects we're asking about,
-                    // we need to break them down to one bonus and one penalty per effect type.
-                    // For individial targets, this is already done during generation.
-                    this.reduceRelativesByType(
-                        this._effectsApplyingToThese(effects, creature, objectNames),
-                        options,
-                    ),
-                ),
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-            );
+    ): Signal<Array<RelativeEffect>> {
+        const allEffects = computed(
+            () => this._effectsStore.relativeEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
+
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                // Since there can be an overlap between the different effects we're asking about,
+                // we need to break them down to one bonus and one penalty per effect type.
+                return this.reduceRelativesByType(
+                    this._effectsApplyingToThese(effects, creature, objectNames),
+                    options,
+                );
+            },
+            { equal: isEqualSerializableArrayWithoutId },
+        );
     }
 
-    public absoluteEffectsOnThis$(
+    public absoluteEffectsOnThis$$(
         creature: Creature,
         objectName: string,
         options?: { allowPartialString?: boolean; onlyOfTypes?: Array<BonusTypes> },
-    ): Observable<Array<AbsoluteEffect>> {
-        return this._store$.select(selectAbsoluteEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-            );
+    ): Signal<Array<AbsoluteEffect>> {
+        const allEffects = computed(
+            () => this._effectsStore.absoluteEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
+
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                return this._effectsApplyingToThis(effects, creature, objectName, options);
+            },
+            { equal: isEqualSerializableArrayWithoutId },
+        );
     }
 
-    public absoluteEffectsOnThese$(
+    public absoluteEffectsOnThese$$(
         creature: Creature,
         objectNames: Array<string>,
         options?: { lowerIsBetter?: boolean; onlyOfTypes?: Array<BonusTypes> },
-    ): Observable<Array<AbsoluteEffect>> {
+    ): Signal<Array<AbsoluteEffect>> {
+        const allEffects = computed(
+            () => this._effectsStore.absoluteEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
 
-        // Since there can be an overlap between the different effects we're asking about,
-        // we need to break them down to one bonus and one penalty per effect type.
-        return this._store$.select(selectAbsoluteEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects =>
-                    this.reduceAbsolutes(
-                        this._effectsApplyingToThese(effects, creature, objectNames),
-                        options,
-                    ),
-                ),
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-            );
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                // Since there can be an overlap between the different effects we're asking about,
+                // we need to break them down to only the strongest effect.
+                return this.reduceAbsolutes(
+                    this._effectsApplyingToThese(effects, creature, objectNames),
+                    options,
+                );
+            },
+            { equal: isEqualSerializableArrayWithoutId },
+        );
     }
 
-    public doBonusEffectsExistOnThis$(
+    public doBonusEffectsExistOnThis$$(
         creature: Creature,
         objectName: string,
         options?: { allowPartialString?: boolean; onlyOfTypes?: Array<BonusTypes> },
-    ): Observable<boolean> {
+    ): Signal<boolean> {
+        const allEffects = computed(
+            () => this._effectsStore.bonusEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
+
         // This function is usually only used to determine if a value should be highlighted as a bonus.
         // Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
-        return this._store$.select(selectBonusEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
-                map(effects => effects.some(effect => effect.displayed)),
-                distinctUntilChanged(),
-            );
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                return this._effectsApplyingToThis(effects, creature, objectName, options).some(({ displayed }) => displayed);
+            },
+        );
     }
 
-    public doBonusEffectsExistOnThese$(
+    public doBonusEffectsExistOnThese$$(
         creature: Creature,
         objectNames: Array<string>,
         options?: { onlyOfTypes?: Array<BonusTypes> },
-    ): Observable<boolean> {
+    ): Signal<boolean> {
+        const allEffects = computed(
+            () => this._effectsStore.bonusEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
+
         // This function is usually only used to determine if a value should be highlighted as a bonus.
         // Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
-        return this._store$.select(selectBonusEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects => this._effectsApplyingToThese(effects, creature, objectNames, options)),
-                map(effects => effects.some(effect => effect.displayed)),
-                distinctUntilChanged(),
-            );
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                return this._effectsApplyingToThese(effects, creature, objectNames, options)
+                    .some(({ displayed }) => displayed);
+            },
+        );
     }
 
-    public doPenaltyEffectsExistOnThis$(
+    public doPenaltyEffectsExistOnThis$$(
         creature: Creature,
         objectName: string,
         options?: { allowPartialString?: boolean; onlyOfTypes?: Array<BonusTypes> },
-    ): Observable<boolean> {
+    ): Signal<boolean> {
+        const allEffects = computed(
+            () => this._effectsStore.penaltyEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
+
         // This function is usually only used to determine if a value should be highlighted as a penalty.
         // Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
-        return this._store$.select(selectPenaltyEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects => this._effectsApplyingToThis(effects, creature, objectName, options)),
-                map(effects => effects.some(effect => effect.displayed)),
-                distinctUntilChanged(),
-            );
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                return this._effectsApplyingToThis(effects, creature, objectName, options).some(({ displayed }) => displayed);
+            },
+        );
     }
 
-    public doPenaltyEffectsExistOnThese$(
+    public doPenaltyEffectsExistOnThese$$(
         creature: Creature,
         objectNames: Array<string>,
         options?: { onlyOfTypes?: Array<BonusTypes> },
-    ): Observable<boolean> {
+    ): Signal<boolean> {
+        const allEffects = computed(
+            () => this._effectsStore.penaltyEffects(creature.typeId),
+            { equal: isEqualSerializableArrayWithoutId },
+        );
+
         // This function is usually only used to determine if a value should be highlighted as a penalty.
         // Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
-        return this._store$.select(selectPenaltyEffects(creature.typeId))
-            .pipe(
-                distinctUntilChanged(isEqualSerializableArrayWithoutId),
-                map(effects => this._effectsApplyingToThese(effects, creature, objectNames, options)),
-                map(effects => effects.some(effect => effect.displayed)),
-                distinctUntilChanged(),
-            );
+        return computed(
+            () => {
+                const effects = allEffects();
+
+                return this._effectsApplyingToThese(effects, creature, objectNames, options)
+                    .some(({ displayed }) => displayed);
+            },
+        );
     }
 
     /**

@@ -541,10 +541,10 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                     // or if one is available and this slot is taken (so you can replace the rune in this slot).
                     runeSet.rune.traits.includes('Saggorak') ?
                         (
-                            weapon.freePropertyRunesOfItem() > 1 ||
+                            weapon.freePropertyRunesOfItem$$() > 1 ||
                             (
                                 weapon.propertyRunes[index] &&
-                                weapon.freePropertyRunesOfItem() === 1
+                                weapon.freePropertyRunesOfItem$$() === 1
                             ) ||
                             (
                                 weapon.propertyRunes[index] &&
@@ -575,7 +575,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
     ): Observable<Array<ArmorPropertyRuneSet>> {
         const armor: Armor = this.item as Armor;
 
-        return armor.effectiveProficiencyWithoutEffects$()
+        return armor.effectiveProficiencyWithoutEffects$$()
             .pipe(
                 map(effectiveArmorProficiency => {
                     let allRunes: Array<ArmorPropertyRuneSet> = [];
@@ -629,10 +629,10 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                                 // or if one is available and this slot is taken (so you can replace the rune in this slot).
                                 rune.rune.traits.includes('Saggorak') ?
                                     (
-                                        armor.freePropertyRunesOfItem() > 1 ||
+                                        armor.freePropertyRunesOfItem$$() > 1 ||
                                         (
                                             armor.propertyRunes[index] &&
-                                            armor.freePropertyRunesOfItem() === 1
+                                            armor.freePropertyRunesOfItem$$() === 1
                                         ) ||
                                         (
                                             armor.propertyRunes[index] &&
@@ -706,7 +706,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                 }
 
                 //As long as there are more property Runes assigned than allowed, throw out the last property rune
-                while (weapon.freePropertyRunesOfItem() < 0) {
+                while (weapon.freePropertyRunesOfItem$$() < 0) {
                     if (!this.itemStore) {
                         this._returnPropertyRuneToInventory(weapon.propertyRunes.length - 1);
                     }
@@ -800,7 +800,7 @@ export class ItemRunesComponent extends TrackByMixin(BaseClass) implements OnIni
                 }
 
                 //As long as there are more property Runes assigned than allowed, throw out the last property rune
-                while (armor.freePropertyRunesOfItem() < 0) {
+                while (armor.freePropertyRunesOfItem$$() < 0) {
                     if (!this.itemStore) {
                         this._returnPropertyRuneToInventory(armor.propertyRunes.length - 1);
                     }

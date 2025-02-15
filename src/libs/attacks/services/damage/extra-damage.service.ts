@@ -100,7 +100,7 @@ export class ExtraDamageService {
      */
     private _extraDamageFromRunes$(context: IntermediateMethodContext): Observable<Array<BonusDescription>> {
         return combineLatest([
-            context.runeSource.forPropertyRunes.weaponRunes$,
+            context.runeSource.forPropertyRunes.weaponRunes$$,
             // Add runes emulated by Blade Ally
             context.runeSource.forPropertyRunes.bladeAlly$
                 .pipe(
@@ -166,7 +166,7 @@ export class ExtraDamageService {
         // Add extra damage added by emblazon energy.
         return (
             context.creature.isCharacter()
-                ? context.weapon.effectiveEmblazonArmament$
+                ? context.weapon.effectiveEmblazonArmament$$
                 : of<EmblazonArmamentSet | undefined>(undefined)
         )
             .pipe(
@@ -174,7 +174,7 @@ export class ExtraDamageService {
                     // If the weapon has EmblazonEnergy and has an energy type, it gains 1d4 damage of that type.
                     // If you have a domain spell with a trait matching that type, the damage increases to 1d6.
                     (emblazonArmament?.type === EmblazonArmamentTypes.EmblazonEnergy)
-                        ? propMap$(CharacterFlatteningService.characterClass$, 'spellCasting', 'values$')
+                        ? propMap$(CharacterFlatteningService.characterClass$$, 'spellCasting', 'values$')
                             .pipe(
                                 switchMap(spellCastings => emptySafeCombineLatest(
                                     spellCastings
@@ -253,7 +253,7 @@ export class ExtraDamageService {
                         effectPhrasesExtraDamage.push(`${ agile } Thrown Weapon Extra Damage`);
                     }
 
-                    return this._creatureEffectsService.toggledEffectsOnThese$(context.creature, effectPhrasesExtraDamage)
+                    return this._creatureEffectsService.toggledEffectsOnThese$$(context.creature, effectPhrasesExtraDamage)
                         .pipe(
                             map(toggledEffects =>
                                 toggledEffects

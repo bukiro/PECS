@@ -1,10 +1,8 @@
-import { Observable, distinctUntilChanged, switchMap, combineLatest, map, of } from 'rxjs';
+import { computed, Signal } from '@angular/core';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Weapon } from 'src/app/classes/items/weapon';
 import { WornItem } from 'src/app/classes/items/worn-item';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weapon-proficiencies';
-import { isEqualSerializableArray, isEqualObjectArray, isEqualSerializable } from 'src/libs/shared/util/compare-utils';
-import { emptySafeCombineLatest } from 'src/libs/shared/util/observable-utils';
 
 export interface RuneSourceSet {
     forFundamentalRunes: Weapon | WornItem;
@@ -22,84 +20,64 @@ export interface RuneSourceSet {
  * @param range
  * @returns
  */
-export const attackRuneSource$ = (weapon: Weapon, creature: Creature, range: string): Observable<RuneSourceSet> =>
-    creature.mainInventory.activeWornItems$
-        .pipe(
-            distinctUntilChanged(isEqualSerializableArray),
-            switchMap(activeWornItems => {
-                let runeSource: RuneSourceSet = { forFundamentalRunes: weapon, forPropertyRunes: weapon };
+export const attackRuneSource$$ = (weapon: Weapon, creature: Creature, range: string): Signal<RuneSourceSet> =>
+    computed(() => {
+        const activeWornItems = creature.mainInventory$$().activeWornItems$$();
 
-                if (weapon.prof === WeaponProficiencies.Unarmed) {
-                    //For unarmed attacks, return Handwraps of Mighty Blows if invested.
-                    const handwraps = activeWornItems.find(wornItem => wornItem.isHandwrapsOfMightyBlows);
+        let runeSource: RuneSourceSet = { forFundamentalRunes: weapon, forPropertyRunes: weapon };
 
-                    if (handwraps) {
-                        runeSource = { forFundamentalRunes: handwraps, forPropertyRunes: handwraps, reason: handwraps };
-                    }
+        if (weapon.prof === WeaponProficiencies.Unarmed) {
+            //For unarmed attacks, return Handwraps of Mighty Blows if invested.
+            const handwraps = activeWornItems.find(wornItem => wornItem.isHandwrapsOfMightyBlows);
+
+            if (handwraps) {
+                runeSource = { forFundamentalRunes: handwraps, forPropertyRunes: handwraps, reason: handwraps };
+            }
+        }
+
+        //Apply doubling rings if this weapon is in the iron ring's hand, and there is a weapon in the gold ring's hand.
+        if (range === 'melee') {
+            const goldRingIndex = 0;
+            const ironRingIndex = 1;
+            const propertyRunesIndex = 2;
+
+            const doublingRingsDataSets = activeWornItems
+                .filter(item => item.isDoublingRings)
+                .map(item => ({
+                    item,
+                    data: item.data(),
+                }));
+
+            const equippedWeapons =
+                creature.mainInventory$$().equippedWeapons$$();
+
+            const matchingDataSet =
+                doublingRingsDataSets
+                    .find(dataSet => dataSet.data[ironRingIndex]?.value === weapon.id);
+
+            if (matchingDataSet?.data[goldRingIndex]?.value) {
+                const goldItem =
+                    equippedWeapons
+                        .find(inventoryWeapon => inventoryWeapon.id === matchingDataSet.data[goldRingIndex]?.value);
+
+                if (goldItem) {
+                    const shouldTransferPropertyRunes =
+                        matchingDataSet.item.isDoublingRings === 'Doubling Rings (Greater)'
+                        && matchingDataSet.data[propertyRunesIndex]?.value === true;
+
+                    return {
+                        forFundamentalRunes: goldItem,
+                        forPropertyRunes:
+                            shouldTransferPropertyRunes
+                                ? goldItem
+                                : weapon,
+                        reason: matchingDataSet.item,
+                    };
                 }
+            }
 
-                //Apply doubling rings if this weapon is in the iron ring's hand, and there is a weapon in the gold ring's hand.
-                if (range === 'melee') {
-                    const goldRingIndex = 0;
-                    const ironRingIndex = 1;
-                    const propertyRunesIndex = 2;
+            return runeSource;
+        }
 
-                    return combineLatest([
-                        emptySafeCombineLatest(
-                            activeWornItems
-                                .filter(item => item.isDoublingRings)
-                                .map(item =>
-                                    item.data.values$
-                                        .pipe(
-                                            map(data => ({ item, data })),
-                                        ),
-                                ),
-                        )
-                            .pipe(
-                                distinctUntilChanged(
-                                    isEqualObjectArray((a, b) =>
-                                        JSON.parse(JSON.stringify(a.data)) === JSON.parse(JSON.stringify(b.data))
-                                        && isEqualSerializable(a.item, b.item),
-                                    ),
-                                ),
-                            ),
-                        creature.mainInventory.equippedWeapons$
-                            .pipe(
-                                distinctUntilChanged(isEqualSerializableArray),
-                            ),
-                    ])
-                        .pipe(
-                            map(([doublingRingsDataSets, equippedWeapons]) => {
-                                const matchingDataSet =
-                                    doublingRingsDataSets
-                                        .find(dataSet => dataSet.data[ironRingIndex]?.value === weapon.id);
-
-                                if (matchingDataSet?.data[goldRingIndex]?.value) {
-                                    const goldItem =
-                                        equippedWeapons
-                                            .find(inventoryWeapon => inventoryWeapon.id === matchingDataSet.data[goldRingIndex]?.value);
-
-                                    if (goldItem) {
-                                        const shouldTransferPropertyRunes =
-                                            matchingDataSet.item.isDoublingRings === 'Doubling Rings (Greater)'
-                                            && matchingDataSet.data[propertyRunesIndex]?.value === true;
-
-                                        return {
-                                            forFundamentalRunes: goldItem,
-                                            forPropertyRunes:
-                                                shouldTransferPropertyRunes
-                                                    ? goldItem
-                                                    : weapon,
-                                            reason: matchingDataSet.item,
-                                        };
-                                    }
-                                }
-
-                                return runeSource;
-                            }),
-                        );
-                }
-
-                return of(runeSource);
-            }),
-        );
+        return runeSource;
+    });

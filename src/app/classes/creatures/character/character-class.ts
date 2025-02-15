@@ -1,10 +1,8 @@
-import { BehaviorSubject, Observable, map } from 'rxjs';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spell-casting-types';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
-import { safeParseInt, stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
+import { safeParseInt } from 'src/libs/shared/util/string-utils';
 import { ActivityGain } from '../../activities/activity-gain';
 import { LoreChoice } from '../../character-creation/lore-choice';
 import { SkillChoice } from '../../character-creation/skill-choice';
@@ -25,7 +23,8 @@ import { FormulaLearned } from './formula-learned';
 import { Heritage } from './heritage';
 import { LanguageGain } from './language-gain';
 import { FeatData } from 'src/libs/shared/definitions/models/feat-data';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { computed, Signal, signal } from '@angular/core';
+import { matchNumberFilter, matchStringFilter } from 'src/libs/shared/util/filter-utils';
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<CharacterClass>({
     primitives: [
@@ -106,145 +105,43 @@ export class CharacterClass implements Serializable<CharacterClass> {
     public spellList: Array<SpellLearned> = [];
     public formulaBook: Array<FormulaLearned> = [];
 
-    public readonly deity$: BehaviorSubject<string>;
-    public readonly focusPoints$: BehaviorSubject<number>;
+    public readonly deity = signal('');
+    public readonly focusPoints = signal(0);
 
-    public readonly ancestry$: BehaviorSubject<Ancestry>;
-    public readonly animalCompanion$: BehaviorSubject<AnimalCompanion>;
-    public readonly background$: BehaviorSubject<Background>;
-    public readonly familiar$: BehaviorSubject<Familiar>;
-    public readonly heritage$: BehaviorSubject<Heritage>;
+    public readonly ancestry = signal(new Ancestry());
+    public readonly animalCompanion = signal(new AnimalCompanion());
+    public readonly background = signal(new Background());
+    public readonly familiar = signal(new Familiar());
+    public readonly heritage = signal(new Heritage());
 
-    private _deity = '';
-    private _focusPoints = 0;
+    public readonly additionalHeritages = signal<Array<AdditionalHeritage>>([]);
+    public readonly featData = signal<Array<FeatData>>([]);
+    public readonly languages = signal<Array<LanguageGain>>([]);
+    public readonly spellCasting = signal<Array<SpellCasting>>([]);
 
-    private _ancestry: Ancestry = new Ancestry();
-    private _animalCompanion: AnimalCompanion = new AnimalCompanion();
-    private _background: Background = new Background();
-    private _familiar: Familiar = new Familiar();
-    private _heritage: Heritage = new Heritage();
+    /**
+     * Return the spellcasting that is assigned to this class, named "<class> Spellcasting" and neither focus not innate.
+     * Useful for feat requirements and assigning spell choices to the default spellcasting.
+     */
+    public defaultSpellcasting$$ = computed(() =>
+        this.spellCasting().find(casting =>
+            casting.className === this.name &&
+            ![SpellCastingTypes.Focus, SpellCastingTypes.Innate].includes(casting.castingType) &&
+            casting.source === `${ this.name } Spellcasting`,
+        ),
+    );
 
-    private readonly _additionalHeritages = new OnChangeArray<AdditionalHeritage>();
-    private readonly _featData = new OnChangeArray<FeatData>();
-    private readonly _languages = new OnChangeArray<LanguageGain>();
-    private readonly _spellCasting = new OnChangeArray<SpellCasting>();
-
-    constructor() {
-        this.deity$ = new BehaviorSubject(this._deity);
-        this.focusPoints$ = new BehaviorSubject(this._focusPoints);
-        this.ancestry$ = new BehaviorSubject(this._ancestry);
-        this.animalCompanion$ = new BehaviorSubject(this._animalCompanion);
-        this.background$ = new BehaviorSubject(this._background);
-        this.familiar$ = new BehaviorSubject(this._familiar);
-        this.heritage$ = new BehaviorSubject(this._heritage);
-    }
-
-    public get additionalHeritages(): OnChangeArray<AdditionalHeritage> {
-        return this._additionalHeritages;
-    }
-
-    public set additionalHeritages(value: Array<AdditionalHeritage>) {
-        this._additionalHeritages.setValues(...value);
-    }
-
-    public get ancestry(): Ancestry {
-        return this._ancestry;
-    }
-
-    public set ancestry(value: Ancestry) {
-        this._ancestry = value;
-        this.ancestry$.next(this._ancestry);
-    }
-
-    public get animalCompanion(): AnimalCompanion {
-        return this._animalCompanion;
-    }
-
-    public set animalCompanion(value: AnimalCompanion) {
-        this._animalCompanion = value;
-        this.animalCompanion$.next(this._animalCompanion);
-    }
-
-    public get background(): Background {
-        return this._background;
-    }
-
-    public set background(value: Background) {
-        this._background = value;
-        this.background$.next(this._background);
-    }
-
-    public get deity(): string {
-        return this._deity;
-    }
-
-    public set deity(value: string) {
-        this._deity = value;
-        this.deity$.next(this._deity);
-    }
-
-    public get featData(): OnChangeArray<FeatData> {
-        return this._featData;
-    }
-
-    public set featData(value: Array<FeatData>) {
-        this._featData.setValues(...value);
-    }
-
-    public get familiar(): Familiar {
-        return this._familiar;
-    }
-
-    public set familiar(value: Familiar) {
-        this._familiar = value;
-        this.familiar$.next(this._familiar);
-    }
-
-    public get focusPoints(): number {
-        return this._focusPoints;
-    }
-
-    public set focusPoints(focusPoints: number) {
-        this._focusPoints = focusPoints;
-        this.focusPoints$.next(this._focusPoints);
-    }
-
-    public get heritage(): Heritage {
-        return this._heritage;
-    }
-
-    public set heritage(value: Heritage) {
-        this._heritage = value;
-        this.heritage$.next(this._heritage);
-    }
-
-    public get languages(): OnChangeArray<LanguageGain> {
-        return this._languages;
-    }
-
-    public set languages(value: Array<LanguageGain>) {
-        this._languages.setValues(...value);
-    }
-
-    public get spellCasting(): OnChangeArray<SpellCasting> {
-        return this._spellCasting;
-    }
-
-    public set spellCasting(value: Array<SpellCasting>) {
-        this._spellCasting.setValues(...value);
-    }
-
-    public static from(values: DeepPartial<CharacterClass>, recastFns: RecastFns): CharacterClass {
+    public static from(values: MaybeSerialized<CharacterClass>, recastFns: RecastFns): CharacterClass {
         return new CharacterClass().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<CharacterClass>, recastFns: RecastFns): CharacterClass {
+    public with(values: MaybeSerialized<CharacterClass>, recastFns: RecastFns): CharacterClass {
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<CharacterClass> {
+    public forExport(): Serialized<CharacterClass> {
         return {
             ...forExport(this),
         };
@@ -260,8 +157,6 @@ export class CharacterClass implements Serializable<CharacterClass> {
 
     /**
      * Gets featdata for a specific feat and source in a specific level range.
-     * As this is an observable, the result is immutable. To change featdata, use filteredFeatDataSnapshot.
-     * //TODO: Is this actually true? Tests say no?
      *
      * @param minLevel
      * @param maxLevel
@@ -269,92 +164,53 @@ export class CharacterClass implements Serializable<CharacterClass> {
      * @param sourceId
      * @returns
      */
-    public filteredFeatData$(minLevel = 0, maxLevel = 0, featName: string, sourceId = ''): Observable<Array<FeatData>> {
-        return this.featData.values$
-            .pipe(
-                map(featData => featData.filter(data =>
-                    stringEqualsCaseInsensitive(data.featName, featName) &&
-                    (!minLevel || data.level >= minLevel) &&
-                    (!maxLevel || data.level <= maxLevel) &&
-                    (!sourceId || data.sourceId === sourceId),
-                )),
-            );
-    }
-
-    public filteredFeatDataSnapshot(minLevel = 0, maxLevel = 0, featName: string, sourceId = ''): Array<FeatData> {
-        return this.featData
-            .filter(data =>
-                stringEqualsCaseInsensitive(data.featName, featName) &&
-                (!minLevel || data.level >= minLevel) &&
-                (!maxLevel || data.level <= maxLevel) &&
-                (!sourceId || data.sourceId === sourceId),
-            );
-    }
-
-    /**
-     * Return the spellcasting that is assigned to this class, named "<class> Spellcasting" and neither focus not innate.
-     * Useful for feat requirements and assigning spell choices to the default spellcasting.
-     */
-    public defaultSpellcasting(): SpellCasting | undefined {
-        return this.spellCasting.find(casting =>
-            casting.className === this.name &&
-            ![SpellCastingTypes.Focus, SpellCastingTypes.Innate].includes(casting.castingType) &&
-            casting.source === `${ this.name } Spellcasting`,
-        );
-    }
-
-    /**
-     * Return the spellcasting that is assigned to this class, named "<class> Spellcasting" and neither focus not innate.
-     * Useful for feat requirements and assigning spell choices to the default spellcasting.
-     */
-    public defaultSpellcasting$(): Observable<SpellCasting | undefined> {
-        return this.spellCasting.values$
-            .pipe(
-                map(castings => castings
-                    .find(casting =>
-                        casting.className === this.name &&
-                        ![SpellCastingTypes.Focus, SpellCastingTypes.Innate].includes(casting.castingType) &&
-                        casting.source === `${ this.name } Spellcasting`,
-                    ),
+    public filteredFeatData$$(minLevel = 0, maxLevel = 0, featName: string, sourceId = ''): Signal<Array<FeatData>> {
+        return computed(() =>
+            this.featData()
+                .filter(data =>
+                    matchStringFilter({ value: data.featName, match: featName })
+                    && matchStringFilter({ value: data.sourceId, match: sourceId })
+                    && matchNumberFilter({ value: data.level, min: minLevel, max: maxLevel }),
                 ),
-            );
+        );
     }
 
     public getSkillChoiceBySourceId(sourceId: string): SkillChoice | undefined {
         const levelNumber = safeParseInt(sourceId.split('-')[0], 0);
 
-        return this.levels[levelNumber]?.skillChoices.find(choice => choice.id === sourceId);
+        return this.levels[levelNumber]?.skillChoices().find(choice => choice.id === sourceId);
     }
 
     public getLoreChoiceBySourceId(sourceId: string): LoreChoice | undefined {
         const levelNumber = safeParseInt(sourceId.split('-')[0], 0);
 
-        return this.levels[levelNumber]?.loreChoices.find(choice => choice.id === sourceId);
+        return this.levels[levelNumber]?.loreChoices().find(choice => choice.id === sourceId);
     }
 
     public addSpellCasting(level: CharacterClassLevel, newCasting: SpellCasting, recastFns: RecastFns): SpellCasting {
-        const newSpellCasting = newCasting.clone(recastFns);
+        const newSpellCasting = newCasting.clone(recastFns).with({
+            // If the SpellCasting has a charLevelAvailable above 0, but lower than the current level, you could use it before you get it.
+            // So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
+            charLevelAvailable: newCasting.charLevelAvailable > 0
+                ? Math.max(newCasting.charLevelAvailable, level.number)
+                : newCasting.charLevelAvailable,
+        }, recastFns);
 
-        this.spellCasting.push(newSpellCasting);
-
-        //If the SpellCasting has a charLevelAvailable above 0, but lower than the current level, you could use it before you get it.
-        //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
-        if (newSpellCasting?.charLevelAvailable) {
-            newSpellCasting.charLevelAvailable = Math.max(newSpellCasting.charLevelAvailable, level.number);
-        }
+        this.spellCasting.update(value => [...value, newSpellCasting]);
 
         return newSpellCasting;
     }
 
     public removeSpellCasting(oldCasting: SpellCasting): void {
-        const foundSpellCasting = this.spellCasting.find(ownedCasting =>
-            ownedCasting.className === oldCasting.className &&
-            ownedCasting.castingType === oldCasting.castingType &&
-            ownedCasting.source === oldCasting.source,
-        );
+        const foundSpellCasting = this.spellCasting()
+            .find(ownedCasting =>
+                ownedCasting.className === oldCasting.className &&
+                ownedCasting.castingType === oldCasting.castingType &&
+                ownedCasting.source === oldCasting.source,
+            );
 
         if (foundSpellCasting) {
-            this.spellCasting.splice(this.spellCasting.indexOf(foundSpellCasting), 1);
+            this.spellCasting.update(value => value.filter(spellCasting => spellCasting !== foundSpellCasting));
         }
     }
 
@@ -366,10 +222,10 @@ export class CharacterClass implements Serializable<CharacterClass> {
         }
 
         if (insertChoice.castingType === 'Default') {
-            insertChoice.castingType = this.defaultSpellcasting()?.castingType || SpellCastingTypes.Innate;
+            insertChoice.castingType = this.defaultSpellcasting$$()?.castingType ?? SpellCastingTypes.Innate;
         }
 
-        const spellCasting = this.spellCasting
+        const spellCasting = this.spellCasting()
             .find(casting =>
                 casting.castingType === insertChoice.castingType &&
                 (
@@ -384,12 +240,12 @@ export class CharacterClass implements Serializable<CharacterClass> {
             // So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
             insertChoice.charLevelAvailable = Math.max(insertChoice.charLevelAvailable, levelNumber);
 
-            spellCasting.spellChoices.push(insertChoice);
+            spellCasting.spellChoices.update(value => [...value, insertChoice]);
 
             //If the spellcasting was not available so far, it is now available at your earliest spell choice.
             if (!spellCasting.charLevelAvailable) {
                 spellCasting.charLevelAvailable =
-                    Math.max(1, Math.min(...spellCasting.spellChoices.map(existingChoice => existingChoice.charLevelAvailable)));
+                    Math.max(1, Math.min(...spellCasting.spellChoices().map(({ charLevelAvailable }) => charLevelAvailable)));
             }
 
             return insertChoice;
@@ -400,14 +256,16 @@ export class CharacterClass implements Serializable<CharacterClass> {
 
     public removeSpellChoice(oldChoice: SpellChoice): void {
         //Remove the spellChoice by ID
-        this.spellCasting.forEach(casting => {
-            casting.spellChoices = casting.spellChoices.filter(choice => choice.id !== oldChoice.id);
+        this.spellCasting().forEach(casting => {
+            casting.spellChoices.update(value => value.filter(choice => choice.id !== oldChoice.id));
         });
 
         //If the spellcasting has no spellchoices left, it is no longer available.
-        this.spellCasting.filter(casting => !casting.spellChoices.length).forEach(casting => {
-            casting.charLevelAvailable = 0;
-        });
+        this.spellCasting()
+            .filter(casting => !casting.spellChoices().length)
+            .forEach(casting => {
+                casting.charLevelAvailable = 0;
+            });
     }
 
     public gainActivity(newGain: ActivityGain, levelNumber: number): ActivityGain {

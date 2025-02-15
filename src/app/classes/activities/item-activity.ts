@@ -1,14 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serializable, MaybeSerialized, Serialized } from 'src/libs/shared/definitions/interfaces/serializable';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { SpellTarget } from '../spells/spell-target';
 import { Activity } from './activity';
 import { ActivityGainBase } from './activity-gain-base';
 import { ActivityTargetOption } from './activity-target-options';
+import { Signal, signal } from '@angular/core';
 
 const { assign, forExport, isEqual } = setupSerialization<ItemActivity>({
     primitives: [
@@ -97,72 +96,33 @@ export class ItemActivity extends Activity implements ActivityGainBase, Serializ
     //The selected targets are saved here for applying conditions.
     public targets: Array<SpellTarget> = [];
 
-    public readonly active$: BehaviorSubject<boolean>;
-    public readonly chargesUsed$: BehaviorSubject<number>;
-    public readonly activeCooldown$: BehaviorSubject<number>;
+    public readonly active = signal<boolean>(false);
+    public readonly activeCooldown = signal<number>(0);
+    public readonly chargesUsed = signal<number>(0);
 
     /**
-     * activeCooldownByCreature$ is a map of calculated cooldown observables matched to creatures,
+     * activeCooldownByCreature$ is a map of calculated cooldown signals matched to creatures,
      * depending on the original activity's effective cooldown,
      * created by the ActivityGainPropertiesService so that it can be subscribed to without passing parameters.
      */
-    public readonly activeCooldownByCreature$ = new Map<string, Observable<number>>();
-
-    private _active = false;
-    private _activeCooldown = 0;
-    private _chargesUsed = 0;
-
-    constructor() {
-        super();
-
-        this.active$ = new BehaviorSubject(this._active);
-        this.activeCooldown$ = new BehaviorSubject(this._activeCooldown);
-        this.chargesUsed$ = new BehaviorSubject(this._chargesUsed);
-    }
-
-    public get active(): boolean {
-        return this._active;
-    }
-
-    public set active(value: boolean) {
-        this._active = value;
-        this.active$.next(this._active);
-    }
-
-    public get activeCooldown(): number {
-        return this._activeCooldown;
-    }
-
-    public set activeCooldown(value: number) {
-        this._activeCooldown = value;
-        this.activeCooldown$.next(this._activeCooldown);
-    }
-
-    public get chargesUsed(): number {
-        return this._chargesUsed;
-    }
-
-    public set chargesUsed(value: number) {
-        this._chargesUsed = value;
-        this.chargesUsed$.next(this._chargesUsed);
-    }
+    public readonly activeCooldownByCreature$$ = new Map<string, Signal<number>>();
 
     public get originalActivity(): Activity {
         return this;
     }
 
-    public static from(values: DeepPartial<ItemActivity>, recastFns: RecastFns): ItemActivity {
+    public static from(values: MaybeSerialized<ItemActivity>, recastFns: RecastFns): ItemActivity {
         return new ItemActivity().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<ItemActivity>, recastFns: RecastFns): ItemActivity {
+    public with(values: MaybeSerialized<ItemActivity>, recastFns: RecastFns): ItemActivity {
         super.with(values, recastFns);
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<ItemActivity> {
+    public forExport(): Serialized<ItemActivity> {
         return {
             ...super.forExport(),
             ...forExport(this),

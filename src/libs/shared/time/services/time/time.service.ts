@@ -55,19 +55,23 @@ export class TimeService {
     ) { }
 
     public startTurn(): void {
+        if (!SettingsService.settings$$().manualMode()) {
+            this._creatureAvailabilityService.allAvailableCreatures$$();
+        }
+
         (
-            SettingsService.settings.manualMode
+            SettingsService.settings$$().manualMode()
                 ? of(new Array<Creature>())
-                : this._creatureAvailabilityService.allAvailableCreatures$()
+                : this._creatureAvailabilityService.allAvailableCreatures$$()
         )
             .pipe(
                 switchMap(creatureList => emptySafeZip(
                     creatureList
                         .map(creature => zip([
-                            this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Fast Healing'),
-                            this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Fast Healing'),
-                            this._creatureEffectsService.effectsOnThis$(creature, 'Time Stop'),
-                            this._healthService.currentHP$(creature),
+                            this._creatureEffectsService.absoluteEffectsOnThis$$(creature, 'Fast Healing'),
+                            this._creatureEffectsService.relativeEffectsOnThis$$(creature, 'Fast Healing'),
+                            this._creatureEffectsService.effectsOnThis$$(creature, 'Time Stop'),
+                            this._healthService.currentHP$$(creature),
                         ])
                             .pipe(
                                 map(([fastHealingAbsolutes, fastHealingRelatives, timeStopEffects, currentHP]) =>
@@ -130,24 +134,24 @@ export class TimeService {
 
         this.tick(TimePeriods.EightHours);
 
-        this._creatureAvailabilityService.allAvailableCreatures$()
+        this._creatureAvailabilityService.allAvailableCreatures$$()
             .pipe(
                 switchMap(creatures =>
                     emptySafeZip(
                         creatures
                             .map(creature => zip([
                                 of(creature),
-                                this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Resting HP Gain'),
-                                this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Resting HP Gain'),
-                                this._creatureEffectsService.absoluteEffectsOnThis$(creature, 'Resting HP Multiplier'),
-                                this._creatureEffectsService.relativeEffectsOnThis$(creature, 'Resting HP Multiplier'),
-                                this._abilityValueService.mod$('Constitution', creature),
+                                this._creatureEffectsService.absoluteEffectsOnThis$$(creature, 'Resting HP Gain'),
+                                this._creatureEffectsService.relativeEffectsOnThis$$(creature, 'Resting HP Gain'),
+                                this._creatureEffectsService.absoluteEffectsOnThis$$(creature, 'Resting HP Multiplier'),
+                                this._creatureEffectsService.relativeEffectsOnThis$$(creature, 'Resting HP Multiplier'),
+                                this._abilityValueService.mod$$('Constitution', creature),
                             ])),
                     ),
                 ),
                 withLatestFrom(zip([
-                    this._characterFeatsService.characterHasFeatAtLevel$('Superior Bond'),
-                    this._characterFeatsService.characterHasFeatAtLevel$('Universalist Wizard'),
+                    this._characterFeatsService.characterHasFeatAtLevel$$('Superior Bond'),
+                    this._characterFeatsService.characterHasFeatAtLevel$$('Universalist Wizard'),
                     this._spellCastingPrerequisitesService.maxFocusPoints$,
                 ])),
                 take(1),
@@ -204,9 +208,14 @@ export class TimeService {
                             //Reset all "once per day" spell cooldowns and re-prepare spells.
                             this._spellsTimeService.restSpells();
                             //Regenerate spell slots.
-                            character.class.spellCasting.forEach(casting => {
-                                casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                            });
+                            character
+                                .class()
+                                .spellCasting()
+                                .forEach(casting => {
+                                    casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                                    casting.specialSpellSlotsUsed.studiousCapacity = 0;
+                                    casting.specialSpellSlotsUsed.greaterVitalEvolution = [0, 0];
+                                });
 
                             //Refocus and reset all "until you refocus" spell cooldowns.
                             this.refocus(maxFocusPoints, false, false);
@@ -245,7 +254,7 @@ export class TimeService {
         const character = CreatureService.character;
         const maximumFocusPoints = 3;
 
-        this._creatureAvailabilityService.allAvailableCreatures$()
+        this._creatureAvailabilityService.allAvailableCreatures$$()
             .pipe(
                 take(1),
             )
@@ -270,7 +279,7 @@ export class TimeService {
             ((focusPoints + recoverPoints) < maximumFocusPoints)
                 // Several feats recover more focus points if you spent at least that amount since the last time refocusing.
                 // Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
-                ? this._creatureEffectsService.absoluteEffectsOnThis$(character, 'Refocus Bonus Points')
+                ? this._creatureEffectsService.absoluteEffectsOnThis$$(character, 'Refocus Bonus Points')
                 // Skip this if recoverPoints is already enough to reach the maximum.
                 : of(new Array<AbsoluteEffect>())
         )
@@ -302,7 +311,7 @@ export class TimeService {
         turns = 10,
     ): void {
         zip([
-            this._creatureAvailabilityService.allAvailableCreatures$()
+            this._creatureAvailabilityService.allAvailableCreatures$$()
                 .pipe(
                     // For each creature, also collect all applied conditions that stop time.
                     switchMap(creatures =>
@@ -379,13 +388,13 @@ export class TimeService {
     }
 
     private _collectTimeStoppingConditions$(creature: Creature): Observable<Array<ConditionGain>> {
-        return this._appliedCreatureConditionsService.appliedCreatureConditions$(creature)
+        return this._appliedCreatureConditionsService.appliedCreatureConditions$$(creature)
             .pipe(
                 switchMap(conditions =>
                     emptySafeCombineLatest(
                         conditions
                             .map(({ condition, gain }) =>
-                                condition.isStoppingTime$(gain)
+                                condition.isStoppingTime$$(gain)
                                     .pipe(
                                         distinctUntilChanged(),
                                         map(isStoppingTime =>

@@ -1,10 +1,9 @@
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { AbilityChoice } from '../../character-creation/ability-choice';
 import { ItemGain } from '../../items/item-gain';
+import { signal } from '@angular/core';
 
 const { assign, forExport, isEqual } = setupSerialization<Ancestry>({
     primitives: [
@@ -31,7 +30,7 @@ export class Ancestry implements Serializable<Ancestry> {
     public sourceBook = '';
     public size = 0;
 
-    public ancestries: Array<string> = [];
+    public readonly ancestries = signal<Array<string>>([]);
     public heritages: Array<string> = [];
     public languages: Array<string> = [];
     public recommendedLanguages: Array<string> = [];
@@ -44,27 +43,19 @@ export class Ancestry implements Serializable<Ancestry> {
     public featChoices: Array<FeatChoice> = [];
     public gainItems: Array<ItemGain> = [];
 
-    private readonly _traits = new OnChangeArray<string>();
+    public readonly traits = signal<Array<string>>([]);
 
-    public get traits(): OnChangeArray<string> {
-        return this._traits;
-    }
-
-    public set traits(value: Array<string>) {
-        this._traits.setValues(...value);
-    }
-
-    public static from(values: DeepPartial<Ancestry>): Ancestry {
+    public static from(values: MaybeSerialized<Ancestry>): Ancestry {
         return new Ancestry().with(values);
     }
 
-    public with(values: DeepPartial<Ancestry>): Ancestry {
+    public with(values: MaybeSerialized<Ancestry>): Ancestry {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Ancestry> {
+    public forExport(): Serialized<Ancestry> {
         return {
             ...forExport(this),
         };

@@ -219,7 +219,7 @@ export class FeatRequirementsService {
         return (
             charLevel
                 ? of(charLevel)
-                : CharacterFlatteningService.characterLevel$
+                : CharacterFlatteningService.characterLevel$$
         )
             .pipe(
                 map(characterLevel => ({
@@ -258,7 +258,7 @@ export class FeatRequirementsService {
             })));
         }
 
-        return CreatureService.character$
+        return CreatureService.character$$
             .pipe(
                 switchMap(character => emptySafeCombineLatest(
                     feat.abilityreq.map(requirement => {
@@ -266,7 +266,7 @@ export class FeatRequirementsService {
                         const expected: number = requirement.value;
 
                         return requiredAbility
-                            ? this._abilityValuesService.baseValue$(requiredAbility, character, charLevel)
+                            ? this._abilityValuesService.baseValue$$(requiredAbility, character, charLevel)
                                 .pipe(
                                     map(result => ({
                                         met: (result.result >= expected),
@@ -314,8 +314,8 @@ export class FeatRequirementsService {
         }
 
         return combineLatest([
-            CreatureService.character$,
-            propMap$(CreatureService.character$, 'customSkills', 'values$'),
+            CreatureService.character$$,
+            propMap$(CreatureService.character$$, 'customSkills', 'values$'),
             this._applyVersatilePerformance$(feat.skillreq, charLevel),
         ])
             .pipe(
@@ -361,7 +361,7 @@ export class FeatRequirementsService {
 
         return (
             featMatchingReqs
-                ? this._characterFeatsService.characterFeatsTaken$(1, charLevel, { featName: 'Versatile Performance' })
+                ? this._characterFeatsService.characterFeatsTaken$$(1, charLevel, { featName: 'Versatile Performance' })
                 : of([])
         )
             .pipe(
@@ -434,7 +434,7 @@ export class FeatRequirementsService {
                                 const testFeat = alternative.split('Familiar:')[1]?.trim();
 
                                 return combineLatest([
-                                    CreatureService.familiar$,
+                                    CreatureService.familiar$$,
                                     of(
                                         testFeat
                                             ? this._familiarsDataService.familiarAbilities()
@@ -449,7 +449,7 @@ export class FeatRequirementsService {
                                 ]);
                             } else {
                                 return combineLatest([
-                                    CreatureService.character$,
+                                    CreatureService.character$$,
                                     this._characterFeatsService.characterFeats$(
                                         alternative,
                                         '',
@@ -467,7 +467,7 @@ export class FeatRequirementsService {
                                 alternativeSetups.map(([testCreature, requiredFeats]) =>
                                     emptySafeCombineLatest(
                                         requiredFeats.map(requiredFeat =>
-                                            this._creatureFeatsService.creatureHasFeat$(
+                                            this._creatureFeatsService.creatureHasFeat$$(
                                                 requiredFeat.name,
                                                 { creature: testCreature },
                                                 { charLevel },
@@ -526,9 +526,9 @@ export class FeatRequirementsService {
         }
 
         return combineLatest([
-            propMap$(CharacterFlatteningService.characterClass$, 'heritage$'),
-            propMap$(CharacterFlatteningService.characterClass$, 'additionalHeritages', 'values$'),
-            CharacterFlatteningService.levelOrCurrent$(charLevel),
+            propMap$(CharacterFlatteningService.characterClass$$, 'heritage$'),
+            propMap$(CharacterFlatteningService.characterClass$$, 'additionalHeritages', 'values$'),
+            CharacterFlatteningService.levelOrCurrent$$(charLevel),
         ])
             .pipe(
                 map(([heritage, additionalHeritages, effectiveLevel]) => {
@@ -589,10 +589,10 @@ export class FeatRequirementsService {
         }
 
         return combineLatest([
-            CreatureService.character$,
+            CreatureService.character$$,
             // charLevel is usually the level on which you want to take the feat.
             // If none is given, the current character level is used for calculations.
-            CharacterFlatteningService.levelOrCurrent$(filter?.charLevel),
+            CharacterFlatteningService.levelOrCurrent$$(filter?.charLevel),
         ])
             .pipe(
                 switchMap(([character, charLevel]) =>
@@ -601,7 +601,7 @@ export class FeatRequirementsService {
                             // You can choose a creature to check this requirement on. Most checks still only run on the character.
                             const creatureType = complexreq.creatureToTest || CreatureTypes.Character;
 
-                            return CreatureService.creatureFromType$(creatureType)
+                            return CreatureService.creatureFromType$$(creatureType)
                                 .pipe(
                                     map(creature => ({ feat: context.feat, character, creature, charLevel })),
                                     switchMap(reqContext => combineLatest([

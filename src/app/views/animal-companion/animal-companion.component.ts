@@ -56,7 +56,7 @@ export class AnimalCompanionComponent extends IsMobileMixin(BaseClass) {
     public hover = '';
     public readonly creatureTypes = CreatureTypes;
 
-    public readonly animalCompanion$ = CreatureService.companion$;
+    public readonly animalCompanion$ = CreatureService.companion$$;
     public readonly isMinimized$: Observable<boolean>;
     public readonly isMenuOpen$: Observable<boolean>;
 
@@ -68,7 +68,7 @@ export class AnimalCompanionComponent extends IsMobileMixin(BaseClass) {
         super();
 
         this.isMinimized$ =
-            propMap$(SettingsService.settings$, 'companionMinimized$');
+            propMap$(SettingsService.settings$$, 'companionMinimized$');
 
         this.isMenuOpen$ = _store$.select(selectLeftMenu)
             .pipe(

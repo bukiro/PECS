@@ -1,20 +1,18 @@
-import { BehaviorSubject, Observable, map } from 'rxjs';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basic-rune-levels';
 import { DiceSizes } from 'src/libs/shared/definitions/dice-sizes';
 import { EmblazonArmamentSet } from 'src/libs/shared/definitions/interfaces/emblazon-armament-set';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddy-penalties';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
 import { ItemTypes } from 'src/libs/shared/definitions/types/item-types';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weapon-proficiencies';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { strikingTitleFromLevel } from 'src/libs/shared/util/rune-utils';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { AlchemicalPoison } from './alchemical-poison';
 import { Equipment } from './equipment';
 import { WeaponMaterial } from './weapon-material';
 import { WeaponRune } from './weapon-rune';
+import { computed, Signal, signal } from '@angular/core';
 
 const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Weapon>({
     primitives: [
@@ -99,150 +97,95 @@ export class Weapon extends Equipment implements MessageSerializable<Weapon> {
     /** If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency. */
     public useHighestAttackProficiency = false;
 
-    /** Shoddy weapons take a -2 penalty to attacks. */
-    public effectiveShoddy$ = new BehaviorSubject<ShoddyPenalties>(ShoddyPenalties.NotShoddy);
-    //TODO: This should be a true observable and update when it has reason to.
-    // I'm not sure how, because it relies on the deity service.
-    public effectiveEmblazonArmament$ = new BehaviorSubject<EmblazonArmamentSet | undefined>(undefined);
-
-    public readonly battleforged$: BehaviorSubject<boolean>;
-    public readonly bladeAlly$: BehaviorSubject<boolean>;
-    public readonly large$: BehaviorSubject<boolean>;
-
-    public readonly emblazonArmament$: BehaviorSubject<EmblazonArmamentSet | undefined>;
-
-    public readonly weaponMaterial$: Observable<Array<WeaponMaterial>>;
-    public readonly weaponRunes$: Observable<Array<WeaponRune>>;
-
-    public readonly shouldShowAsRanged$: Observable<boolean>;
-
-    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = strikingTitleFromLevel;
-
-    private _battleforged = false;
-    private _bladeAlly = false;
-    private _large = false;
-
-    private _emblazonArmament?: EmblazonArmamentSet | undefined = undefined;
-
-    private readonly _poisonsApplied = new OnChangeArray<AlchemicalPoison>();
-
-    constructor() {
-        super();
-
-        this.battleforged$ = new BehaviorSubject(this._battleforged);
-        this.bladeAlly$ = new BehaviorSubject(this._bladeAlly);
-        this.emblazonArmament$ = new BehaviorSubject(this._emblazonArmament);
-        this.large$ = new BehaviorSubject(this._large);
-        this.weaponMaterial$ = this.material.values$
-            .pipe(
-                map(materials => materials.filter((material): material is WeaponMaterial => material.isWeaponMaterial())),
-            );
-        this.weaponRunes$ = this.propertyRunes.values$
-            .pipe(
-                map(runes => runes.filter((rune): rune is WeaponRune => rune.isWeaponRune())),
-            );
-        // The weapon should show as a ranged attack if it currently has the Thrown trait,
-        // or if it is ranged and never had the Thrown trait.
-        // If it had the Thrown trait and doesn't have it now, it should not show.
-        this.shouldShowAsRanged$ =
-            this.effectiveTraits$
-                .pipe(
-                    map(effectiveTraits =>
-                        effectiveTraits.some(trait => trait.includes('Thrown'))
-                        || (
-                            !!this.ranged
-                            && !this.traits.some(trait => trait.includes('Thrown'))
-                        ),
-                    ),
-                );
-    }
-
-    public get battleforged(): boolean {
-        return this._battleforged;
-    }
-
     /** A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune. */
-    public set battleforged(value: boolean) {
-        this._battleforged = value;
-        this.battleforged$.next(this._battleforged);
-    }
-
-    public get bladeAlly(): boolean {
-        return this._bladeAlly;
-    }
-
+    public readonly battleforged = signal(false);
     /** A Champion with the Divine Ally: Blade Ally Feat can designate one weapon or handwraps as his blade ally. */
-    public set bladeAlly(value) {
-        this._bladeAlly = value;
-        this.bladeAlly$.next(this._bladeAlly);
-    }
-
-    public get emblazonArmament(): EmblazonArmamentSet | undefined {
-        return this._emblazonArmament;
-    }
-
+    public readonly bladeAlly = signal(false);
+    /** Giant Instinct Barbarians can wield larger weapons. */
+    public readonly large = signal(false);
+    /** Store any poisons applied to this item. There should be only one poison at a time. */
+    public readonly poisonsApplied = signal<Array<AlchemicalPoison>>([]);
     /**
      * A Cleric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
      * Subsequent feats can change options and restrictions of the functionality.
      */
-    public set emblazonArmament(value: EmblazonArmamentSet | undefined) {
-        this._emblazonArmament = value;
-        this.emblazonArmament$.next(this._emblazonArmament);
-    }
+    public readonly emblazonArmament = signal<EmblazonArmamentSet | undefined>(undefined);
 
-    public get poisonsApplied(): OnChangeArray<AlchemicalPoison> {
-        return this._poisonsApplied;
-    }
+    /** Shoddy weapons take a -2 penalty to attacks. */
+    public readonly effectiveShoddy$$ = signal<ShoddyPenalties>(ShoddyPenalties.NotShoddy);
+    //TODO: This should be computed and update when it has reason to.
+    // I'm not sure how, because it relies on the deity service.
+    public readonly effectiveEmblazonArmament$$ = signal<EmblazonArmamentSet | undefined>(undefined);
 
-    /** Store any poisons applied to this item. There should be only one poison at a time. */
-    public set poisonsApplied(value: Array<AlchemicalPoison>) {
-        this._poisonsApplied.setValues(...value);
-    }
+    public readonly weaponMaterial$$: Signal<Array<WeaponMaterial>> = computed(() =>
+        this.material().filter((material): material is WeaponMaterial => material.isWeaponMaterial()),
+    );
+    public readonly weaponRunes$$: Signal<Array<WeaponRune>> = computed(() =>
+        this.propertyRunes().filter((rune): rune is WeaponRune => rune.isWeaponRune()),
+    );
 
-    public get large(): boolean {
-        return this._large;
-    }
+    // The weapon should show as a ranged attack if it currently has the Thrown trait,
+    // or if it is ranged and never had the Thrown trait.
+    // If it had the Thrown trait and doesn't have it now, it should not show.
+    public readonly shouldShowAsRanged$: Signal<boolean> = computed(() =>
+        this.effectiveTraits$$().some(trait => trait.includes('Thrown'))
+        || (
+            !!this.ranged
+            && !this.traits.some(trait => trait.includes('Thrown'))
+        ),
+    );
 
-    /** Giant Instinct Barbarians can wield larger weapons. */
-    public set large(value: boolean) {
-        this._large = value;
-    }
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = strikingTitleFromLevel;
 
-    public get secondaryRune(): BasicRuneLevels {
-        return this.strikingRune;
-    }
+    public readonly secondaryRune$$: Signal<BasicRuneLevels> = this.strikingRune.asReadonly();
 
-    public set secondaryRune(value: BasicRuneLevels) {
-        this.strikingRune = value;
-    }
+    protected readonly _secondaryRuneName$$: Signal<string> = computed(() => {
+        const striking = this.effectiveStriking$$();
 
-    public get weaponRunes(): Readonly<Array<WeaponRune>> {
-        return this.propertyRunes.filter((rune): rune is WeaponRune => rune.isWeaponRune());
-    }
+        return this.secondaryRuneTitleFunction(striking);
+    });
 
-    public get weaponMaterial(): Readonly<Array<WeaponMaterial>> {
-        return this.material.filter((material): material is WeaponMaterial => material.isWeaponMaterial());
-    }
+    protected _bladeAllyName$$: Signal<Array<string>> = computed(() => {
+        const words: Array<string> = [];
 
-    public static from(values: DeepPartial<Weapon>, recastFns: RecastFns): Weapon {
+        const hasBladeAlly = this.bladeAlly();
+
+        if (hasBladeAlly) {
+            this.bladeAllyRunes().forEach(rune => {
+                let name: string = rune.name;
+
+                if (rune.name.includes('(Greater)')) {
+                    name = `Greater ${ rune.name.substring(0, rune.name.indexOf('(Greater)')) }`;
+                } else if (rune.name.includes(', Greater)')) {
+                    name = `Greater ${ rune.name.substring(0, rune.name.indexOf(', Greater)')) })`;
+                }
+
+                words.push(name);
+            });
+        }
+
+        return words;
+    });
+
+    public static from(values: MaybeSerialized<Weapon>, recastFns: RecastFns): Weapon {
         return new Weapon().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Weapon>, recastFns: RecastFns): Weapon {
+    public with(values: MaybeSerialized<Weapon>, recastFns: RecastFns): Weapon {
         super.with(values, recastFns);
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Weapon> {
+    public forExport(): Serialized<Weapon> {
         return {
             ...super.forExport(),
             ...forExport(this),
         };
     }
 
-    public forMessage(): DeepPartial<Weapon> {
+    public forMessage(): Serialized<Weapon> {
         return {
             ...super.forMessage(),
             ...forMessage(this),
@@ -259,6 +202,10 @@ export class Weapon extends Equipment implements MessageSerializable<Weapon> {
 
     public isWeapon(): this is Weapon { return true; }
 
+    public setSecondaryRune(value: BasicRuneLevels): void {
+        this.strikingRune.set(value);
+    }
+
     public title(options: { itemStore?: boolean; preparedProficiency?: string } = {}): string {
         const proficiency = (options.itemStore || !options.preparedProficiency) ? this.prof : options.preparedProficiency;
 
@@ -271,33 +218,6 @@ export class Weapon extends Equipment implements MessageSerializable<Weapon> {
 
     public hasProficiencyChanged(currentProficiency: string): boolean {
         return currentProficiency !== this.prof;
-    }
-
-    protected _secondaryRuneName$(): Observable<string> {
-        return this.effectiveStriking$()
-            .pipe(
-                map(striking => this.secondaryRuneTitleFunction(striking)),
-            );
-    }
-
-    protected _bladeAllyName(): Array<string> {
-        const words: Array<string> = [];
-
-        if (this.bladeAlly) {
-            this.bladeAllyRunes.forEach(rune => {
-                let name: string = rune.name;
-
-                if (rune.name.includes('(Greater)')) {
-                    name = `Greater ${ rune.name.substring(0, rune.name.indexOf('(Greater)')) }`;
-                } else if (rune.name.includes(', Greater)')) {
-                    name = `Greater ${ rune.name.substring(0, rune.name.indexOf(', Greater)')) })`;
-                }
-
-                words.push(name);
-            });
-        }
-
-        return words;
     }
 
 }

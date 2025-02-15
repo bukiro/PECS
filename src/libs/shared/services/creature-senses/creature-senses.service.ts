@@ -24,7 +24,7 @@ export class CreatureSensesService {
 
         return combineLatest([
             creature.isCharacter()
-                ? this._characterFeatsService.characterFeatsAtLevel$(charLevel)
+                ? this._characterFeatsService.characterFeatsAtLevel$$(charLevel)
                     .pipe(
                         map(feats =>
                             feats
@@ -34,7 +34,7 @@ export class CreatureSensesService {
                     )
                 : of([]),
             allowTemporary
-                ? this._appliedCreatureConditionsService.appliedCreatureConditions$(creature)
+                ? this._appliedCreatureConditionsService.appliedCreatureConditions$$(creature)
                 : of([]),
         ])
             .pipe(

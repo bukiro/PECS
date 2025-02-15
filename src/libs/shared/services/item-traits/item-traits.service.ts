@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal, Signal } from '@angular/core';
 import { switchMap, combineLatest, Observable, of, tap, map, distinctUntilChanged } from 'rxjs';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { Armor } from 'src/app/classes/items/armor';
@@ -14,6 +14,8 @@ import { Scroll } from 'src/app/classes/items/scroll';
 import { safeParseInt, stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { isEqualPrimitiveArray } from '../../util/compare-utils';
 import { applyEffectsToValue } from '../../util/effect.utils';
+import { toObservable } from '@angular/core/rxjs-interop';
+import e from 'express';
 
 @Injectable({
     providedIn: 'root',
@@ -28,81 +30,79 @@ export class ItemTraitsService {
 
     /** Always keep the traits of all items in all inventories up to date. */
     public initialize(): void {
-        this._creatureAvailabilityService.allAvailableCreatures$()
+        this._creatureAvailabilityService.allAvailableCreatures$$()
             .pipe(
                 switchMap(creatures => emptySafeCombineLatest(
-                    creatures
-                        .map(creature =>
-                            creature.inventories.values$
-                                .pipe(
-                                    switchMap(inventories => emptySafeCombineLatest(
-                                        inventories
-                                            .map(inventory =>
-                                                inventory.allItems$()
-                                                    .pipe(
-                                                        switchMap(allItems => emptySafeCombineLatest(
-                                                            allItems.map(item =>
-                                                                this._itemEffectiveTraits$(item, { creature }),
-                                                            ),
-                                                        )),
-                                                    ),
-                                            ),
+                    creatures.map(creature =>
+                        toObservable(computed(() =>
+                            creature.inventories()
+                                .map(inventory =>
+                                    inventory.allItems$$(),
+                                )
+                                .flat(),
+                        ))
+                            .pipe(
+                                switchMap(items => emptySafeCombineLatest(
+                                    items.map(item =>
+                                        this._itemEffectiveTraits$$(item, { creature }),
                                     )),
                                 ),
-                        ),
+                            ),
+                    ),
                 )),
             )
             .subscribe();
     }
 
-    private _itemEffectiveTraits$(item: Item, context: { creature: Creature }): Observable<Array<string>> {
-        return (() => {
-            if (item.isArmor()) {
-                return this._armorEffectiveTraits$(item);
-            }
+    private _itemEffectiveTraits$$(item: Item, context: { creature: Creature }): Signal<Array<string>> {
 
-            if (item.isWeapon()) {
-                return this._weaponEffectiveTraits$(item, context);
-            }
+        let traits: Signal<Array<string>> = signal<Array<string>>([]).asReadonly();
 
-            if (item.isWornItem()) {
-                return of(this._wornItemEffectiveTraits(item));
-            }
+        if (item.isArmor()) {
+            traits = this._armorEffectiveTraits$$(item);
+        }
 
-            if (item.isWand() || item.isScroll()) {
-                return of(this._storedSpellsEffectiveTraits(item));
-            }
+        if (item.isWeapon()) {
+            traits = this._weaponEffectiveTraits$$(item, context);
+        }
 
-            return of([]);
-        })()
-            .pipe(
-                distinctUntilChanged(isEqualPrimitiveArray),
-                // TO-DO: ideally, item.effectiveTraits$ should embody this method and be queried instead of it.
-                tap(effectiveTraits => { item.effectiveTraits$.next(effectiveTraits); }),
-            );
+        if (item.isWornItem()) {
+            traits = this._wornItemEffectiveTraits$$(item);
+        }
+
+        if (item.isWand() || item.isScroll()) {
+            traits = this._storedSpellsEffectiveTraits$$(item);
+        }
+
+        return computed(() => {
+            const effectiveTraits = traits();
+
+            // TO-DO: ideally, item.effectiveTraits$$ should embody this method and be queried instead of it.
+            item.effectiveTraits$$.set(effectiveTraits);
+
+            return effectiveTraits;
+        });
     }
 
-    private _armorEffectiveTraits$(armor: Armor): Observable<Array<string>> {
-        return armor.effectiveArmoredSkirt$
-            .pipe(
-                map(armoredSkirtFactor => {
-                    let traits = armor.traits.filter(trait => !armor.material.some(material => material.removeTraits.includes(trait)));
+    private _armorEffectiveTraits$$(armor: Armor): Signal<Array<string>> {
+        return computed(() => {
+            const armoredSkirtFactor = armor.effectiveArmoredSkirt$$();
+            const materials = armor.material();
 
-                    if (armoredSkirtFactor !== 0) {
-                        //An armored skirt makes your armor noisy if it isn't already.
-                        if (!traits.includes('Noisy')) {
-                            traits = traits.concat('Noisy');
-                        }
-                    }
+            const traits = armor.traits.filter(trait => !materials.some(material => material.removeTraits.includes(trait)));
 
-                    return traits;
-                }),
-            );
+            if (armoredSkirtFactor !== 0) {
+                //An armored skirt makes your armor noisy if it isn't already.
+                return Array.from(new Set([...traits, 'Noisy']));
+            }
+
+            return traits;
+        }, { equal: isEqualPrimitiveArray });
     }
 
-    private _weaponEffectiveTraits$(weapon: Weapon, context: { creature: Creature }): Observable<Array<string>> {
+    private _weaponEffectiveTraits$$(weapon: Weapon, context: { creature: Creature }): Observable<Array<string>> {
         //Test for certain feats that give traits to unarmed attacks.
-        let traits: Array<string> = JSON.parse(JSON.stringify(weapon.traits));
+        let traits: Array<string> = [...weapon.traits];
 
         //Find and apply effects that give this weapon reach.
         const noReach = 5;
@@ -152,9 +152,9 @@ export class ItemTraitsService {
         namesList.push(...namesList.map(name => name.replace('Gain Trait', 'Lose Trait')));
 
         return combineLatest([
-            this._creatureEffectsService.absoluteEffectsOnThese$(context.creature, reachNamesList),
-            this._creatureEffectsService.relativeEffectsOnThese$(context.creature, reachNamesList),
-            this._creatureEffectsService.toggledEffectsOnThese$(context.creature, namesList),
+            this._creatureEffectsService.absoluteEffectsOnThese$$(context.creature, reachNamesList),
+            this._creatureEffectsService.relativeEffectsOnThese$$(context.creature, reachNamesList),
+            this._creatureEffectsService.toggledEffectsOnThese$$(context.creature, namesList),
         ])
             .pipe(
                 map(([absoluteEffects, relativeEffects, toggledEffects]) => {
@@ -198,35 +198,36 @@ export class ItemTraitsService {
             );
     }
 
-    private _wornItemEffectiveTraits(wornItem: WornItem): Array<string> {
-        return wornItem.traits
-            .concat(
-                wornItem.isTalismanCord ?
-                    wornItem.data
-                        .map(data => data.value.toString())
-                        .filter(trait =>
-                            !wornItem.traits.includes(trait) && trait !== 'no school attuned',
-                        ) :
-                    [],
-            );
+    private _wornItemEffectiveTraits$$(wornItem: WornItem): Signal<Array<string>> {
+        return computed(() => {
+            const talismanCordTraits = wornItem.isTalismanCord
+                ? wornItem.data()
+                    .map(data => data.value.toString())
+                    .filter(trait =>
+                        !wornItem.traits.includes(trait) && trait !== 'no school attuned',
+                    )
+                : [];
+
+            return [...wornItem.traits, ...talismanCordTraits];
+        }, { equal: isEqualPrimitiveArray });
     }
 
-    private _storedSpellsEffectiveTraits(item: Scroll | Wand): Array<string> {
-        let traits: Array<string> = [...item.traits];
+    private _storedSpellsEffectiveTraits$$(item: Scroll | Wand): Signal<Array<string>> {
+        return computed(() => {
+            const storedSpellName = item.storedSpells()[0]?.spells()[0]?.name;
 
-        if (item.storedSpells[0]?.spells.length) {
-            const spellName = item.storedSpells[0]?.spells[0]?.name;
+            if (storedSpellName) {
+                if (storedSpellName) {
+                    const spell = this._spellsDataService.spellFromName(storedSpellName);
 
-            if (spellName) {
-                const spell = this._spellsDataService.spellFromName(spellName);
-
-                if (spell) {
-                    traits = item.traits.concat(spell.traits);
+                    if (spell) {
+                        return Array.from(new Set([...item.traits, ...spell.traits]));
+                    }
                 }
             }
-        }
 
-        return traits;
+            return [...item.traits];
+        });
     }
 
 }

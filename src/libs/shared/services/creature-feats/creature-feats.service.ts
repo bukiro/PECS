@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { computed, Injectable, signal, Signal } from '@angular/core';
 import { Creature } from 'src/app/classes/creatures/creature';
 import { stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
@@ -22,33 +21,29 @@ export class CreatureFeatsService {
      * @param options
      * @returns The amount to which the creature has the feat.
      */
-    public creatureHasFeat$(
+    public creatureHasFeat$$(
         featName: string,
         { creature }: { creature: Creature },
         filter: { charLevel?: number; minLevel?: number } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
-    ): Observable<number> {
+    ): Signal<number> {
         if (creature.isCharacter()) {
-            return this._characterFeatsService.characterFeatsTaken$(
-                filter.minLevel,
-                filter.charLevel,
-                { featName },
-                options,
-            )
-                .pipe(
-                    map(featsTaken => featsTaken.length),
-                );
+            return computed(() =>
+                this._characterFeatsService.characterFeatsTaken$$(
+                    filter.minLevel,
+                    filter.charLevel,
+                    { featName },
+                    options,
+                )().length,
+            );
         } else if (creature.isFamiliar()) {
-            return creature.abilities.feats.values$
-                .pipe(
-                    map(feats =>
-                        feats
-                            .filter(gain => stringEqualsCaseInsensitive(gain.name, featName))
-                            .length,
-                    ),
-                );
+            return computed(() =>
+                creature.abilities
+                    .feats()
+                    .filter(gain => stringEqualsCaseInsensitive(gain.name, featName)).length,
+            );
         } else {
-            return of(0);
+            return signal(0).asReadonly();
         }
     }
 

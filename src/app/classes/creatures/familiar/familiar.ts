@@ -4,15 +4,14 @@ import { CreatureTypeIds } from 'src/libs/shared/definitions/creature-type-ids';
 import { CreatureTypes } from 'src/libs/shared/definitions/creature-types';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { RecastFns } from 'src/libs/shared/definitions/interfaces/recast-fns';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { FeatChoice } from 'src/libs/shared/definitions/models/feat-choice';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
-import { OnChangeArray } from 'src/libs/shared/util/classes/on-change-array';
 import { setupSerializationWithHelpers } from 'src/libs/shared/util/serialization';
 import { Skill } from '../../skills/skill';
 import { SkillIncrease } from '../../skills/skill-increase';
 import { Creature } from '../creature';
 import { BonusDescription } from 'src/libs/shared/definitions/bonuses/bonus-description';
+import { computed, Signal, signal } from '@angular/core';
 
 const { assign, forExport, isEqual } = setupSerializationWithHelpers<Familiar>({
     primitives: [
@@ -46,24 +45,26 @@ export class Familiar extends Creature implements Serializable<Familiar> {
         type: 'Familiar',
     });
 
-    protected _customSkills = new OnChangeArray(
-        new Skill('', 'Attack Rolls', 'Familiar Proficiency'),
-    );
+    public readonly customSkills = signal([
+        Skill.from({ name: 'Attack Rolls', type: 'Familiar Proficiency' }),
+    ]);
+
+    public readonly baseSize$$: Signal<number> = signal(CreatureSizes.Tiny).asReadonly();
 
     public get requiresConForHP(): boolean { return false; }
 
-    public static from(values: DeepPartial<Familiar>, recastFns: RecastFns): Familiar {
+    public static from(values: MaybeSerialized<Familiar>, recastFns: RecastFns): Familiar {
         return new Familiar().with(values, recastFns);
     }
 
-    public with(values: DeepPartial<Familiar>, recastFns: RecastFns): Familiar {
+    public with(values: MaybeSerialized<Familiar>, recastFns: RecastFns): Familiar {
         super.with(values, recastFns);
         assign(this, values, recastFns);
 
         return this;
     }
 
-    public forExport(): DeepPartial<Familiar> {
+    public forExport(): Serialized<Familiar> {
         return {
             ...super.forExport(),
             ...forExport(this),
@@ -82,16 +83,12 @@ export class Familiar extends Creature implements Serializable<Familiar> {
         return true;
     }
 
-    public baseSize(): number {
-        return CreatureSizes.Tiny;
-    }
-
     //Other implementations require conModifier.
-    public baseHP(charLevel: number): { result: number; bonuses: Array<BonusDescription> } {
+    public baseHP$$(charLevel: number): Signal<{ result: number; bonuses: Array<BonusDescription> }> {
         const familiarHPMultiplier = 5;
 
         //Your familiar has 5 Hit Points for each of your levels.
-        return {
+        return computed(() => ({
             result: familiarHPMultiplier * charLevel,
             bonuses: [
                 {
@@ -100,22 +97,27 @@ export class Familiar extends Creature implements Serializable<Familiar> {
                     value: `${ familiarHPMultiplier } (${ familiarHPMultiplier * charLevel })`,
                 },
             ],
-        };
+        }));
     }
 
-    public baseSpeed(speedName: string): { result: number; explain: string } {
-        let explain = '';
-        let sum = 0;
+    // TODO: Why speeds[1]? Please investigate and explain or resolve.
+    public baseSpeed$$(speedName: string): Signal<{ result: number; explain: string }> {
+        return computed(() => {
+            const speeds = this.speeds();
 
-        if (speedName === this.speeds[1]?.name) {
-            sum = Defaults.defaultFamiliarSpeed;
-            explain = `\nBase speed: ${ sum }`;
-        }
+            let explain = '';
+            let sum = 0;
 
-        return { result: sum, explain: explain.trim() };
+            if (speedName === speeds[1]?.name) {
+                sum = Defaults.defaultFamiliarSpeed;
+                explain = `\nBase speed: ${ sum }`;
+            }
+
+            return { result: sum, explain: explain.trim() };
+        });
     }
 
-    public abilityBoosts(): Array<AbilityBoost> { return []; }
+    public abilityBoosts$$(): Signal<Array<AbilityBoost>> { return signal<Array<AbilityBoost>>([]).asReadonly(); }
 
-    public skillIncreases(): Array<SkillIncrease> { return []; }
+    public skillIncreases$$(): Signal<Array<SkillIncrease>> { return signal<Array<SkillIncrease>>([]).asReadonly(); }
 }

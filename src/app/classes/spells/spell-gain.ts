@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
-import { DeepPartial } from 'src/libs/shared/definitions/types/deep-partial';
+import { Serialized, MaybeSerialized, Serializable } from 'src/libs/shared/definitions/interfaces/serializable';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spell-target-selection';
 import { setupSerialization } from 'src/libs/shared/util/serialization';
 import { ItemGain } from '../items/item-gain';
@@ -73,17 +72,17 @@ export class SpellGain implements Serializable<SpellGain> {
     /** The selected targets are saved here for applying conditions. */
     public targets: Array<SpellTarget> = [];
 
-    public static from(values: DeepPartial<SpellGain>): SpellGain {
+    public static from(values: MaybeSerialized<SpellGain>): SpellGain {
         return new SpellGain().with(values);
     }
 
-    public with(values: DeepPartial<SpellGain>): SpellGain {
+    public with(values: MaybeSerialized<SpellGain>): SpellGain {
         assign(this, values);
 
         return this;
     }
 
-    public forExport(): DeepPartial<SpellGain> {
+    public forExport(): Serialized<SpellGain> {
         return {
             ...forExport(this),
         };
