@@ -55,7 +55,7 @@ export class ClassSavingLoadingService {
                 classObject.levels?.forEach((level, index) => {
                     (Object.keys(level) as Array<keyof ClassLevel>).forEach(key => {
                         if (key !== 'number') {
-                            if (JSON.stringify(level[key]) === JSON.stringify(libraryObject.levels[index][key])) {
+                            if (JSON.stringify(level[key]) === JSON.stringify(libraryObject.levels[index]?.[key])) {
                                 delete level[key];
                             }
                         }

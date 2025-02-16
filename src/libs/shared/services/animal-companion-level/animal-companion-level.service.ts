@@ -48,7 +48,7 @@ export class AnimalCompanionLevelsService {
                             // compare the property with the library item.
                             // If they have the same value, delete the property from the item
                             // - it can be recovered during loading from the database.
-                            if (JSON.stringify(level[key]) === JSON.stringify(libraryObject[index][key])) {
+                            if (JSON.stringify(level[key]) === JSON.stringify(libraryObject[index]?.[key])) {
                                 // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                                 delete level[key];
                             }
