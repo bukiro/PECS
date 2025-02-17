@@ -3,7 +3,7 @@ import { Character } from 'src/app/classes/creatures/character/character';
 import { FeatsStore } from 'src/libs/store/feats/feats.store';
 import { Feat } from '../../definitions/models/feat';
 import { FeatTaken } from '../../definitions/models/feat-taken';
-import { isEqualPrimitiveObject, isEqualObjectArray, isEqualSerializable } from '../../util/compare-utils';
+import { isEqualObjectArray, isEqualSerializable, isEqualPrimitiveArray } from '../../util/compare-utils';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { FeatsDataService } from '../data/feats-data.service';
 import { Defaults } from '../../definitions/defaults';
@@ -50,7 +50,7 @@ export class CharacterFeatsService {
             () => this._featsStore.allCharacterFeats(),
             {
                 equal: (previous, current) =>
-                    isEqualPrimitiveObject(previous.keys(), current.keys()),
+                    isEqualPrimitiveArray(Object.keys(previous), Object.keys(current)),
             },
         );
 
@@ -64,12 +64,12 @@ export class CharacterFeatsService {
                 const alternatives = name.toLowerCase().split(' or ');
 
                 return alternatives
-                    .map(alternative => allFeats.get(alternative.toLowerCase()))
+                    .map(alternative => allFeats[alternative.toLowerCase()])
                     .filter((feat): feat is Feat => !!feat);
             }
 
             return this._featsDataService.filterFeats(
-                Array.from(allFeats.values()),
+                Object.values(allFeats),
                 name,
                 type,
                 options,
