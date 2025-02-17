@@ -14,11 +14,12 @@ import {
 } from 'src/libs/store/feats/feats.selectors';
 import { Feat } from '../../definitions/models/feat';
 import { FeatTaken } from '../../definitions/models/feat-taken';
-import { isEqualPrimitiveObject, isEqualObjectArray, isEqualSerializable } from '../../util/compare-utils';
+import { isEqualObjectArray, isEqualSerializable, isEqualPrimitiveArray } from '../../util/compare-utils';
 import { stringEqualsCaseInsensitive } from '../../util/string-utils';
 import { CharacterFlatteningService } from '../character-flattening/character-flattening.service';
 import { FeatsDataService } from '../data/feats-data.service';
 import { Defaults } from '../../definitions/defaults';
+import { isDefined } from '../../util/type-guard-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -60,22 +61,22 @@ export class CharacterFeatsService {
         return this._store$.select(selectAllCharacterFeats)
             .pipe(
                 distinctUntilChanged((previous, current) =>
-                    isEqualPrimitiveObject(previous.keys(), current.keys()),
+                    isEqualPrimitiveArray(Object.keys(previous), Object.keys(current)),
                 ),
                 map(allFeats => {
                     // If a name is given and other filters are disabled,
-                    // we can just get the feat or feature from the map.
+                    // we can just get the feat or feature from the record.
                     if (name && !options.includeSubTypes && !options.includeCountAs) {
                         // For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
                         const alternatives = name.toLowerCase().split(' or ');
 
                         return alternatives
-                            .map(alternative => allFeats.get(alternative.toLowerCase()))
-                            .filter((feat): feat is Feat => !!feat);
+                            .map(alternative => allFeats[alternative.toLowerCase()])
+                            .filter(isDefined);
                     }
 
                     return this._featsDataService.filterFeats(
-                        Array.from(allFeats.values()),
+                        Object.values(allFeats),
                         name,
                         type,
                         options,

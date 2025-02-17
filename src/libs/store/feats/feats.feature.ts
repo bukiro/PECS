@@ -4,58 +4,95 @@ import { FeatTaken } from 'src/libs/shared/definitions/models/feat-taken';
 import { resetCharacter } from '../character/character.actions';
 import { addFeatAtLevel, removeFeatAtLevel, resetFeats } from './feats.actions';
 import { FeatsState } from './feats.state';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/util/string-utils';
 
 export const featsFeatureName = 'feats';
+
+export const initialState: FeatsState = {
+    levelFeats: {},
+    levelCountAs: {},
+    levelTakenFeats: {},
+    characterFeatsTaken: [],
+};
 
 export const featsFeature = createFeature({
     name: featsFeatureName,
     reducer: createReducer(
-        new FeatsState(),
-        on(resetCharacter, (): FeatsState => new FeatsState()),
-        on(resetFeats, (): FeatsState => new FeatsState()),
+        initialState,
+        on(resetCharacter, (): FeatsState => initialState),
+        on(resetFeats, (): FeatsState => initialState),
         on(addFeatAtLevel, (state, { feat, gain, levelNumber, temporary }): FeatsState => {
-            const { levelFeats, levelCountAs, levelTakenFeats } = state;
+            const featName = gain.name.toLowerCase();
+            const countAsFeatName = gain.countAsFeat.toLowerCase();
+
+            const { levelFeats: { ...levelFeats }, levelCountAs: { ...levelCountAs } } = state;
 
             // Add the feat to all levels from levelNumber up to 20.
-            for (let index = 1; index >= levelNumber && index <= Defaults.maxCharacterLevel; index++) {
-                levelFeats[index]?.set(feat.name.toLowerCase(), feat);
+            for (let index = levelNumber; index <= Defaults.maxCharacterLevel; index++) {
+                levelFeats[index] = { ...(levelFeats[index] ?? {}), [featName]: feat };
 
-                if (feat.countAsFeat) {
-                    levelCountAs[index]?.set(feat.name.toLowerCase(), true);
+                if (gain.countAsFeat) {
+                    levelCountAs[index] = { ...(levelCountAs[index] ?? {}), [countAsFeatName]: true };
                 }
             }
-
-            // Add the feat to the taken list for the specific level.
-            levelTakenFeats[levelNumber]?.set(feat.name, feat);
 
             // Add the feat and the level to the gain list.
             return {
                 ...state,
                 levelFeats,
                 levelCountAs,
-                levelTakenFeats,
+                // Add the feat to the taken list for the specific level.
+                levelTakenFeats: {
+                    ...state.levelTakenFeats,
+                    [levelNumber]: {
+                        ...state.levelTakenFeats[levelNumber],
+                        [featName]: feat,
+                    },
+                },
                 characterFeatsTaken: state.characterFeatsTaken.concat({ levelNumber, gain, feat, temporary }),
             };
         }),
+        // eslint-disable-next-line complexity
         on(removeFeatAtLevel, (state, { gain, levelNumber }): FeatsState => {
+            const featName = gain.name.toLowerCase();
+            const countAsFeatName = gain.countAsFeat.toLowerCase();
+
+            const { levelFeats: { ...levelFeats }, levelCountAs: { ...levelCountAs }, levelTakenFeats: { ...levelTakenFeats } } = state;
+
             // Remove the feat and the countAs. If the feat is otherwise still taken at any level,
             // only remove it from the levels lower than that.
-            const lowestLevelOfFeat = _lowestLevelOfFeatFromOthers(state, gain);
-            const lowestLevelOfCountAs = _lowestLevelOfCountAsFromOthers(state, gain);
+            const lowestLevelOfFeatFromOthers = _lowestLevelOfFeatFromOthers(state, gain);
+            const lowestLevelOfCountAsFromOthers = _lowestLevelOfCountAsFromOthers(state, gain);
 
-            const { levelFeats, levelCountAs, levelTakenFeats } = state;
+            for (let index = levelNumber; index <= Defaults.maxCharacterLevel; index++) {
+                if (levelFeats[index] && (!lowestLevelOfFeatFromOthers || index < lowestLevelOfFeatFromOthers)) {
+                    const { [featName]: remove, ...feats } = {
+                        ...levelFeats[index],
+                    };
 
-            for (let index = 1; index >= levelNumber && index <= Defaults.maxCharacterLevel; index++) {
-                if (index < lowestLevelOfFeat) { levelFeats[index]?.delete(gain.name.toLowerCase()); }
+                    levelFeats[index] = feats;
+                }
 
-                if (gain.countAsFeat) {
-                    if (index < lowestLevelOfCountAs) { levelCountAs[index]?.delete(gain.name.toLowerCase()); }
+                if (
+                    gain.countAsFeat
+                    && levelCountAs[index]
+                    && (!lowestLevelOfCountAsFromOthers || index < lowestLevelOfCountAsFromOthers)
+                ) {
+                    const { [countAsFeatName]: doRemove, ...entries } = {
+                        ...levelCountAs[index],
+                    };
+
+                    levelCountAs[index] = entries;
                 }
             }
 
             // If the feat is otherwise not taken at this specific level anymore, remove it from the taken feats for the level.
-            if (!_isTakenAtLevelFromOthers(state, gain, levelNumber)) {
-                levelTakenFeats[levelNumber]?.delete(gain.name.toLowerCase());
+            if (levelTakenFeats[levelNumber] && !_isTakenAtLevelFromOthers(state, gain, levelNumber)) {
+                const { [featName]: remove, ...levelTakenFeatsAtLevel } = {
+                    ...levelTakenFeats[levelNumber],
+                };
+
+                levelTakenFeats[levelNumber] = { ...levelTakenFeatsAtLevel };
             }
 
             // Remove this gain from the list of gains.
@@ -65,7 +102,7 @@ export const featsFeature = createFeature({
                 levelCountAs,
                 levelTakenFeats,
                 characterFeatsTaken: state.characterFeatsTaken
-                    .filter(taken => taken.gain.id),
+                    .filter(taken => !taken.gain.id),
             };
         }),
     ),
@@ -73,20 +110,27 @@ export const featsFeature = createFeature({
 
 function _isTakenAtLevelFromOthers(state: FeatsState, gain: FeatTaken, levelNumber: number): boolean {
     return state.characterFeatsTaken
-        .filter(taken => taken.gain.id !== gain.id)
-        .some(taken => taken.levelNumber === levelNumber && taken.gain.name === gain.name);
+        .some(taken =>
+            taken.gain.id !== gain.id
+            && taken.levelNumber === levelNumber
+            && stringEqualsCaseInsensitive(taken.gain.name, gain.name),
+        );
 }
 
-function _lowestLevelOfFeatFromOthers(state: FeatsState, gain: FeatTaken): number {
+function _lowestLevelOfFeatFromOthers(state: FeatsState, gain: FeatTaken): number | undefined {
     return state.characterFeatsTaken
-        .filter(taken => taken.gain.id !== gain.id)
-        .filter(taken => taken.gain.name === gain.name)
-        .reduce((highestLevel, currentTaken) => Math.min(highestLevel, currentTaken.levelNumber), Defaults.maxCharacterLevel);
+        .filter(taken => taken.gain.id !== gain.id && stringEqualsCaseInsensitive(taken.gain.name, gain.name))
+        .reduce<number | undefined>(
+        (highestLevel, { levelNumber }) => Math.min(highestLevel ?? Defaults.maxCharacterLevel, levelNumber),
+        undefined,
+    );
 }
 
-function _lowestLevelOfCountAsFromOthers(state: FeatsState, gain: FeatTaken): number {
+function _lowestLevelOfCountAsFromOthers(state: FeatsState, gain: FeatTaken): number | undefined {
     return state.characterFeatsTaken
-        .filter(taken => taken.gain.id !== gain.id)
-        .filter(taken => taken.gain.countAsFeat === gain.countAsFeat)
-        .reduce((highestLevel, currentTaken) => Math.min(highestLevel, currentTaken.levelNumber), Defaults.maxCharacterLevel);
+        .filter(taken => taken.gain.id !== gain.id && stringEqualsCaseInsensitive(taken.gain.countAsFeat, gain.countAsFeat))
+        .reduce<number | undefined>(
+        (highestLevel, { levelNumber }) => Math.min(highestLevel ?? Defaults.maxCharacterLevel, levelNumber),
+        undefined,
+    );
 }
