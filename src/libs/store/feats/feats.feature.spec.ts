@@ -5,7 +5,7 @@ import { FeatsStore } from './feats.store';
 import { TestBed } from '@angular/core/testing';
 import { Type } from '@angular/core';
 
-type UnpackType<T> = T extends Type<infer I> ? I : never;
+type UnpackType<T extends Type<unknown>> = T extends Type<infer I> ? I : never;
 
 describe('featsFeature', () => {
 
