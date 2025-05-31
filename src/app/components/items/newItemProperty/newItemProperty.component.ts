@@ -39,6 +39,7 @@ import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { Activity } from 'src/app/classes/Activity';
+import { ObjectPropertyAccessor } from 'src/libs/shared/definitions/util/object-property-accessor';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -46,16 +47,16 @@ import { Activity } from 'src/app/classes/Activity';
     styleUrls: ['./newItemProperty.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewItemPropertyComponent<T extends Item | object> {
+export class NewItemPropertyComponent<T extends Item | object, K extends keyof T> {
 
     @Input()
-    public propertyKey!: keyof T;
+    public propertyKey!: K;
     @Input()
     public parents: Array<string | keyof T> = [];
     @Input()
     public newItem!: Item;
     @Input()
-    public propertyData!: ItemProperty;
+    public propertyData!: ItemProperty<T>;
     @Input()
     public noTitle = false;
 
@@ -94,7 +95,7 @@ export class NewItemPropertyComponent<T extends Item | object> {
         return item;
     }
 
-    public objectPropertyAccessor(object: T, key: keyof T): ObjectPropertyAccessor<T> {
+    public objectPropertyAccessor<Key extends keyof T>(object: T, key: Key): ObjectPropertyAccessor<T, Key> {
         return new ObjectPropertyAccessor(object, key);
     }
 
