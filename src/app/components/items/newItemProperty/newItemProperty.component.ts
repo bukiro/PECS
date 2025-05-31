@@ -50,9 +50,9 @@ import { ObjectPropertyAccessor } from 'src/libs/shared/definitions/util/object-
 export class NewItemPropertyComponent<T extends Item | object> {
 
     @Input()
-    public propertyKey!: string;
+    public propertyKey!: keyof T;
     @Input()
-    public parents: Array<string> = [];
+    public parents: Array<keyof T | string> = [];
     @Input()
     public newItem!: Item;
     @Input()
