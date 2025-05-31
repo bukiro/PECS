@@ -3934,6 +3934,36 @@
         ]
     },
     {
+        "name": "Leshy Superstition",
+        "desc": "You focus on the power of a lucky object, granting you a +1 circumstance bonus to a saving throw.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "traits": [
+            "Leshy"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Leshy Superstition"
+        ]
+    },
+    {
+        "name": "Speak with Kindred",
+        "desc": "You have a connection with creatures that share your physiology. You can ask questions of, receive answers from, and use the Diplomacy skill with plants or fungi that match your leshy heritage. Generally, fungus leshies can speak to mushrooms and fungi; gourd leshies can speak to gourds, melons, and similar fruiting plants; leaf leshies can speak with deciduous trees; and vine leshies can speak with vines and climbing plants. The GM determines which plants or fungi count for this ability.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "hints": [
+            {
+                "desc": "You can ask questions of, receive answers from, and use the Diplomacy skill with plants or fungi that match your leshy heritage (the GM determines which plants or fungi count for this ability).",
+                "showon": "Languages, Diplomacy"
+            }
+        ],
+        "shortdesc": "You have a connection with creatures that share your physiology.",
+        "traits": [
+            "Leshy"
+        ],
+        "levelreq": 5
+    },
+    {
         "name": "Avenge in Glory",
         "desc": "You honor your ally's life, gaining temporary Hit Points equal to your level for 1 minute.",
         "sourceBook": "Character Guide",
