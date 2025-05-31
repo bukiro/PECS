@@ -40,7 +40,7 @@
         <div class="newrow">
             <input id="{{propertyKey}}" class="newrow" type="text"
                 [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value" (blur)="validate()"
-                *ngIf="!propertyData.type && !propertyData.locked">
+                *ngIf="propertyData.type ==='text' && !propertyData.locked">
             <textarea class="newrow" rows=3 [(ngModel)]="objectPropertyAccessor(parent, propertyKey).value"
                 *ngIf="propertyData.type==='textarea'">
             </textarea>
