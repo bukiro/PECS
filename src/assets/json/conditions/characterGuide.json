@@ -1,5 +1,27 @@
 [
     {
+        "name": "Leshy Superstition",
+        "desc": "You have focused on the power of a lucky object, gaining a +1 circumstance bonus to the next save.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Saving Throws",
+                "show": true,
+                "type": "circumstance",
+                "value": "1"
+            }
+        ]
+    },
+    {
         "name": "Avenge in Glory",
         "desc": "You honor your ally's life, gaining temporary Hit Points equal to your level for the duration. As long as you have these temporary Hit Points, you gain a +1 circumstance bonus to attack and damage rolls.",
         "sourceBook": "Character Guide",
