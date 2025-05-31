@@ -47,12 +47,12 @@ import { ObjectPropertyAccessor } from 'src/libs/shared/definitions/util/object-
     styleUrls: ['./newItemProperty.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewItemPropertyComponent<T extends Item | object, K extends keyof T> {
+export class NewItemPropertyComponent<T extends Item | object> {
 
     @Input()
-    public propertyKey!: K;
+    public propertyKey!: string;
     @Input()
-    public parents: Array<string | keyof T> = [];
+    public parents: Array<string> = [];
     @Input()
     public newItem!: Item;
     @Input()
