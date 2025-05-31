@@ -603,5 +603,24 @@
         "cooldown": 1000,
         "target": "self",
         "desc": "Once every 10 minutes, when you use the Feint action, you can compare your Deception check result to the Perception DCs of all adjacent creatures rather than just one creature within melee reach. It's possible to get a different degree of success for each target.\n\nThese changes are imprecise and usually short-lived, so while they allow you to periodically change your appearance in unpredictable ways, they are of little use in providing camouflage or aiding a disguise."
+    },
+    {
+        "name": "Leshy Superstition",
+        "actions": "Reaction",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Leshy"
+        ],
+        "trigger": "You attempt a saving throw against a spell or magical effect, but haven't rolled yet..",
+        "target": "self",
+        "showonSkill": "Fortitude, Reflex, Will",
+        "desc": "You notice spirits that inhabit objects, learning which bring good fortune and which are unlucky. You focus on the power of a lucky object, granting you a +1 circumstance bonus to your saving throw against the triggering effect.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Leshy Superstition"
+            }
+        ]
     }
 ]
