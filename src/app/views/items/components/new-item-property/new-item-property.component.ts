@@ -59,9 +59,9 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 export class NewItemPropertyComponent<T extends Item | object> extends TrackByMixin(BaseClass) {
 
     @Input()
-    public propertyKey!: string;
+    public propertyKey!: keyof T;
     @Input()
-    public parents: Array<string> = [];
+    public parents: Array<keyof T | string> = [];
     @Input()
     public newItem!: Item;
     @Input()
