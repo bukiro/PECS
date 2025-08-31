@@ -1,0 +1,242 @@
+import { v4 as uuidv4 } from 'uuid';
+import { Serializable, MaybeSerialized, Serialized } from 'src/libs/shared/serialization/util/models/serializable';
+import { Activity } from './activity';
+import { ActivityGainBase } from './activity-gain-base';
+import { activityTargetOption, ActivityTargetOption } from './activity-target-options';
+import { computed, Signal, signal, untracked } from '@angular/core';
+import { CreatureTypes } from 'src/libs/shared/creatures/util/models/creature-types';
+import { RecastFns } from 'src/libs/shared/serialization/util/models/recast-fns';
+import { setupSerialization } from 'src/libs/shared/serialization/util/utils/serialization';
+import { SpellTarget } from 'src/libs/shared/spells/util/models/spell-target';
+import { ConditionChoiceDisplayAggregate } from 'src/libs/shared/conditions/util/models/condition-choice-display-aggregate';
+import { SpellCast } from 'src/libs/shared/spells/util/models/spell-cast';
+import {
+    collectConditionChoiceDisplayAggregate$$,
+    updateConditionChoiceTrackingList,
+} from 'src/libs/shared/conditions/util/utils/condition-choice-utils';
+import { isEqualObjectArray, isEqualPrimitiveObject } from 'src/libs/shared/common/util/utils/compare-utils';
+import { setSignalIfUnequal } from 'src/libs/shared/common/util/utils/signal-utils';
+import { weaklyCachedSignal } from 'src/libs/shared/common/util/utils/cache-utils';
+import { Creature } from 'src/libs/shared/creatures/util/models/creature';
+
+const { assign, forExport, isEqual } = setupSerialization<ItemActivity>({
+    primitives: [
+        'sharedChargesID',
+        'exclusiveActivityID',
+        'duration',
+        'level',
+        'source',
+        'showonSkill',
+        'resonant',
+        'target',
+        'selectedTarget',
+        'id',
+        'active',
+        'activeCooldown',
+        'chargesUsed',
+    ],
+    primitiveObjectArrays: [
+        'data',
+        'effectChoices',
+        'spellEffectChoices',
+    ],
+    serializableArrays: {
+        targets:
+            () => obj => SpellTarget.from(obj),
+    },
+});
+
+/**
+ * ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
+ * It can only extend one class, so any change to ActivityGain needs to be repeated here.
+ */
+export class ItemActivity extends Activity implements ActivityGainBase, Serializable<ItemActivity> {
+    /**
+     * If you use a charge of an activity, and it has a sharedChargesID,
+     * all activities on the same item with the same sharedChargesID will also use a charge.
+     */
+    public sharedChargesID = 0;
+    /**
+     * If you activate an activity, and it has an exclusiveActivityID,
+     * all activities on the same item with the same sharedChargesID are automatically deactivated.
+     */
+    public exclusiveActivityID = 0;
+    public level = 0;
+    /** The heightened value is here for compatibility with activity gains, which can come with conditions and can carry a spell level. */
+    public readonly heightened: number = 0;
+    public source = '';
+    public showonSkill = '';
+    /** Resonant item activities are only available when the item is slotted into a wayfinder. */
+    public resonant = false;
+    /**
+     * target is used internally to determine whether you can cast this spell on yourself, your companion/familiar or any ally
+     * Should be: "ally", "area", "companion", "familiar", "minion", "object", "other" or "self"
+     * - For "companion", it can only be cast on the companion
+     * - For "familiar", it can only be cast on the familiar
+     * - For "self", the spell button will say "Cast", and you are the target
+     * - For "ally", it can be cast on any in-app creature (depending on targetNumber) or without target
+     * - For "area", it can be cast on any in-app creature witout target number limit or without target
+     * - For "object", "minion" or "other", the spell button will just say "Activate" without a target
+     * Any non-hostile activity can still target allies if the target number is nonzero.
+     * Hostile activities can target allies if the target number is nonzero and this.overrideHostile is "friendly".
+     * The default for ItemActivities is nothing, so the activity doesn't override its spells' targets.
+     * If nothing sets a target, it will default to "self" in the spellTarget component.
+     */
+    public target: ActivityTargetOption = activityTargetOption.null;
+    //The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the activity service.
+    //Most ItemActivities should apply to the user, so "self" is the default.
+    public selectedTarget: '' | 'self' | 'Selected' | CreatureTypes = 'self';
+    //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
+    public id = uuidv4();
+
+    public data: Array<{ name: string; value: string }> = [];
+
+    //The selected targets are saved here for applying conditions.
+    public targets: Array<SpellTarget> = [];
+
+    public readonly active = signal<boolean>(false);
+    public readonly activeCooldown = signal<number>(0);
+    public readonly chargesUsed = signal<number>(0);
+    /** The duration is copied from the activity when activated, then ticks down. */
+    public readonly duration = signal(0);
+    /**
+     * If the activity causes a condition, in order to select a choice from the activity beforehand,
+     * the choice is saved here for each condition.
+     */
+    public readonly effectChoices = signal<Array<{ condition: string; choice: string }>>([]);
+    /**
+     * If the activity casts a spell, in order to select a choice from the spell before casting it,
+     * the choice is saved here for each condition for each spell, recursively.
+     */
+    public readonly spellEffectChoices = signal<Array<Array<{ condition: string; choice: string }>>>([]);
+
+    /**
+     * activeCooldownByCreature$ is a map of calculated cooldown signals matched to creatures,
+     * depending on the original activity's effective cooldown,
+     * created by the ActivityGainPropertiesService so that it can be subscribed to without passing parameters.
+     */
+    public readonly activeCooldownByCreature$$ = new Map<string, Signal<number>>();
+
+    public readonly originalActivity$$ = signal(this).asReadonly();
+
+    private readonly _cache = {
+        conditionChoices: new WeakMap<Creature, Signal<Array<ConditionChoiceDisplayAggregate>>>(),
+        spellCastConditionChoices:
+            new WeakMap<Creature, Signal<Array<{ cast: SpellCast; conditions: Array<ConditionChoiceDisplayAggregate> }>>>(),
+    };
+
+    public static from(values: MaybeSerialized<ItemActivity>, recastFns: RecastFns): ItemActivity {
+        return new ItemActivity().with(values, recastFns);
+    }
+
+    public with(values: MaybeSerialized<ItemActivity>, recastFns: RecastFns): this {
+        super.with(values, recastFns);
+        assign(this, values);
+
+        return this;
+    }
+
+    public forExport(): Serialized<ItemActivity> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public clone(recastFns: RecastFns): this {
+        return ItemActivity.from(this, recastFns) as this;
+    }
+
+    public isEqual(compared: Partial<ItemActivity>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
+    }
+
+    public isOwnActivity(): this is Activity {
+        return true;
+    }
+
+    public conditionChoices$$(creature: Creature): Signal<Array<ConditionChoiceDisplayAggregate>> {
+        return weaklyCachedSignal(
+            () => {
+                // For all gained conditions from this activity, collect the choices aggregates.
+                const aggregates = this.gainConditions.map(gain => collectConditionChoiceDisplayAggregate$$(gain, { creature }));
+
+                return computed(() => {
+                    const choices = aggregates.map(aggregate$$ => aggregate$$());
+
+                    // Create or update the indexed storage for the gained conditions' choice selections.
+                    untracked(() => {
+                        const currentEffectChoices = this.effectChoices();
+
+                        const updatedEffectChoices = updateConditionChoiceTrackingList({
+                            choiceAggregates: choices,
+                            trackingList: currentEffectChoices,
+                        });
+
+                        // The function returns a new array; Only update if the content has changed as well.
+                        setSignalIfUnequal(
+                            this.effectChoices,
+                            updatedEffectChoices,
+                            isEqualObjectArray(isEqualPrimitiveObject),
+                        );
+                    });
+
+                    return choices;
+                });
+            },
+            { store: this._cache.conditionChoices, objKey: creature },
+        );
+    }
+
+    public spellCastConditionChoices$$(
+        creature: Creature,
+    ): Signal<Array<{ cast: SpellCast; conditions: Array<ConditionChoiceDisplayAggregate> }>> {
+        return weaklyCachedSignal(
+            () => {
+                // For all spellCasts that come with this activity, collect the choices aggregates.
+                const spellCastConditionChoices = this.castSpells.map(cast => ({
+                    cast,
+                    conditions$$: cast.spellConditionChoices$$(creature),
+                }));
+
+                return computed(() => {
+
+                    const choices = spellCastConditionChoices.map(({ cast, conditions$$ }) => ({
+                        cast,
+                        conditions: conditions$$(),
+                    }));
+
+                    // Create or update the indexed storage for the gained conditions' choice selections.
+                    // This is a side effect and doesn't track changes to the target storage.
+                    // Note: The spellEffectChoices list is not stored by levelNumber and creature,
+                    // but overwritten every time spellConditionChoices$$ is called with a different levelNumber or creature.
+                    // This should be fine because the same SpellGain is only displayed on the same level on the same creature at a time.
+                    // TODO: Change it to be level-dependent, then add a patch for old characters.
+                    untracked(() => {
+                        const currentEffectChoiceLists = this.spellEffectChoices();
+
+                        const updatedEffectChoiceLists = choices
+                            .map(({ conditions }, spellCastIndex) => {
+                                const currentEffectChoices = currentEffectChoiceLists[spellCastIndex] ?? [];
+
+                                return updateConditionChoiceTrackingList({
+                                    choiceAggregates: conditions,
+                                    trackingList: currentEffectChoices,
+                                });
+                            });
+
+                        // Only update if the content has changed.
+                        setSignalIfUnequal(
+                            this.spellEffectChoices,
+                            updatedEffectChoiceLists,
+                            isEqualObjectArray(isEqualObjectArray(isEqualPrimitiveObject)),
+                        );
+                    });
+
+                    return choices;
+                });
+            },
+            { store: this._cache.spellCastConditionChoices, objKey: creature },
+        );
+    }
+}

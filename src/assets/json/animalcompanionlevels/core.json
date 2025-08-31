@@ -1,15 +1,9 @@
 [
     {
-        "name": "Null",
-        "sourceBook": "Core Rulebook",
-        "_extensionFileName": "core",
-        "internalNote": "This level is intentionally left blank."
-    },
-    {
         "name": "Young",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
-        "number": 1,
+        "stage": 1,
         "abilityChoices": [
             {
                 "boosts": [
@@ -173,7 +167,7 @@
         "name": "Mature",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
-        "number": 2,
+        "stage": 2,
         "sizeChange": 1,
         "abilityChoices": [
             {
@@ -272,18 +266,11 @@
         ]
     },
     {
-        "name": "Placeholder",
-        "sourceBook": "Core Rulebook",
-        "_extensionFileName": "core",
-        "internalNote": "This level gets replaced by Nimble, Savage or other advanced options as needed. The animal companion cannot rise above level 3 in the app.",
-        "number": 3
-    },
-    {
         "name": "Nimble",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "extraDamage": 2,
-        "number": 4,
+        "stage": 3,
         "abilityChoices": [
             {
                 "boosts": [
@@ -357,7 +344,7 @@
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "extraDamage": 3,
-        "number": 5,
+        "stage": 3,
         "sizeChange": 1,
         "abilityChoices": [
             {

@@ -1,21 +1,18 @@
-import { ChangeDetectionStrategy, Component, computed, Signal } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { delay, fromEvent, map, merge, Observable } from 'rxjs';
-import { ApiStatusKey } from 'src/libs/shared/definitions/api-status-key';
-import { ApiStatus } from 'src/libs/shared/definitions/interfaces/api-status';
-import { CreatureService } from 'src/libs/shared/services/creature/creature.service';
-import { DisplayService } from 'src/libs/shared/services/display/display.service';
-import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
-import { selectStatus } from 'src/libs/store/status/status.selectors';
-import { ButtonComponent } from 'src/libs/shared/ui/button/components/button/button.component';
-import { LoadingDiamondComponent } from 'src/libs/shared/ui/diamond/components/loading-diamond/loading-diamond.component';
-import { DescriptionComponent } from 'src/libs/shared/ui/description/components/description/description.component';
-import { LoginComponent } from 'src/libs/shared/login/components/login/login.component';
-import { TopBarComponent } from 'src/libs/top-bar/components/top-bar/top-bar.component';
-import { CharacterSheetComponent } from './views/character-sheet/character-sheet.component';
-import { CharacterSelectionComponent } from 'src/libs/shared/character-loading/components/character-selection/character-selection.component';
-import { ToastContainerComponent } from 'src/libs/toasts/components/toast-container/toast-container.component';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { delay, fromEvent, merge } from 'rxjs';
+import { LoadingDiamondComponent } from 'src/libs/shared/common/ui/loading-diamond/loading-diamond.component';
+import { DescriptionComponent } from 'src/libs/shared/common/ui/description/description.component';
+import { TopBarComponent } from 'src/libs/app-shell/ui/top-bar/top-bar.component';
+import { CharacterSheetComponent } from 'src/libs/character-sheet/feature/character-sheet/character-sheet.component';
+import { CharacterSelectionComponent } from 'src/libs/character-selection/ui/character-selection/character-selection.component';
 import { CommonModule } from '@angular/common';
+import { StatusStore } from 'src/libs/shared/app-status/domain/stores/status.store';
+import { ApiStatusKey } from 'src/libs/shared/api/util/models/api-status-key';
+import { CreatureService } from 'src/libs/shared/creatures/domain/services/creature.service';
+import { DisplayService } from 'src/libs/shared/app-status/domain/services/display.service';
+import { SettingsService } from 'src/libs/shared/app-status/domain/services/settings.service';
+import { ButtonComponent } from 'src/libs/shared/common/ui/button/button.component';
+import { LoginComponent } from 'src/libs/auth/ui/login/login.component';
 
 const resizeDelay = 100;
 
@@ -35,42 +32,53 @@ const resizeDelay = 100;
         TopBarComponent,
         CharacterSheetComponent,
         CharacterSelectionComponent,
-        ToastContainerComponent,
+        //ToastContainerComponent,
     ],
 })
 export class AppComponent {
 
-    public title = 'P.E.C.S.';
+    public readonly title = 'P.E.C.S.';
 
-    public apiStatusKey = ApiStatusKey;
+    public readonly apiStatusKey = ApiStatusKey;
 
-    public character$$ = CreatureService.character$$;
-    public isReady$: Observable<boolean>;
-    public loadingStatus$: Observable<ApiStatus>;
-    public isDarkmode$$: Signal<boolean | undefined>;
+    public readonly character$$ = CreatureService.character$$;
+    public readonly loadingStatus$$ = computed(() =>
+        this._statusStore.all().find(status => status.key !== ApiStatusKey.Ready)
+        ?? ({ key: ApiStatusKey.Ready }),
+    );
+    public readonly isReady$$ = computed(() => this.loadingStatus$$().key === ApiStatusKey.Ready);
 
-    constructor(
-        _store$: Store,
-    ) {
+    public readonly darkModeLabel$$ = computed(() => {
+        let label = 'Light/Dark mode: ';
+
+        switch (this._isDarkmode()) {
+            case true:
+                label += 'Dark mode';
+                break;
+            case false:
+                label += 'Light mode';
+                break;
+            default:
+                label += 'Follow system';
+        }
+
+        return label;
+    });
+
+    public readonly darkModeIcon$$ = computed(() => {
+        switch (this._isDarkmode()) {
+            case true: return 'bi-moon-fill';
+            case false: return 'bi-sun-fill';
+            default: return 'bi-brilliance';
+        }
+    });
+
+    private readonly _isDarkmode = computed(() => SettingsService.settings$$().darkmode());
+
+    private readonly _statusStore = inject(StatusStore);
+
+    constructor() {
         DisplayService.setMobile();
-
-        this.loadingStatus$ =
-            _store$.select(selectStatus)
-                .pipe(
-                    map(statuses =>
-                        ([statuses.config, statuses.auth, statuses.data, statuses.savegames, statuses.character])
-                            .find(status => status.key !== ApiStatusKey.Ready)
-                        ?? { key: ApiStatusKey.Ready },
-                    ),
-                );
-
-        this.isReady$ =
-            this.loadingStatus$
-                .pipe(
-                    map(status => status.key === ApiStatusKey.Ready),
-                );
-
-        this.isDarkmode$$ = computed(() => SettingsService.settings$$().darkmode());
 
         merge(
             fromEvent(window, 'resize'),

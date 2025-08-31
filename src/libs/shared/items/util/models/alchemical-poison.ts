@@ -1,0 +1,62 @@
+import { RecastFns } from 'src/libs/shared/serialization/util/models/recast-fns';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/serialization/util/models/serializable';
+import { ItemTypes } from './item-types';
+import { setupSerialization } from 'src/libs/shared/serialization/util/utils/serialization';
+import { Consumable } from './consumable';
+
+const { assign, forExport, forMessage, isEqual } = setupSerialization<AlchemicalPoison>({
+    primitives: [
+        'savingThrow',
+        'maxDuration',
+    ],
+    primitiveArrays: [
+        'stages',
+    ],
+});
+
+export class AlchemicalPoison extends Consumable implements MessageSerializable<AlchemicalPoison> {
+    //Alchemical Poisons should be type "alchemicalpoisons" to be found in the database
+    public readonly type: ItemTypes = 'alchemicalpoisons';
+    public savingThrow = '';
+    public maxDuration = '';
+
+    /**
+     * Alchemical Poisons can have Stages. Describe them here, with the index being the stage number and [0] being the Onset stage.
+     */
+    public stages: Array<string> = [];
+
+    public static from(values: MaybeSerialized<AlchemicalPoison>, recastFns: RecastFns): AlchemicalPoison {
+        return new AlchemicalPoison().with(values, recastFns);
+    }
+
+    public with(values: MaybeSerialized<AlchemicalPoison>, recastFns: RecastFns): this {
+        super.with(values, recastFns);
+        assign(this, values);
+
+        return this;
+    }
+
+    public forExport(): Serialized<AlchemicalPoison> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): Serialized<AlchemicalPoison> {
+        return {
+            ...super.forMessage(),
+            ...forMessage(this),
+        };
+    }
+
+    public clone(recastFns: RecastFns): this {
+        return AlchemicalPoison.from(this, recastFns) as this;
+    }
+
+    public isEqual(compared: Partial<AlchemicalPoison>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
+    }
+
+    public isAlchemicalPoison(): this is AlchemicalPoison { return true; }
+}

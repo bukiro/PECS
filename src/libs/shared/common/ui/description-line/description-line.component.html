@@ -1,0 +1,21 @@
+@let line = line$$();
+
+@for (part of line; track $index) {
+    @switch (part.type) {
+        @case (PartType.Text) {
+            <span>{{ part.content }}</span>
+        }
+
+        @case (PartType.Html) {
+            <span [innerHtml]="part.content"></span>
+        }
+
+        @case (PartType.Dice) {
+            <!-- TODO: disabled during refactoring -->
+            <!-- <app-quickdice
+                [diceString]="part.content"
+                [casting]="casting$$()"
+            /> -->
+        }
+    }
+}

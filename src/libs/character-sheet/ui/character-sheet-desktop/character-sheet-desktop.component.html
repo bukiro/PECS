@@ -1,0 +1,125 @@
+@let shownMode = shownMode$$();
+
+<app-character-sheet-card class="character-sheet-card filter-buttons">
+    <app-button
+        tabLike
+        class="filter-buttons__button"
+        [toggled]="shownMode === 'All'"
+        (clicked)="toggleShownMode('All')"
+    >
+        Show All
+    </app-button>
+
+    <app-button
+        tabLike
+        class="filter-buttons__button"
+        [toggled]="shownMode === 'Encounter'"
+        (click)="toggleShownMode('Encounter')"
+    >
+        Encounter
+    </app-button>
+
+    <app-button
+        tabLike
+        class="filter-buttons__button"
+        [toggled]="shownMode === 'Exploration'"
+        (click)="toggleShownMode('Exploration')"
+    >
+        Exploration
+    </app-button>
+
+    <app-button
+        tabLike
+        class="filter-buttons__button"
+        [toggled]="shownMode === 'Downtime'"
+        (click)="toggleShownMode('Downtime')"
+    >
+        Downtime
+    </app-button>
+
+    <app-button
+        tabLike
+        class="filter-buttons__button"
+        [toggled]="shownMode === 'Inventory'"
+        (click)="toggleShownMode('Inventory')"
+    >
+        Inventory
+    </app-button>
+
+    <app-button
+        tabLike
+        class="filter-buttons__button"
+        [toggled]="shownMode === 'ConditionsEffects'"
+        (click)="toggleShownMode('ConditionsEffects')"
+    >
+        Conditions & Effects
+    </app-button>
+</app-character-sheet-card>
+
+<!-- TODO: Disabled during refactoring
+@if (shownMode !== "ConditionsEffects") {
+    <app-effects />
+
+    <div class="character-sheet-columns">
+        @for (layout of currentLayouts$$(); track $index) {
+            <div class="character-sheet-columns__column">
+                @if (layout["generalUpper"]) {
+                    <app-general />
+                }
+
+                @if (layout["defense"]) {
+                    <app-defense />
+                }
+
+                @for (order of [0, 1]; track order) {
+                    @let attacksAndSpellsOrder = attacksAndSpellsOrder$$();
+
+                    @if (
+                        layout["attacks"] &&
+                        attacksAndSpellsOrder["attacks"] === order
+                    ) {
+                        <app-attacks />
+                    }
+
+                    @if (
+                        layout["spellbookUpper"] &&
+                        attacksAndSpellsOrder["spells"] === order
+                    ) {
+                        <app-spellbook />
+                    }
+                }
+
+                @if (layout["health"]) {
+                    <app-health [forceMinimized]="shownMode === 'Downtime'" />
+                }
+
+                @if (layout["generalLower"]) {
+                    <app-general />
+                }
+
+                @if (layout["abilities"]) {
+                    <app-abilities />
+                }
+
+                @if (layout["skills"]) {
+                    <app-skills />
+                }
+
+                @if (layout["activities"]) {
+                    <app-activities />
+                }
+
+                @if (layout["spellbookLower"]) {
+                    <app-spellbook />
+                }
+
+                @if (layout["inventory"]) {
+                    <app-inventory />
+                }
+            </div>
+        }
+    </div>
+} @else {
+    <app-effects [fullDisplay]="true" />
+}
+ -->

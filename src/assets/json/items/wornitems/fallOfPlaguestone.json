@@ -113,17 +113,62 @@
                 "spells": [
                     {
                         "locked": true,
-                        "dynamicEffectiveSpellLevel": "Character?.class?.spellCasting.some(casting => casting.tradition == 'Arcane') ? 0 : 1",
+                        "complexEffectiveSpellLevel": {
+                            "countClassSpellcastings": {
+                                "query": {
+                                    "havingAnyOfTraditions": "Arcane"
+                                },
+                                "expected": {
+                                    "isTrue": true
+                                },
+                                "useValue": {
+                                    "exact": 0
+                                },
+                                "fallBack": {
+                                    "exact": 1
+                                }
+                            }
+                        },
                         "name": "Detect Magic"
                     },
                     {
                         "locked": true,
-                        "dynamicEffectiveSpellLevel": "Character?.class?.spellCasting.some(casting => casting.tradition == 'Arcane') ? 0 : 1",
+                        "complexEffectiveSpellLevel": {
+                            "countClassSpellcastings": {
+                                "query": {
+                                    "havingAnyOfTraditions": "Arcane"
+                                },
+                                "expected": {
+                                    "isTrue": true
+                                },
+                                "useValue": {
+                                    "exact": 0
+                                },
+                                "fallBack": {
+                                    "exact": 1
+                                }
+                            }
+                        },
                         "name": "Mage Hand"
                     },
                     {
                         "locked": true,
-                        "dynamicEffectiveSpellLevel": "Character?.class?.spellCasting.some(casting => casting.tradition == 'Arcane') ? 0 : 1",
+                        "complexEffectiveSpellLevel": {
+                            "countClassSpellcastings": {
+                                "query": {
+                                    "havingAnyOfTraditions": "Arcane"
+                                },
+                                "expected": {
+                                    "isTrue": true
+                                },
+                                "useValue": {
+                                    "exact": 0
+                                },
+                                "fallBack": {
+                                    "exact": 1
+                                }
+                            }
+                        },
                         "name": "Prestidigitation"
                     }
                 ]

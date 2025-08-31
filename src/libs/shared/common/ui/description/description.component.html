@@ -1,0 +1,30 @@
+@let lines = lines$$();
+
+@if (oneLiner$$() && lines[0]; as line) {
+    <app-description-line
+        [line]="line"
+        [casting]="casting$$()"
+    />
+} @else {
+    @if (lines.length === 1 && lines[0]; as line) {
+        <p>
+            <app-description-line
+                [line]="line"
+                [casting]="casting$$()"
+            />
+        </p>
+    }
+
+    @if (lines.length > 1) {
+        <ul>
+            @for (line of lines; track $index) {
+                <li>
+                    <app-description-line
+                        [line]="line"
+                        [casting]="casting$$()"
+                    />
+                </li>
+            }
+        </ul>
+    }
+}

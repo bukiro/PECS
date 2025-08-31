@@ -1,0 +1,51 @@
+<div class="quick-buttons">
+    <app-button
+        tight
+        class="quick-buttons__button quick-buttons__button--up"
+        (clicked)="changeQuickValue(1)"
+    >
+        <i class="bi-caret-up"></i>
+    </app-button>
+
+    <app-button
+        tight
+        class="quick-buttons__button quick-buttons__button--down"
+        (clicked)="changeQuickValue(-1)"
+    >
+        <i class="bi-caret-down"></i>
+    </app-button>
+</div>
+
+@let quickValue = quickValue$$();
+<div
+    class="quick-value"
+    [class.text-color-bonus]="quickValue > 0"
+    [class.text-color-penalty]="quickValue < 0"
+>
+    {{
+        (quickValue > 0 ? "+" : quickValue === 0 ? "&plusmn;" : "") +
+            quickValue
+    }}
+</div>
+
+<app-button
+    #EffectsPopover="ngbPopover"
+    tight
+    class="edit-effects-button"
+    triggers="click"
+    [ngbPopover]="EffectsTemplate"
+>
+    <i
+        class="bi-lightning"
+        [ngbTooltip]="'Edit effects in list'"
+        [disableTooltip]="EffectsPopover.isOpen()"
+    ></i>
+</app-button>
+
+<ng-template #EffectsTemplate>
+    <!-- TODO: Disabled during refactoring -->
+    <!-- <app-object-effects
+        [creature]="creature$$()"
+        [objectName]="target$$()"
+    /> -->
+</ng-template>

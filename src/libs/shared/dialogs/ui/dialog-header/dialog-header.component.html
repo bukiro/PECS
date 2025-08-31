@@ -1,0 +1,15 @@
+<app-corner-button-tray>
+    <app-button
+        #CloseButton
+        class="close-button"
+        label="Close dialog"
+        compact
+        (clicked)="close$$()?.()"
+    >
+        <i class="bi-x-lg"></i>
+    </app-button>
+</app-corner-button-tray>
+
+<div class="header">
+    <div>{{title$$()}}</div>
+</div>

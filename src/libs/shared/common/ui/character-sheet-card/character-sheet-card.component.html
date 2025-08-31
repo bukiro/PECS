@@ -1,0 +1,16 @@
+<app-corner-button-tray
+    [showMinimizeButton]="showMinimizeButton$$()"
+    [showTileModeButton]="showTileModeButton$$()"
+    [(tileMode)]="tileMode$$"
+    [(minimized)]="minimized$$"
+>
+    <ng-content select="buttons" />
+</app-corner-button-tray>
+
+@if (title$$(); as title) {
+    <header class="header">
+        {{ title }}
+    </header>
+}
+
+<ng-content />

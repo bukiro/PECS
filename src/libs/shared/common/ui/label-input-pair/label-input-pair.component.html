@@ -1,0 +1,46 @@
+<div class="label">
+    <label
+        class="label__title"
+        for="{{ id$$() }}"
+    >
+        @if (label$$(); as label) {
+            {{ label }}
+        }
+
+        @if (hint$$(); as hint) {
+            <i
+                class="bi-question-circle label__icon"
+                [ngbTooltip]="hint"
+            ></i>
+        }
+    </label>
+
+    @for (subline of sublines$$(); track $index) {
+        <span class="label__subline">
+            {{ subline }}
+        </span>
+    }
+</div>
+
+<div class="value">
+    @switch (type$$()) {
+        @case ("switch") {
+            <app-checkbox-input
+                #Input
+                class="value__input value__input--checkbox"
+                [id]="id$$()"
+                [(ngModel)]="value$$"
+            />
+        }
+
+        @case ("text") {
+            <app-text-input
+                #Input
+                class="value__input value__input--text"
+                [id]="id$$()"
+                [password]="password$$()"
+                [(ngModel)]="value$$"
+            />
+        }
+    }
+</div>

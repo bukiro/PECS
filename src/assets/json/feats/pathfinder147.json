@@ -28,23 +28,27 @@
         "complexreqdesc": "ability to select ancestry feats from multiple ancestries, a background",
         "complexreq": [
             {
-                "countAncestries": [
+                "meetsAll": [
                     {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isGreaterThan": 1
+                        "countAncestries": {
+                            "query": {
+                                "any": true
+                            },
+                            "expected": {
+                                "isGreaterThan": {
+                                    "exact": 1
+                                }
+                            }
                         }
-                    }
-                ],
-                "countBackgrounds": [
+                    },
                     {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isTrue": true
+                        "countBackgrounds": {
+                            "query": {
+                                "any": true
+                            },
+                            "expected": {
+                                "isTrue": true
+                            }
                         }
                     }
                 ]

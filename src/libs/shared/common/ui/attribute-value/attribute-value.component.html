@@ -1,0 +1,60 @@
+<ng-template #TitleTemplate>
+    <div class="title">
+        <span class="title__title">{{ title$$() }}</span>
+
+        @for (subline of sublines$$(); track $index) {
+            <span class="title__subline">
+                {{ subline }}
+            </span>
+        }
+    </div>
+</ng-template>
+
+@if (!showValueOnLeftSide$$()) {
+    <ng-container [ngTemplateOutlet]="TitleTemplate" />
+}
+
+@let value = value$$();
+
+@if (value !== undefined) {
+    @if (showDiceIcon$$() && creature$$(); as creature) {
+        <!-- TODO: Disabled during refactoring -->
+        <!-- <app-value-quickdice
+            class="dice-button"
+            circle
+            [creature]="creature"
+            [diceNum]="1"
+            [diceSize]="20"
+            [bonus]="value$$()"
+            [type]="'(' + title$$() + ')'"
+            [bonuses]="bonuses$$()"
+        /> -->
+    } @else {
+        <app-pretty-value
+            opaque
+            [value]="value$$()"
+            [bonuses]="bonuses$$()"
+        />
+    }
+}
+
+@if (
+    (value !== undefined && bonuses$$().length) ||
+    (creature$$() && customEffectsTarget$$()) ||
+    showNotesIcon$$()
+) {
+    <app-value-buttons
+        class="button-tray"
+        [title]="title$$()"
+        [bonuses]="bonuses$$()"
+        [creature]="creature$$()"
+        [customEffectsTarget]="customEffectsTarget$$()"
+        [showBonusesIcon]="value !== undefined"
+        [showNotesIcon]="showNotesIcon$$()"
+        [(showNotes)]="showNotes$$"
+    />
+}
+
+@if (!!showValueOnLeftSide$$()) {
+    <ng-container [ngTemplateOutlet]="TitleTemplate" />
+}

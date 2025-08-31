@@ -1,0 +1,90 @@
+import { computed, inject, Injectable, Signal } from '@angular/core';
+import * as json_conditions from 'src/assets/json/conditions';
+import { DataLoadingService } from 'src/libs/shared/content-data/domain/services/data-loading.service';
+import { ImportedJsonFileList } from 'src/libs/shared/content-data/util/models/imported-json-file-list';
+import { RecastService } from 'src/libs/shared/serialization/domain/services/recast.service';
+import { Condition } from '../../util/models/condition';
+import { ConditionGain } from '../../util/models/condition-gain';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class ConditionsDataService {
+
+    private _conditions: Array<Condition> = [];
+    private _initialized = false;
+    private readonly _conditionsMap = new Map<string, Condition>();
+
+    private readonly _dataLoadingService = inject(DataLoadingService);
+    private readonly _recastService = inject(RecastService);
+
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
+
+    public conditionFromName(name: string): Condition {
+        //Returns a named condition from the map.
+        return this._conditionsMap.get(name.toLowerCase()) || this._replacementCondition(name);
+    }
+
+    public conditions(name = '', type = ''): Array<Condition> {
+        if (!this.stillLoading) {
+            //If only a name is given, try to find a condition by that name in the index map. This should be much quicker.
+            if (name && !type) {
+                return [this.conditionFromName(name)];
+            } else {
+                return this._conditions.filter(condition =>
+                    (!name || condition.name.toLowerCase() === name.toLowerCase()) &&
+                    (!type || condition.type.toLowerCase() === type.toLowerCase()),
+                );
+            }
+        }
+
+        return [new Condition()];
+    }
+
+    public initialize(): void {
+        this._conditions = this._dataLoadingService.loadSerializable(
+            json_conditions as ImportedJsonFileList<Condition>,
+            'conditions',
+            'name',
+            Condition,
+        );
+        this._conditionsMap.clear();
+        this._conditions.forEach(condition => {
+            this._conditionsMap.set(condition.name.toLowerCase(), condition);
+        });
+
+        this._registerRecastFns();
+
+        this._initialized = true;
+    }
+
+    public reset(): void {
+        //Disable any active hint effects when loading a character.
+        this._conditions.forEach(condition => {
+            condition.hints.forEach(hint => {
+                hint.deactivateAll();
+            });
+        });
+    }
+
+    private _replacementCondition(name?: string): Condition {
+        return Condition.from(
+            {
+                name: 'Condition not found',
+                desc: `${ name ? name : 'The requested condition' } does not exist in the conditions list.`,
+            },
+            RecastService.recastFns,
+        );
+    }
+
+    private _registerRecastFns(): void {
+        const conditionLookupFn =
+                (gain: ConditionGain): Signal<Condition> =>
+                    computed(() => this.conditionFromName(gain.name$$()));
+
+        this._recastService.registerConditionLookupFns(conditionLookupFn);
+    }
+
+}

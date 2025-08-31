@@ -1,0 +1,30 @@
+import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, input, viewChild } from '@angular/core';
+import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
+import { BaseValueAccessorComponent } from '../base-value-accessor/base-value-accessor.component';
+
+@Component({
+    selector: 'app-checkbox-input',
+    templateUrl: './checkbox-input.component.html',
+    styleUrls: ['./checkbox-input.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => CheckboxInputComponent),
+            multi: true,
+        },
+    ],
+    standalone: true,
+    imports: [FormsModule],
+})
+export class CheckboxInputComponent extends BaseValueAccessorComponent<boolean> {
+
+    public input = viewChild<ElementRef<HTMLInputElement>>('Input');
+
+    public label$$ = input<string | undefined>(undefined, { alias: 'label' });
+
+    public focus(): void {
+        this.input()?.nativeElement?.focus();
+    }
+
+}

@@ -49,16 +49,14 @@
         "complexreqdesc": "you can't have a patron deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isFalse": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "any": true
+                    },
+                    "expected": {
+                        "isFalse": true
                     }
-                ]
+                }
             }
         ]
     }

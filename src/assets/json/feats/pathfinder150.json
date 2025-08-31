@@ -111,16 +111,14 @@
                 "hasThisFeat": true
             },
             {
-                "countSenses": [
-                    {
-                        "query": {
-                            "anyOfNames": "Low-Light Vision"
-                        },
-                        "expected": {
-                            "isFalse": true
-                        }
+                "countSenses": {
+                    "query": {
+                        "name": "Low-Light Vision"
+                    },
+                    "expected": {
+                        "isFalse": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -157,16 +155,14 @@
         "complexreqdesc": "low-light vision",
         "complexreq": [
             {
-                "countSenses": [
-                    {
-                        "query": {
-                            "anyOfNames": "Low-Light Vision"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countSenses": {
+                    "query": {
+                        "name": "Low-Light Vision"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [

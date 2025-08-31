@@ -1,0 +1,73 @@
+import { RecastFns } from 'src/libs/shared/serialization/util/models/recast-fns';
+import { Serialized, MaybeSerialized, MessageSerializable } from 'src/libs/shared/serialization/util/models/serializable';
+import { ItemTypes } from './item-types';
+import { setupSerialization } from 'src/libs/shared/serialization/util/utils/serialization';
+import { Consumable } from './consumable';
+
+const { assign, forExport, forMessage, isEqual } = setupSerialization<Talisman>({
+    primitives: [
+        'critfailure',
+        'critsuccess',
+        'failure',
+        'success',
+        'tradeable',
+        'actions',
+    ],
+    primitiveArrays: [
+        'showActivities',
+        'targets',
+    ],
+});
+
+export class Talisman extends Consumable implements MessageSerializable<Talisman> {
+    //Other Consumables should be type "talismans" to be found in the database
+    public readonly type: ItemTypes = 'talismans';
+    public critfailure = '';
+    public critsuccess = '';
+    public failure = '';
+    public success = '';
+    public requirements = '';
+    public trigger = '';
+
+    public showActivities: Array<string> = [];
+    /**
+     * You can only choose this talisman for an item if its type is in the targets list
+     * (with a hardcoded exception for "melee weapons").
+     */
+    public targets: Array<string> = [];
+
+    public static from(values: MaybeSerialized<Talisman>, recastFns: RecastFns): Talisman {
+        return new Talisman().with(values, recastFns);
+    }
+
+    public with(values: MaybeSerialized<Talisman>, recastFns: RecastFns): this {
+        super.with(values, recastFns);
+        assign(this, values);
+
+        return this;
+    }
+
+    public forExport(): Serialized<Talisman> {
+        return {
+            ...super.forExport(),
+            ...forExport(this),
+        };
+    }
+
+    public forMessage(): Serialized<Talisman> {
+        return {
+            ...super.forMessage(),
+            ...forMessage(this),
+        };
+    }
+
+    public clone(recastFns: RecastFns): this {
+        return Talisman.from(this, recastFns) as this;
+    }
+
+    public isEqual(compared: Partial<Talisman>, options?: { withoutId?: boolean }): boolean {
+        return super.isEqual(compared, options) && isEqual(this, compared, options);
+    }
+
+    public hasSuccessResults(): this is Talisman { return true; }
+}

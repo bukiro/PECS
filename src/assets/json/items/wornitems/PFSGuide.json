@@ -33,7 +33,10 @@
                 "spells": [
                     {
                         "locked": true,
-                        "dynamicEffectiveSpellLevel": "1",
+                        "internalNote": "The spell needs to be at level 1 despite being a Cantrip, so complexEffectiveSpellLevel is used to override the default level.",
+                        "complexEffectiveSpellLevel": {
+                            "exact": 1
+                        },
                         "name": "Shield"
                     }
                 ]

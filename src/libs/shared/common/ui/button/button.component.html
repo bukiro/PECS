@@ -1,0 +1,17 @@
+<button
+    #Button
+    class="button"
+    type="button"
+    aria-label="button"
+    [tabIndex]="tabIndex$$()"
+    [name]="label$$()"
+    [attr.aria-label]="label$$()"
+    [disabled]="disabled$$() || processing$$()"
+    [ngbTooltip]="label$$()"
+    [disableTooltip]="hideLabel$$()"
+    (click)="clicked.emit()"
+>
+    <div class="button__content">
+        <ng-content />
+    </div>
+</button>

@@ -1,0 +1,19 @@
+<app-button
+    class="button"
+    [circle]="circle$$()"
+    [compact]="compact$$()"
+    [disabled]="disabled$$()"
+    [fullSize]="fullSize$$()"
+    [ghost]="ghost$$()"
+    [danger]="danger$$()"
+    [label]="currentLabel$$()"
+    [processing]="processing$$()"
+    [noOutline]="noOutline$$()"
+    [hideLabel]="hideLabel$$()"
+    [tight]="tight$$()"
+    [tabLike]="tabLike$$()"
+    [toggled]="value$$()"
+    (clicked)="toggle()"
+>
+    <ng-content />
+</app-button>

@@ -21,16 +21,14 @@
         "complexreqdesc": "you follow a deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "any": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -64,17 +62,14 @@
         "complexreqdesc": "you follow a chaotic deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "matchingAlignment": "Chaotic"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "matchingAlignment": "Chaotic"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [
@@ -111,17 +106,14 @@
         "complexreqdesc": "you follow an evil deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "matchingAlignment": "Evil"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "matchingAlignment": "Evil"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [
@@ -158,17 +150,14 @@
         "complexreqdesc": "you follow a good deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "matchingAlignment": "Good"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "matchingAlignment": "Good"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [
@@ -205,17 +194,14 @@
         "complexreqdesc": "you follow a lawful deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "matchingAlignment": "Lawful"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "matchingAlignment": "Lawful"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [
@@ -250,17 +236,14 @@
         "complexreqdesc": "deity that grants the healing divine font",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAllOfFonts": "Heal"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAllOfFonts": "Heal"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -292,17 +275,14 @@
         "complexreqdesc": "deity that grants the harmful divine font",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAllOfFonts": "Harm"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAllOfFonts": "Harm"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -356,24 +336,20 @@
         "complexreqdesc": "deity with the cold, fire, nature, or travel domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfPrimaryDomains": "cold, fire, nature, travel"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfPrimaryDomains": "cold, fire, nature, travel"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
     {
         "name": "Evangelize",
         "desc": "You point out a detail that incontrovertibly supports your faith, causing a listener's mind to whirl.",
-        "specialdesc": "you follow a deity or philosophy",
         "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "shortdesc": "You point out a detail that incontrovertibly supports your faith, causing a listener's mind to whirl.",
@@ -389,6 +365,20 @@
             {
                 "skill": "Diplomacy",
                 "value": 6
+            }
+        ],
+        "complexreqdesc": "you follow a deity or philosophy",
+        "complexreq": [
+            {
+                "countDeities": {
+                    "query": {
+                        "any": true,
+                        "allowPhilosophies": true
+                    },
+                    "expected": {
+                        "isTrue": true
+                    }
+                }
             }
         ],
         "gainActivities": [
@@ -418,16 +408,15 @@
         "complexreqdesc": "you follow the Laws of Mortality",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "anyOfNames": "Laws of Mortality"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "name": "Laws of Mortality",
+                        "allowPhilosophies": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -479,16 +468,14 @@
         "complexreqdesc": "you follow a deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "any": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [
@@ -512,16 +499,14 @@
         "complexreqdesc": "you follow a deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "any": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -548,17 +533,14 @@
         "complexreqdesc": "you follow a chaotic deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "matchingAlignment": "Chaotic"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "matchingAlignment": "Chaotic"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -585,17 +567,14 @@
         "complexreqdesc": "you follow an evil deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "matchingAlignment": "Evil"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "matchingAlignment": "Evil"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -622,17 +601,14 @@
         "complexreqdesc": "you follow a good deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "matchingAlignment": "Good"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "matchingAlignment": "Good"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -659,17 +635,14 @@
         "complexreqdesc": "you follow a lawful deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "matchingAlignment": "Lawful"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "matchingAlignment": "Lawful"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -693,30 +666,24 @@
         "complexreqdesc": "good or evil deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "matchingAlignment": "Evil"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "matchingAlignment": "Evil"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             },
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "matchingAlignment": "Good"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "matchingAlignment": "Good"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [
@@ -737,26 +704,27 @@
         "complexreqdesc": "bloodline that grants divine spells, you follow a deity",
         "complexreq": [
             {
-                "countClassSpellcastings": [
+                "meetsAll": [
                     {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfCastingTypes": "Spontaneous",
-                            "havingAnyOfClassNames": "Sorcerer",
-                            "havingAnyOfTraditions": "Divine"
-                        },
-                        "expected": {
-                            "isTrue": true
+                        "countClassSpellcastings": {
+                            "query": {
+                                "havingAnyOfCastingTypes": "Spontaneous",
+                                "havingAnyOfClassNames": "Sorcerer",
+                                "havingAnyOfTraditions": "Divine"
+                            },
+                            "expected": {
+                                "isTrue": true
+                            }
                         }
-                    }
-                ],
-                "countDeities": [
+                    },
                     {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isTrue": true
+                        "countDeities": {
+                            "query": {
+                                "any": true
+                            },
+                            "expected": {
+                                "isTrue": true
+                            }
                         }
                     }
                 ]
@@ -780,16 +748,14 @@
         "complexreqdesc": "you follow a deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "any": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "customData": [
@@ -815,16 +781,14 @@
         "complexreqdesc": "you follow a deity",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "any": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "customData": [
@@ -889,18 +853,15 @@
         "complexreqdesc": "second deity with the abomination domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -939,18 +900,15 @@
         "complexreqdesc": "second deity with the air domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -989,18 +947,15 @@
         "complexreqdesc": "second deity with the ambition domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1039,18 +994,15 @@
         "complexreqdesc": "second deity with the change domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1089,18 +1041,15 @@
         "complexreqdesc": "second deity with the cities domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1139,18 +1088,15 @@
         "complexreqdesc": "second deity with the cold domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1189,18 +1135,15 @@
         "complexreqdesc": "second deity with the confidence domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1239,18 +1182,15 @@
         "complexreqdesc": "second deity with the creation domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1289,18 +1229,15 @@
         "complexreqdesc": "second deity with the darkness domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1339,18 +1276,15 @@
         "complexreqdesc": "second deity with the death domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1389,18 +1323,15 @@
         "complexreqdesc": "second deity with the decay domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1439,18 +1370,15 @@
         "complexreqdesc": "second deity with the delirium domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1489,18 +1417,15 @@
         "complexreqdesc": "second deity with the destruction domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1539,18 +1464,15 @@
         "complexreqdesc": "second deity with the dreams domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1589,18 +1511,15 @@
         "complexreqdesc": "second deity with the dust domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1639,18 +1558,15 @@
         "complexreqdesc": "second deity with the duty domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1689,18 +1605,15 @@
         "complexreqdesc": "second deity with the earth domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1739,18 +1652,15 @@
         "complexreqdesc": "second deity with the family domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1789,18 +1699,15 @@
         "complexreqdesc": "second deity with the fate domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1839,18 +1746,15 @@
         "complexreqdesc": "second deity with the fire domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1889,18 +1793,15 @@
         "complexreqdesc": "second deity with the freedom domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1939,18 +1840,15 @@
         "complexreqdesc": "second deity with the glyph domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -1989,18 +1887,15 @@
         "complexreqdesc": "second deity with the healing domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2039,18 +1934,15 @@
         "complexreqdesc": "second deity with the indulgence domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2089,18 +1981,15 @@
         "complexreqdesc": "second deity with the knowledge domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2139,18 +2028,15 @@
         "complexreqdesc": "second deity with the lightning domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2189,18 +2075,15 @@
         "complexreqdesc": "second deity with the luck domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2239,18 +2122,15 @@
         "complexreqdesc": "second deity with the magic domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2289,18 +2169,15 @@
         "complexreqdesc": "second deity with the might domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2339,18 +2216,15 @@
         "complexreqdesc": "second deity with the moon domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2389,18 +2263,15 @@
         "complexreqdesc": "second deity with the naga domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2439,18 +2310,15 @@
         "complexreqdesc": "second deity with the nature domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2489,18 +2357,15 @@
         "complexreqdesc": "second deity with the nightmares domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2539,18 +2404,15 @@
         "complexreqdesc": "second deity with the pain domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2589,18 +2451,15 @@
         "complexreqdesc": "second deity with the passion domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2639,18 +2498,15 @@
         "complexreqdesc": "second deity with the perfection domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2689,18 +2545,15 @@
         "complexreqdesc": "second deity with the plague domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2739,18 +2592,15 @@
         "complexreqdesc": "second deity with the protection domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2789,18 +2639,15 @@
         "complexreqdesc": "second deity with the repose domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2839,18 +2686,15 @@
         "complexreqdesc": "second deity with the secrecy domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2889,18 +2733,15 @@
         "complexreqdesc": "second deity with the sorrow domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2939,18 +2780,15 @@
         "complexreqdesc": "second deity with the soul domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -2989,18 +2827,15 @@
         "complexreqdesc": "second deity with the star domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3039,18 +2874,15 @@
         "complexreqdesc": "second deity with the sun domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3089,18 +2921,15 @@
         "complexreqdesc": "second deity with the swarm domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3139,18 +2968,15 @@
         "complexreqdesc": "second deity with the time domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3189,18 +3015,15 @@
         "complexreqdesc": "second deity with the toil domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3239,18 +3062,15 @@
         "complexreqdesc": "second deity with the travel domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3289,18 +3109,15 @@
         "complexreqdesc": "second deity with the trickery domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3339,18 +3156,15 @@
         "complexreqdesc": "second deity with the truth domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3389,18 +3203,15 @@
         "complexreqdesc": "second deity with the tyranny domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3439,18 +3250,15 @@
         "complexreqdesc": "second deity with the undeath domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3489,18 +3297,15 @@
         "complexreqdesc": "second deity with the vigil domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3539,18 +3344,15 @@
         "complexreqdesc": "second deity with the void domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3589,18 +3391,15 @@
         "complexreqdesc": "second deity with the water domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3639,18 +3438,15 @@
         "complexreqdesc": "second deity with the wealth domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3689,18 +3485,15 @@
         "complexreqdesc": "second deity with the wyrmkin domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3739,18 +3532,15 @@
         "complexreqdesc": "second deity with the zeal domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingAnyOfAlternateDomains": "subType",
-                            "secondOnly": true
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "havingAnyOfAlternateDomains": "subType",
+                        "secondOnly": true
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainDomains": [
@@ -3805,18 +3595,15 @@
         "complexreqdesc": "deity with the abomination domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -3862,18 +3649,15 @@
         "complexreqdesc": "deity with the air domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -3919,18 +3703,15 @@
         "complexreqdesc": "deity with the ambition domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -3976,18 +3757,15 @@
         "complexreqdesc": "deity with the change domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4033,18 +3811,15 @@
         "complexreqdesc": "deity with the cities domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4090,18 +3865,15 @@
         "complexreqdesc": "deity with the cold domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4147,18 +3919,15 @@
         "complexreqdesc": "deity with the confidence domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4204,18 +3973,15 @@
         "complexreqdesc": "deity with the creation domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4261,18 +4027,15 @@
         "complexreqdesc": "deity with the darkness domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4318,18 +4081,15 @@
         "complexreqdesc": "deity with the death domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4375,18 +4135,15 @@
         "complexreqdesc": "deity with the decay domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4432,18 +4189,15 @@
         "complexreqdesc": "deity with the delirium domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4489,18 +4243,15 @@
         "complexreqdesc": "deity with the destruction domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4546,18 +4297,15 @@
         "complexreqdesc": "deity with the dreams domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4603,18 +4351,15 @@
         "complexreqdesc": "deity with the dust domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4660,18 +4405,15 @@
         "complexreqdesc": "deity with the duty domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4717,18 +4459,15 @@
         "complexreqdesc": "deity with the earth domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4774,18 +4513,15 @@
         "complexreqdesc": "deity with the family domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4831,18 +4567,15 @@
         "complexreqdesc": "deity with the fate domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4888,18 +4621,15 @@
         "complexreqdesc": "deity with the fire domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -4945,18 +4675,15 @@
         "complexreqdesc": "deity with the freedom domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5002,18 +4729,15 @@
         "complexreqdesc": "deity with the glyph domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5059,18 +4783,15 @@
         "complexreqdesc": "deity with the healing domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5116,18 +4837,15 @@
         "complexreqdesc": "deity with the indulgence domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5173,18 +4891,15 @@
         "complexreqdesc": "deity with the knowledge domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5230,18 +4945,15 @@
         "complexreqdesc": "deity with the lightning domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5287,18 +4999,15 @@
         "complexreqdesc": "deity with the luck domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5344,18 +5053,15 @@
         "complexreqdesc": "deity with the magic domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5401,18 +5107,15 @@
         "complexreqdesc": "deity with the might domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5458,18 +5161,15 @@
         "complexreqdesc": "deity with the moon domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5515,18 +5215,15 @@
         "complexreqdesc": "deity with the naga domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5572,18 +5269,15 @@
         "complexreqdesc": "deity with the nature domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5629,18 +5323,15 @@
         "complexreqdesc": "deity with the nightmares domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5686,18 +5377,15 @@
         "complexreqdesc": "deity with the pain domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5743,18 +5431,15 @@
         "complexreqdesc": "deity with the passion domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5800,18 +5485,15 @@
         "complexreqdesc": "deity with the perfection domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5857,18 +5539,15 @@
         "complexreqdesc": "deity with the plague domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5914,18 +5593,15 @@
         "complexreqdesc": "deity with the protection domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -5971,18 +5647,15 @@
         "complexreqdesc": "deity with the repose domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6028,18 +5701,15 @@
         "complexreqdesc": "deity with the secrecy domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6085,18 +5755,15 @@
         "complexreqdesc": "deity with the sorrow domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6142,18 +5809,15 @@
         "complexreqdesc": "deity with the soul domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6199,18 +5863,15 @@
         "complexreqdesc": "deity with the star domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6256,18 +5917,15 @@
         "complexreqdesc": "deity with the sun domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6313,18 +5971,15 @@
         "complexreqdesc": "deity with the swarm domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6370,18 +6025,15 @@
         "complexreqdesc": "deity with the time domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6427,18 +6079,15 @@
         "complexreqdesc": "deity with the toil domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6484,18 +6133,15 @@
         "complexreqdesc": "deity with the travel domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6541,18 +6187,15 @@
         "complexreqdesc": "deity with the trickery domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6598,18 +6241,15 @@
         "complexreqdesc": "deity with the truth domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6655,18 +6295,15 @@
         "complexreqdesc": "deity with the tyranny domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6712,18 +6349,15 @@
         "complexreqdesc": "deity with the undeath domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6769,18 +6403,15 @@
         "complexreqdesc": "deity with the vigil domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6826,18 +6457,15 @@
         "complexreqdesc": "deity with the void domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6883,18 +6511,15 @@
         "complexreqdesc": "deity with the water domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6940,18 +6565,15 @@
         "complexreqdesc": "deity with the wealth domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -6997,18 +6619,15 @@
         "complexreqdesc": "deity with the wyrmkin domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -7054,18 +6673,15 @@
         "complexreqdesc": "deity with the zeal domain as an alternate domain",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "any": true,
-                            "firstOnly": true,
-                            "havingAnyOfAlternateDomains": "subType"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "firstOnly": true,
+                        "havingAnyOfAlternateDomains": "subType"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [

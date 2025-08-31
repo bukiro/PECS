@@ -1,0 +1,10 @@
+<app-corner-button-tray
+    [showMinimizeButton]="showMinimizeButton$$()"
+    [showTileModeButton]="showTileModeButton$$()"
+    [showCloseButton]="showCloseButton$$()"
+    [(minimized)]="minimized$$"
+    [(tileMode)]="tileMode$$"
+    (closeButtonClicked)="closeButtonClicked.emit()"
+/>
+
+<ng-content />

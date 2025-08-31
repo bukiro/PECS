@@ -1,0 +1,62 @@
+<!-- Desktop or mobile character sheet -->
+
+@if ((isMobile$$()) === false) {
+    <app-character-sheet-desktop
+        [attacksAndSpellsOrder]="(attacksAndSpellsOrder$$()) ?? {}"
+    />
+}
+
+@if (isMobile$$()) {
+    <app-character-sheet-mobile />
+}
+
+<!-- Slide-in menus -->
+<!-- TODO: Disabled while refactoring.
+
+<app-items
+    class="fly-in-menu"
+    [show]="(sideMenuState$$()) === MenuNames.ItemsMenu"
+/>
+
+<app-crafting
+    class="fly-in-menu"
+    [show]="(sideMenuState$$()) === MenuNames.CraftingMenu"
+/>
+
+<app-spell-selection
+    class="fly-in-menu"
+    [show]="(sideMenuState$$()) === MenuNames.SpellSelectionMenu"
+/>
+
+<app-spell-library
+    class="fly-in-menu"
+    [show]="(sideMenuState$$()) === MenuNames.SpellLibraryMenu"
+/>
+
+<app-conditions
+    class="fly-in-menu"
+    [show]="(sideMenuState$$()) === MenuNames.ConditionsMenu"
+/>
+
+<app-character-creation
+    class="fly-in-menu"
+    [show]="(sideMenuState$$()) === MenuNames.CharacterCreationMenu"
+/>
+
+@if (isAnimalCompanionAvailable$$()) {
+    <app-animal-companion
+        class="fly-in-menu"
+        [show]="(sideMenuState$$()) === MenuNames.CompanionMenu"
+    />
+}
+
+@if (isFamiliarAvailable$$()) {
+    <app-familiar
+        class="fly-in-menu"
+        [show]="(sideMenuState$$()) === MenuNames.FamiliarMenu"
+    />
+}
+
+<app-dice [show]="(topMenuState$$()) === MenuNames.DiceMenu" />
+
+-->

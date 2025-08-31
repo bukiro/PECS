@@ -34,21 +34,14 @@
                 "hasThisFeat": true
             },
             {
-                "countAncestries": [
-                    {
-                        "query": {
-                            "any": true
-                        }
+                "countAncestries": {
+                    "query": {
+                        "anyNotOfNames": "subType"
                     },
-                    {
-                        "query": {
-                            "anyOfNames": "subType"
-                        },
-                        "expected": {
-                            "isFalse": true
-                        }
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainAncestry": [
@@ -73,21 +66,14 @@
                 "hasThisFeat": true
             },
             {
-                "countAncestries": [
-                    {
-                        "query": {
-                            "any": true
-                        }
+                "countAncestries": {
+                    "query": {
+                        "anyNotOfNames": "subType"
                     },
-                    {
-                        "query": {
-                            "anyOfNames": "subType"
-                        },
-                        "expected": {
-                            "isFalse": true
-                        }
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainFeatChoice": [
@@ -125,8 +111,12 @@
         "complexreqdesc": "1st level only",
         "complexreq": [
             {
-                "isOnLevel": {
-                    "isEqual": 1
+                "characterLevel": {
+                    "expected": {
+                        "isEqual": {
+                            "exact": 1
+                        }
+                    }
                 }
             }
         ],

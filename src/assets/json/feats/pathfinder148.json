@@ -12,16 +12,14 @@
         "complexreqdesc": "worshipper of Droskar",
         "complexreq": [
             {
-                "countDeities": [
-                    {
-                        "query": {
-                            "anyOfNames": "Droskar"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countDeities": {
+                    "query": {
+                        "name": "Droskar"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [

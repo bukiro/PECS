@@ -1,0 +1,216 @@
+@import 'utilities';
+
+:host {
+    @include text-color-default;
+    @include flex-row-center;
+    @include flex-stretch-main-axis;
+    @include flex-stretch-cross-axis;
+
+    min-height: 1em;
+    min-width: 1em;
+
+    line-height: inherit;
+
+    .button {
+        @include flex-column-center;
+        @include flex-stretch-main-axis;
+        @include flex-stretch-cross-axis;
+
+        flex: 1;
+
+        opacity: 100%;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+
+        &__content {
+            @include box-shadow-small;
+            @include border-default;
+            @include background-color-default;
+            @include flex-row-center;
+            @include flex-center-cross-axis;
+
+            border-width: $spacing-xxs;
+            position: relative;
+            flex: 1;
+            color: inherit;
+            padding: .25em .5em;
+            line-height: inherit;
+            transition: opacity .5s, box-shadow .5s;
+        }
+    }
+
+    &.full-size {
+        height: 100%;
+        width: 100%;
+    }
+
+    &.left-aligned {
+        .button {
+            &__content {
+                @include flex-row-start;
+            }
+        }
+    }
+
+    &.center-aligned {
+        .button {
+            &__content {
+                @include flex-row-center;
+            }
+        }
+    }
+
+    &.right-aligned {
+        .button {
+            &__content {
+                @include flex-row-end;
+            }
+        }
+    }
+
+    &:not(.disabled):not(.processing):not(.toggled):hover {
+        .button {
+            &__content {
+                @include box-shadow-large;
+            }
+        }
+    }
+
+    &:not(.disabled):not(.processing):hover {
+        .button {
+            &__content {
+                opacity: 50%;
+            }
+        }
+    }
+
+    &:not(.disabled):not(.processing) {
+        .button:active {
+            .button__content {
+                @include box-shadow-none;
+                transition: opacity .5s, box-shadow .01s;
+                transform: translate(0, 5px);
+            }
+        }
+    }
+
+    &.ghost {
+        .button {
+            &__content {
+                background-color: transparent;
+            }
+        }
+
+        &.danger {
+            .button {
+                &__content {
+                    @include text-color-penalty;
+                }
+            }
+        }
+    }
+
+    &.danger:not(.ghost) {
+        .button {
+            &__content {
+                @include background-color-penalty;
+            }
+        }
+    }
+
+    &.no-outline {
+        .button {
+            &__content {
+                box-shadow: none !important;
+                border-color: transparent;
+            }
+        }
+    }
+
+    &.compact:not(.tight) {
+        .button {
+            &__content {
+                padding: .25em;
+            }
+        }
+    }
+
+    &.tight {
+        .button {
+            &__content {
+                padding: 0;
+            }
+        }
+    }
+
+    &.toggled {
+        .button {
+            &__content {
+                @include box-shadow-glow;
+                transform: translate(0, 2px);
+            }
+        }
+    }
+
+    &.circle {
+        .button {
+            &__content {
+                @include border-circle;
+            }
+        }
+    }
+
+    &.tab-like {
+        .button {
+            &__content {
+                border: none;
+                border-left: solid 1px $color-accent;
+                border-right: solid 1px $color-accent;
+                border-radius: 0;
+            }
+        }
+
+        &.toggled {
+            .button {
+                &__content {
+                    border-left: solid 1px currentColor;
+                    border-right: solid 1px currentColor;
+                }
+            }
+        }
+
+        &:first-of-type {
+            .button {
+                &__content {
+                    border-left: none;
+                }
+            }
+        }
+
+        &:last-of-type {
+            .button {
+                &__content {
+                    border-right: none;
+                }
+            }
+        }
+    }
+
+    &.disabled,
+    &.processing {
+        .button {
+            &__content {
+                opacity: 50%;
+            }
+        }
+
+        &:not(.no-outline) {
+            .button {
+                &__content {
+                    border-color: $color-text-medium;
+                }
+            }
+        }
+    }
+}

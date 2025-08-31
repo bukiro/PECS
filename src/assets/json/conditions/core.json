@@ -26403,19 +26403,13 @@
                 "minLevel": 6
             }
         ],
-        "hints": [
-            {
-                "desc": "Your land speed is reduced to 5 feet. For the purpose of calculating your swim speed, this is not directly applied.",
-                "showon": "Land Speed"
-            }
-        ],
         "effects": [
             {
                 "affected": "Swim Speed",
-                "setValue": "Math.max(Speed('Land Speed'), 5)"
+                "setValue": "Math.max(Speed('Land Speed', true), 5)"
             },
             {
-                "affected": "Effective Land Speed",
+                "affected": "Land Speed",
                 "setValue": "5"
             }
         ]

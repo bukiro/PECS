@@ -45,6 +45,7 @@
                 "no-invalid-this": "off",
                 "@typescript-eslint/no-invalid-this": "error",
                 "object-shorthand": "warn",
+                "@angular-eslint/no-host-metadata-property": "off",
                 "@typescript-eslint/no-magic-numbers": [
                     "error",
                     {
@@ -66,6 +67,76 @@
                             "warn",
                             "error"
                         ]
+                    }
+                ],
+                "@typescript-eslint/naming-convention": [
+                    "error",
+                    {
+                        "selector": "default",
+                        "format": [
+                            "camelCase",
+                            "UPPER_CASE",
+                            "snake_case",
+                            "PascalCase"
+                        ],
+                        "leadingUnderscore": "allow",
+                        // Exempt hostbinding mappings (e.g. "style.width.px") from naming convention.
+                        "filter": {
+                            "regex": "^(((.+[.].+)+)|(O_o))$",
+                            "match": false
+                        }
+                    },
+                    {
+                        "selector": "variable",
+                        "types": [
+                            "boolean"
+                        ],
+                        "format": [
+                            "PascalCase"
+                        ],
+                        "prefix": [
+                            "is",
+                            "should",
+                            "has",
+                            "can",
+                            "did",
+                            "will",
+                            "does",
+                            "are",
+                            "do"
+                        ]
+                    },
+                    {
+                        "selector": "enumMember",
+                        "format": [
+                            "PascalCase"
+                        ]
+                    },
+                    {
+                        "selector": "typeLike",
+                        "format": [
+                            "PascalCase"
+                        ]
+                    },
+                    {
+                        "selector": "memberLike",
+                        "modifiers": [
+                            "private"
+                        ],
+                        "format": [
+                            "camelCase"
+                        ],
+                        "leadingUnderscore": "require"
+                    },
+                    {
+                        "selector": "memberLike",
+                        "modifiers": [
+                            "protected"
+                        ],
+                        "format": [
+                            "camelCase"
+                        ],
+                        "leadingUnderscore": "require"
                     }
                 ],
                 "@typescript-eslint/member-ordering": [
@@ -239,7 +310,9 @@
                 "project": "./tsconfig.spec.json"
             },
             "rules": {
-                "@typescript-eslint/no-magic-numbers": "off"
+                "@typescript-eslint/no-magic-numbers": "off",
+                "max-classes-per-file": "off",
+                "max-lines": "off"
             }
         }
     ],

@@ -1,76 +1,60 @@
-<app-toast-container
+<!-- TODO: disabled during refactoring -->
+<!-- <app-toast-container
     class="toast-container ngb-toasts"
     aria-live="polite"
     aria-atomic="true"
-/>
+/> -->
 
-@if (isReady$ | async) {
+@if (isReady$$()) {
     <app-top-bar class="top-bar" />
 
     <app-character-sheet class="character-sheet" />
 } @else {
-    @if (loadingStatus$ | async; as loadingStatus) {
-        <div class="loading">
-            @switch (loadingStatus.key) {
-                @case (apiStatusKey.NotLoggedIn) {
-                    <app-login [loadingStatus]="loadingStatus" />
-                }
+    @let loadingStatus = loadingStatus$$();
 
-                @case (apiStatusKey.NoCharacter) {
-                    <app-character-selection />
-                }
+    <div class="loading">
+        @switch (loadingStatus.key) {
+            @case (apiStatusKey.NotLoggedIn) {
+                <app-login [loadingStatus]="loadingStatus" />
+            }
 
-                @default {
-                    @if (loadingStatus.key === apiStatusKey.Failed) {
-                        <i
-                            class="bi-slash-circle loading__icon loading__icon--failed"
-                        ></i>
-                    } @else {
-                        <app-loading-diamond
-                            class="loading__spinner"
-                            [size]="25"
-                        />
-                    }
+            @case (apiStatusKey.NoCharacter) {
+                <app-character-selection />
+            }
 
-                    <app-description
-                        class="loading__text"
-                        [text]="loadingStatus.message ?? ''"
+            @default {
+                @if (loadingStatus.key === apiStatusKey.Failed) {
+                    <i
+                        class="bi-slash-circle loading__icon loading__icon--failed"
+                    ></i>
+                } @else {
+                    <app-loading-diamond
+                        class="loading__spinner"
+                        [size]="25"
                     />
+                }
 
-                    @if (loadingStatus.retryFn) {
-                        <app-button (clicked)="loadingStatus.retryFn()">
-                            Try again
-                        </app-button>
-                    }
+                <app-description
+                    class="loading__text"
+                    [text]="loadingStatus.message ?? ''"
+                />
+
+                @if (loadingStatus.retryFn) {
+                    <app-button (clicked)="loadingStatus.retryFn()">
+                        Try again
+                    </app-button>
                 }
             }
-        </div>
-    }
+        }
+    </div>
 }
 
-@if ({ set: (isDarkmode$ | async) }; as darkMode) {
-    <app-button
-        class="darkmode-button"
-        noOutline
-        ghost
-        [label]="
-            'Light/Dark mode: ' +
-            (darkMode.set === undefined
-                ? 'Follow system'
-                : darkMode.set
-                  ? 'Dark mode'
-                  : 'Light mode')
-        "
-        (clicked)="toggleDarkmode()"
-    >
-        <i
-            [className]="
-                darkMode.set === undefined
-                    ? 'bi-brilliance'
-                    : darkMode.set
-                      ? 'bi-moon-fill'
-                      : 'bi-sun-fill'
-            "
-        ></i>
-    </app-button>
-}
+<app-button
+    class="darkmode-button"
+    noOutline
+    ghost
+    [label]="darkModeLabel$$()"
+    (clicked)="toggleDarkmode()"
+>
+    <i [className]="darkModeIcon$$()"></i>
+</app-button>

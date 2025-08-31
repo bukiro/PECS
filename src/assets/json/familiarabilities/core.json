@@ -12,16 +12,14 @@
         "complexreq": [
             {
                 "creatureToTest": "Familiar",
-                "countSpeeds": [
-                    {
-                        "query": {
-                            "anyOfNames": "Land Speed"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countSpeeds": {
+                    "query": {
+                        "name": "Land Speed"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -44,16 +42,14 @@
         "complexreq": [
             {
                 "creatureToTest": "Familiar",
-                "countSpeeds": [
-                    {
-                        "query": {
-                            "anyOfNames": "Swim Speed"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countSpeeds": {
+                    "query": {
+                        "name": "Swim Speed"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -199,16 +195,14 @@
         "complexreq": [
             {
                 "creatureToTest": "Familiar",
-                "countSpeeds": [
-                    {
-                        "query": {
-                            "anyOfNames": "Climb Speed"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countSpeeds": {
+                    "query": {
+                        "name": "Climb Speed"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -233,16 +227,14 @@
         "complexreq": [
             {
                 "creatureToTest": "Familiar",
-                "countSpeeds": [
-                    {
-                        "query": {
-                            "anyOfNames": "Fly Speed"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countSpeeds": {
+                    "query": {
+                        "name": "Fly Speed"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -267,16 +259,14 @@
         "complexreq": [
             {
                 "creatureToTest": "Familiar",
-                "countSpeeds": [
-                    {
-                        "query": {
-                            "anyOfNames": "Land Speed"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countSpeeds": {
+                    "query": {
+                        "name": "Land Speed"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -301,16 +291,14 @@
         "complexreq": [
             {
                 "creatureToTest": "Familiar",
-                "countSpeeds": [
-                    {
-                        "query": {
-                            "anyOfNames": "Swim Speed"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countSpeeds": {
+                    "query": {
+                        "name": "Swim Speed"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "effects": [
@@ -349,16 +337,14 @@
         "complexreqdesc": "animal familiar",
         "complexreq": [
             {
-                "countFeats": [
-                    {
-                        "query": {
-                            "anyOfNames": "Leshy Familiar"
-                        },
-                        "expected": {
-                            "isFalse": true
-                        }
+                "countFeats": {
+                    "query": {
+                        "name": "Leshy Familiar"
+                    },
+                    "expected": {
+                        "isFalse": true
                     }
-                ]
+                }
             }
         ],
         "featreq": [
@@ -424,17 +410,14 @@
         "complexreqdesc": "can cast cantrips",
         "complexreq": [
             {
-                "countClassSpellcastings": [
-                    {
-                        "query": {
-                            "any": true,
-                            "havingSpellsOfLevelGreaterOrEqual": 0
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countClassSpellcastings": {
+                    "query": {
+                        "havingSpellsOfLevelGreaterOrEqual": 0
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -461,7 +444,7 @@
     },
     {
         "name": "Familiar Focus",
-        "desc": "Once per day, your familiar can use 2 actions with the concentrate trait to regain 1 Focus Point, up to your usual maximum. You must have a focus pool to select this.\n\n(This shows up on your activity list.)",
+        "desc": "Once per day, your familiar can use 2 actions with the concentrate trait to regain 1 Focus Point, up to your usual maximum. You must have a focus pool to select this.\n\n(This shows up on your own activity list.)",
         "sourceBook": "Core Rulebook ",
         "_extensionFileName": "core",
         "traits": [
@@ -471,19 +454,16 @@
         "complexreqdesc": "focus pool",
         "complexreq": [
             {
-                "countSpells": [
-                    {
-                        "query": {
-                            "any": true,
-                            "ofSpellCasting": {
-                                "castingType": "Focus"
-                            }
-                        },
-                        "expected": {
-                            "isTrue": true
+                "countSpells": {
+                    "query": {
+                        "ofSpellCasting": {
+                            "castingType": "Focus"
                         }
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [
@@ -516,18 +496,15 @@
         "complexreqdesc": "can cast 4th-level spells with familiar's class",
         "complexreq": [
             {
-                "countClassSpellcastings": [
-                    {
-                        "query": {
-                            "any": true,
-                            "beingOfFamiliarsClass": true,
-                            "havingSpellsOfLevelGreaterOrEqual": 4
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countClassSpellcastings": {
+                    "query": {
+                        "beingOfFamiliarsClass": true,
+                        "havingSpellsOfLevelGreaterOrEqual": 4
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },

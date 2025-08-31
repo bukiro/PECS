@@ -632,28 +632,24 @@
         "complexreqdesc": "Fang Sharpener or razortooth goblin heritage",
         "complexreq": [
             {
-                "countFeats": [
-                    {
-                        "query": {
-                            "anyOfNames": "Fang Sharpener"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countFeats": {
+                    "query": {
+                        "name": "Fang Sharpener"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             },
             {
-                "countHeritages": [
-                    {
-                        "query": {
-                            "anyOfNames": "Razortooth Goblin"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countHeritages": {
+                    "query": {
+                        "name": "Razortooth Goblin"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [
@@ -673,23 +669,25 @@
         "complexreqdesc": "worshipper of Lamashtu, a heritage",
         "complexreq": [
             {
-                "countDeities": [
+                "meetsAll": [
                     {
-                        "query": {
-                            "anyOfNames": "Lamashtu"
-                        },
-                        "expected": {
-                            "isTrue": true
+                        "countDeities": {
+                            "query": {
+                                "name": "Lamashtu"
+                            },
+                            "expected": {
+                                "isTrue": true
+                            }
                         }
-                    }
-                ],
-                "countHeritages": [
+                    },
                     {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isTrue": true
+                        "countHeritages": {
+                            "query": {
+                                "any": true
+                            },
+                            "expected": {
+                                "isTrue": true
+                            }
                         }
                     }
                 ]
@@ -2083,18 +2081,15 @@
         "complexreqdesc": "You have a spellcasting class feature with the divine or primal tradition",
         "complexreq": [
             {
-                "countClassSpellcastings": [
-                    {
-                        "query": {
-                            "any": true,
-                            "beingOfPrimaryClass": true,
-                            "havingAnyOfTraditions": "Divine, Primal"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countClassSpellcastings": {
+                    "query": {
+                        "beingOfPrimaryClass": true,
+                        "havingAnyOfTraditions": "Divine, Primal"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [
@@ -2487,16 +2482,14 @@
             {
                 "condition": [
                     {
-                        "countBackgrounds": [
-                            {
-                                "query": {
-                                    "anyOfNames": "Bonuwat Wavetouched"
-                                },
-                                "expected": {
-                                    "isTrue": true
-                                }
+                        "countBackgrounds": {
+                            "query": {
+                                "name": "Bonuwat Wavetouched"
+                            },
+                            "expected": {
+                                "isTrue": true
                             }
-                        ]
+                        }
                     }
                 ],
                 "requirement": "levelreq"
@@ -2533,7 +2526,28 @@
                 "castingType": "Innate",
                 "className": "Innate",
                 "cooldown": 144000,
-                "dynamicLevel": "Math.max(3, Math.floor(Character.level/3))",
+                "complexLevel": {
+                    "arithmetic": {
+                        "operator": "max",
+                        "values": [
+                            {
+                                "exact": 3
+                            },
+                            {
+                                "arithmetic": {
+                                    "operator": "/",
+                                    "leftValue": {
+                                        "characterLevel": {}
+                                    },
+                                    "rightValue": {
+                                        "exact": 3
+                                    },
+                                    "rounding": "down"
+                                }
+                            }
+                        ]
+                    }
+                },
                 "frequency": "once per day",
                 "id": "179dbde1-d116-48d9-84e5-a01fca435109",
                 "source": "Feat: Dragon Prince",
@@ -2946,40 +2960,34 @@
         "complexreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly",
         "complexreq": [
             {
-                "countFeats": [
-                    {
-                        "query": {
-                            "anyOfNames": "Shory Aeromancer"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countFeats": {
+                    "query": {
+                        "name": "Shory Aeromancer"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             },
             {
-                "countSpells": [
-                    {
-                        "query": {
-                            "anyOfNames": "Fly"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countSpells": {
+                    "query": {
+                        "name": "Fly"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             },
             {
-                "countLearnedSpells": [
-                    {
-                        "query": {
-                            "anyOfNames": "Fly"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countLearnedSpells": {
+                    "query": {
+                        "name": "Fly"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -3392,7 +3400,7 @@
         "_extensionFileName": "characterGuide",
         "hints": [
             {
-                "desc": "After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.\n\nInstead of the heritage automatically changing, you can change your heritage in the character management when the condition is met.",
+                "desc": "After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.\n\nInstead of the heritage automatically changing, change your heritage in the character management as desired.",
                 "showon": "Ancestry, Rest"
             }
         ],
@@ -3405,28 +3413,24 @@
         "complexreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment",
         "complexreq": [
             {
-                "countAncestries": [
-                    {
-                        "query": {
-                            "anyOfNames": "Elf"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countAncestries": {
+                    "query": {
+                        "name": "Elf"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             },
             {
-                "countFeats": [
-                    {
-                        "query": {
-                            "anyOfNames": "Elf Atavism"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countFeats": {
+                    "query": {
+                        "name": "Elf Atavism"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -3496,16 +3500,14 @@
         "complexreqdesc": "swim Speed",
         "complexreq": [
             {
-                "countSpeeds": [
-                    {
-                        "query": {
-                            "anyOfNames": "Swim Speed"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "countSpeeds": {
+                    "query": {
+                        "name": "Swim Speed"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ]
     },
@@ -3544,8 +3546,12 @@
         "complexreqdesc": "1st level only",
         "complexreq": [
             {
-                "isOnLevel": {
-                    "isEqual": 1
+                "characterLevel": {
+                    "expected": {
+                        "isEqual": {
+                            "exact": 1
+                        }
+                    }
                 }
             }
         ]
@@ -3799,8 +3805,12 @@
         "complexreqdesc": "1st level only",
         "complexreq": [
             {
-                "isOnLevel": {
-                    "isEqual": 1
+                "characterLevel": {
+                    "expected": {
+                        "isEqual": {
+                            "exact": 1
+                        }
+                    }
                 }
             }
         ],
@@ -3920,8 +3930,12 @@
         "complexreqdesc": "1st level only",
         "complexreq": [
             {
-                "isOnLevel": {
-                    "isEqual": 1
+                "characterLevel": {
+                    "expected": {
+                        "isEqual": {
+                            "exact": 1
+                        }
+                    }
                 }
             }
         ],
@@ -3991,16 +4005,14 @@
         "complexreqdesc": "trained in clan daggers",
         "complexreq": [
             {
-                "skillLevels": [
-                    {
-                        "query": {
-                            "anyOfNames": "Simple Weapons, Clan Dagger"
-                        },
-                        "expected": {
-                            "isTrue": true
-                        }
+                "skillLevels": {
+                    "query": {
+                        "anyOfNames": "Simple Weapons, Clan Dagger"
+                    },
+                    "expected": {
+                        "isTrue": true
                     }
-                ]
+                }
             }
         ],
         "gainActivities": [
