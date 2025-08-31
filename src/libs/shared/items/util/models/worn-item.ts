@@ -163,7 +163,7 @@ export class WornItem extends Equipment implements MessageSerializable<WornItem>
             computed(() => (
                 this.level >= talisman.level &&
                 this.data().some(data =>
-                    talisman.traits.includes(data.value.toString()),
+                    talisman.traits().includes(data.value.toString()),
                 )
             )) :
             signal(false);

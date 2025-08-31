@@ -17,19 +17,20 @@ import { Talisman } from './talisman';
 import { Wand } from './wand';
 import { Weapon } from './weapon';
 import { WornItem } from './worn-item';
-import { computed, Signal, signal, WritableSignal } from '@angular/core';
+import { computed, linkedSignal, Signal, signal, WritableSignal } from '@angular/core';
 import { MaybeSerialized, Serializable, Serialized } from 'src/libs/shared/serialization/util/models/serializable';
 import { RecastFns } from 'src/libs/shared/serialization/util/models/recast-fns';
 import { setupSerializationWithHelpers } from 'src/libs/shared/serialization/util/utils/serialization';
 import { SpellChoice } from 'src/libs/shared/spells/util/models/spell-choice';
 import { ItemTypes } from 'src/libs/shared/items/util/models/item-types';
-import { isEqualPrimitiveObject } from 'src/libs/shared/common/util/utils/compare-utils';
+import { isEqualPrimitiveArray, isEqualPrimitiveObject } from 'src/libs/shared/common/util/utils/compare-utils';
 import { isTruthy } from 'src/libs/shared/common/util/utils/type-guard-utils';
 import { AdventuringGear } from './adventuring-gear';
 import { ItemGain } from './item-gain';
 import { ItemGainOnOptions } from './item-gain-options';
 import { WeaponRune } from './weapon-rune';
 import { Bulk } from './bulk';
+import { stringsIncludeCaseInsensitive } from 'src/libs/shared/common/util/utils/string-utils';
 
 export interface TraitActivation {
     trait: string;
@@ -175,7 +176,7 @@ export abstract class Item implements Serializable<Item> {
     public inputRequired = '';
 
     /** What traits does the item have? Can be expanded under certain circumstances. */
-    public traits: Array<string> = [];
+    public readonly traits = signal<Array<string>>([]);
 
     /**
      * Number of items of this kind in your inventory.
@@ -202,7 +203,7 @@ export abstract class Item implements Serializable<Item> {
     /** Is the notes input shown in the inventory */
     public readonly showNotes = signal(false);
     /** Items can store whether they have activated effects on any of their trait's hints here. */
-    public readonly traitActivations = signal<Array<TraitActivation>>([]);
+    public readonly traitActivations: WritableSignal<Array<TraitActivation>>
     /** List ItemGain for every Item that you receive when you get, equip or use this item (specified in the ItemGain) */
     public readonly gainItems = signal<Array<ItemGain>>([]);
     /** Some items need to store data, usually via a hardcoded select box. */
@@ -246,34 +247,37 @@ export abstract class Item implements Serializable<Item> {
     public readonly canStack$$ = computed(() =>
         //Equipment, Runes and Snares have their own version of can_Stack.
         !this.equippable
-        && !this.canInvest
+        && !this.canInvest$$()
         && !this.gainItems().some(gain => gain.on !== ItemGainOnOptions.Use)
         && !this.storedSpells().length,
     );
 
-    /** Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item */
+    /** Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item. */
     public abstract type: ItemTypes;
 
     constructor() {
-        this.effectiveTraits$$ = signal<Array<string>>(this.traits);
+        // Initialize effectiveTraits with traits and keep it updated, while allowing processes to override it.
+        this.effectiveTraits$$ = linkedSignal<Array<string>>(this.traits, {equal: isEqualPrimitiveArray });
 
-        // TODO: Effects are illegal outside of components and services. Change this to incorporate linkedSignal after Angular update.
-        // effect(() => {
-        //     const effectiveTraits = this.effectiveTraits$$();
+        // Update traitActivations when effectiveTraits$$ changes, while preserving existing activations.
+        this.traitActivations = linkedSignal<Array<string>, Array<TraitActivation>>({
+            source: this.effectiveTraits$$,
+            computation: (effectiveTraits, previous) => {
+                const value = previous?.value ?? []
 
-        //     this.traitActivations.update(value =>
-        //         // Remove activations for traits that don't exist on the item anymore.
-        //         value
-        //             .filter(activation => effectiveTraits.includes(activation.trait))
-        //             .concat(
-        //                 //Create trait activations for all traits that don't have one yet.
-        //                 effectiveTraits
-        //                     .filter(trait =>
-        //                         !value.some(activation => activation.trait === trait),
-        //                     )
-        //                     .map(trait => ({ trait, active: false, active2: false, active3: false })),
-        //             ));
-        // }, { allowSignalWrites: true });
+                // Remove activations for traits that don't exist on the item anymore.
+                return value
+                    .filter(activation => effectiveTraits.includes(activation.trait))
+                    .concat(
+                        //Create trait activations for all traits that don't have one yet.
+                        effectiveTraits
+                            .filter(trait =>
+                                !value.some(activation => activation.trait === trait),
+                            )
+                            .map(trait => ({ trait, active: false, active2: false, active3: false })),
+                    )
+            }
+        })
     }
 
     public get sortLevel(): string {
@@ -282,9 +286,9 @@ export abstract class Item implements Serializable<Item> {
         return this.level.toString().padStart(twoDigits, '0');
     }
 
-    public get canInvest(): boolean {
-        return this.traits.includes('Invested');
-    }
+    public readonly canInvest$$ = computed(() =>
+        stringsIncludeCaseInsensitive(this.traits(), 'Invested')
+    )
 
     public with(values: MaybeSerialized<Item>, recastFns: RecastFns): this {
         assign(this, values, recastFns);

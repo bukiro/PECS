@@ -58,7 +58,7 @@ export class CreatureActivitiesAdapter {
                             .flatMap(stone => stone.activities)
                             .flat()
                         : []),
-                    ...item.traits
+                    ...item.traits()
                         .flatMap(trait => this._lookupTraitFn(trait).gainActivities),
                 ))
                 .concat(
@@ -126,7 +126,7 @@ export class CreatureActivitiesAdapter {
                                 ? item.aeonStones()
                                     .flatMap(stone => stone.activities)
                                 : []),
-                            ...item.traits
+                            ...item.traits()
                                 .flatMap(trait => this._lookupTraitFn(trait).gainActivities),
                         );
                     });

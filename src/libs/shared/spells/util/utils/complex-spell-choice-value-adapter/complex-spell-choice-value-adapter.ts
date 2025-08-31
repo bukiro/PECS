@@ -1,5 +1,4 @@
-import { computed } from '@angular/core';
-import { Signal } from '@ngrx/signals/src/deep-signal';
+import { computed, Signal } from '@angular/core';
 import { weaklyCachedSignalWithKey } from 'src/libs/shared/common/util/utils/cache-utils';
 import { ComplexValueResult, DomainValueBasicProps } from 'src/libs/shared/evaluation/util/models/complex-value';
 import { ComplexValueCommonAdapter } from 'src/libs/shared/evaluation/util/utils/complex-value-adapter/complex-value-common-adapter';

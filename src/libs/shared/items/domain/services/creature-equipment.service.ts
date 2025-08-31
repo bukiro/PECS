@@ -72,7 +72,7 @@ export class CreatureEquipmentService {
                     .allEquipment$$()
                     .filter(item =>
                         item.invested()
-                    && item.canInvest,
+                    && item.canInvest$$,
                     ),
             ),
             { store: this._cache.investedCreatureEquipment, objKey: creature },

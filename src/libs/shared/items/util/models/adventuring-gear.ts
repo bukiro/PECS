@@ -34,7 +34,7 @@ export class AdventuringGear extends Equipment implements MessageSerializable<Ad
     public readonly canStack$$ = computed(() =>
         //Some AdventuringGear can stack, even though Equipment cannot. This is an expanded version of Item.canStack().
         !this.equippable
-        && !this.canInvest
+        && !this.canInvest$$()
         && !this.gainItems().some(gain => gain.on !== ItemGainOnOptions.Use)
         && !this.storedSpells().length
         && !this.activities.length

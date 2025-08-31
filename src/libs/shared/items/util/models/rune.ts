@@ -40,8 +40,6 @@ export abstract class Rune extends Item implements Serializable<Rune> {
     public potency = 0;
     public usage = '';
 
-    public traits: Array<string> = [];
-
     public activities: Array<ItemActivity> = [];
     /**
      * For weapon runes, the hints are shown directly on the weapon.
@@ -56,7 +54,7 @@ export abstract class Rune extends Item implements Serializable<Rune> {
     public readonly canStack$$ = computed(() =>
         //Additionally to the usual considerations, runes can't stack if they add any activities.
         !this.equippable
-        && !this.canInvest
+        && !this.canInvest$$()
         && !this.gainItems().some(gain => gain.on !== ItemGainOnOptions.Use)
         && !this.storedSpells().length
         && !this.activities.some((activity: ItemActivity) => !activity.displayOnly),

@@ -15,6 +15,7 @@ import { shoddyPenalties, ShoddyPenalties } from './shoddy-penalties';
 import { StrikingRuneLevelNames } from './rune-level-names';
 import { DiceSizes } from 'src/libs/shared/dice/util/models/dice-sizes';
 import { EmblazonArmamentSet } from './emblazon-armament-set';
+import { stringEqualsCaseInsensitive } from 'src/libs/shared/common/util/utils/string-utils';
 
 const { assign, forExport, forMessage, isEqual } = setupSerializationWithHelpers<Weapon>({
     primitives: [
@@ -141,10 +142,10 @@ export class Weapon extends Equipment implements MessageSerializable<Weapon> {
     // or if it is ranged and never had the Thrown trait.
     // If it had the Thrown trait and doesn't have it now, it should not show.
     public readonly shouldShowAsRanged$: Signal<boolean> = computed(() =>
-        this.effectiveTraits$$().some(trait => trait.includes('Thrown'))
+        this.effectiveTraits$$().some(trait => stringEqualsCaseInsensitive(trait, 'Thrown', {allowPartialString: true}))
         || (
             !!this.ranged
-            && !this.traits.some(trait => trait.includes('Thrown'))
+            && !this.traits().some(trait => stringEqualsCaseInsensitive(trait, 'Thrown', {allowPartialString: true}))
         ),
     );
 

@@ -1,4 +1,4 @@
-import { effect, EffectRef, Signal } from '@angular/core';
+import { effect, EffectRef, Injector, Signal } from '@angular/core';
 
 /**
  * Creates a single instance of the given signal source and caches it in the given store.
@@ -13,10 +13,9 @@ import { effect, EffectRef, Signal } from '@angular/core';
  */
 export const cachedSignal = <T, K extends string | number>(
     sourceFn: () => Signal<T>,
-    { store, key, untilFn }: {
+    { store, key }: {
         store: Map<K, Signal<T>>;
         key: K;
-        untilFn?: () => Signal<boolean>;
     },
 ): Signal<T> => {
     let cachedSource = store.get(key);
@@ -25,17 +24,6 @@ export const cachedSignal = <T, K extends string | number>(
         cachedSource = sourceFn();
 
         store.set(key, cachedSource);
-
-        if (untilFn) {
-            const until = untilFn();
-            const untilEffect = effect(() => {
-                if (until()) {
-                    store.delete(key);
-
-                    untilEffect.destroy();
-                }
-            });
-        }
     }
 
     return cachedSource;
@@ -57,10 +45,9 @@ export const cachedSignal = <T, K extends string | number>(
  */
 export const weaklyCachedSignal = <T, O extends WeakKey>(
     sourceFn: () => Signal<T>,
-    { store, objKey, untilFn }: {
+    { store, objKey }: {
         store: WeakMap<O, Signal<T>>;
         objKey: O;
-        untilFn?: () => Signal<boolean>;
     },
 ): Signal<T> => {
     let cachedSource = store.get(objKey);
@@ -69,17 +56,6 @@ export const weaklyCachedSignal = <T, O extends WeakKey>(
         cachedSource = sourceFn();
 
         store.set(objKey, cachedSource);
-
-        if (untilFn) {
-            const until = untilFn();
-            const untilEffect = effect(() => {
-                if (until()) {
-                    store.delete(objKey);
-
-                    untilEffect.destroy();
-                }
-            });
-        }
     }
 
     return cachedSource;
@@ -102,11 +78,10 @@ export const weaklyCachedSignal = <T, O extends WeakKey>(
  */
 export const weaklyCachedSignalWithKey = <T, O extends WeakKey, K extends string | number>(
     sourceFn: () => Signal<T>,
-    { store, objKey, key, untilFn }: {
+    { store, objKey, key }: {
         store: WeakMap<O, Map<K, Signal<T>>>;
         objKey: O;
         key: K;
-        untilFn?: () => Signal<boolean>;
     },
 ): Signal<T> => {
     let cachedMap = store.get(objKey);
@@ -117,7 +92,7 @@ export const weaklyCachedSignalWithKey = <T, O extends WeakKey, K extends string
         store.set(objKey, cachedMap);
     }
 
-    const cachedSource = cachedSignal(sourceFn, { store: cachedMap, key, untilFn });
+    const cachedSource = cachedSignal(sourceFn, { store: cachedMap, key });
 
     return cachedSource;
 };
@@ -133,10 +108,11 @@ export const weaklyCachedSignalWithKey = <T, O extends WeakKey, K extends string
  */
 export const cacheEffect = <K extends string | number>(
     effectFn: () => EffectRef,
-    { store, key, untilFn }: {
+    { store, key, untilFn, injector }: {
         store: Map<K, EffectRef>;
         key: K;
         untilFn: () => Signal<boolean>;
+        injector: Injector
     },
 ): void => {
     if (store.has(key)) {
@@ -154,6 +130,6 @@ export const cacheEffect = <K extends string | number>(
 
                 untilEffect.destroy();
             }
-        });
+        }, { injector });
     }
 };

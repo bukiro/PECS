@@ -139,7 +139,7 @@ export abstract class Equipment extends Item {
     /** Blade Ally Runes can be emulated on weapons and handwraps. */
     public readonly bladeAllyRunes = signal<Array<WeaponRune>>([]);
 
-    public readonly investedOrEquipped$$ = computed(() => this.canInvest ? this.invested() : (this.equipped() === this.equippable));
+    public readonly investedOrEquipped$$ = computed(() => this.canInvest$$() ? this.invested() : (this.equipped() === this.equippable));
 
     /** Amount of propertyRunes you can still apply */
     public readonly freePropertyRunesOfItem$$ = computed(() => {
@@ -151,7 +151,7 @@ export abstract class Equipment extends Item {
 
         const runeSlotsUsed = this.propertyRunes().reduce(
             (amount, rune) =>
-                amount + (rune.traits.includes('Saggorak')
+                amount + (stringsIncludeCaseInsensitive(rune.traits(), 'Saggorak')
                     ? saggorakRuneWorth
                     : otherRuneWorth
                 ),
@@ -306,10 +306,6 @@ export abstract class Equipment extends Item {
         super();
 
         this.effectsGenerationHints$$ = this._equipmentEffectsGenerationHints$$;
-    }
-
-    public get canInvest(): boolean {
-        return stringsIncludeCaseInsensitive(this.traits, 'Invested');
     }
 
     public readonly secondaryRuneTitleFunction: ((secondary: BasicRuneLevels) => StrikingRuneLevelNames | ResilientRuneLevelNames) =

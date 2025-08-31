@@ -300,6 +300,7 @@ export class HealthService {
                             store: this._cache.watchCreatureDying,
                             key: creature.id,
                             untilFn: () => computed(() => !creatureIds$$().includes(creature.id)),
+                            injector
                         },
                     );
                 });
@@ -360,6 +361,7 @@ export class HealthService {
                             store: this._cache.watchCreatureDying,
                             key: creature.id,
                             untilFn: () => computed(() => !creatureIds$$().includes(creature.id)),
+                            injector
                         },
                     );
                 });
